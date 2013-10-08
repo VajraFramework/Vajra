@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Vajra Documentation</title>
+<style> 
+body.main
+{
+	padding-top:5%;
+	padding-left:20%;
+	padding-right:20%;
+	width:60%; 
+	word-wrap:break-word;
+}
+p.indented
+{
+	padding-left:5%;
+}
+p.smalltext
+{
+	font-size:80%;
+}
+p.code
+{
+	padding-left:10%;
+	font-size:90%;
+	color:rgb(50,50,50);
+}
+</style>
+</head>
+<body class="main">
+
+<h2>
+<a href="../index.html"><< Vajra</a>
+</h2>
+<h1>
+Setup Guide
+</h1>
+<hr />
+
+<h4> 
+Jump to:
+<br />
+<br />
+<a href="#windows">1. Windows (For Android and Windows builds)</a>
+<br />
+<a href="#linux">2. Linux (For Android and Linux builds)</a>
+<br />
+<a href="#mac">3. Mac (For iOS builds)</a>
+<br />
+</h4>
+
+<br />
+<br />
+
+<p name="windows">
+<h4>
+1. Windows
+</h4>
+
+<p class="smalltext">
+Note that most of the directions below apply to both 32bit and 64bit windows except where specifically noted otherwise.
+<br />
+!! However !!, the precompiled binaries and libraries which are mentioned below are applicable only for Win64 (if you are using Win32, you'll have to compile them from source yourself)
+</p>
+
+a. Installing required tools:
+
+<br />
+
+<p class="indented">
+<b><i>Step 1: The MinGW compiler suite:</i></b>
+<br />
+We'll use the MinGW (Minimalist GNU for Windows) suite of compilers and other tools.<br />
+Note that while you can get it from the official page at http://www.mingw.org, for convenience there is a preinstalled version provided here: <a href="https://drive.google.com/folderview?id=0B7FDWl_RV-KKc0NtMUdXZE5heTQ&usp=sharing">MinGW.tar.gz</a>
+<br />
+It is highly recommended that you download this copy (since it comes pre-installed with all the libraries needed for building Vajra on Windows64)
+<br />
+<br />
+Extract the downloaded MinGW folder into any location on your hard drive (preferably C:\ since that is a standard path, although it isn't required that it be in C:\ for Vajra)
+<br />
+Assuming you extracted it to C:\ (which you really should!) your folder structure should have C:\MinGW\bin\
+<br />
+<br />
+Now, add "C:\MinGW\bin\" to your system's Path variable.
+To verify, at this point you should be able to go into the windows cmd prompt and type "mingw32-g++.exe -v", and it shouldn't tell you that no such program exists. A restart *may* be required after setting the path, although it shouldn't be.
+<br />
+<br />
+Alright. We have MinGW.
+</p>
+
+
+
+<p class="indented">
+<b><i>Step 2: Eclipse for C++:</i></b>
+<br />
+We'll be using Eclipse with the CDT plugin for C++ development. You can download Eclipse pre-bundled with CDT here:
+<a href="http://www.eclipse.org/downloads/packages/eclipse-ide-cc-developers/keplersr1">Eclipse Kepler with CDT</a>
+</p>
+
+
+
+<p class="indented">
+<b><i>Step 3: Cygwin:</i></b>
+<br />
+Cygwin provides a linux-like command-line environment in windows. Its awesome.
+You can get the cygwin setup file here <a href="http://www.cygwin.com/setup-x86.exe">Cygwin 32 bit Installer</a>
+<br />
+!! Note !! The link above reads "32bit cygwin installer". Its not a typo. <br /> Do NOT install the x86_64 installer which is also available via Cygwin's website.
+<br />
+<br />
+Run the installer, and preferably stick to all the default settings until you arrive at the page called "Cygwin Setup - Select Packages"
+<br />
+Leave everything at default (because the defaults are good enough), but specifically search for a package called "rsync" (in the little search text box in the top-left) and mark that package to be installed.
+<br />
+Finish the rest of the installation (it might take a long time for cygwin to finish installing)
+<br />
+One more thing: Assuming you installed cygwin to the default location of C:\cygwin, add "C:\cygwin\usr\bin\" to your system's Path variable.
+<br />
+<br />
+To verify, at this point you should be able to go into the windows cmd prompt and type "bash.exe", and it shouldn't tell you that no such program exists. A restart *may* be required after setting the path, although it shouldn't be.
+<br />
+<br />
+Alright. We have Cygwin.
+</p>
+
+b. Downloading the source code:
+
+<br />
+
+<p class="indented">
+<b><i>Step 1: Read about git:</i></b>
+<br />
+Real talk. Spend at least 30minutes to review git concepts. You won't regret it. <br />
+<br />
+</p>
+
+
+<p class="indented">
+<b><i>Step 2: Download git tools of your choice:</i></b>
+<br />
+Now, there are a lot of git GUI tools available out there and you may use any of those. However, it is highly useful to also have a git command line to fall back on (at least for the first step (below)).
+I highly recommend getting this: <a href="http://msysgit.github.io/">Git for windows</a>
+<br />
+When you are done installing that (with all the default options), you should have "Git Bash" installed on your computer.
+Fire up Git Bash; you should be at a minimalistic command prompt. Navigate to a folder of your choice and clone the repository:
+<p class="code">
+> git clone https://github.com/VajraFramework/Vajra.git
+</p>
+
+<p class="indented">
+This, should clone the main repository in your current location. However, before you can build, you need to get some of the Tools/ needed to build.
+<br />
+These tools are stored as a git "submodule" and in order to get them you need to step into the newly cloned Vajra/ folder and init an dupdate the submodule, like so:
+</p>
+
+<p class="code">
+> cd Vajra/
+<br />
+> git submodule init
+<br />
+> git submodule update
+</p>
+
+<p class="indented">
+Feel free to use any GUI frontend for git to make things easier from this point onwards.
+<br />
+</p>
+
+</p>
+
+
+
+<br />
+c. Building the source code (Finally!):
+
+
+<p class="indented">
+<b><i>Step 1: From the windows cmd prompt:</i></b>
+<br />
+Just this once, we'll build it from the cmd line. Feel free to skip this step and move on to Step 2 below which uses eclipse.
+<br />
+Open up the windows cmd prompt and navigate to the folder where you cloned the repository and type:
+<p class="code">
+> build.bat windows
+</p>
+</p>
+
+<p class="indented">
+Note that just typing "build.bat" will print usage information and such.
+</p>
+
+
+<p class="indented">
+<b><i>Step 2: Using Eclipse:</i></b>
+<br />
+Launch the Eclipse you downloaded. When prompted, set the workspace to be the top level folder ("Vajra") of the repository on your hard disk.
+<br />
+This will init an empty workspace. Now, import (File->Import) "Existing Project into workspace" and point it to the "VajraFramework" folder inside Vajra/
+<br />
+<br />
+This should load up the project inside the workspace with pretty much everything configured. Note that there will be multiple named build configurations (Linux, Windows, and Android)
+<br />
+At this point, you can select the "Windows" build configuration and it should get built.
+<br />
+<br />
+Similarly, there should be multiple Run/Debug configurations. Select the "VajraFramwwork Run" (or Debug) configuration to run (or debug) the application.
+<br />
+You should be able to use all your standard debugging tools from the toolset, or use the built-in gdb console.
+<br />
+</p>
+
+
+</p>	<!-- Windows -->
+
+</body>
+</html>
