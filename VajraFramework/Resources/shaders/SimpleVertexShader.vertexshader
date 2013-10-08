@@ -1,0 +1,12 @@
+attribute vec4 vPosition;
+attribute vec2 uvCoords_in;
+uniform mat4 mvpMatrix;
+varying vec4 extraVariable;
+varying vec2 uvCoords;
+void main()
+{
+	gl_Position = mvpMatrix * vPosition;
+	extraVariable = vec4(vPosition.x, vPosition.y, 1.0, 0.0);
+	// uvCoords = vec2(vPosition.x, vPosition.y);
+	uvCoords = uvCoords_in;
+}

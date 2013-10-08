@@ -1,0 +1,123 @@
+################################################################################
+
+# BUILD system improvements
+> Compile glew and glfw from scratch, or copy over the right
+  lib.so and use -nostdinc and -nostdlib (or something like that)
+> Setup building from within eclipse
+> Check if BUILD is actually SUCCESSFUL before reporting so and
+  continuing on to deploy/run [DESKTOP]
+> Check if BUILD is actually SUCCESSFUL before reporting so and
+  continuing on to building apk and deploy/run [ANDROID]
+> Print Total time: %d seconds for desktop builds too
+> Move "run" and "deploy" options into Android.mk makefile fragment
+  so that build.sh looks the same for all platforms
+> Setup cscope / ctags
+> Post-process the shaders
+  Add/Remove the precision qualifiers appropriately
+
+# DEBUGGING
+> Setup gdb-like debugging to work from inside eclipse
+> ndk-gdb
+> Setup signal handler to print stacktraces.
+  See here: http://stackoverflow.com/questions/77005/how-to-generate-a-stacktrace-when-my-gcc-c-app-crashes
+> Print fileName:lineNumber in bt
+> Print better bt in Android
+> Something between ASSERT and VERIFY (halts execution on debug, and logs error on release)
+
+# Copy Resources/ to appropriate place for Android builds
+
+# Cleanup Vajra/Logging
+> Turn off logging on nonDEBUG BUILDS
+> Find a way to include function() name in debug output
+> Find a way to print stacktrace in errlog()
+> Append newline to dbglog and errlog
+> #define checkGlError to nothing in debug builds, if it makes sense to do so
+> TODO [Cleanup] ASSERT_HERE
+> Need a LOG_TO_FILE
+> Need ASSERT
+> Better error reporting in "Failed to load texture" : example: file not found, etc
+
+# Code Cleanup / Refactoring:
+> No more pointers, GameObject*
+  -- in GameObject (parent and vector of children)
+  -- in Transform (gameObject)
+> #define names like vPosition uvCoords_in, etc
+> #define GL_HEADERS for glew, glfw and gl2 and gl2ext
+> Add to coding-standards "Singletons don't call init() in constructor,
+  they call it in GetInstance()"
+> #define checkGlError() somehow
+> Pseudo singletons should have private constructors and friended to Engine
+> Make sure all fields in all classes have default values in constructor/init
+> Consider adding easy #defines to get core things like OpenGLWrapper, etc
+> Setup indent
+> Get rid of SceneGraph::initialize()
+> Move inline functions to bottom of header file whereever they are more than 1 line long
+> const ALL the things! whereever applicable
+> Need dbglogs that will go away in non-debug builds (example: in GameObject::AddComponent(), etc)
+> Comment ALL the things!
+> Switch to #if USING(RTTI) for the typeid thingy in the GameObject::AddComponent() functions
+> Funcions to print matrixs, print vectors, etc
+
+# Optimization:
+> Consider using "pages" of GameObjects indexed as arrays by id in the
+  SceneGraph for faster access
+
+# Create reference counted base class
+> ShaderSets saved in OpenGLWrapper should be reference counted
+> Create memory pool
+
+# Graphics:
+> Check OpenGL Version support in init
+> Draw coordinate system
+> Force GLM_FORCE_RADIANS
+> Fix non-square textures on iOS
+
+# Log framerate, memory footprint, loadtimes, etc after every run. Look at it
+  at least once a week
+  
+# Cleanup Vajra/Logging
+
+################################################################################
+# NOTES:
+
+# Version of libpng being used: 1.4.1
+
+
+
+
+
+################################################################################
+################################################################################
+# Done:
+
+# Cleanup Vajra/Logging
+> Shouldn't need DesktopLogger.h and AndroidLogger.h
+> Also, Android::dbglog and Android::errlog don't work with arguments
+> Warning: casting from (string) to (char *). Get rid of warning.
+  Maybe accept const char*
+
+################################################################################
+# Bugs:
+
+> On Android, app crashes when resuming
+
+################################################################################
+# Topics to write about in coding tips:
+
+> ASSERT, ASSERT_LOG, and VERIFY and VERIFY_LOG
+> Move inline functions to bottom of header file whereever they are more than 1 line long
+> const ALL the things! whereever applicable
+> this->memberVariable
+> DoSomething OrDie() if function has a VERIFY() that is ~likely to occur in a production environment
+> Line length: 80 columns
+> public:
+  protected:
+  private:
+> "Boy scout rule" : leave the camp-yard no worse than you found it, or better. :)
+> No single-letter variable/function names, eschew abbreviation in favor of descriptive names
+> No relative path names in "#include "
+> No "using namespace ..." as far as possible; esp std
+> Internal space should be spaces not tabs
+
+
+################################################################################

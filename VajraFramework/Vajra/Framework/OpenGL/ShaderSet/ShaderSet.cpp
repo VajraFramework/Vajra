@@ -1,0 +1,148 @@
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
+#include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
+#include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Utilities/Utilities.h"
+
+#include <cstdlib>
+#include <fstream>
+#include <string>
+#include <vector>
+
+// Forward Declarations:
+GLuint createProgram(std::string vShaderName, std::string fShaderName);
+
+
+ShaderSet::ShaderSet(std::string inVshaderName, std::string inFshaderName) {
+    ENGINE->GetLogger()->dbglog("\nCreating ShaderProgram with %s, %s", \
+                                inVshaderName.c_str(), inFshaderName.c_str());
+    this->shaderProgram = createProgram(inVshaderName, inFshaderName);
+    if (!this->shaderProgram) {
+        ENGINE->GetLogger()->errlog("Could not create program.");
+        exit(0);
+        // TODO [Cleanup] ASSERT_HERE
+    }
+    ENGINE->GetLogger()->dbglog("\nShaderProgram: %d\n", this->shaderProgram);
+
+    // Get Attribute Handles from Shaders:
+    this->positionHandle = glGetAttribLocation(this->GetShaderProgram(), "vPosition");
+    checkGlError("glGetAttribLocation");
+    ENGINE->GetLogger()->dbglog("glGetAttribLocation(\"vPosition\") = %d\n", this->positionHandle);
+    //
+    this->textureCoordsHandle = glGetAttribLocation(this->GetShaderProgram(), "uvCoords_in");
+    checkGlError("glGetAttribLocation");
+    ENGINE->GetLogger()->dbglog("glGetAttribLocation(\"uvCoords_in\") = %d\n", this->textureCoordsHandle);
+
+    // Get Uniform Handles from Shaders:
+    this->mvpMatrixHandle = glGetUniformLocation(this->GetShaderProgram(), "mvpMatrix");
+    checkGlError("glGetUniformLocation");
+    if (this->mvpMatrixHandle == -1) {
+        ENGINE->GetLogger()->errlog("mvpMatrix is not a valid shader variable\n");
+    }
+    ENGINE->GetLogger()->dbglog("glGetUniformLocation(\"mvpMatrix\") = %d\n", this->mvpMatrixHandle);
+
+}
+
+ShaderSet::~ShaderSet() {
+}
+
+// Shader Loading & Compilation Helper Functions:
+GLuint loadShader(GLenum shaderType, const char* pSource) {
+    GLuint shader = glCreateShader(shaderType);
+    if (shader) {
+        glShaderSource(shader, 1, &pSource, NULL);
+        glCompileShader(shader);
+        GLint compiled = 0;
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+
+        if (!compiled) {
+            ENGINE->GetLogger()->dbglog("\nCould not compile shader");
+            GLint infoLen = 0;
+            glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
+            ENGINE->GetLogger()->dbglog("\ninfoLen: %d", infoLen);
+            if (infoLen) {
+                char* buf = (char*) malloc(infoLen);
+                if (buf) {
+                    glGetShaderInfoLog(shader, infoLen, NULL, buf);
+                    ENGINE->GetLogger()->dbglog("Could not compile shader %d:\n%s\n",
+                            shaderType, buf);
+                    free(buf);
+                }
+                glDeleteShader(shader);
+                shader = 0;
+            }
+        }
+    }
+    return shader;
+}
+
+char* readShaderFromFile(std::string shaderName) {
+    std::string path = ENGINE->GetFileSystemUtils()->GetDeviceShaderResourcesPath() + shaderName;
+
+    std::vector<char> v;
+    if (FILE *fp = fopen(path.c_str(), "r")) {
+        char buf[1024];
+        while (size_t len = fread(buf, 1, sizeof(buf), fp))
+            v.insert(v.end(), buf, buf + len);
+        fclose(fp);
+    }
+
+    char* shader = (char *)malloc(v.size() + 1);
+    for (unsigned int i = 0; i < v.size(); ++i) {
+        shader[i] = v[i];
+    }
+    shader[v.size()] = '\0';
+
+    ENGINE->GetLogger()->dbglog("\nShader:\n%s", shader);
+    ENGINE->GetLogger()->dbglog("\nEnd Shader", shader);
+
+    return shader;
+}
+
+GLuint createProgram(std::string vShaderName, std::string fShaderName) {
+    char* vShaderSource = readShaderFromFile(vShaderName);
+    char* fShaderSource = readShaderFromFile(fShaderName);
+
+    printGLString("OpenGL Version", GL_VERSION);
+    printGLString("Shader Language Version", GL_SHADING_LANGUAGE_VERSION);
+
+    GLuint vertexShader = loadShader(GL_VERTEX_SHADER, vShaderSource);
+    if (!vertexShader) {
+        return 0;
+    }
+
+    GLuint pixelShader = loadShader(GL_FRAGMENT_SHADER, fShaderSource);
+    if (!pixelShader) {
+        return 0;
+    }
+
+    GLuint program = glCreateProgram();
+    if (program) {
+        glAttachShader(program, vertexShader);
+        checkGlError("glAttachShader");
+        glAttachShader(program, pixelShader);
+        checkGlError("glAttachShader");
+        glLinkProgram(program);
+        GLint linkStatus = GL_FALSE;
+        glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
+
+        if (linkStatus != GL_TRUE) {
+            GLint bufLength = 0;
+            glGetProgramiv(program, GL_INFO_LOG_LENGTH, &bufLength);
+            if (bufLength) {
+                char* buf = (char*) malloc(bufLength);
+                if (buf) {
+                    glGetProgramInfoLog(program, bufLength, NULL, buf);
+                    ENGINE->GetLogger()->errlog("Could not link program:\n%s\n", buf);
+                    free(buf);
+                }
+            }
+            glDeleteProgram(program);
+            program = 0;
+
+            return 0;
+        }
+
+    }
+    return program;
+}
