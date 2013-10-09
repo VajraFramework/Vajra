@@ -47,7 +47,7 @@ private:
 	GLuint positionHandle;
 	GLuint textureCoordsHandle;
 
-	friend class Engine;
+	friend class Framework;
 };
 
 #endif // OPENGLWRAPPER_H

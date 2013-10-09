@@ -1,9 +1,10 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
+#include "Vajra/Engine/Components/BaseComponent/Component.h"
+#include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
-#include "Vajra/Engine/Components/BaseComponent/Component.h"
 
 #include <list>
 #include <map>
@@ -110,7 +111,7 @@ GameObject::AddComponent() {
 		// Delete the old component at that slot.
 		delete iter->second;
 		#ifdef DEBUG
-			ENGINE->GetLogger()->dbglog("GameObject of id %d, attaching conflicting component of type %s", this->GetId(), typeid(T).name());
+			FRAMEWORK->GetLogger()->dbglog("GameObject of id %d, attaching conflicting component of type %s", this->GetId(), typeid(T).name());
 		#endif
 	}
 
@@ -131,7 +132,7 @@ GameObject::AddComponent(T *component) {
 		// Delete the old component at that slot.
 		delete iter->second;
 		#ifdef DEBUG
-			ENGINE->GetLogger()->dbglog("GameObject of id %d, attaching conflicting component of type %s", this->GetId(), typeid(T).name());
+			FRAMEWORK->GetLogger()->dbglog("GameObject of id %d, attaching conflicting component of type %s", this->GetId(), typeid(T).name());
 		#endif
 	}
 
@@ -152,7 +153,7 @@ GameObject::RemoveComponent() {
 	}
 	#ifdef DEBUG
 	else {
-		ENGINE->GetLogger()->dbglog("GameObject of id %d, trying to remove unattached Component of type %s", this->GetId(), typeid(T).name());
+		FRAMEWORK->GetLogger()->dbglog("GameObject of id %d, trying to remove unattached Component of type %s", this->GetId(), typeid(T).name());
 	}
 	#endif
 

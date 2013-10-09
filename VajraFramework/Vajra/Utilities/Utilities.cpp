@@ -1,4 +1,5 @@
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
 
@@ -15,7 +16,7 @@ void printStackTrace() {
 
 	size = backtrace(array, 10);
 
-	ENGINE->GetLogger()->dbglog("\nStackTrace: \n");
+	FRAMEWORK->GetLogger()->dbglog("\nStackTrace: \n");
 	backtrace_symbols_fd(array, size, STDOUT_FILENO);
 }
 #else
@@ -29,10 +30,10 @@ void ASSERT_internal(const char* file, int lineNumber, const char* functionName,
 		va_list args;
 		va_start(args, fmt);
 
-		ENGINE->GetLogger()->dbglog("\n! FAILED ASSERT: ");
-		ENGINE->GetLogger()->dbglog("\nIn file %s:%d: In function \'%s()\'\n    Failed while asserting that >> \"", file, lineNumber, functionName);
-		ENGINE->GetLogger()->vdbglog(fmt, args);
-		ENGINE->GetLogger()->dbglog("\"\n");
+		FRAMEWORK->GetLogger()->dbglog("\n! FAILED ASSERT: ");
+		FRAMEWORK->GetLogger()->dbglog("\nIn file %s:%d: In function \'%s()\'\n    Failed while asserting that >> \"", file, lineNumber, functionName);
+		FRAMEWORK->GetLogger()->vdbglog(fmt, args);
+		FRAMEWORK->GetLogger()->dbglog("\"\n");
 
 		printStackTrace();
 		va_end(args);
@@ -46,18 +47,18 @@ void ASSERT_LOG_internal(const char* file, int lineNumber, const char* functionN
 	va_start(args, fmt);
 
 	if (!expression) {
-		ENGINE->GetLogger()->dbglog("\n! FAILED ASSERT: ");
-		ENGINE->GetLogger()->dbglog("\nIn file %s:%d: In function \'%s()\'\n    Failed while asserting that >> \"", file, lineNumber, functionName);
-		ENGINE->GetLogger()->vdbglog(fmt, args);
-		ENGINE->GetLogger()->dbglog("\"\n");
+		FRAMEWORK->GetLogger()->dbglog("\n! FAILED ASSERT: ");
+		FRAMEWORK->GetLogger()->dbglog("\nIn file %s:%d: In function \'%s()\'\n    Failed while asserting that >> \"", file, lineNumber, functionName);
+		FRAMEWORK->GetLogger()->vdbglog(fmt, args);
+		FRAMEWORK->GetLogger()->dbglog("\"\n");
 
 		printStackTrace();
 		assert(0);
 
 	} else {
-		ENGINE->GetLogger()->dbglog("\nAssert true: ");
-		ENGINE->GetLogger()->vdbglog(fmt, args);
-		ENGINE->GetLogger()->dbglog("\n\tIn file %s:%d: In function \'%s()\': ", file, lineNumber, functionName);
+		FRAMEWORK->GetLogger()->dbglog("\nAssert true: ");
+		FRAMEWORK->GetLogger()->vdbglog(fmt, args);
+		FRAMEWORK->GetLogger()->dbglog("\n\tIn file %s:%d: In function \'%s()\': ", file, lineNumber, functionName);
 	}
 
 	va_end(args);
@@ -66,12 +67,12 @@ void ASSERT_LOG_internal(const char* file, int lineNumber, const char* functionN
 
 void printGLString(const char *name, GLenum s) {
     const char *v = (const char *) glGetString(s);
-    ENGINE->GetLogger()->dbglog("GL %s = %s\n", name, v);
+    FRAMEWORK->GetLogger()->dbglog("GL %s = %s\n", name, v);
 }
 
 void checkGlError(const char* op) {
     for (GLint error = glGetError(); error; error
             = glGetError()) {
-        ENGINE->GetLogger()->errlog("\nGLERROR: after %s() glError (0x%x)\n", op, error);
+        FRAMEWORK->GetLogger()->errlog("\nGLERROR: after %s() glError (0x%x)\n", op, error);
     }
 }

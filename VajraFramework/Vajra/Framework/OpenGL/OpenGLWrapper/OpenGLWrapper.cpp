@@ -1,7 +1,8 @@
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
-#include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
 
 #define DEFAULT_SHADER_NAME "smplshdr"
@@ -45,7 +46,7 @@ void OpenGLWrapper::SetCurrentShaderSet(std::string shaderName) {
 }
 
 void OpenGLWrapper::init() {
-    ENGINE->GetLogger()->dbglog("In OpenGLWrapper::init()\n");
+    FRAMEWORK->GetLogger()->dbglog("In OpenGLWrapper::init()\n");
 
     glEnable(GL_DEPTH_TEST);
 

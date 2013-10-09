@@ -20,7 +20,7 @@ public:
 private:
 	Logger();
 
-	friend class Engine;
+	friend class Framework;
 };
 
 #endif // LOGGER_H

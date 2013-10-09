@@ -44,10 +44,10 @@ bool setupGraphics(int w, int h) {
     gHeight = h;
 
 
-    ENGINE->GetLogger()->dbglog("setupGraphics(%d, %d)", w, h);
+    FRAMEWORK->GetLogger()->dbglog("setupGraphics(%d, %d)", w, h);
 
     // Make sure OpenGLWrapper is init'd:
-    ENGINE->GetOpenGLWrapper()->PrintGLVersion();
+    FRAMEWORK->GetOpenGLWrapper()->PrintGLVersion();
 
     ENGINE->GetSceneGraph()->Initialize();
 
@@ -56,7 +56,7 @@ bool setupGraphics(int w, int h) {
 
 
     // Load image
-    std::string imagePath = ENGINE->GetFileSystemUtils()->GetDevicePictureResourcesPath() + "square.png";
+    std::string imagePath = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + "square.png";
     textureHandle = loadGLTextureFromPNG(imagePath.c_str());
 
     glActiveTexture(GL_TEXTURE0);
@@ -83,7 +83,7 @@ void setupMatrixes(float dt) {
 
     mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
 
-    ENGINE->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMVPMatrixHandle(mvpMatrix);
+    FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMVPMatrixHandle(mvpMatrix);
 
     return;
 }
@@ -115,7 +115,7 @@ void renderFrame(float dt) {
 
     modelMatrix = glm::rotate(0.0f, 0.0f, 1.0f, 0.0f);
     mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
-    // ENGINE->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMVPMatrixHandle(mvpMatrix);
+    // FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMVPMatrixHandle(mvpMatrix);
 
     ENGINE->RenderScene();
 

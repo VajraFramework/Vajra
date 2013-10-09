@@ -18,7 +18,7 @@ void SceneGraph::AddNewGameObjectToScene(GameObject* gameObject) {
 	ASSERT(this->GetGameObjectById(gameObject->GetId()) == nullptr,
 		"GameObject has unique id: %d", gameObject->GetId());
 
-	ENGINE->GetLogger()->dbglog("\nAdding GameObject with id %d to scene", gameObject->GetId());
+	FRAMEWORK->GetLogger()->dbglog("\nAdding GameObject with id %d to scene", gameObject->GetId());
 
 	// Add this GameObject to the map of all GameObjects:
 	this->allGameObjects[gameObject->GetId()] = gameObject;

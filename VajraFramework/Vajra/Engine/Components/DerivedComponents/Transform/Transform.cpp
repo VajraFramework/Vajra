@@ -1,10 +1,11 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
-#include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 unsigned int Transform::componentTypeId = COMPONENT_TYPE_ID_TRANSFORM;
@@ -30,7 +31,7 @@ void Transform::Draw() {
 	ASSERT(camera != nullptr, "Could get main camera for the scene");
 
 	glm::mat4 mvpMatrix = camera->GetProjMatrix() * camera->GetViewMatrix() * this->modelMatrixCumulative;
-    ENGINE->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMVPMatrixHandle(mvpMatrix);
+    FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMVPMatrixHandle(mvpMatrix);
 }
 
 glm::vec3& Transform::GetPosition() {

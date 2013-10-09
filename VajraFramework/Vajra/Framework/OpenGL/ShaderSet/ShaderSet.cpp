@@ -1,7 +1,8 @@
-#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Engine/Core/Engine.h"
-#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
+#include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/Utilities.h"
 
 #include <cstdlib>
@@ -14,32 +15,32 @@ GLuint createProgram(std::string vShaderName, std::string fShaderName);
 
 
 ShaderSet::ShaderSet(std::string inVshaderName, std::string inFshaderName) {
-    ENGINE->GetLogger()->dbglog("\nCreating ShaderProgram with %s, %s", \
+    FRAMEWORK->GetLogger()->dbglog("\nCreating ShaderProgram with %s, %s", \
                                 inVshaderName.c_str(), inFshaderName.c_str());
     this->shaderProgram = createProgram(inVshaderName, inFshaderName);
     if (!this->shaderProgram) {
-        ENGINE->GetLogger()->errlog("Could not create program.");
+        FRAMEWORK->GetLogger()->errlog("Could not create program.");
         exit(0);
         // TODO [Cleanup] ASSERT_HERE
     }
-    ENGINE->GetLogger()->dbglog("\nShaderProgram: %d\n", this->shaderProgram);
+    FRAMEWORK->GetLogger()->dbglog("\nShaderProgram: %d\n", this->shaderProgram);
 
     // Get Attribute Handles from Shaders:
     this->positionHandle = glGetAttribLocation(this->GetShaderProgram(), "vPosition");
     checkGlError("glGetAttribLocation");
-    ENGINE->GetLogger()->dbglog("glGetAttribLocation(\"vPosition\") = %d\n", this->positionHandle);
+    FRAMEWORK->GetLogger()->dbglog("glGetAttribLocation(\"vPosition\") = %d\n", this->positionHandle);
     //
     this->textureCoordsHandle = glGetAttribLocation(this->GetShaderProgram(), "uvCoords_in");
     checkGlError("glGetAttribLocation");
-    ENGINE->GetLogger()->dbglog("glGetAttribLocation(\"uvCoords_in\") = %d\n", this->textureCoordsHandle);
+    FRAMEWORK->GetLogger()->dbglog("glGetAttribLocation(\"uvCoords_in\") = %d\n", this->textureCoordsHandle);
 
     // Get Uniform Handles from Shaders:
     this->mvpMatrixHandle = glGetUniformLocation(this->GetShaderProgram(), "mvpMatrix");
     checkGlError("glGetUniformLocation");
     if (this->mvpMatrixHandle == -1) {
-        ENGINE->GetLogger()->errlog("mvpMatrix is not a valid shader variable\n");
+        FRAMEWORK->GetLogger()->errlog("mvpMatrix is not a valid shader variable\n");
     }
-    ENGINE->GetLogger()->dbglog("glGetUniformLocation(\"mvpMatrix\") = %d\n", this->mvpMatrixHandle);
+    FRAMEWORK->GetLogger()->dbglog("glGetUniformLocation(\"mvpMatrix\") = %d\n", this->mvpMatrixHandle);
 
 }
 
@@ -56,15 +57,15 @@ GLuint loadShader(GLenum shaderType, const char* pSource) {
         glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
 
         if (!compiled) {
-            ENGINE->GetLogger()->dbglog("\nCould not compile shader");
+            FRAMEWORK->GetLogger()->dbglog("\nCould not compile shader");
             GLint infoLen = 0;
             glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
-            ENGINE->GetLogger()->dbglog("\ninfoLen: %d", infoLen);
+            FRAMEWORK->GetLogger()->dbglog("\ninfoLen: %d", infoLen);
             if (infoLen) {
                 char* buf = (char*) malloc(infoLen);
                 if (buf) {
                     glGetShaderInfoLog(shader, infoLen, NULL, buf);
-                    ENGINE->GetLogger()->dbglog("Could not compile shader %d:\n%s\n",
+                    FRAMEWORK->GetLogger()->dbglog("Could not compile shader %d:\n%s\n",
                             shaderType, buf);
                     free(buf);
                 }
@@ -77,7 +78,7 @@ GLuint loadShader(GLenum shaderType, const char* pSource) {
 }
 
 char* readShaderFromFile(std::string shaderName) {
-    std::string path = ENGINE->GetFileSystemUtils()->GetDeviceShaderResourcesPath() + shaderName;
+    std::string path = FRAMEWORK->GetFileSystemUtils()->GetDeviceShaderResourcesPath() + shaderName;
 
     std::vector<char> v;
     if (FILE *fp = fopen(path.c_str(), "r")) {
@@ -93,8 +94,8 @@ char* readShaderFromFile(std::string shaderName) {
     }
     shader[v.size()] = '\0';
 
-    ENGINE->GetLogger()->dbglog("\nShader:\n%s", shader);
-    ENGINE->GetLogger()->dbglog("\nEnd Shader", shader);
+    FRAMEWORK->GetLogger()->dbglog("\nShader:\n%s", shader);
+    FRAMEWORK->GetLogger()->dbglog("\nEnd Shader", shader);
 
     return shader;
 }
@@ -133,7 +134,7 @@ GLuint createProgram(std::string vShaderName, std::string fShaderName) {
                 char* buf = (char*) malloc(bufLength);
                 if (buf) {
                     glGetProgramInfoLog(program, bufLength, NULL, buf);
-                    ENGINE->GetLogger()->errlog("Could not link program:\n%s\n", buf);
+                    FRAMEWORK->GetLogger()->errlog("Could not link program:\n%s\n", buf);
                     free(buf);
                 }
             }

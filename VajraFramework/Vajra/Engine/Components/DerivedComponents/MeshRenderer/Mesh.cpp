@@ -1,8 +1,9 @@
-#include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/Mesh.h"
+#include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
-#include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
 
 #define NUM_VERTS_PER_FACE 3
@@ -22,7 +23,7 @@ void Mesh::InitVerticesData(std::vector<glm::vec3> &inPositions, \
     if (inPositions.size() != inNormals.size() ||
         inPositions.size() != inTextureCoords.size()) {
 
-        ENGINE->GetLogger()->errlog("ERROR: Unequal numbers of vertices, normals and textureCoords passed: \
+        FRAMEWORK->GetLogger()->errlog("ERROR: Unequal numbers of vertices, normals and textureCoords passed: \
                              %d, %d, %d", inPositions.size(), inNormals.size(), inTextureCoords.size());
         return;
     }
@@ -69,11 +70,11 @@ void Mesh::InitIndicesData(std::vector<unsigned int> &inIndices) {
 
 void Mesh::MakeVBOs() {
     if (this->vertices == 0 || this->normals == 0 || this->textureCoords == 0) {
-        ENGINE->GetLogger()->errlog("ERROR: Uninited vertices, or normals or textureCoords");
+        FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices, or normals or textureCoords");
         return;
     }
     if (this->indices.size() == 0) {
-        ENGINE->GetLogger()->errlog("ERROR: Uninited indices");
+        FRAMEWORK->GetLogger()->errlog("ERROR: Uninited indices");
         return;
     }
 
@@ -93,12 +94,12 @@ void Mesh::MakeVBOs() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vboIndices); checkGlError("glBindBuffer");
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->indices.size(), &this->indices[0], GL_STATIC_DRAW); checkGlError("glBufferData");
 
-    ENGINE->GetLogger()->errlog("\nVBOs made successfully");
+    FRAMEWORK->GetLogger()->errlog("\nVBOs made successfully");
 }
 
 void Mesh::Draw() {
     if (this->vboPositions == 0 || this->vboNormals == 0 || this->vboTextureCoords == 0 || this->vboIndices == 0) {
-        ENGINE->GetLogger()->errlog("ERROR: VBOs not made");
+        FRAMEWORK->GetLogger()->errlog("ERROR: VBOs not made");
         return;
     }
 
@@ -106,7 +107,7 @@ void Mesh::Draw() {
     // glEnableClientState(GL_VERTEX_ARRAY);
     // glVertexPointer(3, GL_FLOAT, 0, 0);
 
-    ShaderSet* currentShaderSet = ENGINE->GetOpenGLWrapper()->GetCurrentShaderSet();
+    ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
 
     glUseProgram(currentShaderSet->GetShaderProgram());
     checkGlError("glUseProgram");

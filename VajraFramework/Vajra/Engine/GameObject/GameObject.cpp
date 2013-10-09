@@ -25,7 +25,7 @@ void GameObject::init() {
 
 	this->model = new Mesh();
 
-	ENGINE->GetLogger()->dbglog("\nCreated new GameObject of id: %d", this->GetId());
+	FRAMEWORK->GetLogger()->dbglog("\nCreated new GameObject of id: %d", this->GetId());
 }
 
 void GameObject::destroy() {

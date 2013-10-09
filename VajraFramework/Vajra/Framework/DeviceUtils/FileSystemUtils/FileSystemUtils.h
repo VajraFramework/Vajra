@@ -20,7 +20,7 @@ private:
     std::string devicePictureResourcesPath;
     std::string deviceShaderResourcesPath;
     
-    friend class Engine;
+    friend class Framework;
 };
 
 #endif // FILESYSTEMUTILS_H
