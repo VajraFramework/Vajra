@@ -1,7 +1,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
-#include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Objects/GameObject/GameObject.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"

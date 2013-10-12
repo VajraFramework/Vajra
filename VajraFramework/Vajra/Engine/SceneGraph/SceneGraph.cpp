@@ -1,6 +1,6 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
-#include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Objects/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Framework/Logging/Logger.h"
 

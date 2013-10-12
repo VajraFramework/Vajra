@@ -1,5 +1,5 @@
 #include "Vajra/Engine/Core/Engine.h"
-#include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Objects/GameObject/GameObject.h"
 #include "Vajra/Engine/Components/BaseComponent/Component.h"
 #include "Vajra/Framework/Logging/Logger.h"
 

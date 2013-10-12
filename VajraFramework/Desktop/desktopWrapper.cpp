@@ -15,9 +15,9 @@ using namespace glm;
 #include <Desktop/shader.hpp>
 
 #include "Vajra/Engine/Core/Engine.h"
-#include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/Mesh.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
+#include "Vajra/Engine/Objects/GameObject/GameObject.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Framework/Logging/Logger.h"
