@@ -102,12 +102,16 @@ void renderFrame(float dt) {
 
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(101);
-        Transform* transform = quad->GetTransform();
-        // transform->SetOrientation(90.0f, YAXIS);
-        transform->Translate(0.01f, transform->GetForward());
-        transform->Rotate(0.8f, YAXIS);
-        transform->Rotate(0.4f, -transform->GetLeft());
+        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(104);
+        if (quad != nullptr) {
+        	Transform* transform = quad->GetTransform();
+        	if (transform != nullptr) {
+        		// transform->SetOrientation(90.0f, YAXIS);
+        		transform->Translate(0.01f, transform->GetForward());
+        		transform->Rotate(0.8f, YAXIS);
+        		transform->Rotate(0.4f, -transform->GetLeft());
+        	}
+        }
     }
 
     ENGINE->UpdateScene();

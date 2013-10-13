@@ -18,13 +18,15 @@
 #include <OpenGLES/ES2/glext.h>
 #endif // PLATFORM_IOS
 
+#include "Vajra/Common/Objects/Object.h"
+
 #include <map>
 #include <string>
 
 // Forward Declarations:
 class ShaderSet;
 
-class OpenGLWrapper {
+class OpenGLWrapper : public Object {
 public:
 	~OpenGLWrapper();
 	

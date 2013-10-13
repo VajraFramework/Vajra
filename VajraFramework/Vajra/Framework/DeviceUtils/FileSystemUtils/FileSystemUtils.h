@@ -1,9 +1,11 @@
 #ifndef FILESYSTEMUTILS_H
 #define FILESYSTEMUTILS_H
 
+#include "Vajra/Common/Objects/Object.h"
+
 #include <string>
 
-class FileSystemUtils {
+class FileSystemUtils : public Object {
 public:
     ~FileSystemUtils();
     
