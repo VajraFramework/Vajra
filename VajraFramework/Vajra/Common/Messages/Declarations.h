@@ -1,5 +1,8 @@
 #ifndef MESSAGEHUB_DECLARATIONS_H
 #define MESSAGEHUB_DECLARATIONS_H
 
-typedef
+typedef int MessageType;
+
+#define MESSAGE_TYPE_BASE 0
+
 #endif // MESSAGEHUB_DECLARATIONS_H

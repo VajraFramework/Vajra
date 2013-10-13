@@ -27,6 +27,8 @@ public:
 	void AddChild(ObjectIdType childId);
 	void SetParent(ObjectIdType newParentId);
 
+	void HandleMessages();
+
 	// Get a Component attached to this Object by typename
 	TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(T, T*, Component)
 		GetComponent();

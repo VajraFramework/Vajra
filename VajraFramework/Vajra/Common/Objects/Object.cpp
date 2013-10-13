@@ -1,8 +1,11 @@
 #include "Vajra/Common/Components/Component.h"
+#include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Common/Objects/Object.h"
 #include "Vajra/Common/Objects/ObjectRegistry.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
 Object::Object() {
@@ -25,6 +28,15 @@ void Object::destroy() {
 	this->removeAllComponents();
 }
 
+void Object::HandleMessages() {
+	Message* message = nullptr;
+	do {
+		message = ENGINE->GetMessageHub()->RetrieveNextMessage(this->GetId());
+		if (message != nullptr) {
+			FRAMEWORK->GetLogger()->dbglog("\nGot msg of type %d", message->GetMessageType());
+		}
+	} while (message != nullptr);
+}
 
 void Object::AddChild(ObjectIdType childId) {
 	Object* child = ObjectRegistry::GetObjectById(childId);

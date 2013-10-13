@@ -1,14 +1,16 @@
+#include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Core/Engine.h"
-#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
-#include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Placeholder/Renderer/Renderer.h"
-#include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
-#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/Mesh.h"
+#include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/DeviceUtils/TextureLoader/TextureLoader.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
+#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
+#include "Vajra/Placeholder/Renderer/Renderer.h"
 #include "Vajra/Utilities/MathUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
 
@@ -112,6 +114,8 @@ void renderFrame(float dt) {
         		transform->Rotate(0.4f, -transform->GetLeft());
         	}
         }
+        Message* message = new Message();
+        ENGINE->GetMessageHub()->SendPointcastMessage(message, 104);
     }
 
     ENGINE->UpdateScene();
