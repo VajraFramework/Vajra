@@ -1,17 +1,17 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Vajra/Engine/Components/BaseComponent/Component.h"
+#include "Vajra/Common/Components/Component.h"
 
 #include "Libraries/glm/glm.hpp"
 
 // Forward Declarations:
-class GameObject;
+class Object;
 
 class Camera : public Component {
 public:
 	Camera();
-	Camera(GameObject* gameObject_);
+	Camera(Object* object_);
 	~Camera();
 
 	static inline unsigned int GetTypeId() { return componentTypeId; }

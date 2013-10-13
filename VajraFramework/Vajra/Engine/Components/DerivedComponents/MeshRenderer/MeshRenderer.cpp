@@ -1,5 +1,6 @@
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/Mesh.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
+#include "Vajra/Engine/GameObject/GameObject.h"
 
 unsigned int MeshRenderer::componentTypeId = COMPONENT_TYPE_ID_RENDERER;
 
@@ -7,7 +8,7 @@ MeshRenderer::MeshRenderer() : Component() {
 	this->init();
 }
 
-MeshRenderer::MeshRenderer(GameObject* gameObject_) : Component(gameObject_) {
+MeshRenderer::MeshRenderer(Object* object_) : Component(object_) {
 	this->init();
 }
 
@@ -29,7 +30,12 @@ void MeshRenderer::Draw() {
 }
 
 void MeshRenderer::init() {
-	this->mesh = 0;
+	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
+	if (gameObject != nullptr) {
+		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
+	}
+
+	this->mesh = nullptr;
 }
 
 void MeshRenderer::destroy() {

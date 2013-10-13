@@ -1,7 +1,8 @@
-#ifndef GAMEOBJECT_H
-#define GAMEOBJECT_H
+#ifndef OBJECT_H
+#define OBJECT_H
 
-#include "Vajra/Engine/Components/BaseComponent/Component.h"
+#include "Vajra/Common/Objects/Declarations.h"
+#include "Vajra/Common/Components/Component.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
@@ -11,41 +12,30 @@
 #include <string>
 #include <typeinfo>
 
-// TODO [Cleanup] Move GAMEOBJECT_ID_INVALID somewhere
-#define GAMEOBJECT_ID_INVALID 0
-
 // Forward Declarations:
 class Component;
-class Mesh;
-class SceneGraph;
-class Transform;
 
-
-class GameObject {
+class Object {
 public:
-	GameObject();
-	virtual ~GameObject();
+	Object();
+	virtual ~Object();
 
 	inline int GetId() { return this->id; }
-	inline Transform* GetTransform() { return this->transform; }
-	inline Mesh* GetMesh() { return this->model; }
 	inline int GetParentId() { return this->parentId; }
+	inline std::string GetName() { return this->name; }
 
-	virtual void Update();
-	virtual void Draw();
+	void AddChild(ObjectIdType childId);
+	void SetParent(ObjectIdType newParentId);
 
-	void AddChild(GameObjectIdType childId);
-	void SetParent(GameObjectIdType newParentId);
-
-	// Get a Component attached to this GameObject by typename
+	// Get a Component attached to this Object by typename
 	TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(T, T*, Component)
 		GetComponent();
 
-	// Create and attach a component to this GameObject. Returns a reference to the new component.
+	// Create and attach a component to this Object. Returns a reference to the new component.
 	TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(T, T*, Component)
 		AddComponent();
 
-	// Attach an existing component to this GameObject.
+	// Attach an existing component to this Object.
 	TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(T, void, Component)
 		AddComponent(T *component);
 
@@ -53,44 +43,41 @@ public:
 	TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(T, void, Component)
 		RemoveComponent();
 
+protected:
+	// TODO [Implement] Change children from list to map, maybe
+	std::list<ObjectIdType /* id */> children;
+
+	std::map<ComponentIdType /* Component id */, Component*> componentMap;
 
 private:
 	void init();
 	void destroy();
 
 	// Utility Functions:
-	void addChild_internal(GameObjectIdType childId);
-	void setParent_internal(GameObjectIdType newParentId);
+	void addChild_internal(ObjectIdType childId);
+	void setParent_internal(ObjectIdType newParentId);
 	//
-	void removeChild_internal(GameObjectIdType childId);
+	void removeChild_internal(ObjectIdType childId);
 	void removeParent_internal();
 	//
-	std::list<GameObjectIdType>::iterator findChildById(GameObjectIdType childId);
+	std::list<ObjectIdType>::iterator findChildById(ObjectIdType childId);
 	//
-	GameObjectIdType getNextFreeId();
+	ObjectIdType getNextFreeId();
 
 	void destroyAllChildren();
 	void removeAllComponents();
 
-	GameObjectIdType id;
+	ObjectIdType id;
 	std::string name;
 
-	Transform* transform;
-	Mesh* model;
-
-	GameObjectIdType parentId;
-	// TODO [Implement] Change children from list to map
-	std::list<GameObjectIdType /* id */> children;
-
-	std::map<ComponentIdType /* Component id */, Component*> componentMap;
-
+	ObjectIdType parentId;
 };
 
 
 // Templated functions:
 
 TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(T, T*, Component)
-GameObject::GetComponent() {
+Object::GetComponent() {
 	unsigned int compType = T::GetTypeId();
 	auto iter = this->componentMap.find(compType);
 
@@ -101,7 +88,7 @@ GameObject::GetComponent() {
 }
 
 TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(T, T*, Component)
-GameObject::AddComponent() {
+Object::AddComponent() {
 	unsigned int compType = T::GetTypeId();
 	auto iter = this->componentMap.find(compType);
 	T* newComponent = new T(this);
@@ -111,7 +98,7 @@ GameObject::AddComponent() {
 		// Delete the old component at that slot.
 		delete iter->second;
 		#ifdef DEBUG
-			FRAMEWORK->GetLogger()->dbglog("GameObject of id %d, attaching conflicting component of type %s", this->GetId(), typeid(T).name());
+			FRAMEWORK->GetLogger()->dbglog("Object of id %d, attaching conflicting component of type %s", this->GetId(), typeid(T).name());
 		#endif
 	}
 
@@ -123,7 +110,7 @@ GameObject::AddComponent() {
 }
 
 TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(T, void, Component)
-GameObject::AddComponent(T *component) {
+Object::AddComponent(T *component) {
 	unsigned int compType = T::GetTypeId();
 	auto iter = this->componentMap.find(compType);
 
@@ -132,18 +119,18 @@ GameObject::AddComponent(T *component) {
 		// Delete the old component at that slot.
 		delete iter->second;
 		#ifdef DEBUG
-			FRAMEWORK->GetLogger()->dbglog("GameObject of id %d, attaching conflicting component of type %s", this->GetId(), typeid(T).name());
+			FRAMEWORK->GetLogger()->dbglog("Object of id %d, attaching conflicting component of type %s", this->GetId(), typeid(T).name());
 		#endif
 	}
 
 	this->componentMap[compType] = component;
-	component->SetGameObject(this);
+	component->SetObject(this);
 	// TODO [Implement] Subscribe Components to messages when attaching them:
 	// component->SubscribeToMessages();
 }
 
 TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(T, void, Component)
-GameObject::RemoveComponent() {
+Object::RemoveComponent() {
 	unsigned int compType = T::GetTypeId();
 	auto iter = this->componentMap.find(compType);
 
@@ -153,11 +140,11 @@ GameObject::RemoveComponent() {
 	}
 	#ifdef DEBUG
 	else {
-		FRAMEWORK->GetLogger()->dbglog("GameObject of id %d, trying to remove unattached Component of type %s", this->GetId(), typeid(T).name());
+		FRAMEWORK->GetLogger()->dbglog("Object of id %d, trying to remove unattached Component of type %s", this->GetId(), typeid(T).name());
 	}
 	#endif
 
 	// TODO [Implement] UnSubscribe Components to messages when detaching them
 }
 
-#endif // GAMEOBJECT_H
+#endif // OBJECT_H

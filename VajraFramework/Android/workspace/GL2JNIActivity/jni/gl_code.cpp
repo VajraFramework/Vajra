@@ -34,9 +34,10 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/Mesh.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
-#include "Vajra/Placeholder/Renderer/Renderer.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Placeholder/Renderer/Renderer.h"
 #include "Vajra/Placeholder/Tesserakonteres.h"
 #include "local_test.h"
 
@@ -88,9 +89,9 @@ JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_init(JNIEnv * env, jobj
     gInterfaceObject = obj;
 
     int number = testEngineFunction();
-    ENGINE->GetLogger()->dbglog("test number from test: %d", number);
+    FRAMEWORK->GetLogger()->dbglog("test number from test: %d", number);
     number = localTestFunction();
-    ENGINE->GetLogger()->dbglog("test number from test: %d", number);
+    FRAMEWORK->GetLogger()->dbglog("test number from test: %d", number);
 
     // loadAsset("simple_vshader");
     testCallIntoJava();

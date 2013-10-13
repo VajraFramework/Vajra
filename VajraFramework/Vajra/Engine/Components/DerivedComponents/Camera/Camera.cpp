@@ -1,5 +1,5 @@
 #include "Vajra/Engine/Core/Engine.h"
-#include "Vajra/Engine/Objects/GameObject/GameObject.h"
+#include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Utilities/MathUtilities.h"
@@ -12,7 +12,7 @@ Camera::Camera() : Component() {
 	this->init();
 }
 
-Camera::Camera(GameObject* gameObject_) : Component(gameObject_) {
+Camera::Camera(Object* object_) : Component(object_) {
 	this->init();
 }
 
@@ -22,7 +22,8 @@ Camera::~Camera() {
 
 void Camera::Update() {
 	// TODO [Cleanup] This doesn't need to be done every frame: cleanup to use messages instead, maybe
-	glm::vec3 eyePosition = this->gameObject->GetTransform()->GetPosition();
+	GameObject* gameObject = (GameObject*)this->object;
+	glm::vec3 eyePosition = gameObject->GetTransform()->GetPosition();
 	// TODO [Implement] Use actual lookAtPosition here
 	glm::vec3 lookAtPosition(0.0f, 0.0f, 0.0f);
 	glm::vec3 upVector(0.0f, 1.0f, 0.0f);
@@ -37,6 +38,11 @@ void Camera::WriteLookAt() {
 }
 
 void Camera::init() {
+	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
+	if (gameObject != nullptr) {
+		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
+	}
+
 	this->viewMatrix = IDENTITY_MATRIX;
 	this->projMatrix = IDENTITY_MATRIX;
 }

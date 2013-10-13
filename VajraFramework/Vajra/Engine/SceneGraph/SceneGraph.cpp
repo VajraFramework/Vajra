@@ -1,6 +1,6 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
-#include "Vajra/Engine/Objects/GameObject/GameObject.h"
+#include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
@@ -13,15 +13,16 @@ SceneGraph::~SceneGraph() {
 }
 
 void SceneGraph::AddNewGameObjectToScene(GameObject* gameObject) {
-	ASSERT(gameObject->GetId() > GAMEOBJECT_ID_INVALID,
+	ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
+
+	ASSERT(gameObject->GetId() > OBJECT_ID_INVALID,
 		"GameObject has valid id: %d", gameObject->GetId());
-	ASSERT(this->GetGameObjectById(gameObject->GetId()) == nullptr,
-		"GameObject has unique id: %d", gameObject->GetId());
 
 	FRAMEWORK->GetLogger()->dbglog("\nAdding GameObject with id %d to scene", gameObject->GetId());
 
-	// Add this GameObject to the map of all GameObjects:
-	this->allGameObjects[gameObject->GetId()] = gameObject;
+	if (gameObject->GetParentId() == OBJECT_ID_INVALID) {
+		this->root->AddChild(gameObject->GetId());
+	}
 }
 
 // TODO [Cleanup] Cache the mainCamera, maybe
@@ -60,8 +61,8 @@ void SceneGraph::draw() {
 }
 
 void SceneGraph::init() {
-	this->root = 0;
-	this->mainCameraId = GAMEOBJECT_ID_INVALID;
+	this->root = nullptr;
+	this->mainCameraId = OBJECT_ID_INVALID;
 }
 
 void SceneGraph::Initialize() {

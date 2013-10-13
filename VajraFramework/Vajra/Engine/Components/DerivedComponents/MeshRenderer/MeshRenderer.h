@@ -1,16 +1,16 @@
 #ifndef MESH_RENDERER_H
 #define MESH_RENDERER_H
 
-#include "Vajra/Engine/Components/BaseComponent/Component.h"
+#include "Vajra/Common/Components/Component.h"
 
 // Forward Declarations:
-class GameObject;
+class Object;
 class Mesh;
 
 class MeshRenderer : public Component {
 public:
 	MeshRenderer();
-	MeshRenderer(GameObject* gameObject_);
+	MeshRenderer(Object* object_);
 	virtual ~MeshRenderer();
 
 	static inline unsigned int GetTypeId() { return componentTypeId; }

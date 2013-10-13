@@ -1,7 +1,7 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
-#include "Vajra/Engine/Components/BaseComponent/Component.h"
+#include "Vajra/Common/Components/Component.h"
 
 #include "Libraries/glm/glm.hpp"
 #include "Libraries/glm/gtc/quaternion.hpp"
@@ -13,7 +13,7 @@ class GameObject;
 class Transform : public Component {
 public:
 	Transform();
-	Transform(GameObject* gameObject_);
+	Transform(Object* object_);
 	~Transform();
 
 	static inline unsigned int GetTypeId() { return componentTypeId; }

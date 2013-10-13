@@ -65,6 +65,5 @@ template <typename TemplateName>																\
 typename std::enable_if<std::is_base_of<baseClassType, TemplateName>::value, returnType>::type
 
 typedef int ComponentIdType;
-typedef int GameObjectIdType;
 
 #endif // UTILITIES_H

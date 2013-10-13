@@ -8,30 +8,29 @@
 #include <vector>
 
 // Forward Declarations:
-class GameObject;
+class Object;
 
 class Component {
 public:
 	Component();
-	Component(GameObject* gameObject_);
+	Component(Object* object_);
 	virtual ~Component();
 
 	virtual void Update() = 0;
 
-	inline GameObject* GetGameObject() { return this->gameObject; }
+	inline Object* GetObject() { return this->object; }
 	static inline ComponentIdType GetTypeId() { return componentTypeId; }
 
-	inline void SetGameObject(GameObject* gameObject_) { this->gameObject = gameObject_; }
+	inline void SetObject(Object* object_) { this->object = object_; }
 
 private:
-	void init(GameObject* gameObject_ = 0);
+	void init(Object* object_ = 0);
 	void destroy();
-
 
 	static ComponentIdType componentTypeId;
 
 protected:
-	GameObject* gameObject;
+	Object* object;
 };
 
 #endif // COMPONENT_H

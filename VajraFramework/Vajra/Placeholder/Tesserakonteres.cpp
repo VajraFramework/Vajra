@@ -1,7 +1,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
-#include "Vajra/Engine/Objects/GameObject/GameObject.h"
+#include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/Mesh.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"

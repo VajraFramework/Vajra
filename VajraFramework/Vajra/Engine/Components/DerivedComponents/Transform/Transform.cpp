@@ -14,7 +14,7 @@ Transform::Transform() : Component() {
 	this->init();
 }
 
-Transform::Transform(GameObject* gameObject_) : Component(gameObject_) {
+Transform::Transform(Object* object_) : Component(object_) {
 	this->init();
 }
 
@@ -122,6 +122,11 @@ void Transform::updateModelMatrix() {
 }
 
 void Transform::init() {
+	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
+	if (gameObject != nullptr) {
+		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
+	}
+
 	this->position = ZERO_VEC3;
 	this->orientation = IDENTITY_QUATERNION;
 	this->scale = glm::vec3(1.0f, 1.0f, 1.0f);
