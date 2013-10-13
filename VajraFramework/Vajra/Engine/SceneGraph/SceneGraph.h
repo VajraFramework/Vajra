@@ -20,11 +20,11 @@ public:
 	void Initialize();
 	
 	void AddNewGameObjectToScene(GameObject* gameObject);
-	inline GameObject* GetGameObjectById(GameObjectIdType id);
+	inline GameObject* GetGameObjectById(ObjectIdType id);
 	inline GameObject* GetRootGameObject() { return this->root; }
 
 	Camera* GetMainCamera();
-	void SetMainCameraId(GameObjectIdType id);
+	void SetMainCameraId(ObjectIdType id);
 
 private:
 	SceneGraph();

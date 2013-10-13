@@ -34,7 +34,7 @@ Camera* SceneGraph::GetMainCamera() {
 	return nullptr;
 }
 
-void SceneGraph::SetMainCameraId(GameObjectIdType id) {
+void SceneGraph::SetMainCameraId(ObjectIdType id) {
 	GameObject *camera = this->GetGameObjectById(id);
 	ASSERT(camera != nullptr, "New camera object not null");
 	ASSERT(camera->GetComponent<Camera>() != nullptr, "New camera object has a camera component");
@@ -48,7 +48,7 @@ void SceneGraph::update() {
 }
 
 void SceneGraph::draw() {
-	ASSERT(this->mainCameraId != GAMEOBJECT_ID_INVALID, "mainCamera set");
+	ASSERT(this->mainCameraId != OBJECT_ID_INVALID, "mainCamera set");
 	// TODO [Cleanup] Change mainCamera->cameraComponent->WriteLookAt() to use messages sent to mainCamera instead, maybe
 	GameObject* mainCamera = this->GetGameObjectById(this->mainCameraId);
 	if (mainCamera != 0) {
