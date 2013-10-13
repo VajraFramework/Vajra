@@ -20,6 +20,8 @@ void Object::init() {
 	this->id = this->getNextFreeId();
 	ObjectRegistry::AddNewObject(this);
 
+	this->parentId = OBJECT_ID_INVALID;
+
 	FRAMEWORK->GetLogger()->dbglog("\nCreated new Object of id: %d", this->GetId());
 }
 

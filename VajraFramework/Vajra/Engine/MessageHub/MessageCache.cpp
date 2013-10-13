@@ -77,7 +77,7 @@ void MessageBucket::PushBack(Message* message) {
 		}
 		current->next = message;
 	}
-	ASSERT(message->next == nullptr, "Single message given to MessageHub");
+	ASSERT(message->next == nullptr, "Single message given to MessageHub, not linked list [unsupported yet]");
 
 	this->count++;
 }

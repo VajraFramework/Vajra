@@ -21,7 +21,9 @@ void SceneGraph::AddNewGameObjectToScene(GameObject* gameObject) {
 	FRAMEWORK->GetLogger()->dbglog("\nAdding GameObject with id %d to scene", gameObject->GetId());
 
 	if (gameObject->GetParentId() == OBJECT_ID_INVALID) {
-		this->root->AddChild(gameObject->GetId());
+		if (this->root != nullptr) {
+			this->root->AddChild(gameObject->GetId());
+		}
 	}
 }
 
