@@ -1,6 +1,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
 
 // static member declaration:
@@ -26,11 +27,13 @@ Engine* Engine::GetInstance() {
 
 void Engine::init() {
 	// Do not sort the following in any arbitrary order:
+	this->timer      = new Timer();
 	this->messageHub = new MessageHub();
 	this->sceneGraph = new SceneGraph();
 }
 
 void Engine::UpdateScene() {
+	this->GetTimer()->update();
 	this->GetMessageHub()->DrainMessages();
 	this->GetSceneGraph()->update();
 }
@@ -44,10 +47,13 @@ int testEngineFunction() {
 }
 
 void Engine::destroy() {
+	if (this->sceneGraph != nullptr) {
+		delete this->sceneGraph;
+	}
 	if (this->messageHub != nullptr) {
 		delete this->messageHub;
 	}
-	if (this->sceneGraph != nullptr) {
-		delete this->sceneGraph;
+	if (this->timer != nullptr) {
+		delete this->timer;
 	}
 }

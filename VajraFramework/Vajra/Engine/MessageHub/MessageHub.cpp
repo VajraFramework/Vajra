@@ -41,7 +41,7 @@ void MessageHub::DrainMessages() {
 	this->currentlyDrainingMessageCache = &this->frontMessageCache;
 	this->drainMessageCache_internal();
 
-	// Switch MessageCaches
+	// Switching MessageCaches
 
 	this->currentlyAcceptingMessageCache = &this->frontMessageCache;
 	this->currentlyDrainingMessageCache = &this->backMessageCache;

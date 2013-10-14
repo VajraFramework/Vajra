@@ -1,7 +1,7 @@
 #include "Vajra/Common/Messages/Message.h"
 
 Message::Message() {
-	this->init(MESSAGE_TYPE_BASE);
+	this->init(MESSAGE_TYPE_UNSPECIFIED);
 }
 
 Message::Message(MessageType messagetype_) {
@@ -24,25 +24,25 @@ void Message::setReceiverId(ObjectIdType receiverId_) {
 }
 
 
-inline void* Message::GetRawData() {
+MessageData* Message::GetMessageData() {
 	// TODO [Cleanup] Deprecate this in favor of GetTypedData implemented in individual derived message types
-	return this->data;
+	return this->messageData;
 }
 
-void Message::SetData(void* data_) {
-	this->data = data_;
+void Message::SetMessageData(MessageData* messageData_) {
+	this->messageData = messageData_;
 }
 
 
 void Message::init(MessageType messageType_) {
 	this->messageType = messageType_;
-	this->data = nullptr;
+	this->messageData = nullptr;
 
 	this->next = nullptr;
 }
 
 void Message::destroy() {
-	if (this->data != nullptr) {
-		// TODO [Implement] Delete the (void*) data pointer in messages
+	if (this->messageData != nullptr) {
+		delete messageData;
 	}
 }

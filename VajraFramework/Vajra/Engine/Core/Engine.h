@@ -4,8 +4,9 @@
 int testEngineFunction();
 
 // Forward Declarations:
-class SceneGraph;
 class MessageHub;
+class SceneGraph;
+class Timer;
 
 class Engine {
 public:
@@ -15,6 +16,7 @@ public:
 
 	inline MessageHub* GetMessageHub() { return this->messageHub; }
 	inline SceneGraph* GetSceneGraph() { return this->sceneGraph; }
+	inline Timer*      GetTimer()      { return this->timer;      }
 
 	void UpdateScene();
 	void RenderScene();
@@ -29,6 +31,7 @@ private:
 
 	MessageHub* messageHub;
 	SceneGraph* sceneGraph;
+	Timer* timer;
 };
 
 #define ENGINE Engine::GetInstance()

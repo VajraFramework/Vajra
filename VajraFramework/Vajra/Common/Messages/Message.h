@@ -2,6 +2,7 @@
 #define MESSAGE_H
 
 #include "Vajra/Common/Messages/Declarations.h"
+#include "Vajra/Common/Messages/MessageData.h"
 #include "Vajra/Utilities/CommonDeclarations.h"
 
 class Message {
@@ -12,10 +13,10 @@ public:
 
 	inline MessageType GetMessageType() { return this->messageType; }
 	inline ObjectIdType GetSenderId() { return this->senderId; }
-	void* GetRawData();
+	MessageData* GetMessageData();
 
 	void SetMessageType(MessageType messageType_);
-	inline void SetData(void* data_);
+	void SetMessageData(MessageData* messageData_);
 
 private:
 	void init(MessageType messageType_);
@@ -29,8 +30,12 @@ private:
 
 	ObjectIdType senderId;
 	ObjectIdType receiverId;
-	void* data;
+	MessageData* messageData;
 
+	// TODO [Implement] Add a field for the time at which this message was sent here
+
+	// Internal field needed for chaining messages in the MessageHub
+	// TODO [Implement] Clean this up by having Message inherit from Linkable instead
 	Message* next;
 
 	friend class MessageHub;

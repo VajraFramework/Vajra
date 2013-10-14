@@ -4,6 +4,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/Mesh.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/DeviceUtils/TextureLoader/TextureLoader.h"
@@ -104,7 +105,7 @@ void renderFrame(float dt) {
 
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(104);
+        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(105);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -115,17 +116,20 @@ void renderFrame(float dt) {
         	}
         }
         Message* message = new Message();
-        ENGINE->GetMessageHub()->SendPointcastMessage(message, 104);
+        ENGINE->GetMessageHub()->SendPointcastMessage(message, 105);
     }
 
     ENGINE->UpdateScene();
     ENGINE->RenderScene();
 
+	FRAMEWORK->GetLogger()->dbglog("\nframe: %llu, fps: %f, delta: %f, ssb: %llu", ENGINE->GetTimer()->GetFrameNumber(),
+																				   ENGINE->GetTimer()->GetFPS(),
+																				   ENGINE->GetTimer()->GetDeltaFrameTime(),
+																				   ENGINE->GetTimer()->GetSecondsSinceBoot());
+
     modelMatrix = glm::rotate(0.0f, 0.0f, 1.0f, 0.0f);
     mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
     // FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMVPMatrixHandle(mvpMatrix);
-
-    ENGINE->RenderScene();
 
 
     return;
