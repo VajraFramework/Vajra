@@ -32,14 +32,30 @@ void Engine::init() {
 	this->sceneGraph = new SceneGraph();
 }
 
-void Engine::UpdateScene() {
-	this->GetTimer()->update();
-	this->GetMessageHub()->DrainMessages();
-	this->GetSceneGraph()->update();
+void Engine::DoFrame() {
+	this->GetTimer()->beginFrame();
+
+	this->updateScene();
+	this->renderScene();
+
+	this->GetTimer()->endFrame();
 }
 
-void Engine::RenderScene() {
+void Engine::updateScene() {
+	this->GetTimer()->beginUpdatePhase();
+
+	this->GetMessageHub()->DrainMessages();
+	this->GetSceneGraph()->update();
+
+	this->GetTimer()->endUpdatePhase();
+}
+
+void Engine::renderScene() {
+	this->GetTimer()->beginRenderPhase();
+
 	this->GetSceneGraph()->draw();
+
+	this->GetTimer()->endRenderPhase();
 }
 
 int testEngineFunction() {

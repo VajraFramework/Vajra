@@ -59,6 +59,7 @@ void ASSERT_LOG_internal(const char* file, int lineNumber, const char* functionN
 void printGLString(const char *name, GLenum s);
 void checkGlError(const char* op);
 
+void printFrameTimeStats();
 
 #define TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(TemplateName, returnType, baseClassType)	\
 template <typename TemplateName>																\

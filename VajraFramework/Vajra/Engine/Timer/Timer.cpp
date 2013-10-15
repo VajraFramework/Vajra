@@ -12,7 +12,9 @@ void Timer::init() {
 	std::chrono::time_point<std::chrono::system_clock> clockTimeNow = std::chrono::system_clock::now();
 	auto durationSinceEpoch = clockTimeNow.time_since_epoch();
 
-	this->frameSystemClock = clockTimeNow;
+	this->frameBeginSystemClock = clockTimeNow;
+	this->renderPhaseBeginSystemClock = clockTimeNow;
+	this->updatePhaseBeginSystemClock = clockTimeNow;
 
 	this->secondsSinceEpoch = std::chrono::duration_cast<std::chrono::seconds>(durationSinceEpoch).count();
 	this->secondsSinceEpochAtBoot = this->secondsSinceEpoch;
@@ -24,17 +26,21 @@ void Timer::init() {
 	double FAKE_FPS = 30.0;
 	this->fps = FAKE_FPS;
 	this->deltaFrameTime = 1.0 / FAKE_FPS;
+
+	this->totalFrameDuration  = 0.0;
+	this->renderPhaseDuration = 0.0;
+	this->updatePhaseDuration = 0.0;
 }
 
-void Timer::update() {
+void Timer::beginFrame() {
 	std::chrono::time_point<std::chrono::system_clock> clockTimeNow = std::chrono::system_clock::now();
-	auto durationSincePrevFrame = clockTimeNow - this->frameSystemClock;
+	auto durationSincePrevFrame = clockTimeNow - this->frameBeginSystemClock;
 	auto durationSinceEpoch = clockTimeNow.time_since_epoch();
 	double highResSecondsSincePrevFrame = (std::chrono::duration_cast<std::chrono::nanoseconds>(durationSincePrevFrame).count() / 1000000000.0);
 	unsigned long long lowResSecondsSinceEpoch = std::chrono::duration_cast<std::chrono::seconds>(durationSinceEpoch).count();
 
 	// Update high res time fields
-	this->frameSystemClock = clockTimeNow;
+	this->frameBeginSystemClock = clockTimeNow;
 	this->deltaFrameTime = highResSecondsSincePrevFrame;
 	this->fps = 1.0 / highResSecondsSincePrevFrame;
 
@@ -44,6 +50,33 @@ void Timer::update() {
 
 	this->frameNumber++;
 }
+
+void Timer::beginRenderPhase() {
+	this->renderPhaseBeginSystemClock = std::chrono::system_clock::now();
+}
+
+void Timer::endRenderPhase() {
+	std::chrono::time_point<std::chrono::system_clock> clockTimeNow = std::chrono::system_clock::now();
+	auto duration = clockTimeNow - this->renderPhaseBeginSystemClock;
+	this->renderPhaseDuration = (std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count() / 1000000000.0);
+}
+
+void Timer::beginUpdatePhase() {
+	this->updatePhaseBeginSystemClock = std::chrono::system_clock::now();
+}
+
+void Timer::endUpdatePhase() {
+	std::chrono::time_point<std::chrono::system_clock> clockTimeNow = std::chrono::system_clock::now();
+	auto duration = clockTimeNow - this->updatePhaseBeginSystemClock;
+	this->updatePhaseDuration = (std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count() / 1000000000.0);
+}
+
+void Timer::endFrame() {
+	std::chrono::time_point<std::chrono::system_clock> clockTimeNow = std::chrono::system_clock::now();
+	auto duration = clockTimeNow - this->frameBeginSystemClock;
+	this->totalFrameDuration = (std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count() / 1000000000.0);
+}
+
 
 void Timer::destroy() {
 }

@@ -18,8 +18,7 @@ public:
 	inline SceneGraph* GetSceneGraph() { return this->sceneGraph; }
 	inline Timer*      GetTimer()      { return this->timer;      }
 
-	void UpdateScene();
-	void RenderScene();
+	void DoFrame();
 
 private:
 	// Make this a singleton:
@@ -28,6 +27,9 @@ private:
 	//
 	void init();
 	void destroy();
+
+	void updateScene();
+	void renderScene();
 
 	MessageHub* messageHub;
 	SceneGraph* sceneGraph;

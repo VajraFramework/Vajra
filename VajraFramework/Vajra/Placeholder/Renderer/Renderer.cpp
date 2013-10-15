@@ -119,13 +119,9 @@ void renderFrame(float dt) {
         ENGINE->GetMessageHub()->SendPointcastMessage(message, 105);
     }
 
-    ENGINE->UpdateScene();
-    ENGINE->RenderScene();
+    ENGINE->DoFrame();
 
-	FRAMEWORK->GetLogger()->dbglog("\nframe: %llu, fps: %f, delta: %f, ssb: %llu", ENGINE->GetTimer()->GetFrameNumber(),
-																				   ENGINE->GetTimer()->GetFPS(),
-																				   ENGINE->GetTimer()->GetDeltaFrameTime(),
-																				   ENGINE->GetTimer()->GetSecondsSinceBoot());
+    printFrameTimeStats();
 
     modelMatrix = glm::rotate(0.0f, 0.0f, 1.0f, 0.0f);
     mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;

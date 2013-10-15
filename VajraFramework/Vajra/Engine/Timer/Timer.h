@@ -19,21 +19,36 @@ public:
 	// Potentially expensive; Use only if necessary
 	inline double GetTimeSinceFrameBegin();
 
+	inline double GetTotalFrameTime()  { return this->totalFrameDuration; }
+	inline double GetRenderPhaseTime() { return this->renderPhaseDuration; }
+	inline double GetUpdatePhaseTime() { return this->updatePhaseDuration; }
+
 private:
 	Timer();
 	void init();
 	void destroy();
 
-	void update();
+	void beginFrame();
+	void beginRenderPhase();
+	void endRenderPhase();
+	void beginUpdatePhase();
+	void endUpdatePhase();
+	void endFrame();
 
 	unsigned long long frameNumber;
 	unsigned long long secondsSinceEpoch;
 	unsigned long long secondsSinceBoot;
 
-	std::chrono::time_point<std::chrono::system_clock> frameSystemClock;
+	std::chrono::time_point<std::chrono::system_clock> frameBeginSystemClock;
+	std::chrono::time_point<std::chrono::system_clock> renderPhaseBeginSystemClock;
+	std::chrono::time_point<std::chrono::system_clock> updatePhaseBeginSystemClock;
 
 	double fps;
 	double deltaFrameTime;
+
+	double totalFrameDuration;
+	double renderPhaseDuration;
+	double updatePhaseDuration;
 
 	unsigned long long secondsSinceEpochAtBoot;
 

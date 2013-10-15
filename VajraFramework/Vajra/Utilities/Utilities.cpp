@@ -1,4 +1,5 @@
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
@@ -75,4 +76,22 @@ void checkGlError(const char* op) {
             = glGetError()) {
         FRAMEWORK->GetLogger()->errlog("\nGLERROR: after %s() glError (0x%x)\n", op, error);
     }
+}
+
+void printFrameTimeStats() {
+	double deltaFramesTime = ENGINE->GetTimer()->GetDeltaFrameTime();
+	double frameDuration = ENGINE->GetTimer()->GetTotalFrameTime();
+	double renderDuration = ENGINE->GetTimer()->GetRenderPhaseTime();
+	double updateDuration = ENGINE->GetTimer()->GetUpdatePhaseTime();
+
+	FRAMEWORK->GetLogger()->dbglog("\nframe: %llu, fps: %f, delta: %f ms, ssb: %llu",
+			ENGINE->GetTimer()->GetFrameNumber(),
+			ENGINE->GetTimer()->GetFPS(),
+			deltaFramesTime * 1000.0,
+			ENGINE->GetTimer()->GetSecondsSinceBoot());
+
+	FRAMEWORK->GetLogger()->dbglog("\nFrame Time Split: total: %f ms (%f \%), update: %f ms (%f \%), render: %f ms (%f \%)",
+			frameDuration * 1000.0, frameDuration/deltaFramesTime * 100.0,
+			updateDuration * 1000.0, updateDuration/deltaFramesTime * 100.0,
+			renderDuration * 1000.0, renderDuration/deltaFramesTime * 100.0);
 }
