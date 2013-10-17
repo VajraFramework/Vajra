@@ -16,10 +16,10 @@ public:
 	Transform(Object* object_);
 	~Transform();
 
-	static inline unsigned int GetTypeId() { return componentTypeId; }
+	static inline ComponentIdType GetTypeId() { return componentTypeId; }
 
 	// @Override
-	virtual void Update();
+	virtual void HandleMessage(Message* message);
 
 	void Draw();
 

@@ -1,12 +1,13 @@
-#include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
-#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
-#include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/Mesh.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
-#include "Vajra/Placeholder/Tesserakonteres.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Placeholder/Tesserakonteres.h"
 
 #ifdef PLATFORM_ANDROID
 #include <GLES2/gl2.h>
@@ -36,6 +37,7 @@ namespace Tesserakonteres {
 			Tesserakonteres::initModels(mesh);
 			meshRenderer->InitMesh(mesh);
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
+			ENGINE->GetMessageHub()->SubscribeToMessageType(MESSAGE_TYPE_FRAME_EVENT, gameObject->GetId());
 		}
 		{
 			GameObject* camera = new GameObject();

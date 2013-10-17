@@ -17,11 +17,15 @@ public:
 	inline unsigned long long GetSecondsSinceEpoch() { return this->secondsSinceEpoch; }
 
 	// Potentially expensive; Use only if necessary
+	double GetHighResAbsoluteTime();
+
+	// Potentially expensive; Use only if necessary
 	inline double GetTimeSinceFrameBegin();
 
 	inline double GetTotalFrameTime()  { return this->totalFrameDuration; }
 	inline double GetRenderPhaseTime() { return this->renderPhaseDuration; }
 	inline double GetUpdatePhaseTime() { return this->updatePhaseDuration; }
+
 
 private:
 	Timer();

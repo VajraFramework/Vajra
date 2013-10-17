@@ -17,7 +17,7 @@ public:
 	static inline unsigned int GetTypeId() { return componentTypeId; }
 
 	// @Override
-	virtual void Update();
+	virtual void HandleMessage(Message* message);
 
 	void WriteLookAt();
 
@@ -27,6 +27,9 @@ public:
 private:
 	void init();
 	void destroy();
+
+	// Utility Functions:
+	void updateMatrices();
 
 	glm::mat4 viewMatrix;
 	glm::mat4 projMatrix;

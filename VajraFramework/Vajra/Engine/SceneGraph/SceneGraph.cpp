@@ -44,9 +44,7 @@ void SceneGraph::SetMainCameraId(ObjectIdType id) {
 }
 
 void SceneGraph::update() {
-	if (this->root != 0) {
-		this->root->Update();
-	}
+	// TODO [Implement] Figure out if we need to put anything here
 }
 
 void SceneGraph::draw() {

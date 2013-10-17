@@ -115,8 +115,11 @@ void renderFrame(float dt) {
         		transform->Rotate(0.4f, -transform->GetLeft());
         	}
         }
-        Message* message = new Message();
-        ENGINE->GetMessageHub()->SendPointcastMessage(message, 105);
+        // Sending arbit message for testing
+        {
+			Message* message = new Message();
+			ENGINE->GetMessageHub()->SendPointcastMessage(message, 105);
+        }
     }
 
     ENGINE->DoFrame();

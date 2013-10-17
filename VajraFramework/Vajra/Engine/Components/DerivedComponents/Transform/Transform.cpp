@@ -1,6 +1,8 @@
+#include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -22,8 +24,8 @@ Transform::~Transform() {
 	this->destroy();
 }
 
-void Transform::Update() {
-	// TODO [Implement]
+void Transform::HandleMessage(Message* message) {
+	// TODO [Implement] Implement Update logic here, but on SET_TRANSFORM and similar messages
 }
 
 void Transform::Draw() {
@@ -119,6 +121,16 @@ void Transform::updateModelMatrix() {
 	this->forward = glm::normalize(this->orientation * ZAXIS);
 	this->left    = glm::normalize(this->orientation * XAXIS);
 	this->up      = glm::normalize(this->orientation * YAXIS);
+
+	// Raise event so that any interested parties are alerted that the transform has changed:
+	Message* message = new Message(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT);
+	// Send the message to this GameObject
+	ENGINE->GetMessageHub()->SendPointcastMessage(message, this->GetObject()->GetId(), this->GetObject()->GetId());
+	// Send the message to this GameObject's children
+	std::list<ObjectIdType> children = this->GetObject()->GetChildren();
+	for (ObjectIdType& childId : children) {
+		ENGINE->GetMessageHub()->SendPointcastMessage(message, childId, this->GetObject()->GetId());
+	}
 }
 
 void Transform::init() {
@@ -137,6 +149,7 @@ void Transform::init() {
 
 	this->modelMatrix = IDENTITY_MATRIX;
 	this->modelMatrixCumulative = IDENTITY_MATRIX;
+
 }
 
 void Transform::destroy() {

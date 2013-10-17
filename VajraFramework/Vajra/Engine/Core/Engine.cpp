@@ -44,7 +44,7 @@ void Engine::DoFrame() {
 void Engine::updateScene() {
 	this->GetTimer()->beginUpdatePhase();
 
-	this->GetMessageHub()->DrainMessages();
+	this->GetMessageHub()->drainMessages();
 	this->GetSceneGraph()->update();
 
 	this->GetTimer()->endUpdatePhase();

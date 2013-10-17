@@ -30,25 +30,6 @@ void GameObject::init() {
 void GameObject::destroy() {
 }
 
-void GameObject::Update() {
-	// Update all attached Components:
-	for (auto component_it = this->componentMap.begin();
-		 component_it != this->componentMap.end(); ++component_it) {
-
-		component_it->second->Update();
-	}
-
-	// Update all children:
-	for (auto child_it = this->children.begin();
-		 child_it != this->children.end(); ++child_it) {
-
-		GameObject* child = ENGINE->GetSceneGraph()->GetGameObjectById(*child_it);
-		if (child != nullptr) {
-			child->Update();
-		}
-	}
-}
-
 void GameObject::Draw() {
 	// TODO [Cleanup] Cache the MeshRenderer
 	this->transform->Draw();

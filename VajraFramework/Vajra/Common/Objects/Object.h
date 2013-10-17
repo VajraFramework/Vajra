@@ -1,8 +1,9 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "Vajra/Common/Objects/Declarations.h"
 #include "Vajra/Common/Components/Component.h"
+#include "Vajra/Common/Messages/Declarations.h"
+#include "Vajra/Common/Objects/Declarations.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
@@ -24,10 +25,15 @@ public:
 	inline int GetParentId() { return this->parentId; }
 	inline std::string GetName() { return this->name; }
 
+	inline const std::list<ObjectIdType>& GetChildren() { return this->children; }
+
 	void AddChild(ObjectIdType childId);
 	void SetParent(ObjectIdType newParentId);
 
 	void HandleMessages();
+
+	void SubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId);
+	void UnsubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId);
 
 	// Get a Component attached to this Object by typename
 	TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(T, T*, Component)
@@ -73,6 +79,8 @@ private:
 	std::string name;
 
 	ObjectIdType parentId;
+
+	std::vector<ComponentIdType> subscribersForMessageType[NUM_MESSAGE_TYPES];
 };
 
 

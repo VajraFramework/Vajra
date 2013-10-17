@@ -3,6 +3,8 @@
 #include "Vajra/Common/Objects/ObjectRegistry.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 
+#include <algorithm>
+
 MessageHub::MessageHub() {
 	this->init();
 }
@@ -27,16 +29,38 @@ void MessageHub::SendPointcastMessage(Message* message, ObjectIdType receiverId,
 }
 
 void MessageHub::SendMulticastMessage(Message* message, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
-	ASSERT(0, "Implement");
+	unsigned int numSubscribers = this->subscribersForMessageType[message->GetMessageType()].size();
+	for (unsigned int i = 0; i < numSubscribers; ++i) {
+		// TODO [Cleanup] Too many allocations here. Pools maybe? Or better yet, define messages as const, so that we can just send the same message to all of them (reference counted), somehow
+		Message* newMesage = new Message(*message);
+		this->SendPointcastMessage(newMesage, this->subscribersForMessageType[message->GetMessageType()][i], senderId);
+	}
 }
 
+void MessageHub::SubscribeToMessageType(MessageType messageType, ObjectIdType subscriberId) {
+	auto it = std::find(this->subscribersForMessageType[messageType].begin(), this->subscribersForMessageType[messageType].end(), subscriberId);
+	if (it == this->subscribersForMessageType[messageType].end()) {
+		this->subscribersForMessageType[messageType].push_back(subscriberId);
+	} else {
+		FRAMEWORK->GetLogger()->dbglog("Duplicate subscription for messageType:%d by object id: %d", messageType, subscriberId);
+	}
+}
+
+void MessageHub::UnsubscribeToMessageType(MessageType messageType, ObjectIdType subscriberId) {
+	auto it = std::find(this->subscribersForMessageType[messageType].begin(), this->subscribersForMessageType[messageType].end(), subscriberId);
+	if (it != this->subscribersForMessageType[messageType].end()) {
+		this->subscribersForMessageType[messageType].erase(it);
+	} else {
+		FRAMEWORK->GetLogger()->dbglog("Trying to unsubscribe for unfound subscription for messageType:%d by object id: %d", messageType, subscriberId);
+	}
+}
 
 Message* MessageHub::RetrieveNextMessage(ObjectIdType id) {
 	return this->currentlyDrainingMessageCache->PopMessageForReceipientId(id);
 }
 
 
-void MessageHub::DrainMessages() {
+void MessageHub::drainMessages() {
 	this->currentlyAcceptingMessageCache = &this->backMessageCache;
 	this->currentlyDrainingMessageCache = &this->frontMessageCache;
 	this->drainMessageCache_internal();

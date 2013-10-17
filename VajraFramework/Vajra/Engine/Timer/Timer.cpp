@@ -1,3 +1,6 @@
+#include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Timer/Timer.h"
 
 Timer::Timer() {
@@ -49,6 +52,10 @@ void Timer::beginFrame() {
 	this->secondsSinceBoot = lowResSecondsSinceEpoch - this->secondsSinceEpochAtBoot;
 
 	this->frameNumber++;
+
+	// Raise the onFrame event for all interested subscribers:
+	Message* onFrameMessage = new Message(MESSAGE_TYPE_FRAME_EVENT);
+	ENGINE->GetMessageHub()->SendMulticastMessage(onFrameMessage, this->GetId());
 }
 
 void Timer::beginRenderPhase() {
@@ -77,6 +84,11 @@ void Timer::endFrame() {
 	this->totalFrameDuration = (std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count() / 1000000000.0);
 }
 
+double Timer::GetHighResAbsoluteTime() {
+	std::chrono::time_point<std::chrono::system_clock> clockTimeNow = std::chrono::system_clock::now();
+	auto durationSinceEpoch = clockTimeNow.time_since_epoch();
+	return (std::chrono::duration_cast<std::chrono::nanoseconds>(durationSinceEpoch).count() / 1000000000.0);
+}
 
 void Timer::destroy() {
 }

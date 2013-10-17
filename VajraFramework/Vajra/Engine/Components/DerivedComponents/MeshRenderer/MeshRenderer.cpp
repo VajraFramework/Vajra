@@ -20,7 +20,7 @@ void MeshRenderer::InitMesh(Mesh* newMesh) {
 	this->mesh = newMesh;
 }
 
-void MeshRenderer::Update() {
+void MeshRenderer::HandleMessage(Message* message) {
 }
 
 void MeshRenderer::Draw() {

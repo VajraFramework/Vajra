@@ -13,12 +13,12 @@ public:
 	MeshRenderer(Object* object_);
 	virtual ~MeshRenderer();
 
-	static inline unsigned int GetTypeId() { return componentTypeId; }
+	static inline ComponentIdType GetTypeId() { return componentTypeId; }
 
 	void InitMesh(Mesh* newMesh);
 
 	// @Override
-	virtual void Update();
+	virtual void HandleMessage(Message* message);
 
 	void Draw();
 

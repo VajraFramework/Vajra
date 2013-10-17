@@ -8,6 +8,8 @@
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
+#include <algorithm>
+
 Object::Object() {
 	this->init();
 }
@@ -35,9 +37,38 @@ void Object::HandleMessages() {
 	do {
 		message = ENGINE->GetMessageHub()->RetrieveNextMessage(this->GetId());
 		if (message != nullptr) {
-			FRAMEWORK->GetLogger()->dbglog("\nGot msg of type %d", message->GetMessageType());
+			FRAMEWORK->GetLogger()->dbglog("\nObject got msg of type %d", message->GetMessageType());
+			// Forward message to subscribed components:
+			for(ComponentIdType& componentId : this->subscribersForMessageType[message->GetMessageType()]) {
+				auto componentIt = this->componentMap.find(componentId);
+				if (componentIt != this->componentMap.end()) {
+					Component* component = componentIt->second;
+					component->HandleMessage(message);
+				}
+			}
+			// for (auto it = this->subscribersForMessageType[message->GetMessageType()].begin();
+					// it != this->subscribersForMessageType
 		}
 	} while (message != nullptr);
+}
+
+void Object::SubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId) {
+	auto it = std::find(this->subscribersForMessageType[messageType].begin(), this->subscribersForMessageType[messageType].end(), subscriberComponentId);
+	if (it == this->subscribersForMessageType[messageType].end()) {
+		this->subscribersForMessageType[messageType].push_back(subscriberComponentId);
+	} else {
+		FRAMEWORK->GetLogger()->dbglog("Duplicate subscription for messageType:%d by component id: %d", messageType, subscriberComponentId);
+	}
+}
+
+void Object::UnsubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId) {
+	// TODO [Implement] Change this to make it more double buffered so that unsubscribing while iterating is possible
+	auto it = std::find(this->subscribersForMessageType[messageType].begin(), this->subscribersForMessageType[messageType].end(), subscriberComponentId);
+	if (it != this->subscribersForMessageType[messageType].end()) {
+		this->subscribersForMessageType[messageType].erase(it);
+	} else {
+		FRAMEWORK->GetLogger()->dbglog("Trying to unsubscribe for unfound subscription for messageType:%d by component id: %d", messageType, subscriberComponentId);
+	}
 }
 
 void Object::AddChild(ObjectIdType childId) {

@@ -28,7 +28,6 @@ public:
 	inline Transform* GetTransform() { return this->transform; }
 	inline Mesh* GetMesh() { return this->model; }
 
-	virtual void Update();
 	virtual void Draw();
 
 
