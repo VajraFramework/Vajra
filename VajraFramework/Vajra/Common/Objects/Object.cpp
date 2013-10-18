@@ -52,13 +52,17 @@ void Object::HandleMessages() {
 	} while (message != nullptr);
 }
 
-void Object::SubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId) {
+void Object::SubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId, bool onLocalObject) {
 	auto it = std::find(this->subscribersForMessageType[messageType].begin(), this->subscribersForMessageType[messageType].end(), subscriberComponentId);
 	if (it == this->subscribersForMessageType[messageType].end()) {
 		this->subscribersForMessageType[messageType].push_back(subscriberComponentId);
+		if (!onLocalObject) {
+			ENGINE->GetMessageHub()->SubscribeToMessageType(messageType, this->GetId());
+		}
 	} else {
 		FRAMEWORK->GetLogger()->dbglog("Duplicate subscription for messageType:%d by component id: %d", messageType, subscriberComponentId);
 	}
+
 }
 
 void Object::UnsubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId) {
@@ -66,6 +70,7 @@ void Object::UnsubscribeToMessageType(MessageType messageType, ComponentIdType s
 	auto it = std::find(this->subscribersForMessageType[messageType].begin(), this->subscribersForMessageType[messageType].end(), subscriberComponentId);
 	if (it != this->subscribersForMessageType[messageType].end()) {
 		this->subscribersForMessageType[messageType].erase(it);
+		ENGINE->GetMessageHub()->UnsubscribeToMessageType(messageType, this->GetId());
 	} else {
 		FRAMEWORK->GetLogger()->dbglog("Trying to unsubscribe for unfound subscription for messageType:%d by component id: %d", messageType, subscriberComponentId);
 	}

@@ -51,7 +51,7 @@ void MessageHub::UnsubscribeToMessageType(MessageType messageType, ObjectIdType 
 	if (it != this->subscribersForMessageType[messageType].end()) {
 		this->subscribersForMessageType[messageType].erase(it);
 	} else {
-		FRAMEWORK->GetLogger()->dbglog("Trying to unsubscribe for unfound subscription for messageType:%d by object id: %d", messageType, subscriberId);
+		FRAMEWORK->GetLogger()->dbglog("Warning: Trying to unsubscribe for unfound subscription for messageType:%d by object id: %d", messageType, subscriberId);
 	}
 }
 

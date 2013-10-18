@@ -67,7 +67,7 @@ void Camera::init() {
 		this->updateMatrices();
 	}
 
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT, this->GetTypeId());
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT, this->GetTypeId(), true);
 }
 
 void Camera::destroy() {

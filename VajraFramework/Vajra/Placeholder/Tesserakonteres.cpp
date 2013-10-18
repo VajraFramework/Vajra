@@ -37,7 +37,6 @@ namespace Tesserakonteres {
 			Tesserakonteres::initModels(mesh);
 			meshRenderer->InitMesh(mesh);
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
-			ENGINE->GetMessageHub()->SubscribeToMessageType(MESSAGE_TYPE_FRAME_EVENT, gameObject->GetId());
 		}
 		{
 			GameObject* camera = new GameObject();

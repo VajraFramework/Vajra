@@ -26,7 +26,7 @@ public:
 	inline void SetObject(Object* object_) { this->object = object_; }
 
 protected:
-	void addSubscriptionToMessageType(MessageType messageType, ComponentIdType selfComponentIdType);
+	void addSubscriptionToMessageType(MessageType messageType, ComponentIdType selfComponentIdType, bool onLocalObject);
 	void removeSubscriptionToMessageType(MessageType messageType, ComponentIdType selfComponentIdType);
 	void removeSubscriptionToAllMessageTypes(ComponentIdType selfComponentIdType);
 

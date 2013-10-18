@@ -23,13 +23,12 @@ void Component::init(Object* object_ /* = 0 */) {
 }
 
 void Component::destroy() {
-	ComponentIdType id = this->GetTypeId();
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
-void Component::addSubscriptionToMessageType(MessageType messageType, ComponentIdType selfComponentId) {
+void Component::addSubscriptionToMessageType(MessageType messageType, ComponentIdType selfComponentId, bool onLocalObject) {
 	if (this->GetObject() != nullptr) {
-		this->GetObject()->SubscribeToMessageType(messageType, selfComponentId);
+		this->GetObject()->SubscribeToMessageType(messageType, selfComponentId, onLocalObject);
 	} else {
 		FRAMEWORK->GetLogger()->dbglog("\nFailed to add subscription to messageType: %d because Object hasn't been assigned yet", messageType);
 	}

@@ -32,7 +32,7 @@ public:
 
 	void HandleMessages();
 
-	void SubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId);
+	void SubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId, bool onLocalObject);
 	void UnsubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId);
 
 	// Get a Component attached to this Object by typename
