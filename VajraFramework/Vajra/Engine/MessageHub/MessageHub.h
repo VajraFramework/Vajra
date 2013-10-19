@@ -12,8 +12,8 @@ class MessageHub {
 public:
 	~MessageHub();
 
-	void SendPointcastMessage(Message* message, ObjectIdType receiverId, ObjectIdType senderId = OBJECT_ID_INVALID);
-	void SendMulticastMessage(Message* message, ObjectIdType senderId = OBJECT_ID_INVALID);
+	void SendPointcastMessage(const Message* const message, ObjectIdType receiverId, ObjectIdType senderId = OBJECT_ID_INVALID);
+	void SendMulticastMessage(const Message* const message, ObjectIdType senderId = OBJECT_ID_INVALID);
 
 	void SubscribeToMessageType(MessageType messageType, ObjectIdType subscriberId);
 	void UnsubscribeToMessageType(MessageType messageType, ObjectIdType subscriberId);

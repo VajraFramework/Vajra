@@ -21,19 +21,20 @@ void MessageHub::init() {
 void MessageHub::destroy() {
 }
 
-void MessageHub::SendPointcastMessage(Message* message, ObjectIdType receiverId, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
-	message->setReceiverId(receiverId);
-	message->setSenderId(senderId);
+void MessageHub::SendPointcastMessage(const Message* const message, ObjectIdType receiverId, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
+	// TODO [Cleanup] Too many allocations here. Pools maybe? Or better yet, define messages as const, so that we can just send the same message to all of them (reference counted), somehow
+	Message* messageCopy = new Message(*message);
 
-	this->currentlyAcceptingMessageCache->PushMessageForReceipientId(message, receiverId);
+	messageCopy->setReceiverId(receiverId);
+	messageCopy->setSenderId(senderId);
+
+	this->currentlyAcceptingMessageCache->PushMessageForReceipientId(messageCopy, receiverId);
 }
 
-void MessageHub::SendMulticastMessage(Message* message, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
+void MessageHub::SendMulticastMessage(const Message* const message, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
 	unsigned int numSubscribers = this->subscribersForMessageType[message->GetMessageType()].size();
 	for (unsigned int i = 0; i < numSubscribers; ++i) {
-		// TODO [Cleanup] Too many allocations here. Pools maybe? Or better yet, define messages as const, so that we can just send the same message to all of them (reference counted), somehow
-		Message* newMesage = new Message(*message);
-		this->SendPointcastMessage(newMesage, this->subscribersForMessageType[message->GetMessageType()][i], senderId);
+		this->SendPointcastMessage(message, this->subscribersForMessageType[message->GetMessageType()][i], senderId);
 	}
 }
 

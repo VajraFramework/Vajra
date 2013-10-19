@@ -54,8 +54,9 @@ void Timer::beginFrame() {
 	this->frameNumber++;
 
 	// Raise the onFrame event for all interested subscribers:
-	Message* onFrameMessage = new Message(MESSAGE_TYPE_FRAME_EVENT);
+	const Message* const onFrameMessage = new Message(MESSAGE_TYPE_FRAME_EVENT);
 	ENGINE->GetMessageHub()->SendMulticastMessage(onFrameMessage, this->GetId());
+	delete onFrameMessage;
 }
 
 void Timer::beginRenderPhase() {

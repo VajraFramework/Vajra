@@ -30,6 +30,8 @@
 namespace Tesserakonteres {
 
 	void initGameObjectsForScene() {
+		GameObject* parent = nullptr;
+		GameObject* child = nullptr;
 		{
 			GameObject* gameObject = new GameObject();
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
@@ -37,6 +39,18 @@ namespace Tesserakonteres {
 			Tesserakonteres::initModels(mesh);
 			meshRenderer->InitMesh(mesh);
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
+			parent = gameObject;
+		}
+		{
+			GameObject* gameObject = new GameObject();
+			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
+			Mesh* mesh = new Mesh();
+			Tesserakonteres::initModels(mesh);
+			meshRenderer->InitMesh(mesh);
+			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
+			child = gameObject;
+
+			parent->AddChild(child->GetId());
 		}
 		{
 			GameObject* camera = new GameObject();

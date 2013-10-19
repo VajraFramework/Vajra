@@ -24,7 +24,7 @@ void Message::setReceiverId(ObjectIdType receiverId_) {
 }
 
 
-MessageData* Message::GetMessageData() {
+MessageData* Message::GetMessageData() const {
 	// TODO [Cleanup] Deprecate this in favor of GetTypedData implemented in individual derived message types
 	return this->messageData;
 }

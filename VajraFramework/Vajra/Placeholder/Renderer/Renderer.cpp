@@ -117,8 +117,9 @@ void renderFrame(float dt) {
         }
         // Sending arbit message for testing
         {
-			Message* message = new Message();
+			const Message* const message = new Message();
 			ENGINE->GetMessageHub()->SendPointcastMessage(message, 105);
+			delete message;
         }
     }
 

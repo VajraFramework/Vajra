@@ -123,7 +123,7 @@ void Transform::updateModelMatrix() {
 	this->up      = glm::normalize(this->orientation * YAXIS);
 
 	// Raise event so that any interested parties are alerted that the transform has changed:
-	Message* message = new Message(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT);
+	const Message* const message = new Message(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT);
 	// Send the message to this GameObject
 	ENGINE->GetMessageHub()->SendPointcastMessage(message, this->GetObject()->GetId(), this->GetObject()->GetId());
 	// Send the message to this GameObject's children
@@ -131,6 +131,7 @@ void Transform::updateModelMatrix() {
 	for (ObjectIdType& childId : children) {
 		ENGINE->GetMessageHub()->SendPointcastMessage(message, childId, this->GetObject()->GetId());
 	}
+	delete message;
 }
 
 void Transform::init() {
