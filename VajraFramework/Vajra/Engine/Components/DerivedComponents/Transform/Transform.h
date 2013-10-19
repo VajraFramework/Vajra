@@ -53,6 +53,8 @@ private:
 	void setScale(glm::vec3 newScale);
 
 	void updateModelMatrix();
+	void updateModelMatrixCumulative();
+	void rippleMatrixUpdates();
 
 	static unsigned int componentTypeId;
 

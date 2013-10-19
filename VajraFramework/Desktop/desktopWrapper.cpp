@@ -61,6 +61,7 @@ int main( void ) {
 	}
 
 	glfwSetWindowTitle( "Vajra" );
+	glfwSetWindowPos(0, 0);
 
 	// Ensure we can capture the escape key being pressed below
 	glfwEnable( GLFW_STICKY_KEYS );

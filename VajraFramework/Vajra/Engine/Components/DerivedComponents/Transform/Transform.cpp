@@ -26,6 +26,11 @@ Transform::~Transform() {
 
 void Transform::HandleMessage(Message* message) {
 	// TODO [Implement] Implement Update logic here, but on SET_TRANSFORM and similar messages
+	switch (message->GetMessageType()) {
+
+	default:
+		break;
+	}
 }
 
 void Transform::Draw() {
@@ -111,27 +116,46 @@ void Transform::setScale(glm::vec3 newScale) {
 	this->updateModelMatrix();
 }
 
+
 void Transform::updateModelMatrix() {
 	this->modelMatrix = glm::translate(this->position) *
 						glm::toMat4(this->orientation) *
 						glm::scale(this->scale);
-	// TODO [Implement] this->modelMatrixCumulative
-	this->modelMatrixCumulative = this->modelMatrix;
 
 	this->forward = glm::normalize(this->orientation * ZAXIS);
 	this->left    = glm::normalize(this->orientation * XAXIS);
 	this->up      = glm::normalize(this->orientation * YAXIS);
 
+	// Update modelMatrixCumulative to include parent's transform space:
+	this->updateModelMatrixCumulative();
+
+	this->rippleMatrixUpdates();
+}
+
+void Transform::updateModelMatrixCumulative() {
+	GameObject* parent = ENGINE->GetSceneGraph()->GetGameObjectById(this->GetObject()->GetParentId());
+	if (parent != nullptr) {
+		this->modelMatrixCumulative = parent->GetTransform()->modelMatrixCumulative * this->modelMatrix;
+	} else {
+		this->modelMatrixCumulative = this->modelMatrix;
+	}
+}
+
+void Transform::rippleMatrixUpdates() {
 	// Raise event so that any interested parties are alerted that the transform has changed:
 	const Message* const message = new Message(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT);
 	// Send the message to this GameObject
 	ENGINE->GetMessageHub()->SendPointcastMessage(message, this->GetObject()->GetId(), this->GetObject()->GetId());
-	// Send the message to this GameObject's children
+	delete message;
+
+	// Update this GameObject's children
 	std::list<ObjectIdType> children = this->GetObject()->GetChildren();
 	for (ObjectIdType& childId : children) {
-		ENGINE->GetMessageHub()->SendPointcastMessage(message, childId, this->GetObject()->GetId());
+		GameObject* child = ENGINE->GetSceneGraph()->GetGameObjectById(childId);
+		if (child != nullptr) {
+			child->GetTransform()->updateModelMatrixCumulative();
+		}
 	}
-	delete message;
 }
 
 void Transform::init() {
@@ -150,7 +174,6 @@ void Transform::init() {
 
 	this->modelMatrix = IDENTITY_MATRIX;
 	this->modelMatrixCumulative = IDENTITY_MATRIX;
-
 }
 
 void Transform::destroy() {

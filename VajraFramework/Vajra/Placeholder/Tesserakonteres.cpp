@@ -51,6 +51,9 @@ namespace Tesserakonteres {
 			child = gameObject;
 
 			parent->AddChild(child->GetId());
+			Transform* transform = child->GetTransform();
+			transform->Translate(0.5f, transform->GetForward());
+			transform->Scale(0.6f, 0.6f, 0.6f);
 		}
 		{
 			GameObject* camera = new GameObject();
