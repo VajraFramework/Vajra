@@ -128,8 +128,6 @@ void Transform::updateModelMatrix() {
 
 	// Update modelMatrixCumulative to include parent's transform space:
 	this->updateModelMatrixCumulative();
-
-	this->rippleMatrixUpdates();
 }
 
 void Transform::updateModelMatrixCumulative() {
@@ -139,6 +137,8 @@ void Transform::updateModelMatrixCumulative() {
 	} else {
 		this->modelMatrixCumulative = this->modelMatrix;
 	}
+
+	this->rippleMatrixUpdates();
 }
 
 void Transform::rippleMatrixUpdates() {
