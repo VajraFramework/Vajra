@@ -12,7 +12,7 @@
 
 #define PNGSIGSIZE 8
 
-GLint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
+GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
     
 
     int textureWidth, textureHeight;

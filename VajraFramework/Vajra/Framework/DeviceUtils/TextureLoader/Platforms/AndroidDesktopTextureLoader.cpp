@@ -16,7 +16,7 @@
 // Forward Declarations:
 bool loadPngImage(const char *name, int &outWidth, int &outHeight, bool &outHasAlpha, int &colorType, GLubyte **outData);
 
-GLint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
+GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
 
     int textureWidth, textureHeight;
     bool textureHasAlpha;

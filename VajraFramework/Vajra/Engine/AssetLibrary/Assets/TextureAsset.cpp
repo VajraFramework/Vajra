@@ -19,12 +19,17 @@ TextureAsset::~TextureAsset() {
 
 void TextureAsset::init() {
 	this->textureBytes = nullptr;
+	this->textureGLHandle = 0;
 }
 
 void TextureAsset::destroy() {
 	if (this->textureBytes != nullptr) {
 		free(this->textureBytes);
 	}
+	if (this->textureGLHandle != 0) {
+		glDeleteTextures(1, &(this->textureGLHandle));
+	}
+	// TODO [Implement] Figure out if any other cleanup is necessary to free up allocated opengl texture memory
 }
 
 AssetType TextureAsset::GetAssetType() {
@@ -39,6 +44,7 @@ void TextureAsset::LoadAsset() {
 	// TODO [Implement] Move loadGLTextureFromPNG into a Framework class/namespace
     // Load image
     this->textureGLHandle = loadGLTextureFromPNG(this->GetFilePathToTexture().c_str(), &(this->textureBytes));
+    ASSERT(this->textureGLHandle != 0 && this->textureBytes != nullptr, "Successfully loaded texture from url %s", this->GetFilePathToTexture().c_str());
 }
 
 std::string TextureAsset::GetFilePathToTexture() {
