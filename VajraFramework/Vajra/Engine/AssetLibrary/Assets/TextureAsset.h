@@ -2,23 +2,7 @@
 #define TEXTURE_ASSET_H
 
 #include "Vajra/Engine/AssetLibrary/Asset.h"
-
-#ifdef PLATFORM_ANDROID
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#endif // PLATFORM_ANDROID
-
-#ifdef PLATFORM_DESKTOP
-// Include GLEW
-#include <GL/glew.h>
-// Include GLFW
-#include <GL/glfw.h>
-#endif // PLATFORM_DESKTOP
-
-#ifdef PLATFORM_IOS
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
-#endif // PLATFORM_IOS
+#include "Vajra/Utilities/OpenGLIncludes.h"
 
 class TextureAsset : public Asset {
 public:

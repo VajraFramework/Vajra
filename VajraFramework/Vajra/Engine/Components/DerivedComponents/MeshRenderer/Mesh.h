@@ -1,24 +1,9 @@
 #ifndef MESH_H
 #define MESH_H
 
-#ifdef PLATFORM_ANDROID
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#endif
-
-#ifdef PLATFORM_DESKTOP
-// Include GLEW
-#include <GL/glew.h>
-// Include GLFW
-#include <GL/glfw.h>
-#endif // PLATFORM_DESKTOP
-
-#ifdef PLATFORM_IOS
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
-#endif // PLATFORM_IOS
-
 #include "Vajra/Engine/AssetLibrary/Assets/TextureAsset.h"
+#include "Vajra/Utilities/OpenGLIncludes.h"
+
 #include "Libraries/glm/glm.hpp"
 
 #include <memory>
