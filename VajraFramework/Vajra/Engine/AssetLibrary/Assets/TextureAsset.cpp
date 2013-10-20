@@ -7,12 +7,24 @@
 AssetType TextureAsset::assetType = ASSET_TYPE_GL_TEXTURE;
 
 TextureAsset::TextureAsset() : Asset() {
+	this->init();
 }
 
 TextureAsset::TextureAsset(std::string urlOfTexture) : Asset(urlOfTexture) {
+	this->init();
 }
 
 TextureAsset::~TextureAsset() {
+}
+
+void TextureAsset::init() {
+	this->textureBytes = nullptr;
+}
+
+void TextureAsset::destroy() {
+	if (this->textureBytes != nullptr) {
+		free(this->textureBytes);
+	}
 }
 
 AssetType TextureAsset::GetAssetType() {
@@ -26,7 +38,7 @@ void TextureAsset::LoadAsset() {
 
 	// TODO [Implement] Move loadGLTextureFromPNG into a Framework class/namespace
     // Load image
-    this->textureGLHandle = loadGLTextureFromPNG(this->GetFilePathToTexture().c_str());
+    this->textureGLHandle = loadGLTextureFromPNG(this->GetFilePathToTexture().c_str(), &(this->textureBytes));
 }
 
 std::string TextureAsset::GetFilePathToTexture() {

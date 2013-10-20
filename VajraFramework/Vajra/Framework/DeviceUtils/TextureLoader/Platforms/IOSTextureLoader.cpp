@@ -12,14 +12,13 @@
 
 #define PNGSIGSIZE 8
 
-GLint loadGLTextureFromPNG(const char *imagePath) {
+GLint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
     
 
-    GLubyte* textureBytes;
     int textureWidth, textureHeight;
     bool textureHasAlpha;
     int colorType;
-    bool textureLoadSuccess = loadPngImage(imagePath, textureWidth, textureHeight, textureHasAlpha, colorType, &textureBytes);
+    bool textureLoadSuccess = loadPngImage(imagePath, textureWidth, textureHeight, textureHasAlpha, colorType, outTextureBytes);
     if (textureLoadSuccess) {
         FRAMEWORK->GetLogger()->dbglog("\nSuccessfully loaded texture");
         FRAMEWORK->GetLogger()->dbglog("\n(w, h): (%d, %d)", textureWidth, textureHeight);
@@ -64,8 +63,8 @@ GLint loadGLTextureFromPNG(const char *imagePath) {
     }
     FRAMEWORK->GetLogger()->dbglog("\nNumComponents in Texture: %d", components);
 
-    // glTexImage2D(GL_TEXTURE_2D, 0, components, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, textureBytes);
-    glTexImage2D(GL_TEXTURE_2D, 0, glcolours, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, textureBytes);
+    // glTexImage2D(GL_TEXTURE_2D, 0, components, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, *outTextureBytes);
+    glTexImage2D(GL_TEXTURE_2D, 0, glcolours, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, *outTextureBytes);
     checkGlError("glTexImage2D");
 
 

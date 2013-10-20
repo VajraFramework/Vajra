@@ -19,9 +19,12 @@ public:
 	virtual void LoadAsset();
 
 private:
+	void init();
+	void destroy();
 
 	static AssetType assetType;
 
+	GLubyte* textureBytes;
 	GLint textureGLHandle;
 };
 

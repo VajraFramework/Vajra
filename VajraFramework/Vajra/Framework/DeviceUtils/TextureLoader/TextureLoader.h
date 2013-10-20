@@ -9,6 +9,6 @@
 #include <vector>
 #include <fstream>
 
-GLint loadGLTextureFromPNG(const char *name);
+GLint loadGLTextureFromPNG(const char *name, GLubyte** outTextureBytes);
 
 #endif // TEXTURELOADER_H
