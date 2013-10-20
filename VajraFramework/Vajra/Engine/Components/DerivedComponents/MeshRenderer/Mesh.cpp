@@ -1,3 +1,4 @@
+#include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/Mesh.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/Core/Framework.h"
@@ -97,6 +98,10 @@ void Mesh::MakeVBOs() {
     FRAMEWORK->GetLogger()->errlog("\nVBOs made successfully");
 }
 
+void Mesh::SetTextureFilePath(std::string filePath) {
+	this->textureAsset = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(filePath);
+}
+
 void Mesh::Draw() {
     if (this->vboPositions == 0 || this->vboNormals == 0 || this->vboTextureCoords == 0 || this->vboIndices == 0) {
         FRAMEWORK->GetLogger()->errlog("ERROR: VBOs not made");
@@ -127,11 +132,18 @@ void Mesh::Draw() {
     checkGlError("glVertexAttribPointer");
     #endif // 0 no normals yet
     //
-    glEnableVertexAttribArray(currentShaderSet->GetTextureCoordsHandle());
-    glBindBuffer(GL_ARRAY_BUFFER, this->vboTextureCoords); checkGlError("glBindBuffer");
-    glVertexAttribPointer(currentShaderSet->GetTextureCoordsHandle(), \
-                          2, GL_FLOAT, GL_FALSE, 0, 0);
-    checkGlError("glVertexAttribPointer");
+    if (this->textureAsset) {
+    	glBindTexture(GL_TEXTURE_2D, this->textureAsset->GetGLTextureHandle());
+    	checkGlError("glBindTexture");
+
+    	glEnableVertexAttribArray(currentShaderSet->GetTextureCoordsHandle());
+    	glBindBuffer(GL_ARRAY_BUFFER, this->vboTextureCoords); checkGlError("glBindBuffer");
+    	glVertexAttribPointer(currentShaderSet->GetTextureCoordsHandle(), \
+    			2, GL_FLOAT, GL_FALSE, 0, 0);
+    	checkGlError("glVertexAttribPointer");
+    } else {
+    	glDisableVertexAttribArray(currentShaderSet->GetTextureCoordsHandle());
+    }
     //
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vboIndices); checkGlError("glBindBuffer");
     glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (void*)0);

@@ -4,10 +4,12 @@
 // Forward Declarations:
 class Mesh;
 
+#include <string>
+
 namespace Tesserakonteres {
 
 	void initGameObjectsForScene();
-	void initModels(Mesh* mesh);
+	void initModels(Mesh* out_mesh, std::string imageName);
 
 };
 

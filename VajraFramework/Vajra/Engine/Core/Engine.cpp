@@ -1,3 +1,4 @@
+#include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
@@ -27,9 +28,10 @@ Engine* Engine::GetInstance() {
 
 void Engine::init() {
 	// Do not sort the following in any arbitrary order:
-	this->timer      = new Timer();
-	this->messageHub = new MessageHub();
-	this->sceneGraph = new SceneGraph();
+	this->timer        = new Timer();
+	this->messageHub   = new MessageHub();
+	this->assetLibrary = new AssetLibrary();
+	this->sceneGraph   = new SceneGraph();
 }
 
 void Engine::DoFrame() {
@@ -65,6 +67,9 @@ int testEngineFunction() {
 void Engine::destroy() {
 	if (this->sceneGraph != nullptr) {
 		delete this->sceneGraph;
+	}
+	if (this->assetLibrary != nullptr) {
+		delete this->assetLibrary;
 	}
 	if (this->messageHub != nullptr) {
 		delete this->messageHub;

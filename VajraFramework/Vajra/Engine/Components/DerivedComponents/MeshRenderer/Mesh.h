@@ -18,9 +18,13 @@
 #include <OpenGLES/ES2/glext.h>
 #endif // PLATFORM_IOS
 
+#include "Vajra/Engine/AssetLibrary/Assets/TextureAsset.h"
 #include "Libraries/glm/glm.hpp"
 
+#include <memory>
+#include <string>
 #include <vector>
+
 
 class Mesh {
 public:
@@ -35,6 +39,8 @@ public:
 	void InitIndicesData(std::vector<unsigned int> &inIndices);
 	//
 	void MakeVBOs();
+
+	void SetTextureFilePath(std::string filePath);
 
 private:
 	void init();
@@ -55,6 +61,7 @@ private:
 	//
 	std::vector<unsigned int> indices;
 
+	std::shared_ptr<TextureAsset> textureAsset;
 };
 
 #endif // MESH_H

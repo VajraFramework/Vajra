@@ -6,6 +6,7 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Placeholder/Tesserakonteres.h"
 
@@ -36,7 +37,7 @@ namespace Tesserakonteres {
 			GameObject* gameObject = new GameObject();
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			Mesh* mesh = new Mesh();
-			Tesserakonteres::initModels(mesh);
+			Tesserakonteres::initModels(mesh, "sample_picture.png");
 			meshRenderer->InitMesh(mesh);
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			parent = gameObject;
@@ -45,7 +46,7 @@ namespace Tesserakonteres {
 			GameObject* gameObject = new GameObject();
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			Mesh* mesh = new Mesh();
-			Tesserakonteres::initModels(mesh);
+			Tesserakonteres::initModels(mesh, "square.png");
 			meshRenderer->InitMesh(mesh);
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			child = gameObject;
@@ -71,7 +72,7 @@ namespace Tesserakonteres {
 	std::vector<unsigned int> meshIndices;
 	Mesh *mesh;
 	//
-	void initModels(Mesh* mesh) {
+	void initModels(Mesh* out_mesh, std::string imageName) {
 		meshPositions.push_back(glm::vec3(-0.5f, -0.5f, 0.0f));
 		meshPositions.push_back(glm::vec3(0.5f, -0.5f, 0.0f));
 		meshPositions.push_back(glm::vec3(0.5f, 0.5f, 0.0f));
@@ -94,10 +95,16 @@ namespace Tesserakonteres {
 			meshIndices.push_back(indices_data[i]);
 		}
 
-		mesh->InitVerticesData(meshPositions, meshNormals, meshTextureCoords);
-		mesh->InitIndicesData(meshIndices);
+		out_mesh->InitVerticesData(meshPositions, meshNormals, meshTextureCoords);
+		out_mesh->InitIndicesData(meshIndices);
 
-		mesh->MakeVBOs();
+		out_mesh->MakeVBOs();
+
+		// Set texture image path:
+		if (imageName != "") {
+			std::string imagePath = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + imageName;
+			out_mesh->SetTextureFilePath(imagePath);
+		}
 	}
 
 }

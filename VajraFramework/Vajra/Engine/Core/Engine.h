@@ -4,6 +4,7 @@
 int testEngineFunction();
 
 // Forward Declarations:
+class AssetLibrary;
 class MessageHub;
 class SceneGraph;
 class Timer;
@@ -14,9 +15,10 @@ public:
 
 	static Engine* GetInstance();
 
-	inline MessageHub* GetMessageHub() { return this->messageHub; }
-	inline SceneGraph* GetSceneGraph() { return this->sceneGraph; }
-	inline Timer*      GetTimer()      { return this->timer;      }
+	inline AssetLibrary* GetAssetLibrary() { return this->assetLibrary; }
+	inline MessageHub*   GetMessageHub()   { return this->messageHub;   }
+	inline SceneGraph*   GetSceneGraph()   { return this->sceneGraph;   }
+	inline Timer*        GetTimer()        { return this->timer;        }
 
 	void DoFrame();
 
@@ -31,6 +33,7 @@ private:
 	void updateScene();
 	void renderScene();
 
+	AssetLibrary* assetLibrary;
 	MessageHub* messageHub;
 	SceneGraph* sceneGraph;
 	Timer* timer;

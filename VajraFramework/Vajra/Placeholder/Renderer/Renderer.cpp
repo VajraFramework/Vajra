@@ -57,11 +57,9 @@ bool setupGraphics(int w, int h) {
     glViewport(0, 0, w, h);
     checkGlError("glViewport");
 
-
-    // Load image
-    std::string imagePath = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + "square.png";
-    textureHandle = loadGLTextureFromPNG(imagePath.c_str());
-
+    glEnable(GL_TEXTURE_2D);
+    checkGlError("glEnable(GL_TEXTURE_2D)");
+    //
     glActiveTexture(GL_TEXTURE0);
     checkGlError("glActiveTexture");
 
