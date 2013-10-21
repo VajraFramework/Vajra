@@ -2,6 +2,10 @@
 #define MESH_RENDERER_H
 
 #include "Vajra/Common/Components/Component.h"
+#include "Vajra/Engine/AssetLibrary/Assets/MeshAsset.h"
+
+#include <memory>
+#include <string>
 
 // Forward Declarations:
 class Object;
@@ -15,7 +19,7 @@ public:
 
 	static inline ComponentIdType GetTypeId() { return componentTypeId; }
 
-	void InitMesh(Mesh* newMesh);
+	void InitMesh(std::string urlOfMesh);
 
 	// @Override
 	virtual void HandleMessage(Message* message);
@@ -28,7 +32,7 @@ private:
 
 	static unsigned int componentTypeId;
 
-	Mesh* mesh;
+	std::shared_ptr<MeshAsset> meshAsset;
 };
 
 #endif // MESH_RENDERER_H

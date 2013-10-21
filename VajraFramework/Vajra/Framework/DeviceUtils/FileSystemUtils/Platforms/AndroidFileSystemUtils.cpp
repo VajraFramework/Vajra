@@ -15,6 +15,7 @@ void FileSystemUtils::init() {
     this->deviceBaseResourcesPath = "/sdcard/download/";
     this->devicePictureResourcesPath = this->deviceBaseResourcesPath + "pictures/";
     this->deviceShaderResourcesPath  = this->deviceBaseResourcesPath + "shaders/";
+    this->deviceModelResourcesPath   = this->deviceBaseResourcesPath + "models/";
 }
 
 void FileSystemUtils::destroy() {

@@ -1,7 +1,6 @@
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
-#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/Mesh.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Timer/Timer.h"
@@ -33,14 +32,6 @@ glm::mat4 mvpMatrix;
 //
 GLint textureHandle = 0;
 
-
-// Stuff to initialize Mesh with:
-std::vector<glm::vec3> meshPositions;
-std::vector<glm::vec3> meshNormals;
-std::vector<glm::vec2> meshTextureCoords;
-std::vector<unsigned int> meshIndices;
-Mesh *mesh;
-//
 
 bool setupGraphics(int w, int h) {
     gWidth = w;
@@ -98,7 +89,7 @@ void renderFrame(float dt) {
     if (grey > 1.0f) {
         grey = 0.0f;
     }
-    glClearColor(1.0, grey, grey, 1.0f);                    checkGlError("glClearColor");
+    glClearColor(0.5f, grey, grey, 1.0f);                    checkGlError("glClearColor");
     glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);    checkGlError("glClear");
 
     {
@@ -138,7 +129,7 @@ void renderFrame(float dt) {
 
     ENGINE->DoFrame();
 
-    printFrameTimeStats();
+    // printFrameTimeStats();
 
     modelMatrix = glm::rotate(0.0f, 0.0f, 1.0f, 0.0f);
     mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;

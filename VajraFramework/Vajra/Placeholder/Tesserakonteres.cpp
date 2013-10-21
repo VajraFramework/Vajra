@@ -1,5 +1,4 @@
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
-#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/Mesh.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -36,25 +35,29 @@ namespace Tesserakonteres {
 		{
 			GameObject* gameObject = new GameObject();
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			Mesh* mesh = new Mesh();
-			Tesserakonteres::initModels(mesh, "sample_picture.png");
-			meshRenderer->InitMesh(mesh);
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "square.model");
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			parent = gameObject;
 		}
 		{
 			GameObject* gameObject = new GameObject();
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			Mesh* mesh = new Mesh();
-			Tesserakonteres::initModels(mesh, "square.png");
-			meshRenderer->InitMesh(mesh);
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "cube.model");
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			child = gameObject;
 
 			parent->AddChild(child->GetId());
 			Transform* transform = child->GetTransform();
 			transform->Translate(0.5f, transform->GetForward());
-			transform->Scale(0.6f, 0.6f, 0.6f);
+			transform->Scale(0.4f, 0.4f, 0.4f);
+		}
+		{
+			GameObject* gameObject = new GameObject();
+			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "cube.model");
+			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
+			Transform* transform = gameObject->GetTransform();
+			transform->Scale(0.5f, 0.5f, 0.5f);
 		}
 		{
 			GameObject* camera = new GameObject();
@@ -64,47 +67,4 @@ namespace Tesserakonteres {
 			ENGINE->GetSceneGraph()->SetMainCameraId(camera->GetId());
 		}
 	}
-
-	// Stuff to initialize Mesh with:
-	std::vector<glm::vec3> meshPositions;
-	std::vector<glm::vec3> meshNormals;
-	std::vector<glm::vec2> meshTextureCoords;
-	std::vector<unsigned int> meshIndices;
-	Mesh *mesh;
-	//
-	void initModels(Mesh* out_mesh, std::string imageName) {
-		meshPositions.push_back(glm::vec3(-0.5f, -0.5f, 0.0f));
-		meshPositions.push_back(glm::vec3(0.5f, -0.5f, 0.0f));
-		meshPositions.push_back(glm::vec3(0.5f, 0.5f, 0.0f));
-		meshPositions.push_back(glm::vec3(-0.5f, 0.5f, 0.0f));
-	    //
-		for (int i = 0; i < 4; ++i) {
-			meshNormals.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
-		}
-	    //
-		meshTextureCoords.push_back(glm::vec2(0.0f, 0.0f));
-		meshTextureCoords.push_back(glm::vec2(1.0f, 0.0f));
-		meshTextureCoords.push_back(glm::vec2(1.0f, 1.0f));
-		meshTextureCoords.push_back(glm::vec2(0.0f, 1.0f));
-
-		unsigned int indices_data[] = {
-			0, 1, 2,
-			0, 2, 3
-		};
-		for (int i = 0; i < 6; ++i) {
-			meshIndices.push_back(indices_data[i]);
-		}
-
-		out_mesh->InitVerticesData(meshPositions, meshNormals, meshTextureCoords);
-		out_mesh->InitIndicesData(meshIndices);
-
-		out_mesh->MakeVBOs();
-
-		// Set texture image path:
-		if (imageName != "") {
-			std::string imagePath = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + imageName;
-			out_mesh->SetTextureFilePath(imagePath);
-		}
-	}
-
 }

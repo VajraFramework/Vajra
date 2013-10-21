@@ -15,7 +15,6 @@
 
 // Forward Declarations:
 class Component;
-class Mesh;
 class SceneGraph;
 class Transform;
 
@@ -26,7 +25,6 @@ public:
 	virtual ~GameObject();
 
 	inline Transform* GetTransform() { return this->transform; }
-	inline Mesh* GetMesh() { return this->model; }
 
 	virtual void Draw();
 
@@ -36,7 +34,6 @@ private:
 	void destroy();
 
 	Transform* transform;
-	Mesh* model;
 };
 
 #endif // GAMEOBJECT_H

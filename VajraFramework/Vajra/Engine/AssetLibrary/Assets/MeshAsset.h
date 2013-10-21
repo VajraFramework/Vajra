@@ -1,6 +1,7 @@
-#ifndef MESH_H
-#define MESH_H
+#ifndef MESH_ASSET_H
+#define MESH_ASSET_H
 
+#include "Vajra/Engine/AssetLibrary/Asset.h"
 #include "Vajra/Engine/AssetLibrary/Assets/TextureAsset.h"
 #include "Vajra/Utilities/OpenGLIncludes.h"
 
@@ -10,10 +11,19 @@
 #include <string>
 #include <vector>
 
-class Mesh {
+
+class MeshAsset : public Asset {
 public:
-	Mesh();
-	~Mesh();
+	MeshAsset();
+	MeshAsset(std::string urlOfMesh);
+	~MeshAsset();
+
+	// @Override
+	virtual AssetType GetAssetType();
+	// @Override
+	virtual void LoadAsset();
+
+	std::string GetFilePathToModel();
 
 	void Draw();
 	//
@@ -46,6 +56,8 @@ private:
 	std::vector<unsigned int> indices;
 
 	std::shared_ptr<TextureAsset> textureAsset;
+
+	static AssetType assetType;
 };
 
-#endif // MESH_H
+#endif // MESH_ASSET_H

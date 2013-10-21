@@ -1,7 +1,8 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
-#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/Mesh.h"
+#include "Vajra/Engine/AssetLibrary/Assets/MeshAsset.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/DeviceUtils/ModelLoader/ModelLoader.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
@@ -9,15 +10,49 @@
 
 #define NUM_VERTS_PER_FACE 3
 
-Mesh::Mesh() {
+AssetType MeshAsset::assetType = ASSET_TYPE_MESH_DATA;
+
+MeshAsset::MeshAsset() : Asset() {
     this->init();
 }
 
-Mesh::~Mesh() {
+MeshAsset::MeshAsset(std::string urlOfMesh) : Asset(urlOfMesh) {
+	this->init();
+}
+
+MeshAsset::~MeshAsset() {
     this->destroy();
 }
 
-void Mesh::InitVerticesData(std::vector<glm::vec3> &inPositions, \
+AssetType MeshAsset::GetAssetType() {
+	return MeshAsset::assetType;
+}
+
+void MeshAsset::LoadAsset() {
+	// Stuff to initialize mesh data with:
+	std::vector<glm::vec3> out_meshPositions;
+	std::vector<glm::vec3> out_meshNormals;
+	std::vector<glm::vec2> out_meshTextureCoords;
+	std::vector<unsigned int> out_meshIndices;
+	std::string out_textureFilePath;
+
+	ModelLoader::LoadMeshFromModelFile(this->GetFilePathToModel().c_str(), out_meshPositions, out_meshNormals, out_meshTextureCoords, out_meshIndices, out_textureFilePath);
+
+	this->InitVerticesData(out_meshPositions, out_meshNormals, out_meshTextureCoords);
+	this->InitIndicesData(out_meshIndices);
+
+	if (out_textureFilePath != "") {
+		this->SetTextureFilePath(out_textureFilePath);
+	}
+
+	this->MakeVBOs();
+}
+
+std::string MeshAsset::GetFilePathToModel() {
+	return this->GetUrl();
+}
+
+void MeshAsset::InitVerticesData(std::vector<glm::vec3> &inPositions, \
                              std::vector<glm::vec3> &inNormals, \
                              std::vector<glm::vec2> &inTextureCoords) {
 
@@ -59,7 +94,7 @@ void Mesh::InitVerticesData(std::vector<glm::vec3> &inPositions, \
     return;
 }
 
-void Mesh::InitIndicesData(std::vector<unsigned int> &inIndices) {
+void MeshAsset::InitIndicesData(std::vector<unsigned int> &inIndices) {
     this->indices.clear();
 
     for (unsigned int i = 0; i < inIndices.size(); ++i) {
@@ -69,7 +104,7 @@ void Mesh::InitIndicesData(std::vector<unsigned int> &inIndices) {
     return;
 }
 
-void Mesh::MakeVBOs() {
+void MeshAsset::MakeVBOs() {
     if (this->vertices == 0 || this->normals == 0 || this->textureCoords == 0) {
         FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices, or normals or textureCoords");
         return;
@@ -98,11 +133,11 @@ void Mesh::MakeVBOs() {
     FRAMEWORK->GetLogger()->errlog("\nVBOs made successfully");
 }
 
-void Mesh::SetTextureFilePath(std::string filePath) {
+void MeshAsset::SetTextureFilePath(std::string filePath) {
 	this->textureAsset = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(filePath);
 }
 
-void Mesh::Draw() {
+void MeshAsset::Draw() {
     if (this->vboPositions == 0 || this->vboNormals == 0 || this->vboTextureCoords == 0 || this->vboIndices == 0) {
         FRAMEWORK->GetLogger()->errlog("ERROR: VBOs not made");
         return;
@@ -153,13 +188,13 @@ void Mesh::Draw() {
 }
 
 
-void Mesh::init() {
+void MeshAsset::init() {
     this->vertices = 0;
     this->normals = 0;
     this->textureCoords = 0;
 }
 
-void Mesh::destroy() {
+void MeshAsset::destroy() {
     if (this->vertices != 0) {
         delete this->vertices;
     }
@@ -169,5 +204,5 @@ void Mesh::destroy() {
     if (this->textureCoords != 0) {
         delete this->textureCoords;
     }
-    // TODO [Implement] Free the VBOs on Mesh::destroy()
+    // TODO [Implement] Free the VBOs on MeshAsset::destroy()
 }

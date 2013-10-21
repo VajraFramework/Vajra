@@ -9,7 +9,6 @@ class Mesh;
 namespace Tesserakonteres {
 
 	void initGameObjectsForScene();
-	void initModels(Mesh* out_mesh, std::string imageName);
 
 };
 
