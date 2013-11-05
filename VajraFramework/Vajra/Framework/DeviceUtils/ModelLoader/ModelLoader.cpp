@@ -19,6 +19,25 @@ void LoadMeshFromModelFile(const char* filePath,
 	VERIFY(modelFile.is_open(), "Successfully opened model file at %s", filePath);
 
 	{
+		std::string modelName;
+		modelFile >> modelName;
+		FRAMEWORK->GetLogger()->dbglog("\nModel name: %s", modelName.c_str());
+	}
+
+	{
+		int numMeshesInModel;
+		modelFile >> numMeshesInModel;
+		FRAMEWORK->GetLogger()->dbglog("\nNumber of meshes in model: %d", numMeshesInModel);
+		// TODO [Implement] Support more than 1 mesh per model
+	}
+
+	{
+		std::string meshName;
+		modelFile >> meshName;
+		FRAMEWORK->GetLogger()->dbglog("\nMesh name: %s", meshName.c_str());
+	}
+
+	{
 		int numPositions;
 		modelFile >> numPositions;
 		while ((numPositions--) > 0) {
