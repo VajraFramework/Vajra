@@ -30,6 +30,10 @@ ShaderSet::ShaderSet(std::string inVshaderName, std::string inFshaderName) {
     checkGlError("glGetAttribLocation");
     FRAMEWORK->GetLogger()->dbglog("glGetAttribLocation(\"vPosition\") = %d\n", this->positionHandle);
     //
+    this->normalHandle = glGetAttribLocation(this->GetShaderProgram(), "vNormal");
+    checkGlError("glGetAttribLocation");
+    FRAMEWORK->GetLogger()->dbglog("glGetAttribLocation(\"vNormal\") = %d\n", this->normalHandle);
+    //
     this->textureCoordsHandle = glGetAttribLocation(this->GetShaderProgram(), "uvCoords_in");
     checkGlError("glGetAttribLocation");
     FRAMEWORK->GetLogger()->dbglog("glGetAttribLocation(\"uvCoords_in\") = %d\n", this->textureCoordsHandle);
@@ -41,7 +45,13 @@ ShaderSet::ShaderSet(std::string inVshaderName, std::string inFshaderName) {
         FRAMEWORK->GetLogger()->errlog("mvpMatrix is not a valid shader variable\n");
     }
     FRAMEWORK->GetLogger()->dbglog("glGetUniformLocation(\"mvpMatrix\") = %d\n", this->mvpMatrixHandle);
-
+    //
+    this->modelInverseTransposeMatrixHandle = glGetUniformLocation(this->GetShaderProgram(), "modelInverseTransposeMatrix");
+    checkGlError("glGetUniformLocation");
+    if (this->modelInverseTransposeMatrixHandle == -1) {
+        FRAMEWORK->GetLogger()->errlog("modelInverseTransposeMatrix is not a valid shader variable\n");
+    }
+    FRAMEWORK->GetLogger()->dbglog("glGetUniformLocation(\"modelInverseTransposeMatrix\") = %d\n", this->modelInverseTransposeMatrixHandle);
 }
 
 ShaderSet::~ShaderSet() {

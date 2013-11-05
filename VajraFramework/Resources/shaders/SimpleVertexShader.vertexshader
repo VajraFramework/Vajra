@@ -1,12 +1,23 @@
 attribute vec4 vPosition;
+attribute vec4 vNormal;
 attribute vec2 uvCoords_in;
 uniform mat4 mvpMatrix;
+uniform mat4 modelInverseTransposeMatrix;
 varying vec4 extraVariable;
 varying vec2 uvCoords;
+varying vec4 lightIntensity;
+
+const vec4 lightDirection = vec4(1.0f, -1.0f, 1.0f, 0.0f);
+const vec4 lightColor = vec4(0.7f, 0.7f, 0.7f, 1.0f);
+
 void main()
 {
 	gl_Position = mvpMatrix * vPosition;
 	extraVariable = vec4(vPosition.x, vPosition.y, 1.0, 0.0);
 	// uvCoords = vec2(vPosition.x, vPosition.y);
 	uvCoords = uvCoords_in;
+
+	vec4 vNormal_world = modelInverseTransposeMatrix * vNormal;
+	float cosTheta = clamp( dot( vNormal_world, lightDirection ), 0, 1 );
+	lightIntensity = lightColor * cosTheta;
 }

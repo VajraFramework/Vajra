@@ -10,6 +10,8 @@
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
+#include "Libraries/glm/gtc/matrix_inverse.hpp"
+
 unsigned int Transform::componentTypeId = COMPONENT_TYPE_ID_TRANSFORM;
 
 Transform::Transform() : Component() {
@@ -39,6 +41,9 @@ void Transform::Draw() {
 
 	glm::mat4 mvpMatrix = camera->GetProjMatrix() * camera->GetViewMatrix() * this->modelMatrixCumulative;
     FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMVPMatrixHandle(mvpMatrix);
+    //
+	glm::mat4 modelInverseTransposeMatrix = glm::inverseTranspose(this->modelMatrixCumulative);
+    FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMitMatrixHandle(modelInverseTransposeMatrix);
 }
 
 glm::vec3& Transform::GetPosition() {

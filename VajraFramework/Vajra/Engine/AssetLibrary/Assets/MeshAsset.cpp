@@ -158,14 +158,11 @@ void MeshAsset::Draw() {
                           3, GL_FLOAT, GL_FALSE, 0, 0);
     checkGlError("glVertexAttribPointer");
     //
-    #if 0
-    // no normals yet
-    glEnableVertexAttribArray(currentShaderSet->GetNormalsHandle());
+    glEnableVertexAttribArray(currentShaderSet->GetNormalHandle());
     glBindBuffer(GL_ARRAY_BUFFER, this->vboNormals); checkGlError("glBindBuffer");
-    glVertexAttribPointer(currentShaderSet->GetPositionHandle(), \
+    glVertexAttribPointer(currentShaderSet->GetNormalHandle(), \
                           3, GL_FLOAT, GL_FALSE, 0, 0);
     checkGlError("glVertexAttribPointer");
-    #endif // 0 no normals yet
     //
     if (this->textureAsset) {
     	glBindTexture(GL_TEXTURE_2D, this->textureAsset->GetGLTextureHandle());

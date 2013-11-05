@@ -119,6 +119,19 @@ void renderFrame(float dt) {
         }
     }
     {
+        // Temp, testing transforms:
+        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(107);
+        if (quad != nullptr) {
+        	Transform* transform = quad->GetTransform();
+        	if (transform != nullptr) {
+        		// transform->SetOrientation(90.0f, YAXIS);
+        		// transform->Translate(0.04f, transform->GetForward());
+        		transform->Rotate(0.5f, YAXIS);
+        		// transform->Rotate(0.4f, -transform->GetLeft());
+        	}
+        }
+    }
+    {
         // Sending arbit message for testing
         {
 			const Message* const message = new Message();
