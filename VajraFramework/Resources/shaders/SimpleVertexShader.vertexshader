@@ -7,8 +7,16 @@ varying vec4 extraVariable;
 varying vec2 uvCoords;
 varying vec4 lightIntensity;
 
-const vec4 lightDirection = vec4(1.0f, -1.0f, 1.0f, 0.0f);
-const vec4 lightColor = vec4(0.7f, 0.7f, 0.7f, 1.0f);
+// Directional lights:
+uniform vec4 DLight0Direction;
+uniform vec4 DLight0AmbientColor;
+uniform vec4 DLight0DiffuseColor;
+uniform vec4 DLight0SpecularColor;
+
+// Materials:
+uniform vec4 MaterialAmbientColor;
+uniform vec4 MaterialDiffuseColor;
+uniform vec4 MaterialSpecularColor;
 
 void main()
 {
@@ -18,6 +26,13 @@ void main()
 	uvCoords = uvCoords_in;
 
 	vec4 vNormal_world = modelInverseTransposeMatrix * vNormal;
-	float cosTheta = clamp( dot( vNormal_world, lightDirection ), 0, 1 );
-	lightIntensity = lightColor * cosTheta;
+	float cosTheta = clamp( dot( vNormal_world, DLight0Direction ), 0.0, 1.0 );
+	lightIntensity = DLight0DiffuseColor * cosTheta;
+
+	// Fake the ambient lighting:
+	lightIntensity = lightIntensity + DLight0AmbientColor;
+
+	// Temp using variables:
+	lightIntensity = lightIntensity + DLight0SpecularColor;
 }
+

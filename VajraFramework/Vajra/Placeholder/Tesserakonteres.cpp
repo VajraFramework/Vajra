@@ -1,4 +1,5 @@
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
+#include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -8,18 +9,6 @@
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Placeholder/Tesserakonteres.h"
-
-#ifdef PLATFORM_ANDROID
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#endif
-
-#ifdef PLATFORM_DESKTOP
-// Include GLEW
-#include <GL/glew.h>
-// Include GLFW
-#include <GL/glfw.h>
-#endif // PLATFORM_DESKTOP
 
 #include "Libraries/glm/glm.hpp"
 #include "Libraries/glm/gtx/transform.hpp"
@@ -69,6 +58,16 @@ namespace Tesserakonteres {
 			camera->GetTransform()->SetPosition(2.0f, 2.0f, 2.0f);
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(camera->GetId());
 			ENGINE->GetSceneGraph()->SetMainCameraId(camera->GetId());
+		}
+		{
+			GameObject* dlight = new GameObject();
+			DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
+			dlight->GetTransform()->SetPosition(1.0f, 0.0f, 0.0f);
+			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(dlight->GetId());
+			ENGINE->GetSceneGraph()->SetMainDirectionalLightId(dlight->GetId());
+			//
+			dlightComponent->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
+			dlightComponent->SetDiffuseColor(0.7f, 0.7f, 0.7f, 1.0f);
 		}
 	}
 }

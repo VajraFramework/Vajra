@@ -1,9 +1,10 @@
 #ifndef SHADERSET_H
 #define SHADERSET_H
 
-#include "Libraries/glm/glm.hpp"
+#include "Vajra/Framework/OpenGL/ShaderSet/DLightShaderHandles.h"
 #include "Vajra/Utilities/OpenGLIncludes.h"
 
+#include "Libraries/glm/glm.hpp"
 #include "Libraries/glm/gtc/type_ptr.hpp"
 
 #include <string>
@@ -23,6 +24,8 @@ public:
 	inline GLuint GetMitMatrixHandle() { return this->modelInverseTransposeMatrixHandle; }
 	inline void SetMVPMatrixHandle(glm::mat4& mvpMatrix);
 	inline void SetMitMatrixHandle(glm::mat4& mitMatrix);
+	//
+	inline DLightShaderHandles* GetDirectionalLight() { return this->directionalLight; }
 
 
 private:
@@ -37,6 +40,10 @@ private:
 	//
 	GLint mvpMatrixHandle;
 	GLint modelInverseTransposeMatrixHandle;
+
+	// Lights and Materials:
+	DLightShaderHandles* directionalLight;
+
 };
 
 // Inline Functions:

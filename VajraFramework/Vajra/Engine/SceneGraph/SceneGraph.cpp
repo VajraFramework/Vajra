@@ -1,5 +1,6 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
+#include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -43,11 +44,28 @@ void SceneGraph::SetMainCameraId(ObjectIdType id) {
 	this->mainCameraId = id;
 }
 
+// TODO [Cleanup] Cache the mainDirectionalLight, maybe
+DirectionalLight* SceneGraph::GetMainDirectionalLight() {
+	GameObject *directionalLight = this->GetGameObjectById(this->mainDirectionalLightId);
+	if (directionalLight != nullptr) {
+		return directionalLight->GetComponent<DirectionalLight>();
+	}
+	return nullptr;
+}
+
+void SceneGraph::SetMainDirectionalLightId(ObjectIdType id) {
+	GameObject *directionalLight = this->GetGameObjectById(id);
+	ASSERT(directionalLight != nullptr, "New directionalLight object not null");
+	ASSERT(directionalLight->GetComponent<DirectionalLight>() != nullptr, "New directionalLight object has a DirectionalLight component");
+	this->mainDirectionalLightId = id;
+}
+
 void SceneGraph::update() {
 	// TODO [Implement] Figure out if we need to put anything here
 }
 
 void SceneGraph::draw() {
+
 	ASSERT(this->mainCameraId != OBJECT_ID_INVALID, "mainCamera set");
 	// TODO [Cleanup] Change mainCamera->cameraComponent->WriteLookAt() to use messages sent to mainCamera instead, maybe
 	GameObject* mainCamera = this->GetGameObjectById(this->mainCameraId);
@@ -55,6 +73,15 @@ void SceneGraph::draw() {
 		Camera* cameraComponent = mainCamera->GetComponent<Camera>();
 		cameraComponent->WriteLookAt();
 	}
+
+	ASSERT(this->mainDirectionalLightId != OBJECT_ID_INVALID, "mainDirectionalLight set");
+	// TODO [Cleanup] Change mainDirectionalLight->directionalLightComponent->WriteLightStuff() to use messages sent to mainDirectionalLight instead, maybe
+	GameObject* mainDirectionalLight = this->GetGameObjectById(this->mainDirectionalLightId);
+	if (mainDirectionalLight != 0) {
+		DirectionalLight* directionalLightComponent = mainDirectionalLight->GetComponent<DirectionalLight>();
+		directionalLightComponent->WriteLightPropertiesToShader();
+	}
+
 	if (this->root != 0) {
 		this->root->Draw();
 	}
@@ -63,6 +90,7 @@ void SceneGraph::draw() {
 void SceneGraph::init() {
 	this->root = nullptr;
 	this->mainCameraId = OBJECT_ID_INVALID;
+	this->mainDirectionalLightId = OBJECT_ID_INVALID;
 }
 
 void SceneGraph::Initialize() {

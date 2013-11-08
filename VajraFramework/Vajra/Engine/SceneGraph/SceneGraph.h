@@ -11,6 +11,7 @@
 
 // Forward Declarations:
 class Camera;
+class DirectionalLight;
 class GameObject;
 
 class SceneGraph : public Object {
@@ -26,6 +27,9 @@ public:
 	Camera* GetMainCamera();
 	void SetMainCameraId(ObjectIdType id);
 
+	DirectionalLight* GetMainDirectionalLight();
+	void SetMainDirectionalLightId(ObjectIdType id);
+
 private:
 	SceneGraph();
 	void init();
@@ -38,6 +42,7 @@ private:
 	GameObject* root;
 
 	ObjectIdType mainCameraId;
+	ObjectIdType mainDirectionalLightId;
 
 	friend class Engine;
 };

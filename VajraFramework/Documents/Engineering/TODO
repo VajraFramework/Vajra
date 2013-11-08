@@ -72,6 +72,7 @@
 > Force GLM_FORCE_RADIANS
 > Fix non-square textures on iOS
 > Back-face culling / Hidden surface removal
+> Can't have 1.0f in opengl es shaders (must be 1.0), (or 1 either when it has to be 1.0)
 
 # Log framerate, memory footprint, loadtimes, etc after every run. Look at it
   at least once a week

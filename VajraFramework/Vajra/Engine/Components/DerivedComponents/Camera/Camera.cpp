@@ -1,7 +1,7 @@
 #include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
@@ -46,12 +46,12 @@ void Camera::HandleMessage(Message* message) {
 		break;
 
 	default:
-		FRAMEWORK->GetLogger()->dbglog("\nGot unnecessary msg of type %d", message->GetMessageType());
+		FRAMEWORK->GetLogger()->dbglog("\nCamera got unnecessary msg of type %d", message->GetMessageType());
 	}
 }
 
 void Camera::WriteLookAt() {
-	// TODO [Implement] Camera::WriteLookAt()
+	// TODO [Implement] Camera::WriteLookAt(), will be needed when the shader starts looking for the eyePosition (example: for specular lighting)
 }
 
 void Camera::init() {
