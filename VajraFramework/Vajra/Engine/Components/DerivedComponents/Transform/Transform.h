@@ -38,6 +38,9 @@ public:
 	void Translate(float distance, glm::vec3 along);
 	void Rotate(float angleInDegrees, glm::vec3 axis);
 	void Scale(float x, float y, float z);
+	//
+	void LookAt(float point_x, float point_y, float point_z);
+	void LookAt(glm::vec3 point);
 
 	glm::vec3& GetForward() { return this->forward; }
 	glm::vec3& GetLeft() { return this->left; }

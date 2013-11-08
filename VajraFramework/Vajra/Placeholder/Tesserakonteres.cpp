@@ -56,6 +56,9 @@ namespace Tesserakonteres {
 			GameObject* camera = new GameObject();
 			/* Camera* cameraComponent = */ camera->AddComponent<Camera>();
 			camera->GetTransform()->SetPosition(2.0f, 2.0f, 2.0f);
+			// camera->GetTransform()->SetOrientation(-45.0f, camera->GetTransform()->GetUp());
+			// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
+			camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(camera->GetId());
 			ENGINE->GetSceneGraph()->SetMainCameraId(camera->GetId());
 		}

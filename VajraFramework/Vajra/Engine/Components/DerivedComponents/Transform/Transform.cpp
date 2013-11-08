@@ -11,6 +11,7 @@
 #include "Vajra/Utilities/MathUtilities.h"
 
 #include "Libraries/glm/gtc/matrix_inverse.hpp"
+#include "Libraries/glm/gtx/vector_angle.hpp"
 
 unsigned int Transform::componentTypeId = COMPONENT_TYPE_ID_TRANSFORM;
 
@@ -98,6 +99,27 @@ void Transform::Rotate(float angleInDegrees, glm::vec3 axis) {
 
 void Transform::Scale(float x, float y, float z) {
 	this->setScale(glm::vec3(this->scale.x * x, this->scale.y * y, this->scale.z * z));
+}
+
+void Transform::LookAt(float point_x, float point_y, float point_z) {
+	this->LookAt(glm::vec3(point_x, point_y, point_z));
+}
+
+// TODO [Implement] Currently this can only handle points that are in the transform's coordinate space
+void Transform::LookAt(glm::vec3 point) {
+	glm::vec3 oldUp = this->GetUp();
+	{
+		// Rotate so that forward faces the point:
+		glm::vec3 connectingVector = glm::normalize(point - this->GetPosition());
+		glm::vec3 crossProduct = glm::normalize( glm::cross(this->GetForward(), connectingVector) );
+		float angleBetweenVectors = glm::orientedAngle(this->GetForward(), connectingVector, crossProduct);
+		this->Rotate(angleBetweenVectors, crossProduct);
+	}
+	{
+		// Try to restore up to what it was before the rotation without disturbing forward:
+		float angleToUp = glm::orientedAngle(this->GetUp(), oldUp, this->GetForward());
+		this->Rotate(angleToUp, this->GetForward());
+	}
 }
 
 void Transform::setPosition(glm::vec3 newPosition) {
