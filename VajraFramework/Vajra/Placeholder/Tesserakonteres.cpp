@@ -50,7 +50,7 @@ namespace Tesserakonteres {
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "polySurface5.model");
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			Transform* transform = gameObject->GetTransform();
-			transform->Scale(0.04f, 0.04f, 0.04f);
+			transform->Scale(0.05f, 0.05f, 0.05f);
 		}
 		{
 			GameObject* camera = new GameObject();
