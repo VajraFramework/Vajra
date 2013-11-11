@@ -34,12 +34,21 @@ void MeshAsset::LoadAsset() {
 	std::vector<glm::vec3> out_meshNormals;
 	std::vector<glm::vec2> out_meshTextureCoords;
 	std::vector<unsigned int> out_meshIndices;
+	//
+	glm::vec3 out_initialPosition;
+	glm::vec3 out_initialRotation;
+	glm::vec3 out_initialScale;
+	//
 	std::string out_textureFilePath;
 
-	ModelLoader::LoadMeshFromModelFile(this->GetFilePathToModel().c_str(), out_meshPositions, out_meshNormals, out_meshTextureCoords, out_meshIndices, out_textureFilePath);
+	ModelLoader::LoadMeshFromModelFile(this->GetFilePathToModel().c_str(), out_meshPositions, out_meshNormals, out_meshTextureCoords, out_meshIndices, out_initialPosition, out_initialRotation, out_initialScale, out_textureFilePath);
 
 	this->InitVerticesData(out_meshPositions, out_meshNormals, out_meshTextureCoords);
 	this->InitIndicesData(out_meshIndices);
+
+	this->initialPosition = out_initialPosition;
+	this->initialRotation = out_initialRotation;
+	this->initialScale    = out_initialScale;
 
 	if (out_textureFilePath != "") {
 		this->SetTextureFilePath(out_textureFilePath);

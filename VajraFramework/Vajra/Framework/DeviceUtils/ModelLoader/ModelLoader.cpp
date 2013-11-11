@@ -1,4 +1,5 @@
 #include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/DeviceUtils/ModelLoader/Declarations.h"
 #include "Vajra/Framework/DeviceUtils/ModelLoader/ModelLoader.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -7,16 +8,25 @@
 namespace ModelLoader {
 
 void LoadMeshFromModelFile(const char* filePath,
-		std::vector<glm::vec3>& outPositions,
-		std::vector<glm::vec3>& outNormals,
-		std::vector<glm::vec2>& outTexCoords,
-		std::vector<unsigned int>& outIndices,
-		std::string& outTextureFilePath) {
+		std::vector<glm::vec3>&        outPositions,
+		std::vector<glm::vec3>&        outNormals,
+		std::vector<glm::vec2>&        outTexCoords,
+		std::vector<unsigned int>&     outIndices,
+		glm::vec3&                     outInitialPosition,
+		glm::vec3&                     outInitialRotation,
+		glm::vec3&                     outInitialScale,
+		std::string&                   outTextureFilePath) {
 
 	FRAMEWORK->GetLogger()->dbglog("\nLoading mesh data from model at %s", filePath);
 
 	std::ifstream modelFile(filePath);
 	VERIFY(modelFile.is_open(), "Successfully opened model file at %s", filePath);
+
+	{
+		int modelFormatVersionNumber = -1;
+		modelFile >> modelFormatVersionNumber;
+		ASSERT(modelFormatVersionNumber == MODEL_FORMAT_VERSION_NUMBER, "Model format version number (%d) matches", modelFormatVersionNumber);
+	}
 
 	{
 		std::string modelName;
@@ -25,10 +35,9 @@ void LoadMeshFromModelFile(const char* filePath,
 	}
 
 	{
-		int numMeshesInModel;
-		modelFile >> numMeshesInModel;
-		FRAMEWORK->GetLogger()->dbglog("\nNumber of meshes in model: %d", numMeshesInModel);
-		// TODO [Implement] Support more than 1 mesh per model
+		modelFile >> outInitialPosition.x >> outInitialPosition.y >> outInitialPosition.z;
+		modelFile >> outInitialRotation.x >> outInitialRotation.y >> outInitialRotation.z;
+		modelFile >> outInitialScale.x >> outInitialScale.y >> outInitialScale.z;
 	}
 
 	{

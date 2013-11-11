@@ -34,6 +34,10 @@ public:
 	//
 	void MakeVBOs();
 
+	inline glm::vec3 GetInitialPosition() const { return this->initialPosition; }
+	inline glm::vec3 GetInitialRotation() const { return this->initialRotation; }
+	inline glm::vec3 GetInitialScale()    const { return this->initialScale;    }
+
 	void SetTextureFilePath(std::string filePath);
 
 private:
@@ -54,6 +58,10 @@ private:
 	glm::vec2 *textureCoords;
 	//
 	std::vector<unsigned int> indices;
+
+	glm::vec3 initialPosition;
+	glm::vec3 initialRotation;
+	glm::vec3 initialScale;
 
 	std::shared_ptr<TextureAsset> textureAsset;
 

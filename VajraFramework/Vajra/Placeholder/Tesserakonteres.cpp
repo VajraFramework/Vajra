@@ -47,10 +47,11 @@ namespace Tesserakonteres {
 		{
 			GameObject* gameObject = new GameObject();
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "polySurface5.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Plane.model");
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			Transform* transform = gameObject->GetTransform();
-			transform->Scale(0.05f, 0.05f, 0.05f);
+			// transform->Rotate(-90.0f, transform->GetLeft());
+			// transform->Scale(0.03f, 0.03f, 0.03f);
 		}
 		{
 			GameObject* camera = new GameObject();
