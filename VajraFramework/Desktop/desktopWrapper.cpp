@@ -118,7 +118,7 @@ int main( void ) {
 		glDisableVertexAttribArray(vertexPosition_modelspaceID);
 		#endif
 
-		renderFrame(0.0000002f);
+		renderFrame(1/1000.0f);
 
 		// Swap buffers
 		glfwSwapBuffers();

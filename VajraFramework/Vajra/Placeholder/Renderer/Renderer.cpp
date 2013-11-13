@@ -1,5 +1,6 @@
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -92,6 +93,7 @@ void renderFrame(float dt) {
     glClearColor(0.5f, grey, grey, 1.0f);                    checkGlError("glClearColor");
     glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);    checkGlError("glClear");
 
+    float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
     {
         // Temp, testing transforms:
         GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(105);
@@ -99,9 +101,9 @@ void renderFrame(float dt) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
         		// transform->SetOrientation(90.0f, YAXIS);
-        		transform->Translate(0.01f, transform->GetForward());
-        		transform->Rotate(0.8f, YAXIS);
-        		transform->Rotate(0.4f, -transform->GetLeft());
+        		transform->Translate(0.5f * deltaTime, transform->GetForward());
+        		transform->Rotate(60.0f * deltaTime, YAXIS);
+        		transform->Rotate(30.0f * deltaTime, -transform->GetLeft());
         	}
         }
     }
@@ -113,7 +115,7 @@ void renderFrame(float dt) {
         	if (transform != nullptr) {
         		// transform->SetOrientation(90.0f, YAXIS);
         		// transform->Translate(0.04f, transform->GetForward());
-        		transform->Rotate(5.0f, YAXIS);
+        		transform->Rotate(30.0f * deltaTime, YAXIS);
         		// transform->Rotate(0.4f, -transform->GetLeft());
         	}
         }
@@ -126,21 +128,21 @@ void renderFrame(float dt) {
         	if (transform != nullptr) {
         		// transform->SetOrientation(90.0f, YAXIS);
         		// transform->Translate(0.04f, transform->GetForward());
-        		transform->Rotate(0.5f, YAXIS);
+        		transform->Rotate(50.0f * deltaTime, YAXIS);
         		// transform->Rotate(0.4f, -transform->GetLeft());
         	}
         }
     }
     {
         // Temp, testing transforms:
-        GameObject* dlight = ENGINE->GetSceneGraph()->GetGameObjectById(109);
+        GameObject* dlight = (GameObject*)ENGINE->GetSceneGraph()->GetMainDirectionalLight()->GetObject();
         if (dlight != nullptr) {
         	Transform* transform = dlight->GetTransform();
         	if (transform != nullptr) {
         		// transform->SetOrientation(90.0f, YAXIS);
-        		transform->Translate(0.04f, transform->GetForward());
-        		transform->Rotate(-2.0f, YAXIS);
-        		// transform->Rotate(0.4f, -transform->GetLeft());
+        		transform->Translate(0.1f * deltaTime, transform->GetForward());
+        		transform->Rotate(-50.0f * deltaTime, YAXIS);
+        		// transform->Rotate(100.0f * deltaTime, -transform->GetLeft());
         	}
         }
     }

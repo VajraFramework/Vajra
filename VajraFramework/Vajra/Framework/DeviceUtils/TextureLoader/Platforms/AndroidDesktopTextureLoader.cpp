@@ -66,6 +66,7 @@ GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
     }
     FRAMEWORK->GetLogger()->dbglog("\nNumComponents in Texture: %d", components);
 
+    // TODO [Hack] Fix this, something wrong with glTexImage2D here, crashes with some textures
     // glTexImage2D(GL_TEXTURE_2D, 0, components, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, *outTextureBytes);
     glTexImage2D(GL_TEXTURE_2D, 0, glcolours, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, *outTextureBytes);
     checkGlError("glTexImage2D");
