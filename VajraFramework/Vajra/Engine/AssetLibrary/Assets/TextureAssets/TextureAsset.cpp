@@ -1,4 +1,4 @@
-#include "Vajra/Engine/AssetLibrary/Assets/TextureAsset.h"
+#include "Vajra/Engine/AssetLibrary/Assets/TextureAssets/TextureAsset.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/TextureLoader/TextureLoader.h"
 #include "Vajra/Framework/Logging/Logger.h"

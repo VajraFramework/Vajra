@@ -7,5 +7,6 @@
 #define COMPONENT_TYPE_ID_CAMERA                 (unsigned int)2
 #define COMPONENT_TYPE_ID_RENDERER               (unsigned int)3
 #define COMPONENT_TYPE_ID_DIRECTIONAL_LIGHT      (unsigned int)4
+#define COMPONENT_TYPE_ID_ANIMATION              (unsigned int)5
 
 #endif // COMPONENT_TYPE_IDS_H

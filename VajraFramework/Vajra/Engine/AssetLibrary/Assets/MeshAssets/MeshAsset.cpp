@@ -1,5 +1,5 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
-#include "Vajra/Engine/AssetLibrary/Assets/MeshAsset.h"
+#include "Vajra/Engine/AssetLibrary/Assets/MeshAssets/MeshAsset.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/ModelLoader/ModelLoader.h"

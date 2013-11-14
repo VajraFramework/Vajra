@@ -2,7 +2,7 @@
 #define MESH_ASSET_H
 
 #include "Vajra/Engine/AssetLibrary/Asset.h"
-#include "Vajra/Engine/AssetLibrary/Assets/TextureAsset.h"
+#include "Vajra/Engine/AssetLibrary/Assets/TextureAssets/TextureAsset.h"
 #include "Vajra/Utilities/OpenGLIncludes.h"
 
 #include "Libraries/glm/glm.hpp"

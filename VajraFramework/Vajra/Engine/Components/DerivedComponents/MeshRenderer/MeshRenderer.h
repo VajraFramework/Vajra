@@ -2,7 +2,7 @@
 #define MESH_RENDERER_H
 
 #include "Vajra/Common/Components/Component.h"
-#include "Vajra/Engine/AssetLibrary/Assets/MeshAsset.h"
+#include "Vajra/Engine/AssetLibrary/Assets/MeshAssets/MeshAsset.h"
 
 #include <memory>
 #include <string>

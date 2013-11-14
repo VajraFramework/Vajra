@@ -26,12 +26,6 @@ using namespace glm;
 
 int main( void ) {
 
-	png_structp png_ptr;
-	png_infop info_ptr;
-	/* initialize stuff */
-	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	
-
 	// Initialize GLFW
 	if( !glfwInit() )
 	{
