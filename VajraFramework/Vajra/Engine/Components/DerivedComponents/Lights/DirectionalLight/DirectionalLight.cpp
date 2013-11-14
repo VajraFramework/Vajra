@@ -31,9 +31,9 @@ void DirectionalLight::HandleMessage(Message* message) {
 
 void DirectionalLight::WriteLightPropertiesToShader() {
 	GameObject* gameObject = (GameObject*)this->GetObject();
-	glm::vec3 position = gameObject->GetTransform()->GetPosition();
+	glm::vec3 forward = gameObject->GetTransform()->GetForward();
 	glUniform4f(FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetDirectionalLight()->GetDirectionHandle(),
-				position.x, position.y, position.z, 0.0f);
+				forward.x, forward.y, forward.z, 0.0f);
 
 	glUniform4f(FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetDirectionalLight()->GetAmbientColorHandle(),
 				this->ambientColor.r, this->ambientColor.g, this->ambientColor.b, this->ambientColor.a);
