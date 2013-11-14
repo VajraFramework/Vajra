@@ -3,12 +3,12 @@
 
 #include "Vajra/Common/Components/Component.h"
 
-#include "Libraries/glm/glm.hpp"
-#include "Libraries/glm/gtc/quaternion.hpp"
-#include "Libraries/glm/gtx/quaternion.hpp"
+#include <map>
+#include <string>
 
 // Forward Declarations:
 class GameObject;
+class AnimationClip;
 
 class Animation : public Component {
 public:
@@ -21,10 +21,28 @@ public:
 	// @Override
 	virtual void HandleMessage(Message* message);
 
+	virtual void AddAnimationClip(std::string urlOfAnimationClip) = 0;
+
+	void PlayAnimationClip(std::string animationClipName);
+	void PlayAnimationClip();
+	void PauseAnimationClip();
+	void ResumeAnimationClip();
+	void StopAnimationClip();
+
+	bool IsPlaying();
+	bool IsPlaying(std::string animationClipName);
+
+	inline AnimationClip* GetCurrentPlayingAnimationClip() { return this->currentAnimationClip; }
+
 private:
 	void init();
 	void destroy();
 
+	// Utility functions:
+	void playAnimationClip_internal(AnimationClip* animationClip);
+
+	AnimationClip* currentAnimationClip;
+	std::map<std::string /* clip name */, AnimationClip*> animationClips;
 
 	static unsigned int componentTypeId;
 };
