@@ -27,10 +27,6 @@ std::string AnimationClipDataAsset::GetFilePathToAnimationFile() {
 	return this->GetUrl();
 }
 
-void AnimationClipDataAsset::LoadAsset() {
-	VERIFY(0, "Not implemented. ");
-}
-
 void AnimationClipDataAsset::init() {
 }
 

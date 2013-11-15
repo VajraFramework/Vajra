@@ -11,14 +11,6 @@ AnimationClip::~AnimationClip() {
 	this->destroy();
 }
 
-void AnimationClip::init() {
-	this->isPlaying = false;
-	this->isLooping = false;
-}
-
-void AnimationClip::destroy() {
-}
-
 // This should be in the derived class
 #if 0
 void AnimationClip::InitAnimationClip(std::string urlOfAnimationClip) {
@@ -27,13 +19,26 @@ void AnimationClip::InitAnimationClip(std::string urlOfAnimationClip) {
 #endif
 
 void AnimationClip::Play() {
+	this->isPlaying = true;
 }
 
 void AnimationClip::Pause() {
+	this->isPlaying = false;
 }
 
 void AnimationClip::Resume() {
+	this->isPlaying = true;
 }
 
 void AnimationClip::Stop() {
+	this->isPlaying = false;
+}
+
+void AnimationClip::init() {
+	this->isPlaying = false;
+	this->isLooping = false;
+	this->playbackSpeed = 1.0f;
+}
+
+void AnimationClip::destroy() {
 }

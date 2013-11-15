@@ -14,7 +14,7 @@ class Animation : public Component {
 public:
 	Animation();
 	Animation(Object* object_);
-	~Animation();
+	virtual ~Animation();
 
 	static inline ComponentIdType GetTypeId() { return componentTypeId; }
 
@@ -22,6 +22,7 @@ public:
 	virtual void HandleMessage(Message* message);
 
 	virtual void AddAnimationClip(std::string urlOfAnimationClip) = 0;
+	void DeleteAnimationClip(std::string animationClipName);
 
 	void PlayAnimationClip(std::string animationClipName);
 	void PlayAnimationClip();
@@ -33,6 +34,9 @@ public:
 	bool IsPlaying(std::string animationClipName);
 
 	inline AnimationClip* GetCurrentPlayingAnimationClip() { return this->currentAnimationClip; }
+
+protected:
+	void addAnimationClip(AnimationClip* animationClip, bool takeOwnershipOfMemory);
 
 private:
 	void init();

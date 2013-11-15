@@ -13,9 +13,10 @@ FileSystemUtils::~FileSystemUtils() {
 void FileSystemUtils::init() {
     // TODO [Implement] Implement proper deviceResourcesPath on Android:
     this->deviceBaseResourcesPath = "/sdcard/download/";
-    this->devicePictureResourcesPath = this->deviceBaseResourcesPath + "pictures/";
-    this->deviceShaderResourcesPath  = this->deviceBaseResourcesPath + "shaders/";
-    this->deviceModelResourcesPath   = this->deviceBaseResourcesPath + "models/";
+    this->devicePictureResourcesPath    = this->deviceBaseResourcesPath + "pictures/";
+    this->deviceShaderResourcesPath     = this->deviceBaseResourcesPath + "shaders/";
+    this->deviceModelResourcesPath      = this->deviceBaseResourcesPath + "models/";
+    this->deviceAnimationResourcesPath  = this->deviceBaseResourcesPath + "animations/";
 }
 
 void FileSystemUtils::destroy() {

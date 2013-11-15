@@ -13,12 +13,12 @@ class AnimationClipDataAsset : public Asset {
 public:
 	AnimationClipDataAsset();
 	AnimationClipDataAsset(std::string urlOfAnimation);
-	~AnimationClipDataAsset();
+	virtual ~AnimationClipDataAsset();
 
 	// @Override
 	virtual AssetType GetAssetType();
 	// @Override
-	virtual void LoadAsset();
+	virtual void LoadAsset() = 0;
 
 	std::string GetFilePathToAnimationFile();
 

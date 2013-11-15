@@ -9,11 +9,11 @@
 class AnimationClip {
 public:
 	AnimationClip();
-	~AnimationClip();
+	virtual ~AnimationClip();
 
 	virtual void InitAnimationClip(std::string urlOfAnimationClip) = 0;
 
-	inline std::string GetName() const { return this->clipName; }
+	inline std::string GetName()    const { return this->clipName; }
 	inline void SetName(std::string name) { this->clipName = name; }
 
 	void Play();
@@ -21,9 +21,12 @@ public:
 	void Resume();
 	void Stop();
 
-	inline bool IsPlaying()              const { return this->isPlaying; }
-	inline bool IsLooping()              const { return this->isLooping; }
-	inline void SetLooping(bool looping) { this->isLooping = looping; }
+	inline bool IsPlaying()               const { return this->isPlaying; }
+	inline bool IsLooping()               const { return this->isLooping; }
+	inline void SetLooping(bool looping)  { this->isLooping = looping; }
+
+	inline float GetPlaybackSpeed() const { return this->playbackSpeed; }
+	inline void SetPlaybackSpeed(float speed) { this->playbackSpeed = speed; }
 
 private:
 	void init();
@@ -31,6 +34,8 @@ private:
 
 	bool isPlaying;
 	bool isLooping;
+
+	float playbackSpeed;
 
 	std::string clipName;
 

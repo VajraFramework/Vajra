@@ -12,9 +12,10 @@ FileSystemUtils::~FileSystemUtils() {
 
 void FileSystemUtils::init() {
     this->deviceBaseResourcesPath = "./Resources/";
-    this->devicePictureResourcesPath = this->deviceBaseResourcesPath + "pictures/";
-    this->deviceShaderResourcesPath  = this->deviceBaseResourcesPath + "shaders/";
-    this->deviceModelResourcesPath   = this->deviceBaseResourcesPath + "models/";
+    this->devicePictureResourcesPath    = this->deviceBaseResourcesPath + "pictures/";
+    this->deviceShaderResourcesPath     = this->deviceBaseResourcesPath + "shaders/";
+    this->deviceModelResourcesPath      = this->deviceBaseResourcesPath + "models/";
+    this->deviceAnimationResourcesPath  = this->deviceBaseResourcesPath + "animations/";
 }
 
 void FileSystemUtils::destroy() {

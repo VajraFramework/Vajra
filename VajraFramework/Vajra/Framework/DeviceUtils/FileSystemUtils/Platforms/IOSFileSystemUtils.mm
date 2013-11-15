@@ -3,20 +3,21 @@
 #ifdef PLATFORM_IOS
 
 FileSystemUtils::FileSystemUtils() {
-    this->init();
+	this->init();
 }
 
 FileSystemUtils::~FileSystemUtils() {
-    this->destroy();
+	this->destroy();
 }
 
 void FileSystemUtils::init() {
-    NSString* resourcePathNSString = [[NSBundle mainBundle] resourcePath];
-    this->deviceBaseResourcesPath = [resourcePathNSString cStringUsingEncoding:NSUTF8StringEncoding];
-    this->deviceBaseResourcesPath += "/";
-    this->devicePictureResourcesPath = this->deviceBaseResourcesPath + "pictures/";
-    this->deviceShaderResourcesPath  = this->deviceBaseResourcesPath + "shaders/";
-    this->deviceModelResourcesPath   = this->deviceBaseResourcesPath + "models/";
+	NSString* resourcePathNSString = [[NSBundle mainBundle] resourcePath];
+	this->deviceBaseResourcesPath = [resourcePathNSString cStringUsingEncoding:NSUTF8StringEncoding];
+	this->deviceBaseResourcesPath += "/";
+	this->devicePictureResourcesPath    = this->deviceBaseResourcesPath + "pictures/";
+	this->deviceShaderResourcesPath     = this->deviceBaseResourcesPath + "shaders/";
+	this->deviceModelResourcesPath      = this->deviceBaseResourcesPath + "models/";
+	this->deviceAnimationResourcesPath  = this->deviceBaseResourcesPath + "animations/";
 }
 
 void FileSystemUtils::destroy() {

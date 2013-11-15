@@ -29,19 +29,22 @@ void Animation::HandleMessage(Message* message) {
 	}
 }
 
-// This should be in the derived class
-#if 0
-void Animation::AddAnimationClip(std::string urlOfAnimationClip) {
-	AnimationClip* newAnimationClip = new AnimationClip();
-	newAnimationClip->InitAnimationClip(urlOfAnimationClip);
-
-	if (this->animationClips.find(newAnimationClip->GetName()) == this->animationClips.end()) {
-		this->animationClips[newAnimationClip->GetName()] = newAnimationClip;
+void Animation::addAnimationClip(AnimationClip* animationClip, bool takeOwnershipOfMemory) {
+	if (this->animationClips.find(animationClip->GetName()) == this->animationClips.end()) {
+		this->animationClips[animationClip->GetName()] = animationClip;
 	} else {
-		FRAMEWORK->GetLogger()->dbglog("\nTried to add duplicate animation clip at url: %s to Object of id: %d", urlOfAnimationClip.c_str(), this->GetObject()->GetId());
+		FRAMEWORK->GetLogger()->dbglog("\nTried to add duplicate animation clip at url: %s to Object of id: %d", animationClip->GetName().c_str(), this->GetObject()->GetId());
+		if (takeOwnershipOfMemory) {
+			delete animationClip;
+		}
 	}
 }
-#endif
+
+void Animation::DeleteAnimationClip(std::string animationClipName) {
+	if (!this->animationClips.erase(animationClipName)) {
+		FRAMEWORK->GetLogger()->dbglog("\nTried to delete unadded animation clip at url: %s from Object of id: %d", animationClipName.c_str(), this->GetObject()->GetId());
+	}
+}
 
 void Animation::PlayAnimationClip(std::string animationClipName) {
 	auto animationClipIt = this->animationClips.find(animationClipName);

@@ -9,10 +9,11 @@ class FileSystemUtils : public Object {
 public:
     ~FileSystemUtils();
     
-    inline const std::string GetDeviceBaseResourcesPath() const    { return this->deviceBaseResourcesPath; }
-    inline const std::string GetDevicePictureResourcesPath() const { return this->devicePictureResourcesPath; }
-    inline const std::string GetDeviceShaderResourcesPath() const  { return this->deviceShaderResourcesPath; }
-    inline const std::string GetDeviceModelResourcesPath() const   { return this->deviceModelResourcesPath; }
+    inline const std::string GetDeviceBaseResourcesPath()      const { return this->deviceBaseResourcesPath;      }
+    inline const std::string GetDevicePictureResourcesPath()   const { return this->devicePictureResourcesPath;   }
+    inline const std::string GetDeviceShaderResourcesPath()    const { return this->deviceShaderResourcesPath;    }
+    inline const std::string GetDeviceModelResourcesPath()     const { return this->deviceModelResourcesPath;     }
+    inline const std::string GetDeviceAnimationResourcesPath() const { return this->deviceAnimationResourcesPath; }
     
 private:
     FileSystemUtils();
@@ -23,6 +24,7 @@ private:
     std::string devicePictureResourcesPath;
     std::string deviceShaderResourcesPath;
     std::string deviceModelResourcesPath;
+    std::string deviceAnimationResourcesPath;
     
     friend class Framework;
 };

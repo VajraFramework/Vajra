@@ -1,6 +1,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
@@ -48,10 +49,12 @@ namespace Tesserakonteres {
 			GameObject* gameObject = new GameObject();
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "pCube1.model");
+			//
+			RigidAnimation* rigidAnimation = gameObject->AddComponent<RigidAnimation>();
+			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "simpleanimation.animclips#clip0");
+
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
-			Transform* transform = gameObject->GetTransform();
-			// transform->Rotate(-90.0f, transform->GetLeft());
-			// transform->Scale(0.03f, 0.03f, 0.03f);
+			// Transform* transform = gameObject->GetTransform();
 		}
 		{
 			GameObject* camera = new GameObject();
