@@ -10,6 +10,9 @@
 #include <string>
 #include <vector>
 
+// Forward Declarations:
+class RigidAnimationKeyFrame;
+
 class RigidAnimationClipDataAsset : public AnimationClipDataAsset {
 public:
 	RigidAnimationClipDataAsset();
@@ -21,11 +24,16 @@ public:
 	// @Override
 	virtual void LoadAsset();
 
+protected:
+	virtual unsigned int getNumKeyFrames() const { return this->animationKeyFrames.size(); }
+	virtual AnimationKeyFrame* getKeyFrameAtIndex(unsigned int index) const;
+
 private:
 	void init();
 	void destroy();
 
 	static AssetType assetType;
+	std::vector<RigidAnimationKeyFrame*> animationKeyFrames;
 };
 
 #endif // RIGID_ANIMATION_CLIP_DATA_ASSET_H

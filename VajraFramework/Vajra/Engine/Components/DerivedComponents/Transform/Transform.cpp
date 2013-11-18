@@ -97,6 +97,10 @@ void Transform::Rotate(float angleInDegrees, glm::vec3 axis) {
 	this->setOrientation(glm::angleAxis(angleInDegrees, axis) * this->orientation);
 }
 
+void Transform::Rotate(glm::quat quaternion) {
+	this->setOrientation(quaternion * this->orientation);
+}
+
 void Transform::Scale(float x, float y, float z) {
 	this->setScale(glm::vec3(this->scale.x * x, this->scale.y * y, this->scale.z * z));
 }

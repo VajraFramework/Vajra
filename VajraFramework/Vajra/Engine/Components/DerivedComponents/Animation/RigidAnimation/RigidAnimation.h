@@ -19,10 +19,7 @@ public:
 
 	static inline ComponentIdType GetTypeId() { return Animation::GetTypeId(); }
 
-	// @Override
-	virtual void HandleMessage(Message* message);
-
-	virtual void AddAnimationClip(std::string urlOfAnimationClip);
+	virtual AnimationClip* AddAnimationClip(std::string urlOfAnimationClip);
 
 private:
 	void init();

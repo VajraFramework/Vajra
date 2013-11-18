@@ -128,7 +128,7 @@ void renderFrame(float dt) {
         	if (transform != nullptr) {
         		// transform->SetOrientation(90.0f, YAXIS);
         		// transform->Translate(0.04f, transform->GetForward());
-        		transform->Rotate(50.0f * deltaTime, YAXIS);
+        		// transform->Rotate(50.0f * deltaTime, YAXIS);
         		// transform->Rotate(0.4f, -transform->GetLeft());
         	}
         }
@@ -157,7 +157,7 @@ void renderFrame(float dt) {
 
     ENGINE->DoFrame();
 
-    printFrameTimeStats();
+    // printFrameTimeStats();
 
     modelMatrix = glm::rotate(0.0f, 0.0f, 1.0f, 0.0f);
     mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;

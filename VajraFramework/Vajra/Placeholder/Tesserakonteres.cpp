@@ -1,7 +1,8 @@
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
-#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/AnimationClip.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h"
+#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
@@ -52,9 +53,15 @@ namespace Tesserakonteres {
 			//
 			RigidAnimation* rigidAnimation = gameObject->AddComponent<RigidAnimation>();
 			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "simpleanimation.animclips#clip0");
+			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "simpleanimation.animclips#clip1");
+			AnimationClip* animationClip = rigidAnimation->GetAnimationClip("clip1");
+			animationClip->SetPlaybackSpeed(2.0f);
+			animationClip->SetLooping(true);
+			rigidAnimation->PlayAnimationClip("clip1");
 
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
-			// Transform* transform = gameObject->GetTransform();
+			Transform* transform = gameObject->GetTransform();
+			transform->SetPosition(1.0f, 0.0f, 0.0f);
 		}
 		{
 			GameObject* camera = new GameObject();

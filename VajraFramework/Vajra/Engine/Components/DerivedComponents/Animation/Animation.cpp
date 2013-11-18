@@ -4,6 +4,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
@@ -24,19 +25,38 @@ Animation::~Animation() {
 void Animation::HandleMessage(Message* message) {
 	switch (message->GetMessageType()) {
 
+	case MESSAGE_TYPE_FRAME_EVENT:
+		if (this->IsPlaying()) {
+			this->step(ENGINE->GetTimer()->GetDeltaFrameTime());
+			this->apply();
+		}
+		break;
+
 	default:
 		break;
 	}
 }
 
-void Animation::addAnimationClip(AnimationClip* animationClip, bool takeOwnershipOfMemory) {
+void Animation::step(double deltaTime) {
+	this->currentAnimationClip->step(deltaTime);
+}
+
+void Animation::apply() {
+	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
+	this->currentAnimationClip->apply(gameObject->GetTransform());
+}
+
+AnimationClip* Animation::addAnimationClip(AnimationClip* animationClip, bool takeOwnershipOfMemory) {
 	if (this->animationClips.find(animationClip->GetName()) == this->animationClips.end()) {
 		this->animationClips[animationClip->GetName()] = animationClip;
+		return animationClip;
+
 	} else {
 		FRAMEWORK->GetLogger()->dbglog("\nTried to add duplicate animation clip at url: %s to Object of id: %d", animationClip->GetName().c_str(), this->GetObject()->GetId());
 		if (takeOwnershipOfMemory) {
 			delete animationClip;
 		}
+		return this->animationClips[animationClip->GetName()];
 	}
 }
 
@@ -46,10 +66,20 @@ void Animation::DeleteAnimationClip(std::string animationClipName) {
 	}
 }
 
+AnimationClip* Animation::GetAnimationClip(std::string animationClipName) {
+	auto animationClipIt = this->animationClips.find(animationClipName);
+	if (animationClipIt != this->animationClips.end()) {
+		return animationClipIt->second;
+	}
+	return nullptr;
+}
+
 void Animation::PlayAnimationClip(std::string animationClipName) {
 	auto animationClipIt = this->animationClips.find(animationClipName);
 	if (animationClipIt != this->animationClips.end()) {
 		this->playAnimationClip_internal(animationClipIt->second);
+	} else {
+		FRAMEWORK->GetLogger()->dbglog("\nNo such clip to play: %s", animationClipName.c_str());
 	}
 }
 
@@ -112,8 +142,12 @@ void Animation::init() {
 	}
 
 	this->currentAnimationClip = nullptr;
+
+	// TODO [Implement] Figure out if its better to add/remove subscription dynamically on play/pause/remove
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
 
 void Animation::destroy() {
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 

@@ -1,5 +1,6 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationClipDataAsset.h"
+#include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationKeyFrames/AnimationKeyFrame.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -25,6 +26,18 @@ AssetType AnimationClipDataAsset::GetAssetType() {
 
 std::string AnimationClipDataAsset::GetFilePathToAnimationFile() {
 	return this->GetUrl();
+}
+
+unsigned int AnimationClipDataAsset::GetNumKeyFrames() const {
+	return this->getNumKeyFrames();
+}
+
+AnimationKeyFrame* AnimationClipDataAsset::GetKeyFrameAtIndex(unsigned int index) const {
+	return this->getKeyFrameAtIndex(index);
+}
+
+void AnimationClipDataAsset::setName(std::string name_) {
+	this->name = name_;
 }
 
 void AnimationClipDataAsset::init() {

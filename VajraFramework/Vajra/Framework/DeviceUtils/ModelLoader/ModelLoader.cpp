@@ -25,7 +25,7 @@ void LoadMeshFromModelFile(const char* filePath,
 	{
 		int modelFormatVersionNumber = -1;
 		modelFile >> modelFormatVersionNumber;
-		ASSERT(modelFormatVersionNumber == MODEL_FORMAT_VERSION_NUMBER, "Model format version number (%d) matches", modelFormatVersionNumber);
+		VERIFY(modelFormatVersionNumber == MODEL_FORMAT_VERSION_NUMBER, "Model format version number (%d) matches expected (%d)", modelFormatVersionNumber, MODEL_FORMAT_VERSION_NUMBER);
 	}
 
 	{
@@ -100,6 +100,8 @@ void LoadMeshFromModelFile(const char* filePath,
 		modelFile >> textureImageName;
 		outTextureFilePath = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + textureImageName;
 	}
+
+	FRAMEWORK->GetLogger()->dbglog("\nDone processing model file %s", filePath);
 }
 
 }

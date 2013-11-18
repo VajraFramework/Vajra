@@ -14,3 +14,21 @@ const glm::vec3 ZAXIS = glm::vec3(0.0f, 0.0f, 1.0f);
 const glm::vec3 ZERO_VEC3 = glm::vec3(0.0f, 0.0f, 0.0f);
 const glm::vec4 ZERO_VEC4_POSITION  = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 const glm::vec4 ZERO_VEC4_DIRECTION = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+
+// Interpolation Functions:
+void lerp(float& destination, const float a, const float b, const float interp) {
+	destination = a * (1 - interp) + b * interp;
+}
+
+void slerp(glm::quat& destination, const glm::quat a, const glm::quat b, float interp) {
+	destination = glm::slerp(a, b, interp);
+}
+
+void catmullromerp(float& destination, const float p0, const float p1, const float p2, const float p3, const float interp) {
+	destination = 0.5f * (
+		(2*p1) +
+		(-p0 + p2) * interp +
+		(2*p0 - 5*p1 + 4*p2 - p3) * interp * interp +
+		(-p0 + 3*p1 - 3*p2 +p3) * interp * interp * interp
+		);
+}

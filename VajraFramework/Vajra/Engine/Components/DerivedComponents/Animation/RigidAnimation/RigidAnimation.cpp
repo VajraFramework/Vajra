@@ -19,19 +19,11 @@ RigidAnimation::~RigidAnimation() {
 	this->destroy();
 }
 
-void RigidAnimation::HandleMessage(Message* message) {
-	switch (message->GetMessageType()) {
-
-	default:
-		break;
-	}
-}
-
-void RigidAnimation::AddAnimationClip(std::string urlOfAnimationClip) {
+AnimationClip* RigidAnimation::AddAnimationClip(std::string urlOfAnimationClip) {
 	RigidAnimationClip* newRigidAnimationClip = new RigidAnimationClip();
 	newRigidAnimationClip->InitAnimationClip(urlOfAnimationClip);
 
-	Animation::addAnimationClip(newRigidAnimationClip, true);
+	return Animation::addAnimationClip(newRigidAnimationClip, true);
 }
 
 void RigidAnimation::init() {

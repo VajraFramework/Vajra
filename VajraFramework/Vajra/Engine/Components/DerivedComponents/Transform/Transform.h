@@ -37,6 +37,7 @@ public:
 	void Translate(glm::vec3 diff);
 	void Translate(float distance, glm::vec3 along);
 	void Rotate(float angleInDegrees, glm::vec3 axis);
+	void Rotate(glm::quat quaternion);
 	void Scale(float x, float y, float z);
 	//
 	void LookAt(float point_x, float point_y, float point_z);

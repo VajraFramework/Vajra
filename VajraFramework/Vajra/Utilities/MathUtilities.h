@@ -25,4 +25,9 @@ extern const glm::vec3 ZERO_VEC3;
 extern const glm::vec4 ZERO_VEC4_POSITION;
 extern const glm::vec4 ZERO_VEC4_DIRECTION;
 
+// Interpolation Functions:
+void lerp(float& destination, const float a, const float b, const float interp);
+void slerp(glm::quat& destination, const glm::quat a, const glm::quat b, float interp);
+void catmullromerp(float& destination, const float p0, const float p1, const float p2, const float p3, const float interp);
+
 #endif // MATHUTILITIES_H

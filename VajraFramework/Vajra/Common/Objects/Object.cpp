@@ -37,7 +37,7 @@ void Object::HandleMessages() {
 	do {
 		message = ENGINE->GetMessageHub()->RetrieveNextMessage(this->GetId());
 		if (message != nullptr) {
-			// FRAMEWORK->GetLogger()->dbglog("\nObject got msg of type %d", message->GetMessageType());
+			// FRAMEWORK->GetLogger()->dbglog("\nObject %d got msg of type %d", this->GetId(), message->GetMessageType());
 			// Forward message to subscribed components:
 			for(ComponentIdType& componentId : this->subscribersForMessageType[message->GetMessageType()]) {
 				auto componentIt = this->componentMap.find(componentId);
@@ -46,8 +46,6 @@ void Object::HandleMessages() {
 					component->HandleMessage(message);
 				}
 			}
-			// for (auto it = this->subscribersForMessageType[message->GetMessageType()].begin();
-					// it != this->subscribersForMessageType
 		}
 	} while (message != nullptr);
 }

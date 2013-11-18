@@ -21,7 +21,7 @@ public:
 	// @Override
 	virtual void HandleMessage(Message* message);
 
-	virtual void AddAnimationClip(std::string urlOfAnimationClip) = 0;
+	virtual AnimationClip* AddAnimationClip(std::string urlOfAnimationClip) = 0;
 	void DeleteAnimationClip(std::string animationClipName);
 
 	void PlayAnimationClip(std::string animationClipName);
@@ -33,10 +33,11 @@ public:
 	bool IsPlaying();
 	bool IsPlaying(std::string animationClipName);
 
+	AnimationClip* GetAnimationClip(std::string animationClipName);
 	inline AnimationClip* GetCurrentPlayingAnimationClip() { return this->currentAnimationClip; }
 
 protected:
-	void addAnimationClip(AnimationClip* animationClip, bool takeOwnershipOfMemory);
+	AnimationClip* addAnimationClip(AnimationClip* animationClip, bool takeOwnershipOfMemory);
 
 private:
 	void init();
@@ -44,6 +45,8 @@ private:
 
 	// Utility functions:
 	void playAnimationClip_internal(AnimationClip* animationClip);
+	void step(double deltaTime);
+	void apply();
 
 	AnimationClip* currentAnimationClip;
 	std::map<std::string /* clip name */, AnimationClip*> animationClips;
