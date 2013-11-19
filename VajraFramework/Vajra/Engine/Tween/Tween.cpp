@@ -75,7 +75,9 @@ void Tween::tweenPosition_internal(GameObject* gameObject, glm::vec3 initialPosi
 	std::string tweenClipName = "tween";
 	tweenClipName = tweenClipName + buffer;
 	//
-	this->ongoingTweens[gameObject->GetId()] = tweenClipName;
+	OnGoingTweenDetails* ongoingTweenDetails = new OnGoingTweenDetails();
+	ongoingTweenDetails->tweenClipName = tweenClipName;
+	this->ongoingTweens[gameObject->GetId()] = ongoingTweenDetails;
 
 	RigidAnimationClip* newAnimationClip = new RigidAnimationClip(rigidAnimation);
 	newAnimationClip->InitAnimationClip(tweenClipName, keyframes);

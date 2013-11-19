@@ -66,7 +66,7 @@ namespace Tesserakonteres {
 			transform->SetScale(0.05f, 0.05f, 0.05f);
 			*/
 
-#if 0
+#if 1
 			ENGINE->GetTween()->TweenPosition(gameObject->GetId(), glm::vec3(0.0f, 0.0f, 0.0f),
 					                                               glm::vec3(0.0f, 1.0f, 0.0f),
 					                                               2.0f);

@@ -9,6 +9,7 @@
 
 // Forward Declarations:
 class GameObject;
+struct OnGoingTweenDetails;
 
 class Tween : public Object {
 public:
@@ -27,9 +28,17 @@ private:
 	// Utilitiy Functions:
 	void tweenPosition_internal(GameObject* gameObject, glm::vec3 initialPosition, glm::vec3 finalPosition, float time);
 
-	std::map<ObjectIdType, std::string /* tweenClipName */> ongoingTweens;
+	std::map<ObjectIdType, OnGoingTweenDetails*> ongoingTweens;
 
 	friend class Engine;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+struct OnGoingTweenDetails {
+public:
+	std::string tweenClipName;
+private:
 };
 
 #endif // TWEEN_H
