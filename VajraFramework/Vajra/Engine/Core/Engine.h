@@ -8,6 +8,7 @@ class AssetLibrary;
 class MessageHub;
 class SceneGraph;
 class Timer;
+class Tween;
 
 class Engine {
 public:
@@ -19,6 +20,7 @@ public:
 	inline MessageHub*   GetMessageHub()   { return this->messageHub;   }
 	inline SceneGraph*   GetSceneGraph()   { return this->sceneGraph;   }
 	inline Timer*        GetTimer()        { return this->timer;        }
+	inline Tween*        GetTween()        { return this->tween;        }
 
 	void DoFrame();
 
@@ -37,6 +39,7 @@ private:
 	MessageHub* messageHub;
 	SceneGraph* sceneGraph;
 	Timer* timer;
+	Tween* tween;
 };
 
 #define ENGINE Engine::GetInstance()

@@ -3,6 +3,7 @@
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Engine/Timer/Timer.h"
+#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
 
 // static member declaration:
@@ -32,6 +33,7 @@ void Engine::init() {
 	this->messageHub   = new MessageHub();
 	this->assetLibrary = new AssetLibrary();
 	this->sceneGraph   = new SceneGraph();
+	this->tween        = new Tween();
 }
 
 void Engine::DoFrame() {
@@ -76,5 +78,8 @@ void Engine::destroy() {
 	}
 	if (this->timer != nullptr) {
 		delete this->timer;
+	}
+	if (this->tween != nullptr) {
+		delete this->tween;
 	}
 }

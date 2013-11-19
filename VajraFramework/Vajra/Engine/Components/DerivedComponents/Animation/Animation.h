@@ -22,6 +22,7 @@ public:
 	virtual void HandleMessage(Message* message);
 
 	virtual AnimationClip* AddAnimationClip(std::string urlOfAnimationClip) = 0;
+	virtual AnimationClip* AddAnimationClip(AnimationClip* animationClip) = 0;
 	void DeleteAnimationClip(std::string animationClipName);
 
 	void PlayAnimationClip(std::string animationClipName);

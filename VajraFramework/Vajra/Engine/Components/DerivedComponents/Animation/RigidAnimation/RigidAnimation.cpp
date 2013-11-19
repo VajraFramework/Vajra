@@ -20,10 +20,14 @@ RigidAnimation::~RigidAnimation() {
 }
 
 AnimationClip* RigidAnimation::AddAnimationClip(std::string urlOfAnimationClip) {
-	RigidAnimationClip* newRigidAnimationClip = new RigidAnimationClip();
+	RigidAnimationClip* newRigidAnimationClip = new RigidAnimationClip(this);
 	newRigidAnimationClip->InitAnimationClip(urlOfAnimationClip);
 
-	return Animation::addAnimationClip(newRigidAnimationClip, true);
+	return this->AddAnimationClip(newRigidAnimationClip);
+}
+
+AnimationClip* RigidAnimation::AddAnimationClip(AnimationClip* animationClip) {
+	return this->addAnimationClip(animationClip, true);
 }
 
 void RigidAnimation::init() {

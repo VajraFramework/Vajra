@@ -6,6 +6,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
@@ -51,6 +52,7 @@ namespace Tesserakonteres {
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "pCube1.model");
 			//
+			/*
 			RigidAnimation* rigidAnimation = gameObject->AddComponent<RigidAnimation>();
 			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "simpleanimation.animclips#clip0");
 			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "simpleanimation.animclips#clip1");
@@ -61,7 +63,14 @@ namespace Tesserakonteres {
 
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			Transform* transform = gameObject->GetTransform();
-			transform->SetPosition(1.0f, 0.0f, 0.0f);
+			transform->SetScale(0.05f, 0.05f, 0.05f);
+			*/
+
+#if 0
+			ENGINE->GetTween()->TweenPosition(gameObject->GetId(), glm::vec3(0.0f, 0.0f, 0.0f),
+					                                               glm::vec3(0.0f, 1.0f, 0.0f),
+					                                               2.0f);
+#endif
 		}
 		{
 			GameObject* camera = new GameObject();

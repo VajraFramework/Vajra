@@ -24,6 +24,8 @@ public:
 	// @Override
 	virtual void LoadAsset();
 
+	virtual void AddKeyFrame(AnimationKeyFrame* newKeyFrame);
+
 protected:
 	virtual unsigned int getNumKeyFrames() const { return this->animationKeyFrames.size(); }
 	virtual AnimationKeyFrame* getKeyFrameAtIndex(unsigned int index) const;

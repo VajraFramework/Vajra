@@ -20,6 +20,7 @@ public:
 	static inline ComponentIdType GetTypeId() { return Animation::GetTypeId(); }
 
 	virtual AnimationClip* AddAnimationClip(std::string urlOfAnimationClip);
+	virtual AnimationClip* AddAnimationClip(AnimationClip* animationClip);
 
 private:
 	void init();

@@ -35,7 +35,7 @@ void Camera::updateMatrices() {
 }
 
 void Camera::HandleMessage(Message* message) {
-	FRAMEWORK->GetLogger()->dbglog("\nCamera got msg of type %d", message->GetMessageType());
+	// FRAMEWORK->GetLogger()->dbglog("\nCamera got msg of type %d", message->GetMessageType());
 
 	switch (message->GetMessageType()) {
 

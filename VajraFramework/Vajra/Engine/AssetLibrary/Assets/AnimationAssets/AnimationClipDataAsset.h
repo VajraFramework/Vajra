@@ -27,6 +27,8 @@ public:
 	unsigned int GetNumKeyFrames() const;
 	AnimationKeyFrame* GetKeyFrameAtIndex(unsigned int index) const;
 
+	virtual void AddKeyFrame(AnimationKeyFrame* newKeyFrame) = 0;
+
 protected:
 	virtual unsigned int getNumKeyFrames() const  = 0;
 	virtual AnimationKeyFrame* getKeyFrameAtIndex(unsigned int index) const = 0;

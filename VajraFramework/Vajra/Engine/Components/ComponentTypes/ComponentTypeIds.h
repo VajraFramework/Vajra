@@ -8,5 +8,6 @@
 #define COMPONENT_TYPE_ID_RENDERER               (unsigned int)3
 #define COMPONENT_TYPE_ID_DIRECTIONAL_LIGHT      (unsigned int)4
 #define COMPONENT_TYPE_ID_ANIMATION              (unsigned int)5
+#define COMPONENT_TYPE_ID_TWEEN_CALLBACK         (unsigned int)6
 
 #endif // COMPONENT_TYPE_IDS_H

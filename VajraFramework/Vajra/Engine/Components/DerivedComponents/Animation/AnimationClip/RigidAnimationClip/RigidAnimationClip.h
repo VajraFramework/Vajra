@@ -13,10 +13,11 @@ class RigidAnimationKeyFrame;
 
 class RigidAnimationClip : public AnimationClip {
 public:
-	RigidAnimationClip();
+	RigidAnimationClip(Animation* parentAnimationComponent_);
 	virtual ~RigidAnimationClip();
 
 	virtual void InitAnimationClip(std::string urlOfAnimationClip);
+	virtual void InitAnimationClip(std::string clipName_, std::vector<AnimationKeyFrame*> animationKeyFrames);
 
 protected:
 	// @Override

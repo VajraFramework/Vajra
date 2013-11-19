@@ -96,7 +96,7 @@ void renderFrame(float dt) {
     float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(105);
+        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(106);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -109,26 +109,26 @@ void renderFrame(float dt) {
     }
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(106);
-        if (quad != nullptr) {
-        	Transform* transform = quad->GetTransform();
-        	if (transform != nullptr) {
-        		// transform->SetOrientation(90.0f, YAXIS);
-        		// transform->Translate(0.04f, transform->GetForward());
-        		transform->Rotate(30.0f * deltaTime, YAXIS);
-        		// transform->Rotate(0.4f, -transform->GetLeft());
-        	}
-        }
-    }
-    {
-        // Temp, testing transforms:
         GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(107);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
         		// transform->SetOrientation(90.0f, YAXIS);
         		// transform->Translate(0.04f, transform->GetForward());
-        		// transform->Rotate(50.0f * deltaTime, YAXIS);
+        		// transform->Rotate(30.0f * deltaTime, YAXIS);
+        		// transform->Rotate(0.4f, -transform->GetLeft());
+        	}
+        }
+    }
+    {
+        // Temp, testing transforms:
+        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(108);
+        if (quad != nullptr) {
+        	Transform* transform = quad->GetTransform();
+        	if (transform != nullptr) {
+        		// transform->SetOrientation(90.0f, YAXIS);
+        		// transform->Translate(0.04f, transform->GetForward());
+        		transform->Rotate(50.0f * deltaTime, YAXIS);
         		// transform->Rotate(0.4f, -transform->GetLeft());
         	}
         }
@@ -150,7 +150,7 @@ void renderFrame(float dt) {
         // Sending arbit message for testing
         {
 			const Message* const message = new Message();
-			ENGINE->GetMessageHub()->SendPointcastMessage(message, 105);
+			ENGINE->GetMessageHub()->SendPointcastMessage(message, 106);
 			delete message;
         }
     }

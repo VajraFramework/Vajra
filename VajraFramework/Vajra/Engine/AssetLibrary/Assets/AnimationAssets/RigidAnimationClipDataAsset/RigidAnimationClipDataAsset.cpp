@@ -41,6 +41,11 @@ void RigidAnimationClipDataAsset::LoadAsset() {
 	this->setName(clipName);
 }
 
+void RigidAnimationClipDataAsset::AddKeyFrame(AnimationKeyFrame* newKeyFrame) {
+	// TODO [Implement] Figure out how to ensure type safety here:
+	this->animationKeyFrames.push_back(dynamic_cast<RigidAnimationKeyFrame*>(newKeyFrame));
+}
+
 AnimationKeyFrame* RigidAnimationClipDataAsset::getKeyFrameAtIndex(unsigned int index) const {
 	VERIFY(index < this->animationKeyFrames.size(), "Index %d is valid", index);
 

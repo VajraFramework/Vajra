@@ -1,12 +1,13 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationClipDataAsset.h"
 #include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationKeyFrames/RigidAnimationKeyFrame/RigidAnimationKeyFrame.h"
-#include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/RigidAnimationClip/RigidAnimationClip.h"
+#include "Vajra/Engine/Components/DerivedComponents/Animation/Animation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/AnimationClip.h"
+#include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/RigidAnimationClip/RigidAnimationClip.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
-RigidAnimationClip::RigidAnimationClip() {
+RigidAnimationClip::RigidAnimationClip(Animation* parentAnimationComponent_) : AnimationClip(parentAnimationComponent_) {
 	this->init();
 }
 
@@ -17,6 +18,14 @@ RigidAnimationClip::~RigidAnimationClip() {
 void RigidAnimationClip::InitAnimationClip(std::string urlOfAnimationClip) {
 	this->clipDataAsset = ENGINE->GetAssetLibrary()->GetAsset<RigidAnimationClipDataAsset>(urlOfAnimationClip);
 	this->SetName(this->clipDataAsset->GetName());
+}
+
+void RigidAnimationClip::InitAnimationClip(std::string clipName_, std::vector<AnimationKeyFrame*> animationKeyFramesToAdd) {
+	this->clipDataAsset = std::make_shared<RigidAnimationClipDataAsset>();
+	for (AnimationKeyFrame* keyFrame : animationKeyFramesToAdd) {
+		this->clipDataAsset->AddKeyFrame(keyFrame);
+	}
+	this->SetName(clipName_);
 }
 
 AnimationKeyFrame* RigidAnimationClip::getCurrentKeyFrame() const {
