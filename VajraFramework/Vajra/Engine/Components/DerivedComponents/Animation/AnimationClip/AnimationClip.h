@@ -53,7 +53,7 @@ private:
 	void apply(Transform* transform);
 
 	// Utility Functions:
-	void raiseEvent(const Message* const message);
+	void raiseEvent(Message* const message, int gameObjectId, std::string eventClipName);
 
 	bool isPlaying;
 	bool isLooping;

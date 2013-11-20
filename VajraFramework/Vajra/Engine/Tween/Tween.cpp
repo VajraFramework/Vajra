@@ -20,19 +20,19 @@ Tween::~Tween() {
 	this->destroy();
 }
 
-void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time) {
+void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
-	Tween::tweenPosition_internal(gameObject, initialPosition, finalPosition, time);
+	Tween::tweenPosition_internal(gameObject, initialPosition, finalPosition, time, callback);
 }
 
-void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time) {
+void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
-		Tween::tweenPosition_internal(gameObject, gameObject->GetTransform()->GetPosition(), finalPosition, time);
+		Tween::tweenPosition_internal(gameObject, gameObject->GetTransform()->GetPosition(), finalPosition, time, callback);
 	}
 }
 
-void Tween::tweenPosition_internal(GameObject* gameObject, glm::vec3 initialPosition, glm::vec3 finalPosition, float time) {
+void Tween::tweenPosition_internal(GameObject* gameObject, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	if (gameObject == nullptr) {
 		FRAMEWORK->GetLogger()->dbglog("\nTrying to tween null GameObject");
 		return;
@@ -77,6 +77,7 @@ void Tween::tweenPosition_internal(GameObject* gameObject, glm::vec3 initialPosi
 	//
 	OnGoingTweenDetails* ongoingTweenDetails = new OnGoingTweenDetails();
 	ongoingTweenDetails->tweenClipName = tweenClipName;
+	ongoingTweenDetails->callback = callback;
 	this->ongoingTweens[gameObject->GetId()] = ongoingTweenDetails;
 
 	RigidAnimationClip* newAnimationClip = new RigidAnimationClip(rigidAnimation);
@@ -91,6 +92,14 @@ void Tween::tweenPosition_internal(GameObject* gameObject, glm::vec3 initialPosi
 
 bool Tween::IsTweening(ObjectIdType gameObjectId) {
 	return (this->ongoingTweens.find(gameObjectId) != this->ongoingTweens.end());
+}
+
+OnGoingTweenDetails* Tween::getOnGoingTweenDetails(ObjectIdType gameObjectId) {
+	auto ongoingTweenIt = this->ongoingTweens.find(gameObjectId);
+	if (ongoingTweenIt != this->ongoingTweens.end()) {
+		return ongoingTweenIt->second;
+	}
+	return nullptr;
 }
 
 void Tween::init() {

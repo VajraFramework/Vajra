@@ -1,4 +1,5 @@
 #include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I3FV.h"
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationClipDataAsset.h"
 #include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationKeyFrames/AnimationKeyFrame.h"
@@ -17,7 +18,12 @@ AnimationClip::~AnimationClip() {
 	this->destroy();
 }
 
-void AnimationClip::raiseEvent(const Message* const message) {
+void AnimationClip::raiseEvent(Message* const message, int gameObjectId, std::string eventClipName) {
+	MessageData1S1I3FV* messageData = new MessageData1S1I3FV();
+	messageData->i = gameObjectId;
+	messageData->s = eventClipName;
+	message->SetMessageData(messageData);
+
 	ObjectIdType parentObjectId = this->parentAnimationComponent->GetObject()->GetId();
 	ENGINE->GetMessageHub()->SendPointcastMessage(message, parentObjectId, parentObjectId);
 	if (this->isTween) {
@@ -28,24 +34,24 @@ void AnimationClip::raiseEvent(const Message* const message) {
 void AnimationClip::Play() {
 	this->isPlaying = true;
 	// FRAMEWORK->GetLogger()->dbglog("\nPlaying AnimationClip %s", this->clipName.c_str());
-	const Message* const message = new Message(MESSAGE_TYPE_ANIMATION_BEGAN_EVENT);
-	this->raiseEvent(message);
+	Message* const message = new Message(MESSAGE_TYPE_ANIMATION_BEGAN_EVENT);
+	this->raiseEvent(message, this->parentAnimationComponent->GetObject()->GetId(), this->GetName());
 	delete message;
 }
 
 void AnimationClip::Pause() {
 	this->isPlaying = false;
 	// FRAMEWORK->GetLogger()->dbglog("\nPausing AnimationClip %s", this->clipName.c_str());
-	const Message* const message = new Message(MESSAGE_TYPE_ANIMATION_PAUSED_EVENT);
-	this->raiseEvent(message);
+	Message* const message = new Message(MESSAGE_TYPE_ANIMATION_PAUSED_EVENT);
+	this->raiseEvent(message, this->parentAnimationComponent->GetObject()->GetId(), this->GetName());
 	delete message;
 }
 
 void AnimationClip::Resume() {
 	this->isPlaying = true;
 	// FRAMEWORK->GetLogger()->dbglog("\nResuming AnimationClip %s", this->clipName.c_str());
-	const Message* const message = new Message(MESSAGE_TYPE_ANIMATION_RESUMED_EVENT);
-	this->raiseEvent(message);
+	Message* const message = new Message(MESSAGE_TYPE_ANIMATION_RESUMED_EVENT);
+	this->raiseEvent(message, this->parentAnimationComponent->GetObject()->GetId(), this->GetName());
 	delete message;
 }
 
@@ -56,8 +62,8 @@ void AnimationClip::Stop() {
 	}
 	// FRAMEWORK->GetLogger()->dbglog("\nStopping AnimationClip %s", this->clipName.c_str());
 
-	const Message* const message = new Message(MESSAGE_TYPE_ANIMATION_ENDED_EVENT);
-	this->raiseEvent(message);
+	Message* const message = new Message(MESSAGE_TYPE_ANIMATION_ENDED_EVENT);
+	this->raiseEvent(message, this->parentAnimationComponent->GetObject()->GetId(), this->GetName());
 	delete message;
 }
 

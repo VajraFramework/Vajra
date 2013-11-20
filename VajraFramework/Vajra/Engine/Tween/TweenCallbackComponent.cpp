@@ -1,4 +1,6 @@
+#include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I3FV.h"
 #include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Tween/TweenCallbackComponent.h"
 
@@ -36,7 +38,22 @@ void TweenCallbackComponent::HandleMessage(Message* message) {
 }
 
 void TweenCallbackComponent::handleCallbacksOnAnimationEnd(Message* message) {
-	MessageData* data = message->GetMessageData();
+	if (message->GetMessageData() == nullptr ||
+		message->GetMessageData()->GetMessageDataType() != MESSAGEDATA_TYPE_1S_1I_3FV) {
+		VERIFY(0, "Message Data type mismatch");
+	}
+	MessageData1S1I3FV* data = dynamic_cast<MessageData1S1I3FV*>(message->GetMessageData());
+
+	ObjectIdType gameObjectId = data->i;
+
+	OnGoingTweenDetails* tweenDetails = ENGINE->GetTween()->getOnGoingTweenDetails(gameObjectId);
+	if (tweenDetails != nullptr) {
+		if (tweenDetails->callback != 0) {
+			tweenDetails->callback(gameObjectId, tweenDetails->tweenClipName);
+		}
+	} else {
+		FRAMEWORK->GetLogger()->dbglog("\nWARNING Received tween animation end event on GameObject %d, but there was no tween going on on it", gameObjectId);
+	}
 }
 
 void TweenCallbackComponent::init() {

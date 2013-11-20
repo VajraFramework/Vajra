@@ -2,6 +2,7 @@
 #define TWEEN_CALLBACK_COMPONENT_H
 
 #include "Vajra/Common/Components/Component.h"
+#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 // Forward Declarations:

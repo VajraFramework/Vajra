@@ -21,6 +21,10 @@
 
 namespace Tesserakonteres {
 
+	void tweenCallback(ObjectIdType gameObjectId, std::string tweenClipName) {
+		FRAMEWORK->GetLogger()->dbglog("\nIn tweenCallback() with %d, %s\n", gameObjectId, tweenClipName.c_str());
+	}
+
 	void initGameObjectsForScene() {
 		GameObject* parent = nullptr;
 		GameObject* child = nullptr;
@@ -69,7 +73,7 @@ namespace Tesserakonteres {
 #if 1
 			ENGINE->GetTween()->TweenPosition(gameObject->GetId(), glm::vec3(0.0f, 0.0f, 0.0f),
 					                                               glm::vec3(0.0f, 1.0f, 0.0f),
-					                                               2.0f);
+					                                               2.0f, tweenCallback);
 #endif
 		}
 		{
