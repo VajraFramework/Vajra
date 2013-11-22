@@ -46,10 +46,6 @@ AnimationKeyFrame* RigidAnimationClip::getCurrentKeyFrameAtInterpolation(float i
 	RigidAnimationKeyFrame* currentKeyFrame = (RigidAnimationKeyFrame*)this->getCurrentKeyFrame();
 	RigidAnimationKeyFrame* nextKeyFrame = (RigidAnimationKeyFrame*)this->getNextKeyFrame();
 
-	if (interpolation > 0.25f) {
-		static int qwe = 0;
-		qwe++;
-	}
 	if (currentKeyFrame != nullptr && nextKeyFrame != nullptr) {
 		float timeBetweenFrames = nextKeyFrame->GetTime() - currentKeyFrame->GetTime();
 		float time = currentKeyFrame->GetTime() + timeBetweenFrames * interpolation;
@@ -90,13 +86,29 @@ AnimationKeyFrame* RigidAnimationClip::getCurrentKeyFrameAtInterpolation(float i
 	} else {
 		// If we couldn't interpolate to next key frame, return current instead (which may or may not be null)
 		if (currentKeyFrame != nullptr) {
+			glm::vec3 prevPosition;
+			if (this->tempKeyFrame != nullptr) {
+				prevPosition = this->tempKeyFrame->GetTranslation();
+			}
+
 			this->tempKeyFrame->SetTranslation(currentKeyFrame->GetTranslation());
 			this->tempKeyFrame->SetRotation(currentKeyFrame->GetRotation());
 			this->tempKeyFrame->SetScaling(currentKeyFrame->GetScaling());
+
+			this->tempDeltaKeyFrame->SetTime(currentKeyFrame->GetTime());
+			this->tempDeltaKeyFrame->SetTranslation(this->tempKeyFrame->GetTranslation() - prevPosition);
+			this->tempDeltaKeyFrame->SetRotation(this->tempKeyFrame->GetRotation());
+			this->tempDeltaKeyFrame->SetScaling(this->tempKeyFrame->GetScaling());
+
+			return this->tempDeltaKeyFrame;
 		}
 	}
 
 	return this->tempKeyFrame;
+}
+
+void RigidAnimationClip::reset() {
+	this->tempKeyFrame->ResetKeyframeValues();
 }
 
 unsigned int RigidAnimationClip::getCurrentKeyFrameIndex() const {

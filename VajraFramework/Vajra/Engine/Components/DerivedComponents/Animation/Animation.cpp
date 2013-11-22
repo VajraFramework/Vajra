@@ -28,6 +28,8 @@ void Animation::HandleMessage(Message* message) {
 	case MESSAGE_TYPE_FRAME_EVENT:
 		if (this->IsPlaying()) {
 			this->step(ENGINE->GetTimer()->GetDeltaFrameTime());
+		}
+		if (this->IsPlaying()) {
 			this->apply();
 		}
 		break;

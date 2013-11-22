@@ -105,6 +105,10 @@ void Transform::Scale(float x, float y, float z) {
 	this->setScale(glm::vec3(this->scale.x * x, this->scale.y * y, this->scale.z * z));
 }
 
+void Transform::Scale(float scaleFactor) {
+	this->SetScale(this->scale.x * scaleFactor, this->scale.y * scaleFactor, this->scale.z * scaleFactor);
+}
+
 void Transform::LookAt(float point_x, float point_y, float point_z) {
 	this->LookAt(glm::vec3(point_x, point_y, point_z));
 }

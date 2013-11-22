@@ -67,7 +67,8 @@ namespace Tesserakonteres {
 
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			Transform* transform = gameObject->GetTransform();
-			transform->SetScale(0.05f, 0.05f, 0.05f);
+			transform->Scale(0.5f);
+			// transform->Translate(1.0f, transform->GetLeft());
 #endif
 
 #if 0

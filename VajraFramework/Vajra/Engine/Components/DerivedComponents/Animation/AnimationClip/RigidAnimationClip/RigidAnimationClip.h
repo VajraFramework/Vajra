@@ -28,6 +28,9 @@ protected:
 	virtual void setCurrentKeyFrameIndex(unsigned int newIndex);
 	virtual unsigned int getNumKeyFrames() const;
 
+	// @Override
+	virtual void reset();
+
 private:
 	void init();
 	void destroy();

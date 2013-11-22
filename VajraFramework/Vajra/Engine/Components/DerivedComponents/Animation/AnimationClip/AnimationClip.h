@@ -40,6 +40,8 @@ protected:
 	virtual void InitAnimationClip(std::string urlOfAnimationClip) = 0;
 	virtual void InitAnimationClip(std::string clipName_, std::vector<AnimationKeyFrame*> animationKeyFrames) = 0;
 
+	virtual void reset() {}
+
 private:
 	void init(Animation* parentAnimationComponent_);
 	void destroy();

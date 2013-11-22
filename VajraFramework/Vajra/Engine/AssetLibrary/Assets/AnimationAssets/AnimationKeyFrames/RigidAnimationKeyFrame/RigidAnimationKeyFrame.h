@@ -14,6 +14,8 @@ public:
 	RigidAnimationKeyFrame();
 	virtual ~RigidAnimationKeyFrame();
 
+	void ResetKeyframeValues();
+
 	inline glm::vec3 GetTranslation() const { return this->translation; }
 	inline glm::quat GetRotation()    const { return this->orientationQuat; }
 	inline glm::vec3 GetScaling()     const { return this->scaling; }

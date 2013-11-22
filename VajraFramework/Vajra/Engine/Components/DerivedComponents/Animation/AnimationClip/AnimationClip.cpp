@@ -57,6 +57,7 @@ void AnimationClip::Resume() {
 
 void AnimationClip::Stop() {
 	this->isPlaying = false;
+	this->reset();
 	if (this->getNumKeyFrames() > 0) {
 		this->setCurrentKeyFrameIndex(0);
 	}

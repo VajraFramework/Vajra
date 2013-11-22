@@ -12,6 +12,12 @@ RigidAnimationKeyFrame::~RigidAnimationKeyFrame() {
 	this->destroy();
 }
 
+void RigidAnimationKeyFrame::ResetKeyframeValues() {
+	this->translation = ZERO_VEC3;
+	this->orientationQuat = IDENTITY_QUATERNION;
+	this->scaling = ZERO_VEC3;
+}
+
 void RigidAnimationKeyFrame::SetTranslation(glm::vec3 v) {
 	this->translation = v;
 }
@@ -33,6 +39,7 @@ void RigidAnimationKeyFrame::ApplyKeyFrameToTransform(Transform* transform) cons
 }
 
 void RigidAnimationKeyFrame::init() {
+	this->ResetKeyframeValues();
 }
 
 void RigidAnimationKeyFrame::destroy() {
