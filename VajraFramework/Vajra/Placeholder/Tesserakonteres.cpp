@@ -56,24 +56,42 @@ namespace Tesserakonteres {
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "pCube1.model");
 			//
-			/*
+#if 1
 			RigidAnimation* rigidAnimation = gameObject->AddComponent<RigidAnimation>();
 			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "simpleanimation.animclips#clip0");
 			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "simpleanimation.animclips#clip1");
 			AnimationClip* animationClip = rigidAnimation->GetAnimationClip("clip1");
-			animationClip->SetPlaybackSpeed(2.0f);
+			animationClip->SetPlaybackSpeed(1.0f);
 			animationClip->SetLooping(true);
 			rigidAnimation->PlayAnimationClip("clip1");
 
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			Transform* transform = gameObject->GetTransform();
 			transform->SetScale(0.05f, 0.05f, 0.05f);
-			*/
+#endif
 
-#if 1
+#if 0
 			ENGINE->GetTween()->TweenPosition(gameObject->GetId(), glm::vec3(0.0f, 0.0f, 0.0f),
 					                                               glm::vec3(0.0f, 1.0f, 0.0f),
 					                                               2.0f, tweenCallback);
+#endif
+		}
+		{
+			GameObject* gameObject = new GameObject();
+			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "pTorus1.model");
+			//
+#if 1
+			RigidAnimation* rigidAnimation = gameObject->AddComponent<RigidAnimation>();
+			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pTorus1.animclips#Take_0010");
+			AnimationClip* animationClip = rigidAnimation->GetAnimationClip("Take_0010");
+			animationClip->SetPlaybackSpeed(0.2f);
+			animationClip->SetLooping(true);
+			rigidAnimation->PlayAnimationClip("Take_0010");
+
+			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
+			Transform* transform = gameObject->GetTransform();
+			transform->SetScale(0.1f, 0.1f, 0.1f);
 #endif
 		}
 		{
