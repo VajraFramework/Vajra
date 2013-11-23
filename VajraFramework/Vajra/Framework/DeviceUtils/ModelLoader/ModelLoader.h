@@ -16,7 +16,8 @@ void LoadMeshFromModelFile(const char* filePath, std::vector<glm::vec3>&     out
 												 glm::vec3&                  outInitialPosition,
 												 glm::vec3&                  outInitialRotation,
 												 glm::vec3&                  outInitialScale,
-												 std::string&                outTextureFilePath);
+												 std::string&                outTextureFilePath,
+												 std::string&                outShaderName);
 
 }
 

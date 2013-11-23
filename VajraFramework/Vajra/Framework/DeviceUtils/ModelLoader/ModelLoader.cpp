@@ -15,7 +15,8 @@ void LoadMeshFromModelFile(const char* filePath,
 		glm::vec3&                     outInitialPosition,
 		glm::vec3&                     outInitialRotation,
 		glm::vec3&                     outInitialScale,
-		std::string&                   outTextureFilePath) {
+		std::string&                   outTextureFilePath,
+		std::string&                   outShaderName) {
 
 	FRAMEWORK->GetLogger()->dbglog("\nLoading mesh data from model at %s", filePath);
 
@@ -99,6 +100,12 @@ void LoadMeshFromModelFile(const char* filePath,
 		std::string textureImageName;
 		modelFile >> textureImageName;
 		outTextureFilePath = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + textureImageName;
+	}
+
+	{
+		std::string shaderName;
+		modelFile >> shaderName;
+		outShaderName = shaderName;
 	}
 
 	FRAMEWORK->GetLogger()->dbglog("\nDone processing model file %s", filePath);

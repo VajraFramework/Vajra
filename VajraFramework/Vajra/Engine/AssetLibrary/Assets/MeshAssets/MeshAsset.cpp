@@ -40,8 +40,10 @@ void MeshAsset::LoadAsset() {
 	glm::vec3 out_initialScale;
 	//
 	std::string out_textureFilePath;
+	//
+	std::string out_shaderName;
 
-	ModelLoader::LoadMeshFromModelFile(this->GetFilePathToModel().c_str(), out_meshPositions, out_meshNormals, out_meshTextureCoords, out_meshIndices, out_initialPosition, out_initialRotation, out_initialScale, out_textureFilePath);
+	ModelLoader::LoadMeshFromModelFile(this->GetFilePathToModel().c_str(), out_meshPositions, out_meshNormals, out_meshTextureCoords, out_meshIndices, out_initialPosition, out_initialRotation, out_initialScale, out_textureFilePath, out_shaderName);
 
 	this->InitVerticesData(out_meshPositions, out_meshNormals, out_meshTextureCoords);
 	this->InitIndicesData(out_meshIndices);
@@ -53,6 +55,8 @@ void MeshAsset::LoadAsset() {
 	if (out_textureFilePath != "") {
 		this->SetTextureFilePath(out_textureFilePath);
 	}
+
+	this->shaderName = out_shaderName;
 
 	this->MakeVBOs();
 }
@@ -156,10 +160,9 @@ void MeshAsset::Draw() {
     // glEnableClientState(GL_VERTEX_ARRAY);
     // glVertexPointer(3, GL_FLOAT, 0, 0);
 
-    ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
+    FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet(this->shaderName);
 
-    glUseProgram(currentShaderSet->GetShaderProgram());
-    checkGlError("glUseProgram");
+    ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
 
     glEnableVertexAttribArray(currentShaderSet->GetPositionHandle());
     glBindBuffer(GL_ARRAY_BUFFER, this->vboPositions); checkGlError("glBindBuffer");

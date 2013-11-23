@@ -5,6 +5,8 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
+#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 
 GameObject::GameObject() {
 	this->init();
@@ -29,8 +31,13 @@ void GameObject::destroy() {
 
 void GameObject::Draw() {
 	// TODO [Cleanup] Cache the MeshRenderer
-	this->transform->Draw();
 	MeshRenderer* meshRenderer = this->GetComponent<MeshRenderer>();
+	if (meshRenderer != 0) {
+		// TODO [Cleanup] Make it so that we don't have to set the shader set for every GameObject by sorting the GameObjects in the draw calls
+		FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet(meshRenderer->GetShaderName());
+	}
+
+	this->transform->Draw();
 	if (meshRenderer != 0) {
 		meshRenderer->Draw();
 	}

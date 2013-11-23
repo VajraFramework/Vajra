@@ -4,6 +4,8 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
+#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 
 SceneGraph::SceneGraph() {
 	this->init();
@@ -75,11 +77,30 @@ void SceneGraph::draw() {
 	}
 
 	ASSERT(this->mainDirectionalLightId != OBJECT_ID_INVALID, "mainDirectionalLight set");
-	// TODO [Cleanup] Change mainDirectionalLight->directionalLightComponent->WriteLightStuff() to use messages sent to mainDirectionalLight instead, maybe
+
+	// TODO [Implement] Figure out a better way to set light properties in all the shaders:
+
 	GameObject* mainDirectionalLight = this->GetGameObjectById(this->mainDirectionalLightId);
-	if (mainDirectionalLight != 0) {
-		DirectionalLight* directionalLightComponent = mainDirectionalLight->GetComponent<DirectionalLight>();
-		directionalLightComponent->WriteLightPropertiesToShader();
+	{
+		FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet("clrshdr");
+		FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
+		//
+		// TODO [Cleanup] Change mainDirectionalLight->directionalLightComponent->WriteLightStuff() to use messages sent to mainDirectionalLight instead, maybe
+		if (mainDirectionalLight != 0) {
+			DirectionalLight* directionalLightComponent = mainDirectionalLight->GetComponent<DirectionalLight>();
+			directionalLightComponent->WriteLightPropertiesToShader();
+		}
+	}
+
+	{
+		FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet("smplshdr");
+		FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
+		//
+		// TODO [Cleanup] Change mainDirectionalLight->directionalLightComponent->WriteLightStuff() to use messages sent to mainDirectionalLight instead, maybe
+		if (mainDirectionalLight != 0) {
+			DirectionalLight* directionalLightComponent = mainDirectionalLight->GetComponent<DirectionalLight>();
+			directionalLightComponent->WriteLightPropertiesToShader();
+		}
 	}
 
 	if (this->root != 0) {

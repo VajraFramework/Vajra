@@ -21,6 +21,7 @@ MeshRenderer::~MeshRenderer() {
 
 void MeshRenderer::InitMesh(std::string urlOfMesh) {
 	this->meshAsset = ENGINE->GetAssetLibrary()->GetAsset<MeshAsset>(urlOfMesh);
+	this->shaderName = this->meshAsset->GetShaderName();
 
 	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
 	ASSERT(gameObject != nullptr, "GameObject not null");
@@ -32,7 +33,7 @@ void MeshRenderer::InitMesh(std::string urlOfMesh) {
 	transform->SetScale(this->meshAsset->GetInitialScale().x, this->meshAsset->GetInitialScale().y, this->meshAsset->GetInitialScale().z);
 }
 
-void MeshRenderer::HandleMessage(Message* message) {
+void MeshRenderer::HandleMessage(Message* /* message */) {
 }
 
 void MeshRenderer::Draw() {

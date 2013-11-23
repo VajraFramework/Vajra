@@ -32,17 +32,21 @@ void OpenGLWrapper::CreateShaderSet(std::string shaderName, \
         std::string vshaderName, std::string fshaderName) {
 
     ShaderSet* shaderSet = new ShaderSet(vshaderName, fshaderName);
-    // TODO [Cleanup] : Check for duplicates:
+
+    VERIFY(this->shaderSets.find(shaderName) == this->shaderSets.end(), "Not duplicate shader set");
     this->shaderSets[shaderName] = shaderSet;
 
-    if (this->currentShaderSet == 0) {
+    if (this->currentShaderSet == nullptr) {
         this->currentShaderSet = shaderSet;
     }
 }
 
 void OpenGLWrapper::SetCurrentShaderSet(std::string shaderName) {
-    // TODO [Cleanup] : Check if it actually exists:
+	VERIFY(this->shaderSets.find(shaderName) != this->shaderSets.end(), "Shader set %s has been created", shaderName.c_str());
     this->currentShaderSet = this->shaderSets[shaderName];
+    //
+    glUseProgram(this->currentShaderSet->GetShaderProgram());
+    checkGlError("glUseProgram");
 }
 
 void OpenGLWrapper::init() {

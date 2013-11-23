@@ -23,6 +23,8 @@ public:
 	// @Override
 	virtual void LoadAsset();
 
+	inline std::string GetShaderName() { return this->shaderName; }
+
 	std::string GetFilePathToModel();
 
 	void Draw();
@@ -64,6 +66,8 @@ private:
 	glm::vec3 initialScale;
 
 	std::shared_ptr<TextureAsset> textureAsset;
+
+	std::string shaderName;
 
 	static AssetType assetType;
 };

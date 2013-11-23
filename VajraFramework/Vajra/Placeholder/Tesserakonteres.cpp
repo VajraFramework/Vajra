@@ -11,6 +11,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Placeholder/Tesserakonteres.h"
 
 #include "Libraries/glm/glm.hpp"
@@ -25,7 +26,14 @@ namespace Tesserakonteres {
 		FRAMEWORK->GetLogger()->dbglog("\nIn tweenCallback() with %d, %s\n", gameObjectId, tweenClipName.c_str());
 	}
 
+	void initAdditionalShaders() {
+		FRAMEWORK->GetOpenGLWrapper()->CreateShaderSet("clrshdr", "SimpleVertexShader.vertexshader", "colorshader.fragmentshader");
+		FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet("clrshdr");
+	}
+
 	void initGameObjectsForScene() {
+		initAdditionalShaders();
+
 		GameObject* parent = nullptr;
 		GameObject* child = nullptr;
 		{

@@ -26,11 +26,15 @@ public:
 
 	void Draw();
 
+	inline std::string GetShaderName() { return this->shaderName; }
+
 private:
 	void init();
 	void destroy();
 
 	static unsigned int componentTypeId;
+
+	std::string shaderName;
 
 	std::shared_ptr<MeshAsset> meshAsset;
 };
