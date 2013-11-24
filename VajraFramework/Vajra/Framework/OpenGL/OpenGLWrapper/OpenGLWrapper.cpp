@@ -5,10 +5,6 @@
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/Utilities.h"
 
-#define DEFAULT_SHADER_NAME "smplshdr"
-#define DEFAULT_VSHADER "SimpleVertexShader.vertexshader"
-#define DEFAULT_FSHADER "SimpleFragmentShader.fragmentshader"
-
 OpenGLWrapper::OpenGLWrapper() {
     this->init();
 }
@@ -49,14 +45,21 @@ void OpenGLWrapper::SetCurrentShaderSet(std::string shaderName) {
     checkGlError("glUseProgram");
 }
 
+void OpenGLWrapper::GetAllAvailableShaderNames(std::vector<std::string>& out_shaderNames) {
+	for (auto shaderSet_it = this->shaderSets.begin(); shaderSet_it != this->shaderSets.end(); ++shaderSet_it) {
+		out_shaderNames.push_back(shaderSet_it->first);
+	}
+}
+
 void OpenGLWrapper::init() {
     FRAMEWORK->GetLogger()->dbglog("In OpenGLWrapper::init()\n");
 
     glEnable(GL_DEPTH_TEST);
 
     this->currentShaderSet = nullptr;
-    this->CreateShaderSet(DEFAULT_SHADER_NAME, \
-                              DEFAULT_VSHADER, DEFAULT_FSHADER);
+
+    this->CreateShaderSet("smplshdr", "SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
+	this->CreateShaderSet("clrshdr",  "SimpleVertexShader.vertexshader", "colorshader.fragmentshader");
 
 }
 

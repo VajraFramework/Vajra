@@ -13,6 +13,7 @@
 class Camera;
 class DirectionalLight;
 class GameObject;
+class RenderLists;
 
 class SceneGraph : public Object {
 public:
@@ -23,6 +24,8 @@ public:
 	void AddNewGameObjectToScene(GameObject* gameObject);
 	inline GameObject* GetGameObjectById(ObjectIdType id);
 	inline GameObject* GetRootGameObject() { return this->root; }
+
+	void AddGameObjectToRenderLists(GameObject* gameObject);
 
 	Camera* GetMainCamera();
 	void SetMainCameraId(ObjectIdType id);
@@ -43,6 +46,8 @@ private:
 
 	ObjectIdType mainCameraId;
 	ObjectIdType mainDirectionalLightId;
+
+	RenderLists* renderLists;
 
 	friend class Engine;
 };

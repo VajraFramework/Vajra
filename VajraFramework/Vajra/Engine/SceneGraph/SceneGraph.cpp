@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/RenderLists.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
@@ -18,8 +19,7 @@ SceneGraph::~SceneGraph() {
 void SceneGraph::AddNewGameObjectToScene(GameObject* gameObject) {
 	ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
 
-	ASSERT(gameObject->GetId() > OBJECT_ID_INVALID,
-		"GameObject has valid id: %d", gameObject->GetId());
+	ASSERT(gameObject->GetId() > OBJECT_ID_INVALID, "GameObject has valid id: %d", gameObject->GetId());
 
 	FRAMEWORK->GetLogger()->dbglog("\nAdding GameObject with id %d to scene", gameObject->GetId());
 
@@ -28,6 +28,12 @@ void SceneGraph::AddNewGameObjectToScene(GameObject* gameObject) {
 			this->root->AddChild(gameObject->GetId());
 		}
 	}
+}
+
+void SceneGraph::AddGameObjectToRenderLists(GameObject* gameObject) {
+	std::string shaderName = gameObject->GetShaderName();
+	ASSERT_LOG(shaderName != "", "Adding GameObject with id %d to render list %s", gameObject->GetId(), shaderName.c_str());
+	this->renderLists->addGameObjectIdToRenderList(gameObject->GetId(), shaderName);
 }
 
 // TODO [Cleanup] Cache the mainCamera, maybe
@@ -69,42 +75,34 @@ void SceneGraph::update() {
 void SceneGraph::draw() {
 
 	ASSERT(this->mainCameraId != OBJECT_ID_INVALID, "mainCamera set");
-	// TODO [Cleanup] Change mainCamera->cameraComponent->WriteLookAt() to use messages sent to mainCamera instead, maybe
 	GameObject* mainCamera = this->GetGameObjectById(this->mainCameraId);
-	if (mainCamera != 0) {
-		Camera* cameraComponent = mainCamera->GetComponent<Camera>();
-		cameraComponent->WriteLookAt();
-	}
-
 	ASSERT(this->mainDirectionalLightId != OBJECT_ID_INVALID, "mainDirectionalLight set");
-
-	// TODO [Implement] Figure out a better way to set light properties in all the shaders:
-
 	GameObject* mainDirectionalLight = this->GetGameObjectById(this->mainDirectionalLightId);
-	{
-		FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet("clrshdr");
-		FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
+
+	/*
+	 * We draw the scene in render-list-iterations
+	 * GameObjects which use the same shader program are grouped in the same render list
+	 */
+
+	this->renderLists->Begin();
+	while (this->renderLists->PrepareCurrentRenderList()) {
+
+		// TODO [Cleanup] Change mainCamera->cameraComponent->WriteLookAt() to use messages sent to mainCamera instead, maybe
+		if (mainCamera != nullptr) {
+			Camera* cameraComponent = mainCamera->GetComponent<Camera>();
+			cameraComponent->WriteLookAt();
+		}
 		//
 		// TODO [Cleanup] Change mainDirectionalLight->directionalLightComponent->WriteLightStuff() to use messages sent to mainDirectionalLight instead, maybe
-		if (mainDirectionalLight != 0) {
+		if (mainDirectionalLight != nullptr) {
 			DirectionalLight* directionalLightComponent = mainDirectionalLight->GetComponent<DirectionalLight>();
 			directionalLightComponent->WriteLightPropertiesToShader();
 		}
-	}
 
-	{
-		FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet("smplshdr");
-		FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
-		//
-		// TODO [Cleanup] Change mainDirectionalLight->directionalLightComponent->WriteLightStuff() to use messages sent to mainDirectionalLight instead, maybe
-		if (mainDirectionalLight != 0) {
-			DirectionalLight* directionalLightComponent = mainDirectionalLight->GetComponent<DirectionalLight>();
-			directionalLightComponent->WriteLightPropertiesToShader();
-		}
-	}
+		// Render all the renderable game objects in the current render list:
+		this->renderLists->RenderGameObjectsInCurrentList();
 
-	if (this->root != 0) {
-		this->root->Draw();
+		this->renderLists->Next();
 	}
 }
 
@@ -112,6 +110,7 @@ void SceneGraph::init() {
 	this->root = nullptr;
 	this->mainCameraId = OBJECT_ID_INVALID;
 	this->mainDirectionalLightId = OBJECT_ID_INVALID;
+	this->renderLists = new RenderLists();
 }
 
 void SceneGraph::Initialize() {

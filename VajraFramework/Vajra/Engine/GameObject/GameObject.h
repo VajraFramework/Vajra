@@ -25,6 +25,7 @@ public:
 	virtual ~GameObject();
 
 	inline Transform* GetTransform() { return this->transform; }
+	std::string GetShaderName();
 
 	virtual void Draw();
 

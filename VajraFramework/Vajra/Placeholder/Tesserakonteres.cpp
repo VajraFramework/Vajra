@@ -26,13 +26,7 @@ namespace Tesserakonteres {
 		FRAMEWORK->GetLogger()->dbglog("\nIn tweenCallback() with %d, %s\n", gameObjectId, tweenClipName.c_str());
 	}
 
-	void initAdditionalShaders() {
-		FRAMEWORK->GetOpenGLWrapper()->CreateShaderSet("clrshdr", "SimpleVertexShader.vertexshader", "colorshader.fragmentshader");
-		FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet("clrshdr");
-	}
-
 	void initGameObjectsForScene() {
-		initAdditionalShaders();
 
 		GameObject* parent = nullptr;
 		GameObject* child = nullptr;

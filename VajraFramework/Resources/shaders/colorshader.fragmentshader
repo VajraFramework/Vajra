@@ -11,6 +11,6 @@ void main()
 	// gl_FragColor = vec4(1.0, 1.0, 0.0, 0.0);
 	// gl_FragColor = extraVariable;
 	// gl_FragColor = vec4(uvCoords.x, uvCoords.y, 0.0, 1.0);
-	gl_FragColor = vec4(texture2D(myTextureSampler, uvCoords).rgb, 1.0) * lightIntensity;
+	gl_FragColor = vec4(texture2D(myTextureSampler, uvCoords).ggg, 1.0) * lightIntensity;
 }
 

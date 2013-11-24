@@ -30,25 +30,20 @@ void GameObject::destroy() {
 }
 
 void GameObject::Draw() {
-	// TODO [Cleanup] Cache the MeshRenderer
+	// TODO [Cleanup] Cache the MeshRenderer, maybe
 	MeshRenderer* meshRenderer = this->GetComponent<MeshRenderer>();
-	if (meshRenderer != 0) {
-		// TODO [Cleanup] Make it so that we don't have to set the shader set for every GameObject by sorting the GameObjects in the draw calls
-		FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet(meshRenderer->GetShaderName());
-	}
 
 	this->transform->Draw();
 	if (meshRenderer != 0) {
 		meshRenderer->Draw();
 	}
+}
 
-	// Draw all children:
-	for (auto child_it = this->children.begin();
-		 child_it != this->children.end(); ++child_it) {
-
-		GameObject* child = ENGINE->GetSceneGraph()->GetGameObjectById(*child_it);
-		if (child != 0) {
-			child->Draw();
-		}
+std::string GameObject::GetShaderName() {
+	// TODO [Cleanup] Cache the MeshRenderer, maybe
+	MeshRenderer* meshRenderer = this->GetComponent<MeshRenderer>();
+	if (meshRenderer != nullptr) {
+		return meshRenderer->GetShaderName();
 	}
+	return "";
 }

@@ -22,6 +22,8 @@ public:
 	void SetCurrentShaderSet(std::string shaderName);
 	inline ShaderSet* GetCurrentShaderSet() { return this->currentShaderSet; }
 
+	void GetAllAvailableShaderNames(std::vector<std::string>& out_shaderNames);
+
 private:
 	OpenGLWrapper();
 	void init();
