@@ -164,15 +164,17 @@ void MeshAsset::Draw() {
 
     ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
 
-    glEnableVertexAttribArray(currentShaderSet->GetPositionHandle());
+    GLint positionHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vPosition);
+    glEnableVertexAttribArray(positionHandle);
     glBindBuffer(GL_ARRAY_BUFFER, this->vboPositions); checkGlError("glBindBuffer");
-    glVertexAttribPointer(currentShaderSet->GetPositionHandle(), \
+    glVertexAttribPointer(positionHandle,
                           3, GL_FLOAT, GL_FALSE, 0, 0);
     checkGlError("glVertexAttribPointer");
     //
-    glEnableVertexAttribArray(currentShaderSet->GetNormalHandle());
+    GLint normalHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vNormal);
+    glEnableVertexAttribArray(normalHandle);
     glBindBuffer(GL_ARRAY_BUFFER, this->vboNormals); checkGlError("glBindBuffer");
-    glVertexAttribPointer(currentShaderSet->GetNormalHandle(), \
+    glVertexAttribPointer(normalHandle,
                           3, GL_FLOAT, GL_FALSE, 0, 0);
     checkGlError("glVertexAttribPointer");
     //
@@ -180,13 +182,16 @@ void MeshAsset::Draw() {
     	glBindTexture(GL_TEXTURE_2D, this->textureAsset->GetGLTextureHandle());
     	checkGlError("glBindTexture");
 
-    	glEnableVertexAttribArray(currentShaderSet->GetTextureCoordsHandle());
+		GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
+    	glEnableVertexAttribArray(textureCoordsHandle);
     	glBindBuffer(GL_ARRAY_BUFFER, this->vboTextureCoords); checkGlError("glBindBuffer");
-    	glVertexAttribPointer(currentShaderSet->GetTextureCoordsHandle(), \
+    	glVertexAttribPointer(textureCoordsHandle,
     			2, GL_FLOAT, GL_FALSE, 0, 0);
     	checkGlError("glVertexAttribPointer");
+
     } else {
-    	glDisableVertexAttribArray(currentShaderSet->GetTextureCoordsHandle());
+		GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
+    	glDisableVertexAttribArray(textureCoordsHandle);
     }
     //
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vboIndices); checkGlError("glBindBuffer");

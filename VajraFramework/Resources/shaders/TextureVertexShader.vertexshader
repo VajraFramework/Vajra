@@ -1,0 +1,34 @@
+__VARIABLES__
+vPosition
+vNormal
+uvCoords_in
+mvpMatrix
+modelInverseTransposeMatrix
+uvCoords_out
+lightIntensity
+
+DLight0Direction
+DLight0AmbientColor
+DLight0DiffuseColor
+DLight0SpecularColor
+__VARIABLES_END__
+
+
+__SOURCE__
+void main()
+{
+	gl_Position = mvpMatrix * vPosition;
+	uvCoords_out = uvCoords_in;
+
+	vec4 vNormal_world = modelInverseTransposeMatrix * vNormal;
+	float cosTheta = clamp( dot( vNormal_world, DLight0Direction ), 0.0, 1.0 );
+	lightIntensity = DLight0DiffuseColor * cosTheta;
+
+	// Fake the ambient lighting:
+	lightIntensity = lightIntensity + DLight0AmbientColor;
+
+	// Temp using variables:
+	lightIntensity = lightIntensity + DLight0SpecularColor;
+}
+__SOURCE_END__
+

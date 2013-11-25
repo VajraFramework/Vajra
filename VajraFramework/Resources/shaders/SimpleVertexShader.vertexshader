@@ -3,8 +3,7 @@ attribute vec4 vNormal;
 attribute vec2 uvCoords_in;
 uniform mat4 mvpMatrix;
 uniform mat4 modelInverseTransposeMatrix;
-varying vec4 extraVariable;
-varying vec2 uvCoords;
+varying vec2 uvCoords_out;
 varying vec4 lightIntensity;
 
 // Directional lights:
@@ -21,9 +20,7 @@ uniform vec4 MaterialSpecularColor;
 void main()
 {
 	gl_Position = mvpMatrix * vPosition;
-	extraVariable = vec4(vPosition.x, vPosition.y, 1.0, 0.0);
-	// uvCoords = vec2(vPosition.x, vPosition.y);
-	uvCoords = uvCoords_in;
+	uvCoords_out = uvCoords_in;
 
 	vec4 vNormal_world = modelInverseTransposeMatrix * vNormal;
 	float cosTheta = clamp( dot( vNormal_world, DLight0Direction ), 0.0, 1.0 );

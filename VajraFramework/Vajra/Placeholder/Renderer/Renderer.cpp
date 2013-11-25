@@ -76,7 +76,8 @@ void setupMatrixes(float dt) {
 
     mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
 
-    FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMVPMatrixHandle(mvpMatrix);
+	GLint mvpMatrixHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_mvpMatrix);
+    glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, glm::value_ptr(mvpMatrix));
 
     return;
 }

@@ -41,10 +41,12 @@ void Transform::Draw() {
 	ASSERT(camera != nullptr, "Could get main camera for the scene");
 
 	glm::mat4 mvpMatrix = camera->GetProjMatrix() * camera->GetViewMatrix() * this->modelMatrixCumulative;
-    FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMVPMatrixHandle(mvpMatrix);
+	GLint mvpMatrixHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_mvpMatrix);
+    glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, glm::value_ptr(mvpMatrix));
     //
 	glm::mat4 modelInverseTransposeMatrix = glm::inverseTranspose(this->modelMatrixCumulative);
-    FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMitMatrixHandle(modelInverseTransposeMatrix);
+	GLint mitMatrixHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix);
+    glUniformMatrix4fv(mitMatrixHandle, 1, GL_FALSE, glm::value_ptr(modelInverseTransposeMatrix));
 }
 
 glm::vec3& Transform::GetPosition() {

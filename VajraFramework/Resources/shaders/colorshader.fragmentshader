@@ -1,8 +1,7 @@
-precision mediump float;
+// precision mediump float;
 
 varying vec4 lightIntensity;
-varying vec4 extraVariable;
-varying vec2 uvCoords;
+varying vec2 uvCoords_out;
 uniform sampler2D myTextureSampler;
 
 void main()
@@ -11,6 +10,6 @@ void main()
 	// gl_FragColor = vec4(1.0, 1.0, 0.0, 0.0);
 	// gl_FragColor = extraVariable;
 	// gl_FragColor = vec4(uvCoords.x, uvCoords.y, 0.0, 1.0);
-	gl_FragColor = vec4(texture2D(myTextureSampler, uvCoords).ggg, 1.0) * lightIntensity;
+	gl_FragColor = vec4(texture2D(myTextureSampler, uvCoords_out).ggg, 1.0) * lightIntensity;
 }
 

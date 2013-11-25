@@ -12,6 +12,7 @@
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
+#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Placeholder/Tesserakonteres.h"
 
 #include "Libraries/glm/glm.hpp"
@@ -20,13 +21,20 @@
 
 #include <vector>
 
+
 namespace Tesserakonteres {
 
 	void tweenCallback(ObjectIdType gameObjectId, std::string tweenClipName) {
 		FRAMEWORK->GetLogger()->dbglog("\nIn tweenCallback() with %d, %s\n", gameObjectId, tweenClipName.c_str());
 	}
 
+	void initAllShaders() {
+		ShaderSet* shaderSet = new ShaderSet("TextureShader.shaderspec");
+	}
+
 	void initGameObjectsForScene() {
+
+		initAllShaders();
 
 		GameObject* parent = nullptr;
 		GameObject* child = nullptr;

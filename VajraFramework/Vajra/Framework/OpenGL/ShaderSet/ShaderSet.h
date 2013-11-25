@@ -1,7 +1,7 @@
 #ifndef SHADERSET_H
 #define SHADERSET_H
 
-#include "Vajra/Framework/OpenGL/ShaderSet/DLightShaderHandles.h"
+#include "Vajra/Framework/OpenGL/ShaderHandles/ShaderHandles.h"
 #include "Vajra/Utilities/OpenGLIncludes.h"
 
 #include "Libraries/glm/glm.hpp"
@@ -11,49 +11,37 @@
 
 class ShaderSet {
 public:
-	ShaderSet(std::string inVshaderName, std::string inFshaderName);
+	ShaderSet(std::string inVshaderName, std::string inFshaderName);	// REMOVE THIS
+	ShaderSet(std::string inShaderSpecificationName);
 	~ShaderSet();
 
 	inline GLuint GetShaderProgram() { return this->shaderProgram; }
-	//
-	inline GLuint GetPositionHandle() { return this->positionHandle; }
-	inline GLuint GetNormalHandle() { return this->normalHandle; }
-	inline GLuint GetTextureCoordsHandle() { return this->textureCoordsHandle; }
-	//
-	inline GLuint GetMVPMatrixHandle() { return this->mvpMatrixHandle; }
-	inline GLuint GetMitMatrixHandle() { return this->modelInverseTransposeMatrixHandle; }
-	inline void SetMVPMatrixHandle(glm::mat4& mvpMatrix);
-	inline void SetMitMatrixHandle(glm::mat4& mitMatrix);
-	//
-	inline DLightShaderHandles* GetDirectionalLight() { return this->directionalLight; }
+
+	inline GLint GetHandle(Shader_variable_variablename_id_t variablename_id) { return this->shaderHandles->GetShaderHandle(variablename_id); }
 
 
 private:
-	std::string vshaderName;
-	std::string fshaderName;
+	void init(std::string inVshaderName, std::string inFshaderName);	// REMOVE THIS
+	void init(std::string inShaderSpecificationName);
+	void destroy();
+
+	// Utility Functions:
+	void createShaderProgram();
+	void createVShader();
+	void createFShader();
+
+	std::string vshaderName;	// REMOVE THIS
+	std::string fshaderName;	// REMOVE THIS
+
+	std::string vshaderSrcName;
+	std::string fshaderSrcName;
+	std::string shaderSpecificationName;
+	//
+	std::vector<std::string> variablesUsed;
 
 	GLuint shaderProgram;
-	//
-	GLuint positionHandle;
-	GLuint normalHandle;
-	GLuint textureCoordsHandle;
-	//
-	GLint mvpMatrixHandle;
-	GLint modelInverseTransposeMatrixHandle;
 
-	// Lights and Materials:
-	DLightShaderHandles* directionalLight;
-
+	ShaderHandles* shaderHandles;
 };
-
-// Inline Functions:
-
-inline void ShaderSet::SetMVPMatrixHandle(glm::mat4& mvpMatrix) {
-    glUniformMatrix4fv(this->GetMVPMatrixHandle(), 1, GL_FALSE, glm::value_ptr(mvpMatrix));
-}
-
-inline void ShaderSet::SetMitMatrixHandle(glm::mat4& mitMatrix) {
-    glUniformMatrix4fv(this->GetMitMatrixHandle(), 1, GL_FALSE, glm::value_ptr(mitMatrix));
-}
 
 #endif // SHADERSET_H
