@@ -13,12 +13,7 @@
 #include <vector>
 
 // Forward Declarations:
-GLuint createProgram(std::string vShaderName, std::string fShaderName);	// REMOVE THIS
-
-
-ShaderSet::ShaderSet(std::string inVshaderName, std::string inFshaderName) {
-	this->init(inVshaderName, inFshaderName);
-}
+GLuint loadShader(GLenum shaderType, const char* pSource);
 
 ShaderSet::ShaderSet(std::string inShaderSpecificationName) {
 	this->init(inShaderSpecificationName);
@@ -32,117 +27,16 @@ void ShaderSet::init(std::string inShaderSpecificationName) {
     FRAMEWORK->GetLogger()->dbglog("\nCreating ShaderProgram shader specification file %s", \
                                 inShaderSpecificationName.c_str());
     this->shaderSpecificationName = inShaderSpecificationName;
+
     this->createShaderProgram();
-    VERIFY(this->shaderProgram != 0, "Successfully created shader program");
-}
 
-void ShaderSet::init(std::string inVshaderName, std::string inFshaderName) {
-    FRAMEWORK->GetLogger()->dbglog("\nCreating ShaderProgram with %s, %s", \
-                                inVshaderName.c_str(), inFshaderName.c_str());
-    this->shaderProgram = createProgram(inVshaderName, inFshaderName);
-    if (!this->shaderProgram) {
-        FRAMEWORK->GetLogger()->errlog("Could not create program.");
-        exit(0);
-        // TODO [Cleanup] ASSERT_HERE
-    }
-    FRAMEWORK->GetLogger()->dbglog("\nShaderProgram: %d\n", this->shaderProgram);
+    VERIFY_LOG(this->shaderProgram != 0, "Successfully created shader program: %u", this->shaderProgram);
 
-    this->shaderHandles = new ShaderHandles(this->shaderProgram);
-
-    // Get Attribute Handles from Shaders:
-    //
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_attribute, SHADER_VARIABLE_DATATYPE_vec4,
-    									 SHADER_VARIABLE_VARIABLENAME_vPosition);
-    //
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_attribute, SHADER_VARIABLE_DATATYPE_vec4,
-    									 SHADER_VARIABLE_VARIABLENAME_vNormal);
-    //
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_attribute, SHADER_VARIABLE_DATATYPE_vec2,
-    									 SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
-
-    // Get Uniform Handles from Shaders:
-    //
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_mat4,
-    									 SHADER_VARIABLE_VARIABLENAME_mvpMatrix);
-    //
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_mat4,
-    									 SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix);
-
-
-    // Lights and Materials:
-
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_vec4,
-    									 SHADER_VARIABLE_VARIABLENAME_DLight0Direction);
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_vec4,
-    									 SHADER_VARIABLE_VARIABLENAME_DLight0AmbientColor);
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_vec4,
-    									 SHADER_VARIABLE_VARIABLENAME_DLight0DiffuseColor);
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_vec4,
-    									 SHADER_VARIABLE_VARIABLENAME_DLight0SpecularColor);
+    this->createHandles();
 }
 
 void ShaderSet::destroy() {
 	// TODO [Implement] Figure out if there is anything to clean up here
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-// Shader Loading & Compilation Helper Functions:
-GLuint loadShader(GLenum shaderType, const char* pSource) {
-    GLuint shader = glCreateShader(shaderType);
-    if (shader) {
-        glShaderSource(shader, 1, &pSource, NULL);
-        glCompileShader(shader);
-        GLint compiled = 0;
-        glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
-
-        if (!compiled) {
-            FRAMEWORK->GetLogger()->dbglog("\nCould not compile shader");
-            GLint infoLen = 0;
-            glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
-            FRAMEWORK->GetLogger()->dbglog("\ninfoLen: %d", infoLen);
-            if (infoLen) {
-                char* buf = (char*) malloc(infoLen);
-                if (buf) {
-                    glGetShaderInfoLog(shader, infoLen, NULL, buf);
-                    FRAMEWORK->GetLogger()->dbglog("Could not compile shader %d:\n%s\n",
-                            shaderType, buf);
-                    free(buf);
-                }
-                glDeleteShader(shader);
-                shader = 0;
-            }
-        }
-    }
-    return shader;
-}
-
-char* readShaderFromFile(std::string shaderName) {
-    std::string path = FRAMEWORK->GetFileSystemUtils()->GetDeviceShaderResourcesPath() + shaderName;
-
-    std::vector<char> v;
-    if (FILE *fp = fopen(path.c_str(), "r")) {
-        char buf[1024];
-        while (size_t len = fread(buf, 1, sizeof(buf), fp)) {
-            v.insert(v.end(), buf, buf + len);
-        }
-        fclose(fp);
-    }
-
-    FRAMEWORK->GetLogger()->dbglog("\nRead in %s Shader length: %d", shaderName.c_str(), v.size());
-
-    char* shader = (char *)malloc(v.size() + 1);
-    for (unsigned int i = 0; i < v.size(); ++i) {
-        shader[i] = v[i];
-    }
-    shader[v.size()] = '\0';
-
-    FRAMEWORK->GetLogger()->dbglog("\nSize of %s Shader buffer: %d", shaderName.c_str(), strlen(shader));
-
-    FRAMEWORK->GetLogger()->dbglog("\nShader:\n%s", shader);
-    FRAMEWORK->GetLogger()->dbglog("\nEnd Shader");
-
-    return shader;
 }
 
 void ShaderSet::createShaderProgram() {
@@ -157,8 +51,42 @@ void ShaderSet::createShaderProgram() {
     FRAMEWORK->GetLogger()->dbglog("\nVshader src name: %s", this->vshaderSrcName.c_str());
     FRAMEWORK->GetLogger()->dbglog("\nFshader src name: %s", this->fshaderSrcName.c_str());
 
+    printGLString("OpenGL Version", GL_VERSION);
+    printGLString("Shader Language Version", GL_SHADING_LANGUAGE_VERSION);
+
     this->createVShader();
     this->createFShader();
+
+	FRAMEWORK->GetLogger()->dbglog("\nLinking Shaders");
+
+    this->shaderProgram = glCreateProgram();
+    if (this->shaderProgram) {
+        glAttachShader(this->shaderProgram, this->compiledVShader);
+        checkGlError("glAttachShader");
+        glAttachShader(this->shaderProgram, this->compiledFShader);
+        checkGlError("glAttachShader");
+        glLinkProgram(this->shaderProgram);
+        GLint linkStatus = GL_FALSE;
+        glGetProgramiv(this->shaderProgram, GL_LINK_STATUS, &linkStatus);
+
+        if (linkStatus != GL_TRUE) {
+            GLint bufLength = 0;
+            glGetProgramiv(this->shaderProgram, GL_INFO_LOG_LENGTH, &bufLength);
+            FRAMEWORK->GetLogger()->dbglog("\nLink error info_log bufLength: %d", bufLength);
+            if (bufLength) {
+                char* buf = (char*) malloc(bufLength);
+                if (buf) {
+                    glGetProgramInfoLog(this->shaderProgram, bufLength, NULL, buf);
+                    FRAMEWORK->GetLogger()->errlog("Could not link program:\n%s\n", buf);
+                    free(buf);
+                }
+            }
+            glDeleteProgram(this->shaderProgram);
+            this->shaderProgram = 0;
+
+            VERIFY(0, "Shader linking failed");
+        }
+    }
 }
 
 #define VARIABLES_STRING "__VARIABLES__"
@@ -201,6 +129,10 @@ void ShaderSet::createVShader() {
     }
 
     FRAMEWORK->GetLogger()->dbglog("\nDone reading vertex shader source:\n%s", vshaderSourceBuffer.c_str());
+
+    FRAMEWORK->GetLogger()->dbglog("\nCompiling Vertex Shader");
+    this->compiledVShader = loadShader(GL_VERTEX_SHADER, vshaderSourceBuffer.c_str());
+    VERIFY_LOG(this->compiledVShader != 0, "\nVertex shader compiled successfully");
 }
 
 void ShaderSet::createFShader() {
@@ -208,59 +140,85 @@ void ShaderSet::createFShader() {
 
     std::ifstream fshadersrcFile(path.c_str());
     VERIFY_LOG(fshadersrcFile.good(), "Successfully opened fragment shader src file %s for reading", path.c_str());
-}
 
-GLuint createProgram(std::string vShaderName, std::string fShaderName) {
-    char* vShaderSource = readShaderFromFile(vShaderName);
-    char* fShaderSource = readShaderFromFile(fShaderName);
+    std::string fshaderSourceBuffer;
 
-    FRAMEWORK->GetLogger()->dbglog("\nCompiling Shaders");
-
-    printGLString("OpenGL Version", GL_VERSION);
-    printGLString("Shader Language Version", GL_SHADING_LANGUAGE_VERSION);
-
-    FRAMEWORK->GetLogger()->dbglog("\nCompiling Vertex Shader");
-    GLuint vertexShader = loadShader(GL_VERTEX_SHADER, vShaderSource);
-    if (!vertexShader) {
-        return 0;
+    // TODO [Implement] Move this parsing somewhere else
+	{
+		std::string buffer;
+		do {
+			std::getline(fshadersrcFile, buffer);
+			fshaderSourceBuffer += buffer + "\n";
+		} while (fshadersrcFile.good());
     }
+
+    FRAMEWORK->GetLogger()->dbglog("\nDone reading fragment shader source:\n%s", fshaderSourceBuffer.c_str());
 
     FRAMEWORK->GetLogger()->dbglog("\nCompiling Fragment Shader");
-    GLuint pixelShader = loadShader(GL_FRAGMENT_SHADER, fShaderSource);
-    if (!pixelShader) {
-        return 0;
-    }
+    this->compiledFShader = loadShader(GL_FRAGMENT_SHADER, fshaderSourceBuffer.c_str());
+    VERIFY_LOG(this->compiledFShader != 0, "\nFragment shader compiled successfully");
+}
 
-    FRAMEWORK->GetLogger()->dbglog("\nLinking Shaders");
+void ShaderSet::createHandles() {
+	this->shaderHandles = new ShaderHandles(this->shaderProgram);
 
-    GLuint program = glCreateProgram();
-    if (program) {
-        glAttachShader(program, vertexShader);
-        checkGlError("glAttachShader");
-        glAttachShader(program, pixelShader);
-        checkGlError("glAttachShader");
-        glLinkProgram(program);
-        GLint linkStatus = GL_FALSE;
-        glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
+    // Get Attribute Handles from Shaders:
+    //
+    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_attribute, SHADER_VARIABLE_DATATYPE_vec4,
+    									 SHADER_VARIABLE_VARIABLENAME_vPosition);
+    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_attribute, SHADER_VARIABLE_DATATYPE_vec4,
+    									 SHADER_VARIABLE_VARIABLENAME_vNormal);
+    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_attribute, SHADER_VARIABLE_DATATYPE_vec2,
+    									 SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
 
-        if (linkStatus != GL_TRUE) {
-            GLint bufLength = 0;
-            glGetProgramiv(program, GL_INFO_LOG_LENGTH, &bufLength);
-            FRAMEWORK->GetLogger()->dbglog("\nLink error info_log bufLength: %d", bufLength);
-            if (bufLength) {
-                char* buf = (char*) malloc(bufLength);
+    // Get Uniform Handles from Shaders:
+    //
+    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_mat4,
+    									 SHADER_VARIABLE_VARIABLENAME_mvpMatrix);
+    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_mat4,
+    									 SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix);
+
+    // Lights and Materials:
+    //
+    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_vec4,
+    									 SHADER_VARIABLE_VARIABLENAME_DLight0Direction);
+    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_vec4,
+    									 SHADER_VARIABLE_VARIABLENAME_DLight0AmbientColor);
+    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_vec4,
+    									 SHADER_VARIABLE_VARIABLENAME_DLight0DiffuseColor);
+    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_vec4,
+    									 SHADER_VARIABLE_VARIABLENAME_DLight0SpecularColor);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Shader Loading & Compilation Helper Functions:
+GLuint loadShader(GLenum shaderType, const char* pSource) {
+    GLuint shader = glCreateShader(shaderType);
+    if (shader) {
+        glShaderSource(shader, 1, &pSource, NULL);
+        glCompileShader(shader);
+        GLint compiled = 0;
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+
+        if (!compiled) {
+            FRAMEWORK->GetLogger()->dbglog("\nCould not compile shader");
+            GLint infoLen = 0;
+            glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
+            FRAMEWORK->GetLogger()->dbglog("\ninfoLen: %d", infoLen);
+            if (infoLen) {
+                char* buf = (char*) malloc(infoLen);
                 if (buf) {
-                    glGetProgramInfoLog(program, bufLength, NULL, buf);
-                    FRAMEWORK->GetLogger()->errlog("Could not link program:\n%s\n", buf);
+                    glGetShaderInfoLog(shader, infoLen, NULL, buf);
+                    FRAMEWORK->GetLogger()->dbglog("Could not compile shader %d:\n%s\n",
+                            shaderType, buf);
                     free(buf);
                 }
+                glDeleteShader(shader);
+                shader = 0;
             }
-            glDeleteProgram(program);
-            program = 0;
-
-            return 0;
         }
-
     }
-    return program;
+    return shader;
 }

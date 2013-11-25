@@ -28,13 +28,7 @@ namespace Tesserakonteres {
 		FRAMEWORK->GetLogger()->dbglog("\nIn tweenCallback() with %d, %s\n", gameObjectId, tweenClipName.c_str());
 	}
 
-	void initAllShaders() {
-		ShaderSet* shaderSet = new ShaderSet("TextureShader.shaderspec");
-	}
-
 	void initGameObjectsForScene() {
-
-		initAllShaders();
 
 		GameObject* parent = nullptr;
 		GameObject* child = nullptr;

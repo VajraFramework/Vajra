@@ -11,17 +11,16 @@
 
 class ShaderSet {
 public:
-	ShaderSet(std::string inVshaderName, std::string inFshaderName);	// REMOVE THIS
 	ShaderSet(std::string inShaderSpecificationName);
 	~ShaderSet();
 
 	inline GLuint GetShaderProgram() { return this->shaderProgram; }
 
 	inline GLint GetHandle(Shader_variable_variablename_id_t variablename_id) { return this->shaderHandles->GetShaderHandle(variablename_id); }
+	inline bool  HasHandle(Shader_variable_variablename_id_t variablename_id) { return this->shaderHandles->HasShaderHandle(variablename_id); }
 
 
 private:
-	void init(std::string inVshaderName, std::string inFshaderName);	// REMOVE THIS
 	void init(std::string inShaderSpecificationName);
 	void destroy();
 
@@ -29,6 +28,8 @@ private:
 	void createShaderProgram();
 	void createVShader();
 	void createFShader();
+	//
+	void createHandles();
 
 	std::string vshaderName;	// REMOVE THIS
 	std::string fshaderName;	// REMOVE THIS
@@ -36,6 +37,9 @@ private:
 	std::string vshaderSrcName;
 	std::string fshaderSrcName;
 	std::string shaderSpecificationName;
+	//
+	GLuint compiledVShader;
+	GLuint compiledFShader;
 	//
 	std::vector<std::string> variablesUsed;
 

@@ -24,10 +24,9 @@ void OpenGLWrapper::PrintGLVersion() {
 #endif // PLATFORM_IOS
 }
 
-void OpenGLWrapper::CreateShaderSet(std::string shaderName, \
-        std::string vshaderName, std::string fshaderName) {
+void OpenGLWrapper::CreateShaderSet(std::string shaderName, std::string shaderSpecificationName) {
 
-    ShaderSet* shaderSet = new ShaderSet(vshaderName, fshaderName);
+    ShaderSet* shaderSet = new ShaderSet(shaderSpecificationName);
 
     VERIFY(this->shaderSets.find(shaderName) == this->shaderSets.end(), "Not duplicate shader set");
     this->shaderSets[shaderName] = shaderSet;
@@ -58,8 +57,8 @@ void OpenGLWrapper::init() {
 
     this->currentShaderSet = nullptr;
 
-    this->CreateShaderSet("smplshdr", "SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
-	this->CreateShaderSet("clrshdr",  "SimpleVertexShader.vertexshader", "colorshader.fragmentshader");
+	this->CreateShaderSet("txrshdr", "TextureShader.shaderspec");
+	this->CreateShaderSet("clrshdr", "ColorShader.shaderspec");
 
 }
 

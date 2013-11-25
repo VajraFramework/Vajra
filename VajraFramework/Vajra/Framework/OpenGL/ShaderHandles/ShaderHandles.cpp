@@ -37,13 +37,13 @@ void ShaderHandles::AddShaderHandle(Shader_variable_qualifier_t qualifier,
 	case SHADER_VARIABLE_QUALIFIER_attribute:
 		newShaderHandle->glHandle = glGetAttribLocation(this->shaderProgram, variablename_string.c_str());
 		checkGlError("glGetAttribLocation");
-		FRAMEWORK->GetLogger()->dbglog("glGetAttribLocation(\"%s\") = %u\n", variablename_string.c_str(), newShaderHandle->glHandle);
+		FRAMEWORK->GetLogger()->dbglog("\nglGetAttribLocation(\"%s\") = %u\n", variablename_string.c_str(), newShaderHandle->glHandle);
 		break;
 
 	case SHADER_VARIABLE_QUALIFIER_uniform:
 		newShaderHandle->glHandle = glGetUniformLocation(this->shaderProgram, variablename_string.c_str());
 		checkGlError("glGetUniformLocation");
-		FRAMEWORK->GetLogger()->dbglog("glGetUniformLocation(\"%s\") = %u\n", variablename_string.c_str(), newShaderHandle->glHandle);
+		FRAMEWORK->GetLogger()->dbglog("\nglGetUniformLocation(\"%s\") = %u\n", variablename_string.c_str(), newShaderHandle->glHandle);
 		break;
 
 	case SHADER_VARIABLE_QUALIFIER_varying:

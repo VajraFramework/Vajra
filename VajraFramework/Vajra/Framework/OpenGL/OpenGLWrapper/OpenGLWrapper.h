@@ -16,8 +16,7 @@ public:
 	
 	void PrintGLVersion();
 	
-	void CreateShaderSet(std::string shaderName, \
-		std::string vshaderName, std::string fshaderName);
+	void CreateShaderSet(std::string shaderName, std::string shaderSpecificationName);
 	//
 	void SetCurrentShaderSet(std::string shaderName);
 	inline ShaderSet* GetCurrentShaderSet() { return this->currentShaderSet; }

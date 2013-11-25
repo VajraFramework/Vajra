@@ -16,6 +16,7 @@ public:
 
 	void AddShaderHandle(Shader_variable_qualifier_t qualifier, Shader_variable_datatype_t datatype, Shader_variable_variablename_id_t variablename_id);
 	inline GLint GetShaderHandle(Shader_variable_variablename_id_t variablename_id);
+	inline bool  HasShaderHandle(Shader_variable_variablename_id_t variablename_id);
 
 private:
 	ShaderHandles(GLuint shaderProgram_);
@@ -58,4 +59,8 @@ GLint ShaderHandles::GetShaderHandle(Shader_variable_variablename_id_t variablen
 	GLint glHandle = this->shaderHandles[variablename_id]->glHandle;
 	ASSERT(glHandle != -1, "Valid OpenGL shader variable handle");
 	return glHandle;
+}
+
+bool ShaderHandles::HasShaderHandle(Shader_variable_variablename_id_t variablename_id) {
+	return (this->shaderHandles.find(variablename_id) != this->shaderHandles.end());
 }
