@@ -97,9 +97,18 @@ void LoadMeshFromModelFile(const char* filePath,
 	}
 
 	{
-		std::string textureImageName;
-		modelFile >> textureImageName;
-		outTextureFilePath = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + textureImageName;
+		std::string hasTexture;
+		modelFile >> hasTexture;
+
+		if (hasTexture == "yes") {
+			std::string textureImageName;
+			modelFile >> textureImageName;
+			outTextureFilePath = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + textureImageName;
+		} else if (hasTexture == "no") {
+			// Nothing to do
+		} else {
+			ASSERT(0, "Error parsing .model file");
+		}
 	}
 
 	{
