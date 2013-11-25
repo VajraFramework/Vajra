@@ -162,32 +162,15 @@ void ShaderSet::createFShader() {
 void ShaderSet::createHandles() {
 	this->shaderHandles = new ShaderHandles(this->shaderProgram);
 
-    // Get Attribute Handles from Shaders:
-    //
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_attribute, SHADER_VARIABLE_DATATYPE_vec4,
-    									 SHADER_VARIABLE_VARIABLENAME_vPosition);
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_attribute, SHADER_VARIABLE_DATATYPE_vec4,
-    									 SHADER_VARIABLE_VARIABLENAME_vNormal);
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_attribute, SHADER_VARIABLE_DATATYPE_vec2,
-    									 SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
+	for (std::string shaderVariableName : this->variablesUsed) {
+		std::string qualifierString = ShaderSetCreationHelper::GetVariableQualifierForVariableName(shaderVariableName);
+		std::string datatypeString  = ShaderSetCreationHelper::GetVariableDatatypeForVariableName(shaderVariableName);
+		Shader_variable_qualifier_t qualifier = GetShaderVariableQualifierFromString(qualifierString);
+		Shader_variable_datatype_t datatype   = GetShaderVariableDatatypeFromString(datatypeString);
+		Shader_variable_variablename_id_t variablename_id = GetShaderVariableVariableNameIdFromString(shaderVariableName);
 
-    // Get Uniform Handles from Shaders:
-    //
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_mat4,
-    									 SHADER_VARIABLE_VARIABLENAME_mvpMatrix);
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_mat4,
-    									 SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix);
-
-    // Lights and Materials:
-    //
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_vec4,
-    									 SHADER_VARIABLE_VARIABLENAME_DLight0Direction);
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_vec4,
-    									 SHADER_VARIABLE_VARIABLENAME_DLight0AmbientColor);
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_vec4,
-    									 SHADER_VARIABLE_VARIABLENAME_DLight0DiffuseColor);
-    this->shaderHandles->AddShaderHandle(SHADER_VARIABLE_QUALIFIER_uniform, SHADER_VARIABLE_DATATYPE_vec4,
-    									 SHADER_VARIABLE_VARIABLENAME_DLight0SpecularColor);
+		this->shaderHandles->AddShaderHandle(qualifier, datatype, variablename_id);
+	}
 }
 
 

@@ -1,10 +1,8 @@
 __VARIABLES__
 vPosition
 vNormal
-uvCoords_in
 mvpMatrix
 modelInverseTransposeMatrix
-uvCoords_out
 lightIntensity
 
 DLight0Direction
@@ -18,7 +16,6 @@ __SOURCE__
 void main()
 {
 	gl_Position = mvpMatrix * vPosition;
-	uvCoords_out = uvCoords_in;
 
 	vec4 vNormal_world = modelInverseTransposeMatrix * vNormal;
 	float cosTheta = clamp( dot( vNormal_world, DLight0Direction ), 0.0, 1.0 );

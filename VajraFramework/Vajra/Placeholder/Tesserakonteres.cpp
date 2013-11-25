@@ -100,6 +100,15 @@ namespace Tesserakonteres {
 #endif
 		}
 		{
+			GameObject* gameObject = new GameObject();
+			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "stubbyarrows.model");
+			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
+
+			Transform* transform = gameObject->GetTransform();
+			transform->Scale(0.6f, 0.6f, 0.6f);
+		}
+		{
 			GameObject* camera = new GameObject();
 			/* Camera* cameraComponent = */ camera->AddComponent<Camera>();
 			camera->GetTransform()->SetPosition(2.0f, 2.0f, 2.0f);

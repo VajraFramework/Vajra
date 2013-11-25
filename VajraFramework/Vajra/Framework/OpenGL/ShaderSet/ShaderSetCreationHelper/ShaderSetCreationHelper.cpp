@@ -12,7 +12,10 @@ namespace ShaderSetCreationHelper {
 
 #define SHADER_VARIABLES_FILE_NAME "shader_variables"
 
+static bool gInited = false;
 static std::map<std::string /* variableName */, std::string /* variable declaration */> gVariableDeclarations;
+static std::map<std::string /* variableName */, std::string /* variable qualifier */> gVariableQualifiers;
+static std::map<std::string /* variableName */, std::string /* variable datatype */> gVariableDatatypes;
 
 static void initShaderSetCreationHelper() {
     std::string path = FRAMEWORK->GetFileSystemUtils()->GetDeviceShaderResourcesPath() +
@@ -26,9 +29,13 @@ static void initShaderSetCreationHelper() {
     	variablesFile >> qualifier >> datatype >> variableName;
     	if (qualifier != "" && datatype != "" && variableName != "") {
 			ASSERT(gVariableDeclarations.find(variableName) == gVariableDeclarations.end(), "Not duplicate variable %s", variableName.c_str());
+			ASSERT(gVariableQualifiers.find(variableName) == gVariableQualifiers.end(), "Not duplicate variable %s", variableName.c_str());
+			ASSERT(gVariableDatatypes.find(variableName) == gVariableDatatypes.end(), "Not duplicate variable %s", variableName.c_str());
 
 			std::string declaration = qualifier + " " + datatype + " " + variableName + ";";
 			gVariableDeclarations[variableName] = declaration;
+			gVariableQualifiers[variableName] = qualifier;
+			gVariableDatatypes[variableName] = datatype;
     	}
     }
 
@@ -40,15 +47,35 @@ static void initShaderSetCreationHelper() {
     FRAMEWORK->GetLogger()->dbglog("\n\n");
 }
 
+
 std::string GetVariableDeclarationForVariableName(std::string variableName) {
-	static bool inited = false;
-	if (!inited) {
+	if (!gInited) {
 		initShaderSetCreationHelper();
-		inited = true;
+		gInited = true;
 	}
 
 	ASSERT(gVariableDeclarations.find(variableName) != gVariableDeclarations.end(), "Shader variable name found in variable declarations: %s", variableName.c_str());
 	return gVariableDeclarations[variableName];
+}
+
+std::string GetVariableQualifierForVariableName(std::string variableName) {
+	if (!gInited) {
+		initShaderSetCreationHelper();
+		gInited = true;
+	}
+
+	ASSERT(gVariableQualifiers.find(variableName) != gVariableQualifiers.end(), "Shader variable name found in variable qualifiers: %s", variableName.c_str());
+	return gVariableQualifiers[variableName];
+}
+
+std::string GetVariableDatatypeForVariableName(std::string variableName) {
+	if (!gInited) {
+		initShaderSetCreationHelper();
+		gInited = true;
+	}
+
+	ASSERT(gVariableDatatypes.find(variableName) != gVariableDatatypes.end(), "Shader variable name found in variable datatypes: %s", variableName.c_str());
+	return gVariableDatatypes[variableName];
 }
 
 }

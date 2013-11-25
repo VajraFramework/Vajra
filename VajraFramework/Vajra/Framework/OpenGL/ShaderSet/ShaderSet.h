@@ -31,9 +31,6 @@ private:
 	//
 	void createHandles();
 
-	std::string vshaderName;	// REMOVE THIS
-	std::string fshaderName;	// REMOVE THIS
-
 	std::string vshaderSrcName;
 	std::string fshaderSrcName;
 	std::string shaderSpecificationName;

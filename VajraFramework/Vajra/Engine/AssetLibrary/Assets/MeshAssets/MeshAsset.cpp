@@ -70,7 +70,7 @@ void MeshAsset::InitVerticesData(std::vector<glm::vec3> &inPositions, \
                              std::vector<glm::vec2> &inTextureCoords) {
 
     if (inPositions.size() != inNormals.size() ||
-        inPositions.size() != inTextureCoords.size()) {
+        (inTextureCoords.size() != 0  &&  inPositions.size() != inTextureCoords.size())) {
 
         FRAMEWORK->GetLogger()->errlog("ERROR: Unequal numbers of vertices, normals and textureCoords passed: \
                              %d, %d, %d", inPositions.size(), inNormals.size(), inTextureCoords.size());
@@ -89,7 +89,9 @@ void MeshAsset::InitVerticesData(std::vector<glm::vec3> &inPositions, \
     }
     this->vertices      = new glm::vec3[this->numVertices];
     this->normals       = new glm::vec3[this->numVertices];
-    this->textureCoords = new glm::vec2[this->numVertices];
+    if (inTextureCoords.size() != 0) {
+		this->textureCoords = new glm::vec2[this->numVertices];
+    }
 
     for (int i = 0; i < this->numVertices; ++i) {
         this->vertices[i].x = inPositions[i].x;
@@ -99,9 +101,13 @@ void MeshAsset::InitVerticesData(std::vector<glm::vec3> &inPositions, \
         this->normals[i].x = inNormals[i].x;
         this->normals[i].y = inNormals[i].y;
         this->normals[i].z = inNormals[i].z;
-        //
-        this->textureCoords[i].x = inTextureCoords[i].x;
-        this->textureCoords[i].y = inTextureCoords[i].y;
+    }
+    //
+    if (inTextureCoords.size() != 0) {
+		for (int i = 0; i < this->numVertices; ++i) {
+			this->textureCoords[i].x = inTextureCoords[i].x;
+			this->textureCoords[i].y = inTextureCoords[i].y;
+		}
     }
 
     return;
@@ -118,30 +124,40 @@ void MeshAsset::InitIndicesData(std::vector<unsigned int> &inIndices) {
 }
 
 void MeshAsset::MakeVBOs() {
-    if (this->vertices == 0 || this->normals == 0 || this->textureCoords == 0) {
-        FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices, or normals or textureCoords");
+    if (this->vertices != nullptr) {
+		glGenBuffers(1, &this->vboPositions); checkGlError("glGenBuffers");
+		glBindBuffer(GL_ARRAY_BUFFER, this->vboPositions); checkGlError("glBindBuffer");
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * this->numVertices, this->vertices, GL_STATIC_DRAW); checkGlError("glBufferData");
+    } else {
+        FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
         return;
     }
-    if (this->indices.size() == 0) {
+
+    if (this->normals != nullptr) {
+		glGenBuffers(1, &this->vboNormals); checkGlError("glGenBuffers");
+		glBindBuffer(GL_ARRAY_BUFFER, this->vboNormals); checkGlError("glBindBuffer");
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * this->numVertices, this->normals, GL_STATIC_DRAW); checkGlError("glBufferData");
+    } else {
+        FRAMEWORK->GetLogger()->errlog("ERROR: Uninited normals");
+        return;
+    }
+
+    if (this->textureCoords != nullptr) {
+		glGenBuffers(1, &this->vboTextureCoords); checkGlError("glGenBuffers");
+		glBindBuffer(GL_ARRAY_BUFFER, this->vboTextureCoords); checkGlError("glBindBuffer");
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * this->numVertices, this->textureCoords, GL_STATIC_DRAW); checkGlError("glBufferData");
+    } else {
+        ASSERT(!this->textureAsset, "Texture coords missing because model has no texture");
+    }
+
+    if (this->indices.size() != 0) {
+		glGenBuffers(1, &this->vboIndices); checkGlError("glGenBuffers");
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vboIndices); checkGlError("glBindBuffer");
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->indices.size(), &this->indices[0], GL_STATIC_DRAW); checkGlError("glBufferData");
+    } else {
         FRAMEWORK->GetLogger()->errlog("ERROR: Uninited indices");
         return;
     }
-
-    glGenBuffers(1, &this->vboPositions); checkGlError("glGenBuffers");
-    glBindBuffer(GL_ARRAY_BUFFER, this->vboPositions); checkGlError("glBindBuffer");
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * this->numVertices, this->vertices, GL_STATIC_DRAW); checkGlError("glBufferData");
-
-    glGenBuffers(1, &this->vboNormals); checkGlError("glGenBuffers");
-    glBindBuffer(GL_ARRAY_BUFFER, this->vboNormals); checkGlError("glBindBuffer");
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * this->numVertices, this->normals, GL_STATIC_DRAW); checkGlError("glBufferData");
-
-    glGenBuffers(1, &this->vboTextureCoords); checkGlError("glGenBuffers");
-    glBindBuffer(GL_ARRAY_BUFFER, this->vboTextureCoords); checkGlError("glBindBuffer");
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * this->numVertices, this->textureCoords, GL_STATIC_DRAW); checkGlError("glBufferData");
-
-    glGenBuffers(1, &this->vboIndices); checkGlError("glGenBuffers");
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vboIndices); checkGlError("glBindBuffer");
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->indices.size(), &this->indices[0], GL_STATIC_DRAW); checkGlError("glBufferData");
 
     FRAMEWORK->GetLogger()->errlog("\nVBOs made successfully");
 }
@@ -151,8 +167,12 @@ void MeshAsset::SetTextureFilePath(std::string filePath) {
 }
 
 void MeshAsset::Draw() {
-    if (this->vboPositions == 0 || this->vboNormals == 0 || this->vboTextureCoords == 0 || this->vboIndices == 0) {
+    if (this->vboPositions == 0 || this->vboNormals == 0 || this->vboIndices == 0) {
         FRAMEWORK->GetLogger()->errlog("ERROR: VBOs not made");
+        return;
+    }
+    if (this->vboTextureCoords == 0 && this->textureAsset) {
+        FRAMEWORK->GetLogger()->errlog("ERROR: Texture VBOs not made");
         return;
     }
 
@@ -190,8 +210,10 @@ void MeshAsset::Draw() {
     	checkGlError("glVertexAttribPointer");
 
     } else {
-		GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
-    	glDisableVertexAttribArray(textureCoordsHandle);
+    	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in)) {
+			GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
+			glDisableVertexAttribArray(textureCoordsHandle);
+    	}
     }
     //
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vboIndices); checkGlError("glBindBuffer");
@@ -219,4 +241,5 @@ void MeshAsset::destroy() {
         delete this->textureCoords;
     }
     // TODO [Implement] Free the VBOs on MeshAsset::destroy()
+
 }
