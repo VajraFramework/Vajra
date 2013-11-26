@@ -1,11 +1,9 @@
-precision mediump float;
+// precision mediump float;
 
 varying vec4 lightIntensity;
-uniform sampler2D myTextureSampler;
 
 void main()
 {
-	vec4 color2;
-	gl_FragColor = vec4(1.0, 0.0, 0.0,  1.0) * lightIntensity;
+	gl_FragColor = lightIntensity;
 }
 

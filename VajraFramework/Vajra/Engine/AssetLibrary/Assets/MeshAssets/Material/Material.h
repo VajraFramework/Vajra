@@ -28,7 +28,7 @@ public:
 	void SetTextureFilePath(std::string filePath);
 	std::shared_ptr<TextureAsset>& GetTextureAsset() { return this->textureAsset; }
 
-	void WriteMaterialToShader(ShaderSet* currentShaderSet);
+	void WriteMaterialToShader();
 
 private:
 	void init();

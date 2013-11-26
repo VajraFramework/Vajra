@@ -69,6 +69,15 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "DLight0SpecularColor") {
 		return SHADER_VARIABLE_VARIABLENAME_DLight0SpecularColor;
 	}
+	if (s == "MaterialAmbientColor") {
+		return SHADER_VARIABLE_VARIABLENAME_MaterialAmbientColor;
+	}
+	if (s == "MaterialDiffuseColor") {
+		return SHADER_VARIABLE_VARIABLENAME_MaterialDiffuseColor;
+	}
+	if (s == "MaterialSpecularColor") {
+		return SHADER_VARIABLE_VARIABLENAME_MaterialSpecularColor;
+	}
 	if (s == "invalid") {
 		return SHADER_VARIABLE_VARIABLENAME_invalid;
 	}
@@ -113,6 +122,9 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_DLight0AmbientColor: return "DLight0AmbientColor";
 	case SHADER_VARIABLE_VARIABLENAME_DLight0DiffuseColor: return "DLight0DiffuseColor";
 	case SHADER_VARIABLE_VARIABLENAME_DLight0SpecularColor: return "DLight0SpecularColor";
+	case SHADER_VARIABLE_VARIABLENAME_MaterialAmbientColor: return "MaterialAmbientColor";
+	case SHADER_VARIABLE_VARIABLENAME_MaterialDiffuseColor: return "MaterialDiffuseColor";
+	case SHADER_VARIABLE_VARIABLENAME_MaterialSpecularColor: return "MaterialSpecularColor";
 	case SHADER_VARIABLE_VARIABLENAME_invalid: return "invalid";
 	// default: DO NOT ADD A DEFAULT HERE. It'll help catch the case where the enum is extended but not handled here
 	}

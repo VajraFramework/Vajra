@@ -201,7 +201,7 @@ void MeshAsset::Draw() {
                           3, GL_FLOAT, GL_FALSE, 0, 0);
     checkGlError("glVertexAttribPointer");
     //
-    this->material->WriteMaterialToShader(currentShaderSet);
+    this->material->WriteMaterialToShader();
     if (this->material->HasTexture()) {
     	glBindTexture(GL_TEXTURE_2D, this->material->GetTextureAsset()->GetGLTextureHandle());
     	checkGlError("glBindTexture");
