@@ -2,6 +2,7 @@
 #define MESH_ASSET_H
 
 #include "Vajra/Engine/AssetLibrary/Asset.h"
+#include <Vajra/Engine/AssetLibrary/Assets/MeshAssets/Material/Material.h>
 #include "Vajra/Engine/AssetLibrary/Assets/TextureAssets/TextureAsset.h"
 #include "Vajra/Utilities/OpenGLIncludes.h"
 
@@ -40,8 +41,6 @@ public:
 	inline glm::vec3 GetInitialRotation() const { return this->initialRotation; }
 	inline glm::vec3 GetInitialScale()    const { return this->initialScale;    }
 
-	void SetTextureFilePath(std::string filePath);
-
 private:
 	void init();
 	void destroy();
@@ -65,7 +64,7 @@ private:
 	glm::vec3 initialRotation;
 	glm::vec3 initialScale;
 
-	std::shared_ptr<TextureAsset> textureAsset;
+	Material* material;
 
 	std::string shaderName;
 

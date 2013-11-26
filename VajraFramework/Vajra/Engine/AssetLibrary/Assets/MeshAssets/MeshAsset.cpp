@@ -39,11 +39,14 @@ void MeshAsset::LoadAsset() {
 	glm::vec3 out_initialRotation;
 	glm::vec3 out_initialScale;
 	//
+	glm::vec4 out_ambientColor;
+	glm::vec4 out_diffuseColor;
+	glm::vec4 out_specularColor;
 	std::string out_textureFilePath;
 	//
 	std::string out_shaderName;
 
-	ModelLoader::LoadMeshFromModelFile(this->GetFilePathToModel().c_str(), out_meshPositions, out_meshNormals, out_meshTextureCoords, out_meshIndices, out_initialPosition, out_initialRotation, out_initialScale, out_textureFilePath, out_shaderName);
+	ModelLoader::LoadMeshFromModelFile(this->GetFilePathToModel().c_str(), out_meshPositions, out_meshNormals, out_meshTextureCoords, out_meshIndices, out_initialPosition, out_initialRotation, out_initialScale, out_ambientColor, out_diffuseColor, out_specularColor, out_textureFilePath, out_shaderName);
 
 	this->InitVerticesData(out_meshPositions, out_meshNormals, out_meshTextureCoords);
 	this->InitIndicesData(out_meshIndices);
@@ -52,8 +55,12 @@ void MeshAsset::LoadAsset() {
 	this->initialRotation = out_initialRotation;
 	this->initialScale    = out_initialScale;
 
+	this->material = new Material();
+	this->material->SetAmbientColor(out_ambientColor);
+	this->material->SetDiffuseColor(out_diffuseColor);
+	this->material->SetSpecularColor(out_specularColor);
 	if (out_textureFilePath != "") {
-		this->SetTextureFilePath(out_textureFilePath);
+		this->material->SetTextureFilePath(out_textureFilePath);
 	}
 
 	this->shaderName = out_shaderName;
@@ -147,7 +154,7 @@ void MeshAsset::MakeVBOs() {
 		glBindBuffer(GL_ARRAY_BUFFER, this->vboTextureCoords); checkGlError("glBindBuffer");
 		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * this->numVertices, this->textureCoords, GL_STATIC_DRAW); checkGlError("glBufferData");
     } else {
-        ASSERT(!this->textureAsset, "Texture coords missing because model has no texture");
+        ASSERT(!this->material->HasTexture(), "Texture coords missing because model has no texture");
     }
 
     if (this->indices.size() != 0) {
@@ -162,16 +169,12 @@ void MeshAsset::MakeVBOs() {
     FRAMEWORK->GetLogger()->errlog("\nVBOs made successfully");
 }
 
-void MeshAsset::SetTextureFilePath(std::string filePath) {
-	this->textureAsset = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(filePath);
-}
-
 void MeshAsset::Draw() {
     if (this->vboPositions == 0 || this->vboNormals == 0 || this->vboIndices == 0) {
         FRAMEWORK->GetLogger()->errlog("ERROR: VBOs not made");
         return;
     }
-    if (this->vboTextureCoords == 0 && this->textureAsset) {
+    if (this->vboTextureCoords == 0 && this->material->HasTexture()) {
         FRAMEWORK->GetLogger()->errlog("ERROR: Texture VBOs not made");
         return;
     }
@@ -198,8 +201,9 @@ void MeshAsset::Draw() {
                           3, GL_FLOAT, GL_FALSE, 0, 0);
     checkGlError("glVertexAttribPointer");
     //
-    if (this->textureAsset) {
-    	glBindTexture(GL_TEXTURE_2D, this->textureAsset->GetGLTextureHandle());
+    this->material->WriteMaterialToShader(currentShaderSet);
+    if (this->material->HasTexture()) {
+    	glBindTexture(GL_TEXTURE_2D, this->material->GetTextureAsset()->GetGLTextureHandle());
     	checkGlError("glBindTexture");
 
 		GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
@@ -228,6 +232,7 @@ void MeshAsset::init() {
     this->vertices = 0;
     this->normals = 0;
     this->textureCoords = 0;
+    this->material = nullptr;
 }
 
 void MeshAsset::destroy() {

@@ -12,9 +12,15 @@ void LoadMeshFromModelFile(const char* filePath,
 		std::vector<glm::vec3>&        outNormals,
 		std::vector<glm::vec2>&        outTexCoords,
 		std::vector<unsigned int>&     outIndices,
+		//
 		glm::vec3&                     outInitialPosition,
 		glm::vec3&                     outInitialRotation,
 		glm::vec3&                     outInitialScale,
+		//
+	    glm::vec4&                     outAmbientColor,
+	    glm::vec4&                     outDiffuseColor,
+		glm::vec4&                     outSpecularColor,
+		//
 		std::string&                   outTextureFilePath,
 		std::string&                   outShaderName) {
 
