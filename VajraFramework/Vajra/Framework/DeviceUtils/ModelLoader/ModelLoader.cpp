@@ -103,6 +103,12 @@ void LoadMeshFromModelFile(const char* filePath,
 	}
 
 	{
+		modelFile >> outAmbientColor.r >> outAmbientColor.g >> outAmbientColor.b;
+		modelFile >> outDiffuseColor.r >> outDiffuseColor.g >> outDiffuseColor.b;
+		modelFile >> outSpecularColor.r >> outSpecularColor.g >> outSpecularColor.b;
+	}
+
+	{
 		std::string hasTexture;
 		modelFile >> hasTexture;
 

@@ -29,8 +29,9 @@ void main()
 	lightIntensity = lightIntensity + DLight0AmbientColor;
 
 	// Temp using variables:
-	lightIntensity = lightIntensity + DLight0SpecularColor;
-	lightIntensity = lightIntensity + MaterialAmbientColor + MaterialSpecularColor;
+	lightIntensity = lightIntensity + 0.01 * DLight0SpecularColor;
+	// Temp using variables:
+	lightIntensity = lightIntensity + 0.01 * MaterialAmbientColor + 0.01 * MaterialSpecularColor;
 }
 __SOURCE_END__
 
