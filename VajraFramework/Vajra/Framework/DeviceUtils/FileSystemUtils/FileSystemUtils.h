@@ -14,6 +14,7 @@ public:
     inline const std::string GetDeviceShaderResourcesPath()    const { return this->deviceShaderResourcesPath;    }
     inline const std::string GetDeviceModelResourcesPath()     const { return this->deviceModelResourcesPath;     }
     inline const std::string GetDeviceAnimationResourcesPath() const { return this->deviceAnimationResourcesPath; }
+	inline const std::string GetDeviceAudioResourcesPath()     const { return this->deviceAudioResourcesPath; }
     
 private:
     FileSystemUtils();
@@ -25,6 +26,7 @@ private:
     std::string deviceShaderResourcesPath;
     std::string deviceModelResourcesPath;
     std::string deviceAnimationResourcesPath;
+	std::string deviceAudioResourcesPath;
     
     friend class Framework;
 };

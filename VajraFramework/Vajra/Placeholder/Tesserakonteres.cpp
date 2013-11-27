@@ -21,6 +21,7 @@
 
 #include <vector>
 
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 
 namespace Tesserakonteres {
 
@@ -127,6 +128,12 @@ namespace Tesserakonteres {
 			//
 			dlightComponent->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
 			dlightComponent->SetDiffuseColor(0.7f, 0.7f, 0.7f, 1.0f);
+		}
+		
+		{
+			AudioSource* source = child->AddComponent<AudioSource>();
+			source->SetAudioClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesPath() + "lowAlert(hisfixed).mp3");
+			source->Play();
 		}
 	}
 }
