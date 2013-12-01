@@ -21,26 +21,33 @@ public:
 	std::string GetName();
 	void SetName(std::string name);
 
-	void SetBindPoseMatrixGlobal(glm::mat4x4 m);
+	void SetBindPoseMatrixGlobal(glm::mat4 m);
 
-	void Rotate(float angleInDegrees, glm::vec3 axis);
+	void Rotate(float angleInDegrees, glm::vec3 axis, bool boneSpace = false);
 	void Translate(float distance, glm::vec3 along);
 
 	void SetParent(Bone* parentBone);
 	void AddChild(Bone* childBone);
 
-#if DRAW_BONES
-	void Draw();
-#endif
-
 private:
 	void init();
 	void destroy();
 
+	void updateBoneMatrices();
+	void rippleBoneMatrixUpdates();
+
 	std::string name;
 	unsigned int id;
 
-	glm::mat4x4 bindPoseMatrixGlobal;
+	glm::mat4 bindPoseMatrixGlobal;
+	//
+	glm::mat4 toBoneMatrix;
+	glm::mat4 toWorldMatrix;
+	//
+	glm::mat4 localRotationMatrix;
+	glm::mat4 localTranslationMatrix;
+	glm::mat4 localRotationMatrixCumulative;
+	glm::mat4 localTranslationMatrixCumulative;
 
 	Bone* parent;
 	std::vector<Bone*> children;
