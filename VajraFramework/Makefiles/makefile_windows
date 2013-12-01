@@ -107,6 +107,7 @@ after_build:
 	@echo "COPYING RESOURCES TO EXECUTABLE DIRECTORY."
 	rsync -r -v --delete $(RESOURCESDIR_NAME) $(BINDIR)/.
 	rsync -r -v --delete $(BINARIES_FOR_DEPLOYMENT_DIR_NAME)/* $(BINDIR)/.
+	chmod -R 777 $(BINDIR)/*
 
 
 clean:

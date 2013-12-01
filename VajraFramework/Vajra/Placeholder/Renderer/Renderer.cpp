@@ -55,6 +55,10 @@ bool setupGraphics(int w, int h) {
     glActiveTexture(GL_TEXTURE0);
     checkGlError("glActiveTexture");
 
+#if PLATFORM_DESKTOP
+    // TODO [Implement] Move this to shader specific code so that we can have only some shaders draw in wireframe mode
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+#endif
     
     return true;
 }

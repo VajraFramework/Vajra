@@ -23,6 +23,8 @@ void LoadMeshFromModelFile(const char* filePath, std::vector<glm::vec3>&     out
 												 glm::vec4&                  outSpecularColor,
 												 std::string&                outTextureFilePath,
 												 //
+												 std::string&                outArmatureFilePath,
+												 //
 												 std::string&                outShaderName);
 
 }

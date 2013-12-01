@@ -9,3 +9,13 @@ void ReadTextFileTillStringToken(std::ifstream& inFile, const std::string token)
 		}
 	}
 }
+
+glm::mat4x4 ReadGlmMat4x4FromFile(std::ifstream& file) {
+	glm::mat4x4 m;
+	for (int r = 0; r < 4; ++r) {
+		for (int c = 0; c < 4; ++c) {
+			file >> m[r][c];
+		}
+	}
+	return m;
+}

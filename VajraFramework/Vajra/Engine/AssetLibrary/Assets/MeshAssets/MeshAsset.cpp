@@ -44,9 +44,11 @@ void MeshAsset::LoadAsset() {
 	glm::vec4 out_specularColor;
 	std::string out_textureFilePath;
 	//
+	std::string out_armatureFilePath;
+	//
 	std::string out_shaderName;
 
-	ModelLoader::LoadMeshFromModelFile(this->GetFilePathToModel().c_str(), out_meshPositions, out_meshNormals, out_meshTextureCoords, out_meshIndices, out_initialPosition, out_initialRotation, out_initialScale, out_ambientColor, out_diffuseColor, out_specularColor, out_textureFilePath, out_shaderName);
+	ModelLoader::LoadMeshFromModelFile(this->GetFilePathToModel().c_str(), out_meshPositions, out_meshNormals, out_meshTextureCoords, out_meshIndices, out_initialPosition, out_initialRotation, out_initialScale, out_ambientColor, out_diffuseColor, out_specularColor, out_textureFilePath, out_armatureFilePath, out_shaderName);
 
 	this->InitVerticesData(out_meshPositions, out_meshNormals, out_meshTextureCoords);
 	this->InitIndicesData(out_meshIndices);
@@ -61,6 +63,10 @@ void MeshAsset::LoadAsset() {
 	this->material->SetSpecularColor(out_specularColor);
 	if (out_textureFilePath != "") {
 		this->material->SetTextureFilePath(out_textureFilePath);
+	}
+
+	if (out_armatureFilePath != "") {
+		this->armatureFilePath = out_armatureFilePath;
 	}
 
 	this->shaderName = out_shaderName;

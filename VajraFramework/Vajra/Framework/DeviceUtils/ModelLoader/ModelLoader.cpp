@@ -22,6 +22,9 @@ void LoadMeshFromModelFile(const char* filePath,
 		glm::vec4&                     outSpecularColor,
 		//
 		std::string&                   outTextureFilePath,
+		//
+		std::string&                   outArmatureFilePath,
+		//
 		std::string&                   outShaderName) {
 
 	FRAMEWORK->GetLogger()->dbglog("\nLoading mesh data from model at %s", filePath);
@@ -117,6 +120,21 @@ void LoadMeshFromModelFile(const char* filePath,
 			modelFile >> textureImageName;
 			outTextureFilePath = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + textureImageName;
 		} else if (hasTexture == "no") {
+			// Nothing to do
+		} else {
+			ASSERT(0, "Error parsing .model file");
+		}
+	}
+
+	{
+		std::string hasArmature;
+		modelFile >> hasArmature;
+
+		if (hasArmature == "yes") {
+			std::string armatureFileName;
+			modelFile >> armatureFileName;
+			outArmatureFilePath = FRAMEWORK->GetFileSystemUtils()->GetDeviceArmatureResourcesPath() + armatureFileName;
+		} else if (hasArmature == "no") {
 			// Nothing to do
 		} else {
 			ASSERT(0, "Error parsing .model file");

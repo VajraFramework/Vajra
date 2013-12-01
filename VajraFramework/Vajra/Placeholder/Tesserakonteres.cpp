@@ -56,11 +56,18 @@ namespace Tesserakonteres {
 			transform->Scale(0.4f, 0.4f, 0.4f);
 		}
 		{
+#if 1
+			// Draw a wavybox
 			GameObject* gameObject = new GameObject();
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "pCube1.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "wavybox.model");
+			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			//
-#if 1
+			// Transform* transform = gameObject->GetTransform();
+			// transform->Scale(0.2f);
+#endif
+			//
+#if 0
 			RigidAnimation* rigidAnimation = gameObject->AddComponent<RigidAnimation>();
 			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "simpleanimation.animclips#clip0");
 			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "simpleanimation.animclips#clip1");
@@ -68,11 +75,6 @@ namespace Tesserakonteres {
 			animationClip->SetPlaybackSpeed(1.0f);
 			animationClip->SetLooping(true);
 			rigidAnimation->PlayAnimationClip("clip1");
-
-			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
-			Transform* transform = gameObject->GetTransform();
-			transform->Scale(0.5f);
-			// transform->Translate(1.0f, transform->GetLeft());
 #endif
 
 #if 0
@@ -107,11 +109,12 @@ namespace Tesserakonteres {
 
 			Transform* transform = gameObject->GetTransform();
 			transform->Scale(0.6f, 0.6f, 0.6f);
+			transform->Translate(1.5f, XAXIS);
 		}
 		{
 			GameObject* camera = new GameObject();
 			/* Camera* cameraComponent = */ camera->AddComponent<Camera>();
-			camera->GetTransform()->SetPosition(2.0f, 2.0f, 2.0f);
+			camera->GetTransform()->SetPosition(8.0f, 8.0f, 8.0f);
 			// camera->GetTransform()->SetOrientation(-45.0f, camera->GetTransform()->GetUp());
 			// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
 			camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
@@ -128,5 +131,19 @@ namespace Tesserakonteres {
 			dlightComponent->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
 			dlightComponent->SetDiffuseColor(0.7f, 0.7f, 0.7f, 1.0f);
 		}
+		{
+#if 0
+			GameObject* gameObject = new GameObject();
+			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "bone.model");
+			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
+			parent = gameObject;
+
+			Transform* transform = parent->GetTransform();
+			transform->Scale(0.2f);
+#endif
+		}
+
+		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");
 	}
 }

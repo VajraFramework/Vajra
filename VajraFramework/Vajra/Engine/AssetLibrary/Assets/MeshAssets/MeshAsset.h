@@ -41,6 +41,8 @@ public:
 	inline glm::vec3 GetInitialRotation() const { return this->initialRotation; }
 	inline glm::vec3 GetInitialScale()    const { return this->initialScale;    }
 
+	inline std::string GetArmatureFilePath() { return this->armatureFilePath; }
+
 private:
 	void init();
 	void destroy();
@@ -65,6 +67,8 @@ private:
 	glm::vec3 initialScale;
 
 	Material* material;
+
+	std::string armatureFilePath;
 
 	std::string shaderName;
 

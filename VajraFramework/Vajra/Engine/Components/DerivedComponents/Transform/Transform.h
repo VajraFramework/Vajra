@@ -2,6 +2,7 @@
 #define TRANSFORM_H
 
 #include "Vajra/Common/Components/Component.h"
+#include "Vajra/Engine/Components/DerivedComponents/Armature/Declarations.h"
 
 #include "Libraries/glm/glm.hpp"
 #include "Libraries/glm/gtc/quaternion.hpp"
@@ -43,6 +44,12 @@ public:
 	//
 	void LookAt(float point_x, float point_y, float point_z);
 	void LookAt(glm::vec3 point);
+
+#if DRAW_BONES
+	// TODO [Hack] This shouldn't really be used. Guard this better, maybe?
+	void SetModelMatrixCumulative(glm::mat4 m) { this->modelMatrixCumulative = m; }
+	glm::mat4 GetModelMatrixCumulative() { return this->modelMatrixCumulative; }
+#endif
 
 	glm::vec3& GetForward() { return this->forward; }
 	glm::vec3& GetLeft() { return this->left; }
