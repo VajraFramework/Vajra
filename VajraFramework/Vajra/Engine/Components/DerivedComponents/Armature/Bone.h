@@ -35,6 +35,7 @@ private:
 
 	void updateBoneMatrices();
 	void rippleBoneMatrixUpdates();
+	void propogateRawMatrixToChildren(glm::mat4 rawMatrix);
 
 	std::string name;
 	unsigned int id;

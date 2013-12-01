@@ -9,6 +9,8 @@
 #include "Vajra/Utilities/MathUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
 
+#include "Libraries/glm/gtc/matrix_inverse.hpp"
+
 
 Bone::Bone() {
 	this->init();
@@ -39,7 +41,7 @@ void Bone::Rotate(float angleInDegrees, glm::vec3 axis, bool boneSpace /* = fals
 	if (newAxis != ZERO_VEC3) {
 		this->localRotationMatrix = this->localRotationMatrix * glm::rotate(angleInDegrees, newAxis);
 
-		this->updateBoneMatrices();
+		// this->updateBoneMatrices();
 	}
 }
 
@@ -48,18 +50,29 @@ void Bone::Translate(float /* distance */, glm::vec3 /* along */) {
 }
 
 void Bone::updateBoneMatrices() {
+#if 0
 	if (this->parent != nullptr) {
-		this->localRotationMatrixCumulative = this->parent->localRotationMatrixCumulative * this->localRotationMatrix;
+		this->localRotationMatrixCumulative = this->parent->toBoneMatrix *
+				this->parent->localRotationMatrixCumulative * this->localRotationMatrix *
+				this->parent->toWorldMatrix;
 		this->localTranslationMatrixCumulative = this->parent->localTranslationMatrixCumulative * this->localTranslationMatrix;
 	} else {
 		this->localRotationMatrixCumulative = this->localRotationMatrix;
 		this->localTranslationMatrixCumulative = this->localTranslationMatrix;
 	}
+#endif
+
+	// this->localRotationMatrixCumulative = this->localRotationMatrix;
+	//
+	glm::mat4 matrixToPropogate = this->toWorldMatrix * this->localRotationMatrix * this->toBoneMatrix;
+	for (Bone* childBone : this->children) {
+		childBone->propogateRawMatrixToChildren(matrixToPropogate);
+	}
 
 #if DRAW_BONES
 	// TODO [Implement] This doesn't really work since there is really no way for the parent's transform changes to ripple to the bones visualizers
 	glm::mat4 visualizerMatrix = ((GameObject*)(this->armature->GetObject()))->GetTransform()->GetModelMatrixCumulative() *
-								 this->bindPoseMatrixGlobal * this->localRotationMatrixCumulative * this->localTranslationMatrixCumulative;
+								 this->localRotationMatrixCumulative * this->bindPoseMatrixGlobal * this->localRotationMatrix * this->localTranslationMatrixCumulative;
 	this->visualizer->GetTransform()->SetModelMatrixCumulative(visualizerMatrix);
 #endif
 
@@ -73,11 +86,25 @@ void Bone::rippleBoneMatrixUpdates() {
 	}
 }
 
+void Bone::propogateRawMatrixToChildren(glm::mat4 rawMatrix) {
+	this->localRotationMatrixCumulative = this->localRotationMatrixCumulative * rawMatrix;
+
+	for (Bone* childBone : this->children) {
+		childBone->propogateRawMatrixToChildren(rawMatrix);
+	}
+}
+
 void Bone::SetBindPoseMatrixGlobal(glm::mat4x4 m) {
 	this->bindPoseMatrixGlobal = m;
-#if DRAW_BONES
+
+	/*
+	 * Note: the bindPoseMatrixGlobal here is the matrix with which if we draw any "bone model", it would end up in the correct place visually
+	 */
+
+	this->toWorldMatrix = this->bindPoseMatrixGlobal;
+	this->toBoneMatrix  = glm::inverse(this->toWorldMatrix);
+
 	this->updateBoneMatrices();
-#endif
 }
 
 void Bone::SetParent(Bone* parentBone) {
@@ -113,3 +140,4 @@ void Bone::init() {
 
 void Bone::destroy() {
 }
+

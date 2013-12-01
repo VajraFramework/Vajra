@@ -24,7 +24,27 @@ Armature::~Armature() {
 	this->destroy();
 }
 
-void Armature::HandleMessage(Message* /* message */) {
+void Armature::HandleMessage(Message* message) {
+	// FRAMEWORK->GetLogger()->dbglog("\nArmature got msg of type %d", message->GetMessageType());
+
+	switch (message->GetMessageType()) {
+
+	case MESSAGE_TYPE_FRAME_EVENT:
+		this->updateBoneMatrices();
+		break;
+
+	default:
+		FRAMEWORK->GetLogger()->dbglog("\nArmature got unnecessary msg of type %d", message->GetMessageType());
+	}
+}
+
+void Armature::updateBoneMatrices() {
+	for (auto bone_it = this->bones.begin(); bone_it != this->bones.end(); ++bone_it) {
+		Bone* bone = bone_it->second;
+		bone->localRotationMatrixCumulative = IDENTITY_MATRIX;
+	}
+
+	this->rootBone->updateBoneMatrices();
 }
 
 void Armature::AddBone(Bone* newBone) {
@@ -60,7 +80,15 @@ void Armature::SetRootBoneByName(std::string rootBoneName) {
 
 
 void Armature::init() {
+	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
+	if (gameObject != nullptr) {
+		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
+	}
+
+	// TODO [Hack] Can this be done better?
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
 
 void Armature::destroy() {
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }

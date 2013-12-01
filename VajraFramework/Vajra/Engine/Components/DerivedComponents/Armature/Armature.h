@@ -36,6 +36,8 @@ private:
 	void init();
 	void destroy();
 
+	void updateBoneMatrices();
+
 	static unsigned int componentTypeId;
 
 	std::map<unsigned int /* bone id */, Bone*> bones;

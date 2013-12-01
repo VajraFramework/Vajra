@@ -114,7 +114,7 @@ namespace Tesserakonteres {
 		{
 			GameObject* camera = new GameObject();
 			/* Camera* cameraComponent = */ camera->AddComponent<Camera>();
-			camera->GetTransform()->SetPosition(8.0f, 8.0f, 8.0f);
+			camera->GetTransform()->SetPosition(12.0f, 12.0f, 12.0f);
 			// camera->GetTransform()->SetOrientation(-45.0f, camera->GetTransform()->GetUp());
 			// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
 			camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
