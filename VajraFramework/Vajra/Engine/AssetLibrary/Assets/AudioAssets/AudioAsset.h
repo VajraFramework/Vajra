@@ -1,8 +1,6 @@
 //
 //  AudioAsset.h
-//
 //  Created by Matt Kaufmann on 11/25/13.
-//  Copyright (c) 2013 Matt Kaufmann. All rights reserved.
 //
 
 #ifndef AUDIO_ASSET_H
@@ -15,11 +13,11 @@
 class AudioAsset : public Asset {
 public:
 	AudioAsset();
-	AudioAsset(std::string urlOfAsset);
+	AudioAsset(std::string urlOfAudioClip);
 	virtual ~AudioAsset();
 	
 	std::string GetFilePathToAudio();
-	char* GetAudioData();
+	const char* GetAudioData();
 	long GetAudioLength();
 	
 	// @Override

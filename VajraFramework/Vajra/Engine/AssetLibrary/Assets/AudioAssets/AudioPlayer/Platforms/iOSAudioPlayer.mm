@@ -1,7 +1,6 @@
 //
-//  iOSAudioPlayer.m
+//  iOSAudioPlayer.mm
 //  Created by Matt Kaufmann on 11/25/13.
-//  Copyright (c) 2013 Matt Kaufmann. All rights reserved.
 //
 
 #ifdef PLATFORM_IOS
@@ -14,10 +13,10 @@
 #import "Vajra/Engine/Core/Engine.h"
 
 struct AudioPlayer::AudioPlayerHelper_Impl {
-	AVAudioPlayer *avap;
+	AVAudioPlayer *player_internal;
 	bool clipLoaded;
 	
-	AudioPlayerHelper_Impl() : avap([[AVAudioPlayer alloc] init]), clipLoaded(false) { }
+	AudioPlayerHelper_Impl() : player_internal([[AVAudioPlayer alloc] init]), clipLoaded(false) { }
 };
 
 AudioPlayer::AudioPlayer() {
@@ -30,16 +29,15 @@ AudioPlayer::~AudioPlayer() {
 
 void AudioPlayer::init() {
 	this->pimpl = new AudioPlayerHelper_Impl;
-	//this->pimpl->avap = [[AVAudioPlayer alloc] init];
 	this->volume = 1.0f;
 	this->playbackSpeed = 1.0f;
 }
 
 void AudioPlayer::destroy() {
 	if (this->pimpl != nullptr) {
-		if (this->pimpl->avap != nil) {
-			[this->pimpl->avap release];
-			this->pimpl->avap = nil;
+		if (this->pimpl->player_internal != nil) {
+			[this->pimpl->player_internal release];
+			this->pimpl->player_internal = nil;
 		}
 		delete this->pimpl;
 		this->pimpl = nullptr;
@@ -52,7 +50,7 @@ float AudioPlayer::GetPlaybackSpeed()      { return this->playbackSpeed; }
 
 float AudioPlayer::GetAudioClipDuration() {
 	if (this->pimpl->clipLoaded) {
-		return this->pimpl->avap.duration;
+		return this->pimpl->player_internal.duration;
 	}
 	return 0.0f;
 }
@@ -62,10 +60,10 @@ void AudioPlayer::SetAudioClip(std::string assetName) {
 	std::shared_ptr<AudioAsset> audioAsset = ENGINE->GetAssetLibrary()->GetAsset<AudioAsset>(assetName);
 	NSData *audioData = [NSData dataWithBytes:audioAsset->GetAudioData() length:audioAsset->GetAudioLength()];
 	NSError *errOut;
-	this->pimpl->avap = [this->pimpl->avap initWithData: audioData error:&errOut];
-	if (this->pimpl->avap != nil) {
-		this->pimpl->avap.volume = this->volume;
-		this->pimpl->avap.rate = this->playbackSpeed;
+	this->pimpl->player_internal = [this->pimpl->player_internal initWithData: audioData error:&errOut];
+	if (this->pimpl->player_internal != nil) {
+		this->pimpl->player_internal.volume = this->volume;
+		this->pimpl->player_internal.rate = this->playbackSpeed;
 		this->pimpl->clipLoaded = true;
 	}
 }
@@ -73,34 +71,34 @@ void AudioPlayer::SetAudioClip(std::string assetName) {
 void AudioPlayer::SetVolume(float volume) {
 	this->volume = volume;
 	if (this->pimpl->clipLoaded) {
-		this->pimpl->avap.volume = volume;
+		this->pimpl->player_internal.volume = this->volume;
 	}
 }
 
 void AudioPlayer::SetPlaybackSpeed(float speed) {
 	this->playbackSpeed = speed;
 	if (this->pimpl->clipLoaded) {
-		this->pimpl->avap.rate = speed;
+		this->pimpl->player_internal.rate = this->playbackSpeed;
 	}
 }
 
 void AudioPlayer::Play() {
 	if (this->pimpl->clipLoaded) {
-		[this->pimpl->avap prepareToPlay];
-		[this->pimpl->avap play];
+		[this->pimpl->player_internal prepareToPlay];
+		[this->pimpl->player_internal play];
 	}
 }
 
 void AudioPlayer::Play(float delay) {
 	if (this->pimpl->clipLoaded) {
-		[this->pimpl->avap prepareToPlay];
-		[this->pimpl->avap playAtTime:(this->pimpl->avap.deviceCurrentTime + delay)];
+		[this->pimpl->player_internal prepareToPlay];
+		[this->pimpl->player_internal playAtTime:(this->pimpl->player_internal.deviceCurrentTime + delay)];
 	}
 }
 
 void AudioPlayer::Pause() {
 	if (this->pimpl->clipLoaded) {
-		[this->pimpl->avap stop];
+		[this->pimpl->player_internal stop];
 	}
 }
 
@@ -112,8 +110,8 @@ void AudioPlayer::Stop() {
 
 void AudioPlayer::Stop(float fadeout) {
 	if (this->pimpl->clipLoaded) {
-		[this->pimpl->avap stop];
-		this->pimpl->avap.currentTime = 0.0f;
+		[this->pimpl->player_internal stop];
+		this->pimpl->player_internal.currentTime = 0.0f;
 	}
 }
 

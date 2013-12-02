@@ -1,9 +1,6 @@
 //
-//  iOSAudioLoader.m
-//  iOSAudioTest
-//
-//  Created by IGMAdmin on 11/24/13.
-//  Copyright (c) 2013 IGMAdmin. All rights reserved.
+//  iOSAudioLoader.mm
+//  Created by Matt Kaufmann on 11/24/13.
 //
 
 #ifdef PLATFORM_IOS
@@ -13,7 +10,7 @@
 #import "Vajra/Framework/DeviceUtils/AudioLoader/AudioLoader.h"
 
 long loadAudioFile(const char* audioPath, char** outAudioBytes) {
-    NSString* pathNSString = [NSString stringWithUTF8String:audioPath];
+	NSString* pathNSString = [NSString stringWithUTF8String:audioPath];
 	NSData* audioData = [NSData dataWithContentsOfFile:pathNSString];
 	
 	if (audioData == nil) {

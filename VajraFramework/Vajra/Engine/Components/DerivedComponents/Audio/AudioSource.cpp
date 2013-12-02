@@ -1,9 +1,6 @@
 //
 //  AudioSource.cpp
-//  iOSAudioTest
-//
-//  Created by IGMAdmin on 11/24/13.
-//  Copyright (c) 2013 IGMAdmin. All rights reserved.
+//  Created by Matt Kaufmann on 11/24/13.
 //
 
 #include "Vajra/Engine/Components/ComponentTypes/ComponentTypeIds.h"

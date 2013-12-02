@@ -1,9 +1,6 @@
 //
 //  AudioAsset.cpp
-//  iOSAudioTest
-//
-//  Created by IGMAdmin on 11/25/13.
-//  Copyright (c) 2013 IGMAdmin. All rights reserved.
+//  Created by Matt Kaufmann on 11/25/13.
 //
 
 #include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
@@ -12,13 +9,13 @@
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
 
-AssetType AudioAsset::assetType = ASSET_TYPE_GL_TEXTURE;
+AssetType AudioAsset::assetType = ASSET_TYPE_SOUND_DATA;
 
 AudioAsset::AudioAsset() : Asset() {
 	this->init();
 }
 
-AudioAsset::AudioAsset(std::string urlOfTexture) : Asset(urlOfTexture) {
+AudioAsset::AudioAsset(std::string urlOfAudioClip) : Asset(urlOfAudioClip) {
 	this->init();
 }
 
@@ -36,7 +33,7 @@ AssetType AudioAsset::GetAssetType() {
 }
 
 void AudioAsset::LoadAsset() {
-	ASSERT(this->GetUrl() != "", "Url set when trying to load texture asset");
+	ASSERT(this->GetUrl() != "", "Url set when trying to load audio asset");
 	
 	FRAMEWORK->GetLogger()->dbglog("\nLoading audio asset from url: %s", this->GetFilePathToAudio().c_str());
 	
@@ -50,7 +47,7 @@ std::string AudioAsset::GetFilePathToAudio() {
 	return this->GetUrl();
 }
 
-char* AudioAsset::GetAudioData() {
+const char* AudioAsset::GetAudioData() {
 	return this->audioBytes;
 }
 

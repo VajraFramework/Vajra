@@ -1,7 +1,6 @@
 //
 //	AudioPlayer.h
 //	Created by Matt Kaufmann on 11/25/13.
-//	Copyright (c) 2013 Matt Kaufmann. All rights reserved.
 //
 //	The AudioPlayer class wraps all playback for the engine.
 //	One AudioPlayer is needed for each instance of a given
@@ -14,8 +13,8 @@
 
 class AudioPlayer {
 public:
-	AudioPlayer();	// Constructor
-	~AudioPlayer();	// Destructor
+	AudioPlayer();
+	~AudioPlayer();
 	
 	// Accessors
 	float GetVolume();
@@ -37,8 +36,6 @@ public:
 private:
 	void init();
 	void destroy();
-	
-	//shared_ptr<AudioAsset> _asset;
 	
 	struct AudioPlayerHelper_Impl;
 	AudioPlayerHelper_Impl* pimpl;

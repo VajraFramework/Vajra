@@ -1,7 +1,6 @@
 //
 //	AudioSource.h
 //	Created by Matt Kaufmann on 11/24/13.
-//	Copyright (c) 2013 Matt Kaufmann. All rights reserved.
 //
 //	An AudioSource component can be attached to a game object in order
 //	to allow it to play sounds.
