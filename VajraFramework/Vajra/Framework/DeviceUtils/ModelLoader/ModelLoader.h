@@ -12,6 +12,10 @@ namespace ModelLoader {
 void LoadMeshFromModelFile(const char* filePath, std::vector<glm::vec3>&     outPositions,
 												 std::vector<glm::vec3>&     outNormals,
 												 std::vector<glm::vec2>&     outTexCoords,
+												 //
+												 std::vector<glm::vec4>&     outBoneIndices,
+												 std::vector<glm::vec4>&     outBoneWeights,
+												 //
 												 std::vector<unsigned int>&  outIndices,
 												 //
 												 glm::vec3&                  outInitialPosition,

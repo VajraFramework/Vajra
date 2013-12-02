@@ -45,6 +45,12 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "uvCoords_in") {
 		return SHADER_VARIABLE_VARIABLENAME_uvCoords_in;
 	}
+	if (s == "boneIndices") {
+		return SHADER_VARIABLE_VARIABLENAME_boneIndices;
+	}
+	if (s == "boneWeights") {
+		return SHADER_VARIABLE_VARIABLENAME_boneWeights;
+	}
 	if (s == "mvpMatrix") {
 		return SHADER_VARIABLE_VARIABLENAME_mvpMatrix;
 	}
@@ -114,6 +120,8 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_vPosition: return "vPosition";
 	case SHADER_VARIABLE_VARIABLENAME_vNormal: return "vNormal";
 	case SHADER_VARIABLE_VARIABLENAME_uvCoords_in: return "uvCoords_in";
+	case SHADER_VARIABLE_VARIABLENAME_boneIndices: return "boneIndices";
+	case SHADER_VARIABLE_VARIABLENAME_boneWeights: return "boneWeights";
 	case SHADER_VARIABLE_VARIABLENAME_mvpMatrix: return "mvpMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix: return "modelInverseTransposeMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_uvCoords_out: return "uvCoords_out";

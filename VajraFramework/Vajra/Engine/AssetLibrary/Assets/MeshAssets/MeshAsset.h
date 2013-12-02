@@ -34,6 +34,8 @@ public:
                           std::vector<glm::vec3> &inNormals,  \
                           std::vector<glm::vec2> &inTextureCoords);
 	void InitIndicesData(std::vector<unsigned int> &inIndices);
+	void InitBoneWeightInfluencesData(std::vector<glm::vec4> &inBoneIndices,
+									  std::vector<glm::vec4> &inBoneWeights);
 	//
 	void MakeVBOs();
 
@@ -53,14 +55,20 @@ private:
 	GLuint vboTextureCoords;
 	//
 	GLuint vboIndices;
+	//
+	GLuint vboBoneIndices;
+	GLuint vboBoneWeights;
 
 	int numVertices;
 
-	glm::vec3 *vertices;
-	glm::vec3 *normals;
-	glm::vec2 *textureCoords;
+	glm::vec3* vertices;
+	glm::vec3* normals;
+	glm::vec2* textureCoords;
 	//
 	std::vector<unsigned int> indices;
+	//
+	glm::vec4* boneIndices;		// Note: although this should technically be ivec4, OpenGL ES 2.0 doesn't support interger types in attributes, heh.
+	glm::vec4* boneWeights;
 
 	glm::vec3 initialPosition;
 	glm::vec3 initialRotation;

@@ -5,12 +5,19 @@
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
 
+// TODO [Cleanup] Move this somewhere else
+#define MAX_BONE_INFUENCES_PER_VERTEX 4
+
 namespace ModelLoader {
 
 void LoadMeshFromModelFile(const char* filePath,
 		std::vector<glm::vec3>&        outPositions,
 		std::vector<glm::vec3>&        outNormals,
 		std::vector<glm::vec2>&        outTexCoords,
+		//
+		std::vector<glm::vec4>&        outBoneIndices,
+		std::vector<glm::vec4>&        outBoneWeights,
+		//
 		std::vector<unsigned int>&     outIndices,
 		//
 		glm::vec3&                     outInitialPosition,
@@ -88,6 +95,23 @@ void LoadMeshFromModelFile(const char* filePath,
 			modelFile >> texcoord.x;
 			modelFile >> texcoord.y;
 			outTexCoords.push_back(texcoord);
+		}
+	}
+
+	{
+		int numVerticesWithInfluences;
+		modelFile >> numVerticesWithInfluences;
+		ASSERT(MAX_BONE_INFUENCES_PER_VERTEX == 4, "Max bone influences per vertex has to be 4 (since we use glm::vec4 here");
+		while ((numVerticesWithInfluences--) > 0) {
+			glm::vec4 boneIndexes;
+			glm::vec4 boneWeights;
+			for (int i = 0; i < MAX_BONE_INFUENCES_PER_VERTEX; ++i) {
+				modelFile >> boneIndexes[i];
+				modelFile >> boneWeights[i];
+			}
+			//
+			outBoneIndices.push_back(boneIndexes);
+			outBoneWeights.push_back(boneWeights);
 		}
 	}
 

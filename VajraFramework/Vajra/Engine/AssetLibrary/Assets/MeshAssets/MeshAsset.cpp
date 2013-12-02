@@ -33,6 +33,10 @@ void MeshAsset::LoadAsset() {
 	std::vector<glm::vec3> out_meshPositions;
 	std::vector<glm::vec3> out_meshNormals;
 	std::vector<glm::vec2> out_meshTextureCoords;
+	//
+	std::vector<glm::vec4> out_meshBoneIndices;
+	std::vector<glm::vec4> out_meshBoneWeights;
+	//
 	std::vector<unsigned int> out_meshIndices;
 	//
 	glm::vec3 out_initialPosition;
@@ -48,10 +52,13 @@ void MeshAsset::LoadAsset() {
 	//
 	std::string out_shaderName;
 
-	ModelLoader::LoadMeshFromModelFile(this->GetFilePathToModel().c_str(), out_meshPositions, out_meshNormals, out_meshTextureCoords, out_meshIndices, out_initialPosition, out_initialRotation, out_initialScale, out_ambientColor, out_diffuseColor, out_specularColor, out_textureFilePath, out_armatureFilePath, out_shaderName);
+	ModelLoader::LoadMeshFromModelFile(this->GetFilePathToModel().c_str(), out_meshPositions, out_meshNormals, out_meshTextureCoords, out_meshBoneIndices, out_meshBoneWeights, out_meshIndices, out_initialPosition, out_initialRotation, out_initialScale, out_ambientColor, out_diffuseColor, out_specularColor, out_textureFilePath, out_armatureFilePath, out_shaderName);
 
 	this->InitVerticesData(out_meshPositions, out_meshNormals, out_meshTextureCoords);
 	this->InitIndicesData(out_meshIndices);
+	if (out_meshBoneIndices.size() != 0 && out_meshBoneWeights.size() != 0) {
+		this->InitBoneWeightInfluencesData(out_meshBoneIndices, out_meshBoneWeights);
+	}
 
 	this->initialPosition = out_initialPosition;
 	this->initialRotation = out_initialRotation;
@@ -91,13 +98,13 @@ void MeshAsset::InitVerticesData(std::vector<glm::vec3> &inPositions, \
     }
 
     this->numVertices = inPositions.size();
-    if (this->vertices != 0) {
+    if (this->vertices != nullptr) {
         delete[] this->vertices;
     }
-    if (this->normals != 0) {
+    if (this->normals != nullptr) {
         delete[] this->normals;
     }
-    if (this->textureCoords != 0) {
+    if (this->textureCoords != nullptr) {
         delete[] this->textureCoords;
     }
     this->vertices      = new glm::vec3[this->numVertices];
@@ -136,6 +143,34 @@ void MeshAsset::InitIndicesData(std::vector<unsigned int> &inIndices) {
     return;
 }
 
+void MeshAsset::InitBoneWeightInfluencesData(
+		std::vector<glm::vec4>& inBoneIndices,
+		std::vector<glm::vec4>& inBoneWeights) {
+
+	if ((unsigned int)this->numVertices != inBoneIndices.size() || (unsigned int)this->numVertices != inBoneWeights.size()) {
+        FRAMEWORK->GetLogger()->errlog("ERROR: Unequal numbers of vertices and bone weights passed: \
+                             %d, %d, %d", this->numVertices, inBoneIndices.size(), inBoneWeights.size());
+	}
+
+    if (this->boneIndices != nullptr) {
+        delete[] this->boneIndices;
+    }
+    if (this->boneWeights != nullptr) {
+        delete[] this->boneWeights;
+    }
+
+    this->boneIndices      = new glm::vec4[this->numVertices];
+    this->boneWeights      = new glm::vec4[this->numVertices];
+
+    for (int i = 0; i < this->numVertices; ++i) {
+    	this->boneIndices[i] = inBoneIndices[i];
+    	this->boneWeights[i] = inBoneWeights[i];
+    }
+
+    return;
+}
+
+
 void MeshAsset::MakeVBOs() {
     if (this->vertices != nullptr) {
 		glGenBuffers(1, &this->vboPositions); checkGlError("glGenBuffers");
@@ -163,6 +198,18 @@ void MeshAsset::MakeVBOs() {
         ASSERT(!this->material->HasTexture(), "Texture coords missing because model has no texture");
     }
 
+    if (this->boneIndices != nullptr) {
+		glGenBuffers(1, &this->vboBoneIndices); checkGlError("glGenBuffers");
+		glBindBuffer(GL_ARRAY_BUFFER, this->vboBoneIndices); checkGlError("glBindBuffer");
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * this->numVertices, this->boneIndices, GL_STATIC_DRAW); checkGlError("glBufferData");
+    }
+
+    if (this->boneWeights != nullptr) {
+		glGenBuffers(1, &this->vboBoneWeights); checkGlError("glGenBuffers");
+		glBindBuffer(GL_ARRAY_BUFFER, this->vboBoneWeights); checkGlError("glBindBuffer");
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * this->numVertices, this->boneWeights, GL_STATIC_DRAW); checkGlError("glBufferData");
+    }
+
     if (this->indices.size() != 0) {
 		glGenBuffers(1, &this->vboIndices); checkGlError("glGenBuffers");
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vboIndices); checkGlError("glBindBuffer");
@@ -182,6 +229,14 @@ void MeshAsset::Draw() {
     }
     if (this->vboTextureCoords == 0 && this->material->HasTexture()) {
         FRAMEWORK->GetLogger()->errlog("ERROR: Texture VBOs not made");
+        return;
+    }
+    if (this->boneIndices != nullptr && this->vboBoneIndices == 0) {
+        FRAMEWORK->GetLogger()->errlog("ERROR: Bone indices VBOs not made");
+        return;
+    }
+    if (this->boneWeights != nullptr && this->vboBoneWeights == 0) {
+        FRAMEWORK->GetLogger()->errlog("ERROR: Bone weights VBOs not made");
         return;
     }
 
@@ -226,6 +281,24 @@ void MeshAsset::Draw() {
     	}
     }
     //
+    if (this->boneIndices != nullptr) {
+		GLint boneIndicesHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneIndices);
+		glEnableVertexAttribArray(boneIndicesHandle);
+		glBindBuffer(GL_ARRAY_BUFFER, this->vboBoneIndices); checkGlError("glBindBuffer");
+		glVertexAttribPointer(boneIndicesHandle,
+							  4, GL_FLOAT, GL_FALSE, 0, 0);
+		checkGlError("glVertexAttribPointer");
+    }
+    //
+    if (this->boneWeights != nullptr) {
+		GLint boneWeightsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneWeights);
+		glEnableVertexAttribArray(boneWeightsHandle);
+		glBindBuffer(GL_ARRAY_BUFFER, this->vboBoneWeights); checkGlError("glBindBuffer");
+		glVertexAttribPointer(boneWeightsHandle,
+							  4, GL_FLOAT, GL_FALSE, 0, 0);
+		checkGlError("glVertexAttribPointer");
+    }
+    //
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vboIndices); checkGlError("glBindBuffer");
     glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (void*)0);
     checkGlError("glDrawElements");
@@ -235,21 +308,30 @@ void MeshAsset::Draw() {
 
 
 void MeshAsset::init() {
-    this->vertices = 0;
-    this->normals = 0;
-    this->textureCoords = 0;
+    this->vertices = nullptr;
+    this->normals = nullptr;
+    this->textureCoords = nullptr;
     this->material = nullptr;
+    //
+    this->boneIndices = nullptr;
+    this->boneWeights = nullptr;
 }
 
 void MeshAsset::destroy() {
-    if (this->vertices != 0) {
+    if (this->vertices != nullptr) {
         delete this->vertices;
     }
-    if (this->normals != 0) {
+    if (this->normals != nullptr) {
         delete this->normals;
     }
-    if (this->textureCoords != 0) {
+    if (this->textureCoords != nullptr) {
         delete this->textureCoords;
+    }
+    if (this->boneIndices != nullptr) {
+        delete this->boneIndices;
+    }
+    if (this->boneWeights != nullptr) {
+        delete this->boneWeights;
     }
     // TODO [Implement] Free the VBOs on MeshAsset::destroy()
 
