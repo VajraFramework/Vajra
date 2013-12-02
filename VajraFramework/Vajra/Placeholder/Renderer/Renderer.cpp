@@ -1,5 +1,7 @@
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
+#include "Vajra/Engine/Components/DerivedComponents/Armature/Bone.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
@@ -14,6 +16,7 @@
 #include "Vajra/Placeholder/Renderer/Renderer.h"
 #include "Vajra/Utilities/MathUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
+
 
 // TODO [Cleanup] This here is probably not needed
 #if defined(PLATFORM_ANDROID) || defined(PLATFORM_DESKTOP)
@@ -55,6 +58,10 @@ bool setupGraphics(int w, int h) {
     glActiveTexture(GL_TEXTURE0);
     checkGlError("glActiveTexture");
 
+#if PLATFORM_DESKTOP
+    // TODO [Implement] Move this to shader specific code so that we can have only some shaders draw in wireframe mode
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+#endif
     
     return true;
 }
@@ -154,6 +161,44 @@ void renderFrame(float dt) {
 			ENGINE->GetMessageHub()->SendPointcastMessage(message, 106);
 			delete message;
         }
+    }
+    {
+    	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(108);
+    	Armature* armature = wavybox->GetComponent<Armature>();
+    	{
+			Bone* someBone = armature->GetBoneByName("joint2");
+			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+    	}
+#if 1
+    	{
+			Bone* someBone = armature->GetBoneByName("joint3");
+			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+    	}
+#endif
+#if 1
+    	{
+			Bone* someBone = armature->GetBoneByName("joint4");
+			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+    	}
+#endif
+#if 1
+    	{
+			Bone* someBone = armature->GetBoneByName("joint12");
+			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+    	}
+#endif
+#if 1
+    	{
+			Bone* someBone = armature->GetBoneByName("joint13");
+			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+    	}
+#endif
+#if 1
+    	{
+			Bone* someBone = armature->GetBoneByName("joint6");
+			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+    	}
+#endif
     }
 
     ENGINE->DoFrame();

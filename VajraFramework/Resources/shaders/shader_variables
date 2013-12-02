@@ -1,11 +1,16 @@
 attribute vec4 vPosition
 attribute vec4 vNormal
 attribute vec2 uvCoords_in
+
+attribute vec4 boneIndices
+attribute vec4 boneWeights
+
 uniform mat4 mvpMatrix
 uniform mat4 modelInverseTransposeMatrix
 varying vec2 uvCoords_out
 varying vec4 lightIntensity
 
+uniform mat4 boneTransforms[50]
 
 uniform vec4 DLight0Direction
 uniform vec4 DLight0AmbientColor

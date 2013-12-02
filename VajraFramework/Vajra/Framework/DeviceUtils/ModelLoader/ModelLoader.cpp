@@ -1,3 +1,4 @@
+#include "Vajra/Engine/Components/DerivedComponents/Armature/Declarations.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/ModelLoader/Declarations.h"
 #include "Vajra/Framework/DeviceUtils/ModelLoader/ModelLoader.h"
@@ -5,12 +6,17 @@
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
 
+
 namespace ModelLoader {
 
 void LoadMeshFromModelFile(const char* filePath,
 		std::vector<glm::vec3>&        outPositions,
 		std::vector<glm::vec3>&        outNormals,
 		std::vector<glm::vec2>&        outTexCoords,
+		//
+		std::vector<glm::vec4>&        outBoneIndices,
+		std::vector<glm::vec4>&        outBoneWeights,
+		//
 		std::vector<unsigned int>&     outIndices,
 		//
 		glm::vec3&                     outInitialPosition,
@@ -22,6 +28,9 @@ void LoadMeshFromModelFile(const char* filePath,
 		glm::vec4&                     outSpecularColor,
 		//
 		std::string&                   outTextureFilePath,
+		//
+		std::string&                   outArmatureFilePath,
+		//
 		std::string&                   outShaderName) {
 
 	FRAMEWORK->GetLogger()->dbglog("\nLoading mesh data from model at %s", filePath);
@@ -89,6 +98,23 @@ void LoadMeshFromModelFile(const char* filePath,
 	}
 
 	{
+		int numVerticesWithInfluences;
+		modelFile >> numVerticesWithInfluences;
+		ASSERT(MAX_BONE_INFUENCES_PER_VERTEX == 4, "Max bone influences per vertex has to be 4 (since we use glm::vec4 here");
+		while ((numVerticesWithInfluences--) > 0) {
+			glm::vec4 boneIndexes;
+			glm::vec4 boneWeights;
+			for (int i = 0; i < MAX_BONE_INFUENCES_PER_VERTEX; ++i) {
+				modelFile >> boneIndexes[i];
+				modelFile >> boneWeights[i];
+			}
+			//
+			outBoneIndices.push_back(boneIndexes);
+			outBoneWeights.push_back(boneWeights);
+		}
+	}
+
+	{
 		int numTriangleFaces;
 		modelFile >> numTriangleFaces;
 		while ((numTriangleFaces--) > 0) {
@@ -117,6 +143,21 @@ void LoadMeshFromModelFile(const char* filePath,
 			modelFile >> textureImageName;
 			outTextureFilePath = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + textureImageName;
 		} else if (hasTexture == "no") {
+			// Nothing to do
+		} else {
+			ASSERT(0, "Error parsing .model file");
+		}
+	}
+
+	{
+		std::string hasArmature;
+		modelFile >> hasArmature;
+
+		if (hasArmature == "yes") {
+			std::string armatureFileName;
+			modelFile >> armatureFileName;
+			outArmatureFilePath = FRAMEWORK->GetFileSystemUtils()->GetDeviceArmatureResourcesPath() + armatureFileName;
+		} else if (hasArmature == "no") {
 			// Nothing to do
 		} else {
 			ASSERT(0, "Error parsing .model file");

@@ -25,14 +25,21 @@ static void initShaderSetCreationHelper() {
     VERIFY_LOG(variablesFile.good(), "Successfully opened shader variables file %s for reading", path.c_str());
 
     while (variablesFile.good()) {
-		std::string qualifier, datatype, variableName;
+		std::string qualifier, datatype, variableName, arraySpecifier;
+
     	variablesFile >> qualifier >> datatype >> variableName;
+
+    	if (variableName.find("[") != std::string::npos) {
+    		arraySpecifier = variableName.substr(variableName.find("["));
+    		variableName.erase(variableName.find("["));
+    	}
+
     	if (qualifier != "" && datatype != "" && variableName != "") {
 			ASSERT(gVariableDeclarations.find(variableName) == gVariableDeclarations.end(), "Not duplicate variable %s", variableName.c_str());
 			ASSERT(gVariableQualifiers.find(variableName) == gVariableQualifiers.end(), "Not duplicate variable %s", variableName.c_str());
 			ASSERT(gVariableDatatypes.find(variableName) == gVariableDatatypes.end(), "Not duplicate variable %s", variableName.c_str());
 
-			std::string declaration = qualifier + " " + datatype + " " + variableName + ";";
+			std::string declaration = qualifier + " " + datatype + " " + variableName + arraySpecifier + ";";
 			gVariableDeclarations[variableName] = declaration;
 			gVariableQualifiers[variableName] = qualifier;
 			gVariableDatatypes[variableName] = datatype;

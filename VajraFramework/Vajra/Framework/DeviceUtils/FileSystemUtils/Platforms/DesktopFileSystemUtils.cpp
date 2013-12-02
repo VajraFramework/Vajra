@@ -15,6 +15,7 @@ void FileSystemUtils::init() {
     this->devicePictureResourcesPath    = this->deviceBaseResourcesPath + "pictures/";
     this->deviceShaderResourcesPath     = this->deviceBaseResourcesPath + "shaders/";
     this->deviceModelResourcesPath      = this->deviceBaseResourcesPath + "models/";
+    this->deviceArmatureResourcesPath   = this->deviceBaseResourcesPath + "armatures/";
     this->deviceAnimationResourcesPath  = this->deviceBaseResourcesPath + "animations/";
 	this->deviceAudioResourcesPath      = this->deviceBaseResourcesPath + "audio/";
 }

@@ -1,12 +1,14 @@
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
+
 
 GameObject::GameObject() {
 	this->init();
@@ -30,11 +32,17 @@ void GameObject::destroy() {
 }
 
 void GameObject::Draw() {
+	this->transform->Draw();
+
+	// TODO [Cleanup] Cache the Armature, maybe
+	Armature* armature = this->GetComponent<Armature>();
+	if (armature != nullptr) {
+		armature->Bind();
+	}
+
 	// TODO [Cleanup] Cache the MeshRenderer, maybe
 	MeshRenderer* meshRenderer = this->GetComponent<MeshRenderer>();
-
-	this->transform->Draw();
-	if (meshRenderer != 0) {
+	if (meshRenderer != nullptr) {
 		meshRenderer->Draw();
 	}
 }

@@ -45,6 +45,12 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "uvCoords_in") {
 		return SHADER_VARIABLE_VARIABLENAME_uvCoords_in;
 	}
+	if (s == "boneIndices") {
+		return SHADER_VARIABLE_VARIABLENAME_boneIndices;
+	}
+	if (s == "boneWeights") {
+		return SHADER_VARIABLE_VARIABLENAME_boneWeights;
+	}
 	if (s == "mvpMatrix") {
 		return SHADER_VARIABLE_VARIABLENAME_mvpMatrix;
 	}
@@ -56,6 +62,9 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	}
 	if (s == "lightIntensity") {
 		return SHADER_VARIABLE_VARIABLENAME_lightIntensity;
+	}
+	if (s == "boneTransforms") {
+		return SHADER_VARIABLE_VARIABLENAME_boneTransforms;
 	}
 	if (s == "DLight0Direction") {
 		return SHADER_VARIABLE_VARIABLENAME_DLight0Direction;
@@ -114,10 +123,13 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_vPosition: return "vPosition";
 	case SHADER_VARIABLE_VARIABLENAME_vNormal: return "vNormal";
 	case SHADER_VARIABLE_VARIABLENAME_uvCoords_in: return "uvCoords_in";
+	case SHADER_VARIABLE_VARIABLENAME_boneIndices: return "boneIndices";
+	case SHADER_VARIABLE_VARIABLENAME_boneWeights: return "boneWeights";
 	case SHADER_VARIABLE_VARIABLENAME_mvpMatrix: return "mvpMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix: return "modelInverseTransposeMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_uvCoords_out: return "uvCoords_out";
 	case SHADER_VARIABLE_VARIABLENAME_lightIntensity: return "lightIntensity";
+	case SHADER_VARIABLE_VARIABLENAME_boneTransforms: return "boneTransforms";
 	case SHADER_VARIABLE_VARIABLENAME_DLight0Direction: return "DLight0Direction";
 	case SHADER_VARIABLE_VARIABLENAME_DLight0AmbientColor: return "DLight0AmbientColor";
 	case SHADER_VARIABLE_VARIABLENAME_DLight0DiffuseColor: return "DLight0DiffuseColor";

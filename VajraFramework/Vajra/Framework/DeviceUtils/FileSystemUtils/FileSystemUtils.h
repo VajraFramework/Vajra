@@ -13,6 +13,7 @@ public:
     inline const std::string GetDevicePictureResourcesPath()   const { return this->devicePictureResourcesPath;   }
     inline const std::string GetDeviceShaderResourcesPath()    const { return this->deviceShaderResourcesPath;    }
     inline const std::string GetDeviceModelResourcesPath()     const { return this->deviceModelResourcesPath;     }
+    inline const std::string GetDeviceArmatureResourcesPath()  const { return this->deviceArmatureResourcesPath;     }
     inline const std::string GetDeviceAnimationResourcesPath() const { return this->deviceAnimationResourcesPath; }
 	inline const std::string GetDeviceAudioResourcesPath()     const { return this->deviceAudioResourcesPath; }
     
@@ -25,6 +26,7 @@ private:
     std::string devicePictureResourcesPath;
     std::string deviceShaderResourcesPath;
     std::string deviceModelResourcesPath;
+    std::string deviceArmatureResourcesPath;
     std::string deviceAnimationResourcesPath;
 	std::string deviceAudioResourcesPath;
     

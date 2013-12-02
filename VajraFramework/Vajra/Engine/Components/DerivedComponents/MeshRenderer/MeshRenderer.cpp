@@ -1,4 +1,5 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
+#include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -32,6 +33,11 @@ void MeshRenderer::InitMesh(std::string urlOfMesh) {
 	transform->SetOrientation(this->meshAsset->GetInitialRotation().y, YAXIS);
 	transform->SetOrientation(this->meshAsset->GetInitialRotation().z, ZAXIS);
 	transform->SetScale(this->meshAsset->GetInitialScale().x, this->meshAsset->GetInitialScale().y, this->meshAsset->GetInitialScale().z);
+
+	if (this->meshAsset->GetArmatureFilePath() != "") {
+		Armature* armature = this->GetObject()->AddComponent<Armature>();
+		armature->InitArmature(this->meshAsset->GetArmatureFilePath());
+	}
 
 	// Now that we are renderable, add self to the render lists in the scene graph:
 	ENGINE->GetSceneGraph()->AddGameObjectToRenderLists(gameObject);
