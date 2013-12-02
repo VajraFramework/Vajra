@@ -21,6 +21,7 @@
 
 #include <vector>
 
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 
 namespace Tesserakonteres {
 
@@ -141,6 +142,13 @@ namespace Tesserakonteres {
 
 			Transform* transform = parent->GetTransform();
 			transform->Scale(0.2f);
+#endif
+		}
+		{
+#if 0
+			AudioSource* source = child->AddComponent<AudioSource>();
+			source->SetAudioClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesPath() + "lowAlert(hisfixed).mp3");
+			source->Play();
 #endif
 		}
 
