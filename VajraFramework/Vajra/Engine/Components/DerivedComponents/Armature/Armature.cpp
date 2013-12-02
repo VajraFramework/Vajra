@@ -4,11 +4,15 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/ModelLoader/ArmatureLoader.h"
+#include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
+#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/MathUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
 
 #include "Libraries/glm/gtx/transform.hpp"
+
 
 unsigned int Armature::componentTypeId = COMPONENT_TYPE_ID_ARMATURE;
 
@@ -38,17 +42,30 @@ void Armature::HandleMessage(Message* message) {
 	}
 }
 
+void Armature::Bind() {
+	GLint boneTransformsHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneTransforms);
+    glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->finalBoneTransforms[0]));
+}
+
+void Armature::resetFinalBoneTransforms() {
+	for (int i = 0; i < MAX_BONES; ++i) {
+		this->finalBoneTransforms[i] = IDENTITY_MATRIX;
+	}
+	// this->finalBoneTransforms[1] = glm::rotate(45.0f, XAXIS);
+}
+
 void Armature::updateBoneMatrices() {
+	this->resetFinalBoneTransforms();
+
 	for (auto bone_it = this->bones.begin(); bone_it != this->bones.end(); ++bone_it) {
 		Bone* bone = bone_it->second;
 		bone->localRotationMatrixCumulative = IDENTITY_MATRIX;
 	}
 
-	this->rootBone->updateBoneMatrices();
+	this->rootBone->updateBoneMatrices_recursive();
 }
 
 void Armature::AddBone(Bone* newBone) {
-	newBone->id = this->bones.size();
 	this->bones[newBone->id] = newBone;
 	newBone->armature = this;
 }
@@ -84,6 +101,8 @@ void Armature::init() {
 	if (gameObject != nullptr) {
 		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
 	}
+
+	this->resetFinalBoneTransforms();
 
 	// TODO [Hack] Can this be done better?
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);

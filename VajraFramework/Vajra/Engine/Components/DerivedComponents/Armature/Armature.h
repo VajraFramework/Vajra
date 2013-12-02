@@ -2,12 +2,14 @@
 #define ARMATURE_H
 
 #include "Vajra/Common/Components/Component.h"
+#include "Vajra/Engine/Components/DerivedComponents/Armature/Declarations.h"
 
 #include "Libraries/glm/glm.hpp"
 
 #include <map>
 #include <string>
 #include <vector>
+
 
 // Forward Declarations:
 class Bone;
@@ -23,6 +25,10 @@ public:
 
 	void InitArmature(std::string armatureFilePath);
 
+	// Writes the final bone transform matrices to the shader:
+	// TODO [Cleanup] Rename this to Draw(), maybe
+	void Bind();
+
 	// @Override
 	virtual void HandleMessage(Message* message);
 
@@ -37,11 +43,16 @@ private:
 	void destroy();
 
 	void updateBoneMatrices();
+	void resetFinalBoneTransforms();
 
 	static unsigned int componentTypeId;
 
 	std::map<unsigned int /* bone id */, Bone*> bones;
 	Bone* rootBone;
+
+	glm::mat4 finalBoneTransforms[MAX_BONES];
+
+	friend class Bone;
 };
 
 #endif // ARMATURE_H

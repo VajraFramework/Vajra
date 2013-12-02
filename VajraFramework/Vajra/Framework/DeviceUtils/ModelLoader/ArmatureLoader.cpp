@@ -35,15 +35,23 @@ void ArmatureLoader::LoadArmatureFromArmatureFile(const char* armatureFilePath,
 
 		int numBones;
 		armatureFile >> numBones;
+
+		ASSERT(numBones <= MAX_BONES, "Number of bones (%d) is <= max supported (%d)", numBones, MAX_BONES);
+
 		for (int boneIdx = 0; boneIdx < numBones; ++boneIdx) {
 
 			Bone* bone = new Bone();
-			// Add bone to armature.
-			out_armature->AddBone(bone);
 
 			std::string boneName;
 			armatureFile >> boneName;
 			bone->SetName(boneName);
+
+			unsigned int boneId;
+			armatureFile >> boneId;
+			bone->SetId(boneId);
+
+			// Add bone to armature.
+			out_armature->AddBone(bone);
 
 			std::string boneParentName;
 			armatureFile >> boneParentName;

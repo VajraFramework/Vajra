@@ -1,3 +1,4 @@
+#include "Vajra/Engine/Components/DerivedComponents/Armature/Declarations.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/ModelLoader/Declarations.h"
 #include "Vajra/Framework/DeviceUtils/ModelLoader/ModelLoader.h"
@@ -5,8 +6,6 @@
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
 
-// TODO [Cleanup] Move this somewhere else
-#define MAX_BONE_INFUENCES_PER_VERTEX 4
 
 namespace ModelLoader {
 

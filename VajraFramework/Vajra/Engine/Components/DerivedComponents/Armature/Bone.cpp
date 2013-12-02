@@ -49,21 +49,8 @@ void Bone::Translate(float /* distance */, glm::vec3 /* along */) {
 	ASSERT(0, "Implement");
 }
 
-void Bone::updateBoneMatrices() {
-#if 0
-	if (this->parent != nullptr) {
-		this->localRotationMatrixCumulative = this->parent->toBoneMatrix *
-				this->parent->localRotationMatrixCumulative * this->localRotationMatrix *
-				this->parent->toWorldMatrix;
-		this->localTranslationMatrixCumulative = this->parent->localTranslationMatrixCumulative * this->localTranslationMatrix;
-	} else {
-		this->localRotationMatrixCumulative = this->localRotationMatrix;
-		this->localTranslationMatrixCumulative = this->localTranslationMatrix;
-	}
-#endif
+void Bone::updateBoneMatrices_recursive() {
 
-	// this->localRotationMatrixCumulative = this->localRotationMatrix;
-	//
 	glm::mat4 matrixToPropogate = this->toWorldMatrix * this->localRotationMatrix * this->toBoneMatrix;
 	for (Bone* childBone : this->children) {
 		childBone->propogateRawMatrixToChildren(matrixToPropogate);
@@ -71,18 +58,23 @@ void Bone::updateBoneMatrices() {
 
 #if DRAW_BONES
 	// TODO [Implement] This doesn't really work since there is really no way for the parent's transform changes to ripple to the bones visualizers
-	glm::mat4 visualizerMatrix = ((GameObject*)(this->armature->GetObject()))->GetTransform()->GetModelMatrixCumulative() *
+	glm::mat4 visualizerMatrix = // ((GameObject*)(this->armature->GetObject()))->GetTransform()->GetModelMatrixCumulative() *
 								 this->localRotationMatrixCumulative * this->bindPoseMatrixGlobal * this->localRotationMatrix * this->localTranslationMatrixCumulative;
 	this->visualizer->GetTransform()->SetModelMatrixCumulative(visualizerMatrix);
 #endif
 
-	this->rippleBoneMatrixUpdates();
-}
+#if 1
+	this->armature->finalBoneTransforms[this->id] = // this->armature->finalBoneTransforms[this->id] *
+									// this->toWorldMatrix *
+									visualizerMatrix *
+									// this->localRotationMatrix *
+									this->toBoneMatrix;
+#endif
 
-void Bone::rippleBoneMatrixUpdates() {
+
 	// Propogate bone matrix updates to children:
 	for (Bone* childBone : this->children) {
-		childBone->updateBoneMatrices();
+		childBone->updateBoneMatrices_recursive();
 	}
 }
 
@@ -104,7 +96,7 @@ void Bone::SetBindPoseMatrixGlobal(glm::mat4x4 m) {
 	this->toWorldMatrix = this->bindPoseMatrixGlobal;
 	this->toBoneMatrix  = glm::inverse(this->toWorldMatrix);
 
-	this->updateBoneMatrices();
+	this->updateBoneMatrices_recursive();
 }
 
 void Bone::SetParent(Bone* parentBone) {

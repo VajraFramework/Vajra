@@ -163,15 +163,39 @@ void renderFrame(float dt) {
         }
     }
     {
-#if 1
     	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(108);
     	Armature* armature = wavybox->GetComponent<Armature>();
     	{
 			Bone* someBone = armature->GetBoneByName("joint2");
 			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
     	}
+#if 1
     	{
 			Bone* someBone = armature->GetBoneByName("joint3");
+			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+    	}
+#endif
+#if 1
+    	{
+			Bone* someBone = armature->GetBoneByName("joint4");
+			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+    	}
+#endif
+#if 1
+    	{
+			Bone* someBone = armature->GetBoneByName("joint12");
+			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+    	}
+#endif
+#if 1
+    	{
+			Bone* someBone = armature->GetBoneByName("joint13");
+			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+    	}
+#endif
+#if 1
+    	{
+			Bone* someBone = armature->GetBoneByName("joint6");
 			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
     	}
 #endif

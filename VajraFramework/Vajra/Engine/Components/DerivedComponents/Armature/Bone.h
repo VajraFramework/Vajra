@@ -17,9 +17,11 @@ public:
 	~Bone();
 
 	inline unsigned int GetId() { return this->id; }
+	inline void SetId(unsigned int id) { this->id = id; }
 
 	std::string GetName();
 	void SetName(std::string name);
+
 
 	void SetBindPoseMatrixGlobal(glm::mat4 m);
 
@@ -33,8 +35,7 @@ private:
 	void init();
 	void destroy();
 
-	void updateBoneMatrices();
-	void rippleBoneMatrixUpdates();
+	void updateBoneMatrices_recursive();
 	void propogateRawMatrixToChildren(glm::mat4 rawMatrix);
 
 	std::string name;

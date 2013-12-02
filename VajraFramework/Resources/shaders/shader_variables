@@ -10,6 +10,7 @@ uniform mat4 modelInverseTransposeMatrix
 varying vec2 uvCoords_out
 varying vec4 lightIntensity
 
+uniform mat4 boneTransforms[50]
 
 uniform vec4 DLight0Direction
 uniform vec4 DLight0AmbientColor
