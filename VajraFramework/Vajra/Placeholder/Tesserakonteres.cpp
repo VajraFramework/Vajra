@@ -145,9 +145,11 @@ namespace Tesserakonteres {
 #endif
 		}
 		{
+#if 0
 			AudioSource* source = child->AddComponent<AudioSource>();
 			source->SetAudioClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesPath() + "lowAlert(hisfixed).mp3");
 			source->Play();
+#endif
 		}
 
 		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");
