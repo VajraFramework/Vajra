@@ -1,6 +1,10 @@
 __VARIABLES__
 vPosition
 vNormal
+
+uvCoords_in
+uvCoords_out
+
 mvpMatrix
 modelInverseTransposeMatrix
 lightIntensity
@@ -9,10 +13,6 @@ DLight0Direction
 DLight0AmbientColor
 DLight0DiffuseColor
 DLight0SpecularColor
-
-MaterialAmbientColor
-MaterialDiffuseColor
-MaterialSpecularColor
 
 boneIndices
 boneWeights
@@ -23,12 +23,6 @@ __VARIABLES_END__
 __SOURCE__
 void main()
 {
-	float weights[4];
-	weights[0] = boneWeights.x;
-	weights[1] = boneWeights.y;
-	weights[2] = boneWeights.z;
-	weights[3] = boneWeights.w;
-
 	vec4 posL      = vec4(0.0, 0.0, 0.0, 0.0);
 	for(int i = 0; i < 4; ++i)
 	{
@@ -36,12 +30,11 @@ void main()
 		// that we do not have to use the inverse-transpose.
 
 		int boneIndex = int(boneIndices[i]);
-		posL      = posL + weights[i] * (boneTransforms[boneIndex] * vPosition);
+		posL      = posL + boneWeights[i] * (boneTransforms[boneIndex] * vPosition);
 	}
 
 	gl_Position = mvpMatrix * posL;
-	// Temp using variable boneTransforms:
-	// gl_Position = mvpMatrix * vPosition * boneTransforms[0];
+	uvCoords_out = uvCoords_in;
 
 	vec4 vNormal_world = modelInverseTransposeMatrix * vNormal;
 	float cosTheta = clamp( dot( vNormal_world, DLight0Direction ), 0.0, 1.0 );
@@ -52,11 +45,6 @@ void main()
 
 	// Temp using variables:
 	lightIntensity = lightIntensity + 0.01 * DLight0SpecularColor;
-	// Temp using variables:
-	lightIntensity = lightIntensity + 0.01 * MaterialAmbientColor + 0.01 * MaterialSpecularColor;
-
-	// Temp using variables:
-	lightIntensity = lightIntensity + 0.1 * boneIndices + 0.5 * boneWeights;
 }
 __SOURCE_END__
 

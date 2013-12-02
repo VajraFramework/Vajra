@@ -1,6 +1,10 @@
 __VARIABLES__
 vPosition
 vNormal
+
+uvCoords_in
+uvCoords_out
+
 mvpMatrix
 modelInverseTransposeMatrix
 lightIntensity
@@ -9,10 +13,6 @@ DLight0Direction
 DLight0AmbientColor
 DLight0DiffuseColor
 DLight0SpecularColor
-
-MaterialAmbientColor
-MaterialDiffuseColor
-MaterialSpecularColor
 
 boneIndices
 boneWeights
@@ -34,21 +34,17 @@ void main()
 	}
 
 	gl_Position = mvpMatrix * posL;
-	// Temp using variable boneTransforms:
-	// gl_Position = mvpMatrix * vPosition * boneTransforms[0];
+	uvCoords_out = uvCoords_in;
 
 	vec4 vNormal_world = modelInverseTransposeMatrix * vNormal;
 	float cosTheta = clamp( dot( vNormal_world, DLight0Direction ), 0.0, 1.0 );
-	lightIntensity = MaterialDiffuseColor * DLight0DiffuseColor * cosTheta;
+	lightIntensity = DLight0DiffuseColor * cosTheta;
 
 	// Fake the ambient lighting:
 	lightIntensity = lightIntensity + DLight0AmbientColor;
 
 	// Temp using variables:
 	lightIntensity = lightIntensity + 0.01 * DLight0SpecularColor;
-	// Temp using variables:
-	lightIntensity = lightIntensity + 0.01 * MaterialAmbientColor + 0.01 * MaterialSpecularColor;
-
 }
 __SOURCE_END__
 

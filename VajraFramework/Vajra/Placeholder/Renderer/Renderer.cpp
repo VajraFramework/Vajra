@@ -60,7 +60,7 @@ bool setupGraphics(int w, int h) {
 
 #if PLATFORM_DESKTOP
     // TODO [Implement] Move this to shader specific code so that we can have only some shaders draw in wireframe mode
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 #endif
     
     return true;
@@ -165,35 +165,37 @@ void renderFrame(float dt) {
     {
     	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(108);
     	Armature* armature = wavybox->GetComponent<Armature>();
-    	{
-			Bone* someBone = armature->GetBoneByName("joint2");
-			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
-    	}
 #if 1
     	{
-			Bone* someBone = armature->GetBoneByName("joint3");
-			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_Left_ElbowJoint01");
+			someBone->Rotate(-5.0f * deltaTime, ZAXIS, true);
     	}
 #endif
 #if 1
+    	{
+			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_ChestJoint01");
+			someBone->Rotate(5.0f * deltaTime, XAXIS, true);
+    	}
+#endif
+#if 0
     	{
 			Bone* someBone = armature->GetBoneByName("joint4");
 			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
     	}
 #endif
-#if 1
+#if 0
     	{
 			Bone* someBone = armature->GetBoneByName("joint12");
 			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
     	}
 #endif
-#if 1
+#if 0
     	{
 			Bone* someBone = armature->GetBoneByName("joint13");
 			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
     	}
 #endif
-#if 1
+#if 0
     	{
 			Bone* someBone = armature->GetBoneByName("joint6");
 			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);

@@ -56,10 +56,10 @@ void Bone::updateBoneMatrices_recursive() {
 		childBone->propogateRawMatrixToChildren(matrixToPropogate);
 	}
 
-#if DRAW_BONES
 	// TODO [Implement] This doesn't really work since there is really no way for the parent's transform changes to ripple to the bones visualizers
 	glm::mat4 visualizerMatrix = // ((GameObject*)(this->armature->GetObject()))->GetTransform()->GetModelMatrixCumulative() *
 								 this->localRotationMatrixCumulative * this->bindPoseMatrixGlobal * this->localRotationMatrix * this->localTranslationMatrixCumulative;
+#if DRAW_BONES
 	this->visualizer->GetTransform()->SetModelMatrixCumulative(visualizerMatrix);
 #endif
 
