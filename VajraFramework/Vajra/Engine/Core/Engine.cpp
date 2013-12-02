@@ -4,6 +4,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/Tween/Tween.h"
+#include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
 
 // static member declaration:
@@ -34,10 +35,12 @@ void Engine::init() {
 	this->assetLibrary = new AssetLibrary();
 	this->sceneGraph   = new SceneGraph();
 	this->tween        = new Tween();
+	this->input 	   = new Input();	
 }
 
 void Engine::DoFrame() {
 	this->GetTimer()->beginFrame();
+	this->GetInput()->updateInput();
 
 	this->updateScene();
 	this->renderScene();
@@ -81,5 +84,8 @@ void Engine::destroy() {
 	}
 	if (this->tween != nullptr) {
 		delete this->tween;
+	}
+	if(this->input != nullptr) {
+		delete this->input;
 	}
 }

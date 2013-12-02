@@ -104,7 +104,7 @@ void renderFrame(float dt) {
     float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(106);
+        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(107);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -117,7 +117,7 @@ void renderFrame(float dt) {
     }
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(107);
+        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(108);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -130,7 +130,7 @@ void renderFrame(float dt) {
     }
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(108);
+        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(109);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -163,7 +163,7 @@ void renderFrame(float dt) {
         }
     }
     {
-    	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(108);
+    	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(109);
     	// Transform* transform = wavybox->GetTransform();
     	// transform->Rotate(10.0f * deltaTime, YAXIS);
     	// transform->Translate(0.05f * deltaTime, transform->GetForward());

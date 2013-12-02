@@ -9,6 +9,7 @@ class MessageHub;
 class SceneGraph;
 class Timer;
 class Tween;
+class Input;
 
 class Engine {
 public:
@@ -20,7 +21,8 @@ public:
 	inline MessageHub*   GetMessageHub()   { return this->messageHub;   }
 	inline SceneGraph*   GetSceneGraph()   { return this->sceneGraph;   }
 	inline Timer*        GetTimer()        { return this->timer;        }
-	inline Tween*        GetTween()        { return this->tween;        }
+	inline Tween*        GetTween()		   { return this->tween;        }
+	inline Input*		 GetInput()		   { return this->input;		}
 
 	void DoFrame();
 
@@ -40,6 +42,7 @@ private:
 	SceneGraph* sceneGraph;
 	Timer* timer;
 	Tween* tween;
+	Input* input;
 };
 
 #define ENGINE Engine::GetInstance()
