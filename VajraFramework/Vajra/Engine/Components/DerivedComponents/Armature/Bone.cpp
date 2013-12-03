@@ -94,7 +94,8 @@ void Bone::SetBindPoseMatrixGlobal(glm::mat4x4 m) {
 	this->bindPoseMatrixGlobal = m;
 
 	/*
-	 * Note: the bindPoseMatrixGlobal here is the matrix with which if we draw any "bone model", it would end up in the correct place visually
+	 * Note: the bindPoseMatrixGlobal here is the matrix with which if we draw any "bone model",
+	 * it would end up in the correct place visually
 	 */
 
 	this->toWorldMatrix = this->bindPoseMatrixGlobal;
