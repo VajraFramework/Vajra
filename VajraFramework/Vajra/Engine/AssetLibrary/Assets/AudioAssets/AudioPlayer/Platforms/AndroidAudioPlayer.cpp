@@ -1,9 +1,9 @@
 #ifdef PLATFORM_ANDROID
 
-#import "Vajra/Engine/AssetLibrary/AssetLibrary.h"
-#import "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
-#import "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioPlayer/AudioPlayer.h"
-#import "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
+#include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
+#include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioPlayer/AudioPlayer.h"
+#include "Vajra/Engine/Core/Engine.h"
 
 AudioPlayer::AudioPlayer() {
 	init();
