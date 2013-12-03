@@ -9,8 +9,8 @@
 
 enum TouchPhase
 {
-	Begin,
-	End,
+	Began,
+	Ended,
 	Moved,
 	Stationary,
 	Cancelled
@@ -33,9 +33,9 @@ public:
 	~Input();
 
 	Touch GetTouch(int index);
-	void AddTouch(int uId, float startX, float startY);
+	void AddTouch(int uId, float startX, float startY, TouchPhase phase = TouchPhase::Began);
 	void UpdateTouch(int uId, float curX, float curY, TouchPhase phase);
-	float GetTouchCount() { return _touches.size(); }
+	float GetTouchCount() { return _frameTouches.size(); }
 private:
 	Input();
 	void init();
@@ -45,7 +45,8 @@ private:
 	void logTouches();
 	int _numTouches = 0;
 
-    std::vector<Touch> _touches;
+    std::vector<Touch> _frameTouches;
+    std::vector<Touch> _asyncTouches;
 	friend class Engine;
 };
 
