@@ -9,8 +9,10 @@
 #import "ViewController.h"
 
 #import "Vajra/Engine/Core/Engine.h"
+#import "Vajra/Engine/Input/Input.h"
 #import "Vajra/Placeholder/Renderer/Renderer.h"
 #import "Vajra/Placeholder/Tesserakonteres.h"
+#import "Vajra/Engine/Input/Platforms/iOSInputSender.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -104,9 +106,15 @@ GLfloat gCubeVertexData[216] =
 
 @implementation ViewController
 
+- (void) loadView
+{
+    [super loadView];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
@@ -117,7 +125,10 @@ GLfloat gCubeVertexData[216] =
     GLKView *view = (GLKView *)self.view;
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+    view.multipleTouchEnabled = YES;
     
+    //iOSInputSender *sender = [[iOSInputSender alloc] init];
+    //[self addChildViewController: sender];
     [self setupGL];
 }
 
@@ -439,4 +450,14 @@ GLfloat gCubeVertexData[216] =
     return YES;
 }
 
+- (void) touchesBegan:(NSSet *) touches withEvent:(UIEvent *) event
+{
+    printf("Touch began \n \n \n \n");
+    for (UITouch *touch in touches)
+	{
+        printf("Touch began \n \n \n \n");
+		CGPoint pt = [touch locationInView:self.view];
+        ENGINE->GetInput()->AddTouch(0, pt.x, pt.y);
+    }
+}
 @end
