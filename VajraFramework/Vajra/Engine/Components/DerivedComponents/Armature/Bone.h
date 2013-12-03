@@ -26,7 +26,7 @@ public:
 	void SetBindPoseMatrixGlobal(glm::mat4 m);
 
 	void Rotate(float angleInDegrees, glm::vec3 axis, bool boneSpace = false);
-	void Translate(float distance, glm::vec3 along);
+	void Translate(float distance, glm::vec3 along, bool boneSpace = false);
 
 	void SetParent(Bone* parentBone);
 	void AddChild(Bone* childBone);

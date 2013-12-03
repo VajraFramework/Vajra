@@ -51,11 +51,9 @@ void Armature::resetFinalBoneTransforms() {
 	for (int i = 0; i < MAX_BONES; ++i) {
 		this->finalBoneTransforms[i] = IDENTITY_MATRIX;
 	}
-	// this->finalBoneTransforms[1] = glm::rotate(45.0f, XAXIS);
 }
 
 void Armature::updateBoneMatrices() {
-	this->resetFinalBoneTransforms();
 
 	for (auto bone_it = this->bones.begin(); bone_it != this->bones.end(); ++bone_it) {
 		Bone* bone = bone_it->second;

@@ -29,46 +29,50 @@ void Bone::SetName(std::string name) {
 }
 
 void Bone::Rotate(float angleInDegrees, glm::vec3 axis, bool boneSpace /* = false */) {
-	glm::vec3 newAxis;
 	if (!boneSpace) {
 		// Axis specified in object space coordinates
 		// Convert it to boneSPace
-		ASSERT(0, "Implement");
-	} else {
-		newAxis = axis;
+		glm::vec4 newAxis = this->toBoneMatrix * glm::vec4(axis.x, axis.y, axis.z, 0.0f);
+		axis = glm::vec3(newAxis.x, newAxis.y, newAxis.z);
 	}
 
-	if (newAxis != ZERO_VEC3) {
-		this->localRotationMatrix = this->localRotationMatrix * glm::rotate(angleInDegrees, newAxis);
-
-		// this->updateBoneMatrices();
+	if (axis != ZERO_VEC3) {
+		this->localRotationMatrix = this->localRotationMatrix * glm::rotate(angleInDegrees, axis);
 	}
 }
 
-void Bone::Translate(float /* distance */, glm::vec3 /* along */) {
-	ASSERT(0, "Implement");
+void Bone::Translate(float distance, glm::vec3 along, bool boneSpace /* = false */) {
+	if (!boneSpace) {
+		// Axis specified in object space coordinates
+		// Convert it to boneSPace
+		glm::vec4 newAxis = this->toBoneMatrix * glm::vec4(along.x, along.y, along.z, 0.0f);
+		along = glm::vec3(newAxis.x, newAxis.y, newAxis.z);
+	}
+
+	along = glm::normalize(along);
+	this->localTranslationMatrix = this->localTranslationMatrix * glm::translate(distance * along);
 }
 
 void Bone::updateBoneMatrices_recursive() {
 
-	glm::mat4 matrixToPropogate = this->toWorldMatrix * this->localRotationMatrix * this->toBoneMatrix;
+	glm::mat4 matrixToPropogate = this->toWorldMatrix *
+								  this->localRotationMatrix * this->localTranslationMatrix *
+								  this->toBoneMatrix;
+	//
 	for (Bone* childBone : this->children) {
 		childBone->propogateRawMatrixToChildren(matrixToPropogate);
 	}
 
-	// TODO [Implement] This doesn't really work since there is really no way for the parent's transform changes to ripple to the bones visualizers
-	glm::mat4 visualizerMatrix = // ((GameObject*)(this->armature->GetObject()))->GetTransform()->GetModelMatrixCumulative() *
-								 this->localRotationMatrixCumulative * this->bindPoseMatrixGlobal * this->localRotationMatrix * this->localTranslationMatrixCumulative;
-#if DRAW_BONES
-	this->visualizer->GetTransform()->SetModelMatrixCumulative(visualizerMatrix);
-#endif
+	glm::mat4 finalBoneTransformMatrix = this->localRotationMatrixCumulative * this->localTranslationMatrixCumulative *
+										 this->bindPoseMatrixGlobal *
+										 this->localRotationMatrix * this->localTranslationMatrix;
 
-#if 1
-	this->armature->finalBoneTransforms[this->id] = // this->armature->finalBoneTransforms[this->id] *
-									// this->toWorldMatrix *
-									visualizerMatrix *
-									// this->localRotationMatrix *
-									this->toBoneMatrix;
+	this->armature->finalBoneTransforms[this->id] = finalBoneTransformMatrix *
+													this->toBoneMatrix;
+
+#if DRAW_BONES
+	this->visualizer->GetTransform()->SetModelMatrixCumulative(((GameObject*)this->armature->GetObject())->GetTransform()->GetModelMatrixCumulative() *
+																finalBoneTransformMatrix);
 #endif
 
 
@@ -79,7 +83,7 @@ void Bone::updateBoneMatrices_recursive() {
 }
 
 void Bone::propogateRawMatrixToChildren(glm::mat4 rawMatrix) {
-	this->localRotationMatrixCumulative = this->localRotationMatrixCumulative * rawMatrix;
+	this->localRotationMatrixCumulative = this->localRotationMatrixCumulative * this->localTranslationMatrixCumulative * rawMatrix;
 
 	for (Bone* childBone : this->children) {
 		childBone->propogateRawMatrixToChildren(rawMatrix);

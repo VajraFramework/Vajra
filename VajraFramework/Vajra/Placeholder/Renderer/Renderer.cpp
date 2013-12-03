@@ -164,35 +164,38 @@ void renderFrame(float dt) {
     }
     {
     	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(108);
+    	// Transform* transform = wavybox->GetTransform();
+    	// transform->Rotate(10.0f * deltaTime, YAXIS);
+    	// transform->Translate(0.05f * deltaTime, transform->GetForward());
     	Armature* armature = wavybox->GetComponent<Armature>();
 #if 1
     	{
-			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_Left_ElbowJoint01");
-			someBone->Rotate(-5.0f * deltaTime, ZAXIS, true);
+			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_BackJoint01");
+			someBone->Rotate(5.0f * deltaTime, XAXIS, false);
     	}
 #endif
 #if 1
     	{
-			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_ChestJoint01");
-			someBone->Rotate(5.0f * deltaTime, XAXIS, true);
+			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_Left_ElbowJoint01");
+			someBone->Rotate(-5.0f * deltaTime, YAXIS, false);
+    	}
+#endif
+#if 1
+    	{
+			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_Left_ShoulderJoint01");
+			someBone->Rotate(-5.0f * deltaTime, YAXIS, true);
     	}
 #endif
 #if 0
     	{
-			Bone* someBone = armature->GetBoneByName("joint4");
-			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
-    	}
-#endif
-#if 0
-    	{
-			Bone* someBone = armature->GetBoneByName("joint12");
-			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_NeckJoint01");
+			someBone->Translate(0.5f * deltaTime, YAXIS, false);
     	}
 #endif
 #if 0
     	{
 			Bone* someBone = armature->GetBoneByName("joint13");
-			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+			someBone->Rotate(5.0f * deltaTime, ZAXIS, false);
     	}
 #endif
 #if 0
