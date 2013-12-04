@@ -1,7 +1,7 @@
 #include <algorithm>
 
-#include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Utilities/Utilities.h"
 
 Input::Input() {
