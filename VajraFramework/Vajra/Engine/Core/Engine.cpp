@@ -35,7 +35,7 @@ void Engine::init() {
 	this->assetLibrary = new AssetLibrary();
 	this->sceneGraph   = new SceneGraph();
 	this->tween        = new Tween();
-	this->input 	   = new Input();	
+	this->input        = new Input();	
 }
 
 void Engine::DoFrame() {
