@@ -453,12 +453,10 @@ GLfloat gCubeVertexData[216] =
 // TEMP TOUCHES
 - (void) touchesBegan:(NSSet *) touches withEvent:(UIEvent *) event
 {
-    printf("Touch began \n \n \n \n");
     for (UITouch *touch in touches)
 	{
-        printf("Touch began \n \n \n \n");
 		CGPoint pt = [touch locationInView:self.view];
-        ENGINE->GetInput()->AddTouch(0, pt.x, pt.y);
+        ENGINE->GetInput()->AddTouch((int)(id)touch, pt.x, pt.y);
     }
 }
 
@@ -482,7 +480,7 @@ GLfloat gCubeVertexData[216] =
     for(UITouch *touch in touches)
     {
 		CGPoint pt = [touch locationInView:self.view];
-        ENGINE->GetInput()->UpdateTouch(0, pt.x, pt.y, phase);
+        ENGINE->GetInput()->UpdateTouch((int)(id)touch, pt.x, pt.y, phase);
     }
 }
 

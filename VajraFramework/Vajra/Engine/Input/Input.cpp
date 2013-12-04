@@ -31,7 +31,7 @@ void Input::updateInput() {
     {
     	it->phase = TouchPhase::Stationary;
     }
-	logTouches();
+	//logTouches();
 
 }
 
