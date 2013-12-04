@@ -2,12 +2,14 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Bone.h"
+#include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/DeviceUtils/TextureLoader/TextureLoader.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -104,7 +106,7 @@ void renderFrame(float dt) {
     float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(106);
+        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(107);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -117,7 +119,7 @@ void renderFrame(float dt) {
     }
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(107);
+        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(108);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -130,7 +132,7 @@ void renderFrame(float dt) {
     }
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(108);
+        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(109);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -163,7 +165,7 @@ void renderFrame(float dt) {
         }
     }
     {
-    	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(108);
+    	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(109);
     	// Transform* transform = wavybox->GetTransform();
     	// transform->Rotate(10.0f * deltaTime, YAXIS);
     	// transform->Translate(0.05f * deltaTime, transform->GetForward());
@@ -205,10 +207,26 @@ void renderFrame(float dt) {
     	}
 #endif
     }
-
+#if 1
+    {
+        if(ENGINE->GetInput()->GetTouchCount() > 0)
+        {
+            Touch temp = ENGINE->GetInput()->GetTouch(0);
+            float touchDisplacement = temp.pos.x - temp.prevPos.x;
+            glm::vec2 moveDir = temp.pos - temp.prevPos;
+            GameObject* camera = (GameObject*)ENGINE->GetSceneGraph()->GetMainCamera()->GetObject();
+            Transform* transform = camera->GetTransform();
+            float camMag = glm::distance(transform->GetPosition(), ZERO_VEC3);
+            transform->SetPosition(0.0f, 0.0f, 0.0f);
+            transform->Rotate(-1 * moveDir.x, transform->GetUp());
+            transform->Rotate(moveDir.y, transform->GetLeft());
+            transform->Translate(-camMag, transform->GetForward());
+        }
+    }
+#endif
     ENGINE->DoFrame();
 
-    // printFrameTimeStats();
+    //printFrameTimeStats();
 
     modelMatrix = glm::rotate(0.0f, 0.0f, 1.0f, 0.0f);
     mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;

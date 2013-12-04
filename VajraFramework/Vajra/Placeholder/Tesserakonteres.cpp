@@ -110,7 +110,7 @@ namespace Tesserakonteres {
 
 			Transform* transform = gameObject->GetTransform();
 			transform->Scale(0.6f, 0.6f, 0.6f);
-			transform->Translate(1.5f, XAXIS);
+			//transform->Translate(1.5f, XAXIS);
 		}
 		{
 			GameObject* camera = new GameObject();
