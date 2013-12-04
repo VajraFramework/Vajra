@@ -23,8 +23,12 @@ bool touchOver(const Touch &touch) {
 }
 
 void Input::updateInput() { 
+	// Populate frame touches with all input that has been asynchronously collected
 	this->frameTouches = this->asyncTouches;
+
+	// Remove all touches that have ended or been cancelled
 	this->asyncTouches.erase( std::remove_if(this->asyncTouches.begin(), this->asyncTouches.end(), touchOver), this->asyncTouches.end());
+	
 	for(std::vector<Touch>::iterator it = this->asyncTouches.begin(); it != this->asyncTouches.end(); ++it) {
     	it->phase = TouchPhase::Stationary;
     }
