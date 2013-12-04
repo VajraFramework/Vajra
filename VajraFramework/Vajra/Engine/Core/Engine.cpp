@@ -1,5 +1,6 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Engine/Timer/Timer.h"
@@ -34,10 +35,12 @@ void Engine::init() {
 	this->assetLibrary = new AssetLibrary();
 	this->sceneGraph   = new SceneGraph();
 	this->tween        = new Tween();
+	this->input        = new Input();	
 }
 
 void Engine::DoFrame() {
 	this->GetTimer()->beginFrame();
+	this->GetInput()->updateInput();
 
 	this->updateScene();
 	this->renderScene();
@@ -81,5 +84,8 @@ void Engine::destroy() {
 	}
 	if (this->tween != nullptr) {
 		delete this->tween;
+	}
+	if(this->input != nullptr) {
+		delete this->input;
 	}
 }

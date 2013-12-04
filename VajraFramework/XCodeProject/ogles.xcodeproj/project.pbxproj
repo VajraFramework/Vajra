@@ -132,6 +132,7 @@
 		58F7EA2117F55389003C5110 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F7E9F817F55389003C5110 /* UIKit.framework */; };
 		58F7EA2917F55389003C5110 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 58F7EA2717F55389003C5110 /* InfoPlist.strings */; };
 		58F7EA2B17F55389003C5110 /* oglesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F7EA2A17F55389003C5110 /* oglesTests.m */; };
+		B309984C184D4BA700318835 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B309984A184D4BA700318835 /* Input.cpp */; };
 		BA6D674818456AAA00718527 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA6D674718456AAA00718527 /* AVFoundation.framework */; };
 		BA6D684718456D4A00718527 /* audio in Resources */ = {isa = PBXBuildFile; fileRef = BA6D684618456D4A00718527 /* audio */; };
 		BA6D6902184CDFB000718527 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA6D684D184CDFB000718527 /* Component.cpp */; };
@@ -461,6 +462,8 @@
 		58F7EA2617F55389003C5110 /* oglesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "oglesTests-Info.plist"; sourceTree = "<group>"; };
 		58F7EA2817F55389003C5110 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		58F7EA2A17F55389003C5110 /* oglesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = oglesTests.m; sourceTree = "<group>"; };
+		B309984A184D4BA700318835 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Input.cpp; sourceTree = "<group>"; };
+		B309984B184D4BA700318835 /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Input.h; sourceTree = "<group>"; };
 		BA6D674718456AAA00718527 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		BA6D684618456D4A00718527 /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audio; sourceTree = "<group>"; };
 		BA6D684D184CDFB000718527 /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
@@ -986,6 +989,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		B3099849184D4B9000318835 /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				B316C15D184E4C440057146D /* Platforms */,
+				B309984A184D4BA700318835 /* Input.cpp */,
+				B309984B184D4BA700318835 /* Input.h */,
+			);
+			path = Input;
+			sourceTree = "<group>";
+		};
+		B316C15D184E4C440057146D /* Platforms */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Platforms;
+			sourceTree = "<group>";
+		};
 		BA6D684A184CDFB000718527 /* Vajra */ = {
 			isa = PBXGroup;
 			children = (
@@ -1055,6 +1075,7 @@
 		BA6D685E184CDFB000718527 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				B3099849184D4B9000318835 /* Input */,
 				BA6D685F184CDFB000718527 /* AssetLibrary */,
 				BA6D6882184CDFB000718527 /* Components */,
 				BA6D68A8184CDFB000718527 /* Core */,
@@ -1808,6 +1829,7 @@
 				BA6D6934184CDFB000718527 /* IOSLogger.cpp in Sources */,
 				BA6D690B184CDFB000718527 /* AnimationKeyFrame.cpp in Sources */,
 				BA6D690F184CDFB000718527 /* iOSAudioPlayer.mm in Sources */,
+				B309984C184D4BA700318835 /* Input.cpp in Sources */,
 				BA6D6923184CDFB000718527 /* SceneGraph.cpp in Sources */,
 				BA6D6902184CDFB000718527 /* Component.cpp in Sources */,
 				BA6D6907184CDFB000718527 /* ObjectRegistry.cpp in Sources */,
