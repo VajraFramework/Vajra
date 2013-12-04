@@ -12,7 +12,6 @@
 #import "Vajra/Engine/Input/Input.h"
 #import "Vajra/Placeholder/Renderer/Renderer.h"
 #import "Vajra/Placeholder/Tesserakonteres.h"
-#import "Vajra/Engine/Input/Platforms/iOSInputSender.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -450,11 +449,11 @@ GLfloat gCubeVertexData[216] =
     return YES;
 }
 
-// TEMP TOUCHES
+// TODO [Cleanup] Move this block to a seperate view
 - (void) touchesBegan:(NSSet *) touches withEvent:(UIEvent *) event {
     for (UITouch *touch in touches) {
 		CGPoint pt = [touch locationInView:self.view];
-        ENGINE->GetInput()->AddTouch((int)(id)touch, pt.x, pt.y);
+		ENGINE->GetInput()->AddTouch((int)(id)touch, pt.x, pt.y);
     }
 }
 
@@ -473,7 +472,7 @@ GLfloat gCubeVertexData[216] =
 - (void) updateTouches:(NSSet*)touches second:(TouchPhase)phase {
     for(UITouch *touch in touches) {
 		CGPoint pt = [touch locationInView:self.view];
-        ENGINE->GetInput()->UpdateTouch((int)(id)touch, pt.x, pt.y, phase);
+		ENGINE->GetInput()->UpdateTouch((int)(id)touch, pt.x, pt.y, phase);
     }
 }
 

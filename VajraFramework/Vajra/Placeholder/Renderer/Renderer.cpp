@@ -221,7 +221,6 @@ void renderFrame(float dt) {
             transform->Rotate(-1 * moveDir.x, transform->GetUp());
             transform->Rotate(moveDir.y, transform->GetLeft());
             transform->Translate(-camMag, transform->GetForward());
-            //printf("TOUCH: %f , %f \n" , temp.pos.x , temp.pos.y);*/
         }
     }
 #endif

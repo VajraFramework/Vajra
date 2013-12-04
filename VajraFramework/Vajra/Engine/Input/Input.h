@@ -41,7 +41,7 @@ public:
 	Touch GetTouch(int index);
 	void AddTouch(int uId, float startX, float startY, TouchPhase phase = TouchPhase::Began);
 	void UpdateTouch(int uId, float curX, float curY, TouchPhase phase);
-	float GetTouchCount() { return this->frameTouches.size(); }
+	int GetTouchCount() { return this->frameTouches.size(); }
 private:
 	Input();
 	void init();

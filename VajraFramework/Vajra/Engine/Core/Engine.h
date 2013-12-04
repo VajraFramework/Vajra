@@ -22,7 +22,7 @@ public:
 	inline SceneGraph*   GetSceneGraph()   { return this->sceneGraph;   }
 	inline Timer*        GetTimer()        { return this->timer;        }
 	inline Tween*        GetTween()        { return this->tween;        }
-	inline Input*		 GetInput()        { return this->input;        }
+	inline Input*        GetInput()        { return this->input;        }
 
 	void DoFrame();
 
