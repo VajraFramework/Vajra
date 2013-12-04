@@ -2,6 +2,7 @@
 #include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
 #include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioPlayer/AudioPlayer.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Framework/Logging/Logger.h"
 
 #ifdef PLATFORM_IOS
 #include <OpenAL/al.h>
@@ -30,6 +31,7 @@ void AudioPlayer::InitAudio() {
 	}
 
 	// Audio is now ready to use
+	FRAMEWORK->GetLogger()->dbglog("\nInitialization of audio completed successfully");
 	audioReady = true;
 }
 
@@ -50,6 +52,7 @@ AudioPlayer::~AudioPlayer() {
 }
 
 void AudioPlayer::init() {
+	this->asset = nullptr;
 	this->pitch = 1.0f;
 	this->gain = 1.0f;
 	this->position[0] = 0.0f;
@@ -78,19 +81,12 @@ void AudioPlayer::destroy() {
 // Accessors
 float AudioPlayer::GetVolume()             { return this->volume; }
 float AudioPlayer::GetPlaybackSpeed()      { return this->playbackSpeed; }
-
-float AudioPlayer::GetAudioClipDuration() {
-#if 0
-	if (this->pimpl->clipLoaded) {
-		return this->pimpl->player_internal.duration;
-	}
-#endif
-	return 0.0f;
-}
+AudioAsset* AudioPlayer::GetAudioClip()    { return this->asset; }
 
 // Mutators
 void AudioPlayer::SetAudioClip(std::string assetName) {
 	std::shared_ptr<AudioAsset> audioAsset = ENGINE->GetAssetLibrary()->GetAsset<AudioAsset>(assetName);
+	this->asset = &(*audioAsset);
 	alSourcei(this->source, AL_BUFFER, audioAsset->GetALAudioHandle());
 }
 

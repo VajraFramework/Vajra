@@ -12,6 +12,7 @@
 #include <string>
 
 #include "Vajra/Common/Components/Component.h"
+#include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
 #include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioPlayer/AudioPlayer.h"
 
 class AudioSource : public Component {
@@ -32,7 +33,7 @@ public:
 	// Accessors
 	float GetVolume();
 	float GetPlaybackSpeed();
-	float GetAudioClipDuration();
+	AudioAsset* GetAudioClip();
 	
 	// Mutators
 	void SetAudioClip(std::string assetName);

@@ -9,6 +9,8 @@
 #ifndef AUDIOPLAYER_H
 #define AUDIOPLAYER_H
 
+#include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
+
 #ifdef PLATFORM_IOS
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
@@ -31,7 +33,7 @@ public:
 	// Accessors
 	float GetVolume();
 	float GetPlaybackSpeed();
-	float GetAudioClipDuration();
+	AudioAsset* GetAudioClip();
 	
 	// Mutators
 	void SetAudioClip(std::string assetName);
@@ -53,6 +55,7 @@ private:
 	void init();
 	void destroy();
 
+	AudioAsset* asset;
 	ALuint source;
 	ALfloat pitch;
 	ALfloat gain;

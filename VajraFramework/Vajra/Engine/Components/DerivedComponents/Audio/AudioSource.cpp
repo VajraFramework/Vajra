@@ -56,7 +56,7 @@ void AudioSource::HandleMessage(Message *message) {
 // Accessors
 float AudioSource::GetVolume()				{ return this->player->GetVolume(); }
 float AudioSource::GetPlaybackSpeed()		{ return this->player->GetPlaybackSpeed(); }
-float AudioSource::GetAudioClipDuration()	{ return this->player->GetAudioClipDuration(); }
+AudioAsset* AudioSource::GetAudioClip()     { return this->player->GetAudioClip(); }
 
 // Mutators
 void AudioSource::SetAudioClip(std::string assetName) {

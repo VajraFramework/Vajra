@@ -14,12 +14,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-/*
-long loadAudioFile(const char* audioPath, char** outAudioBytes) {
-	// TODO [Implement] AudioLoader for desktop
-	return -1;
-}
-*/
+
 int file_read_int32_le(char buffer[5], std::ifstream& file) {
 	int val = 0;
 	file.read(buffer, 4);
