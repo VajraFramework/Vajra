@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 
 enum TouchPhase
 {
@@ -18,16 +19,20 @@ enum TouchPhase
 
 struct Touch
 {
-public:
+private:
 	int uId;
-	float fingerId;
+public:
+	int fingerId;
 	glm::vec2 pos;
+	glm::vec2 prevPos;
 	TouchPhase phase;
+
+friend class Input;
 };
 
 class Input : public Object {
 
-static const int MAX_TOUCHES = 11;
+static const int MAX_TOUCHES = 5;
 
 public:
 	~Input();
@@ -47,6 +52,7 @@ private:
 
     std::vector<Touch> _frameTouches;
     std::vector<Touch> _asyncTouches;
+
 	friend class Engine;
 };
 

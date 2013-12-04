@@ -31,7 +31,7 @@ void Input::updateInput() {
     {
     	it->phase = TouchPhase::Stationary;
     }
-	//logTouches();
+	logTouches();
 
 }
 
@@ -43,11 +43,14 @@ Touch Input::GetTouch(int index)
 
 void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
 	
+
 	Touch t;
 	t.uId = uId;
 	t.pos.x = startX;
 	t.pos.y = startY;
+	t.prevPos = t.pos;
 	t.phase = phase;
+	t.fingerId = _asyncTouches.size();
 	_asyncTouches.push_back(t);
 	
     _numTouches++;
@@ -61,6 +64,7 @@ void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {
     {
     	if(it->uId == uId)
     	{
+    		it->prevPos = it->pos;
     		it->pos.x = curX;
     		it->pos.y = curY;
     		it->phase = phase;
@@ -76,6 +80,6 @@ void Input::logTouches() {
 	printf("TOUCH LOG \n");
 	for(std::vector<Touch>::iterator it = _frameTouches.begin(); it != _frameTouches.end(); ++it)
     {
-    	printf("Touch pos: (%f, %f) %i \n", it->pos.x, it->pos.y, (int)it->phase);
+    	printf("Touch id: %i pos: (%f, %f) %i \n", it->fingerId, it->pos.x, it->pos.y, (int)it->phase);
     }
 }
