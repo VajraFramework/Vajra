@@ -146,9 +146,12 @@ namespace Tesserakonteres {
 		}
 		{
 #if 0
-			AudioSource* source = child->AddComponent<AudioSource>();
-			source->SetAudioClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesPath() + "lowAlert(hisfixed).mp3");
-			source->Play();
+			AudioPlayer::InitAudio();
+			if (AudioPlayer::AudioIsReady()) {
+				AudioSource* source = child->AddComponent<AudioSource>();
+				source->SetAudioClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesPath() + "lowAlert(hisfixed).wav");
+				source->Play();
+			}
 #endif
 		}
 
