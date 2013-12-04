@@ -19,3 +19,20 @@ glm::mat4x4 ReadGlmMat4x4FromFile(std::ifstream& file) {
 	}
 	return m;
 }
+
+int ReadInt32LittleEndianFromFile(/*char buffer[5], */std::ifstream& file) {
+	int val = 0;
+	unsigned char buffer[5];
+	file.read((char*)buffer, 4);
+	val = (buffer[0]) | (buffer[1] << 8) | (buffer[2] << 16) | (buffer[3] << 24);
+	return val;
+}
+
+short ReadInt16LittleEndianFromFile(/*char buffer[5], */std::ifstream& file) {
+	short val = 0;
+	unsigned char buffer[3];
+	file.read((char*)buffer, 2);
+	val = (buffer[0]) | (buffer[1] << 8);
+	return val;
+}
+

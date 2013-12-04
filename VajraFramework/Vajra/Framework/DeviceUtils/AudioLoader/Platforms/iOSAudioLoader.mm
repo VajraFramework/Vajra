@@ -6,6 +6,7 @@
 #ifdef PLATFORM_IOS
 
 #include "Vajra/Framework/DeviceUtils/AudioLoader/AudioLoader.h"
+#include "Vajra/Utilities/FileUtilities.h"
 
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
@@ -14,20 +15,6 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-
-int file_read_int32_le(char buffer[5], std::ifstream& file) {
-	int val = 0;
-	file.read(buffer, 4);
-	val = ((unsigned char)buffer[0]) | ((unsigned char)buffer[1] << 8) | ((unsigned char)buffer[2] << 16) | ((unsigned char)buffer[3] << 24);
-	return val;
-}
-
-short file_read_int16_le(char buffer[5], std::ifstream& file) {
-	short val = 0;
-	file.read(buffer, 2);
-	val = ((unsigned char)buffer[0]) | ((unsigned char)buffer[1] << 8);
-	return val;
-}
 
 ALenum GetAudioFormat(short channels, short bitsPerSample) {
 	ALenum format = AL_NONE;
@@ -73,7 +60,7 @@ ALuint loadALAudioFromWAV(const char* audioPath, ALenum* outFormat, ALubyte** ou
 		return audioBuffer;
 	}
 
-	file_read_int32_le(tempBuf, file);
+	ReadInt32LittleEndianFromFile(file);
 
 	file.read(tempBuf, 4);
 	if ((file.gcount() != 4) || (strcmp(tempBuf, "WAVE") != 0)) {
@@ -90,19 +77,19 @@ ALuint loadALAudioFromWAV(const char* audioPath, ALenum* outFormat, ALubyte** ou
 	}
 
 	// Parse the metadata
-	file_read_int32_le(tempBuf, file);
-	short format = file_read_int16_le(tempBuf, file);
-	short channels = file_read_int16_le(tempBuf, file);
-	int sampleRate = file_read_int32_le(tempBuf, file);
-	int byteRate = file_read_int32_le(tempBuf, file);
-	file_read_int16_le(tempBuf, file);
-	short bitsPerSample = file_read_int16_le(tempBuf, file);
+	ReadInt32LittleEndianFromFile(file);
+	short format = ReadInt16LittleEndianFromFile(file);
+	short channels = ReadInt16LittleEndianFromFile(file);
+	int sampleRate = ReadInt32LittleEndianFromFile(file);
+	int byteRate = ReadInt32LittleEndianFromFile(file);
+	ReadInt16LittleEndianFromFile(file);
+	short bitsPerSample = ReadInt16LittleEndianFromFile(file);
 	ALenum audioFormat = GetAudioFormat(channels, bitsPerSample);
 
 	file.read(tempBuf, 4);
 	// Skip over any other header information
 	if (strcmp(tempBuf, "LIST") == 0) {
-		int listlen = file_read_int32_le(tempBuf, file);
+		int listlen = ReadInt32LittleEndianFromFile(file);
 		file.seekg(listlen, std::ios_base::cur);
 	}
 
@@ -114,10 +101,9 @@ ALuint loadALAudioFromWAV(const char* audioPath, ALenum* outFormat, ALubyte** ou
 	}
 
 	// Read in the actual audio data
-	int audioDataLength = file_read_int32_le(tempBuf, file);
+	int audioDataLength = ReadInt32LittleEndianFromFile(file);
 	unsigned char* audioData = new unsigned char[audioDataLength];
 	file.read((char*)audioData, audioDataLength);
-	//float duration = float(audioDataLength) / byteRate;
 
 	// Buffer the audio data using OpenAL
 	alBufferData(audioBuffer, audioFormat, audioData, audioDataLength, sampleRate);
