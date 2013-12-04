@@ -24,14 +24,11 @@ __SOURCE__
 void main()
 {
 	vec4 posL      = vec4(0.0, 0.0, 0.0, 0.0);
-	for(int i = 0; i < 4; ++i)
-	{
-		// Assume no nonuniform scaling when transforming normals, so
-		// that we do not have to use the inverse-transpose.
-
-		int boneIndex = int(boneIndices[i]);
-		posL      = posL + boneWeights[i] * (boneTransforms[boneIndex] * vPosition);
-	}
+	//
+	posL = posL + boneWeights.x * (boneTransforms[int(boneIndices.x)] * vPosition);
+	posL = posL + boneWeights.y * (boneTransforms[int(boneIndices.y)] * vPosition);
+	posL = posL + boneWeights.z * (boneTransforms[int(boneIndices.z)] * vPosition);
+	posL = posL + boneWeights.w * (boneTransforms[int(boneIndices.w)] * vPosition);
 
 	gl_Position = mvpMatrix * posL;
 	// Temp using variable boneTransforms:
