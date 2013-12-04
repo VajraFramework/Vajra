@@ -17,6 +17,7 @@ enum TouchPhase
 	Cancelled
 };
 
+// TODO [Implement] Change this to use pools of Touch objects
 struct Touch
 {
 private:

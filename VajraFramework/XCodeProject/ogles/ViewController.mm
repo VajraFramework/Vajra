@@ -451,34 +451,27 @@ GLfloat gCubeVertexData[216] =
 }
 
 // TEMP TOUCHES
-- (void) touchesBegan:(NSSet *) touches withEvent:(UIEvent *) event
-{
-    for (UITouch *touch in touches)
-	{
+- (void) touchesBegan:(NSSet *) touches withEvent:(UIEvent *) event {
+    for (UITouch *touch in touches) {
 		CGPoint pt = [touch locationInView:self.view];
         ENGINE->GetInput()->AddTouch((int)(id)touch, pt.x, pt.y);
     }
 }
 
-- (void) touchesMoved:(NSSet *) touches withEvent:(UIEvent *) event
-{
+- (void) touchesMoved:(NSSet *) touches withEvent:(UIEvent *) event {
     [self updateTouches:touches second:TouchPhase::Moved];
 }
 
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     [self updateTouches:touches second:TouchPhase::Ended];
 }
 
-- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     [self updateTouches:touches second:TouchPhase::Cancelled];
 }
 
-- (void) updateTouches:(NSSet*)touches second:(TouchPhase)phase
-{
-    for(UITouch *touch in touches)
-    {
+- (void) updateTouches:(NSSet*)touches second:(TouchPhase)phase {
+    for(UITouch *touch in touches) {
 		CGPoint pt = [touch locationInView:self.view];
         ENGINE->GetInput()->UpdateTouch((int)(id)touch, pt.x, pt.y, phase);
     }
