@@ -40,7 +40,7 @@ public:
 	Touch GetTouch(int index);
 	void AddTouch(int uId, float startX, float startY, TouchPhase phase = TouchPhase::Began);
 	void UpdateTouch(int uId, float curX, float curY, TouchPhase phase);
-	float GetTouchCount() { return _frameTouches.size(); }
+	float GetTouchCount() { return this->frameTouches.size(); }
 private:
 	Input();
 	void init();
@@ -48,10 +48,9 @@ private:
 
 	void updateInput();
 	void logTouches();
-	int _numTouches = 0;
 
-    std::vector<Touch> _frameTouches;
-    std::vector<Touch> _asyncTouches;
+    std::vector<Touch> frameTouches;
+    std::vector<Touch> asyncTouches;
 
 	friend class Engine;
 };

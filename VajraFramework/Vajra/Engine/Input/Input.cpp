@@ -13,7 +13,6 @@ Input::~Input() {
 }
 
 void Input::init() {
-	_numTouches = 0;
 }
 
 void Input::destroy() {
@@ -25,9 +24,9 @@ bool touchOver(const Touch &touch)
 }
 
 void Input::updateInput() { 
-	_frameTouches = _asyncTouches;
-	_asyncTouches.erase( std::remove_if(_asyncTouches.begin(), _asyncTouches.end(), touchOver), _asyncTouches.end());
-	for(std::vector<Touch>::iterator it = _asyncTouches.begin(); it != _asyncTouches.end(); ++it)
+	this->frameTouches = this->asyncTouches;
+	this->asyncTouches.erase( std::remove_if(this->asyncTouches.begin(), this->asyncTouches.end(), touchOver), this->asyncTouches.end());
+	for(std::vector<Touch>::iterator it = this->asyncTouches.begin(); it != this->asyncTouches.end(); ++it)
     {
     	it->phase = TouchPhase::Stationary;
     }
@@ -35,8 +34,8 @@ void Input::updateInput() {
 }
 
 Touch Input::GetTouch(int index) {
-	ASSERT(index < _frameTouches.size(), "Index is greater than current number of touches");
-	return _frameTouches[index];
+	ASSERT(index < this->frameTouches.size(), "Index is greater than current number of touches");
+	return this->frameTouches[index];
 }
 
 void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
@@ -46,12 +45,12 @@ void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
 	t.pos.y = startY;
 	t.prevPos = t.pos;
 	t.phase = phase;
-	t.fingerId = _asyncTouches.size();
-	_asyncTouches.push_back(t);
+	t.fingerId = this->asyncTouches.size();
+	this->asyncTouches.push_back(t);
 }
 
 void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {
-	for(std::vector<Touch>::iterator it = _asyncTouches.begin(); it != _asyncTouches.end(); ++it)
+	for(std::vector<Touch>::iterator it = this->asyncTouches.begin(); it != this->asyncTouches.end(); ++it)
     {
     	if(it->uId == uId)
     	{
@@ -66,7 +65,7 @@ void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {
 
 void Input::logTouches() {
 	printf("TOUCH LOG \n");
-	for(std::vector<Touch>::iterator it = _frameTouches.begin(); it != _frameTouches.end(); ++it)
+	for(std::vector<Touch>::iterator it = this->frameTouches.begin(); it != this->frameTouches.end(); ++it)
     {
     	printf("Touch id: %i pos: (%f, %f) %i \n", it->fingerId, it->pos.x, it->pos.y, (int)it->phase);
     }
