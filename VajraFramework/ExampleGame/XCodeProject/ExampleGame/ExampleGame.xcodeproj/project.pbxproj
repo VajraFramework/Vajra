@@ -1634,7 +1634,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SAVED_CURRENT_DIRECTORY=`pwd`;\ncd $(SRCROOT)/\n./prepare.sh ios\ncd $SAVED_CURRENT_DIRECTORY;";
+			shellScript = "SAVED_CURRENT_DIRECTORY=`pwd`;\ncd ${SRCROOT}/../..\npwd\n./prepare.sh ios\ncd $SAVED_CURRENT_DIRECTORY;";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1788,12 +1788,8 @@
 				INFOPLIST_FILE = "ExampleGame/ExampleGame-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/cosmiczilch/sandbox/gitRepos/Static/Vajra/VajraFramework/XCodeProject/VajraStaticLibrary/Built/iphonesimulator,
-					/Users/cosmiczilch/sandbox/gitRepos/Static/Vajra/VajraFramework/ExampleGame/XCodeProject/ExampleGame/ExampleGame/Vajra/lib,
-					/Users/cosmiczilch/sandbox/gitRepos/Static/Vajra/VajraFramework/ExampleGame/Headers/Vajra/lib,
-					/Users/cosmiczilch/sandbox/gitRepos/Static/Vajra/VajraFramework/ExampleGame/libs/ios/iphonesimulator,
-					/Users/cosmiczilch/sandbox/gitRepos/Static/Vajra/VajraFramework/ExampleGame/lib/ios/iphonesimulator,
-					/Users/cosmiczilch/sandbox/gitRepos/Static/Vajra/VajraFramework/ExampleGame/lib/ios/iphoneos,
+					../../lib/ios/iphonesimulator,
+					../../lib/ios/iphoneos,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "./ExampleGame/ ../../include";
@@ -1812,12 +1808,8 @@
 				INFOPLIST_FILE = "ExampleGame/ExampleGame-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/cosmiczilch/sandbox/gitRepos/Static/Vajra/VajraFramework/XCodeProject/VajraStaticLibrary/Built/iphonesimulator,
-					/Users/cosmiczilch/sandbox/gitRepos/Static/Vajra/VajraFramework/ExampleGame/XCodeProject/ExampleGame/ExampleGame/Vajra/lib,
-					/Users/cosmiczilch/sandbox/gitRepos/Static/Vajra/VajraFramework/ExampleGame/Headers/Vajra/lib,
-					/Users/cosmiczilch/sandbox/gitRepos/Static/Vajra/VajraFramework/ExampleGame/libs/ios/iphonesimulator,
-					/Users/cosmiczilch/sandbox/gitRepos/Static/Vajra/VajraFramework/ExampleGame/lib/ios/iphonesimulator,
-					/Users/cosmiczilch/sandbox/gitRepos/Static/Vajra/VajraFramework/ExampleGame/lib/ios/iphoneos,
+					../../lib/ios/iphonesimulator,
+					../../lib/ios/iphoneos,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "./ExampleGame/ ../../include";
