@@ -56,5 +56,7 @@ LOCAL_LDLIBS    := -llog -lGLESv2 -g -rdynamic
 # Include libpng and zlib libraries:
 LOCAL_LDLIBS    += $(LIBRARIES_ROOT)/libpng-android-master/built/libpng.a -lz
 LOCAL_C_INCLUDES += $(LIBRARIES_ROOT)/libpng/headers/
+LOCAL_LDLIBS    += $(LIBRARIES_ROOT)/openal-android/built/libopenal.a
+LOCAL_C_INCLUDES += $(LIBRARIES_ROOT)/openal/headers/
 
 include $(BUILD_SHARED_LIBRARY)
