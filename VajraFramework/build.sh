@@ -68,7 +68,7 @@ elif [ "$1" == "android" ]
 		then
 		cd ./Android/workspace/GL2JNIActivity/
 		echo -e "\nBUILDING APK\n"
-		android update project -p . -t 1
+		android.bat update project -p . -t 1
 		ant debug
 		adb shell pm uninstall com.android.gl2jni
 		echo -e "\nDEPLOYING TO DEVICE\n"
