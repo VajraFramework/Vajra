@@ -33,7 +33,8 @@ void AudioManager::init() {
 	// Set the default listener for OpenAL.
 	alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
 	alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
-	alListener3f(AL_ORIENTATION, 0.0f, 0.0f, -1.0f);
+	ALfloat listenerOri[] = {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f}; // Listener forward and up vectors
+	alListenerfv(AL_ORIENTATION, listenerOri);
 }
 
 void AudioManager::destroy() {
