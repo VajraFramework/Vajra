@@ -1034,7 +1034,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${SRCROOT}/Built\"\nmkdir -p \"${SRCROOT}/Built/iphoneos\"\nmkdir -p \"${SRCROOT}/Built/iphonesimulator\"\n\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/\" \"${SRCROOT}/Built/iphoneos/\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/\" \"${SRCROOT}/Built/iphonesimulator/\"";
+			shellScript = "mkdir -p \"${SRCROOT}/Built\"\nmkdir -p \"${SRCROOT}/Built/iphoneos\"\nmkdir -p \"${SRCROOT}/Built/iphonesimulator\"\n\nif [ -e ${BUILD_DIR}/${CONFIGURATION}-iphoneos ]\nthen\n    cp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/\" \"${SRCROOT}/Built/iphoneos/\"\nfi\n\nif [ -e ${BUILD_DIR}/${CONFIGURATION}-iphonesimulator ]\nthen\n    cp -R \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/\" \"${SRCROOT}/Built/iphonesimulator/\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
