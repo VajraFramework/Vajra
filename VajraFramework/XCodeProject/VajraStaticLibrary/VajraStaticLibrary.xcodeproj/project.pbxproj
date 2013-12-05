@@ -80,7 +80,6 @@
 		58F246D51850C34F0066E804 /* FileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58F2468F1850C34F0066E804 /* FileUtilities.cpp */; };
 		58F246D61850C34F0066E804 /* MathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58F246911850C34F0066E804 /* MathUtilities.cpp */; };
 		58F246D71850C34F0066E804 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58F246941850C34F0066E804 /* Utilities.cpp */; };
-		58F246D81850CFA80066E804 /* libVajraStaticLibrary.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = 58F245AE1850C3340066E804 /* libVajraStaticLibrary.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,7 +99,6 @@
 			dstPath = "$(SRCROOT)/Build/$(CONFIGURATION)/$(CURRENT_ARCH)";
 			dstSubfolderSpec = 0;
 			files = (
-				58F246D81850CFA80066E804 /* libVajraStaticLibrary.a in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -957,6 +955,7 @@
 				58F245AA1850C3340066E804 /* Sources */,
 				58F245AB1850C3340066E804 /* Frameworks */,
 				58F245AC1850C3340066E804 /* CopyFiles */,
+				58F246E21850E35F0066E804 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1022,6 +1021,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		58F246E21850E35F0066E804 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"${SRCROOT}/Built\"\nmkdir -p \"${SRCROOT}/Built/iphoneos\"\nmkdir -p \"${SRCROOT}/Built/iphonesimulator\"\n\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/\" \"${SRCROOT}/Built/iphoneos/\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/\" \"${SRCROOT}/Built/iphonesimulator/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		58F245AA1850C3340066E804 /* Sources */ = {
