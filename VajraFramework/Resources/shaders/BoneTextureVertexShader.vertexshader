@@ -1,0 +1,47 @@
+__VARIABLES__
+vPosition
+vNormal
+
+uvCoords_in
+uvCoords_out
+
+mvpMatrix
+modelInverseTransposeMatrix
+lightIntensity
+
+DLight0Direction
+DLight0AmbientColor
+DLight0DiffuseColor
+DLight0SpecularColor
+
+boneIndices
+boneWeights
+boneTransforms
+__VARIABLES_END__
+
+
+__SOURCE__
+void main()
+{
+	vec4 posL      = vec4(0.0, 0.0, 0.0, 0.0);
+	//
+	posL = posL + boneWeights.x * (boneTransforms[int(boneIndices.x)] * vPosition);
+	posL = posL + boneWeights.y * (boneTransforms[int(boneIndices.y)] * vPosition);
+	posL = posL + boneWeights.z * (boneTransforms[int(boneIndices.z)] * vPosition);
+	posL = posL + boneWeights.w * (boneTransforms[int(boneIndices.w)] * vPosition);
+
+	gl_Position = mvpMatrix * posL;
+	uvCoords_out = uvCoords_in;
+
+	vec4 vNormal_world = modelInverseTransposeMatrix * vNormal;
+	float cosTheta = clamp( dot( vNormal_world, DLight0Direction ), 0.0, 1.0 );
+	lightIntensity = DLight0DiffuseColor * cosTheta;
+
+	// Fake the ambient lighting:
+	lightIntensity = lightIntensity + DLight0AmbientColor;
+
+	// Temp using variables:
+	lightIntensity = lightIntensity + 0.01 * DLight0SpecularColor;
+}
+__SOURCE_END__
+
