@@ -17,36 +17,12 @@ using namespace glm;
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Placeholder/Tesserakonteres.h"
 
 #include "png.h"
-
-int mouseX, mouseY;
-void updateDesktopInput() {
-	// Mouse
-	int button = glfwGetMouseButton(GLFW_MOUSE_BUTTON_LEFT);
-	FRAMEWORK->GetLogger()->dbglog("\nMouse Button %i \n", button);
-	if(ENGINE->GetInput()->GetTouchCount() == 0) {
-		if(button == 1) {
-			ENGINE->GetInput()->AddTouch(0, mouseX, mouseY);
-		}
-	}
-	else {
-		if(button == 0) {
-			ENGINE->GetInput()->UpdateTouch(0, mouseX, mouseY, TouchPhase::Ended);
-		}
-	}
-}
-void cursorPosCallback(int x, int y) {
-	FRAMEWORK->GetLogger()->dbglog("\n mouse position: %d, %d", x, y);
-	mouseX = x;
-	mouseY = y;
-	ENGINE->GetInput()->UpdateTouch(0, mouseX, mouseY, TouchPhase::Moved);
-}
 
 int main( void ) {
 
@@ -105,7 +81,6 @@ int main( void ) {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 	#endif
 
-	glfwSetMousePosCallback(cursorPosCallback);
 	setupGraphics(1024, 768);
 
 	Tesserakonteres::initGameObjectsForScene();
@@ -136,9 +111,6 @@ int main( void ) {
 
 		glDisableVertexAttribArray(vertexPosition_modelspaceID);
 		#endif
-
-		// Update input
-		updateDesktopInput();
 
 		renderFrame(1/1000.0f);
 
