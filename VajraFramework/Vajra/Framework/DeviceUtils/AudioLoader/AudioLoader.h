@@ -6,6 +6,15 @@
 #ifndef AUDIOLOADER_H
 #define AUDIOLOADER_H
 
-long loadAudioFile(const char* audioPath, char** outAudioBytes);
+#ifdef PLATFORM_IOS
+#include <OpenAL/al.h>
+#else
+#include "Libraries/openal/headers/al.h"
+#endif
+
+// TODO [Cleanup] Look into platform-specific I/O methods that may allow support for more audio formats.
+// If none can be found, the platform-specific .cpp files should be merged into one.
+
+ALuint loadALAudioFromWAV(const char* audioPath, ALenum* outFormat, ALubyte** outAudioBytes, ALsizei* outLength, ALsizei* outSampleRate);
 
 #endif // AUDIOLOADER_H

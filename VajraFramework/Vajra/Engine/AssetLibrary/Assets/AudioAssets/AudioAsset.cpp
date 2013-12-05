@@ -9,6 +9,14 @@
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
 
+#ifdef PLATFORM_IOS
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
+#else
+#include "Libraries/openal/headers/al.h"
+#include "Libraries/openal/headers/alc.h"
+#endif
+
 AssetType AudioAsset::assetType = ASSET_TYPE_SOUND_DATA;
 
 AudioAsset::AudioAsset() : Asset() {
@@ -20,12 +28,28 @@ AudioAsset::AudioAsset(std::string urlOfAudioClip) : Asset(urlOfAudioClip) {
 }
 
 AudioAsset::~AudioAsset() {
+	this->destroy();
 }
 
 void AudioAsset::init() {
+	this->audioBytes = nullptr;
+	this->audioALHandle = 0;
+	this->audioFormat = AL_NONE;
+	this->audioByteLength = 0;
+	this->audioSampleRate = 0;
+	this->audioDuration = 0.0f;
 }
 
 void AudioAsset::destroy() {
+	if (this->audioBytes != nullptr) {
+		delete this->audioBytes;
+		this->audioBytes = nullptr;
+	}
+
+	if (this->audioALHandle != 0) {
+		alDeleteBuffers(1, &(this->audioALHandle));
+		this->audioALHandle = 0;
+	}
 }
 
 AssetType AudioAsset::GetAssetType() {
@@ -37,20 +61,12 @@ void AudioAsset::LoadAsset() {
 	
 	FRAMEWORK->GetLogger()->dbglog("\nLoading audio asset from url: %s", this->GetFilePathToAudio().c_str());
 	
-	// TODO [Implement] Move loadAudioFile into a Framework class/namespace
 	// Load audio file
-	this->audioLength = loadAudioFile(this->GetFilePathToAudio().c_str(), &(this->audioBytes));
-	ASSERT((this->audioLength >= 0) && (this->audioBytes != nullptr), "Successfully loaded audio from url %s", this->GetFilePathToAudio().c_str());
+	this->audioALHandle = loadALAudioFromWAV(this->GetFilePathToAudio().c_str(), &(this->audioFormat), &(this->audioBytes), &(this->audioByteLength), &(this->audioSampleRate));
+	this->audioDuration = float(this->audioByteLength) / this->audioSampleRate;
+	ASSERT((this->audioByteLength >= 0) && (this->audioBytes != nullptr), "Successfully loaded audio from url %s", this->GetFilePathToAudio().c_str());
 }
 
 std::string AudioAsset::GetFilePathToAudio() {
 	return this->GetUrl();
-}
-
-const char* AudioAsset::GetAudioData() {
-	return this->audioBytes;
-}
-
-long AudioAsset::GetAudioLength() {
-	return this->audioLength;
 }

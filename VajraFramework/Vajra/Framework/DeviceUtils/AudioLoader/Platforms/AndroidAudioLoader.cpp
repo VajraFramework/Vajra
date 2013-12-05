@@ -1,12 +1,13 @@
 #ifdef PLATFORM_ANDROID
 
+#include "Vajra/Framework/DeviceUtils/AudioLoader/AudioLoader.h"
+#include "Vajra/Framework/DeviceUtils/AudioLoader/AudioLoaderHelper.h"
+#include "Vajra/Utilities/FileUtilities.h"
+
 #include <string>
 
-#include "Vajra/Framework/DeviceUtils/AudioLoader/AudioLoader.h"
-
-long loadAudioFile(const char* /* audioPath */, char** /* outAudioBytes */) {
-	// TODO [Implement] AudioLoader for android
-	return -1;
+ALuint loadALAudioFromWAV(const char* audioPath, ALenum* outFormat, ALubyte** outAudioBytes, ALsizei* outLength, ALsizei* outSampleRate) {
+	return 0;
 }
 
 #endif

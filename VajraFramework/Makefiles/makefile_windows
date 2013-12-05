@@ -29,8 +29,8 @@ LOCAL_CPPFLAGS = -std=c++11
 LIB_FLAGS = -lglfw -lopengl32 -glu32 -lgdi32 -lglew32
 LDFLAGS = 
 
-# Include libpng and zlib libraries:
-LIB_FLAGS += -lpng -lz
+# Include libpng, zlib, and OpenAL libraries:
+LIB_FLAGS += -lpng -lz ./Libraries/openal/built/OpenAL32.lib
 
 BUILDDIR = Build/desktop
 OBJDIR = $(BUILDDIR)/obj

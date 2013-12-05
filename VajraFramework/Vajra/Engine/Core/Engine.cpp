@@ -1,4 +1,5 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
+#include "Vajra/Engine/AudioManager/AudioManager.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -35,7 +36,8 @@ void Engine::init() {
 	this->assetLibrary = new AssetLibrary();
 	this->sceneGraph   = new SceneGraph();
 	this->tween        = new Tween();
-	this->input        = new Input();	
+	this->input        = new Input();
+	this->audioManager = new AudioManager();
 }
 
 void Engine::DoFrame() {
@@ -85,7 +87,10 @@ void Engine::destroy() {
 	if (this->tween != nullptr) {
 		delete this->tween;
 	}
-	if(this->input != nullptr) {
+	if (this->input != nullptr) {
 		delete this->input;
+	}
+	if (this->audioManager != nullptr) {
+		delete this->audioManager;
 	}
 }
