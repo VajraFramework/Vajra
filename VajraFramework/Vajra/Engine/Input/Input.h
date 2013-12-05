@@ -4,6 +4,11 @@
 #include "Vajra/Common/Objects/Object.h"
 #include "Libraries/glm/glm.hpp"
 
+#if PLATFORM_DESKTOP
+// Include GLFW
+#include <GL/glfw.h>
+#endif
+
 #include <iostream>
 #include <vector>
 #include <map>
@@ -53,6 +58,13 @@ private:
     std::vector<Touch> frameTouches;
     std::vector<Touch> asyncTouches;
 
+#if PLATFORM_DESKTOP
+    int mouseX;
+    int mouseY;
+    void updateMouseButton();
+public:
+    void cursorPosUpdate(int x, int y);
+#endif
 	friend class Engine;
 };
 

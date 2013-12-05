@@ -4,7 +4,6 @@
 #include "Vajra/Engine/Timer/Timer.h"
 
 Timer::Timer() {
-	this->init();
 }
 
 Timer::~Timer() {

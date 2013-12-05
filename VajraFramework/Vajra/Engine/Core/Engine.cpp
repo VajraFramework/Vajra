@@ -31,13 +31,26 @@ Engine* Engine::GetInstance() {
 
 void Engine::init() {
 	// Do not sort the following in any arbitrary order:
-	this->timer        = new Timer();
-	this->messageHub   = new MessageHub();
+	this->timer = new Timer();
+	this->timer->init();
+
+	this->messageHub = new MessageHub();
+	this->messageHub->init();
+
 	this->assetLibrary = new AssetLibrary();
-	this->sceneGraph   = new SceneGraph();
-	this->tween        = new Tween();
-	this->input        = new Input();
+	this->assetLibrary->init();
+
+	this->sceneGraph = new SceneGraph();
+	this->sceneGraph->init();
+
+	this->tween = new Tween();
+	this->tween->init();
+
+	this->input = new Input();
+	this->input->init();
+
 	this->audioManager = new AudioManager();
+	this->audioManager->init();
 }
 
 void Engine::DoFrame() {
