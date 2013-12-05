@@ -1,8 +1,12 @@
+#ifdef PLATFORM_IOS
+
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/DeviceUtils/TextureLoader/TextureLoader.h"
 #include "Vajra/Framework/DeviceUtils/TextureLoader/Platforms/IOSTextureLoadHelper.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
+
+#include <UIKit/UIKit.h>
 
 CFDataRef m_imageData;
 
@@ -34,3 +38,5 @@ bool loadPngImage(const char *path, int &outWidth, int &outHeight, bool &outHasA
     }
     return false;
 }
+
+#endif // PLATFORM_IOS
