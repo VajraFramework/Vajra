@@ -1,6 +1,6 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
-#include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioPlayer/AudioPlayer.h"
+#include "Vajra/Engine/AudioManager/AudioPlayer.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
@@ -11,37 +11,6 @@
 #include "Libraries/openal/headers/al.h"
 #include "Libraries/openal/headers/alc.h"
 #endif
-
-ALCdevice* AudioPlayer::device = nullptr;
-ALCcontext* AudioPlayer::context = nullptr;
-bool AudioPlayer::audioReady = false;
-
-void AudioPlayer::InitAudio() {
-	// Open an audio device
-	device = alcOpenDevice(nullptr);
-	if (device == nullptr) {
-		return;
-	}
-
-	// Create and initialize the audio context
-	ALCcontext* context;
-	context = alcCreateContext(device, nullptr);
-	if (!alcMakeContextCurrent(context)) {
-		return;
-	}
-
-	// Audio is now ready to use
-	FRAMEWORK->GetLogger()->dbglog("\nInitialization of audio completed successfully");
-	audioReady = true;
-}
-
-void AudioPlayer::CleanupAudio() {
-	alcCloseDevice(device);
-	alcDestroyContext(context);
-	audioReady = false;
-}
-
-bool AudioPlayer::AudioIsReady() { return audioReady; }
 
 AudioPlayer::AudioPlayer() {
 	init();

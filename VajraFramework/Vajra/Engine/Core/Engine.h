@@ -10,6 +10,7 @@ class SceneGraph;
 class Timer;
 class Tween;
 class Input;
+class AudioManager;
 
 class Engine {
 public:
@@ -23,6 +24,7 @@ public:
 	inline Timer*        GetTimer()        { return this->timer;        }
 	inline Tween*        GetTween()        { return this->tween;        }
 	inline Input*        GetInput()        { return this->input;        }
+	inline AudioManager* GetAudioManager() { return this->audioManager; }
 
 	void DoFrame();
 
@@ -43,6 +45,7 @@ private:
 	Timer* timer;
 	Tween* tween;
 	Input* input;
+	AudioManager* audioManager;
 };
 
 #define ENGINE Engine::GetInstance()

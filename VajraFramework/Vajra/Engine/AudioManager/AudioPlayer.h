@@ -48,10 +48,11 @@ public:
 	void Stop(float fadeout);
 	
 private:
+/*
 	static ALCdevice* device;
 	static ALCcontext* context;
 	static bool audioReady;
-
+*/
 	void init();
 	void destroy();
 
