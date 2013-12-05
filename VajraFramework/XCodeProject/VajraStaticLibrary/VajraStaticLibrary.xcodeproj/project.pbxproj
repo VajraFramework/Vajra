@@ -80,6 +80,7 @@
 		58F246D51850C34F0066E804 /* FileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58F2468F1850C34F0066E804 /* FileUtilities.cpp */; };
 		58F246D61850C34F0066E804 /* MathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58F246911850C34F0066E804 /* MathUtilities.cpp */; };
 		58F246D71850C34F0066E804 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58F246941850C34F0066E804 /* Utilities.cpp */; };
+		58F246D81850CFA80066E804 /* libVajraStaticLibrary.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = 58F245AE1850C3340066E804 /* libVajraStaticLibrary.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,9 +97,10 @@
 		58F245AC1850C3340066E804 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
+			dstPath = "$(SRCROOT)/Build/$(CONFIGURATION)/$(CURRENT_ARCH)";
+			dstSubfolderSpec = 0;
 			files = (
+				58F246D81850CFA80066E804 /* libVajraStaticLibrary.a in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1286,6 +1288,7 @@
 				58F245D31850C3350066E804 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		58F245D41850C3350066E804 /* Build configuration list for PBXNativeTarget "VajraStaticLibraryTests" */ = {
 			isa = XCConfigurationList;
@@ -1294,6 +1297,7 @@
 				58F245D61850C3350066E804 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
