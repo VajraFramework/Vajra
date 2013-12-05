@@ -54,17 +54,17 @@ void AudioSource::HandleMessage(Message *message) {
 }
 
 // Accessors
-float AudioSource::GetVolume()				{ return this->player->GetVolume(); }
-float AudioSource::GetPlaybackSpeed()		{ return this->player->GetPlaybackSpeed(); }
-AudioAsset* AudioSource::GetAudioClip()     { return this->player->GetAudioClip(); }
+float AudioSource::GetVolume()           { return this->player->GetVolume(); }
+float AudioSource::GetPlaybackSpeed()    { return this->player->GetPlaybackSpeed(); }
+AudioAsset* AudioSource::GetAudioClip()  { return this->player->GetAudioClip(); }
 
 // Mutators
 void AudioSource::SetAudioClip(std::string assetName) {
 	this->player->SetAudioClip(assetName);
 }
 
-void AudioSource::SetVolume(float volume)		{ this->player->SetVolume(volume); }
-void AudioSource::SetPlaybackSpeed(float speed)	{ this->player->SetPlaybackSpeed(speed); }
+void AudioSource::SetVolume(float volume)        { this->player->SetVolume(volume); }
+void AudioSource::SetPlaybackSpeed(float speed)  { this->player->SetPlaybackSpeed(speed); }
 
 // Other methods
 void AudioSource::Play() {
