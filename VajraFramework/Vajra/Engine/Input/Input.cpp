@@ -87,12 +87,12 @@ void Input::updateMouseButton() {
 	// Grab the left click state and make it act like a single touch
 	int button = glfwGetMouseButton(GLFW_MOUSE_BUTTON_LEFT);
 	if(ENGINE->GetInput()->GetTouchCount() == 0) {
-		if(button == 1) {
+		if(button == GLFW_PRESS) {
 			ENGINE->GetInput()->AddTouch(0, this->mouseX, this->mouseY);
 		}
 	}
 	else {
-		if(button == 0) {
+		if(button == GLFW_RELEASE) {
 			ENGINE->GetInput()->UpdateTouch(0, this->mouseX, this->mouseY, TouchPhase::Ended);
 		}
 	}
