@@ -1,9 +1,7 @@
-/*
- * AudioManager.h
- *
- *  Created on: Dec 4, 2013
- *      Author: mck5115
- */
+//
+//  AudioManager.h
+//  Created by Matt Kaufmann on 12/04/13.
+//
 
 #ifndef AUDIOMANAGER_H
 #define AUDIOMANAGER_H

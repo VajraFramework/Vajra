@@ -1,41 +1,13 @@
 #ifdef PLATFORM_DESKTOP
 
 #include "Vajra/Framework/DeviceUtils/AudioLoader/AudioLoader.h"
+#include "Vajra/Framework/DeviceUtils/AudioLoader/AudioLoaderHelper.h"
 #include "Vajra/Utilities/FileUtilities.h"
-
-#ifdef PLATFORM_IOS
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#else
-#include "Libraries/openal/headers/al.h"
-#include "Libraries/openal/headers/alc.h"
-#endif
 
 #include <cstring>
 #include <fstream>
 #include <iostream>
 #include <string>
-
-ALenum GetAudioFormat(short channels, short bitsPerSample) {
-	ALenum format = AL_NONE;
-	if (bitsPerSample == 8) {
-		if (channels == 1) {
-			format = AL_FORMAT_MONO8;
-		}
-		else if (channels == 2) {
-			format = AL_FORMAT_STEREO8;
-		}
-	}
-	else if (bitsPerSample == 16) {
-		if (channels == 1) {
-			format = AL_FORMAT_MONO16;
-		}
-		else if (channels == 2) {
-			format = AL_FORMAT_STEREO16;
-		}
-	}
-	return format;
-}
 
 ALuint loadALAudioFromWAV(const char* audioPath, ALenum* outFormat, ALubyte** outAudioBytes, ALsizei* outLength, ALsizei* outSampleRate) {
 	// Initialize OpenAL buffer to store audio data

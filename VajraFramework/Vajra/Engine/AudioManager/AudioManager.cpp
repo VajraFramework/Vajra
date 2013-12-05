@@ -1,3 +1,8 @@
+//
+//  AudioManager.cpp
+//  Created by Matt Kaufmann on 12/04/13.
+//
+
 #include "Vajra/Engine/AudioManager/AudioManager.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -24,6 +29,11 @@ void AudioManager::init() {
 		FRAMEWORK->GetLogger()->dbglog("\nCould not create audio context");
 		return;
 	}
+
+	// Set the default listener for OpenAL.
+	alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
+	alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
+	alListener3f(AL_ORIENTATION, 0.0f, 0.0f, -1.0f);
 }
 
 void AudioManager::destroy() {
