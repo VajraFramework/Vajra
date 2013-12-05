@@ -25,7 +25,7 @@ public:
 	inline double GetTotalFrameTime()  { return this->totalFrameDuration; }
 	inline double GetRenderPhaseTime() { return this->renderPhaseDuration; }
 	inline double GetUpdatePhaseTime() { return this->updatePhaseDuration; }
-
+	inline double GetInputPhaseTime()  { return this->inputPhaseDuration; }
 
 private:
 	Timer();
@@ -37,6 +37,8 @@ private:
 	void endRenderPhase();
 	void beginUpdatePhase();
 	void endUpdatePhase();
+	void beginInputPhase();
+	void endInputPhase();
 	void endFrame();
 
 	unsigned long long frameNumber;
@@ -46,6 +48,7 @@ private:
 	std::chrono::time_point<std::chrono::system_clock> frameBeginSystemClock;
 	std::chrono::time_point<std::chrono::system_clock> renderPhaseBeginSystemClock;
 	std::chrono::time_point<std::chrono::system_clock> updatePhaseBeginSystemClock;
+	std::chrono::time_point<std::chrono::system_clock> inputPhaseBeginSystemClock;
 
 	double fps;
 	double deltaFrameTime;
@@ -53,6 +56,7 @@ private:
 	double totalFrameDuration;
 	double renderPhaseDuration;
 	double updatePhaseDuration;
+	double inputPhaseDuration;
 
 	unsigned long long secondsSinceEpochAtBoot;
 

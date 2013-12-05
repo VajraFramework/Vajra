@@ -42,12 +42,20 @@ void Engine::init() {
 
 void Engine::DoFrame() {
 	this->GetTimer()->beginFrame();
-	this->GetInput()->updateInput();
 
+	this->updateInput();
 	this->updateScene();
 	this->renderScene();
 
 	this->GetTimer()->endFrame();
+}
+
+void Engine::updateInput() {
+	this->GetTimer()->beginInputPhase();
+
+	this->GetInput()->updateInput();
+
+	this->GetTimer()->endInputPhase();
 }
 
 void Engine::updateScene() {

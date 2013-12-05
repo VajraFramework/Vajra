@@ -36,6 +36,7 @@ private:
 	void init();
 	void destroy();
 
+	void updateInput();
 	void updateScene();
 	void renderScene();
 

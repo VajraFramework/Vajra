@@ -18,6 +18,7 @@ void Timer::init() {
 	this->frameBeginSystemClock = clockTimeNow;
 	this->renderPhaseBeginSystemClock = clockTimeNow;
 	this->updatePhaseBeginSystemClock = clockTimeNow;
+	this->inputPhaseBeginSystemClock = clockTimeNow;
 
 	this->secondsSinceEpoch = std::chrono::duration_cast<std::chrono::seconds>(durationSinceEpoch).count();
 	this->secondsSinceEpochAtBoot = this->secondsSinceEpoch;
@@ -33,6 +34,7 @@ void Timer::init() {
 	this->totalFrameDuration  = 0.0;
 	this->renderPhaseDuration = 0.0;
 	this->updatePhaseDuration = 0.0;
+	this->inputPhaseDuration  = 0.0;
 }
 
 void Timer::beginFrame() {
@@ -77,6 +79,16 @@ void Timer::endUpdatePhase() {
 	std::chrono::time_point<std::chrono::system_clock> clockTimeNow = std::chrono::system_clock::now();
 	auto duration = clockTimeNow - this->updatePhaseBeginSystemClock;
 	this->updatePhaseDuration = (std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count() / 1000000000.0);
+}
+
+void Timer::beginInputPhase() {
+	this->inputPhaseBeginSystemClock = std::chrono::system_clock::now();
+}
+
+void Timer::endInputPhase() {
+	std::chrono::time_point<std::chrono::system_clock> clockTimeNow = std::chrono::system_clock::now();
+	auto duration = clockTimeNow - this->inputPhaseBeginSystemClock;
+	this->inputPhaseDuration = (std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count() / 1000000000.0);
 }
 
 void Timer::endFrame() {
