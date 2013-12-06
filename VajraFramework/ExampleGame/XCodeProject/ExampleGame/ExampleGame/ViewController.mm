@@ -1,7 +1,7 @@
 #import "ViewController.h"
 
-#include "Vajra/Utilities/OpenGLIncludes.h"
 #import "Vajra/Engine/Core/Engine.h"
+#import "Vajra/Engine/Input/Input.h"
 #import "Vajra/Placeholder/Renderer/Renderer.h"
 #import "Vajra/Placeholder/Tesserakonteres.h"
 
@@ -97,9 +97,15 @@ GLfloat gCubeVertexData[216] =
 
 @implementation ViewController
 
+- (void) loadView
+{
+    [super loadView];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     
@@ -110,7 +116,10 @@ GLfloat gCubeVertexData[216] =
     GLKView *view = (GLKView *)self.view;
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+    view.multipleTouchEnabled = YES;
     
+    //iOSInputSender *sender = [[iOSInputSender alloc] init];
+    //[self addChildViewController: sender];
     [self setupGL];
 }
 
@@ -430,6 +439,33 @@ GLfloat gCubeVertexData[216] =
     }
     
     return YES;
+}
+
+// TODO [Cleanup] Move this block to a seperate view
+- (void) touchesBegan:(NSSet *) touches withEvent:(UIEvent *) event {
+    for (UITouch *touch in touches) {
+		CGPoint pt = [touch locationInView:self.view];
+		ENGINE->GetInput()->AddTouch((int)(id)touch, pt.x, pt.y);
+    }
+}
+
+- (void) touchesMoved:(NSSet *) touches withEvent:(UIEvent *) event {
+    [self updateTouches:touches second:TouchPhase::Moved];
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self updateTouches:touches second:TouchPhase::Ended];
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self updateTouches:touches second:TouchPhase::Cancelled];
+}
+
+- (void) updateTouches:(NSSet*)touches second:(TouchPhase)phase {
+    for(UITouch *touch in touches) {
+		CGPoint pt = [touch locationInView:self.view];
+		ENGINE->GetInput()->UpdateTouch((int)(id)touch, pt.x, pt.y, phase);
+    }
 }
 
 @end
