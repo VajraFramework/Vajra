@@ -24,12 +24,6 @@
 		58F2471C1850F5C90066E804 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F246F31850F5C90066E804 /* UIKit.framework */; };
 		58F247241850F5C90066E804 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 58F247221850F5C90066E804 /* InfoPlist.strings */; };
 		58F247261850F5C90066E804 /* ExampleGameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F247251850F5C90066E804 /* ExampleGameTests.m */; };
-		58F249F51851028D0066E804 /* animations in Resources */ = {isa = PBXBuildFile; fileRef = 58F249EF1851028D0066E804 /* animations */; };
-		58F249F61851028D0066E804 /* armatures in Resources */ = {isa = PBXBuildFile; fileRef = 58F249F01851028D0066E804 /* armatures */; };
-		58F249F71851028D0066E804 /* audio in Resources */ = {isa = PBXBuildFile; fileRef = 58F249F11851028D0066E804 /* audio */; };
-		58F249F81851028D0066E804 /* models in Resources */ = {isa = PBXBuildFile; fileRef = 58F249F21851028D0066E804 /* models */; };
-		58F249F91851028D0066E804 /* pictures in Resources */ = {isa = PBXBuildFile; fileRef = 58F249F31851028D0066E804 /* pictures */; };
-		58F249FA1851028D0066E804 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 58F249F41851028D0066E804 /* shaders */; };
 		58F24F63185120950066E804 /* libVajraStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F24F62185120950066E804 /* libVajraStaticLibrary.a */; };
 		58F60CEA185130D00036DDDE /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 58F60B89185130D00036DDDE /* CMakeLists.txt */; };
 		58F60CEB185130D00036DDDE /* func_common.inl in Resources */ = {isa = PBXBuildFile; fileRef = 58F60B91185130D00036DDDE /* func_common.inl */; };
@@ -134,6 +128,13 @@
 		58F60D4E185130D10036DDDE /* verbose_operator.inl in Resources */ = {isa = PBXBuildFile; fileRef = 58F60C68185130D00036DDDE /* verbose_operator.inl */; };
 		58F60D4F185130D10036DDDE /* wrap.inl in Resources */ = {isa = PBXBuildFile; fileRef = 58F60C6A185130D00036DDDE /* wrap.inl */; };
 		58F60D52185133F90036DDDE /* libVajraStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60D51185133F90036DDDE /* libVajraStaticLibrary.a */; };
+		58F60E5C18515DF30036DDDE /* animations in Resources */ = {isa = PBXBuildFile; fileRef = 58F60E5618515DF30036DDDE /* animations */; };
+		58F60E5D18515DF30036DDDE /* armatures in Resources */ = {isa = PBXBuildFile; fileRef = 58F60E5718515DF30036DDDE /* armatures */; };
+		58F60E5E18515DF30036DDDE /* audio in Resources */ = {isa = PBXBuildFile; fileRef = 58F60E5818515DF30036DDDE /* audio */; };
+		58F60E5F18515DF30036DDDE /* models in Resources */ = {isa = PBXBuildFile; fileRef = 58F60E5918515DF30036DDDE /* models */; };
+		58F60E6018515DF30036DDDE /* pictures in Resources */ = {isa = PBXBuildFile; fileRef = 58F60E5A18515DF30036DDDE /* pictures */; };
+		58F60E6118515DF30036DDDE /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 58F60E5B18515DF30036DDDE /* shaders */; };
+		58F60E6318515E990036DDDE /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60E6218515E990036DDDE /* OpenAL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,12 +172,6 @@
 		58F247251850F5C90066E804 /* ExampleGameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExampleGameTests.m; sourceTree = "<group>"; };
 		58F2472F1850F6390066E804 /* libVajraStaticLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVajraStaticLibrary.a; path = ../../../XCodeProject/VajraStaticLibrary/Built/iphonesimulator/libVajraStaticLibrary.a; sourceTree = "<group>"; };
 		58F247311850F6DB0066E804 /* libVajraStaticLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVajraStaticLibrary.a; path = ExampleGame/Vajra/lib/libVajraStaticLibrary.a; sourceTree = "<group>"; };
-		58F249EF1851028D0066E804 /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; name = animations; path = ../../../../Resources/animations; sourceTree = "<group>"; };
-		58F249F01851028D0066E804 /* armatures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = armatures; path = ../../../../Resources/armatures; sourceTree = "<group>"; };
-		58F249F11851028D0066E804 /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = audio; path = ../../../../Resources/audio; sourceTree = "<group>"; };
-		58F249F21851028D0066E804 /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; name = models; path = ../../../../Resources/models; sourceTree = "<group>"; };
-		58F249F31851028D0066E804 /* pictures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pictures; path = ../../../../Resources/pictures; sourceTree = "<group>"; };
-		58F249F41851028D0066E804 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../../../../Resources/shaders; sourceTree = "<group>"; };
 		58F24D941851097E0066E804 /* libVajraStaticLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVajraStaticLibrary.a; path = ../../libs/ios/iphonesimulator/libVajraStaticLibrary.a; sourceTree = "<group>"; };
 		58F24F62185120950066E804 /* libVajraStaticLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVajraStaticLibrary.a; path = ../../lib/ios/iphonesimulator/libVajraStaticLibrary.a; sourceTree = "<group>"; };
 		58F60B89185130D00036DDDE /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
@@ -469,6 +464,13 @@
 		58F60CE8185130D00036DDDE /* OpenGLIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLIncludes.h; sourceTree = "<group>"; };
 		58F60CE9185130D00036DDDE /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		58F60D51185133F90036DDDE /* libVajraStaticLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVajraStaticLibrary.a; path = ../../lib/ios/iphoneos/libVajraStaticLibrary.a; sourceTree = "<group>"; };
+		58F60E5618515DF30036DDDE /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; name = animations; path = ../../../Resources/animations; sourceTree = "<group>"; };
+		58F60E5718515DF30036DDDE /* armatures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = armatures; path = ../../../Resources/armatures; sourceTree = "<group>"; };
+		58F60E5818515DF30036DDDE /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = audio; path = ../../../Resources/audio; sourceTree = "<group>"; };
+		58F60E5918515DF30036DDDE /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; name = models; path = ../../../Resources/models; sourceTree = "<group>"; };
+		58F60E5A18515DF30036DDDE /* pictures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pictures; path = ../../../Resources/pictures; sourceTree = "<group>"; };
+		58F60E5B18515DF30036DDDE /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../../../Resources/shaders; sourceTree = "<group>"; };
+		58F60E6218515E990036DDDE /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -476,6 +478,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58F60E6318515E990036DDDE /* OpenAL.framework in Frameworks */,
 				58F60D52185133F90036DDDE /* libVajraStaticLibrary.a in Frameworks */,
 				58F24F63185120950066E804 /* libVajraStaticLibrary.a in Frameworks */,
 				58F246F81850F5C90066E804 /* OpenGLES.framework in Frameworks */,
@@ -522,6 +525,7 @@
 		58F246EE1850F5C90066E804 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				58F60E6218515E990036DDDE /* OpenAL.framework */,
 				58F60D51185133F90036DDDE /* libVajraStaticLibrary.a */,
 				58F24F62185120950066E804 /* libVajraStaticLibrary.a */,
 				58F24D941851097E0066E804 /* libVajraStaticLibrary.a */,
@@ -540,7 +544,7 @@
 		58F246F91850F5C90066E804 /* ExampleGame */ = {
 			isa = PBXGroup;
 			children = (
-				58F24986185101C70066E804 /* Resources */,
+				58F60E5518515DE20036DDDE /* Resources */,
 				58F247021850F5C90066E804 /* AppDelegate.h */,
 				58F247031850F5C90066E804 /* AppDelegate.mm */,
 				58F247051850F5C90066E804 /* Main_iPhone.storyboard */,
@@ -580,19 +584,6 @@
 				58F247221850F5C90066E804 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		58F24986185101C70066E804 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				58F249EF1851028D0066E804 /* animations */,
-				58F249F01851028D0066E804 /* armatures */,
-				58F249F11851028D0066E804 /* audio */,
-				58F249F21851028D0066E804 /* models */,
-				58F249F31851028D0066E804 /* pictures */,
-				58F249F41851028D0066E804 /* shaders */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		58F60B86185130D00036DDDE /* include */ = {
@@ -1420,6 +1411,19 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		58F60E5518515DE20036DDDE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				58F60E5618515DF30036DDDE /* animations */,
+				58F60E5718515DF30036DDDE /* armatures */,
+				58F60E5818515DF30036DDDE /* audio */,
+				58F60E5918515DF30036DDDE /* models */,
+				58F60E5A18515DF30036DDDE /* pictures */,
+				58F60E5B18515DF30036DDDE /* shaders */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1502,14 +1506,13 @@
 				58F60D06185130D00036DDDE /* type_vec.inl in Resources */,
 				58F60D29185130D00036DDDE /* inertia.inl in Resources */,
 				58F60D35185130D00036DDDE /* norm.inl in Resources */,
+				58F60E5E18515DF30036DDDE /* audio in Resources */,
 				58F60D36185130D00036DDDE /* normal.inl in Resources */,
 				58F60D46185130D10036DDDE /* string_cast.inl in Resources */,
 				58F60CF9185130D00036DDDE /* intrinsic_vector_relational.inl in Resources */,
 				58F60D30185130D00036DDDE /* matrix_major_storage.inl in Resources */,
 				58F60CF0185130D00036DDDE /* func_noise.inl in Resources */,
 				58F60D40185130D00036DDDE /* raw_data.inl in Resources */,
-				58F249F61851028D0066E804 /* armatures in Resources */,
-				58F249F51851028D0066E804 /* animations in Resources */,
 				58F60D27185130D00036DDDE /* gradient_paint.inl in Resources */,
 				58F60CF8185130D00036DDDE /* intrinsic_trigonometric.inl in Resources */,
 				58F60D0B185130D00036DDDE /* constants.inl in Resources */,
@@ -1530,7 +1533,6 @@
 				58F60CFB185130D00036DDDE /* type_half.inl in Resources */,
 				58F60D38185130D00036DDDE /* number_precision.inl in Resources */,
 				58F60D26185130D00036DDDE /* fast_trigonometry.inl in Resources */,
-				58F249F91851028D0066E804 /* pictures in Resources */,
 				58F60D1F185130D00036DDDE /* compatibility.inl in Resources */,
 				58F60D4B185130D10036DDDE /* vector_access.inl in Resources */,
 				58F60D1A185130D00036DDDE /* bit.inl in Resources */,
@@ -1548,9 +1550,12 @@
 				58F60D3B185130D00036DDDE /* orthonormalize.inl in Resources */,
 				58F60D37185130D00036DDDE /* normalize_dot.inl in Resources */,
 				58F60D10185130D00036DDDE /* matrix_transform.inl in Resources */,
+				58F60E6118515DF30036DDDE /* shaders in Resources */,
 				58F60D01185130D00036DDDE /* type_mat3x3.inl in Resources */,
+				58F60E5D18515DF30036DDDE /* armatures in Resources */,
 				58F60D0A185130D00036DDDE /* type_vec4.inl in Resources */,
 				58F60CF6185130D00036DDDE /* intrinsic_geometric.inl in Resources */,
+				58F60E6018515DF30036DDDE /* pictures in Resources */,
 				58F60D33185130D00036DDDE /* mixed_product.inl in Resources */,
 				58F60D39185130D00036DDDE /* ocl_type.inl in Resources */,
 				58F60D04185130D00036DDDE /* type_mat4x3.inl in Resources */,
@@ -1559,7 +1564,6 @@
 				58F60D1C185130D00036DDDE /* color_cast.inl in Resources */,
 				58F60D48185130D10036DDDE /* transform2.inl in Resources */,
 				58F60D2A185130D00036DDDE /* int_10_10_10_2.inl in Resources */,
-				58F249FA1851028D0066E804 /* shaders in Resources */,
 				58F60D03185130D00036DDDE /* type_mat4x2.inl in Resources */,
 				58F60D0E185130D00036DDDE /* matrix_access.inl in Resources */,
 				58F60D2B185130D00036DDDE /* integer.inl in Resources */,
@@ -1577,14 +1581,13 @@
 				58F60D34185130D00036DDDE /* multiple.inl in Resources */,
 				58F60D17185130D00036DDDE /* type_ptr.inl in Resources */,
 				58F60D16185130D00036DDDE /* type_precision.inl in Resources */,
-				58F249F71851028D0066E804 /* audio in Resources */,
 				58F60D4A185130D10036DDDE /* vec1.inl in Resources */,
 				58F60D09185130D00036DDDE /* type_vec3.inl in Resources */,
 				58F60CF7185130D00036DDDE /* intrinsic_matrix.inl in Resources */,
 				58F60D1E185130D00036DDDE /* color_space_YCoCg.inl in Resources */,
 				58F60CF4185130D00036DDDE /* intrinsic_common.inl in Resources */,
 				58F60D13185130D00036DDDE /* random.inl in Resources */,
-				58F249F81851028D0066E804 /* models in Resources */,
+				58F60E5C18515DF30036DDDE /* animations in Resources */,
 				58F60D3F185130D00036DDDE /* quaternion.inl in Resources */,
 				58F60CFF185130D00036DDDE /* type_mat2x4.inl in Resources */,
 				58F60D3A185130D00036DDDE /* optimum_pow.inl in Resources */,
@@ -1600,6 +1603,7 @@
 				58F60CEB185130D00036DDDE /* func_common.inl in Resources */,
 				58F60D2D185130D00036DDDE /* log_base.inl in Resources */,
 				58F60CEE185130D00036DDDE /* func_integer.inl in Resources */,
+				58F60E5F18515DF30036DDDE /* models in Resources */,
 				58F60D08185130D00036DDDE /* type_vec2.inl in Resources */,
 				58F60D2C185130D00036DDDE /* intersect.inl in Resources */,
 				58F60CEF185130D00036DDDE /* func_matrix.inl in Resources */,
