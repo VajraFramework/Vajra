@@ -14,8 +14,8 @@
 #
 LOCAL_PATH:= $(call my-dir)
 
-VAJRA_ROOT := ../../../Vajra
-LIBRARIES_ROOT := ../../../Libraries
+VAJRA_ROOT := ../Vajra
+LIBRARIES_ROOT := ../Libraries
 VAJRA_DIRS := $(addprefix .., ${shell find ${VAJRA_ROOT} -type d -print})
 
 define all-cpp-files-under
@@ -28,7 +28,7 @@ endef
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE    := libgl2jni
+LOCAL_MODULE    := libVajra
 LOCAL_CFLAGS    := -Werror -DPLATFORM_ANDROID -DDEBUG -g -rdynamic
 LOCAL_CPPFLAGS  := -std=c++11
 LOCAL_CPP_FEATURES += rtti
