@@ -28,8 +28,8 @@ LIBDIR = -L/usr/lib
 LIB_FLAGS = -lglfw -lGL -lGLU -lGLEW -lpthread -lXxf86vm
 LDFLAGS = 
 
-# Include libpng and zlib libraries:
-LIB_FLAGS += ./Libraries/libpng/built/libpng14.a -lz
+# Include libpng, zlib, and OpenAL libraries:
+LIB_FLAGS += ./Libraries/libpng/built/libpng14.a -lz ./Libraries/openal-linux/built/libopenal.so
 LOCAL_INCLUDES += . ./Libraries/libpng/headers/
 
 BUILDDIR = Build/desktop
