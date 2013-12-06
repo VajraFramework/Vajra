@@ -123,6 +123,8 @@ int main( void ) {
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
 
+	delete ENGINE;
+
 	#if 0
 	// Cleanup VBO
 	glDeleteBuffers(1, &vertexbuffer);
