@@ -11,8 +11,7 @@ printUsage() {
 	echo -e "\twindows";
 	echo -e "\nOptional args:";
 	echo -e "\tclean";
-	echo -e "\trun\t(supported only on platforms: android, linux, windows)";
-	echo -e "\tdeploy\t(supported only on platform: android)";
+	echo -e "\trun\t(supported only on platforms: linux, windows)";
 }
 
 if [ $# -lt 1  -o  $# -gt 2 ]
@@ -44,41 +43,13 @@ elif [ "$1" == "android" ]
 	then
 	echo -e "\nPLATFORM: android\n";
 
-	RUN=0
-	DEPLOY=0
-
-	if [ "$MAKEFILE_ARGS" == "run" ]
-		then
-		RUN=1
-	fi
-	if [ "$MAKEFILE_ARGS" == "deploy" ]
-		then
-		DEPLOY=1
-	fi
-
 	if [ "$MAKEFILE_ARGS" != "clean" ]
 		then
 		MAKEFILE_ARGS=""
 	fi
 
-	cd ./Android/workspace/GL2JNIActivity/.
+	cd ./AndroidProject/
 	ndk-build NDK_DEBUG=1 $MAKEFILE_ARGS
-
-	if [ $RUN -eq 1 -o $DEPLOY -eq 1 ]
-		then
-		cd ./Android/workspace/GL2JNIActivity/
-		echo -e "\nBUILDING APK\n"
-		android.bat update project -p . -t 1
-		ant debug
-		adb shell pm uninstall com.android.gl2jni
-		echo -e "\nDEPLOYING TO DEVICE\n"
-		adb install -r ./bin/GL2JNIActivity-debug.apk
-		if [ $RUN -eq 1 ]
-			then
-			echo -e "\nRUNNING...\n"
-			adb shell am start -n com.android.gl2jni/com.android.gl2jni.GL2JNIActivity
-		fi
-	fi
 
 else
 	printUsage
