@@ -15,7 +15,7 @@ printUsage() {
 }
 
 if [ $# -lt 1  -o  $# -gt 2 ]
-	then
+then
 	printUsage
 	exit
 fi
@@ -48,8 +48,8 @@ elif [ "$1" == "android" ]
 		MAKEFILE_ARGS=""
 	fi
 
-	cd ./AndroidProject/
-	ndk-build NDK_DEBUG=1 $MAKEFILE_ARGS
+	cd ./AndroidProject/workspace/VajraAndroidWrapper/
+	./build.sh $MAKEFILE_ARGS
 
 else
 	printUsage

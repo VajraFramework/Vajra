@@ -22,6 +22,7 @@ then
 	if [ "$1" == "clean" ]
 	then
 		rm -rf bin libs gen obj
+		exit
 	fi
 
 	RUN=0
