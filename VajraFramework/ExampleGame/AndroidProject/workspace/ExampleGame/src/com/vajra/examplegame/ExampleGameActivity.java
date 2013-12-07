@@ -27,6 +27,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.vajra.androidwrapper.VajraAndroidWrapper;
+
 
 public class ExampleGameActivity extends Activity {
 
@@ -39,6 +41,11 @@ public class ExampleGameActivity extends Activity {
         setContentView(mView);
 
     	mContext = this;
+
+        VajraAndroidWrapper.SetContext(this);
+
+        int number = VajraAndroidWrapper.TestFunction();
+        Log.i("tag", "Number: " + Integer.toString(number));
     }
 
     @Override protected void onPause() {

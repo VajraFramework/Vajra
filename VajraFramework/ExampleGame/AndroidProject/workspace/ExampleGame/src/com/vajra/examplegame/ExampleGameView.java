@@ -18,6 +18,8 @@ import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.opengles.GL10;
 
+import com.vajra.androidwrapper.VajraAndroidWrapper;
+
 
 /**
  * A simple GLSurfaceView sub-class that demonstrate how to perform
@@ -316,13 +318,12 @@ class ExampleGameView extends GLSurfaceView {
 					e.printStackTrace();
 				}
         	}
-        	
-        	ExampleGameLib.step((float) (Renderer.dt / 1000.0f));
+        	VajraAndroidWrapper.step((float) (Renderer.dt / 1000.0f));
         	Renderer.startTime = Renderer.endTime;
         }
 
         public void onSurfaceChanged(GL10 gl, int width, int height) {
-            ExampleGameLib.init(width, height);
+            VajraAndroidWrapper.init(width, height);
         }
 
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
