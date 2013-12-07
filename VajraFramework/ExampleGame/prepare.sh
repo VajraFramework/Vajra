@@ -9,15 +9,16 @@ then
 fi
 
 SRCROOT="../Vajra/";
-HEADERS_DESTINATION="./include/Vajra/";
+HEADERS_DESTINATION="./include/Vajra";
 echo -e "Extracting and copying Headers from $SRCROOT/ to $HEADERS_DESTINATION/";
-cp -r $SRCROOT/* $HEADERS_DESTINATION/.
-find $HEADERS_DESTINATION/. -type f ! -name *.h -exec rm {} \;
+mkdir -p $HEADERS_DESTINATION
+rsync -r -v --delete --include "*/" --include "*.h" --exclude "*" $SRCROOT/* $HEADERS_DESTINATION/.
 
 LIBRARIES_HEADERS_ROOT="../Libraries/glm";
 LIBRARIES_HEADERS_DESTINATION="./include/Libraries/";
 echo -e "Extracting and copying Headers from $LIBRARIES_HEADERS_ROOT/ to $LIBRARIES_HEADERS_DESTINATION/";
-cp -r $LIBRARIES_HEADERS_ROOT $LIBRARIES_HEADERS_DESTINATION;
+mkdir -p $LIBRARIES_HEADERS_DESTINATION
+rsync -r -v --delete $LIBRARIES_HEADERS_ROOT/* $LIBRARIES_HEADERS_DESTINATION/.
 
 if [ $1 == "ios" ]
 then
