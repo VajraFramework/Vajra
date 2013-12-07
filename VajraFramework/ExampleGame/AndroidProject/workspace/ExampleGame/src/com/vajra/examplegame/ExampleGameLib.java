@@ -16,12 +16,34 @@
 
 package com.vajra.examplegame;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import android.content.res.AssetManager;
+import android.util.Log;
+
+
 // Wrapper for native library
 
 public class ExampleGameLib {
 
      static {
-         System.loadLibrary("gl2jni");
+         // System.loadLibrary("gl2jni");
+         System.loadLibrary("Vajra");
+     }
+
+     public static void TestMethodInJava() {
+    	 Log.d("tag", "CAME HERE TO JAVA");
+    	 
+    	 return;
+     }
+
+     public static byte[] getAssetContents(String path) throws IOException
+     {
+    	 InputStream is = ExampleGameActivity.mContext.getAssets().open(path, AssetManager.ACCESS_BUFFER);
+    	 byte buffer[] = new byte[is.available()];
+    	 is.read(buffer);
+    	 return buffer;
      }
 
     /**
@@ -29,5 +51,5 @@ public class ExampleGameLib {
      * @param height the current view height
      */
      public static native void init(int width, int height);
-     public static native void step();
+     public static native void step(float dt);
 }

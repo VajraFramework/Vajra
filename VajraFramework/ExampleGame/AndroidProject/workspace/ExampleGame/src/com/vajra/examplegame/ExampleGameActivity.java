@@ -17,21 +17,28 @@
 package com.vajra.examplegame;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class ExampleGameActivity extends Activity {
 
     ExampleGameView mView;
+    public static Context mContext;
 
     @Override protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        mView = new ExampleGameView(getApplication());
-	setContentView(mView);
+        mView = new ExampleGameView(getApplication(), false, 8, 8);
+        setContentView(mView);
+
+    	mContext = this;
     }
 
     @Override protected void onPause() {

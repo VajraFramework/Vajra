@@ -48,7 +48,7 @@ jobject gInterfaceObject;
 
 
 void testCallIntoJava() {
-    jclass clazz = gJNIEnv->FindClass("com/android/gl2jni/GL2JNILib");
+    jclass clazz = gJNIEnv->FindClass("com/vajra/examplegame/ExampleGameLib");
     jmethodID methodID = gJNIEnv->GetStaticMethodID(clazz, "TestMethodInJava", "()V");
     gJNIEnv->CallStaticVoidMethod(clazz, methodID);
 
@@ -72,11 +72,11 @@ char* loadAsset(const char* path)
 
 
 extern "C" {
-    JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_init(JNIEnv * env, jobject obj,  jint width, jint height);
-    JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_step(JNIEnv * env, jobject obj, float dt);
+    JNIEXPORT void JNICALL Java_com_vajra_examplegame_ExampleGameLib_init(JNIEnv * env, jobject obj,  jint width, jint height);
+    JNIEXPORT void JNICALL Java_com_vajra_examplegame_ExampleGameLib_step(JNIEnv * env, jobject obj, float dt);
 };
 
-JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_init(JNIEnv * env, jobject obj,  jint width, jint height)
+JNIEXPORT void JNICALL Java_com_vajra_examplegame_ExampleGameLib_init(JNIEnv * env, jobject obj,  jint width, jint height)
 {
     png_structp png_ptr;
     png_infop info_ptr;
@@ -100,7 +100,7 @@ JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_init(JNIEnv * env, jobj
     Tesserakonteres::initGameObjectsForScene();
 }
 
-JNIEXPORT void JNICALL Java_com_android_gl2jni_GL2JNILib_step(JNIEnv * env, jobject obj, float dt)
+JNIEXPORT void JNICALL Java_com_vajra_examplegame_ExampleGameLib_step(JNIEnv * env, jobject obj, float dt)
 {
     renderFrame(dt);
 }
