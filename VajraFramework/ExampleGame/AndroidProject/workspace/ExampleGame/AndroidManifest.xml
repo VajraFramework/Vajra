@@ -21,7 +21,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vajra.examplegame">
     <application
-            android:label="@string/gl2jni_activity">
+            android:label="@string/ExampleGameActivity">
         <activity android:name="com.vajra.examplegame.ExampleGameActivity"
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             	android:launchMode="singleTask"
