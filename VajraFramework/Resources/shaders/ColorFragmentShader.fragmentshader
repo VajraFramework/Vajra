@@ -1,9 +1,0 @@
-// precision mediump float;
-
-varying vec4 lightIntensity;
-
-void main()
-{
-	gl_FragColor = lightIntensity;
-}
-
