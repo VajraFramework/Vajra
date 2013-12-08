@@ -52,8 +52,6 @@ void Profiler::StartExperiment(std::string id) {
 
 	if (experimentIter == this->experimentMap.end()) {
 		this->experimentMap[id] = std::make_shared<ProfileExperiment>();
-		//ProfileExperiment* newExperiment = new ProfileExperiment(id);
-		//this->experimentMap[id] = newExperiment;
 	}
 
 	this->experimentMap[id]->Start();

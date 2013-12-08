@@ -68,7 +68,7 @@ private:
 	double minDuration;
 	double maxDuration;
 	double avgDuration;
-	unsigned long long count; // Number of times this phase has been active
+	unsigned long long count; // Number of times this experiment was run
 };
 
 #endif // PROFILER_H
