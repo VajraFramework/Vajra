@@ -17,6 +17,7 @@ $(patsubst ./%, %, \
 endef
 
 CXX = g++
+AR = ar
 
 LOCAL_SRC_DIRS = ./Vajra ./Desktop
 LOCAL_INCLUDES = . ./Libraries /usr/include
@@ -25,19 +26,17 @@ INC = $(addprefix -I, $(LOCAL_INCLUDES))
 LOCAL_CFLAGS = -g3 -O0 -Wall -Wextra -rdynamic -DPLATFORM_DESKTOP -DPLATFORM_LINUX -DDEBUG
 LOCAL_CPPFLAGS = -std=c++11
 LIBDIR = -L/usr/lib
-LIB_FLAGS = -lglfw -lGL -lGLU -lGLEW -lpthread -lXxf86vm
-LDFLAGS = 
+LIB_FLAGS = -lglfw -lGL -lGLU -lGLEW -lpthread -lXxf86vm -lz
 
 # Include libpng, zlib, and OpenAL libraries:
-LIB_FLAGS += ./Libraries/libpng/built/libpng14.a -lz ./Libraries/openal-linux/built/libopenal.so
+LOCAL_LIB_FLAGS += ./Libraries/libpng/built/libpng14.a ./Libraries/openal-linux/built/libopenal.so
 LOCAL_INCLUDES += . ./Libraries/libpng/headers/
 
 BUILDDIR = Build/desktop
 OBJDIR = $(BUILDDIR)/obj
 DEPSDIR = $(BUILDDIR)/deps
 BINDIR = $(BUILDDIR)/bin
-EXECUTABLE = $(BINDIR)/executable.exe
-RESOURCESDIR_NAME = Resources
+STATIC_LIBRARY = $(BINDIR)/libVajra.a
 
 OBJECTS += $(addprefix $(OBJDIR)/,\
 				$(patsubst %.cpp,%.o,\
@@ -63,11 +62,6 @@ DEPS += $(addprefix $(DEPSDIR)/,\
 
 all: build_all
 
-run: all
-	@echo "\nRUNNING EXECUTABLE";
-	cd $(BINDIR)
-	./$(EXECUTABLE)
-
 before_build:
 	@echo "\n--------------------------------------------------------------------------------"
 	@echo "INITIALIZING BUILD ENVIRONMENT."
@@ -82,15 +76,15 @@ before_build:
 	@mkdir -p $(dir $(OBJECTS))
 	@mkdir -p $(dir $(DEPS))
 
-build_all: before_build build_executable after_build
+build_all: before_build build_shared_library
 	@echo "\n--------------------------------------------------------------------------------"
 	@echo "\nBUILD SUCCEEDED."
 	@echo "\n--------------------------------------------------------------------------------"
 
-build_executable: before_build $(OBJECTS)
+build_shared_library: before_build $(OBJECTS)
 	@echo "\n--------------------------------------------------------------------------------"
-	@echo "BUILDING EXECUTABLE.";
-	$(CXX) $(LIBDIR) -o $(EXECUTABLE) $(OBJECTS)  $(LDFLAGS) $(LIB_FLAGS) $(LOCAL_CFLAGS) $(LOCAL_CPPFLAGS)
+	@echo "BUILDING STATIC LIBRARY.";
+	$(AR) rcs -o $(STATIC_LIBRARY) $(OBJECTS) $(LOCAL_LIB_FLAGS)
 
 -include $(DEPS)
 
@@ -101,17 +95,11 @@ $(OBJDIR)/%.o: %.c*
 	@sed -e 's|.*:|$(OBJDIR)/$*.o:|' < $(DEPSDIR)/$*.d.tmp > $(DEPSDIR)/$*.d
 	@rm -f $*.d.tmp
 
-after_build: 
-	@echo "\n--------------------------------------------------------------------------------"
-	@echo "COPYING RESOURCES TO EXECUTABLE DIRECTORY."
-	rsync -r -v --delete $(RESOURCESDIR_NAME) $(BINDIR)/.
-
-
 clean:
 	@echo "\n--------------------------------------------------------------------------------"
 	@echo "CLEANING PROJECT.\n"
 	-rm -rf $(BUILDDIR)
 
-.PHONY: before_build after_build clean_debug
+.PHONY: before_build clean_debug
 
 ################################################################################
