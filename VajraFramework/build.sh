@@ -31,7 +31,7 @@ if [ "$1" == 'linux' ]
 	echo -e "\nPLATFORM: linux\n";
 
 	MAKE="make"
-	$MAKE -f Makefiles/makefile_desktop $MAKEFILE_ARGS
+	$MAKE -f DesktopProject/makefile_desktop $MAKEFILE_ARGS
 	
 elif [ "$1" == "windows" ]
 	then
