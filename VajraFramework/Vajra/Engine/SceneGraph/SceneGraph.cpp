@@ -9,7 +9,6 @@
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 
 SceneGraph::SceneGraph() {
-	this->init();
 }
 
 SceneGraph::~SceneGraph() {

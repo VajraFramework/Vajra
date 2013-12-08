@@ -6,7 +6,6 @@
 #include <algorithm>
 
 MessageHub::MessageHub() {
-	this->init();
 }
 
 MessageHub::~MessageHub() {

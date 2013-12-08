@@ -1,7 +1,6 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 
 AssetLibrary::AssetLibrary() {
-	this->init();
 }
 
 AssetLibrary::~AssetLibrary() {

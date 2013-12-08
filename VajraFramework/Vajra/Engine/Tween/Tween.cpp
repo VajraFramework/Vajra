@@ -13,7 +13,6 @@
 #include "Vajra/Framework/Logging/Logger.h"
 
 Tween::Tween() {
-	this->init();
 }
 
 Tween::~Tween() {

@@ -8,7 +8,6 @@
 #include "Vajra/Framework/Logging/Logger.h"
 
 AudioManager::AudioManager() {
-	this->init();
 }
 
 AudioManager::~AudioManager() {

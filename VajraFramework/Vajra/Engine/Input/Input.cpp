@@ -4,8 +4,14 @@
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Utilities/Utilities.h"
 
+#if PLATFORM_DESKTOP
+// Global callback function for desktop input
+void cursorPosCallback(int x, int y) {
+	ENGINE->GetInput()->cursorPosUpdate(x, y);
+}
+#endif
+
 Input::Input() {
-	this->init();
 }
 
 Input::~Input() {
@@ -13,6 +19,9 @@ Input::~Input() {
 }
 
 void Input::init() {
+#if PLATFORM_DESKTOP
+	glfwSetMousePosCallback(cursorPosCallback);
+#endif
 }
 
 void Input::destroy() {
@@ -23,6 +32,9 @@ bool touchOver(const Touch &touch) {
 }
 
 void Input::updateInput() { 
+#if PLATFORM_DESKTOP
+	this->updateMouseButton();
+#endif
 	// Populate frame touches with all input that has been asynchronously collected
 	this->frameTouches = this->asyncTouches;
 
@@ -69,3 +81,26 @@ void Input::logTouches() {
 		FRAMEWORK->GetLogger()->dbglog("Touch id: %i pos: (%f, %f) %i \n", it->fingerId, it->pos.x, it->pos.y, (int)it->phase);
 	}
 }
+
+#if PLATFORM_DESKTOP
+void Input::updateMouseButton() {
+	// Grab the left click state and make it act like a single touch
+	int button = glfwGetMouseButton(GLFW_MOUSE_BUTTON_LEFT);
+	if(ENGINE->GetInput()->GetTouchCount() == 0) {
+		if(button == GLFW_PRESS) {
+			ENGINE->GetInput()->AddTouch(0, this->mouseX, this->mouseY);
+		}
+	}
+	else {
+		if(button == GLFW_RELEASE) {
+			ENGINE->GetInput()->UpdateTouch(0, this->mouseX, this->mouseY, TouchPhase::Ended);
+		}
+	}
+}
+
+void Input::cursorPosUpdate(int x, int y) {
+	this->mouseX = x;
+	this->mouseY = y;
+	this->UpdateTouch(0, x, y, TouchPhase::Moved);
+}
+#endif

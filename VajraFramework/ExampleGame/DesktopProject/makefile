@@ -1,0 +1,120 @@
+################################################################################
+
+WORKDIR = `pwd`
+
+define all-cpp-files-under
+$(patsubst ./%, %, \
+  $(shell cd $(WORKDIR) ; \
+          find $(1) -name "*.cpp" -and -not -name ".*") \
+ )
+endef
+
+define all-c-files-under
+$(patsubst ./%, %, \
+  $(shell cd $(WORKDIR) ; \
+          find $(1) -name "*.c" -and -not -name ".*") \
+ )
+endef
+
+CXX = g++
+LINKER = g++
+
+GAMECODE_ROOT := ./Code
+VAJRA_INCLUDES_ROOT := ./include/
+GAME_LIBRARIES_ROOT := ./Libraries
+
+PREBUILT_VAJRA_LIBRARIES_PATH := ./lib/desktop/
+
+LOCAL_SRC_DIRS += ./DesktopProject/.
+LOCAL_SRC_DIRS += $(GAMECODE_ROOT)
+LOCAL_INCLUDES += $(GAMECODE_ROOT) $(VAJRA_INCLUDES_ROOT) /usr/include
+LOCAL_INCLUDES += $(VAJRA_INCLUDES_ROOT)/Libraries/libpng/headers/
+
+INC = $(addprefix -I, $(LOCAL_INCLUDES))
+LOCAL_CFLAGS = -g3 -O0 -Wall -Wextra -rdynamic -DPLATFORM_DESKTOP -DPLATFORM_LINUX -DDEBUG
+LOCAL_CPPFLAGS = -std=c++11
+LIBDIR = -L/usr/lib
+
+# Link against prebuilt Vajra static library:
+LIB_FLAGS = $(PREBUILT_VAJRA_LIBRARIES_PATH)/libVajra.a
+LIB_FLAGS += -lglfw -lGL -lGLU -lGLEW -lpthread -lXxf86vm -lz
+LIB_FLAGS += -lglfw -lGL -lGLU -lGLEW -lpthread -lXxf86vm -lz
+
+BUILDDIR = ./DesktopProject/Build
+OBJDIR = $(BUILDDIR)/obj
+DEPSDIR = $(BUILDDIR)/deps
+BINDIR = $(BUILDDIR)/bin
+EXECUTABLE = $(BINDIR)/executable.exe
+RESOURCESDIR_NAME = ./../Resources
+
+OBJECTS += $(addprefix $(OBJDIR)/,\
+				$(patsubst %.cpp,%.o,\
+					$(call all-cpp-files-under, $(LOCAL_SRC_DIRS))\
+				 )\
+			)
+OBJECTS += $(addprefix $(OBJDIR)/,\
+				$(patsubst %.c,%.o,\
+					$(call all-c-files-under, $(LOCAL_SRC_DIRS))\
+				 )\
+			)
+
+DEPS += $(addprefix $(DEPSDIR)/,\
+				$(patsubst %.cpp,%.d,\
+					$(call all-cpp-files-under, $(LOCAL_SRC_DIRS))\
+				 )\
+			)
+DEPS += $(addprefix $(DEPSDIR)/,\
+				$(patsubst %.c,%.d,\
+					$(call all-c-files-under, $(LOCAL_SRC_DIRS))\
+				 )\
+			)
+
+all: build_all
+
+
+before_build:
+	@echo "\n--------------------------------------------------------------------------------"
+	@echo "INITIALIZING BUILD ENVIRONMENT."
+	@test -d $(BUILDDIR) || mkdir -p $(BUILDDIR)
+	@test -d $(OBJDIR) || mkdir -p $(OBJDIR)
+	@test -d $(DEPSDIR) || mkdir -p $(DEPSDIR)
+	@test -d $(BINDIR) || mkdir -p $(BINDIR)
+	@echo "\n--------------------------------------------------------------------------------"
+	@echo "BUILDING OBJ FILES."
+	@echo "List of all objs: $(OBJECTS) "
+	@echo "List of all deps: $(DEPS) \n"
+	@mkdir -p $(dir $(OBJECTS))
+	@mkdir -p $(dir $(DEPS))
+
+build_all: before_build build_executable after_build
+	@echo "\n--------------------------------------------------------------------------------"
+	@echo "\nBUILD SUCCEEDED."
+	@echo "\n--------------------------------------------------------------------------------"
+
+build_executable: before_build $(OBJECTS)
+	@echo "\n--------------------------------------------------------------------------------"
+	@echo "BUILDING EXECUTABLE.";
+	$(LINKER) $(LIBDIR) -o $(EXECUTABLE) $(OBJECTS) $(LDFLAGS) $(LIB_FLAGS) $(LOCAL_CFLAGS) $(LOCAL_CPPFLAGS)
+
+after_build: 
+	@echo "\n--------------------------------------------------------------------------------"
+	@echo "COPYING RESOURCES TO EXECUTABLE DIRECTORY."
+	rsync -r --delete $(RESOURCESDIR_NAME) $(BINDIR)/.
+
+-include $(DEPS)
+
+$(OBJDIR)/%.o: %.c*
+	$(CXX) $(LOCAL_CFLAGS) $(LOCAL_CPPFLAGS) $(INC) -c $< -o $@
+	$(CXX) -MM $(LOCAL_CFLAGS) $(LOCAL_CPPFLAGS) $(INC) -c $< -o $(DEPSDIR)/$*.d
+	@mv -f $(DEPSDIR)/$*.d $(DEPSDIR)/$*.d.tmp
+	@sed -e 's|.*:|$(OBJDIR)/$*.o:|' < $(DEPSDIR)/$*.d.tmp > $(DEPSDIR)/$*.d
+	@rm -f $*.d.tmp
+
+clean:
+	@echo "\n--------------------------------------------------------------------------------"
+	@echo "CLEANING PROJECT.\n"
+	-rm -rf $(BUILDDIR)
+
+.PHONY: before_build after_build clean_debug
+
+################################################################################
