@@ -47,6 +47,27 @@ cd $EXAMPLE_GAME_BASE_PATH;
 ./prepare.sh android
 cd $CWD;
 
+echo -e "\nBuilding game native code:";
+ndk-build NDK_DEBUG=1
+
+# Must copy over the Vajra prebuilt library to the libs folder:
+cd $EXAMPLE_GAME_BASE_PATH;
+VAJRA_PREBUILT_LIBRARY_BASE_PATH="./lib/android";
+VAJRA_PREBUILT_LIBRARY_DESTINATION_BASE_PATH="./AndroidProject/workspace/ExampleGame/libs/"
+cp $VAJRA_PREBUILT_LIBRARY_BASE_PATH"/armeabi/libVajra.so" $VAJRA_PREBUILT_LIBRARY_DESTINATION_BASE_PATH"/armeabi/."
+cp $VAJRA_PREBUILT_LIBRARY_BASE_PATH"/armeabi-v7a/libVajra.so" $VAJRA_PREBUILT_LIBRARY_DESTINATION_BASE_PATH"/armeabi-v7a/."
+if [ ! -f $VAJRA_PREBUILT_LIBRARY_DESTINATION_BASE_PATH"/armeabi/libVajra.so" ]
+then
+	echo -e "\nERROR: Couldn't copy vajra prebuilt library";
+	exit
+fi
+if [ ! -f $VAJRA_PREBUILT_LIBRARY_DESTINATION_BASE_PATH"/armeabi-v7a/libVajra.so" ]
+then
+	echo -e "\nERROR: Couldn't copy vajra prebuilt library";
+	exit
+fi
+cd $CWD;
+
 android update project -p . -t 1
 echo -e "\nBUILDING APK\n"
 ant debug
