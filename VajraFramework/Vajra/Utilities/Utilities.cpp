@@ -82,6 +82,7 @@ void printFrameTimeStats() {
 	double frameDuration = ENGINE->GetTimer()->GetTotalFrameTime();
 	double renderDuration = ENGINE->GetTimer()->GetRenderPhaseTime();
 	double updateDuration = ENGINE->GetTimer()->GetUpdatePhaseTime();
+	double inputDuration = ENGINE->GetTimer()->GetInputPhaseTime();
 
 	FRAMEWORK->GetLogger()->dbglog("\nframe: %llu, fps: %f, delta: %f ms, ssb: %llu",
 			ENGINE->GetTimer()->GetFrameNumber(),

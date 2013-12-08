@@ -4,6 +4,7 @@
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/Timer/Profiler.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
@@ -38,9 +39,11 @@ void Engine::init() {
 	this->tween        = new Tween();
 	this->input        = new Input();
 	this->audioManager = new AudioManager();
+	this->profiler     = new Profiler();
 }
 
 void Engine::DoFrame() {
+	this->GetProfiler()->StartExperiment("frame");
 	this->GetTimer()->beginFrame();
 
 	this->updateInput();
@@ -48,31 +51,38 @@ void Engine::DoFrame() {
 	this->renderScene();
 
 	this->GetTimer()->endFrame();
+	this->GetProfiler()->StopExperiment("frame");
 }
 
 void Engine::updateInput() {
+	this->GetProfiler()->StartExperiment("input");
 	this->GetTimer()->beginInputPhase();
 
 	this->GetInput()->updateInput();
 
 	this->GetTimer()->endInputPhase();
+	this->GetProfiler()->StopExperiment("input");
 }
 
 void Engine::updateScene() {
+	this->GetProfiler()->StartExperiment("update");
 	this->GetTimer()->beginUpdatePhase();
 
 	this->GetMessageHub()->drainMessages();
 	this->GetSceneGraph()->update();
 
 	this->GetTimer()->endUpdatePhase();
+	this->GetProfiler()->StopExperiment("update");
 }
 
 void Engine::renderScene() {
+	this->GetProfiler()->StartExperiment("render");
 	this->GetTimer()->beginRenderPhase();
 
 	this->GetSceneGraph()->draw();
 
 	this->GetTimer()->endRenderPhase();
+	this->GetProfiler()->StopExperiment("render");
 }
 
 int testEngineFunction() {
@@ -100,5 +110,10 @@ void Engine::destroy() {
 	}
 	if (this->audioManager != nullptr) {
 		delete this->audioManager;
+	}
+
+	this->profiler->PrintAllExperimentData();
+	if (this->profiler != nullptr) {
+		delete this->profiler;
 	}
 }
