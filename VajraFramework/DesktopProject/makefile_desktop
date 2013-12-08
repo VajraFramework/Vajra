@@ -1,0 +1,117 @@
+################################################################################
+
+WORKDIR = `pwd`
+
+define all-cpp-files-under
+$(patsubst ./%, %, \
+  $(shell cd $(WORKDIR) ; \
+          find $(1) -name "*.cpp" -and -not -name ".*") \
+ )
+endef
+
+define all-c-files-under
+$(patsubst ./%, %, \
+  $(shell cd $(WORKDIR) ; \
+          find $(1) -name "*.c" -and -not -name ".*") \
+ )
+endef
+
+define all-o-files-under
+$(patsubst ./%, %, \
+  $(shell cd $(WORKDIR) ; \
+          find $(1) -name "*.o" -and -not -name ".*") \
+ )
+endef
+
+
+CXX = g++
+AR = ar
+
+LOCAL_SRC_DIRS = ./Vajra
+# LOCAL_SRC_DIRS += ./Desktop
+LOCAL_INCLUDES = . ./Libraries /usr/include
+
+INC = $(addprefix -I, $(LOCAL_INCLUDES))
+LOCAL_CFLAGS = -g3 -O0 -Wall -Wextra -rdynamic -DPLATFORM_DESKTOP -DPLATFORM_LINUX -DDEBUG
+LOCAL_CPPFLAGS = -std=c++11
+LIBDIR = -L/usr/lib
+
+LIB_FLAGS = -lglfw -lGL -lGLU -lGLEW -lpthread -lXxf86vm -lz
+# Include libpng, zlib, and OpenAL libraries:
+LOCAL_LIB_FLAGS += ./Libraries/openal-linux/built/libopenal.so
+LOCAL_DEARCHIVED_STATIC_LIBRARIES_PATH += ./Libraries/libpng/built/
+LOCAL_INCLUDES += . ./Libraries/libpng/headers/
+
+BUILDDIR = DesktopProject/Built
+OBJDIR = $(BUILDDIR)/obj
+DEPSDIR = $(BUILDDIR)/deps
+BINDIR = $(BUILDDIR)/bin
+STATIC_LIBRARY = $(BINDIR)/libVajra.a
+
+OBJECTS += $(addprefix $(OBJDIR)/,\
+				$(patsubst %.cpp,%.o,\
+					$(call all-cpp-files-under, $(LOCAL_SRC_DIRS))\
+				 )\
+			)
+OBJECTS += $(addprefix $(OBJDIR)/,\
+				$(patsubst %.c,%.o,\
+					$(call all-c-files-under, $(LOCAL_SRC_DIRS))\
+				 )\
+			)
+OBJECTS += $(call all-o-files-under, $(LOCAL_DEARCHIVED_STATIC_LIBRARIES_PATH))
+
+
+DEPS += $(addprefix $(DEPSDIR)/,\
+				$(patsubst %.cpp,%.d,\
+					$(call all-cpp-files-under, $(LOCAL_SRC_DIRS))\
+				 )\
+			)
+DEPS += $(addprefix $(DEPSDIR)/,\
+				$(patsubst %.c,%.d,\
+					$(call all-c-files-under, $(LOCAL_SRC_DIRS))\
+				 )\
+			)
+
+all: build_all
+
+before_build:
+	@echo "\n--------------------------------------------------------------------------------"
+	@echo "INITIALIZING BUILD ENVIRONMENT."
+	@test -d $(BUILDDIR) || mkdir -p $(BUILDDIR)
+	@test -d $(OBJDIR) || mkdir -p $(OBJDIR)
+	@test -d $(DEPSDIR) || mkdir -p $(DEPSDIR)
+	@test -d $(BINDIR) || mkdir -p $(BINDIR)
+	@echo "\n--------------------------------------------------------------------------------"
+	@echo "BUILDING OBJ FILES."
+	@echo "List of all objs: $(OBJECTS) "
+	@echo "List of all deps: $(DEPS) \n"
+	@mkdir -p $(dir $(OBJECTS))
+	@mkdir -p $(dir $(DEPS))
+
+build_all: before_build build_shared_library
+	@echo "\n--------------------------------------------------------------------------------"
+	@echo "\nBUILD SUCCEEDED."
+	@echo "\n--------------------------------------------------------------------------------"
+
+build_shared_library: before_build $(OBJECTS)
+	@echo "\n--------------------------------------------------------------------------------"
+	@echo "BUILDING STATIC LIBRARY.";
+	$(AR) rcs -o $(STATIC_LIBRARY) $(OBJECTS) $(LOCAL_LIB_FLAGS)
+
+-include $(DEPS)
+
+$(OBJDIR)/%.o: %.c*
+	$(CXX) $(LOCAL_CFLAGS) $(LOCAL_CPPFLAGS) $(INC) -c $< -o $@
+	$(CXX) -MM $(LOCAL_CFLAGS) $(LOCAL_CPPFLAGS) $(INC) -c $< -o $(DEPSDIR)/$*.d
+	@mv -f $(DEPSDIR)/$*.d $(DEPSDIR)/$*.d.tmp
+	@sed -e 's|.*:|$(OBJDIR)/$*.o:|' < $(DEPSDIR)/$*.d.tmp > $(DEPSDIR)/$*.d
+	@rm -f $*.d.tmp
+
+clean:
+	@echo "\n--------------------------------------------------------------------------------"
+	@echo "CLEANING PROJECT.\n"
+	-rm -rf $(BUILDDIR)
+
+.PHONY: before_build clean_debug
+
+################################################################################

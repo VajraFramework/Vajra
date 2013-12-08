@@ -60,6 +60,13 @@ then
 	mkdir -p $JAR_FILE_DESTINATION;
 	echo -e "Copying jar file from $JAR_FILE_PATH to $JAR_FILE_DESTINATION";
 	cp $JAR_FILE_PATH $JAR_FILE_DESTINATION/.
+elif [ $1 == "desktop" ]
+then
+	LIBRARIES_BASE_PATH="../DesktopProject/Built/bin/";
+	LIBRARIES_DESTINATION_BASE_PATH="./lib/desktop/";
+	mkdir -p $LIBRARIES_DESTINATION_BASE_PATH;
+	echo -e "Copying library files from $LIBRARIES_BASE_PATH to $LIBRARIES_DESTINATION_BASE_PATH";
+	cp $LIBRARIES_BASE_PATH/libVajra.a $LIBRARIES_DESTINATION_BASE_PATH/.
 else
 	echo -e "\nUnrecognized platform";
 fi

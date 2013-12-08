@@ -1,3 +1,5 @@
+#ifdef PLATFORM_ANDROID
+
 #ifndef ANDROID_WRAPPER_H
 #define ANDROID_WRAPPER_H
 
@@ -10,4 +12,6 @@ extern "C" {
 
 
 #endif // ANDROID_WRAPPER_H
+
+#endif // PLATFORM_ANDROID
 
