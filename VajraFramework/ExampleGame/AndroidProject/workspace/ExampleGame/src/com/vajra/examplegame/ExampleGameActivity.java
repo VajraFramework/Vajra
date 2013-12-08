@@ -43,6 +43,7 @@ public class ExampleGameActivity extends Activity {
     	mContext = this;
 
         VajraAndroidWrapper.SetContext(this);
+        ExampleGameWrapper.SetContext(this);
 
         int number = VajraAndroidWrapper.TestFunction();
         Log.i("tag", "Number: " + Integer.toString(number));

@@ -324,6 +324,7 @@ class ExampleGameView extends GLSurfaceView {
 
         public void onSurfaceChanged(GL10 gl, int width, int height) {
             VajraAndroidWrapper.init(width, height);
+            ExampleGameWrapper.InitGameScene();
         }
 
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
