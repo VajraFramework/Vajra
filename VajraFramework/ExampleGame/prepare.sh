@@ -60,17 +60,28 @@ then
 	mkdir -p $JAR_FILE_DESTINATION;
 	echo -e "Copying jar file from $JAR_FILE_PATH to $JAR_FILE_DESTINATION";
 	cp $JAR_FILE_PATH $JAR_FILE_DESTINATION/.
-elif [ $1 == "desktop" ]
+
+elif [ $1 == "linux" ]
 then
 	LIBRARIES_BASE_PATH="../DesktopProject/Built/bin/";
 	LIBRARIES_DESTINATION_BASE_PATH="./lib/desktop/";
 	mkdir -p $LIBRARIES_DESTINATION_BASE_PATH;
 	echo -e "Copying library files from $LIBRARIES_BASE_PATH to $LIBRARIES_DESTINATION_BASE_PATH";
 	cp $LIBRARIES_BASE_PATH/libVajra.a $LIBRARIES_DESTINATION_BASE_PATH/.
-else
-	echo -e "\nUnrecognized platform";
-fi
 
+elif [ $1 == "windows" ]
+then
+	LIBRARIES_BASE_PATH="../DesktopProject/Built/bin/";
+	ADDITIONAL_LIBRARIES="../Libraries/openal/built/OpenAL32.lib"
+	LIBRARIES_DESTINATION_BASE_PATH="./lib/desktop/";
+	mkdir -p $LIBRARIES_DESTINATION_BASE_PATH;
+	echo -e "Copying library files from $LIBRARIES_BASE_PATH to $LIBRARIES_DESTINATION_BASE_PATH";
+	cp $LIBRARIES_BASE_PATH/libVajra.a $LIBRARIES_DESTINATION_BASE_PATH/.
+	cp $ADDITIONAL_LIBRARIES $LIBRARIES_DESTINATION_BASE_PATH/.
+
+else
+	echo -e "\nUnrecognized platform: $1";
+fi
 
 echo -e "\n";
 

@@ -16,37 +16,38 @@ $(patsubst ./%, %, \
  )
 endef
 
-define all-o-files-under
-$(patsubst ./%, %, \
-  $(shell cd $(WORKDIR) ; \
-          find $(1) -name "*.o" -and -not -name ".*") \
- )
-endef
+CXX = mingw32-g++.exe
+LINKER = mingw32-g++.exe
 
+GAMECODE_ROOT := ./Code
+VAJRA_INCLUDES_ROOT := ./include/
+GAME_LIBRARIES_ROOT := ./Libraries
+TOOLS_ROOT := ./../Tools/
+BINARIES_FOR_DEPLOYMENT_DIR_NAME = $(TOOLS_ROOT)/Windows/BinariesForDeployment
 
-CXX = g++
-AR = ar
+PREBUILT_VAJRA_LIBRARIES_PATH := ./lib/desktop/
 
-LOCAL_SRC_DIRS = ./Vajra
-# LOCAL_SRC_DIRS += ./Desktop
-LOCAL_INCLUDES = . ./Libraries /usr/include
+LOCAL_SRC_DIRS += ./DesktopProject/.
+LOCAL_SRC_DIRS += $(GAMECODE_ROOT)
+LOCAL_INCLUDES += $(GAMECODE_ROOT) $(VAJRA_INCLUDES_ROOT) /usr/include
+LOCAL_INCLUDES += $(VAJRA_INCLUDES_ROOT)/Libraries/libpng/headers/
 
 INC = $(addprefix -I, $(LOCAL_INCLUDES))
-LOCAL_CFLAGS = -g3 -O0 -Wall -Wextra -rdynamic -DPLATFORM_DESKTOP -DPLATFORM_LINUX -DDEBUG
+LOCAL_CFLAGS = -g3 -O0 -Wall -Wextra -DPLATFORM_DESKTOP -DPLATFORM_WINDOWS -DDEBUG
 LOCAL_CPPFLAGS = -std=c++11
 LIBDIR = -L/usr/lib
 
-LIB_FLAGS = -lglfw -lGL -lGLU -lGLEW -lpthread -lXxf86vm -lz
-# Include libpng, zlib, and OpenAL libraries:
-LOCAL_LIB_FLAGS += ./Libraries/openal-linux/built/libopenal.so
-LOCAL_DEARCHIVED_STATIC_LIBRARIES_PATH += ./Libraries/libpng/built/dearchived_linux/
-LOCAL_INCLUDES += . ./Libraries/libpng/headers/
+# Link against prebuilt Vajra static library:
+LIB_FLAGS = $(PREBUILT_VAJRA_LIBRARIES_PATH)/libVajra.a
+LIB_FLAGS += -lglfw -lopengl32 -glu32 -lgdi32 -lglew32 -lz
+LIB_FLAGS += $(PREBUILT_VAJRA_LIBRARIES_PATH)/OpenAL32.lib
 
-BUILDDIR = DesktopProject/Built
+BUILDDIR = ./DesktopProject/Build
 OBJDIR = $(BUILDDIR)/obj
 DEPSDIR = $(BUILDDIR)/deps
 BINDIR = $(BUILDDIR)/bin
-STATIC_LIBRARY = $(BINDIR)/libVajra.a
+EXECUTABLE = $(BINDIR)/executable.exe
+RESOURCESDIR_NAME = ./Resources
 
 OBJECTS += $(addprefix $(OBJDIR)/,\
 				$(patsubst %.cpp,%.o,\
@@ -58,8 +59,6 @@ OBJECTS += $(addprefix $(OBJDIR)/,\
 					$(call all-c-files-under, $(LOCAL_SRC_DIRS))\
 				 )\
 			)
-OBJECTS += $(call all-o-files-under, $(LOCAL_DEARCHIVED_STATIC_LIBRARIES_PATH))
-
 
 DEPS += $(addprefix $(DEPSDIR)/,\
 				$(patsubst %.cpp,%.d,\
@@ -73,6 +72,7 @@ DEPS += $(addprefix $(DEPSDIR)/,\
 			)
 
 all: build_all
+
 
 before_build:
 	@echo "\n--------------------------------------------------------------------------------"
@@ -88,15 +88,21 @@ before_build:
 	@mkdir -p $(dir $(OBJECTS))
 	@mkdir -p $(dir $(DEPS))
 
-build_all: before_build build_shared_library
+build_all: before_build build_executable after_build
 	@echo "\n--------------------------------------------------------------------------------"
 	@echo "\nBUILD SUCCEEDED."
 	@echo "\n--------------------------------------------------------------------------------"
 
-build_shared_library: before_build $(OBJECTS)
+build_executable: before_build $(OBJECTS)
 	@echo "\n--------------------------------------------------------------------------------"
-	@echo "BUILDING STATIC LIBRARY.";
-	$(AR) rcs -o $(STATIC_LIBRARY) $(OBJECTS) $(LOCAL_LIB_FLAGS)
+	@echo "BUILDING EXECUTABLE.";
+	$(LINKER) $(LIBDIR) -o $(EXECUTABLE) $(OBJECTS) $(LDFLAGS) $(LIB_FLAGS) $(LOCAL_CFLAGS) $(LOCAL_CPPFLAGS)
+
+after_build: 
+	@echo "\n--------------------------------------------------------------------------------"
+	@echo "COPYING RESOURCES TO EXECUTABLE DIRECTORY."
+	rsync -r --delete $(RESOURCESDIR_NAME) $(BINDIR)/.
+	rsync -r --delete $(BINARIES_FOR_DEPLOYMENT_DIR_NAME)/* $(BINDIR)/.
 
 -include $(DEPS)
 
@@ -112,6 +118,6 @@ clean:
 	@echo "CLEANING PROJECT.\n"
 	-rm -rf $(BUILDDIR)
 
-.PHONY: before_build clean_debug
+.PHONY: before_build after_build clean_debug
 
 ################################################################################
