@@ -36,8 +36,9 @@ if [ "$1" == 'linux' ]
 elif [ "$1" == "windows" ]
 	then
 	echo -e "\nPLATFORM: windows\n";
+
 	MAKE="./Tools/Windows/GnuWin32/bin/make.exe"
-	$MAKE -f Makefiles/makefile_windows $MAKEFILE_ARGS
+	$MAKE -f DesktopProject/makefile_windows $MAKEFILE_ARGS
 
 elif [ "$1" == "android" ]
 	then

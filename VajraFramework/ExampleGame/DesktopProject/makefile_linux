@@ -38,14 +38,13 @@ LIBDIR = -L/usr/lib
 # Link against prebuilt Vajra static library:
 LIB_FLAGS = $(PREBUILT_VAJRA_LIBRARIES_PATH)/libVajra.a
 LIB_FLAGS += -lglfw -lGL -lGLU -lGLEW -lpthread -lXxf86vm -lz
-LIB_FLAGS += -lglfw -lGL -lGLU -lGLEW -lpthread -lXxf86vm -lz
 
 BUILDDIR = ./DesktopProject/Build
 OBJDIR = $(BUILDDIR)/obj
 DEPSDIR = $(BUILDDIR)/deps
 BINDIR = $(BUILDDIR)/bin
 EXECUTABLE = $(BINDIR)/executable.exe
-RESOURCESDIR_NAME = ./../Resources
+RESOURCESDIR_NAME = ./Resources
 
 OBJECTS += $(addprefix $(OBJDIR)/,\
 				$(patsubst %.cpp,%.o,\

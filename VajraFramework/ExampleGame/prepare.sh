@@ -1,10 +1,15 @@
 #!/bin/bash
 
+printUsage() {
+	echo -e "\nUsage: ./prepare.sh <platform> [<architecture>]"
+	echo -e "    supported platforms: ios, android, linux, windows";
+	echo -e "    architectures (required for ios only): arm, i386";
+	echo -e "\n";
+}
+
 if [ $# -lt 1 ]
 then
-	echo -e "\nUsage: ./prepare.sh <platform>"
-	echo -e "    supported platforms: ios";
-	echo -e "\n";
+	printUsage
 	exit
 fi
 
@@ -22,19 +27,35 @@ rsync -r --delete $LIBRARIES_HEADERS_ROOT/* $LIBRARIES_HEADERS_DESTINATION/.
 
 if [ $1 == "ios" ]
 then
-	LIBRARIES_BASE_PATH="../XCodeProject/VajraStaticLibrary/Built/";
-	LIBRARIES_IPHONEOS_PATH=$LIBRARIES_BASE_PATH"iphoneos/";
-	LIBRARIES_IPHONESIMULATOR_PATH=$LIBRARIES_BASE_PATH"iphonesimulator/";
+	if [ $# -lt 2 -o $# -gt 2 ]
+	then
+		printUsage
+		exit
+	fi
+
+	echo -e "\nCurrent architecture: $2";
+	SIMULATOR=0
+	if [ $2 == "i386" ]
+	then
+		SIMULATOR=1
+	fi
+
+	if [ $SIMULATOR -eq 1 ]
+	then
+		LIBRARIES_BASE_PATH="../XCodeProject/VajraStaticLibrary/Built/iphonesimulator";
+	else
+		LIBRARIES_BASE_PATH="../XCodeProject/VajraStaticLibrary/Built/iphoneos";
+	fi
 	#
 	LIBRARIES_DESTINATION_BASE_PATH="./lib/ios/";
 	LIBRARIES_DESTINATION_IPHONEOS_PATH=$LIBRARIES_DESTINATION_BASE_PATH"iphoneos/";
 	LIBRARIES_DESTINATION_IPHONESIMULATOR_PATH=$LIBRARIES_DESTINATION_BASE_PATH"iphonesimulator/";
 	#
 	echo -e "Current directory is: "; pwd ;
-	echo -e "Copying library files from $LIBRARIES_IPHONEOS_PATH to $LIBRARIES_DESTINATION_IPHONEOS_PATH";
-	cp $LIBRARIES_IPHONEOS_PATH/* $LIBRARIES_DESTINATION_IPHONEOS_PATH/.
-	echo -e "Copying library files from $LIBRARIES_IPHONESIMULATOR_PATH to $LIBRARIES_DESTINATION_IPHONESIMULATOR_PATH";
-	cp $LIBRARIES_IPHONESIMULATOR_PATH/* $LIBRARIES_DESTINATION_IPHONESIMULATOR_PATH/.
+	echo -e "Copying library files from $LIBRARIES_BASE_PATH to $LIBRARIES_DESTINATION_IPHONEOS_PATH";
+	cp $LIBRARIES_BASE_PATH/* $LIBRARIES_DESTINATION_IPHONEOS_PATH/.
+	echo -e "Copying library files from $LIBRARIES_BASE_PATH to $LIBRARIES_DESTINATION_IPHONESIMULATOR_PATH";
+	cp $LIBRARIES_BASE_PATH/* $LIBRARIES_DESTINATION_IPHONESIMULATOR_PATH/.
 
 elif [ $1 == "android" ]
 then
@@ -60,17 +81,28 @@ then
 	mkdir -p $JAR_FILE_DESTINATION;
 	echo -e "Copying jar file from $JAR_FILE_PATH to $JAR_FILE_DESTINATION";
 	cp $JAR_FILE_PATH $JAR_FILE_DESTINATION/.
-elif [ $1 == "desktop" ]
+
+elif [ $1 == "linux" ]
 then
 	LIBRARIES_BASE_PATH="../DesktopProject/Built/bin/";
 	LIBRARIES_DESTINATION_BASE_PATH="./lib/desktop/";
 	mkdir -p $LIBRARIES_DESTINATION_BASE_PATH;
 	echo -e "Copying library files from $LIBRARIES_BASE_PATH to $LIBRARIES_DESTINATION_BASE_PATH";
 	cp $LIBRARIES_BASE_PATH/libVajra.a $LIBRARIES_DESTINATION_BASE_PATH/.
-else
-	echo -e "\nUnrecognized platform";
-fi
 
+elif [ $1 == "windows" ]
+then
+	LIBRARIES_BASE_PATH="../DesktopProject/Built/bin/";
+	ADDITIONAL_LIBRARIES="../Libraries/openal/built/OpenAL32.lib"
+	LIBRARIES_DESTINATION_BASE_PATH="./lib/desktop/";
+	mkdir -p $LIBRARIES_DESTINATION_BASE_PATH;
+	echo -e "Copying library files from $LIBRARIES_BASE_PATH to $LIBRARIES_DESTINATION_BASE_PATH";
+	cp $LIBRARIES_BASE_PATH/libVajra.a $LIBRARIES_DESTINATION_BASE_PATH/.
+	cp $ADDITIONAL_LIBRARIES $LIBRARIES_DESTINATION_BASE_PATH/.
+
+else
+	echo -e "\nUnrecognized platform: $1";
+fi
 
 echo -e "\n";
 

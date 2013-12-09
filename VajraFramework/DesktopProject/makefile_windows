@@ -24,22 +24,21 @@ $(patsubst ./%, %, \
 endef
 
 
-CXX = g++
-AR = ar
+CXX = mingw32-g++.exe
+AR = ar.exe
 
 LOCAL_SRC_DIRS = ./Vajra
-# LOCAL_SRC_DIRS += ./Desktop
 LOCAL_INCLUDES = . ./Libraries /usr/include
 
 INC = $(addprefix -I, $(LOCAL_INCLUDES))
-LOCAL_CFLAGS = -g3 -O0 -Wall -Wextra -rdynamic -DPLATFORM_DESKTOP -DPLATFORM_LINUX -DDEBUG
+LOCAL_CFLAGS = -g3 -O0 -Wall -Wextra -DPLATFORM_DESKTOP -DPLATFORM_WINDOWS -DDEBUG
 LOCAL_CPPFLAGS = -std=c++11
-LIBDIR = -L/usr/lib
 
-LIB_FLAGS = -lglfw -lGL -lGLU -lGLEW -lpthread -lXxf86vm -lz
-# Include libpng, zlib, and OpenAL libraries:
-LOCAL_LIB_FLAGS += ./Libraries/openal-linux/built/libopenal.so
-LOCAL_DEARCHIVED_STATIC_LIBRARIES_PATH += ./Libraries/libpng/built/dearchived_linux/
+LIB_FLAGS = -lglfw -lopengl32 -glu32 -lgdi32 -lglew32 -lz
+
+# Include OpenAL libraries:
+LOCAL_LIB_FLAGS += ./Libraries/openal/built/OpenAL32.lib
+LOCAL_DEARCHIVED_STATIC_LIBRARIES_PATH += ./Libraries/libpng/built/dearchived_windows
 LOCAL_INCLUDES += . ./Libraries/libpng/headers/
 
 BUILDDIR = DesktopProject/Built
