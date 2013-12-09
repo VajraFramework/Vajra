@@ -28,7 +28,7 @@ void Profiler::destroy() {
 	this->experimentMap.clear();
 }
 #ifdef DEBUG
-std::string Profiler::StartExperiment() {
+std::string Profiler::StartOneShotExperiment() {
 	// Generate a four-character string id
 	std::string experimentId;
 	unsigned char* seedChars = (unsigned char*)&seed;

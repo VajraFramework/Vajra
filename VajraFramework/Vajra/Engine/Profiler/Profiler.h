@@ -18,7 +18,7 @@ public:
 	~Profiler();
 
 #ifdef DEBUG
-	std::string StartExperiment(); // Use this for one-shot logs that should not be stored internally
+	std::string StartOneShotExperiment(); // Use this for one-shot logs that should not be stored internally
 #endif
 	void StartExperiment(std::string id);
 	void StopExperiment(std::string id);
