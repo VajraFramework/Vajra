@@ -3,7 +3,7 @@
 //  Created by Matt Kaufmann on 12/08/13.
 //
 
-#if PLATFORM_ANDROID
+#ifdef PLATFORM_ANDROID
 
 #include "Vajra/Utilities/DeviceStatistics.h"
 

@@ -3,7 +3,7 @@
 //  Created by Matt Kaufmann on 12/08/13.
 //
 
-#if PLATFORM_DESKTOP
+#ifdef PLATFORM_DESKTOP
 
 #include "Vajra/Utilities/DeviceStatistics.h"
 

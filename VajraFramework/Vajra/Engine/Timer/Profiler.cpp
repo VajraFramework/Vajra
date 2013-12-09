@@ -9,8 +9,9 @@
 
 #include <cstdlib>
 
+unsigned long Profiler::seed = 0x21212121; // "!!!!"
+
 Profiler::Profiler() {
-	init();
 }
 
 Profiler::~Profiler() {
@@ -25,7 +26,6 @@ void Profiler::destroy() {
 	this->experimentMap.clear();
 }
 
-unsigned long seed = 0x21212121; // "!!!!"
 std::string Profiler::StartExperiment() {
 	// Generate a four-character string id
 	std::string experimentId;
@@ -48,7 +48,7 @@ std::string Profiler::StartExperiment() {
 }
 
 void Profiler::StartExperiment(std::string id) {
-	std::map<std::string, std::shared_ptr<ProfileExperiment>>::iterator experimentIter = this->experimentMap.find(id);
+	auto experimentIter = this->experimentMap.find(id);
 
 	if (experimentIter == this->experimentMap.end()) {
 		this->experimentMap[id] = std::make_shared<ProfileExperiment>();
@@ -60,46 +60,46 @@ void Profiler::StartExperiment(std::string id) {
 void Profiler::StopExperiment(std::string id) {
 	std::map<std::string, std::shared_ptr<ProfileExperiment>>::iterator experimentIter = this->experimentMap.find(id);
 
-	if (experimentIter == this->experimentMap.end()) { return; }
-
-	this->experimentMap[id]->Stop();
+	if (experimentIter != this->experimentMap.end()) {
+		this->experimentMap[id]->Stop();
+	}
 }
 
 void Profiler::CloseExperiment(std::string id) {
 	std::map<std::string, std::shared_ptr<ProfileExperiment>>::iterator experimentIter = this->experimentMap.find(id);
 
-	if (experimentIter == this->experimentMap.end()) { return; }
-
-	this->experimentMap.erase(experimentIter);
+	if (experimentIter != this->experimentMap.end()) {
+		this->experimentMap.erase(experimentIter);
+	}
 }
 
 void Profiler::PrintLastExperimentLog(std::string id) {
 	std::map<std::string, std::shared_ptr<ProfileExperiment>>::iterator experimentIter = this->experimentMap.find(id);
-	if (experimentIter == this->experimentMap.end()) {
-		FRAMEWORK->GetLogger()->dbglog("No data for experiment %s", id.c_str());
+	if (experimentIter != this->experimentMap.end()) {
+		experimentIter->second->PrintLastLog();
 	}
 	else {
-		experimentIter->second->PrintLogStats();
+		FRAMEWORK->GetLogger()->dbglog("No data for experiment %s", id.c_str());
 	}
 }
 
 void Profiler::PrintExperimentLogStats(std::string id) {
 	std::map<std::string, std::shared_ptr<ProfileExperiment>>::iterator experimentIter = this->experimentMap.find(id);
-	if (experimentIter == this->experimentMap.end()) {
-		FRAMEWORK->GetLogger()->dbglog("No data for experiment %s", id.c_str());
+	if (experimentIter != this->experimentMap.end()) {
+		experimentIter->second->PrintLogStats();
 	}
 	else {
-		experimentIter->second->PrintLogStats();
+		FRAMEWORK->GetLogger()->dbglog("No data for experiment %s", id.c_str());
 	}
 }
 
-void Profiler::PrintExperimentLogStats(std::string id, std::ofstream outFile) {
+void Profiler::PrintExperimentLogStats(std::string id, std::ofstream& outputFile) {
 	std::map<std::string, std::shared_ptr<ProfileExperiment>>::iterator experimentIter = this->experimentMap.find(id);
-	if (experimentIter == this->experimentMap.end()) {
-		FRAMEWORK->GetLogger()->dbglog("No data for experiment %s", id.c_str());
+	if (experimentIter != this->experimentMap.end()) {
+		experimentIter->second->PrintLogStats(outputFile);
 	}
 	else {
-		experimentIter->second->PrintLogStats(outFile);
+		FRAMEWORK->GetLogger()->dbglog("No data for experiment %s", id.c_str());
 	}
 }
 
@@ -117,57 +117,8 @@ void Profiler::PrintAllExperimentData(std::ofstream& outFile) {
 
 std::shared_ptr<ProfileExperiment> Profiler::GetExperiment(std::string id) {
 	std::map<std::string, std::shared_ptr<ProfileExperiment>>::iterator experimentIter = this->experimentMap.find(id);
-	if (experimentIter == this->experimentMap.end()) {
-		return nullptr;
+	if (experimentIter != this->experimentMap.end()) {
+		return experimentIter->second;
 	}
-	return experimentIter->second;
-}
-
-ProfileExperiment::ProfileExperiment() : id("") {
-	init();
-}
-
-ProfileExperiment::ProfileExperiment(std::string strId) : id(strId) {
-	init();
-}
-
-void ProfileExperiment::init() {
-	this->startTime = 0.0;
-	this->endTime = 0.0;
-	this->totalTime = 0.0;
-	this->lastDuration = 0.0;
-	this->minDuration = 0.0;
-	this->maxDuration = 0.0;
-	this->avgDuration = 0.0;
-	this->count = 0;
-}
-
-void ProfileExperiment::Start() {
-	this->startTime = ENGINE->GetTimer()->GetHighResAbsoluteTime();
-	this->count++;
-}
-
-void ProfileExperiment::Stop() {
-	this->endTime = ENGINE->GetTimer()->GetHighResAbsoluteTime();
-	double duration = this->endTime - this->startTime;
-	this->lastDuration = duration;
-	this->totalTime += this->lastDuration;
-	if (this->lastDuration < this->minDuration) { this->minDuration = this->lastDuration; }
-	if (this->lastDuration > this->maxDuration) { this->maxDuration = this->lastDuration; }
-	this->avgDuration = this->totalTime / this->count;
-}
-
-void ProfileExperiment::PrintLastLog() {
-	FRAMEWORK->GetLogger()->dbglog("\nProfile experiment %s: %f ms", this->id.c_str(), this->lastDuration * 1000.0);
-}
-
-void ProfileExperiment::PrintLogStats() {
-	FRAMEWORK->GetLogger()->dbglog("\nStats for profile experiment %s: %f-%f ms over %llu runs (average %f ms)",
-			this->id.c_str(), this->minDuration * 1000.0, this->maxDuration * 1000.0, this->count, this->avgDuration * 1000.0);
-}
-
-void ProfileExperiment::PrintLogStats(std::ofstream& outFile) {
-	outFile << "Stats for profile experiment " << this->id << ": " << (this->minDuration * 1000.0) << "-" << (this->maxDuration * 1000.0)
-			<< " ms over " << this->count << " runs (average " << (this->avgDuration * 1000.0) << " ms)"
-			<< std::endl;
+	return nullptr;
 }
