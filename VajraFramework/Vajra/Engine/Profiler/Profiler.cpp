@@ -53,7 +53,7 @@ void Profiler::StartExperiment(std::string id) {
 	auto experimentIter = this->experimentMap.find(id);
 
 	if (experimentIter == this->experimentMap.end()) {
-		this->experimentMap[id] = std::make_shared<ProfileExperiment>();
+		this->experimentMap[id] = std::make_shared<ProfileExperiment>(id);
 	}
 
 	this->experimentMap[id]->Start();
@@ -111,9 +111,9 @@ void Profiler::PrintAllExperimentData() {
 	}
 }
 
-void Profiler::PrintAllExperimentData(std::ofstream& outFile) {
+void Profiler::PrintAllExperimentData(std::ofstream& outputFile) {
 	for (auto iter = this->experimentMap.begin(); iter != this->experimentMap.end(); ++iter) {
-		iter->second->PrintLogStats(outFile);
+		iter->second->PrintLogStats(outputFile);
 	}
 }
 

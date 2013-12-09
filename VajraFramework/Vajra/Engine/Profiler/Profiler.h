@@ -27,7 +27,7 @@ public:
 	void PrintExperimentLogStats(std::string id);
 	void PrintExperimentLogStats(std::string id, std::ofstream& outputFile);
 	void PrintAllExperimentData();
-	void PrintAllExperimentData(std::ofstream& outFile);
+	void PrintAllExperimentData(std::ofstream& outputFile);
 	std::shared_ptr<ProfileExperiment> GetExperiment(std::string id);
 
 private:
