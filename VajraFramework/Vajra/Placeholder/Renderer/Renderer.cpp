@@ -226,7 +226,7 @@ void renderFrame(float dt) {
 #endif
     ENGINE->DoFrame();
 
-    //printFrameTimeStats();
+    printFrameTimeStats();
 
     modelMatrix = glm::rotate(0.0f, 0.0f, 1.0f, 0.0f);
     mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;

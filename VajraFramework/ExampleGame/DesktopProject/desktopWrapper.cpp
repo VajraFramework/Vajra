@@ -15,10 +15,15 @@ using namespace glm;
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
+#include "Vajra/Engine/Profiler/Profiler.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Framework/DeviceUtils/DeviceStatistics/DeviceStatistics.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Placeholder/Tesserakonteres.h"
+
+#include <fstream>
 
 int main( void ) {
 
@@ -118,6 +123,13 @@ int main( void ) {
 
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
+
+	// Print profiler data to file
+	std::ofstream logFile;
+	logFile.open(FRAMEWORK->GetFileSystemUtils()->GetDeviceLoggingResourcesPath() + GetOperatingSystem() + ".log", std::ios_base::out | std::ios_base::app);
+	ENGINE->GetProfiler()->PrintAllExperimentData(logFile);
+
+	delete ENGINE;
 
 	#if 0
 	// Cleanup VBO
