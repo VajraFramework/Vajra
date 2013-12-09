@@ -298,6 +298,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = Vajra;
 				TargetAttributes = {
+					58F246EB1850F5C90066E804 = {
+						DevelopmentTeam = ECPUWEYWF8;
+					};
 					58F247171850F5C90066E804 = {
 						TestTargetID = 58F246EB1850F5C90066E804;
 					};
@@ -362,7 +365,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SAVED_CURRENT_DIRECTORY=`pwd`;\ncd ${SRCROOT}/../..\npwd\n./prepare.sh ios\ncd $SAVED_CURRENT_DIRECTORY;";
+			shellScript = "SAVED_CURRENT_DIRECTORY=`pwd`;\ncd ${SRCROOT}/../..\npwd\necho -e \"\\nCpu architecture: ${CURRENT_ARCH}\"\n./prepare.sh ios ${CURRENT_ARCH}\ncd $SAVED_CURRENT_DIRECTORY;";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -513,6 +516,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ExampleGame/ExampleGame-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -527,6 +532,7 @@
 					../../lib/ios/iphoneos,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "./ExampleGame/ ../../include ../../Code/";
 				WRAPPER_EXTENSION = app;
 			};
@@ -538,6 +544,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ExampleGame/ExampleGame-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = PLATFORM_IOS;
@@ -548,6 +556,7 @@
 					../../lib/ios/iphoneos,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "./ExampleGame/ ../../include ../../Code/";
 				WRAPPER_EXTENSION = app;
 			};
