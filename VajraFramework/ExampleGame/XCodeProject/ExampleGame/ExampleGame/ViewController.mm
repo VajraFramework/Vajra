@@ -5,6 +5,8 @@
 #import "Vajra/Placeholder/Renderer/Renderer.h"
 #import "Vajra/Placeholder/Tesserakonteres.h"
 
+#import "ExampleGame/Test/TestFile.h"
+
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 // Uniform index.
@@ -167,6 +169,8 @@ GLfloat gCubeVertexData[216] =
     setupGraphics(width, height);
     
     Tesserakonteres::initGameObjectsForScene();
+    
+	TestFuntion();
     
     // Temp: load images:
     {
