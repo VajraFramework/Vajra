@@ -4,7 +4,7 @@
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
-#include "Vajra/Engine/Timer/Profiler.h"
+#include "Vajra/Engine/Profiler/Profiler.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
@@ -126,8 +126,6 @@ void Engine::destroy() {
 	if (this->audioManager != nullptr) {
 		delete this->audioManager;
 	}
-
-	this->profiler->PrintAllExperimentData();
 	if (this->profiler != nullptr) {
 		delete this->profiler;
 	}

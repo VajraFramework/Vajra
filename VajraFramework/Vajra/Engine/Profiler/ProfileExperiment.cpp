@@ -4,8 +4,8 @@
 //
 
 #include "Vajra/Engine/Core/Engine.h"
-#include "Vajra/Engine/Timer/ProfileExperiment.h"
-#include "Vajra/Engine/Timer/Profiler.h"
+#include "Vajra/Engine/Profiler/ProfileExperiment.h"
+#include "Vajra/Engine/Profiler/Profiler.h"
 #include "Vajra/Engine/Timer/Timer.h"
 
 ProfileExperiment::ProfileExperiment() : id("") {

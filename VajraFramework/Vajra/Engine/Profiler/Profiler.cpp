@@ -4,12 +4,14 @@
 //
 
 #include "Vajra/Engine/Core/Engine.h"
-#include "Vajra/Engine/Timer/Profiler.h"
+#include "Vajra/Engine/Profiler/Profiler.h"
 #include "Vajra/Engine/Timer/Timer.h"
 
 #include <cstdlib>
 
+#ifdef DEBUG
 unsigned long Profiler::seed = 0x21212121; // "!!!!"
+#endif
 
 Profiler::Profiler() {
 }
@@ -25,7 +27,7 @@ void Profiler::init() {
 void Profiler::destroy() {
 	this->experimentMap.clear();
 }
-
+#ifdef DEBUG
 std::string Profiler::StartExperiment() {
 	// Generate a four-character string id
 	std::string experimentId;
@@ -46,7 +48,7 @@ std::string Profiler::StartExperiment() {
 
 	return experimentId;
 }
-
+#endif
 void Profiler::StartExperiment(std::string id) {
 	auto experimentIter = this->experimentMap.find(id);
 

@@ -5,7 +5,7 @@
 
 #ifdef PLATFORM_DESKTOP
 
-#include "Vajra/Utilities/DeviceStatistics.h"
+#include "Vajra/Framework/DeviceUtils/DeviceStatistics/DeviceStatistics.h"
 
 std::string GetOperatingSystem() {
 #if PLATFORM_WINDOWS

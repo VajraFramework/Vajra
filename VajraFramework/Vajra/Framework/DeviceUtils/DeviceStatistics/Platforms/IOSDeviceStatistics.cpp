@@ -5,7 +5,7 @@
 
 #ifdef PLATFORM_IOS
 
-#include "Vajra/Utilities/DeviceStatistics.h"
+#include "Vajra/Framework/DeviceUtils/DeviceStatistics/DeviceStatistics.h"
 
 std::string GetOperatingSystem() {
 	return "iOS";
