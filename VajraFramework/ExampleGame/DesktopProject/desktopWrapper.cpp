@@ -128,6 +128,7 @@ int main( void ) {
 	std::ofstream logFile;
 	logFile.open(FRAMEWORK->GetFileSystemUtils()->GetDeviceLoggingResourcesPath() + GetOperatingSystem() + ".log", std::ios_base::out | std::ios_base::app);
 	ENGINE->GetProfiler()->PrintAllExperimentData(logFile);
+	logFile.close();
 
 	delete ENGINE;
 
