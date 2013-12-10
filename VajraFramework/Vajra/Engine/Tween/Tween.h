@@ -4,6 +4,7 @@
 #include "Vajra/Common/Objects/Object.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
+#include <list>
 #include <map>
 #include <string>
 
@@ -51,7 +52,7 @@ private:
 														float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName));
 
 	std::map<ObjectIdType, OnGoingTransformTweenDetails*> ongoingTransformTweens;
-	std::vector<OnGoingNumberTweenDetails*> ongoingNumberTweens;
+	std::list<OnGoingNumberTweenDetails*> ongoingNumberTweens;
 
 	friend class Engine;
 	friend class TweenCallbackComponent;

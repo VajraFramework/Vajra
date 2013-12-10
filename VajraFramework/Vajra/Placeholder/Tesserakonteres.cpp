@@ -29,6 +29,16 @@ namespace Tesserakonteres {
 		FRAMEWORK->GetLogger()->dbglog("\nIn tweenCallback() with %d, %s\n", gameObjectId, tweenClipName.c_str());
 	}
 
+	void tweenNumberCallback(float normalizedProgress, std::string tweenName) {
+		// FRAMEWORK->GetLogger()->dbglog("\nIn tweenNumberCallback() with normalized progress %f", normalizedProgress);
+		if (tweenName == "tween_stubby_arrows") {
+			GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(111);
+			if (gameObject != nullptr) {
+				gameObject->GetTransform()->SetPosition(0.0f, 0.0f, normalizedProgress);
+			}
+		}
+	}
+
 	void initGameObjectsForScene() {
 
 		GameObject* parent = nullptr;
@@ -91,6 +101,7 @@ namespace Tesserakonteres {
 																	glm::angleAxis(0.0f, YAXIS), glm::angleAxis(90.0f, YAXIS),
 																	gameObject->GetTransform()->GetScale(), gameObject->GetTransform()->GetScale(),
 					                                                2.0f, tweenCallback);
+			ENGINE->GetTween()->TweenToNumber(-1.0f, 1.0f, 2.0f, true, "tween_stubby_arrows", tweenNumberCallback);
 #endif
 		}
 		{
@@ -116,6 +127,7 @@ namespace Tesserakonteres {
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "stubbyarrows.model");
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
+			FRAMEWORK->GetLogger()->dbglog("\nStubby Arrows id: %d", gameObject->GetId());
 
 			Transform* transform = gameObject->GetTransform();
 			transform->Scale(0.6f, 0.6f, 0.6f);

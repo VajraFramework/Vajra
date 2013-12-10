@@ -129,13 +129,25 @@ void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bo
 
 void Tween::updateTweens() {
 	float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
-	for (OnGoingNumberTweenDetails* tweenDetails : this->ongoingNumberTweens) {
+	for (auto it = this->ongoingNumberTweens.begin(); it != this->ongoingNumberTweens.end(); ++it) {
+		OnGoingNumberTweenDetails* tweenDetails = *it;
+
 		float newCurrentNumber = tweenDetails->currentNumber + deltaTime * (tweenDetails->toNumber - tweenDetails->fromNumber) / tweenDetails->totalTime;
 		float normalizedProgress = newCurrentNumber / (tweenDetails->toNumber - tweenDetails->fromNumber);
 		if (normalizedProgress > 1.0f || tweenDetails->continuousUpdates) {
 			tweenDetails->callback(normalizedProgress, tweenDetails->tweenName);
 		}
 		tweenDetails->currentNumber = newCurrentNumber;
+
+		// Erase completed tweens:
+		if (normalizedProgress > 1.0f) {
+			std::list<OnGoingNumberTweenDetails*>::iterator nextIt = this->ongoingNumberTweens.erase(it);
+			if (nextIt != this->ongoingNumberTweens.end()) {
+				it = nextIt;
+			} else {
+				break;
+			}
+		}
 	}
 }
 

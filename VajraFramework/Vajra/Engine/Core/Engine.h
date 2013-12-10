@@ -39,6 +39,7 @@ private:
 	void destroy();
 
 	void updateInput();
+	void updateTweens();
 	void updateScene();
 	void renderScene();
 

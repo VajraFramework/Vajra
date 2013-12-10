@@ -62,6 +62,7 @@ void Engine::DoFrame() {
 	this->GetTimer()->beginFrame();
 
 	this->updateInput();
+	this->updateTweens();
 	this->updateScene();
 	this->renderScene();
 
@@ -77,6 +78,14 @@ void Engine::updateInput() {
 
 	this->GetTimer()->endInputPhase();
 	this->GetProfiler()->StopExperiment("input");
+}
+
+void Engine::updateTweens() {
+	this->GetProfiler()->StartExperiment("tweens");
+
+	this->GetTween()->updateTweens();
+
+	this->GetProfiler()->StopExperiment("tweens");
 }
 
 void Engine::updateScene() {
