@@ -36,8 +36,8 @@ void ProfileExperiment::Stop() {
 	this->endTime = ENGINE->GetTimer()->GetHighResAbsoluteTime();
 	double duration = this->endTime - this->startTime;
 	this->totalTime += duration;
-	if (this->lastDuration < this->minDuration) { this->minDuration = duration; }
-	if (this->lastDuration > this->maxDuration) { this->maxDuration = duration; }
+	if (duration < this->minDuration) { this->minDuration = duration; }
+	if (duration > this->maxDuration) { this->maxDuration = duration; }
 	this->lastDuration = duration;
 	this->avgDuration = this->totalTime / this->count;
 }
