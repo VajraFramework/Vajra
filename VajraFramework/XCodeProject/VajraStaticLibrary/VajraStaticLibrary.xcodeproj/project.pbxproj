@@ -80,6 +80,11 @@
 		58F60E5218515D1E0036DDDE /* FileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58F60E0C18515D1E0036DDDE /* FileUtilities.cpp */; };
 		58F60E5318515D1E0036DDDE /* MathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58F60E0E18515D1E0036DDDE /* MathUtilities.cpp */; };
 		58F60E5418515D1E0036DDDE /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58F60E1118515D1E0036DDDE /* Utilities.cpp */; };
+		BA97C3B41856731200942107 /* AndroidDeviceStatistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3B11856731200942107 /* AndroidDeviceStatistics.cpp */; };
+		BA97C3B51856731200942107 /* DesktopDeviceStatistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3B21856731200942107 /* DesktopDeviceStatistics.cpp */; };
+		BA97C3B61856731200942107 /* IOSDeviceStatistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3B31856731200942107 /* IOSDeviceStatistics.cpp */; };
+		BA97C3BC185675AC00942107 /* ProfileExperiment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3B8185675AC00942107 /* ProfileExperiment.cpp */; };
+		BA97C3BD185675AC00942107 /* Profiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3BA185675AC00942107 /* Profiler.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -247,6 +252,14 @@
 		58F60E1018515D1E0036DDDE /* OpenGLIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLIncludes.h; sourceTree = "<group>"; };
 		58F60E1118515D1E0036DDDE /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
 		58F60E1218515D1E0036DDDE /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		BA97C3AF1856731200942107 /* DeviceStatistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceStatistics.h; sourceTree = "<group>"; };
+		BA97C3B11856731200942107 /* AndroidDeviceStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidDeviceStatistics.cpp; sourceTree = "<group>"; };
+		BA97C3B21856731200942107 /* DesktopDeviceStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DesktopDeviceStatistics.cpp; sourceTree = "<group>"; };
+		BA97C3B31856731200942107 /* IOSDeviceStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IOSDeviceStatistics.cpp; sourceTree = "<group>"; };
+		BA97C3B8185675AC00942107 /* ProfileExperiment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProfileExperiment.cpp; sourceTree = "<group>"; };
+		BA97C3B9185675AC00942107 /* ProfileExperiment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileExperiment.h; sourceTree = "<group>"; };
+		BA97C3BA185675AC00942107 /* Profiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Profiler.cpp; sourceTree = "<group>"; };
+		BA97C3BB185675AC00942107 /* Profiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profiler.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -412,6 +425,7 @@
 				58F60DB518515D1D0036DDDE /* GameObject */,
 				58F60DB818515D1D0036DDDE /* Input */,
 				58F60DBB18515D1D0036DDDE /* MessageHub */,
+				BA97C3B7185675AC00942107 /* Profiler */,
 				58F60DC018515D1E0036DDDE /* SceneGraph */,
 				58F60DC518515D1E0036DDDE /* Timer */,
 				58F60DC818515D1E0036DDDE /* Tween */,
@@ -758,6 +772,7 @@
 			isa = PBXGroup;
 			children = (
 				58F60DD218515D1E0036DDDE /* AudioLoader */,
+				BA97C3AE1856731200942107 /* DeviceStatistics */,
 				58F60DDA18515D1E0036DDDE /* FileSystemUtils */,
 				58F60DE018515D1E0036DDDE /* ModelLoader */,
 				58F60DE818515D1E0036DDDE /* TextureLoader */,
@@ -941,6 +956,36 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		BA97C3AE1856731200942107 /* DeviceStatistics */ = {
+			isa = PBXGroup;
+			children = (
+				BA97C3AF1856731200942107 /* DeviceStatistics.h */,
+				BA97C3B01856731200942107 /* Platforms */,
+			);
+			path = DeviceStatistics;
+			sourceTree = "<group>";
+		};
+		BA97C3B01856731200942107 /* Platforms */ = {
+			isa = PBXGroup;
+			children = (
+				BA97C3B11856731200942107 /* AndroidDeviceStatistics.cpp */,
+				BA97C3B21856731200942107 /* DesktopDeviceStatistics.cpp */,
+				BA97C3B31856731200942107 /* IOSDeviceStatistics.cpp */,
+			);
+			path = Platforms;
+			sourceTree = "<group>";
+		};
+		BA97C3B7185675AC00942107 /* Profiler */ = {
+			isa = PBXGroup;
+			children = (
+				BA97C3B8185675AC00942107 /* ProfileExperiment.cpp */,
+				BA97C3B9185675AC00942107 /* ProfileExperiment.h */,
+				BA97C3BA185675AC00942107 /* Profiler.cpp */,
+				BA97C3BB185675AC00942107 /* Profiler.h */,
+			);
+			path = Profiler;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1067,6 +1112,7 @@
 				58F60E2B18515D1E0036DDDE /* AudioSource.cpp in Sources */,
 				58F60E3E18515D1E0036DDDE /* iOSAudioLoader.mm in Sources */,
 				58F60E4A18515D1E0036DDDE /* IOSLogger.cpp in Sources */,
+				BA97C3BC185675AC00942107 /* ProfileExperiment.cpp in Sources */,
 				58F60E2018515D1E0036DDDE /* Material.cpp in Sources */,
 				58F60E4118515D1E0036DDDE /* IOSFileSystemUtils.mm in Sources */,
 				58F60E1818515D1E0036DDDE /* ObjectRegistry.cpp in Sources */,
@@ -1080,19 +1126,23 @@
 				58F60E3418515D1E0036DDDE /* MessageHub.cpp in Sources */,
 				58F60E4318515D1E0036DDDE /* ModelLoader.cpp in Sources */,
 				58F60E3118515D1E0036DDDE /* GameObject.cpp in Sources */,
+				BA97C3B51856731200942107 /* DesktopDeviceStatistics.cpp in Sources */,
 				58F60E2818515D1E0036DDDE /* RigidAnimation.cpp in Sources */,
+				BA97C3B41856731200942107 /* AndroidDeviceStatistics.cpp in Sources */,
 				58F60E5018515D1E0036DDDE /* Renderer.cpp in Sources */,
 				58F60E2F18515D1E0036DDDE /* Transform.cpp in Sources */,
 				58F60E3018515D1E0036DDDE /* Engine.cpp in Sources */,
 				58F60E2418515D1E0036DDDE /* AudioPlayer.cpp in Sources */,
 				58F60E2618515D1E0036DDDE /* AnimationClip.cpp in Sources */,
 				58F60E4918515D1E0036DDDE /* DesktopLogger.cpp in Sources */,
+				BA97C3BD185675AC00942107 /* Profiler.cpp in Sources */,
 				58F60E2D18515D1E0036DDDE /* DirectionalLight.cpp in Sources */,
 				58F60E4F18515D1E0036DDDE /* ShaderSetCreationHelper.cpp in Sources */,
 				58F60E5118515D1E0036DDDE /* Tesserakonteres.cpp in Sources */,
 				58F60E5318515D1E0036DDDE /* MathUtilities.cpp in Sources */,
 				58F60E1E18515D1E0036DDDE /* RigidAnimationClipDataAsset.cpp in Sources */,
 				58F60E2518515D1E0036DDDE /* Animation.cpp in Sources */,
+				BA97C3B61856731200942107 /* IOSDeviceStatistics.cpp in Sources */,
 				58F60E3B18515D1E0036DDDE /* AudioLoaderHelper.cpp in Sources */,
 				58F60E1C18515D1E0036DDDE /* AnimationKeyFrame.cpp in Sources */,
 				58F60E5418515D1E0036DDDE /* Utilities.cpp in Sources */,
