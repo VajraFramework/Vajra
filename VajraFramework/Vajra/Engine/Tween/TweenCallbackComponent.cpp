@@ -46,7 +46,7 @@ void TweenCallbackComponent::handleCallbacksOnAnimationEnd(Message* message) {
 
 	ObjectIdType gameObjectId = data->i;
 
-	OnGoingTweenDetails* tweenDetails = ENGINE->GetTween()->getOnGoingTweenDetails(gameObjectId);
+	OnGoingTransformTweenDetails* tweenDetails = ENGINE->GetTween()->getOnGoingTransformTweenDetails(gameObjectId);
 	if (tweenDetails != nullptr) {
 		if (tweenDetails->callback != 0) {
 			tweenDetails->callback(gameObjectId, tweenDetails->tweenClipName);

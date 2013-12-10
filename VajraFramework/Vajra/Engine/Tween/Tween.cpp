@@ -6,6 +6,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/Tween/TweenCallbackComponent.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
@@ -112,6 +113,32 @@ void Tween::TweenTransform(ObjectIdType gameObjectId, glm::vec3 initialPosition,
 	}
 }
 
+void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool continuousUpdates, std::string tweenName,
+						  void (*callback)(float normalizedProgress, std::string tweenName)) {
+	OnGoingNumberTweenDetails* newNumberTween = new OnGoingNumberTweenDetails();
+	newNumberTween->fromNumber                = fromNumber;
+	newNumberTween->toNumber                  = toNumber;
+	newNumberTween->totalTime                 = timePeriod;
+	newNumberTween->callback                  = callback;
+	newNumberTween->continuousUpdates         = continuousUpdates;
+	newNumberTween->tweenName                 = tweenName;
+	ASSERT(timePeriod != 0, "TimePeriod to tween over is not zero");
+
+	this->ongoingNumberTweens.push_back(newNumberTween);
+}
+
+void Tween::updateTweens() {
+	float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
+	for (OnGoingNumberTweenDetails* tweenDetails : this->ongoingNumberTweens) {
+		float newCurrentNumber = tweenDetails->currentNumber + deltaTime * (tweenDetails->toNumber - tweenDetails->fromNumber) / tweenDetails->totalTime;
+		float normalizedProgress = newCurrentNumber / (tweenDetails->toNumber - tweenDetails->fromNumber);
+		if (normalizedProgress > 1.0f || tweenDetails->continuousUpdates) {
+			tweenDetails->callback(normalizedProgress, tweenDetails->tweenName);
+		}
+		tweenDetails->currentNumber = newCurrentNumber;
+	}
+}
+
 void Tween::tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPosition, glm::vec3 finalPosition,
 														glm::quat initialOrientation, glm::quat finalOrientation,
 														glm::vec3 initialScale, glm::vec3 finalScale,
@@ -152,10 +179,10 @@ void Tween::tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPos
 
 	std::string tweenClipName = getRandomTweenName();
 	//
-	OnGoingTweenDetails* ongoingTweenDetails = new OnGoingTweenDetails();
+	OnGoingTransformTweenDetails* ongoingTweenDetails = new OnGoingTransformTweenDetails();
 	ongoingTweenDetails->tweenClipName = tweenClipName;
 	ongoingTweenDetails->callback = callback;
-	this->ongoingTweens[gameObject->GetId()] = ongoingTweenDetails;
+	this->ongoingTransformTweens[gameObject->GetId()] = ongoingTweenDetails;
 
 	RigidAnimationClip* newAnimationClip = new RigidAnimationClip(rigidAnimation);
 	newAnimationClip->InitAnimationClip(tweenClipName, keyframes);
@@ -168,12 +195,12 @@ void Tween::tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPos
 }
 
 bool Tween::IsTweening(ObjectIdType gameObjectId) {
-	return (this->ongoingTweens.find(gameObjectId) != this->ongoingTweens.end());
+	return (this->ongoingTransformTweens.find(gameObjectId) != this->ongoingTransformTweens.end());
 }
 
-OnGoingTweenDetails* Tween::getOnGoingTweenDetails(ObjectIdType gameObjectId) {
-	auto ongoingTweenIt = this->ongoingTweens.find(gameObjectId);
-	if (ongoingTweenIt != this->ongoingTweens.end()) {
+OnGoingTransformTweenDetails* Tween::getOnGoingTransformTweenDetails(ObjectIdType gameObjectId) {
+	auto ongoingTweenIt = this->ongoingTransformTweens.find(gameObjectId);
+	if (ongoingTweenIt != this->ongoingTransformTweens.end()) {
 		return ongoingTweenIt->second;
 	}
 	return nullptr;
@@ -201,4 +228,6 @@ std::string getRandomTweenName() {
 
 	return tweenClipName;
 }
+
+////////////////////////////////////////////////////////////////////////////////
 

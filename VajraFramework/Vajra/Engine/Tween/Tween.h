@@ -9,7 +9,8 @@
 
 // Forward Declarations:
 class GameObject;
-struct OnGoingTweenDetails;
+struct OnGoingNumberTweenDetails;
+struct OnGoingTransformTweenDetails;
 
 class Tween : public Object {
 public:
@@ -29,6 +30,9 @@ public:
 												   glm::vec3 initialScale, glm::vec3 finalScale,
 												   float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 
+	void TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool continuousUpdates, std::string tweenName,
+					   void (*callback)(float normalizedProgress, std::string tweenName));
+
 	bool IsTweening(ObjectIdType gameObjectId);
 
 private:
@@ -36,7 +40,9 @@ private:
 	void init();
 	void destroy();
 
-	OnGoingTweenDetails* getOnGoingTweenDetails(ObjectIdType gameObjectId);
+	void updateTweens();
+
+	OnGoingTransformTweenDetails* getOnGoingTransformTweenDetails(ObjectIdType gameObjectId);
 
 	// Utilitiy Functions:
 	void tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPosition, glm::vec3 finalPosition,
@@ -44,7 +50,8 @@ private:
 														glm::vec3 initialScale, glm::vec3 finalScale,
 														float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName));
 
-	std::map<ObjectIdType, OnGoingTweenDetails*> ongoingTweens;
+	std::map<ObjectIdType, OnGoingTransformTweenDetails*> ongoingTransformTweens;
+	std::vector<OnGoingNumberTweenDetails*> ongoingNumberTweens;
 
 	friend class Engine;
 	friend class TweenCallbackComponent;
@@ -52,11 +59,35 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-struct OnGoingTweenDetails {
+struct OnGoingTransformTweenDetails {
 public:
 	std::string tweenClipName;
 	void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName);
 private:
+	OnGoingTransformTweenDetails() {}
+	friend class Tween;
+};
+
+struct OnGoingNumberTweenDetails {
+public:
+	float totalTime;
+
+	float fromNumber;
+	float toNumber;
+
+	float currentNumber;
+
+	void (*callback)(float normalizedProgress, std::string tweenName);
+
+	bool continuousUpdates;
+
+	std::string tweenName;
+private:
+	OnGoingNumberTweenDetails() {
+		this->totalTime = this->fromNumber = this->toNumber = this->currentNumber = 0.0f;
+		this->continuousUpdates = false;
+	}
+	friend class Tween;
 };
 
 #endif // TWEEN_H
