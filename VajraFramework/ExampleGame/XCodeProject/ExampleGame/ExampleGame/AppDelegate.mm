@@ -1,5 +1,39 @@
 #import "AppDelegate.h"
 
+#import "Vajra/Engine/Core/Engine.h"
+#import "Vajra/Engine/Profiler/Profiler.h"
+#import "Vajra/Framework/DeviceUtils/DeviceStatistics/DeviceStatistics.h"
+#import "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
+
+#import <fstream>
+
+void printDebugLog() {
+	// Ensure that the log file exists in the file structure.
+	std::string logPath = FRAMEWORK->GetFileSystemUtils()->GetDeviceLoggingResourcesPath();
+	std::string logFilename = logPath + GetOperatingSystem() + ".log";
+	NSFileManager* fileMan = [NSFileManager defaultManager];
+	NSString* logFilePathNSString = [NSString stringWithCString:logPath.c_str() encoding:NSASCIIStringEncoding];
+	if (![fileMan fileExistsAtPath:logFilePathNSString isDirectory:nullptr]) {
+		[fileMan createDirectoryAtPath:logFilePathNSString withIntermediateDirectories:NO attributes:nil error:nil];
+	}
+	NSString* logFilenameNSString = [NSString stringWithCString:(logFilename.c_str()) encoding:NSASCIIStringEncoding];
+	if (![fileMan fileExistsAtPath:logFilenameNSString]) {
+		[fileMan createFileAtPath:logFilenameNSString contents:nil attributes:nil];
+	}
+	
+	std::ofstream logFile;
+	logFile.open(logFilename, std::ios_base::out | std::ios_base::app);
+	if (!logFile.fail()) {
+		FRAMEWORK->GetLogger()->dbglog("Writing log data to logging file %s", logFilename.c_str());
+		ENGINE->GetProfiler()->PrintAllExperimentData(logFile);
+		logFile.close();
+	}
+	else {
+		FRAMEWORK->GetLogger()->dbglog("Could not open logging file %s", logFilename.c_str());
+		ENGINE->GetProfiler()->PrintAllExperimentData();
+	}
+}
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -12,6 +46,7 @@
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+	printDebugLog();
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application

@@ -11,6 +11,7 @@ class Timer;
 class Tween;
 class Input;
 class AudioManager;
+class Profiler;
 
 class Engine {
 public:
@@ -25,6 +26,7 @@ public:
 	inline Tween*        GetTween()        { return this->tween;        }
 	inline Input*        GetInput()        { return this->input;        }
 	inline AudioManager* GetAudioManager() { return this->audioManager; }
+	inline Profiler*     GetProfiler()     { return this->profiler;     }
 
 	void DoFrame();
 
@@ -36,6 +38,7 @@ private:
 	void init();
 	void destroy();
 
+	void updateInput();
 	void updateScene();
 	void renderScene();
 
@@ -46,6 +49,7 @@ private:
 	Tween* tween;
 	Input* input;
 	AudioManager* audioManager;
+	Profiler* profiler;
 };
 
 #define ENGINE Engine::GetInstance()

@@ -20,6 +20,12 @@ void FileSystemUtils::init() {
     this->deviceArmatureResourcesPath   = this->deviceBaseResourcesPath + "armatures/";
 	this->deviceAnimationResourcesPath  = this->deviceBaseResourcesPath + "animations/";
 	this->deviceAudioResourcesPath      = this->deviceBaseResourcesPath + "audio/";
+
+	NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString* documentsPathNSString = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+	std::string documentsPath = [documentsPathNSString cStringUsingEncoding:NSUTF8StringEncoding];
+	
+	this->deviceLoggingResourcesPath    = documentsPath + "/logging/";
 }
 
 void FileSystemUtils::destroy() {

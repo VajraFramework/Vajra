@@ -72,8 +72,7 @@ void printGLString(const char *name, GLenum s) {
 }
 
 void checkGlError(const char* op) {
-    for (GLint error = glGetError(); error; error
-            = glGetError()) {
+    for (GLint error = glGetError(); error; error = glGetError()) {
         FRAMEWORK->GetLogger()->errlog("\nGLERROR: after %s() glError (0x%x)\n", op, error);
     }
 }
@@ -83,6 +82,7 @@ void printFrameTimeStats() {
 	double frameDuration = ENGINE->GetTimer()->GetTotalFrameTime();
 	double renderDuration = ENGINE->GetTimer()->GetRenderPhaseTime();
 	double updateDuration = ENGINE->GetTimer()->GetUpdatePhaseTime();
+	double inputDuration = ENGINE->GetTimer()->GetInputPhaseTime();
 
 	FRAMEWORK->GetLogger()->dbglog("\nframe: %llu, fps: %f, delta: %f ms, ssb: %llu",
 			ENGINE->GetTimer()->GetFrameNumber(),
@@ -90,8 +90,9 @@ void printFrameTimeStats() {
 			deltaFramesTime * 1000.0,
 			ENGINE->GetTimer()->GetSecondsSinceBoot());
 
-	FRAMEWORK->GetLogger()->dbglog("\nFrame Time Split: total: %f ms (%f \%), update: %f ms (%f \%), render: %f ms (%f \%)",
+	FRAMEWORK->GetLogger()->dbglog("\nFrame Time Split: total: %f ms (%f \%), input: %f ms (%f \%), update: %f ms (%f \%), render: %f ms (%f \%)",
 			frameDuration * 1000.0, frameDuration/deltaFramesTime * 100.0,
+			inputDuration * 1000.0, inputDuration/deltaFramesTime * 100.0,
 			updateDuration * 1000.0, updateDuration/deltaFramesTime * 100.0,
 			renderDuration * 1000.0, renderDuration/deltaFramesTime * 100.0);
 }
