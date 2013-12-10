@@ -61,6 +61,18 @@ glm::vec3& Transform::GetScale() {
 	return this->scale;
 }
 
+glm::vec3& Transform::GetPositionWorld() {
+	return this->positionWorld;
+}
+
+glm::quat& Transform::GetOrientationWorld() {
+	return this->orientationWorld;
+}
+
+glm::vec3& Transform::GetScaleWorld() {
+	return this->scaleWorld;
+}
+
 void Transform::SetPosition(float x, float y, float z) {
 	this->setPosition(glm::vec3(x, y, z));
 }
@@ -175,6 +187,14 @@ void Transform::updateModelMatrixCumulative() {
 		this->modelMatrixCumulative = this->modelMatrix;
 	}
 
+	// Update our picture of position, orientation, and scale in world space as well:
+	glm::vec4 worldPosition = this->modelMatrixCumulative * ZERO_VEC4_POSITION;
+	this->positionWorld    = glm::vec3(worldPosition.x, worldPosition.y, worldPosition.z);
+	this->scaleWorld.x     = this->modelMatrixCumulative[0][3];
+	this->scaleWorld.y     = this->modelMatrixCumulative[1][3];
+	this->scaleWorld.z     = this->modelMatrixCumulative[2][3];
+	this->orientationWorld = glm::quat_cast(this->modelMatrixCumulative);
+
 	this->rippleMatrixUpdates();
 }
 
@@ -204,6 +224,10 @@ void Transform::init() {
 	this->position = ZERO_VEC3;
 	this->orientation = IDENTITY_QUATERNION;
 	this->scale = glm::vec3(1.0f, 1.0f, 1.0f);
+
+	this->positionWorld = ZERO_VEC3;
+	this->orientationWorld = IDENTITY_QUATERNION;
+	this->scaleWorld = glm::vec3(1.0f, 1.0f, 1.0f);
 
 	this->forward = ZAXIS;
 	this->left    = XAXIS;

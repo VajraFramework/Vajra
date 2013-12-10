@@ -33,6 +33,7 @@ namespace Tesserakonteres {
 
 		GameObject* parent = nullptr;
 		GameObject* child = nullptr;
+		GameObject* wavybox = nullptr;
 		{
 			GameObject* gameObject = new GameObject();
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
@@ -65,7 +66,9 @@ namespace Tesserakonteres {
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			//
 			Transform* transform = gameObject->GetTransform();
-			transform->Scale(0.05f);
+			transform->Scale(0.04f);
+			transform->Translate(1.0f, transform->GetForward());
+			wavybox = gameObject;
 #endif
 			//
 #if 0
@@ -82,6 +85,12 @@ namespace Tesserakonteres {
 			ENGINE->GetTween()->TweenPosition(gameObject->GetId(), glm::vec3(0.0f, 0.0f, 0.0f),
 					                                               glm::vec3(0.0f, 1.0f, 0.0f),
 					                                               2.0f, tweenCallback);
+#endif
+#if 1
+			ENGINE->GetTween()->TweenTransform(gameObject->GetId(), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f),
+																	glm::angleAxis(0.0f, YAXIS), glm::angleAxis(90.0f, YAXIS),
+																	gameObject->GetTransform()->GetScale(), gameObject->GetTransform()->GetScale(),
+					                                                2.0f, tweenCallback);
 #endif
 		}
 		{
@@ -110,7 +119,7 @@ namespace Tesserakonteres {
 
 			Transform* transform = gameObject->GetTransform();
 			transform->Scale(0.6f, 0.6f, 0.6f);
-			//transform->Translate(1.5f, XAXIS);
+			transform->SetPosition(wavybox->GetTransform()->GetPositionWorld());
 		}
 		{
 			GameObject* camera = new GameObject();

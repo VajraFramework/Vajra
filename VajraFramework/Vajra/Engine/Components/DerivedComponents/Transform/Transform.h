@@ -27,6 +27,10 @@ public:
 	glm::vec3& GetPosition();
 	glm::quat& GetOrientation();
 	glm::vec3& GetScale();
+	//
+	glm::vec3& GetPositionWorld();
+	glm::quat& GetOrientationWorld();
+	glm::vec3& GetScaleWorld();
 
 	void SetPosition(float x, float y, float z);
 	void SetPosition(glm::vec3 newPosition);
@@ -71,8 +75,12 @@ private:
 	static unsigned int componentTypeId;
 
 	glm::vec3 position;			/// Position of this GameObject in its Parent's co-ordinate space
-	glm::quat orientation;		/// Rotation (a Quaternion) of this GameObject in its Paren't co-ordinate space
+	glm::quat orientation;		/// Rotation (a Quaternion) of this GameObject in its Parent's co-ordinate space
 	glm::vec3 scale;			/// Scale of this GameObject in its Parent's co-ordinate space
+	//
+	glm::vec3 positionWorld;		/// Position of this GameObject in world co-ordinate space
+	glm::quat orientationWorld;		/// Rotation (a Quaternion) of this GameObject in world co-ordinate space
+	glm::vec3 scaleWorld;			/// Scale of this GameObject in world co-ordinate space
 
 	glm::vec3 forward;
 	glm::vec3 left;

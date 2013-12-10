@@ -12,6 +12,9 @@
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
+// Forward Declarations:
+std::string getRandomTweenName();
+
 Tween::Tween() {
 }
 
@@ -21,17 +24,98 @@ Tween::~Tween() {
 
 void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
-	Tween::tweenPosition_internal(gameObject, initialPosition, finalPosition, time, callback);
+	if (gameObject != nullptr) {
+		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
+		glm::vec3 currentScale       = gameObject->GetTransform()->GetScale();
+		Tween::tweenTransform_internal(gameObject, initialPosition, finalPosition,
+												  currentOrientation, currentOrientation,
+												  currentScale, currentScale,
+												  time, callback);
+	}
 }
 
 void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
-		Tween::tweenPosition_internal(gameObject, gameObject->GetTransform()->GetPosition(), finalPosition, time, callback);
+		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
+		glm::vec3 currentScale       = gameObject->GetTransform()->GetScale();
+		Tween::tweenTransform_internal(gameObject, gameObject->GetTransform()->GetPosition(), finalPosition,
+											  	  currentOrientation, currentOrientation,
+											  	  currentScale, currentScale,
+											  	  time, callback);
 	}
 }
 
-void Tween::tweenPosition_internal(GameObject* gameObject, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat initialOrientation, glm::quat finalOrientation, float time,
+		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) /* = 0 */) {
+	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
+	if (gameObject != nullptr) {
+		glm::vec3 currentPosition    = gameObject->GetTransform()->GetPosition();
+		glm::vec3 currentScale       = gameObject->GetTransform()->GetScale();
+		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
+											  	  initialOrientation, finalOrientation,
+											  	  currentScale, currentScale,
+											  	  time, callback);
+	}
+}
+
+void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientation, float time,
+		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
+	if (gameObject != nullptr) {
+		glm::vec3 currentPosition    = gameObject->GetTransform()->GetPosition();
+		glm::vec3 currentScale       = gameObject->GetTransform()->GetScale();
+		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
+											  	  gameObject->GetTransform()->GetOrientation(), finalOrientation,
+											  	  currentScale, currentScale,
+											  	  time, callback);
+	}
+}
+
+void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::vec3 finalScale, float time,
+		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
+	if (gameObject != nullptr) {
+		glm::vec3 currentPosition    = gameObject->GetTransform()->GetPosition();
+		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
+		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
+											  	  currentOrientation, currentOrientation,
+											  	  initialScale, finalScale,
+											  	  time, callback);
+	}
+}
+
+void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float time,
+		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
+	if (gameObject != nullptr) {
+		glm::vec3 currentPosition    = gameObject->GetTransform()->GetPosition();
+		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
+		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
+											  	  currentOrientation, currentOrientation,
+											  	  gameObject->GetTransform()->GetScale(), finalScale,
+											  	  time, callback);
+	}
+}
+
+void Tween::TweenTransform(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition,
+												      glm::quat initialOrientation, glm::quat finalOrientation,
+												      glm::vec3 initialScale, glm::vec3 finalScale,
+												      float time,
+												      void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
+	if (gameObject != nullptr) {
+		this->tweenTransform_internal(gameObject, initialPosition, finalPosition,
+												  initialOrientation, finalOrientation,
+												  initialScale, finalScale,
+												  time, callback);
+	}
+}
+
+void Tween::tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPosition, glm::vec3 finalPosition,
+														glm::quat initialOrientation, glm::quat finalOrientation,
+														glm::vec3 initialScale, glm::vec3 finalScale,
+														float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	if (gameObject == nullptr) {
 		FRAMEWORK->GetLogger()->dbglog("\nTrying to tween null GameObject");
 		return;
@@ -54,25 +138,19 @@ void Tween::tweenPosition_internal(GameObject* gameObject, glm::vec3 initialPosi
 	//
 	initialKeyFrame->SetTime(0.0f);
 	initialKeyFrame->SetTranslation(initialPosition);
-	initialKeyFrame->SetRotation(gameObject->GetTransform()->GetOrientation());
-	initialKeyFrame->SetScaling(gameObject->GetTransform()->GetScale());
+	initialKeyFrame->SetRotation(initialOrientation);
+	initialKeyFrame->SetScaling(initialScale);
 	//
 	finalKeyFrame->SetTime(time);
 	finalKeyFrame->SetTranslation(finalPosition);
-	finalKeyFrame->SetRotation(gameObject->GetTransform()->GetOrientation());
-	finalKeyFrame->SetScaling(gameObject->GetTransform()->GetScale());
+	finalKeyFrame->SetRotation(finalOrientation);
+	finalKeyFrame->SetScaling(finalScale);
 
 	std::vector<AnimationKeyFrame*> keyframes;
 	keyframes.push_back(initialKeyFrame);
 	keyframes.push_back(finalKeyFrame);
 
-	// Come up with a temporary name for the tween animation:
-	static unsigned long int nonce = 0;
-	nonce++;
-	char buffer[20];
-	sprintf(buffer, "%lu", nonce);
-	std::string tweenClipName = "tween";
-	tweenClipName = tweenClipName + buffer;
+	std::string tweenClipName = getRandomTweenName();
 	//
 	OnGoingTweenDetails* ongoingTweenDetails = new OnGoingTweenDetails();
 	ongoingTweenDetails->tweenClipName = tweenClipName;
@@ -108,3 +186,19 @@ void Tween::init() {
 
 void Tween::destroy() {
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+std::string getRandomTweenName() {
+	// Come up with a temporary name for the tween animation:
+	static unsigned long int nonce = 0;
+	nonce++;
+	char buffer[20];
+	sprintf(buffer, "%lu", nonce);
+
+	std::string tweenClipName = "tween";
+	tweenClipName = tweenClipName + buffer;
+
+	return tweenClipName;
+}
+

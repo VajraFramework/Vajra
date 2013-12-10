@@ -18,6 +18,17 @@ public:
 	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 
+	void TweenOrientation(ObjectIdType gameObjectId, glm::quat initialOrientation, glm::quat finalOrientation, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+	void TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientation, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+
+	void TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::vec3 finalScale, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+	void TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+
+	void TweenTransform(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition,
+												   glm::quat initialOrientation, glm::quat finalOrientation,
+												   glm::vec3 initialScale, glm::vec3 finalScale,
+												   float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+
 	bool IsTweening(ObjectIdType gameObjectId);
 
 private:
@@ -28,7 +39,10 @@ private:
 	OnGoingTweenDetails* getOnGoingTweenDetails(ObjectIdType gameObjectId);
 
 	// Utilitiy Functions:
-	void tweenPosition_internal(GameObject* gameObject, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+	void tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPosition, glm::vec3 finalPosition,
+														glm::quat initialOrientation, glm::quat finalOrientation,
+														glm::vec3 initialScale, glm::vec3 finalScale,
+														float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName));
 
 	std::map<ObjectIdType, OnGoingTweenDetails*> ongoingTweens;
 
