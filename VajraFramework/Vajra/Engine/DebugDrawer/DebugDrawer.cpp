@@ -60,7 +60,7 @@ void DebugDrawer::init() {
 	//
 	glGenBuffers(1, &this->reusableCubeVbo); checkGlError("glGenBuffers");
 	glBindBuffer(GL_ARRAY_BUFFER, this->reusableCubeVbo); checkGlError("glBindBuffer");
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * 15, cubeVertices, GL_STATIC_DRAW); checkGlError("glBufferData");
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * 16, cubeVertices, GL_STATIC_DRAW); checkGlError("glBufferData");
 }
 
 void DebugDrawer::destroy() {
