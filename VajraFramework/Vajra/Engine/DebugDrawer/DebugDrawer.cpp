@@ -36,9 +36,11 @@ void DebugDrawer::drawPoint(glm::vec3 position) {
 
 	this->identityTransform->Draw();
 
+	/*
 	glBegin(GL_POINTS);
 	glVertex3f(position.x, position.y, position.z);
 	glEnd();
+	 */
 }
 
 void DebugDrawer::drawCube(glm::vec3 position, float size) {
@@ -50,6 +52,7 @@ void DebugDrawer::drawCube(glm::vec3 position, float size) {
 
 	this->generalPurposeTransform->Draw();
 
+	/*
 	glBegin(GL_LINE_LOOP);
 
 	glVertex3f(0.5f, -0.5f, 0.5f);
@@ -72,17 +75,44 @@ void DebugDrawer::drawCube(glm::vec3 position, float size) {
 	glVertex3f(0.5f, -0.5f, -0.5f);
 
 	glEnd();
+	 */
 }
 
 void DebugDrawer::drawLine(glm::vec3 from, glm::vec3 to) {
 	FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet("simshdr");
+	ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
 
 	this->identityTransform->Draw();
+	
+	GLfloat vertices[] = {
+		from.x, from.y, from.z,
+		to.x, to.y, to.z
+	};
+	
+	GLuint vbo;
+	glGenBuffers(1, &vbo); checkGlError("glGenBuffers");
+	glBindBuffer(GL_ARRAY_BUFFER, vbo); checkGlError("glBindBuffer");
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * 2, vertices, GL_STATIC_DRAW); checkGlError("glBufferData");
+	
+	GLint positionHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vPosition);
+    glEnableVertexAttribArray(positionHandle);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo); checkGlError("glBindBuffer");
+    glVertexAttribPointer(positionHandle,
+                          3, GL_FLOAT, GL_FALSE, 0, 0);
+    checkGlError("glVertexAttribPointer");
+	glDrawArrays(GL_LINES, 0, 2);
+	
+	/*
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDisableClientState(GL_VERTEX_ARRAY);
 
 	glBegin(GL_LINES);
 	glVertex3f(from.x, from.y, from.z);
 	glVertex3f(to.x, to.y, to.z);
 	glEnd();
+	 */
 }
 
 void DebugDrawer::drawArrow(glm::vec3 from, glm::vec3 to) {
