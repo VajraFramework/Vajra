@@ -5,13 +5,14 @@ int testEngineFunction();
 
 // Forward Declarations:
 class AssetLibrary;
+class AudioManager;
+class DebugDrawer;
+class Input;
 class MessageHub;
+class Profiler;
 class SceneGraph;
 class Timer;
 class Tween;
-class Input;
-class AudioManager;
-class Profiler;
 
 class Engine {
 public:
@@ -20,13 +21,14 @@ public:
 	static Engine* GetInstance();
 
 	inline AssetLibrary* GetAssetLibrary() { return this->assetLibrary; }
+	inline AudioManager* GetAudioManager() { return this->audioManager; }
+	inline DebugDrawer*  GetDebugDrawer()  { return this->debugDrawer;  }
+	inline Input*        GetInput()        { return this->input;        }
 	inline MessageHub*   GetMessageHub()   { return this->messageHub;   }
+	inline Profiler*     GetProfiler()     { return this->profiler;     }
 	inline SceneGraph*   GetSceneGraph()   { return this->sceneGraph;   }
 	inline Timer*        GetTimer()        { return this->timer;        }
 	inline Tween*        GetTween()        { return this->tween;        }
-	inline Input*        GetInput()        { return this->input;        }
-	inline AudioManager* GetAudioManager() { return this->audioManager; }
-	inline Profiler*     GetProfiler()     { return this->profiler;     }
 
 	void DoFrame();
 
@@ -44,13 +46,14 @@ private:
 	void renderScene();
 
 	AssetLibrary* assetLibrary;
+	AudioManager* audioManager;
+	DebugDrawer* debugDrawer;
+	Input* input;
 	MessageHub* messageHub;
+	Profiler* profiler;
 	SceneGraph* sceneGraph;
 	Timer* timer;
 	Tween* tween;
-	Input* input;
-	AudioManager* audioManager;
-	Profiler* profiler;
 };
 
 #define ENGINE Engine::GetInstance()

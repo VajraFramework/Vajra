@@ -25,6 +25,8 @@ void GameObject::init() {
 	this->transform = (Transform*)this->GetComponent<Transform>();
 	ASSERT(this->transform != 0, "Succeeded in Add and GetComponent of type Transform to GameObject of id: %d", this->GetId());
 
+	this->visible = true;
+
 	FRAMEWORK->GetLogger()->dbglog("\nCreated new GameObject of id: %d", this->GetId());
 }
 
@@ -32,18 +34,20 @@ void GameObject::destroy() {
 }
 
 void GameObject::Draw() {
-	this->transform->Draw();
+	if (this->visible) {
+		this->transform->Draw();
 
-	// TODO [Cleanup] Cache the Armature, maybe
-	Armature* armature = this->GetComponent<Armature>();
-	if (armature != nullptr) {
-		armature->Bind();
-	}
+		// TODO [Cleanup] Cache the Armature, maybe
+		Armature* armature = this->GetComponent<Armature>();
+		if (armature != nullptr) {
+			armature->Bind();
+		}
 
-	// TODO [Cleanup] Cache the MeshRenderer, maybe
-	MeshRenderer* meshRenderer = this->GetComponent<MeshRenderer>();
-	if (meshRenderer != nullptr) {
-		meshRenderer->Draw();
+		// TODO [Cleanup] Cache the MeshRenderer, maybe
+		MeshRenderer* meshRenderer = this->GetComponent<MeshRenderer>();
+		if (meshRenderer != nullptr) {
+			meshRenderer->Draw();
+		}
 	}
 }
 

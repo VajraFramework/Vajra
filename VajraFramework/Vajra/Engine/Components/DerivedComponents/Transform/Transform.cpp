@@ -119,6 +119,10 @@ void Transform::Scale(float x, float y, float z) {
 	this->setScale(glm::vec3(this->scale.x * x, this->scale.y * y, this->scale.z * z));
 }
 
+void Transform::Scale(glm::vec3 scaleVector) {
+	this->setScale(scaleVector);
+}
+
 void Transform::Scale(float scaleFactor) {
 	this->SetScale(this->scale.x * scaleFactor, this->scale.y * scaleFactor, this->scale.z * scaleFactor);
 }
@@ -135,7 +139,9 @@ void Transform::LookAt(glm::vec3 point) {
 		glm::vec3 connectingVector = glm::normalize(point - this->GetPosition());
 		glm::vec3 crossProduct = glm::normalize( glm::cross(this->GetForward(), connectingVector) );
 		float angleBetweenVectors = glm::orientedAngle(this->GetForward(), connectingVector, crossProduct);
-		this->Rotate(angleBetweenVectors, crossProduct);
+		if (crossProduct != ZERO_VEC3) {
+			this->Rotate(angleBetweenVectors, crossProduct);
+		}
 	}
 	{
 		// Try to restore up to what it was before the rotation without disturbing forward:
@@ -180,7 +186,10 @@ void Transform::updateModelMatrix() {
 }
 
 void Transform::updateModelMatrixCumulative() {
-	GameObject* parent = ENGINE->GetSceneGraph()->GetGameObjectById(this->GetObject()->GetParentId());
+	GameObject* parent = nullptr;
+	if (this->GetObject() != nullptr) {
+		parent = ENGINE->GetSceneGraph()->GetGameObjectById(this->GetObject()->GetParentId());
+	}
 	if (parent != nullptr) {
 		this->modelMatrixCumulative = parent->GetTransform()->modelMatrixCumulative * this->modelMatrix;
 	} else {
@@ -199,18 +208,20 @@ void Transform::updateModelMatrixCumulative() {
 }
 
 void Transform::rippleMatrixUpdates() {
-	// Raise event so that any interested parties are alerted that the transform has changed:
-	const Message* const message = new Message(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT);
-	// Send the message to this GameObject
-	ENGINE->GetMessageHub()->SendPointcastMessage(message, this->GetObject()->GetId(), this->GetObject()->GetId());
-	delete message;
+	if (this->GetObject() != nullptr) {
+		// Raise event so that any interested parties are alerted that the transform has changed:
+		const Message* const message = new Message(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT);
+		// Send the message to this GameObject
+		ENGINE->GetMessageHub()->SendPointcastMessage(message, this->GetObject()->GetId(), this->GetObject()->GetId());
+		delete message;
 
-	// Update this GameObject's children
-	std::list<ObjectIdType> children = this->GetObject()->GetChildren();
-	for (ObjectIdType& childId : children) {
-		GameObject* child = ENGINE->GetSceneGraph()->GetGameObjectById(childId);
-		if (child != nullptr) {
-			child->GetTransform()->updateModelMatrixCumulative();
+		// Update this GameObject's children
+		std::list<ObjectIdType> children = this->GetObject()->GetChildren();
+		for (ObjectIdType& childId : children) {
+			GameObject* child = ENGINE->GetSceneGraph()->GetGameObjectById(childId);
+			if (child != nullptr) {
+				child->GetTransform()->updateModelMatrixCumulative();
+			}
 		}
 	}
 }

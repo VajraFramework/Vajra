@@ -300,7 +300,7 @@ void MeshAsset::Draw() {
     }
     //
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vboIndices); checkGlError("glBindBuffer");
-    glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (void*)0);
+    glDrawElements(this->meshGlRenderingMode, this->indices.size(), GL_UNSIGNED_INT, (void*)0);
     checkGlError("glDrawElements");
 
     return;
@@ -315,6 +315,8 @@ void MeshAsset::init() {
     //
     this->boneIndices = nullptr;
     this->boneWeights = nullptr;
+
+    this->meshGlRenderingMode = GL_TRIANGLES;
 }
 
 void MeshAsset::destroy() {

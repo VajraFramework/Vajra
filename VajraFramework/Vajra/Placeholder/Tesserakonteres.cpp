@@ -1,3 +1,4 @@
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/AnimationClip.h"
@@ -5,6 +6,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -21,7 +23,6 @@
 
 #include <vector>
 
-#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 
 namespace Tesserakonteres {
 
@@ -32,7 +33,7 @@ namespace Tesserakonteres {
 	void tweenNumberCallback(float normalizedProgress, std::string tweenName) {
 		// FRAMEWORK->GetLogger()->dbglog("\nIn tweenNumberCallback() with normalized progress %f", normalizedProgress);
 		if (tweenName == "tween_stubby_arrows") {
-			GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(111);
+			GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(112);
 			if (gameObject != nullptr) {
 				gameObject->GetTransform()->SetPosition(0.0f, 0.0f, normalizedProgress);
 			}
