@@ -96,6 +96,19 @@ void DebugDrawer::drawLine(glm::vec3 from, glm::vec3 to) {
 	glEnd();
 }
 
+void DebugDrawer::drawArrow(glm::vec3 from, glm::vec3 to) {
+	FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet("simshdr");
+
+	this->identityTransform->Draw();
+
+	glBegin(GL_LINES);
+	glVertex3f(from.x, from.y, from.z);
+	glVertex3f(to.x, to.y, to.z);
+	glEnd();
+
+	DebugDraw::DrawCube(to, 0.04f);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void DebugDraw::DrawPoint(glm::vec3 position) {
@@ -112,4 +125,12 @@ void DebugDraw::DrawLine(glm::vec3 from, glm::vec3 to) {
 
 void DebugDraw::DrawLine(glm::vec3 from, glm::vec3 direction, float length) {
 	ENGINE->GetDebugDrawer()->drawLine(from, from + direction * length);
+}
+
+void DebugDraw::DrawArrow(glm::vec3 from, glm::vec3 to) {
+	ENGINE->GetDebugDrawer()->drawArrow(from, to);
+}
+
+void DebugDraw::DrawArrow(glm::vec3 from, glm::vec3 direction, float length) {
+	ENGINE->GetDebugDrawer()->drawArrow(from, from + direction * length);
 }

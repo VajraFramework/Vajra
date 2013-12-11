@@ -229,7 +229,7 @@ void renderFrame(float dt) {
 	DebugDraw::DrawPoint(glm::vec3(1.0f, 1.0f, 1.0f));
 
 	GameObject* torus = ENGINE->GetSceneGraph()->GetGameObjectById(111);
-	DebugDraw::DrawLine(ZERO_VEC3, torus->GetTransform()->GetPosition());
+	DebugDraw::DrawArrow(ZERO_VEC3, torus->GetTransform()->GetPosition());
 
 	DebugDraw::DrawCube(torus->GetTransform()->GetPosition(), 1.0f);
 
