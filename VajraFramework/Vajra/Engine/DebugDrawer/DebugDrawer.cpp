@@ -52,35 +52,24 @@ void DebugDrawer::drawCube(glm::vec3 position, float size) {
 
 	glBegin(GL_LINE_LOOP);
 
-	glVertex3f(  0.5, -0.5, -0.5 );
-	glVertex3f(  0.5,  0.5, -0.5 );
-	glVertex3f( -0.5,  0.5, -0.5 );
-	glVertex3f( -0.5, -0.5, -0.5 );
+	glVertex3f(0.5f, -0.5f, 0.5f);
+	glVertex3f(0.5f, -0.5f, -0.5f);
+	glVertex3f(0.5f, 0.5f, -0.5f);
+	glVertex3f(0.5f, 0.5f, 0.5f);
+	glVertex3f(0.5f, -0.5f, 0.5f);
 
-	glVertex3f(  0.5, -0.5, 0.5 );
-	glVertex3f(  0.5,  0.5, 0.5 );
-	glVertex3f( -0.5,  0.5, 0.5 );
-	glVertex3f( -0.5, -0.5, 0.5 );
+	glVertex3f(-0.5f, -0.5f, 0.5f);
+	glVertex3f(-0.5f, -0.5f, -0.5f);
+	glVertex3f(-0.5f, 0.5f, -0.5f);
+	glVertex3f(-0.5f, 0.5f, 0.5f);
+	glVertex3f(-0.5f, -0.5f, 0.5f);
 
-	glVertex3f( 0.5, -0.5, -0.5 );
-	glVertex3f( 0.5,  0.5, -0.5 );
-	glVertex3f( 0.5,  0.5,  0.5 );
-	glVertex3f( 0.5, -0.5,  0.5 );
-
-	glVertex3f( -0.5, -0.5,  0.5 );
-	glVertex3f( -0.5,  0.5,  0.5 );
-	glVertex3f( -0.5,  0.5, -0.5 );
-	glVertex3f( -0.5, -0.5, -0.5 );
-
-	glVertex3f(  0.5,  0.5,  0.5 );
-	glVertex3f(  0.5,  0.5, -0.5 );
-	glVertex3f( -0.5,  0.5, -0.5 );
-	glVertex3f( -0.5,  0.5,  0.5 );
-
-	glVertex3f(  0.5, -0.5, -0.5 );
-	glVertex3f(  0.5, -0.5,  0.5 );
-	glVertex3f( -0.5, -0.5,  0.5 );
-	glVertex3f( -0.5, -0.5, -0.5 );
+	glVertex3f(-0.5f, 0.5f, 0.5f);
+	glVertex3f(0.5f, 0.5f, 0.5f);
+	glVertex3f(0.5f, 0.5f, -0.5f);
+	glVertex3f(-0.5f, 0.5f, -0.5f);
+	glVertex3f(-0.5f, -0.5f, -0.5f);
+	glVertex3f(0.5f, -0.5f, -0.5f);
 
 	glEnd();
 }
@@ -97,16 +86,8 @@ void DebugDrawer::drawLine(glm::vec3 from, glm::vec3 to) {
 }
 
 void DebugDrawer::drawArrow(glm::vec3 from, glm::vec3 to) {
-	FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet("simshdr");
-
-	this->identityTransform->Draw();
-
-	glBegin(GL_LINES);
-	glVertex3f(from.x, from.y, from.z);
-	glVertex3f(to.x, to.y, to.z);
-	glEnd();
-
-	DebugDraw::DrawCube(to, 0.04f);
+	this->drawLine(from, to);
+	this->drawCube(to, 0.04f);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
