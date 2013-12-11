@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58AFF3661858D643001A8B46 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 58AFF3651858D643001A8B46 /* .gitignore */; };
 		58CF9A171855F86E00AE0A42 /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58CF9A121855F86E00AE0A42 /* AndroidWrapper.cpp */; };
 		58CF9A181855F86E00AE0A42 /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58CF9A151855F86E00AE0A42 /* TestFile.cpp */; };
 		58F246F01850F5C90066E804 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F246EF1850F5C90066E804 /* Foundation.framework */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		58AFF3651858D643001A8B46 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		58CF9A121855F86E00AE0A42 /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
 		58CF9A131855F86E00AE0A42 /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
 		58CF9A151855F86E00AE0A42 /* TestFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestFile.cpp; sourceTree = "<group>"; };
@@ -119,6 +121,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		58AFF3641858D643001A8B46 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				58AFF3651858D643001A8B46 /* .gitignore */,
+			);
+			name = include;
+			path = ../../include;
+			sourceTree = "<group>";
+		};
 		58CF9A0F1855F86E00AE0A42 /* Code */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,6 +169,7 @@
 		58F246E31850F5C90066E804 = {
 			isa = PBXGroup;
 			children = (
+				58AFF3641858D643001A8B46 /* include */,
 				58F246F91850F5C90066E804 /* ExampleGame */,
 				58F2471F1850F5C90066E804 /* ExampleGameTests */,
 				58F246EE1850F5C90066E804 /* Frameworks */,
@@ -337,6 +349,7 @@
 				58F60E5E18515DF30036DDDE /* audio in Resources */,
 				58F247071850F5C90066E804 /* Main_iPhone.storyboard in Resources */,
 				58F247131850F5C90066E804 /* Images.xcassets in Resources */,
+				58AFF3661858D643001A8B46 /* .gitignore in Resources */,
 				58F60E6118515DF30036DDDE /* shaders in Resources */,
 				58F60E5D18515DF30036DDDE /* armatures in Resources */,
 				58F60E6018515DF30036DDDE /* pictures in Resources */,
