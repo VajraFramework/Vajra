@@ -44,6 +44,10 @@ private:
 	void drawLine (glm::vec3 from, glm::vec3 to);
 	void drawArrow(glm::vec3 from, glm::vec3 to);
 
+	GLuint reusableLineVbo;
+	GLuint reusableCubeVbo;
+	GLuint reusablePointVbo;
+
 	Transform* identityTransform;
 	Transform* generalPurposeTransform;
 
