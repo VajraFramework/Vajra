@@ -45,6 +45,8 @@ public:
 
 	inline std::string GetArmatureFilePath() { return this->armatureFilePath; }
 
+	void SetGlRenderingMode(GLenum mode) { this->meshGlRenderingMode = mode; }
+
 private:
 	void init();
 	void destroy();
@@ -75,6 +77,8 @@ private:
 	glm::vec3 initialScale;
 
 	Material* material;
+
+	GLenum meshGlRenderingMode;
 
 	std::string armatureFilePath;
 

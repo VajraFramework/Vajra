@@ -1,6 +1,7 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/AudioManager/AudioManager.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
@@ -43,6 +44,9 @@ void Engine::init() {
 
 	this->sceneGraph = new SceneGraph();
 	this->sceneGraph->init();
+
+	this->debugDrawer = new DebugDrawer();
+	this->debugDrawer->init();
 
 	this->tween = new Tween();
 	this->tween->init();
@@ -114,6 +118,9 @@ int testEngineFunction() {
 }
 
 void Engine::destroy() {
+	if (this->debugDrawer != nullptr) {
+		delete this->debugDrawer;
+	}
 	if (this->sceneGraph != nullptr) {
 		delete this->sceneGraph;
 	}

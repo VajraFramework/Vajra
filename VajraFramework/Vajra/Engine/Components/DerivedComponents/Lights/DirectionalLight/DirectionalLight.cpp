@@ -32,15 +32,25 @@ void DirectionalLight::HandleMessage(Message* message) {
 void DirectionalLight::WriteLightPropertiesToShader() {
 	GameObject* gameObject = (GameObject*)this->GetObject();
 	glm::vec3 forward = gameObject->GetTransform()->GetForward();
-	glUniform4f(FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_DLight0Direction),
-				forward.x, forward.y, forward.z, 0.0f);
+	ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
 
-	glUniform4f(FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_DLight0AmbientColor),
+	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_DLight0Direction)) {
+		glUniform4f(currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_DLight0Direction),
+												forward.x, forward.y, forward.z, 0.0f);
+	}
+
+	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_DLight0AmbientColor)) {
+		glUniform4f(currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_DLight0AmbientColor),
 				this->ambientColor.r, this->ambientColor.g, this->ambientColor.b, this->ambientColor.a);
-	glUniform4f(FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_DLight0DiffuseColor),
+	}
+	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_DLight0DiffuseColor)) {
+		glUniform4f(currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_DLight0DiffuseColor),
 				this->diffuseColor.r, this->diffuseColor.g, this->diffuseColor.b, this->diffuseColor.a);
-	glUniform4f(FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_DLight0SpecularColor),
+	}
+	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_DLight0SpecularColor)) {
+		glUniform4f(currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_DLight0SpecularColor),
 				this->specularColor.r, this->specularColor.g, this->specularColor.b, this->specularColor.a);
+	}
 }
 
 void DirectionalLight::init() {

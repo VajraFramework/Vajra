@@ -44,6 +44,7 @@ public:
 	void Rotate(float angleInDegrees, glm::vec3 axis);
 	void Rotate(glm::quat quaternion);
 	void Scale(float x, float y, float z);
+	void Scale(glm::vec3 scaleVector);
 	void Scale(float scaleFactor);
 	//
 	void LookAt(float point_x, float point_y, float point_z);

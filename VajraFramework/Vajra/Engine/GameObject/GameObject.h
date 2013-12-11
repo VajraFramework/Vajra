@@ -29,12 +29,15 @@ public:
 
 	virtual void Draw();
 
+	bool IsVisible() { return this->visible; }
+	void SetVisible(bool visible) { this->visible = visible; }
 
 private:
 	void init();
 	void destroy();
 
 	Transform* transform;
+	bool visible;
 };
 
 #endif // GAMEOBJECT_H
