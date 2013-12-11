@@ -3,6 +3,9 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
+#include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
+#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/OpenGLIncludes.h"
 
 
@@ -29,6 +32,7 @@ void DebugDrawer::destroy() {
 }
 
 void DebugDrawer::drawPoint(glm::vec3 position) {
+	FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet("simshdr");
 
 	this->identityTransform->Draw();
 
@@ -38,6 +42,7 @@ void DebugDrawer::drawPoint(glm::vec3 position) {
 }
 
 void DebugDrawer::drawCube(glm::vec3 position, float size) {
+	FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet("simshdr");
 
 	this->generalPurposeTransform->SetPosition(position);
 	this->generalPurposeTransform->SetScale(1.0f, 1.0f, 1.0f);
@@ -81,6 +86,7 @@ void DebugDrawer::drawCube(glm::vec3 position, float size) {
 }
 
 void DebugDrawer::drawLine(glm::vec3 from, glm::vec3 to) {
+	FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet("simshdr");
 
 	this->identityTransform->Draw();
 

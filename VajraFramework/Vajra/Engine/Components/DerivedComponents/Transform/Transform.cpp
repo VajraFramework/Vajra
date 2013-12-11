@@ -40,13 +40,19 @@ void Transform::Draw() {
 	Camera* camera = ENGINE->GetSceneGraph()->GetMainCamera();
 	ASSERT(camera != nullptr, "Could get main camera for the scene");
 
-	glm::mat4 mvpMatrix = camera->GetProjMatrix() * camera->GetViewMatrix() * this->modelMatrixCumulative;
-	GLint mvpMatrixHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_mvpMatrix);
-    glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, glm::value_ptr(mvpMatrix));
+	ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
+
+	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_mvpMatrix)) {
+		glm::mat4 mvpMatrix = camera->GetProjMatrix() * camera->GetViewMatrix() * this->modelMatrixCumulative;
+		GLint mvpMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_mvpMatrix);
+    	glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, glm::value_ptr(mvpMatrix));
+	}
     //
-	glm::mat4 modelInverseTransposeMatrix = glm::inverseTranspose(this->modelMatrixCumulative);
-	GLint mitMatrixHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix);
-    glUniformMatrix4fv(mitMatrixHandle, 1, GL_FALSE, glm::value_ptr(modelInverseTransposeMatrix));
+	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix)) {
+		glm::mat4 modelInverseTransposeMatrix = glm::inverseTranspose(this->modelMatrixCumulative);
+		GLint mitMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix);
+    	glUniformMatrix4fv(mitMatrixHandle, 1, GL_FALSE, glm::value_ptr(modelInverseTransposeMatrix));
+	}
 }
 
 glm::vec3& Transform::GetPosition() {

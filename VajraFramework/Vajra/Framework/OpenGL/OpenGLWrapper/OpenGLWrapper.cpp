@@ -57,11 +57,11 @@ void OpenGLWrapper::init() {
 
     this->currentShaderSet = nullptr;
 
+	this->CreateShaderSet("simshdr", "SimplestShader.shaderspec");
 	this->CreateShaderSet("txrshdr", "TextureShader.shaderspec");
 	this->CreateShaderSet("clrshdr", "ColorShader.shaderspec");
 	this->CreateShaderSet("bncshdr", "BoneColorShader.shaderspec");
 	this->CreateShaderSet("bntshdr", "BoneTextureShader.shaderspec");
-	// this->CreateShaderSet("simshdr", "SimplestShader.shaderspec");
 
 }
 
