@@ -57,7 +57,7 @@ void Armature::updateBoneMatrices() {
 
 	for (auto bone_it = this->bones.begin(); bone_it != this->bones.end(); ++bone_it) {
 		Bone* bone = bone_it->second;
-		bone->localRotationMatrixCumulative = IDENTITY_MATRIX;
+		bone->localMatrixCumulative = IDENTITY_MATRIX;
 	}
 
 	this->rootBone->updateBoneMatrices_recursive();
