@@ -103,39 +103,49 @@ void Timer::endFrame() {
 
 // Raise some multi granular update events based on frameNumber and current time
 void Timer::broadcastMultiGranularMessages() {
+	// Frame based messagess
 	// Every 5 frames
 	if(this->frameNumber % 5 == 0){
 		const Message* onFifthFrameMessage = new Message(MESSAGE_TYPE_FIFTH_FRAME_EVENT);
 		ENGINE->GetMessageHub()->SendMulticastMessage(onFifthFrameMessage, this->GetId());
 		delete onFifthFrameMessage;
+
+		// Every 10 frames
+		if(this->frameNumber % 10 == 0){
+			const Message* onTenthFrameMessage = new Message(MESSAGE_TYPE_TENTH_FRAME_EVENT);
+			ENGINE->GetMessageHub()->SendMulticastMessage(onTenthFrameMessage, this->GetId());
+			delete onTenthFrameMessage;
+		}
 	}
 
-	// Every 10 frames
-	if(this->frameNumber % 10 == 0){
-		const Message* onTenthFrameMessage = new Message(MESSAGE_TYPE_TENTH_FRAME_EVENT);
-		ENGINE->GetMessageHub()->SendMulticastMessage(onTenthFrameMessage, this->GetId());
-		delete onTenthFrameMessage;
-	}
-
-	// Every 500ms 
-	this->fiveHundredMillisecondCounter += this->deltaFrameTime;
-	if(this->fiveHundredMillisecondCounter >= 0.5)
+	// Time based messages
+	// Update time counters
+	double fiveHundredMillisecondCounter_temp = this->fiveHundredMillisecondCounter + this->deltaFrameTime;
+	double fiveSecondCounter_temp = this->fiveSecondCounter + this->deltaFrameTime;
+	// every 500 milliseconds
+	if(fiveHundredMillisecondCounter_temp >= 0.5)
 	{
+		// Send the message
 		const Message* every500MillisecondsMessage = new Message(MESSAGE_TYPE_500_MS_TIME_EVENT);
 		ENGINE->GetMessageHub()->SendMulticastMessage(every500MillisecondsMessage, this->GetId());
 		delete every500MillisecondsMessage;
-		this->fiveHundredMillisecondCounter -= 0.5;
 
-	}
+		// Decrement counter and store it
+		fiveHundredMillisecondCounter_temp -= 0.5;
+		this->fiveHundredMillisecondCounter = fiveHundredMillisecondCounter_temp;
 
-	// Every 5 seconds 
-	this->fiveSecondCounter += this->deltaFrameTime;
-	if(this->fiveSecondCounter >= 5.0)
-	{
-		const Message* every5SecondsMessage = new Message(MESSAGE_TYPE_5_S_TIME_EVENT);
-		ENGINE->GetMessageHub()->SendMulticastMessage(every5SecondsMessage, this->GetId());
-		delete every5SecondsMessage;
-		this->fiveSecondCounter -= 5.0;
+		// Every 5 seconds 
+		if(fiveSecondCounter_temp >= 5.0)
+		{
+			// Send the message
+			const Message* every5SecondsMessage = new Message(MESSAGE_TYPE_5_S_TIME_EVENT);
+			ENGINE->GetMessageHub()->SendMulticastMessage(every5SecondsMessage, this->GetId());
+			delete every5SecondsMessage;
+
+			// Decrement counter and store it
+			fiveSecondCounter_temp -= 5.0;
+			this->fiveSecondCounter = fiveSecondCounter_temp;
+		}
 	}
 }
 
