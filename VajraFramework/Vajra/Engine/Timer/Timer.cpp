@@ -130,9 +130,8 @@ void Timer::broadcastMultiGranularMessages() {
 		ENGINE->GetMessageHub()->SendMulticastMessage(every500MillisecondsMessage, this->GetId());
 		delete every500MillisecondsMessage;
 
-		// Decrement counter and store it
+		// Decrement counter
 		fiveHundredMillisecondCounter_temp -= 0.5;
-		this->fiveHundredMillisecondCounter = fiveHundredMillisecondCounter_temp;
 
 		// Every 5 seconds 
 		if(fiveSecondCounter_temp >= 5.0)
@@ -142,11 +141,13 @@ void Timer::broadcastMultiGranularMessages() {
 			ENGINE->GetMessageHub()->SendMulticastMessage(every5SecondsMessage, this->GetId());
 			delete every5SecondsMessage;
 
-			// Decrement counter and store it
+			// Decrement counter
 			fiveSecondCounter_temp -= 5.0;
-			this->fiveSecondCounter = fiveSecondCounter_temp;
 		}
 	}
+	// Store temps back in counters
+	this->fiveHundredMillisecondCounter = fiveHundredMillisecondCounter_temp;
+	this->fiveSecondCounter = fiveSecondCounter_temp;
 }
 
 double Timer::GetHighResAbsoluteTime() {
