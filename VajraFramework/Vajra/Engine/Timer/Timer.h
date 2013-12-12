@@ -40,6 +40,7 @@ private:
 	void beginInputPhase();
 	void endInputPhase();
 	void endFrame();
+	void broadcastMultiGranularMessages();
 
 	unsigned long long frameNumber;
 	unsigned long long secondsSinceEpoch;
@@ -57,6 +58,10 @@ private:
 	double renderPhaseDuration;
 	double updatePhaseDuration;
 	double inputPhaseDuration;
+
+	// Multi Granular counters
+	double fiveHundredMillisecondCounter;
+	double fiveSecondCounter;
 
 	unsigned long long secondsSinceEpochAtBoot;
 

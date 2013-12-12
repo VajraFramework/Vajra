@@ -34,6 +34,9 @@ void Timer::init() {
 	this->renderPhaseDuration = 0.0;
 	this->updatePhaseDuration = 0.0;
 	this->inputPhaseDuration  = 0.0;
+
+	this->fiveHundredMillisecondCounter = 0.0;
+	this->fiveSecondCounter = 0.0f;
 }
 
 void Timer::beginFrame() {
@@ -58,6 +61,8 @@ void Timer::beginFrame() {
 	const Message* const onFrameMessage = new Message(MESSAGE_TYPE_FRAME_EVENT);
 	ENGINE->GetMessageHub()->SendMulticastMessage(onFrameMessage, this->GetId());
 	delete onFrameMessage;
+
+	this->broadcastMultiGranularMessages();
 }
 
 void Timer::beginRenderPhase() {
@@ -94,6 +99,44 @@ void Timer::endFrame() {
 	std::chrono::time_point<std::chrono::system_clock> clockTimeNow = std::chrono::system_clock::now();
 	auto duration = clockTimeNow - this->frameBeginSystemClock;
 	this->totalFrameDuration = (std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count() / 1000000000.0);
+}
+
+// Raise some multi granular update events based on frameNumber and current time
+void Timer::broadcastMultiGranularMessages() {
+	// Every 5 frames
+	if(this->frameNumber % 5 == 0){
+		const Message* onFifthFrameMessage = new Message(MESSAGE_TYPE_FIFTH_FRAME_EVENT);
+		ENGINE->GetMessageHub()->SendMulticastMessage(onFifthFrameMessage, this->GetId());
+		delete onFifthFrameMessage;
+	}
+
+	// Every 10 frames
+	if(this->frameNumber % 10 == 0){
+		const Message* onTenthFrameMessage = new Message(MESSAGE_TYPE_TENTH_FRAME_EVENT);
+		ENGINE->GetMessageHub()->SendMulticastMessage(onTenthFrameMessage, this->GetId());
+		delete onTenthFrameMessage;
+	}
+
+	// Every 500ms 
+	this->fiveHundredMillisecondCounter += this->deltaFrameTime;
+	if(this->fiveHundredMillisecondCounter >= 0.5)
+	{
+		const Message* every500MillisecondsMessage = new Message(MESSAGE_TYPE_500_MS_TIME_EVENT);
+		ENGINE->GetMessageHub()->SendMulticastMessage(every500MillisecondsMessage, this->GetId());
+		delete every500MillisecondsMessage;
+		this->fiveHundredMillisecondCounter -= 0.5;
+
+	}
+
+	// Every 5 seconds 
+	this->fiveSecondCounter += this->deltaFrameTime;
+	if(this->fiveSecondCounter >= 5.0f)
+	{
+		const Message* every5SecondsMessage = new Message(MESSAGE_TYPE_5_S_TIME_EVENT);
+		ENGINE->GetMessageHub()->SendMulticastMessage(every5SecondsMessage, this->GetId());
+		delete every5SecondsMessage;
+		this->fiveSecondCounter -= 5.0f;
+	}
 }
 
 double Timer::GetHighResAbsoluteTime() {
