@@ -114,7 +114,6 @@ GLfloat gCubeVertexData[216] =
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     view.multipleTouchEnabled = YES;
-    
 	
 	// Set up the Engine input handler
 	IOSInputSender *sender = [[IOSInputSender alloc] initWithFrame:self.view.frame];
