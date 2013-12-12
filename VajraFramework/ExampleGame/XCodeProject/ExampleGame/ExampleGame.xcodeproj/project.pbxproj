@@ -37,6 +37,8 @@
 		58F60E6118515DF30036DDDE /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 58F60E5B18515DF30036DDDE /* shaders */; };
 		58F60E6318515E990036DDDE /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60E6218515E990036DDDE /* OpenAL.framework */; };
 		BA97C3C11856824100942107 /* logging in Resources */ = {isa = PBXBuildFile; fileRef = BA97C3C01856824100942107 /* logging */; };
+		BA97C3D4185A51C300942107 /* GridCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3D0185A51C300942107 /* GridCell.cpp */; };
+		BA97C3D5185A51C300942107 /* GridManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3D2185A51C300942107 /* GridManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +92,11 @@
 		58F60E5B18515DF30036DDDE /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../../../Resources/shaders; sourceTree = "<group>"; };
 		58F60E6218515E990036DDDE /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		BA97C3C01856824100942107 /* logging */ = {isa = PBXFileReference; lastKnownFileType = folder; name = logging; path = ../../../Resources/logging; sourceTree = "<group>"; };
+		BA97C3CE185A51C300942107 /* ComponentTypeIds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentTypeIds.h; sourceTree = "<group>"; };
+		BA97C3D0185A51C300942107 /* GridCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridCell.cpp; sourceTree = "<group>"; };
+		BA97C3D1185A51C300942107 /* GridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridCell.h; sourceTree = "<group>"; };
+		BA97C3D2185A51C300942107 /* GridManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridManager.cpp; sourceTree = "<group>"; };
+		BA97C3D3185A51C300942107 /* GridManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				58CF9A111855F86E00AE0A42 /* AndroidWrapper */,
+				BA97C3CC185A51C300942107 /* Components */,
 				58CF9A141855F86E00AE0A42 /* Test */,
 			);
 			path = ExampleGame;
@@ -263,6 +271,34 @@
 				58F60E5B18515DF30036DDDE /* shaders */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		BA97C3CC185A51C300942107 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BA97C3CD185A51C300942107 /* ComponentTypes */,
+				BA97C3CF185A51C300942107 /* Grid */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		BA97C3CD185A51C300942107 /* ComponentTypes */ = {
+			isa = PBXGroup;
+			children = (
+				BA97C3CE185A51C300942107 /* ComponentTypeIds.h */,
+			);
+			path = ComponentTypes;
+			sourceTree = "<group>";
+		};
+		BA97C3CF185A51C300942107 /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				BA97C3D0185A51C300942107 /* GridCell.cpp */,
+				BA97C3D1185A51C300942107 /* GridCell.h */,
+				BA97C3D2185A51C300942107 /* GridManager.cpp */,
+				BA97C3D3185A51C300942107 /* GridManager.h */,
+			);
+			path = Grid;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -394,6 +430,8 @@
 				58CF9A181855F86E00AE0A42 /* TestFile.cpp in Sources */,
 				58F247111850F5C90066E804 /* ViewController.mm in Sources */,
 				58CF9A171855F86E00AE0A42 /* AndroidWrapper.cpp in Sources */,
+				BA97C3D5185A51C300942107 /* GridManager.cpp in Sources */,
+				BA97C3D4185A51C300942107 /* GridCell.cpp in Sources */,
 				58F247041850F5C90066E804 /* AppDelegate.mm in Sources */,
 				58F247001850F5C90066E804 /* main.mm in Sources */,
 			);
