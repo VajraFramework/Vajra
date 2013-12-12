@@ -130,12 +130,12 @@ void Timer::broadcastMultiGranularMessages() {
 
 	// Every 5 seconds 
 	this->fiveSecondCounter += this->deltaFrameTime;
-	if(this->fiveSecondCounter >= 5.0f)
+	if(this->fiveSecondCounter >= 5.0)
 	{
 		const Message* every5SecondsMessage = new Message(MESSAGE_TYPE_5_S_TIME_EVENT);
 		ENGINE->GetMessageHub()->SendMulticastMessage(every5SecondsMessage, this->GetId());
 		delete every5SecondsMessage;
-		this->fiveSecondCounter -= 5.0f;
+		this->fiveSecondCounter -= 5.0;
 	}
 }
 
