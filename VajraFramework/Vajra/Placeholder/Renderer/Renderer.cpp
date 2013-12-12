@@ -92,7 +92,6 @@ void setupMatrixes(float dt) {
     return;
 }
 
-
 void renderFrame(float dt) {
     setupMatrixes(dt);
 
@@ -171,6 +170,8 @@ void renderFrame(float dt) {
     	// transform->Rotate(10.0f * deltaTime, YAXIS);
     	// transform->Translate(0.05f * deltaTime, transform->GetForward());
     	Armature* armature = wavybox->GetComponent<Armature>();
+
+
 #if 1
     	{
 			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_BackJoint01");
@@ -232,6 +233,7 @@ void renderFrame(float dt) {
 	DebugDraw::DrawArrow(ZERO_VEC3, torus->GetTransform()->GetPosition());
 
 	DebugDraw::DrawCube(torus->GetTransform()->GetPosition(), 1.0f);
+
 
     ENGINE->DoFrame();
 

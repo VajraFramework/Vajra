@@ -1,3 +1,4 @@
+#include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
@@ -75,6 +76,10 @@ namespace Tesserakonteres {
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "polySurface5.model");
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
+			Armature* armature = gameObject->GetComponent<Armature>();
+			if (armature != nullptr) {
+				armature->ReadOtherFinalBoneTransformsFromFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "bakedbonematrices");
+			}
 			//
 			Transform* transform = gameObject->GetTransform();
 			transform->Scale(0.04f);

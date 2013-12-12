@@ -4,15 +4,18 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/ModelLoader/ArmatureLoader.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
+#include "Vajra/Utilities/FileUtilities.h"
 #include "Vajra/Utilities/MathUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
 
 #include "Libraries/glm/gtx/transform.hpp"
 
+#include <fstream>
 
 unsigned int Armature::componentTypeId = COMPONENT_TYPE_ID_ARMATURE;
 
@@ -44,12 +47,21 @@ void Armature::HandleMessage(Message* message) {
 
 void Armature::Bind() {
 	GLint boneTransformsHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneTransforms);
-    glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->finalBoneTransforms[0]));
+    // glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->finalBoneTransforms[0]));
+    glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->otherFinalBoneTransformsSet[1]->finalBoneTransforms[0]));
 }
 
 void Armature::resetFinalBoneTransforms() {
 	for (int i = 0; i < MAX_BONES; ++i) {
 		this->finalBoneTransforms[i] = IDENTITY_MATRIX;
+	}
+
+	for (int i = 0; i < 5; ++i) {
+		FinalBoneTransformsSet* finalBoneTransformsSet = new FinalBoneTransformsSet();
+		for (int i = 0; i < MAX_BONES; ++i) {
+			finalBoneTransformsSet->finalBoneTransforms[i] = IDENTITY_MATRIX;
+		}
+		this->otherFinalBoneTransformsSet.push_back(finalBoneTransformsSet);
 	}
 }
 
@@ -60,7 +72,14 @@ void Armature::updateBoneMatrices() {
 		bone->localMatrixCumulative = IDENTITY_MATRIX;
 	}
 
-	this->rootBone->updateBoneMatrices_recursive();
+	// this->rootBone->updateBoneMatrices_recursive();
+
+	// if (ENGINE->GetTimer()->GetFrameNumber()%600 == 1) {
+		// static int qwe = 0;
+		// FRAMEWORK->GetLogger()->dbglog("\nPRINTING BONE MATRICES FOR FRAME NUMBER: %d", qwe);
+		// this->DumpBoneKeyframes();
+		// qwe++;
+	// }
 }
 
 void Armature::AddBone(Bone* newBone) {
@@ -108,4 +127,28 @@ void Armature::init() {
 
 void Armature::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+}
+
+void Armature::DumpBoneKeyframes() {
+	for (unsigned int i = 0; i < this->bones.size(); ++i) {
+		FRAMEWORK->GetLogger()->dbglog("\nMatrix for bone: %d", i);
+		printGlmMat4(this->finalBoneTransforms[i]);
+	}
+}
+
+void Armature::ReadOtherFinalBoneTransformsFromFile(std::string filePath) {
+	std::ifstream file(filePath.c_str());
+	ASSERT(file.good(), "\nSuccessfully opened file at path: %s", filePath.c_str());
+
+	int numMatrixSets;
+	file >> numMatrixSets;
+
+	for (int s = 0; s < numMatrixSets; ++s) {
+		int numBoneMatrices;
+		file >> numBoneMatrices;
+
+		for (int i = 0; i < numBoneMatrices; ++i) {
+			this->otherFinalBoneTransformsSet[s]->finalBoneTransforms[i] = ReadGlmMat4x4FromFile(file);
+		}
+	}
 }

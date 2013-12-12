@@ -3,6 +3,8 @@
 
 #include "Vajra/Utilities/OpenGLIncludes.h"
 
+#include "Libraries/glm/glm.hpp"
+
 #include <string>
 #include <type_traits>
 
@@ -44,6 +46,8 @@ void printGLString(const char *name, GLenum s);
 void checkGlError(const char* op);
 
 void printFrameTimeStats();
+
+void printGlmMat4(glm::mat4 m);
 
 #define TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(TemplateName, returnType, baseClassType)	\
 template <typename TemplateName>																\

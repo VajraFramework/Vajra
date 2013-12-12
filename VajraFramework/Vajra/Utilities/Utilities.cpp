@@ -96,3 +96,13 @@ void printFrameTimeStats() {
 			updateDuration * 1000.0, updateDuration/deltaFramesTime * 100.0,
 			renderDuration * 1000.0, renderDuration/deltaFramesTime * 100.0);
 }
+
+void printGlmMat4(glm::mat4 m) {
+	FRAMEWORK->GetLogger()->dbglog("\n");
+	for (int r = 0; r < 4; ++r) {
+		for (int c = 0; c < 4; ++c) {
+			FRAMEWORK->GetLogger()->dbglog("%f ", m[r][c]);
+		}
+		FRAMEWORK->GetLogger()->dbglog("\n");
+	}
+}
