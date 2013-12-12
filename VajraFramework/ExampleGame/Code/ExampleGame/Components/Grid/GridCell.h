@@ -19,7 +19,7 @@ public:
 	int z; // Grid cell coordinate z
 	glm::vec3 origin; // Southwest corner of the cell in world coordinates
 	glm::vec3 center; // Center of the cell in world coordinates
-	bool isPassable; // If true, this cell will block movement through it
+	bool isPassable; // If false, units will not attempt to navigate through the cell
 	GameObject* occupant; // The object in the cell
 
 	/*

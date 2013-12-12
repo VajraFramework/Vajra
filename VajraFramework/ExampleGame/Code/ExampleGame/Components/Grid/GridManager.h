@@ -29,7 +29,7 @@ public:
 	int GetRoomX(int cellX); // Returns the room in which the cell resides
 	int GetRoomZ(int cellZ); // Returns the room in which the cell resides
 	GridCell* GetCell(int x, int z); // Returns the cell at the specified coordinates
-	GridCell* GetCell(glm::vec3 loc); // Returns the cell at the specified location
+	GridCell* GetCell(glm::vec3 loc); // Returns the cell at the specified world position
 
 	/****************
 	// TODO [Implement]
@@ -48,22 +48,22 @@ private:
 	void init();
 	void destroy();
 
-	bool IsInCell(int x, int z); // Returns true if the specified world position falls within a defined cell
-	bool IsInCell(glm::vec3 loc); // Returns true if the vector position falls within a defined cell
-
+	bool IsWithinGrid(int cellX, int cellZ); // Returns true if the specified cell falls within the grid boundaries
+	bool IsWithinGrid(glm::vec3 loc); // Returns true if the vector position falls within a defined cell
+#ifdef DEBUG
 	void DebugDrawGrid();
-
+#endif
 	float cellSize; // Width and depth of a grid cell in world coordinates
 	glm::vec3 halfCellSize; // Offset vector between center and corner of a grid cell
 
-	GridCell*** grid; // 2D array of grid cells
+	GridCell*** gridCells; // 2D array of grid cells
 
 	unsigned int gridWidth;
 	unsigned int gridHeight;
-	unsigned int screenWidth; // Number of cells that fit horizontally on the screen
-	unsigned int screenHeight; // Number of cells that fit vertically on the screen
-	int screenOffsetX; // Number of cells separating screens horizontally
-	int screenOffsetZ; // Number of cells separating screens vertically
+	unsigned int roomWidth; // Width of an individual room in grid cells
+	unsigned int roomHeight; // Height of an individual room in grid cells
+	int roomOffsetX; // Number of cells separating rooms horizontally
+	int roomOffsetZ; // Number of cells separating rooms vertically
 	int maxElevation;
 	glm::vec3 gridOrigin; // The center of cell (0,0) in world coordinates
 
@@ -79,7 +79,7 @@ private:
 	std::list<GridCell*> occupiedCells;
 
 	std::list<PlayerUnit*> pUnits;
-	/****************/
+	****************/
 
 #ifdef DEBUG
 	//Color gridColor; // Default debug grid color
@@ -95,7 +95,7 @@ private:
 };
 
 /****************
-// TODO [Move] These should be moved into other classes
+// TODO [Cleanup] These should be moved into other classes
 void NextUnit();
 void SetUnitIcon();
 void UpdateUnitIcon(float mod);

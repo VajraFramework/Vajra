@@ -10,10 +10,10 @@
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
-#define INDOOR_SCREEN_WIDTH 15
-#define INDOOR_SCREEN_HEIGHT 10
-#define OUTDOOR_SCREEN_WIDTH 18
-#define OUTDOOR_SCREEN_HEIGHT 12
+#define ROOM_WIDTH_INDOORS 15
+#define ROOM_HEIGHT_INDOORS 10
+#define ROOM_WIDTH_OUTDOORS 18
+#define ROOM_HEIGHT_OUTDOORS 12
 
 unsigned int GridManager::componentTypeId = COMPONENT_TYPE_ID_GRID_MANAGER;
 
@@ -32,43 +32,46 @@ GridManager::~GridManager() {
 void GridManager::init() {
 	this->cellSize      = 0.0f;
 	this->halfCellSize  = ZERO_VEC3;
-	this->grid          = nullptr;
+	this->gridCells     = nullptr;
 	this->gridWidth     = 0;
 	this->gridHeight    = 0;
-	this->screenWidth   = 0;
-	this->screenHeight  = 0;
-	this->screenOffsetX = 0;
-	this->screenOffsetZ = 0;
+	this->roomWidth   = 0;
+	this->roomHeight  = 0;
+	this->roomOffsetX = 0;
+	this->roomOffsetZ = 0;
 	this->maxElevation  = 0;
 	this->gridOrigin    = ZERO_VEC3;
-
+#ifdef DEBUG
 	// TODO [Remove] Just use this to draw the grid until we get some actual objects into the level
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
+#endif
 }
 
 void GridManager::destroy() {
+#ifdef DEBUG
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
-
-	if (this->grid != nullptr) {
+#endif
+	if (this->gridCells != nullptr) {
 		for (unsigned int i = 0; i < this->gridWidth; ++i) {
 			for (unsigned int j = 0; j < this->gridHeight; ++j) {
-				delete this->grid[i][j];
+				if (this->gridCells[i][j] != nullptr) {
+					delete this->gridCells[i][j];
+				}
 			}
-			delete [] this->grid[i];
+			delete [] this->gridCells[i];
 		}
-		delete [] this->grid;
-		this->grid = nullptr;
+		delete [] this->gridCells;
+		this->gridCells = nullptr;
 	}
-
-	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
 void GridManager::HandleMessage(Message* message) {
 	switch (message->GetMessageType()) {
+#ifdef DEBUG
 		case MESSAGE_TYPE_FRAME_EVENT:
 			DebugDrawGrid();
 			break;
-
+#endif
 		default:
 			break;
 	}
@@ -81,39 +84,39 @@ void GridManager::GenerateTerrainFromFile(std::string terrainFilename) {
 	this->halfCellSize.x = 0.5f;
 	this->halfCellSize.y = 0.0f;
 	this->halfCellSize.z = 0.5f;
-	this->gridWidth = OUTDOOR_SCREEN_WIDTH;
-	this->gridHeight = OUTDOOR_SCREEN_HEIGHT;
-	this->screenWidth = OUTDOOR_SCREEN_WIDTH;
-	this->screenHeight = OUTDOOR_SCREEN_HEIGHT;
+	this->gridWidth = ROOM_WIDTH_OUTDOORS;
+	this->gridHeight = ROOM_HEIGHT_OUTDOORS;
+	this->roomWidth = ROOM_WIDTH_OUTDOORS;
+	this->roomHeight = ROOM_HEIGHT_OUTDOORS;
 
-	this->grid = new GridCell**[OUTDOOR_SCREEN_WIDTH];
-	for (unsigned int i = 0; i < OUTDOOR_SCREEN_WIDTH; ++i) {
-		this->grid[i] = new GridCell*[OUTDOOR_SCREEN_HEIGHT];
-		for (unsigned int j = 0; j < OUTDOOR_SCREEN_HEIGHT; ++j) {
+	this->gridCells = new GridCell**[ROOM_WIDTH_OUTDOORS];
+	for (unsigned int i = 0; i < ROOM_WIDTH_OUTDOORS; ++i) {
+		this->gridCells[i] = new GridCell*[ROOM_HEIGHT_OUTDOORS];
+		for (unsigned int j = 0; j < ROOM_HEIGHT_OUTDOORS; ++j) {
 			glm::vec3 center;
 			center.x = i * this->cellSize;
 			center.y = 0;
 			center.z = j * this->cellSize;
 			glm::vec3 origin = center - this->halfCellSize;
-			this->grid[i][j] = new GridCell(i, 0, j, origin, center, true);
+			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, true);
 		}
 	}
 
-	this->gridOrigin = this->grid[0][0]->center;
+	this->gridOrigin = this->gridCells[0][0]->center;
 }
 
 int GridManager::GetRoomX(int cellX) {
-	return (cellX / this->screenWidth);
+	return (cellX / this->roomWidth);
 }
 
 int GridManager::GetRoomZ(int cellZ) {
-	return (cellZ / this->screenHeight);
+	return (cellZ / this->roomHeight);
 }
 
 GridCell* GridManager::GetCell(int x, int z) {
-	if (IsInCell(x * this->cellSize, z * this->cellSize)) { return nullptr; }
+	if (IsWithinGrid(x * this->cellSize, z * this->cellSize)) { return nullptr; }
 
-	return this->grid[x][z];
+	return this->gridCells[x][z];
 }
 
 GridCell* GridManager::GetCell(glm::vec3 loc) {
@@ -158,16 +161,16 @@ std::list<GridCell> GridManager::DirectRoute(int startX, int startZ, int endX, i
 
 }
 */
-bool GridManager::IsInCell(int x, int z) {
+bool GridManager::IsWithinGrid(int x, int z) {
 	return (x >= 0) && (x < this->gridWidth) && (z >= 0) && (z < this->gridHeight);
 }
 
-bool GridManager::IsInCell(glm::vec3 loc) {
+bool GridManager::IsWithinGrid(glm::vec3 loc) {
 	int gX = (int)((loc.x / this->cellSize) + 0.5f);
 	int gZ = (int)((loc.z / this->cellSize) + 0.5f);
-	return IsInCell(gX, gZ);
+	return IsWithinGrid(gX, gZ);
 }
-
+#ifdef DEBUG
 void GridManager::DebugDrawGrid() {
 	glm::vec3 start, end;
 
@@ -199,3 +202,4 @@ void GridManager::DebugDrawGrid() {
 		end.z -= this->cellSize;
 	} while (j <= this->gridHeight);
 }
+#endif
