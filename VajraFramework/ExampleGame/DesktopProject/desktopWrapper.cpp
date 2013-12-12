@@ -12,6 +12,8 @@
 #include "Libraries/glm/glm.hpp"
 using namespace glm;
 
+#include "ExampleGame/Test/TestFile.h"
+
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
@@ -85,6 +87,7 @@ int main( void ) {
 	setupGraphics(1024, 768);
 
 	Tesserakonteres::initGameObjectsForScene();
+	TestFuntion();
 
 	do {
 

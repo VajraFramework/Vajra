@@ -170,6 +170,7 @@ namespace Tesserakonteres {
 #if 1
 			GameObject* noiseMaker = new GameObject();
 			AudioSource* source = noiseMaker->AddComponent<AudioSource>();
+			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(noiseMaker->GetId());
 			source->SetAudioClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesPath() + "lowAlert(hisfixed).wav");
 			source->Play();
 #endif
