@@ -86,6 +86,7 @@
 		58F245C61850C3350066E804 /* libVajraStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F245AE1850C3340066E804 /* libVajraStaticLibrary.a */; };
 		58F245CC1850C3350066E804 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 58F245CA1850C3350066E804 /* InfoPlist.strings */; };
 		58F245CE1850C3350066E804 /* VajraStaticLibraryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F245CD1850C3350066E804 /* VajraStaticLibraryTests.m */; };
+		B378B74F1859357600D44614 /* IOSInputSender.mm in Sources */ = {isa = PBXBuildFile; fileRef = B378B74E1859357600D44614 /* IOSInputSender.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -263,6 +264,8 @@
 		58F245C91850C3350066E804 /* VajraStaticLibraryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VajraStaticLibraryTests-Info.plist"; sourceTree = "<group>"; };
 		58F245CB1850C3350066E804 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		58F245CD1850C3350066E804 /* VajraStaticLibraryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VajraStaticLibraryTests.m; sourceTree = "<group>"; };
+		B378B74B185934FC00D44614 /* IOSInputSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSInputSender.h; sourceTree = "<group>"; };
+		B378B74E1859357600D44614 /* IOSInputSender.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IOSInputSender.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -649,6 +652,7 @@
 		58AFF2B61858D5B7001A8B46 /* Input */ = {
 			isa = PBXGroup;
 			children = (
+				B378B74A185934DF00D44614 /* Platforms */,
 				58AFF2B71858D5B7001A8B46 /* Input.cpp */,
 				58AFF2B81858D5B7001A8B46 /* Input.h */,
 			);
@@ -999,6 +1003,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		B378B74A185934DF00D44614 /* Platforms */ = {
+			isa = PBXGroup;
+			children = (
+				B378B74E1859357600D44614 /* IOSInputSender.mm */,
+				B378B74B185934FC00D44614 /* IOSInputSender.h */,
+			);
+			path = Platforms;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1160,6 +1173,7 @@
 				58AFF3611858D5B7001A8B46 /* FileUtilities.cpp in Sources */,
 				58AFF3531858D5B7001A8B46 /* RigidAnimationLoader.cpp in Sources */,
 				58AFF32E1858D5B7001A8B46 /* Animation.cpp in Sources */,
+				B378B74F1859357600D44614 /* IOSInputSender.mm in Sources */,
 				58AFF35A1858D5B7001A8B46 /* OpenGLWrapper.cpp in Sources */,
 				58AFF3251858D5B7001A8B46 /* AnimationKeyFrame.cpp in Sources */,
 				58AFF3331858D5B7001A8B46 /* Bone.cpp in Sources */,
