@@ -173,10 +173,10 @@ void GridManager::DebugDrawGrid() {
 
 	start.x = -this->cellSize / 2;
 	start.y = 0.0f;
-	start.z = -this->cellSize / 2;
+	start.z = this->cellSize / 2;
 	end.x = -this->cellSize / 2;
 	end.y = 0.0f;
-	end.z = (this->gridHeight + 0.5f) * this->cellSize;
+	end.z = (0.5f - this->gridHeight) * this->cellSize;
 	unsigned int i = 0;
 	do {
 		DebugDraw::DrawLine(start, end);
@@ -187,15 +187,15 @@ void GridManager::DebugDrawGrid() {
 
 	start.x = -this->cellSize / 2;
 	start.y = 0.0f;
-	start.z = -this->cellSize / 2;
-	end.x = (this->gridHeight + 0.5f) * this->cellSize;
+	start.z = this->cellSize / 2;
+	end.x = (this->gridWidth - 0.5f) * this->cellSize;
 	end.y = 0.0f;
-	end.z = -this->cellSize / 2;
+	end.z = this->cellSize / 2;
 	unsigned int j = 0;
 	do {
 		DebugDraw::DrawLine(start, end);
 		++j;
-		start.z += this->cellSize;
-		end.z += this->cellSize;
+		start.z -= this->cellSize;
+		end.z -= this->cellSize;
 	} while (j <= this->gridHeight);
 }
