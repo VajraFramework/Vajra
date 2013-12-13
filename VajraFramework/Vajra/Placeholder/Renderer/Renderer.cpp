@@ -151,7 +151,7 @@ void renderFrame(float dt) {
         	if (transform != nullptr) {
         		// transform->SetOrientation(90.0f, YAXIS);
         		transform->Translate(0.1f * deltaTime, transform->GetForward());
-        		transform->Rotate(-50.0f * deltaTime, YAXIS);
+        		transform->Rotate(-10.0f * deltaTime, YAXIS);
         		// transform->Rotate(100.0f * deltaTime, -transform->GetLeft());
         	}
         }

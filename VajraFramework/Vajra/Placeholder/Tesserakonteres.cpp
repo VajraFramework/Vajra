@@ -82,7 +82,7 @@ namespace Tesserakonteres {
 			}
 			//
 			Transform* transform = gameObject->GetTransform();
-			transform->Scale(0.04f);
+			transform->Scale(0.2f);
 			transform->Translate(1.0f, transform->GetForward());
 			wavybox = gameObject;
 #endif
@@ -142,7 +142,7 @@ namespace Tesserakonteres {
 		{
 			GameObject* camera = new GameObject();
 			/* Camera* cameraComponent = */ camera->AddComponent<Camera>();
-			camera->GetTransform()->SetPosition(2.0f, 2.0f, 2.0f);
+			camera->GetTransform()->SetPosition(4.0f, 4.0f, 4.0f);
 			// camera->GetTransform()->SetOrientation(-45.0f, camera->GetTransform()->GetUp());
 			// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
 			camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);

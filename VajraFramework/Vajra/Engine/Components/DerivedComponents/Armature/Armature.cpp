@@ -48,7 +48,15 @@ void Armature::HandleMessage(Message* message) {
 void Armature::Bind() {
 	GLint boneTransformsHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneTransforms);
     // glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->finalBoneTransforms[0]));
-    glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->otherFinalBoneTransformsSet[1]->finalBoneTransforms[0]));
+    glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->otherFinalBoneTransformsSet[0]->finalBoneTransforms[0]));
+
+	GLint otherBoneTransformsHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_otherBoneTransforms);
+    glUniformMatrix4fv(otherBoneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->otherFinalBoneTransformsSet[1]->finalBoneTransforms[0]));
+
+    static int interp = 0;
+    interp = (interp + 1) % 150;
+	GLint interpHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_interp);
+	glUniform2f(interpHandle, interp / 150.0f, 0.0f);
 }
 
 void Armature::resetFinalBoneTransforms() {
