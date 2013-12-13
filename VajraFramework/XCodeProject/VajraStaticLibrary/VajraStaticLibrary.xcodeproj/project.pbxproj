@@ -86,6 +86,7 @@
 		58F245C61850C3350066E804 /* libVajraStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F245AE1850C3340066E804 /* libVajraStaticLibrary.a */; };
 		58F245CC1850C3350066E804 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 58F245CA1850C3350066E804 /* InfoPlist.strings */; };
 		58F245CE1850C3350066E804 /* VajraStaticLibraryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F245CD1850C3350066E804 /* VajraStaticLibraryTests.m */; };
+		B30F61E8185B53890026DF44 /* GameScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B30F61E6185B53890026DF44 /* GameScript.cpp */; };
 		B378B74F1859357600D44614 /* IOSInputSender.mm in Sources */ = {isa = PBXBuildFile; fileRef = B378B74E1859357600D44614 /* IOSInputSender.mm */; };
 /* End PBXBuildFile section */
 
@@ -264,6 +265,8 @@
 		58F245C91850C3350066E804 /* VajraStaticLibraryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VajraStaticLibraryTests-Info.plist"; sourceTree = "<group>"; };
 		58F245CB1850C3350066E804 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		58F245CD1850C3350066E804 /* VajraStaticLibraryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VajraStaticLibraryTests.m; sourceTree = "<group>"; };
+		B30F61E6185B53890026DF44 /* GameScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScript.cpp; sourceTree = "<group>"; };
+		B30F61E7185B53890026DF44 /* GameScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScript.h; sourceTree = "<group>"; };
 		B378B74B185934FC00D44614 /* IOSInputSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSInputSender.h; sourceTree = "<group>"; };
 		B378B74E1859357600D44614 /* IOSInputSender.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IOSInputSender.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -508,6 +511,7 @@
 			isa = PBXGroup;
 			children = (
 				58AFF28B1858D5B7001A8B46 /* Animation */,
+				B30F61E5185B53650026DF44 /* GameScript */,
 				58AFF2971858D5B7001A8B46 /* Armature */,
 				58AFF29D1858D5B7001A8B46 /* Audio */,
 				58AFF2A01858D5B7001A8B46 /* Camera */,
@@ -1003,6 +1007,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		B30F61E5185B53650026DF44 /* GameScript */ = {
+			isa = PBXGroup;
+			children = (
+				B30F61E6185B53890026DF44 /* GameScript.cpp */,
+				B30F61E7185B53890026DF44 /* GameScript.h */,
+			);
+			path = GameScript;
+			sourceTree = "<group>";
+		};
 		B378B74A185934DF00D44614 /* Platforms */ = {
 			isa = PBXGroup;
 			children = (
@@ -1118,6 +1131,7 @@
 				58AFF3581858D5B7001A8B46 /* DesktopLogger.cpp in Sources */,
 				58AFF34A1858D5B7001A8B46 /* iOSAudioLoader.mm in Sources */,
 				58AFF33D1858D5B7001A8B46 /* MessageCache.cpp in Sources */,
+				B30F61E8185B53890026DF44 /* GameScript.cpp in Sources */,
 				58AFF3431858D5B7001A8B46 /* Timer.cpp in Sources */,
 				58AFF31C1858D5B7001A8B46 /* Component.cpp in Sources */,
 				58AFF33C1858D5B7001A8B46 /* Input.cpp in Sources */,
