@@ -74,7 +74,7 @@ namespace Tesserakonteres {
 			// Draw a wavybox
 			GameObject* gameObject = new GameObject();
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "polySurface5.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "SD_GuardCaptainMesh_03_polySurface9.model");
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			Armature* armature = gameObject->GetComponent<Armature>();
 			if (armature != nullptr) {
@@ -142,7 +142,7 @@ namespace Tesserakonteres {
 		{
 			GameObject* camera = new GameObject();
 			/* Camera* cameraComponent = */ camera->AddComponent<Camera>();
-			camera->GetTransform()->SetPosition(4.0f, 4.0f, 4.0f);
+			camera->GetTransform()->SetPosition(7.0f, 7.0f, 7.0f);
 			// camera->GetTransform()->SetOrientation(-45.0f, camera->GetTransform()->GetUp());
 			// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
 			camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);

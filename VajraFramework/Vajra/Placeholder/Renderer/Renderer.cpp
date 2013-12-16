@@ -172,19 +172,19 @@ void renderFrame(float dt) {
     	Armature* armature = wavybox->GetComponent<Armature>();
 
 
-#if 1
+#if 0
     	{
 			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_BackJoint01");
 			someBone->Rotate(5.0f * deltaTime, XAXIS, false);
     	}
 #endif
-#if 1
+#if 0
     	{
 			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_Left_ElbowJoint01");
 			someBone->Rotate(-5.0f * deltaTime, YAXIS, false);
     	}
 #endif
-#if 1
+#if 0
     	{
 			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_Left_ShoulderJoint01");
 			someBone->Rotate(-5.0f * deltaTime, YAXIS, true);

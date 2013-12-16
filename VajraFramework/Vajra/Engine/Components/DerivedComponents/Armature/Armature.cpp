@@ -48,15 +48,15 @@ void Armature::HandleMessage(Message* message) {
 void Armature::Bind() {
 	GLint boneTransformsHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneTransforms);
     // glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->finalBoneTransforms[0]));
-    glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->otherFinalBoneTransformsSet[0]->finalBoneTransforms[0]));
+    glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->otherFinalBoneTransformsSet[19]->finalBoneTransforms[0]));
 
 	GLint otherBoneTransformsHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_otherBoneTransforms);
-    glUniformMatrix4fv(otherBoneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->otherFinalBoneTransformsSet[1]->finalBoneTransforms[0]));
+    glUniformMatrix4fv(otherBoneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->otherFinalBoneTransformsSet[20]->finalBoneTransforms[0]));
 
     static int interp = 0;
-    interp = (interp + 1) % 150;
+    interp = (interp + 1) % 200;
 	GLint interpHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_interp);
-	glUniform2f(interpHandle, interp / 150.0f, 0.0f);
+	glUniform2f(interpHandle, interp / 200.0f, 0.0f);
 }
 
 void Armature::resetFinalBoneTransforms() {
@@ -64,7 +64,7 @@ void Armature::resetFinalBoneTransforms() {
 		this->finalBoneTransforms[i] = IDENTITY_MATRIX;
 	}
 
-	for (int i = 0; i < 5; ++i) {
+	for (int i = 0; i < 60; ++i) {
 		FinalBoneTransformsSet* finalBoneTransformsSet = new FinalBoneTransformsSet();
 		for (int i = 0; i < MAX_BONES; ++i) {
 			finalBoneTransformsSet->finalBoneTransforms[i] = IDENTITY_MATRIX;
@@ -148,12 +148,19 @@ void Armature::ReadOtherFinalBoneTransformsFromFile(std::string filePath) {
 	std::ifstream file(filePath.c_str());
 	ASSERT(file.good(), "\nSuccessfully opened file at path: %s", filePath.c_str());
 
-	int numMatrixSets;
+	int versionNumber;
+	file >> versionNumber;
+
+	int numBoneMatrices;
+	file >> numBoneMatrices;
+
+	int numMatrixSets;	// numSkeletalKeyframes
 	file >> numMatrixSets;
 
 	for (int s = 0; s < numMatrixSets; ++s) {
-		int numBoneMatrices;
-		file >> numBoneMatrices;
+
+		float time;
+		file >> time;
 
 		for (int i = 0; i < numBoneMatrices; ++i) {
 			this->otherFinalBoneTransformsSet[s]->finalBoneTransforms[i] = ReadGlmMat4x4FromFile(file);

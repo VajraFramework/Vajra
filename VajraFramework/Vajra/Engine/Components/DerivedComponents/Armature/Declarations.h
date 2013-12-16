@@ -1,7 +1,7 @@
 #ifndef ARMATURE_DECLARATIONS_H
 #define ARMATURE_DECLARATIONS_H
 
-#define DRAW_BONES 0
+#define DRAW_BONES 1
 
 // This has to match the declaration of the bone transforms array in shader_variables
 #define MAX_BONES 50
