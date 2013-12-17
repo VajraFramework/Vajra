@@ -37,6 +37,8 @@ public:
 	AnimationClip* GetAnimationClip(std::string animationClipName);
 	inline AnimationClip* GetCurrentPlayingAnimationClip() { return this->currentAnimationClip; }
 
+	inline void Bind() { this->bind(); }
+
 protected:
 	AnimationClip* addAnimationClip(AnimationClip* animationClip, bool takeOwnershipOfMemory);
 
@@ -48,6 +50,7 @@ private:
 	void playAnimationClip_internal(AnimationClip* animationClip);
 	void step(double deltaTime);
 	void apply();
+	void bind();
 
 	AnimationClip* currentAnimationClip;
 	std::map<std::string /* clip name */, AnimationClip*> animationClips;

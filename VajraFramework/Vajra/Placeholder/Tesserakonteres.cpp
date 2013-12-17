@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/AnimationClip.h"
+#include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
@@ -74,12 +75,14 @@ namespace Tesserakonteres {
 			// Draw a wavybox
 			GameObject* gameObject = new GameObject();
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "SD_GuardCaptainMesh_03_polySurface9.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "wavybox.model");
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
-			Armature* armature = gameObject->GetComponent<Armature>();
-			if (armature != nullptr) {
-				armature->ReadOtherFinalBoneTransformsFromFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "bakedbonematrices");
-			}
+			BakedSkeletalAnimation* bakedSkeletalAnimation = gameObject->AddComponent<BakedSkeletalAnimation>();
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#pCube1");
+			AnimationClip* animationClip = bakedSkeletalAnimation->GetAnimationClip("pCube1");
+			animationClip->SetLooping(true);
+			animationClip->SetPlaybackSpeed(1.0f);
+			bakedSkeletalAnimation->PlayAnimationClip("pCube1");
 			//
 			Transform* transform = gameObject->GetTransform();
 			transform->Scale(0.2f);
@@ -102,7 +105,7 @@ namespace Tesserakonteres {
 					                                               glm::vec3(0.0f, 1.0f, 0.0f),
 					                                               2.0f, tweenCallback);
 #endif
-#if 1
+#if 0
 			ENGINE->GetTween()->TweenTransform(gameObject->GetId(), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f),
 																	glm::angleAxis(0.0f, YAXIS), glm::angleAxis(90.0f, YAXIS),
 																	gameObject->GetTransform()->GetScale(), gameObject->GetTransform()->GetScale(),
@@ -142,7 +145,7 @@ namespace Tesserakonteres {
 		{
 			GameObject* camera = new GameObject();
 			/* Camera* cameraComponent = */ camera->AddComponent<Camera>();
-			camera->GetTransform()->SetPosition(7.0f, 7.0f, 7.0f);
+			camera->GetTransform()->SetPosition(4.0f, 4.0f, 4.0f);
 			// camera->GetTransform()->SetOrientation(-45.0f, camera->GetTransform()->GetUp());
 			// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
 			camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);

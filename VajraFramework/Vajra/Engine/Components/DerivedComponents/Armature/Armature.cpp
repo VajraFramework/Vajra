@@ -46,48 +46,36 @@ void Armature::HandleMessage(Message* message) {
 }
 
 void Armature::Bind() {
+#if USING_RUNTIME_COMPUTED_BONE_MATRICES
 	GLint boneTransformsHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneTransforms);
-    // glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->finalBoneTransforms[0]));
-    glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->otherFinalBoneTransformsSet[19]->finalBoneTransforms[0]));
-
-	GLint otherBoneTransformsHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_otherBoneTransforms);
-    glUniformMatrix4fv(otherBoneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->otherFinalBoneTransformsSet[20]->finalBoneTransforms[0]));
-
-    static int interp = 0;
-    interp = (interp + 1) % 200;
-	GLint interpHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_interp);
-	glUniform2f(interpHandle, interp / 200.0f, 0.0f);
+    glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->finalBoneTransforms[0]));
+#endif // USING_RUNTIME_COMPUTED_BONE_MATRICES
 }
 
 void Armature::resetFinalBoneTransforms() {
 	for (int i = 0; i < MAX_BONES; ++i) {
 		this->finalBoneTransforms[i] = IDENTITY_MATRIX;
 	}
-
-	for (int i = 0; i < 60; ++i) {
-		FinalBoneTransformsSet* finalBoneTransformsSet = new FinalBoneTransformsSet();
-		for (int i = 0; i < MAX_BONES; ++i) {
-			finalBoneTransformsSet->finalBoneTransforms[i] = IDENTITY_MATRIX;
-		}
-		this->otherFinalBoneTransformsSet.push_back(finalBoneTransformsSet);
-	}
 }
 
 void Armature::updateBoneMatrices() {
-
+#if USING_RUNTIME_COMPUTED_BONE_MATRICES
 	for (auto bone_it = this->bones.begin(); bone_it != this->bones.end(); ++bone_it) {
 		Bone* bone = bone_it->second;
 		bone->localMatrixCumulative = IDENTITY_MATRIX;
 	}
 
-	// this->rootBone->updateBoneMatrices_recursive();
+	this->rootBone->updateBoneMatrices_recursive();
+#endif // USING_RUNTIME_COMPUTED_BONE_MATRICES
 
-	// if (ENGINE->GetTimer()->GetFrameNumber()%600 == 1) {
-		// static int qwe = 0;
-		// FRAMEWORK->GetLogger()->dbglog("\nPRINTING BONE MATRICES FOR FRAME NUMBER: %d", qwe);
-		// this->DumpBoneKeyframes();
-		// qwe++;
-	// }
+	/*
+	if (ENGINE->GetTimer()->GetFrameNumber()%600 == 1) {
+		static int keyframeNumberBeingDumped = 0;
+		FRAMEWORK->GetLogger()->dbglog("\nPRINTING BONE MATRICES FOR KEY FRAME NUMBER: %d", keyframeNumberBeingDumped);
+		this->DumpBoneKeyframes();
+		keyframeNumberBeingDumped++;
+	}
+	*/
 }
 
 void Armature::AddBone(Bone* newBone) {
@@ -137,33 +125,11 @@ void Armature::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
+/*
 void Armature::DumpBoneKeyframes() {
 	for (unsigned int i = 0; i < this->bones.size(); ++i) {
 		FRAMEWORK->GetLogger()->dbglog("\nMatrix for bone: %d", i);
 		printGlmMat4(this->finalBoneTransforms[i]);
 	}
 }
-
-void Armature::ReadOtherFinalBoneTransformsFromFile(std::string filePath) {
-	std::ifstream file(filePath.c_str());
-	ASSERT(file.good(), "\nSuccessfully opened file at path: %s", filePath.c_str());
-
-	int versionNumber;
-	file >> versionNumber;
-
-	int numBoneMatrices;
-	file >> numBoneMatrices;
-
-	int numMatrixSets;	// numSkeletalKeyframes
-	file >> numMatrixSets;
-
-	for (int s = 0; s < numMatrixSets; ++s) {
-
-		float time;
-		file >> time;
-
-		for (int i = 0; i < numBoneMatrices; ++i) {
-			this->otherFinalBoneTransformsSet[s]->finalBoneTransforms[i] = ReadGlmMat4x4FromFile(file);
-		}
-	}
-}
+*/

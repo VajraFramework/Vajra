@@ -48,6 +48,12 @@ void Animation::apply() {
 	this->currentAnimationClip->apply(gameObject->GetTransform());
 }
 
+void Animation::bind() {
+	if (this->currentAnimationClip != nullptr) {
+		this->currentAnimationClip->bind();
+	}
+}
+
 AnimationClip* Animation::addAnimationClip(AnimationClip* animationClip, bool takeOwnershipOfMemory) {
 	if (this->animationClips.find(animationClip->GetName()) == this->animationClips.end()) {
 		this->animationClips[animationClip->GetName()] = animationClip;

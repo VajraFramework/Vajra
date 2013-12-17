@@ -29,7 +29,6 @@ public:
 	inline void SetPlaybackSpeed(double speed) { this->playbackSpeed = speed; }
 
 protected:
-	float interpolation;
 	virtual AnimationKeyFrame* getCurrentKeyFrame() const = 0;
 	virtual AnimationKeyFrame* getNextKeyFrame() const = 0;
 	virtual AnimationKeyFrame* getCurrentKeyFrameAtInterpolation(float interpolation) = 0;
@@ -41,6 +40,9 @@ protected:
 	virtual void InitAnimationClip(std::string clipName_, std::vector<AnimationKeyFrame*> animationKeyFrames) = 0;
 
 	virtual void reset() {}
+	virtual void bind() {}
+
+	float interpolation;
 
 private:
 	void init(Animation* parentAnimationComponent_);

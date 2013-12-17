@@ -2,6 +2,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
+#include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
@@ -37,11 +38,19 @@ void GameObject::Draw() {
 	if (this->visible) {
 		this->transform->Draw();
 
+#if USING_RUNTIME_COMPUTED_BONE_MATRICES
 		// TODO [Cleanup] Cache the Armature, maybe
 		Armature* armature = this->GetComponent<Armature>();
 		if (armature != nullptr) {
 			armature->Bind();
 		}
+#elif USING_BAKED_BONE_MATRICES
+		// TODO [Cleanup] Cache the BakedSkeletalAnimation component, maybe
+		BakedSkeletalAnimation* bakedSkeletalAnimation = this->GetComponent<BakedSkeletalAnimation>();
+		if (bakedSkeletalAnimation != nullptr) {
+			bakedSkeletalAnimation->Bind();
+		}
+#endif
 
 		// TODO [Cleanup] Cache the MeshRenderer, maybe
 		MeshRenderer* meshRenderer = this->GetComponent<MeshRenderer>();

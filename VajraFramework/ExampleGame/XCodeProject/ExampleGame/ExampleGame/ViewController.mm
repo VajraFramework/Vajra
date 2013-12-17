@@ -109,6 +109,7 @@ GLfloat gCubeVertexData[216] =
     [super viewDidLoad];
     
     
+    // TODO [Implement] look into possible optimizations to retain frames, etc, that can be passed in as properties for this function
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     
     if (!self.context) {

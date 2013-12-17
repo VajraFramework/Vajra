@@ -30,6 +30,10 @@ AnimationClip* RigidAnimation::AddAnimationClip(AnimationClip* animationClip) {
 	return this->addAnimationClip(animationClip, true);
 }
 
+void RigidAnimation::Bind() {
+	// Nothing to do here
+}
+
 void RigidAnimation::init() {
 	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
 	if (gameObject != nullptr) {

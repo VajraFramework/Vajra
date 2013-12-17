@@ -39,8 +39,8 @@ public:
 
 	void SetRootBoneByName(std::string rootBoneName);
 
-	void DumpBoneKeyframes();
-	void ReadOtherFinalBoneTransformsFromFile(std::string filePath);
+	// TODO [Cleanup] Remove this when some of the problems with offset bones is solved
+	// void DumpBoneKeyframes();
 
 private:
 	void init();
@@ -55,7 +55,6 @@ private:
 	Bone* rootBone;
 
 	glm::mat4 finalBoneTransforms[MAX_BONES];
-	std::vector<FinalBoneTransformsSet*> otherFinalBoneTransformsSet;
 
 	friend class Bone;
 };

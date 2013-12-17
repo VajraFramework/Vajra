@@ -23,7 +23,7 @@ void LoadRigidAnimationFromAnimclipsFile(const char* clipsFilePath,
 	{
 		int animationsFormatVersionNumber = -1;
 		clipsFile >> animationsFormatVersionNumber;
-		VERIFY(animationsFormatVersionNumber == ANIMATION_FORMAT_VERSION_NUMBER, "Animations format version number (%d) matches expected (%d)", animationsFormatVersionNumber, ANIMATION_FORMAT_VERSION_NUMBER);
+		VERIFY(animationsFormatVersionNumber == RIGID_ANIMATION_FORMAT_VERSION_NUMBER, "Animations format version number (%d) matches expected (%d)", animationsFormatVersionNumber, RIGID_ANIMATION_FORMAT_VERSION_NUMBER);
 	}
 
 	{
