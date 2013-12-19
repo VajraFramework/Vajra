@@ -11,6 +11,7 @@
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 
+#include <list>
 #include <string>
 
 class GridManager : public Component {
@@ -30,6 +31,8 @@ public:
 	int GetRoomZ(int cellZ); // Returns the room in which the cell resides
 	GridCell* GetCell(int x, int z); // Returns the cell at the specified coordinates
 	GridCell* GetCell(glm::vec3 loc); // Returns the cell at the specified world position
+
+	void GetNeighbors(GridCell* cel, std::list<GridCell>& outNbrs); // Populates the list with all adjacent cells
 
 	/****************
 	// TODO [Implement]

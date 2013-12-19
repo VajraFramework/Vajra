@@ -140,7 +140,22 @@ void GridManager::ToggleOverview() {
 void GridManager::TouchOnGrid(uTouch uT) {
 
 }
-
+*/
+void GridManager::GetNeighbors(GridCell* cel, std::list<GridCell>& outNbrs) {
+	if (IsWithinGrid(cel->x - 1, cel->z)) {
+		outNbrs.push_back(this->gridCells[cel->x - 1][cel->z]);
+	}
+	if (IsWithinGrid(cel->x + 1, cel->z)) {
+		outNbrs.push_back(this->gridCells[cel->x + 1][cel->z]);
+	}
+	if (IsWithinGrid(cel->x, cel->z - 1)) {
+		outNbrs.push_back(this->gridCells[cel->x][cel->z - 1]);
+	}
+	if (IsWithinGrid(cel->x, cel->z + 1)) {
+		outNbrs.push_back(this->gridCells[cel->x][cel->z + 1]);
+	}
+}
+/*
 std::list<GridCell> GridManager::GetNeighbors(GridCell* cel, bool diagonals, bool sameRoom) {
 
 }
