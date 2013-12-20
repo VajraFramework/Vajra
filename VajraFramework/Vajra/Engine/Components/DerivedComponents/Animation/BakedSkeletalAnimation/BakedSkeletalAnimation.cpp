@@ -7,11 +7,13 @@
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
-BakedSkeletalAnimation::BakedSkeletalAnimation() : Animation() {
+unsigned int BakedSkeletalAnimation::componentTypeId = COMPONENT_TYPE_ID_BAKED_SKELETAL_ANIMATION;
+
+BakedSkeletalAnimation::BakedSkeletalAnimation() : Animation(), Component() {
 	this->init();
 }
 
-BakedSkeletalAnimation::BakedSkeletalAnimation(Object* object_) : Animation(object_) {
+BakedSkeletalAnimation::BakedSkeletalAnimation(Object* object_) : Animation((GameObject*)object_), Component(object_) {
 	this->init();
 }
 
@@ -30,13 +32,30 @@ AnimationClip* BakedSkeletalAnimation::AddAnimationClip(AnimationClip* animation
 	return this->addAnimationClip(animationClip, true);
 }
 
+void BakedSkeletalAnimation::HandleMessage(Message* message) {
+	if (this->handleMessage(message) == NOT_HANDLED) {
+
+		switch (message->GetMessageType()) {
+
+		default:
+			FRAMEWORK->GetLogger()->dbglog("\nBakedSkeletalAnimation got unnecessary msg of type %d", message->GetMessageType());
+			break;
+		}
+	}
+}
+
+
 void BakedSkeletalAnimation::init() {
 	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
 	if (gameObject != nullptr) {
 		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
 	}
+
+	// TODO [Implement] Figure out if its better to add/remove subscription dynamically on play/pause/remove
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
 
 void BakedSkeletalAnimation::destroy() {
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 

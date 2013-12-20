@@ -44,7 +44,7 @@ AnimationKeyFrame* BakedSkeletalAnimationClip::getNextKeyFrame() const {
 	return nullptr;
 }
 
-AnimationKeyFrame* BakedSkeletalAnimationClip::getCurrentKeyFrameAtInterpolation(float interpolation) {
+AnimationKeyFrame* BakedSkeletalAnimationClip::getCurrentKeyFrameAtInterpolation(float /* interpolation */) {
 	BakedSkeletalAnimationKeyFrame* currentKeyFrame = (BakedSkeletalAnimationKeyFrame*)this->getCurrentKeyFrame();
 	BakedSkeletalAnimationKeyFrame* nextKeyFrame = (BakedSkeletalAnimationKeyFrame*)this->getNextKeyFrame();
 

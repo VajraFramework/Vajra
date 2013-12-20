@@ -45,6 +45,7 @@ void Camera::HandleMessage(Message* message) {
 
 	default:
 		FRAMEWORK->GetLogger()->dbglog("\nCamera got unnecessary msg of type %d", message->GetMessageType());
+		break;
 	}
 }
 

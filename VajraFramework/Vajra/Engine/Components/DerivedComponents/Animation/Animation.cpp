@@ -8,21 +8,21 @@
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
-unsigned int Animation::componentTypeId = COMPONENT_TYPE_ID_ANIMATION;
-
-Animation::Animation() : Component() {
-	this->init();
+Animation::Animation() {
+	ASSERT(0, "Don't use this constructor");
 }
 
-Animation::Animation(Object* object_) : Component(object_) {
-	this->init();
+Animation::Animation(GameObject* gameObject_) {
+	this->init(gameObject_);
 }
 
 Animation::~Animation() {
 	this->destroy();
 }
 
-void Animation::HandleMessage(Message* message) {
+bool Animation::handleMessage(Message* message) {
+	bool handled = false;
+
 	switch (message->GetMessageType()) {
 
 	case MESSAGE_TYPE_FRAME_EVENT:
@@ -32,11 +32,14 @@ void Animation::HandleMessage(Message* message) {
 		if (this->IsPlaying()) {
 			this->apply();
 		}
+		handled = true;
 		break;
 
 	default:
 		break;
 	}
+
+	return handled;
 }
 
 void Animation::step(double deltaTime) {
@@ -44,8 +47,7 @@ void Animation::step(double deltaTime) {
 }
 
 void Animation::apply() {
-	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
-	this->currentAnimationClip->apply(gameObject->GetTransform());
+	this->currentAnimationClip->apply(this->gameObject->GetTransform());
 }
 
 void Animation::bind() {
@@ -60,7 +62,7 @@ AnimationClip* Animation::addAnimationClip(AnimationClip* animationClip, bool ta
 		return animationClip;
 
 	} else {
-		FRAMEWORK->GetLogger()->dbglog("\nTried to add duplicate animation clip at url: %s to Object of id: %d", animationClip->GetName().c_str(), this->GetObject()->GetId());
+		FRAMEWORK->GetLogger()->dbglog("\nTried to add duplicate animation clip at url: %s, to game object of id: %u", animationClip->GetName().c_str(), this->gameObject->GetId());
 		if (takeOwnershipOfMemory) {
 			delete animationClip;
 		}
@@ -70,7 +72,7 @@ AnimationClip* Animation::addAnimationClip(AnimationClip* animationClip, bool ta
 
 void Animation::DeleteAnimationClip(std::string animationClipName) {
 	if (!this->animationClips.erase(animationClipName)) {
-		FRAMEWORK->GetLogger()->dbglog("\nTried to delete unadded animation clip at url: %s from Object of id: %d", animationClipName.c_str(), this->GetObject()->GetId());
+		FRAMEWORK->GetLogger()->dbglog("\nTried to delete unadded animation clip at url: %s, from game object of id: %u", animationClipName.c_str(), this->gameObject->GetId());
 	}
 }
 
@@ -143,19 +145,11 @@ void Animation::playAnimationClip_internal(AnimationClip* animationClip) {
 	this->currentAnimationClip = animationClip;
 }
 
-void Animation::init() {
-	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
-	if (gameObject != nullptr) {
-		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
-	}
-
+void Animation::init(GameObject* gameObject_) {
 	this->currentAnimationClip = nullptr;
-
-	// TODO [Implement] Figure out if its better to add/remove subscription dynamically on play/pause/remove
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
+	this->gameObject = gameObject_;
 }
 
 void Animation::destroy() {
-	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 

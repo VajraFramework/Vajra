@@ -55,4 +55,7 @@ typename std::enable_if<std::is_base_of<baseClassType, TemplateName>::value, ret
 
 typedef int ComponentIdType;
 
+#define NOT_HANDLED false
+#define HANDLED true
+
 #endif // UTILITIES_H
