@@ -92,7 +92,6 @@ void setupMatrixes(float dt) {
     return;
 }
 
-
 void renderFrame(float dt) {
     setupMatrixes(dt);
 
@@ -152,7 +151,7 @@ void renderFrame(float dt) {
         	if (transform != nullptr) {
         		// transform->SetOrientation(90.0f, YAXIS);
         		transform->Translate(0.1f * deltaTime, transform->GetForward());
-        		transform->Rotate(-50.0f * deltaTime, YAXIS);
+        		transform->Rotate(-10.0f * deltaTime, YAXIS);
         		// transform->Rotate(100.0f * deltaTime, -transform->GetLeft());
         	}
         }
@@ -171,19 +170,21 @@ void renderFrame(float dt) {
     	// transform->Rotate(10.0f * deltaTime, YAXIS);
     	// transform->Translate(0.05f * deltaTime, transform->GetForward());
     	Armature* armature = wavybox->GetComponent<Armature>();
-#if 1
+
+
+#if 0
     	{
 			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_BackJoint01");
 			someBone->Rotate(5.0f * deltaTime, XAXIS, false);
     	}
 #endif
-#if 1
+#if 0
     	{
 			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_Left_ElbowJoint01");
 			someBone->Rotate(-5.0f * deltaTime, YAXIS, false);
     	}
 #endif
-#if 1
+#if 0
     	{
 			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_Left_ShoulderJoint01");
 			someBone->Rotate(-5.0f * deltaTime, YAXIS, true);
@@ -232,6 +233,7 @@ void renderFrame(float dt) {
 	DebugDraw::DrawArrow(ZERO_VEC3, torus->GetTransform()->GetPosition());
 
 	DebugDraw::DrawCube(torus->GetTransform()->GetPosition(), 1.0f);
+
 
     ENGINE->DoFrame();
 

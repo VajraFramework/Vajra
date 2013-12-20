@@ -63,8 +63,8 @@ void Bone::updateBoneMatrices_recursive() {
 		childBone->propogateRawMatrixToChildren(matrixToPropogate);
 	}
 
-	glm::mat4 finalBoneTransformMatrix = this->localRotationMatrixCumulative * this->localTranslationMatrixCumulative *
-										 this->bindPoseMatrixGlobal *
+	glm::mat4 finalBoneTransformMatrix = this->localMatrixCumulative *
+										 this->toWorldMatrix *
 										 this->localRotationMatrix * this->localTranslationMatrix;
 
 	this->armature->finalBoneTransforms[this->id] = finalBoneTransformMatrix *
@@ -83,7 +83,7 @@ void Bone::updateBoneMatrices_recursive() {
 }
 
 void Bone::propogateRawMatrixToChildren(glm::mat4 rawMatrix) {
-	this->localRotationMatrixCumulative = this->localRotationMatrixCumulative * this->localTranslationMatrixCumulative * rawMatrix;
+	this->localMatrixCumulative = this->localMatrixCumulative * rawMatrix;
 
 	for (Bone* childBone : this->children) {
 		childBone->propogateRawMatrixToChildren(rawMatrix);
@@ -124,8 +124,7 @@ void Bone::init() {
 	//
 	this->localRotationMatrix    = IDENTITY_MATRIX;
 	this->localTranslationMatrix = IDENTITY_MATRIX;
-	this->localRotationMatrixCumulative    = IDENTITY_MATRIX;
-	this->localTranslationMatrixCumulative = IDENTITY_MATRIX;
+	this->localMatrixCumulative    = IDENTITY_MATRIX;
 
 #if DRAW_BONES
 	this->visualizer = new GameObject();

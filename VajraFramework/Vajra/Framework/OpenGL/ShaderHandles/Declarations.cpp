@@ -66,6 +66,12 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "boneTransforms") {
 		return SHADER_VARIABLE_VARIABLENAME_boneTransforms;
 	}
+	if (s == "otherBoneTransforms") {
+		return SHADER_VARIABLE_VARIABLENAME_otherBoneTransforms;
+	}
+	if (s == "interp") {
+		return SHADER_VARIABLE_VARIABLENAME_interp;
+	}
 	if (s == "DLight0Direction") {
 		return SHADER_VARIABLE_VARIABLENAME_DLight0Direction;
 	}
@@ -130,6 +136,8 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_uvCoords_out: return "uvCoords_out";
 	case SHADER_VARIABLE_VARIABLENAME_lightIntensity: return "lightIntensity";
 	case SHADER_VARIABLE_VARIABLENAME_boneTransforms: return "boneTransforms";
+	case SHADER_VARIABLE_VARIABLENAME_otherBoneTransforms: return "otherBoneTransforms";
+	case SHADER_VARIABLE_VARIABLENAME_interp: return "interp";
 	case SHADER_VARIABLE_VARIABLENAME_DLight0Direction: return "DLight0Direction";
 	case SHADER_VARIABLE_VARIABLENAME_DLight0AmbientColor: return "DLight0AmbientColor";
 	case SHADER_VARIABLE_VARIABLENAME_DLight0DiffuseColor: return "DLight0DiffuseColor";
