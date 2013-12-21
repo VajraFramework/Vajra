@@ -78,11 +78,15 @@ namespace Tesserakonteres {
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "wavybox.model");
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			BakedSkeletalAnimation* bakedSkeletalAnimation = gameObject->AddComponent<BakedSkeletalAnimation>();
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#pCube1");
-			AnimationClip* animationClip = bakedSkeletalAnimation->GetAnimationClip("pCube1");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#idle");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#twitching");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#turning");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#nodding");
+			std::string animclipToPlay = "twitching";
+			AnimationClip* animationClip = bakedSkeletalAnimation->GetAnimationClip(animclipToPlay.c_str());
 			animationClip->SetLooping(true);
-			animationClip->SetPlaybackSpeed(1.0f);
-			bakedSkeletalAnimation->PlayAnimationClip("pCube1");
+			animationClip->SetPlaybackSpeed(0.1f);
+			bakedSkeletalAnimation->PlayAnimationClip(animclipToPlay.c_str());
 			//
 			Transform* transform = gameObject->GetTransform();
 			transform->Scale(0.2f);
