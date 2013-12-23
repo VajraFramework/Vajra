@@ -7,11 +7,14 @@
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
-RigidAnimation::RigidAnimation() : Animation() {
+
+unsigned int RigidAnimation::componentTypeId = COMPONENT_TYPE_ID_RIGID_ANIMATION;
+
+RigidAnimation::RigidAnimation() : Animation(), Component() {
 	this->init();
 }
 
-RigidAnimation::RigidAnimation(Object* object_) : Animation(object_) {
+RigidAnimation::RigidAnimation(Object* object_) : Animation((GameObject*)object_), Component(object_) {
 	this->init();
 }
 
@@ -30,13 +33,34 @@ AnimationClip* RigidAnimation::AddAnimationClip(AnimationClip* animationClip) {
 	return this->addAnimationClip(animationClip, true);
 }
 
+void RigidAnimation::HandleMessage(Message* message) {
+	if (this->handleMessage(message) == NOT_HANDLED) {
+
+		switch (message->GetMessageType()) {
+
+		default:
+			FRAMEWORK->GetLogger()->dbglog("\nRigidAnimation got unnecessary msg of type %d", message->GetMessageType());
+			break;
+		}
+	}
+}
+
+
+void RigidAnimation::Bind() {
+	// Nothing to do here
+}
+
 void RigidAnimation::init() {
 	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
 	if (gameObject != nullptr) {
 		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
 	}
+
+	// TODO [Implement] Figure out if its better to add/remove subscription dynamically on play/pause/remove
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
 
 void RigidAnimation::destroy() {
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 

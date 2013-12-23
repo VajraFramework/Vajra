@@ -13,6 +13,7 @@
 
 // Forward Declarations:
 class Bone;
+class FinalBoneTransformsSet;
 class Object;
 
 class Armature : public Component {
@@ -38,6 +39,9 @@ public:
 
 	void SetRootBoneByName(std::string rootBoneName);
 
+	// TODO [Cleanup] Remove this when some of the problems with offset bones is solved
+	// void DumpBoneKeyframes();
+
 private:
 	void init();
 	void destroy();
@@ -53,6 +57,11 @@ private:
 	glm::mat4 finalBoneTransforms[MAX_BONES];
 
 	friend class Bone;
+};
+
+class FinalBoneTransformsSet {
+public:
+	glm::mat4 finalBoneTransforms[MAX_BONES];
 };
 
 #endif // ARMATURE_H

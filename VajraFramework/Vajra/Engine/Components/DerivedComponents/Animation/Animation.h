@@ -10,16 +10,11 @@
 class GameObject;
 class AnimationClip;
 
-class Animation : public Component {
+class Animation {
 public:
 	Animation();
-	Animation(Object* object_);
+	Animation(GameObject* gameObject_);
 	virtual ~Animation();
-
-	static inline ComponentIdType GetTypeId() { return componentTypeId; }
-
-	// @Override
-	virtual void HandleMessage(Message* message);
 
 	virtual AnimationClip* AddAnimationClip(std::string urlOfAnimationClip) = 0;
 	virtual AnimationClip* AddAnimationClip(AnimationClip* animationClip) = 0;
@@ -37,22 +32,28 @@ public:
 	AnimationClip* GetAnimationClip(std::string animationClipName);
 	inline AnimationClip* GetCurrentPlayingAnimationClip() { return this->currentAnimationClip; }
 
+	inline void Bind() { this->bind(); }
+
+	inline GameObject* GetGameObject() { return this->gameObject; }
+
 protected:
+	bool handleMessage(Message* message);
 	AnimationClip* addAnimationClip(AnimationClip* animationClip, bool takeOwnershipOfMemory);
 
 private:
-	void init();
+	void init(GameObject* gameObject_);
 	void destroy();
 
 	// Utility functions:
 	void playAnimationClip_internal(AnimationClip* animationClip);
 	void step(double deltaTime);
 	void apply();
+	void bind();
 
 	AnimationClip* currentAnimationClip;
 	std::map<std::string /* clip name */, AnimationClip*> animationClips;
 
-	static unsigned int componentTypeId;
+	GameObject* gameObject;
 };
 
 #endif // ANIMATION_H

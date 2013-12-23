@@ -1,5 +1,5 @@
-#ifndef RIGID_ANIMATION_H
-#define RIGID_ANIMATION_H
+#ifndef BAKED_SKELETAL_ANIMATION_H
+#define BAKED_SKELETAL_ANIMATION_H
 
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/Animation.h"
@@ -9,24 +9,21 @@
 
 // Forward Declarations:
 class GameObject;
-class RigidAnimationClip;
+class BakedSkeletalAnimationClip;
 
-class RigidAnimation : public Animation, public Component {
+class BakedSkeletalAnimation : public Animation, public Component {
 public:
-	RigidAnimation();
-	RigidAnimation(Object* object_);
-	virtual ~RigidAnimation();
+	BakedSkeletalAnimation();
+	BakedSkeletalAnimation(Object* object_);
+	virtual ~BakedSkeletalAnimation();
 
-	static inline ComponentIdType GetTypeId() { return RigidAnimation::componentTypeId; }
+	static inline ComponentIdType GetTypeId() { return BakedSkeletalAnimation::componentTypeId; }
 
 	// @Override
 	void HandleMessage(Message* message);
 
 	virtual AnimationClip* AddAnimationClip(std::string urlOfAnimationClip);
 	virtual AnimationClip* AddAnimationClip(AnimationClip* animationClip);
-
-	// @Override
-	virtual void Bind();
 
 private:
 	void init();
@@ -35,4 +32,4 @@ private:
 	static unsigned int componentTypeId;
 };
 
-#endif // RIGID_ANIMATION_H
+#endif // BAKED_SKELETAL_ANIMATION_H

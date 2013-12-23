@@ -48,8 +48,7 @@ private:
 	//
 	glm::mat4 localRotationMatrix;
 	glm::mat4 localTranslationMatrix;
-	glm::mat4 localRotationMatrixCumulative;
-	glm::mat4 localTranslationMatrixCumulative;
+	glm::mat4 localMatrixCumulative;
 
 	Bone* parent;
 	std::vector<Bone*> children;

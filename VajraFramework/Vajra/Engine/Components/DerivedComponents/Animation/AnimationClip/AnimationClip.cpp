@@ -24,7 +24,7 @@ void AnimationClip::raiseEvent(Message* const message, int gameObjectId, std::st
 	messageData->s = eventClipName;
 	message->SetMessageData(messageData);
 
-	ObjectIdType parentObjectId = this->parentAnimationComponent->GetObject()->GetId();
+	ObjectIdType parentObjectId = this->parentAnimationComponent->GetGameObject()->GetId();
 	ENGINE->GetMessageHub()->SendPointcastMessage(message, parentObjectId, parentObjectId);
 	if (this->isTween) {
 		ENGINE->GetMessageHub()->SendPointcastMessage(message, ENGINE->GetTween()->GetId(), parentObjectId);
@@ -35,7 +35,7 @@ void AnimationClip::Play() {
 	this->isPlaying = true;
 	// FRAMEWORK->GetLogger()->dbglog("\nPlaying AnimationClip %s", this->clipName.c_str());
 	Message* const message = new Message(MESSAGE_TYPE_ANIMATION_BEGAN_EVENT);
-	this->raiseEvent(message, this->parentAnimationComponent->GetObject()->GetId(), this->GetName());
+	this->raiseEvent(message, this->parentAnimationComponent->GetGameObject()->GetId(), this->GetName());
 	delete message;
 }
 
@@ -43,7 +43,7 @@ void AnimationClip::Pause() {
 	this->isPlaying = false;
 	// FRAMEWORK->GetLogger()->dbglog("\nPausing AnimationClip %s", this->clipName.c_str());
 	Message* const message = new Message(MESSAGE_TYPE_ANIMATION_PAUSED_EVENT);
-	this->raiseEvent(message, this->parentAnimationComponent->GetObject()->GetId(), this->GetName());
+	this->raiseEvent(message, this->parentAnimationComponent->GetGameObject()->GetId(), this->GetName());
 	delete message;
 }
 
@@ -51,7 +51,7 @@ void AnimationClip::Resume() {
 	this->isPlaying = true;
 	// FRAMEWORK->GetLogger()->dbglog("\nResuming AnimationClip %s", this->clipName.c_str());
 	Message* const message = new Message(MESSAGE_TYPE_ANIMATION_RESUMED_EVENT);
-	this->raiseEvent(message, this->parentAnimationComponent->GetObject()->GetId(), this->GetName());
+	this->raiseEvent(message, this->parentAnimationComponent->GetGameObject()->GetId(), this->GetName());
 	delete message;
 }
 
@@ -64,7 +64,7 @@ void AnimationClip::Stop() {
 	// FRAMEWORK->GetLogger()->dbglog("\nStopping AnimationClip %s", this->clipName.c_str());
 
 	Message* const message = new Message(MESSAGE_TYPE_ANIMATION_ENDED_EVENT);
-	this->raiseEvent(message, this->parentAnimationComponent->GetObject()->GetId(), this->GetName());
+	this->raiseEvent(message, this->parentAnimationComponent->GetGameObject()->GetId(), this->GetName());
 	delete message;
 }
 
