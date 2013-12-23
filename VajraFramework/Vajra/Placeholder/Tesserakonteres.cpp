@@ -5,7 +5,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/AnimationClip.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h"
-#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
@@ -148,7 +148,8 @@ namespace Tesserakonteres {
 		}
 		{
 			GameObject* camera = new GameObject();
-			/* Camera* cameraComponent = */ camera->AddComponent<Camera>();
+			Camera* cameraComponent = camera->AddComponent<Camera>();
+			cameraComponent->SetCameraType(CAMERA_TYPE_PERSPECTIVE);
 			camera->GetTransform()->SetPosition(4.0f, 4.0f, 4.0f);
 			// camera->GetTransform()->SetOrientation(-45.0f, camera->GetTransform()->GetUp());
 			// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
@@ -184,7 +185,7 @@ namespace Tesserakonteres {
 			AudioSource* source = noiseMaker->AddComponent<AudioSource>();
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(noiseMaker->GetId());
 			source->SetAudioClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesPath() + "lowAlert(hisfixed).wav");
-			source->Play();
+			// source->Play();
 #endif
 		}
 

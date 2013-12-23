@@ -1,6 +1,5 @@
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Bone.h"
-#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"

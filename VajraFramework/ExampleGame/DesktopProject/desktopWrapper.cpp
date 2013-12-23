@@ -15,7 +15,6 @@ using namespace glm;
 #include "ExampleGame/Test/TestFile.h"
 
 #include "Vajra/Engine/Core/Engine.h"
-#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Engine/Profiler/Profiler.h"
