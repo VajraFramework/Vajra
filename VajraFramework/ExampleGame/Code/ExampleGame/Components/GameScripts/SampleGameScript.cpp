@@ -29,8 +29,7 @@ void SampleGameScript::end() {
 }
 
 void SampleGameScript::update() {
-	if(ENGINE->GetInput()->GetTouchCount() > 0)
-	{
+	if(ENGINE->GetInput()->GetTouchCount() > 0) {
 		this->getTransform()->Rotate(5.0f, YAXIS);
 	}
 }

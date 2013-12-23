@@ -45,6 +45,8 @@ void GameScript::init() {
 void GameScript::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 	this->gameObject = nullptr;
+	this->transform = nullptr;
+	this->meshRenderer = nullptr;
 }
 
 // component accessors

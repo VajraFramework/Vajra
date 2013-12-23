@@ -28,13 +28,13 @@ protected:
 	virtual void HandleMessage(Message* message);
 
 	// Virtual Methods
-	virtual void start()  {}
-	virtual void end()    {}
-	virtual void update() {}
+	virtual void start()  = 0;
+	virtual void end()    = 0;
+	virtual void update() = 0;
+
+	GameObject* gameObject;
 
 	// Useful accessors for game-scripting
-	//GameObject* gameObject;
-	GameObject* gameObject;
 	Transform* getTransform();
 	MeshRenderer* getMeshRenderer();
 
