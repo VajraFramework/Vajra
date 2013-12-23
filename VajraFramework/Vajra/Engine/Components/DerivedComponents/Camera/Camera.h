@@ -8,6 +8,11 @@
 // Forward Declarations:
 class Object;
 
+enum CameraType_t {
+	CAMERA_TYPE_ORTHO,
+	CAMERA_TYPE_PERSPECTIVE,
+};
+
 class Camera : public Component {
 public:
 	Camera();
@@ -21,6 +26,9 @@ public:
 
 	void WriteLookAt();
 
+	CameraType_t GetCameraType() { return this->cameraType; }
+	void SetCameraType(CameraType_t cameraType_) { this->cameraType = cameraType_; }
+
 	inline glm::mat4& GetViewMatrix() { return this->viewMatrix; }
 	inline glm::mat4& GetProjMatrix() { return this->projMatrix; }
 
@@ -30,6 +38,8 @@ private:
 
 	// Utility Functions:
 	void updateMatrices();
+
+	CameraType_t cameraType;
 
 	glm::mat4 viewMatrix;
 	glm::mat4 projMatrix;

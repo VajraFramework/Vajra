@@ -30,8 +30,26 @@ void Camera::updateMatrices() {
 	//
 	this->viewMatrix = glm::lookAt(eyePosition, lookAtPosition, upVector);
 
-    // TODO [Cleanup] 1024 x 768
-    this->projMatrix = glm::perspective(60.0f, (float)1024 / (float)768, 0.1f, 8000.0f);
+	// TODO [Cleanup] 1024 x 768
+	float width  = 1024.0f;
+	float height = 768.0f;
+	float aspecRatio = width / height;
+
+	switch (this->cameraType) {
+
+	case CAMERA_TYPE_ORTHO: {
+			this->projMatrix = glm::ortho(-width/20.0f, width/20.0f, -height/20.0f, height/20.0f, 0.1f, 8000.0f);
+		} break;
+
+	case CAMERA_TYPE_PERSPECTIVE: {
+			// TODO [Cleanup] 1024 x 768
+			this->projMatrix = glm::perspective(60.0f, aspecRatio, 0.1f, 8000.0f);
+		} break;
+
+	default: {
+			ASSERT(0, "Unknown camera type, %d", this->cameraType);
+		} break;
+	}
 }
 
 void Camera::HandleMessage(Message* message) {
@@ -58,6 +76,8 @@ void Camera::init() {
 	if (gameObject != nullptr) {
 		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
 	}
+
+	this->cameraType = CAMERA_TYPE_PERSPECTIVE;
 
 	this->viewMatrix = IDENTITY_MATRIX;
 	this->projMatrix = IDENTITY_MATRIX;
