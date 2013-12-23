@@ -3,11 +3,13 @@
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
 
 #include "Vajra/Common/Objects/Object.h"
+#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
 int TestFuntion() {
@@ -30,6 +32,9 @@ int TestFuntion() {
 	{
 #if 1
 		GameObject* testGameScript = new GameObject();
+		MeshRenderer* meshRenderer = testGameScript->AddComponent<MeshRenderer>();
+		meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
+		ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(testGameScript->GetId());
 		testGameScript->AddComponent<SampleGameScript>();
 #endif
 	}

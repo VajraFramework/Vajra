@@ -37,6 +37,9 @@ void GameScript::init() {
 	// TODO [Implement] Figure out if its better to add/remove subscription dynamically on play/pause/remove
 	// subscribe the game script to the needed messages
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
+	
+	this->transform = nullptr;
+	this->meshRenderer = nullptr;
 }
 
 void GameScript::destroy() {
@@ -47,11 +50,14 @@ void GameScript::destroy() {
 // component accessors
 Transform* GameScript::getTransform() {
 	if(this->transform == nullptr){
-		transform = (Transform*)gameObject->GetComponent<Transform>();
+		this->transform = (Transform*)gameObject->GetComponent<Transform>();
 	}
-	return transform;
+	return this->transform;
 }
 
 MeshRenderer* GameScript::getMeshRenderer() {
-	return nullptr;
+	if(this->meshRenderer == nullptr){
+		this->meshRenderer = (MeshRenderer*)gameObject->GetComponent<MeshRenderer>();
+	}
+	return this->meshRenderer;
 }
