@@ -147,6 +147,7 @@ namespace Tesserakonteres {
 			transform->SetPosition(wavybox->GetTransform()->GetPositionWorld());
 		}
 		{
+#if 0
 			GameObject* camera = new GameObject();
 			/* Camera* cameraComponent = */ camera->AddComponent<Camera>();
 			camera->GetTransform()->SetPosition(4.0f, 4.0f, 4.0f);
@@ -155,6 +156,7 @@ namespace Tesserakonteres {
 			camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(camera->GetId());
 			ENGINE->GetSceneGraph()->SetMainCameraId(camera->GetId());
+#endif
 		}
 		{
 			GameObject* dlight = new GameObject();
@@ -179,7 +181,7 @@ namespace Tesserakonteres {
 #endif
 		}
 		{
-#if 1
+#if 0
 			GameObject* noiseMaker = new GameObject();
 			AudioSource* source = noiseMaker->AddComponent<AudioSource>();
 			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(noiseMaker->GetId());

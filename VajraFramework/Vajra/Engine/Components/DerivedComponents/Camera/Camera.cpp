@@ -31,7 +31,7 @@ void Camera::updateMatrices() {
 	this->viewMatrix = glm::lookAt(eyePosition, lookAtPosition, upVector);
 
     // TODO [Cleanup] 1024 x 768
-    this->projMatrix = glm::perspective(60.0f, (float)1024 / (float)768, 0.1f, 8000.0f);
+    this->projMatrix = glm::perspective(this->fov, (float)1024/(float)768, 0.1f, 8000.0f);
 }
 
 void Camera::HandleMessage(Message* message) {
@@ -62,6 +62,7 @@ void Camera::init() {
 	this->viewMatrix = IDENTITY_MATRIX;
 	this->projMatrix = IDENTITY_MATRIX;
 
+	this->fov = 60.0f;
 	if (gameObject != nullptr) {
 		this->updateMatrices();
 	}
