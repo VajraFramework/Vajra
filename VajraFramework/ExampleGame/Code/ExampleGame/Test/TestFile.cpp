@@ -11,16 +11,6 @@
 
 int TestFuntion() {
 	FRAMEWORK->GetLogger()->dbglog("\nIn TestFunction()");
-#if 1
-	{
-		GameObject* camera = new GameObject();
-		camera->AddComponent<ShadyCamera>();
-		camera->GetTransform()->SetPosition(4.0f, 4.0f, 4.0f);
-		camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
-		ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(camera->GetId());
-		ENGINE->GetSceneGraph()->SetMainCameraId(camera->GetId());
-	}
-#endif
 #if 0
 	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(109);
 	if (wavybox != nullptr) {
@@ -33,6 +23,15 @@ int TestFuntion() {
 		Object* gridManager = new Object();
 		GridManager* gridMgrComp = gridManager->AddComponent<GridManager>();
 		gridMgrComp->GenerateTerrainFromFile("noninjas.txt");
+
+		GameObject* camera = new GameObject();
+		ShadyCamera* shadyCamera = camera->AddComponent<ShadyCamera>();
+		camera->GetTransform()->SetPosition(4.0f, 4.0f, 4.0f);
+		camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
+		ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(camera->GetId());
+		ENGINE->GetSceneGraph()->SetMainCameraId(camera->GetId());
+
+		shadyCamera->setGridManager(gridMgrComp);
 #endif
 	}
  

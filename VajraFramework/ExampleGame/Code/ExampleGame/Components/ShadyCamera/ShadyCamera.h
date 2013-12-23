@@ -11,15 +11,20 @@
 
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 
+class GridManager;
+
 class ShadyCamera : public Camera {
 public:
 	ShadyCamera();
 	ShadyCamera(Object* object_);
 	~ShadyCamera();
 
+	void setGridManager(GridManager* value);
 private:
 	void init();
 	void destroy();
+
+	GridManager* gridManager;
 };
 
 #endif // SHADY_CAMERA_H
