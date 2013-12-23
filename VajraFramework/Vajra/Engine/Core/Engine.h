@@ -10,7 +10,7 @@ class DebugDrawer;
 class Input;
 class MessageHub;
 class Profiler;
-class SceneGraph;
+class SceneGraph3D;
 class Timer;
 class Tween;
 
@@ -26,7 +26,7 @@ public:
 	inline Input*        GetInput()        { return this->input;        }
 	inline MessageHub*   GetMessageHub()   { return this->messageHub;   }
 	inline Profiler*     GetProfiler()     { return this->profiler;     }
-	inline SceneGraph*   GetSceneGraph()   { return this->sceneGraph;   }
+	inline SceneGraph3D* GetSceneGraph3D() { return this->sceneGraph3D; }
 	inline Timer*        GetTimer()        { return this->timer;        }
 	inline Tween*        GetTween()        { return this->tween;        }
 
@@ -47,13 +47,13 @@ private:
 
 	AssetLibrary* assetLibrary;
 	AudioManager* audioManager;
-	DebugDrawer* debugDrawer;
-	Input* input;
-	MessageHub* messageHub;
-	Profiler* profiler;
-	SceneGraph* sceneGraph;
-	Timer* timer;
-	Tween* tween;
+	DebugDrawer*  debugDrawer;
+	Input*        input;
+	MessageHub*   messageHub;
+	Profiler*     profiler;
+	SceneGraph3D* sceneGraph3D;
+	Timer*        timer;
+	Tween*        tween;
 };
 
 #define ENGINE Engine::GetInstance()

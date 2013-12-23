@@ -3,7 +3,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 unsigned int Renderer::componentTypeId = COMPONENT_TYPE_ID_RENDERER;

@@ -2,7 +2,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/RenderLists.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 
 #include <algorithm>
@@ -46,7 +46,7 @@ void RenderList::RemoveGameObjectId(ObjectIdType id) {
 
 void RenderList::Draw() {
 	for (ObjectIdType id : this->gameObjectIds) {
-		GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(id);
+		GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 		if (gameObject != nullptr) {
 			gameObject->Draw();
 		}

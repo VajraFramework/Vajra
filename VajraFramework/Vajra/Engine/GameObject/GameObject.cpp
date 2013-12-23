@@ -4,7 +4,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/Renderer.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
@@ -20,7 +20,7 @@ GameObject::~GameObject() {
 }
 
 void GameObject::init() {
-	ENGINE->GetSceneGraph()->AddNewGameObjectToScene(this);
+	ENGINE->GetSceneGraph3D()->AddNewGameObjectToScene(this);
 
 	this->AddComponent<Transform>();
 	this->transform = (Transform*)this->GetComponent<Transform>();

@@ -9,7 +9,7 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Timer/Timer.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/DeviceUtils/TextureLoader/TextureLoader.h"
@@ -50,7 +50,7 @@ bool setupGraphics(int w, int h) {
     // Make sure OpenGLWrapper is init'd:
     FRAMEWORK->GetOpenGLWrapper()->PrintGLVersion();
 
-    ENGINE->GetSceneGraph()->Initialize();
+    ENGINE->GetSceneGraph3D()->Initialize();
 
     glViewport(0, 0, w, h);
     checkGlError("glViewport");
@@ -106,7 +106,7 @@ void renderFrame(float dt) {
     float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(108);
+        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(108);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -119,7 +119,7 @@ void renderFrame(float dt) {
     }
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(109);
+        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(109);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -132,7 +132,7 @@ void renderFrame(float dt) {
     }
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(110);
+        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(110);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -145,7 +145,7 @@ void renderFrame(float dt) {
     }
     {
         // Temp, testing transforms:
-        GameObject* dlight = (GameObject*)ENGINE->GetSceneGraph()->GetMainDirectionalLight()->GetObject();
+        GameObject* dlight = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainDirectionalLight()->GetObject();
         if (dlight != nullptr) {
         	Transform* transform = dlight->GetTransform();
         	if (transform != nullptr) {
@@ -165,7 +165,7 @@ void renderFrame(float dt) {
         }
     }
     {
-    	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(110);
+    	GameObject* wavybox = ENGINE->GetSceneGraph3D()->GetGameObjectById(110);
     	// Transform* transform = wavybox->GetTransform();
     	// transform->Rotate(10.0f * deltaTime, YAXIS);
     	// transform->Translate(0.05f * deltaTime, transform->GetForward());
@@ -216,7 +216,7 @@ void renderFrame(float dt) {
             Touch temp = ENGINE->GetInput()->GetTouch(0);
             float touchDisplacement = temp.pos.x - temp.prevPos.x;
             glm::vec2 moveDir = temp.pos - temp.prevPos;
-            GameObject* camera = (GameObject*)ENGINE->GetSceneGraph()->GetMainCamera()->GetObject();
+            GameObject* camera = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject();
             Transform* transform = camera->GetTransform();
             float camMag = glm::distance(transform->GetPosition(), ZERO_VEC3);
             transform->SetPosition(0.0f, 0.0f, 0.0f);
@@ -229,7 +229,7 @@ void renderFrame(float dt) {
 
 	DebugDraw::DrawPoint(glm::vec3(1.0f, 1.0f, 1.0f));
 
-	GameObject* torus = ENGINE->GetSceneGraph()->GetGameObjectById(111);
+	GameObject* torus = ENGINE->GetSceneGraph3D()->GetGameObjectById(111);
 	DebugDraw::DrawArrow(ZERO_VEC3, torus->GetTransform()->GetPosition());
 
 	DebugDraw::DrawCube(torus->GetTransform()->GetPosition(), 1.0f);

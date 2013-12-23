@@ -4,7 +4,7 @@
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Profiler/Profiler.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/Tween/Tween.h"
@@ -42,8 +42,8 @@ void Engine::init() {
 	this->assetLibrary = new AssetLibrary();
 	this->assetLibrary->init();
 
-	this->sceneGraph = new SceneGraph();
-	this->sceneGraph->init();
+	this->sceneGraph3D = new SceneGraph3D();
+	this->sceneGraph3D->init();
 
 	this->debugDrawer = new DebugDrawer();
 	this->debugDrawer->init();
@@ -97,7 +97,7 @@ void Engine::updateScene() {
 	this->GetTimer()->beginUpdatePhase();
 
 	this->GetMessageHub()->drainMessages();
-	this->GetSceneGraph()->update();
+	this->GetSceneGraph3D()->update();
 
 	this->GetTimer()->endUpdatePhase();
 	this->GetProfiler()->StopExperiment("update");
@@ -107,7 +107,7 @@ void Engine::renderScene() {
 	this->GetProfiler()->StartExperiment("render");
 	this->GetTimer()->beginRenderPhase();
 
-	this->GetSceneGraph()->draw();
+	this->GetSceneGraph3D()->draw();
 
 	this->GetTimer()->endRenderPhase();
 	this->GetProfiler()->StopExperiment("render");
@@ -121,8 +121,8 @@ void Engine::destroy() {
 	if (this->debugDrawer != nullptr) {
 		delete this->debugDrawer;
 	}
-	if (this->sceneGraph != nullptr) {
-		delete this->sceneGraph;
+	if (this->sceneGraph3D != nullptr) {
+		delete this->sceneGraph3D;
 	}
 	if (this->assetLibrary != nullptr) {
 		delete this->assetLibrary;

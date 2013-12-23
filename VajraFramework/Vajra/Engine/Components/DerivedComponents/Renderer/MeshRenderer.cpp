@@ -4,7 +4,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 MeshRenderer::MeshRenderer() : Renderer() {
@@ -38,7 +38,7 @@ void MeshRenderer::InitMesh(std::string urlOfMesh) {
 	}
 
 	// Now that we are renderable, add self to the render lists in the scene graph:
-	ENGINE->GetSceneGraph()->AddGameObjectToRenderLists(gameObject);
+	ENGINE->GetSceneGraph3D()->AddGameObjectToRenderLists(gameObject);
 }
 
 void MeshRenderer::HandleMessage(Message* /* message */) {

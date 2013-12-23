@@ -19,7 +19,7 @@ using namespace glm;
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Engine/Profiler/Profiler.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/DeviceUtils/DeviceStatistics/DeviceStatistics.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Placeholder/Tesserakonteres.h"
