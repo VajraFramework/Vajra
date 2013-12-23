@@ -1,7 +1,7 @@
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
-
+#include "Vajra/Utilities/MathUtilities.h"
 ShadyCamera::ShadyCamera() : Camera() {
 	this->init();
 }
@@ -17,6 +17,10 @@ ShadyCamera::~ShadyCamera() {
 void ShadyCamera::init() {
 	// Set camera properties
 	this->SetFOV(30.0f);
+	Transform* camTransform = ((GameObject*)this->GetObject())->GetTransform();
+	camTransform->SetPosition(0.0f, 25.0f, 0.0f);
+	camTransform->Rotate(90.0f, XAXIS);
+	camTransform->Rotate(180.0f, camTransform->GetForward());
 
 	this->gridManager = nullptr;
 }
@@ -29,11 +33,5 @@ void ShadyCamera::setGridManager(GridManager* newManager) {
 	this->gridManager = newManager;
 	if(newManager == nullptr)
 		return;
-	// Orient the camera around the grid
-	GameObject* go = (GameObject*)this->GetObject();
-	Transform* camTransform = go->GetTransform();
-	camTransform->SetPosition(0.0f, 28.0f, 0.0f);
-	camTransform->LookAt(0.0f, 0.0f, 0.0f);
-	
   
 }

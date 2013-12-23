@@ -26,8 +26,6 @@ int TestFuntion() {
 
 		GameObject* camera = new GameObject();
 		ShadyCamera* shadyCamera = camera->AddComponent<ShadyCamera>();
-		camera->GetTransform()->SetPosition(4.0f, 4.0f, 4.0f);
-		camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
 		ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(camera->GetId());
 		ENGINE->GetSceneGraph()->SetMainCameraId(camera->GetId());
 

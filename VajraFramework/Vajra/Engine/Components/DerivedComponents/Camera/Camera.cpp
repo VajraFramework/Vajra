@@ -27,6 +27,11 @@ void Camera::updateMatrices() {
 	glm::vec3 eyePosition    = gameObject->GetTransform()->GetPosition();
 	glm::vec3 lookAtPosition = eyePosition + 10.0f * gameObject->GetTransform()->GetForward();
 	glm::vec3 upVector       = gameObject->GetTransform()->GetUp();
+	
+	
+	FRAMEWORK->GetLogger()->dbglog("\nCamera forward %f, %f, %f",  gameObject->GetTransform()->GetForward().x,
+																	gameObject->GetTransform()->GetForward().y,
+																	gameObject->GetTransform()->GetForward().z);
 	//
 	this->viewMatrix = glm::lookAt(eyePosition, lookAtPosition, upVector);
 

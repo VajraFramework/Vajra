@@ -209,7 +209,7 @@ void renderFrame(float dt) {
     	}
 #endif
     }
-#if 1
+#if 0
     {
         if(ENGINE->GetInput()->GetTouchCount() > 0)
         {
