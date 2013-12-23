@@ -19,17 +19,13 @@ public:
 
 	static inline ComponentIdType GetTypeId() { return componentTypeId; };
 
-	// @Override
-	virtual void HandleMessage(Message* message);
-
 	// Virtual Methods
 	virtual void start()  = 0;
 	virtual void end()    = 0;
 	virtual void update() = 0;
-
+protected:
+	virtual void HandleMessage(Message* message);
 private:
-	void init();
-	void destroy();
 
 	static unsigned int componentTypeId;
 };

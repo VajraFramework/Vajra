@@ -1,5 +1,6 @@
 #include "ExampleGame/Test/TestFile.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
+#include "ExampleGame/Components/GameScripts/SampleGameScript.h"
 
 #include "Vajra/Common/Objects/Object.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
@@ -24,6 +25,12 @@ int TestFuntion() {
 		Object* gridManager = new Object();
 		GridManager* gridMgrComp = gridManager->AddComponent<GridManager>();
 		gridMgrComp->GenerateTerrainFromFile("noninjas.txt");
+#endif
+	}
+	{
+#if 1
+		GameObject* testGameScript = new GameObject();
+		testGameScript->AddComponent<SampleGameScript>();
 #endif
 	}
  
