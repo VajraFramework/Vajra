@@ -27,4 +27,6 @@ void SampleGameScript::end() {
 
 void SampleGameScript::update() {
 	FRAMEWORK->GetLogger()->dbglog("\nSampleGameScript update");
+	FRAMEWORK->GetLogger()->dbglog("\nTransform %d", this->getTransform());
+	FRAMEWORK->GetLogger()->dbglog("\nMesh Renderer %d", this->getMeshRenderer());
 }

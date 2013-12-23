@@ -1,6 +1,8 @@
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/GameScript/GameScript.h"
+#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 
@@ -28,9 +30,9 @@ void GameScript::HandleMessage(Message* message) {
 }
 
 void GameScript::init() {
-	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
-	if (gameObject != nullptr) {
-		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
+	this->gameObject = dynamic_cast<GameObject*>(this->GetObject());
+	if (this->gameObject != nullptr) {
+		ASSERT(typeid(this->gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(this->gameObject).name(), this->gameObject->GetId(), typeid(GameObject*).name());
 	}
 	// TODO [Implement] Figure out if its better to add/remove subscription dynamically on play/pause/remove
 	// subscribe the game script to the needed messages
@@ -39,4 +41,17 @@ void GameScript::init() {
 
 void GameScript::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+	this->gameObject = nullptr;
+}
+
+// component accessors
+Transform* GameScript::getTransform() {
+	if(this->transform == nullptr){
+		transform = (Transform*)gameObject->GetComponent<Transform>();
+	}
+	return transform;
+}
+
+MeshRenderer* GameScript::getMeshRenderer() {
+	return nullptr;
 }

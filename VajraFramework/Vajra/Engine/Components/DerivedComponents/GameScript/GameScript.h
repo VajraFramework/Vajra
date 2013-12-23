@@ -11,6 +11,11 @@
 
 #include "Vajra/Common/Components/Component.h"
 
+// forward declarations
+class GameObject;
+class MeshRenderer;
+class Transform;
+
 class GameScript : public Component {
 public:
 	GameScript();
@@ -19,13 +24,26 @@ public:
 
 	static inline ComponentIdType GetTypeId() { return componentTypeId; };
 
-	// Virtual Methods
-	virtual void start()  = 0;
-	virtual void end()    = 0;
-	virtual void update() = 0;
 protected:
 	virtual void HandleMessage(Message* message);
+
+	// Virtual Methods
+	virtual void start()  {}
+	virtual void end()    {}
+	virtual void update() {}
+
+	// Useful accessors for game-scripting
+	//GameObject* gameObject;
+	GameObject* gameObject;
+	Transform* getTransform();
+	MeshRenderer* getMeshRenderer();
+
 private:
+	void init();
+	void destroy();
+
+	Transform* transform;
+	MeshRenderer* meshRenderer;
 
 	static unsigned int componentTypeId;
 };
