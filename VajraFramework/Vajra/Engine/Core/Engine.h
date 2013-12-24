@@ -11,6 +11,7 @@ class Input;
 class MessageHub;
 class Profiler;
 class SceneGraph3D;
+class SceneGraphUi;
 class Timer;
 class Tween;
 
@@ -27,6 +28,7 @@ public:
 	inline MessageHub*   GetMessageHub()   { return this->messageHub;   }
 	inline Profiler*     GetProfiler()     { return this->profiler;     }
 	inline SceneGraph3D* GetSceneGraph3D() { return this->sceneGraph3D; }
+	inline SceneGraphUi* GetSceneGraphUi() { return this->sceneGraphUi; }
 	inline Timer*        GetTimer()        { return this->timer;        }
 	inline Tween*        GetTween()        { return this->tween;        }
 
@@ -42,8 +44,10 @@ private:
 
 	void updateInput();
 	void updateTweens();
-	void updateScene();
-	void renderScene();
+	void updateScene3D();
+	void renderScene3D();
+	void updateSceneUi();
+	void renderSceneUi();
 
 	AssetLibrary* assetLibrary;
 	AudioManager* audioManager;
@@ -52,6 +56,7 @@ private:
 	MessageHub*   messageHub;
 	Profiler*     profiler;
 	SceneGraph3D* sceneGraph3D;
+	SceneGraphUi* sceneGraphUi;
 	Timer*        timer;
 	Tween*        tween;
 };

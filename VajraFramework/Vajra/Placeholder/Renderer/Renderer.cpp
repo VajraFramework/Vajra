@@ -10,6 +10,7 @@
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/DeviceUtils/TextureLoader/TextureLoader.h"
@@ -50,7 +51,9 @@ bool setupGraphics(int w, int h) {
     // Make sure OpenGLWrapper is init'd:
     FRAMEWORK->GetOpenGLWrapper()->PrintGLVersion();
 
+    // TODO [Hack] Get rid of this, somehow
     ENGINE->GetSceneGraph3D()->Initialize();
+    ENGINE->GetSceneGraphUi()->Initialize();
 
     glViewport(0, 0, w, h);
     checkGlError("glViewport");
@@ -106,7 +109,7 @@ void renderFrame(float dt) {
     float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(108);
+        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(110);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -119,7 +122,7 @@ void renderFrame(float dt) {
     }
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(109);
+        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(111);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -132,7 +135,7 @@ void renderFrame(float dt) {
     }
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(110);
+        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(112);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -160,12 +163,12 @@ void renderFrame(float dt) {
         // Sending arbit message for testing
         {
 			const Message* const message = new Message();
-			ENGINE->GetMessageHub()->SendPointcastMessage(message, 107);
+			ENGINE->GetMessageHub()->SendPointcastMessage(message, 109);
 			delete message;
         }
     }
     {
-    	GameObject* wavybox = ENGINE->GetSceneGraph3D()->GetGameObjectById(110);
+    	GameObject* wavybox = ENGINE->GetSceneGraph3D()->GetGameObjectById(112);
     	// Transform* transform = wavybox->GetTransform();
     	// transform->Rotate(10.0f * deltaTime, YAXIS);
     	// transform->Translate(0.05f * deltaTime, transform->GetForward());
@@ -229,7 +232,7 @@ void renderFrame(float dt) {
 
 	DebugDraw::DrawPoint(glm::vec3(1.0f, 1.0f, 1.0f));
 
-	GameObject* torus = ENGINE->GetSceneGraph3D()->GetGameObjectById(111);
+	GameObject* torus = ENGINE->GetSceneGraph3D()->GetGameObjectById(113);
 	DebugDraw::DrawArrow(ZERO_VEC3, torus->GetTransform()->GetPosition());
 
 	DebugDraw::DrawCube(torus->GetTransform()->GetPosition(), 1.0f);
