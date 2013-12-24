@@ -12,6 +12,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/DeviceUtils/TextureLoader/TextureLoader.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -31,8 +32,6 @@
 #include <string>
 #include <vector>
 
-static int gWidth, gHeight;
-
 glm::mat4 modelMatrix;
 glm::mat4 viewMatrix;
 glm::mat4 projectionMatrix;
@@ -42,9 +41,9 @@ GLint textureHandle = 0;
 
 
 bool setupGraphics(int w, int h) {
-    gWidth = w;
-    gHeight = h;
 
+	FRAMEWORK->GetDeviceProperties()->SetWidthPixels(w);
+	FRAMEWORK->GetDeviceProperties()->SetHeightPixels(h);
 
     FRAMEWORK->GetLogger()->dbglog("setupGraphics(%d, %d)", w, h);
 
@@ -72,31 +71,8 @@ bool setupGraphics(int w, int h) {
     return true;
 }
 
-glm::vec3 eyePosition(2.0f, 2.0f, 2.0f);
-glm::vec3 lookAtPosition(0.0f, 0.0f, 0.0f);
-glm::vec3 upVector(0.0f, 1.0f, 0.0f);
-
-void setupMatrixes(float dt) {
-    static float angle = 0.0f;
-    angle += dt * 180.0f / 2.0f;
-
-    modelMatrix = glm::translate(0.0f, 0.0f, 0.5f) * glm::rotate(angle, 0.0f, 1.0f, 0.0f);
-    // modelMatrix = glm::rotate(angle, 0.0f, 1.0f, 0.0f) * glm::translate(0.0f, 0.0f, 0.5f);
-
-    viewMatrix = glm::lookAt(eyePosition, lookAtPosition, upVector);
-
-    projectionMatrix = glm::perspective(60.0f, (float)gWidth / (float)gHeight, 0.1f, 8000.0f);
-
-    mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
-
-	GLint mvpMatrixHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_mvpMatrix);
-    glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, glm::value_ptr(mvpMatrix));
-
-    return;
-}
 
 void renderFrame(float dt) {
-    setupMatrixes(dt);
 
     static float grey;
     grey += dt / 5.0f;

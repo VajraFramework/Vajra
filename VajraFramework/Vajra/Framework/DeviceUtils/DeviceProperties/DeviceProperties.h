@@ -11,6 +11,9 @@ public:
 
 	std::string GetOperatingSystem();
 
+	void SetWidthPixels(unsigned int w)   { this->widthPx = w;  }
+	void SetHeightPixels(unsigned int h)  { this->heightPx = h; }
+	
 	inline unsigned int GetWidthPixels()  { return this->widthPx;  }
 	inline unsigned int GetHeightPixels() { return this->heightPx; }
 
