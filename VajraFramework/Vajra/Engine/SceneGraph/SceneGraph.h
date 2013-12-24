@@ -10,8 +10,6 @@
 #include <map>
 
 // Forward Declarations:
-class Camera;
-class DirectionalLight;
 class GameObject;
 class RenderLists;
 
@@ -27,32 +25,20 @@ public:
 
 	void AddGameObjectToRenderLists(GameObject* gameObject);
 
-	Camera* GetMainCamera();
-	void SetMainCameraId(ObjectIdType id);
+	virtual void update() = 0;
+	virtual void draw() = 0;
 
-	DirectionalLight* GetMainDirectionalLight();
-	void SetMainDirectionalLightId(ObjectIdType id);
-
-private:
+protected:
 	SceneGraph();
-	void init();
-	void destroy();
-
-	void update();
-	void draw();
 
 	// The default root GameObject which is the ultimate parent of all GameObjects in the scene
 	GameObject* root;
 
-	ObjectIdType mainCameraId;
-	ObjectIdType mainDirectionalLightId;
-
 	RenderLists* renderLists;
 
-	friend class Engine;
+	virtual void init();
+	virtual void destroy();
 };
-
-#endif // SCENEGRAPH_H
 
 
 // Inline Functions:
@@ -68,3 +54,5 @@ GameObject* SceneGraph::GetGameObjectById(ObjectIdType id) {
 	}
 	return gameObject;
 }
+
+#endif // SCENEGRAPH_H

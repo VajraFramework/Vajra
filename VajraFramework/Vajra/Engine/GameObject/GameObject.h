@@ -15,7 +15,7 @@
 
 // Forward Declarations:
 class Component;
-class SceneGraph;
+class SceneGraph3D;
 class Transform;
 
 

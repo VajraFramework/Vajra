@@ -1,19 +1,17 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
-#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
-unsigned int MeshRenderer::componentTypeId = COMPONENT_TYPE_ID_RENDERER;
-
-MeshRenderer::MeshRenderer() : Component() {
+MeshRenderer::MeshRenderer() : Renderer() {
 	this->init();
 }
 
-MeshRenderer::MeshRenderer(Object* object_) : Component(object_) {
+MeshRenderer::MeshRenderer(Object* object_) : Renderer(object_) {
 	this->init();
 }
 
@@ -23,7 +21,7 @@ MeshRenderer::~MeshRenderer() {
 
 void MeshRenderer::InitMesh(std::string urlOfMesh) {
 	this->meshAsset = ENGINE->GetAssetLibrary()->GetAsset<MeshAsset>(urlOfMesh);
-	this->shaderName = this->meshAsset->GetShaderName();
+	this->SetShaderName(this->meshAsset->GetShaderName());
 
 	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
 	ASSERT(gameObject != nullptr, "GameObject not null");
@@ -40,7 +38,7 @@ void MeshRenderer::InitMesh(std::string urlOfMesh) {
 	}
 
 	// Now that we are renderable, add self to the render lists in the scene graph:
-	ENGINE->GetSceneGraph()->AddGameObjectToRenderLists(gameObject);
+	ENGINE->GetSceneGraph3D()->AddGameObjectToRenderLists(gameObject);
 }
 
 void MeshRenderer::HandleMessage(Message* /* message */) {
