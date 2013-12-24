@@ -87,6 +87,8 @@ int main( void ) {
 				  FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
 
 	Tesserakonteres::initGameObjectsForScene();
+	Tesserakonteres::initUiGameObjects();
+
 	TestFuntion();
 
 	do {

@@ -35,13 +35,29 @@ void SceneGraph::AddGameObjectToRenderLists(GameObject* gameObject) {
 	this->renderLists->addGameObjectIdToRenderList(gameObject->GetId(), shaderName);
 }
 
+// TODO [Cleanup] Cache the mainCamera, maybe
+Camera* SceneGraph::GetMainCamera() {
+	GameObject *camera = this->GetGameObjectById(this->mainCameraId);
+	if (camera != nullptr) {
+		return camera->GetComponent<Camera>();
+	}
+	return nullptr;
+}
+
+void SceneGraph::SetMainCameraId(ObjectIdType id) {
+	GameObject *camera = this->GetGameObjectById(id);
+	ASSERT(camera != nullptr, "New camera object not null");
+	ASSERT(camera->GetComponent<Camera>() != nullptr, "New camera object has a camera component");
+	this->mainCameraId = id;
+}
+
 void SceneGraph::init() {
 	this->root = nullptr;
 	this->renderLists = new RenderLists();
 }
 
 void SceneGraph::Initialize() {
-	this->root = new GameObject();
+	this->root = new GameObject(this);
 }
 
 void SceneGraph::destroy() {

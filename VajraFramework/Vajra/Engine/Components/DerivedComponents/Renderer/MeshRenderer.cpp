@@ -38,7 +38,8 @@ void MeshRenderer::InitMesh(std::string urlOfMesh) {
 	}
 
 	// Now that we are renderable, add self to the render lists in the scene graph:
-	ENGINE->GetSceneGraph3D()->AddGameObjectToRenderLists(gameObject);
+	ASSERT(gameObject->GetParentSceneGraph() != nullptr, "GameObject has been added to a scenegraph");
+	gameObject->GetParentSceneGraph()->AddGameObjectToRenderLists(gameObject);
 }
 
 void MeshRenderer::HandleMessage(Message* /* message */) {

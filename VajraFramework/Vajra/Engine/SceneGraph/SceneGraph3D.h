@@ -18,9 +18,6 @@ class SceneGraph3D : public SceneGraph {
 public:
 	~SceneGraph3D();
 
-	Camera* GetMainCamera();
-	void SetMainCameraId(ObjectIdType id);
-
 	DirectionalLight* GetMainDirectionalLight();
 	void SetMainDirectionalLightId(ObjectIdType id);
 
@@ -33,7 +30,6 @@ protected:
 	virtual void init();
 	virtual void destroy();
 
-	ObjectIdType mainCameraId;
 	ObjectIdType mainDirectionalLightId;
 
 	friend class Engine;

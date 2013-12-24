@@ -11,16 +11,17 @@
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 
 
-GameObject::GameObject() {
-	this->init();
+GameObject::GameObject(SceneGraph* sceneGraph) {
+	this->init(sceneGraph);
 }
 
 GameObject::~GameObject() {
 	this->destroy();
 }
 
-void GameObject::init() {
-	ENGINE->GetSceneGraph3D()->AddNewGameObjectToScene(this);
+void GameObject::init(SceneGraph* sceneGraph) {
+	sceneGraph->AddNewGameObjectToScene(this);
+	this->parentSceneGraph = sceneGraph;
 
 	this->AddComponent<Transform>();
 	this->transform = (Transform*)this->GetComponent<Transform>();

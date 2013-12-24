@@ -15,22 +15,6 @@ SceneGraph3D::~SceneGraph3D() {
 	this->destroy();
 }
 
-// TODO [Cleanup] Cache the mainCamera, maybe
-Camera* SceneGraph3D::GetMainCamera() {
-	GameObject *camera = this->GetGameObjectById(this->mainCameraId);
-	if (camera != nullptr) {
-		return camera->GetComponent<Camera>();
-	}
-	return nullptr;
-}
-
-void SceneGraph3D::SetMainCameraId(ObjectIdType id) {
-	GameObject *camera = this->GetGameObjectById(id);
-	ASSERT(camera != nullptr, "New camera object not null");
-	ASSERT(camera->GetComponent<Camera>() != nullptr, "New camera object has a camera component");
-	this->mainCameraId = id;
-}
-
 // TODO [Cleanup] Cache the mainDirectionalLight, maybe
 DirectionalLight* SceneGraph3D::GetMainDirectionalLight() {
 	GameObject *directionalLight = this->GetGameObjectById(this->mainDirectionalLightId);

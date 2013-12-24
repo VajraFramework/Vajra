@@ -10,6 +10,7 @@
 #include <map>
 
 // Forward Declarations:
+class Camera;
 class GameObject;
 class RenderLists;
 
@@ -25,6 +26,9 @@ public:
 
 	void AddGameObjectToRenderLists(GameObject* gameObject);
 
+	Camera* GetMainCamera();
+	void SetMainCameraId(ObjectIdType id);
+
 	virtual void update() = 0;
 	virtual void draw() = 0;
 
@@ -33,6 +37,7 @@ protected:
 
 	// The default root GameObject which is the ultimate parent of all GameObjects in the scene
 	GameObject* root;
+	ObjectIdType mainCameraId;
 
 	RenderLists* renderLists;
 

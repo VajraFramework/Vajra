@@ -37,7 +37,14 @@ void Transform::HandleMessage(Message* message) {
 }
 
 void Transform::Draw() {
-	Camera* camera = ENGINE->GetSceneGraph3D()->GetMainCamera();
+	Camera* camera = nullptr;
+	GameObject* gameObject = (GameObject*)this->GetObject();
+	if (gameObject != nullptr) {
+		camera = gameObject->GetParentSceneGraph()->GetMainCamera();
+	} else {
+		// TODO [Hack] This exists only to make debug drawing work
+		camera = ENGINE->GetSceneGraph3D()->GetMainCamera();
+	}
 	ASSERT(camera != nullptr, "Could get main camera for the scene");
 
 	ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
