@@ -35,7 +35,7 @@ namespace Tesserakonteres {
 	void tweenNumberCallback(float normalizedProgress, std::string tweenName) {
 		// FRAMEWORK->GetLogger()->dbglog("\nIn tweenNumberCallback() with normalized progress %f", normalizedProgress);
 		if (tweenName == "tween_stubby_arrows") {
-			GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(114);
+			GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(115);
 			if (gameObject != nullptr) {
 				gameObject->GetTransform()->SetPosition(0.0f, 0.0f, normalizedProgress);
 			}

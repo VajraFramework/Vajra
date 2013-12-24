@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 #include "Libraries/glm/gtx/transform.hpp"
@@ -30,9 +31,8 @@ void Camera::updateMatrices() {
 	//
 	this->viewMatrix = glm::lookAt(eyePosition, lookAtPosition, upVector);
 
-	// TODO [Cleanup] 1024 x 768
-	float width  = 1024.0f;
-	float height = 768.0f;
+	float width  = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
+	float height = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
 	float aspecRatio = width / height;
 
 	switch (this->cameraType) {
@@ -42,7 +42,6 @@ void Camera::updateMatrices() {
 		} break;
 
 	case CAMERA_TYPE_PERSPECTIVE: {
-			// TODO [Cleanup] 1024 x 768
 			this->projMatrix = glm::perspective(60.0f, aspecRatio, 0.1f, 8000.0f);
 		} break;
 
