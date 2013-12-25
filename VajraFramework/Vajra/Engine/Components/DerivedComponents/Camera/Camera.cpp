@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
@@ -38,7 +39,13 @@ void Camera::updateMatrices() {
 	switch (this->cameraType) {
 
 	case CAMERA_TYPE_ORTHO: {
-			this->projMatrix = glm::ortho(-width/2.0f, width/2.0f, -height/2.0f, height/2.0f, 0.1f, 8000.0f);
+			float aspecRatio_preferred = (float)UI_SCREENWIDTH_PREFERRED / (float)UI_SCREENHEIGHT_PREFERRED;
+			float ratio_of_aspecRatios = aspecRatio / aspecRatio_preferred;
+			if (aspecRatio > aspecRatio_preferred) {	// wider than expected
+				this->projMatrix = glm::ortho(-UI_SCREENWIDTH_PREFERRED/2.0f * ratio_of_aspecRatios, UI_SCREENWIDTH_PREFERRED/2.0f * ratio_of_aspecRatios, -UI_SCREENHEIGHT_PREFERRED/2.0f, UI_SCREENHEIGHT_PREFERRED/2.0f, 0.1f, 8000.0f);
+			} else {	// taller than expected
+				this->projMatrix = glm::ortho(-UI_SCREENWIDTH_PREFERRED/2.0f, UI_SCREENWIDTH_PREFERRED/2.0f, -UI_SCREENHEIGHT_PREFERRED/2.0f / ratio_of_aspecRatios, UI_SCREENHEIGHT_PREFERRED/2.0f / ratio_of_aspecRatios, 0.1f, 8000.0f);
+			}
 		} break;
 
 	case CAMERA_TYPE_PERSPECTIVE: {

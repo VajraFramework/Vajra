@@ -199,7 +199,7 @@ namespace Tesserakonteres {
 			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraphUi());
 			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "TexturedCube.model");
 
 			Transform* transform = gameObject->GetTransform();
 			transform->Scale(50.0f);
