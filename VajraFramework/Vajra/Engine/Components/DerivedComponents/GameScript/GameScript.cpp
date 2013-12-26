@@ -50,15 +50,15 @@ void GameScript::destroy() {
 
 // component accessors
 Transform* GameScript::getTransform() {
-	if(this->transform == nullptr){
-		this->transform = (Transform*)gameObject->GetComponent<Transform>();
+	if(this->transform != nullptr){
+		return this->transform;
 	}
-	return this->transform;
+	return (this->transform = (Transform*)gameObject->GetComponent<Transform>());
 }
 
 Renderer* GameScript::getRenderer() {
-	if(this->renderer == nullptr){
-		this->renderer = (Renderer*)gameObject->GetComponent<Renderer>();
+	if(this->renderer != nullptr){
+		return this->renderer;
 	}
-	return this->renderer;
+	return (this->renderer = (Renderer*)gameObject->GetComponent<Renderer>());
 }
