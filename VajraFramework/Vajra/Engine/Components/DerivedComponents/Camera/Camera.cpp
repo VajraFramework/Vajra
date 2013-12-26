@@ -36,10 +36,6 @@ void Camera::updateMatrices() {
 	//
 	this->viewMatrix = glm::lookAt(eyePosition, lookAtPosition, upVector);
 
-<<<<<<< HEAD
-    // TODO [Cleanup] 1024 x 768
-    this->projMatrix = glm::perspective(this->fov, (float)1024/(float)768, 0.1f, 8000.0f);
-=======
 	float width  = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
 	float height = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
 	float aspecRatio = width / height;
@@ -58,7 +54,6 @@ void Camera::updateMatrices() {
 			ASSERT(0, "Unknown camera type, %d", this->cameraType);
 		} break;
 	}
->>>>>>> master
 }
 
 void Camera::HandleMessage(Message* message) {

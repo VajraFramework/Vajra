@@ -27,12 +27,12 @@ int TestFuntion() {
 		GridManager* gridMgrComp = gridManager->AddComponent<GridManager>();
 		gridMgrComp->GenerateTerrainFromFile("noninjas.txt");
 
-		GameObject* camera = new GameObject();
+		/*GameObject* camera = new GameObject();
 		ShadyCamera* shadyCamera = camera->AddComponent<ShadyCamera>();
 		ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(camera->GetId());
 		ENGINE->GetSceneGraph()->SetMainCameraId(camera->GetId());
 
-		shadyCamera->setGridManager(gridMgrComp);
+		shadyCamera->setGridManager(gridMgrComp);*/
 #endif
 	}
 	{
