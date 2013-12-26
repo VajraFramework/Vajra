@@ -35,10 +35,10 @@ void GridManager::init() {
 	this->gridCells     = nullptr;
 	this->gridWidth     = 0;
 	this->gridHeight    = 0;
-	this->roomWidth   = 0;
-	this->roomHeight  = 0;
-	this->roomOffsetX = 0;
-	this->roomOffsetZ = 0;
+	this->roomWidth     = 0;
+	this->roomHeight    = 0;
+	this->roomOffsetX   = 0;
+	this->roomOffsetZ   = 0;
 	this->maxElevation  = 0;
 	this->gridOrigin    = ZERO_VEC3;
 #ifdef DEBUG
@@ -83,7 +83,7 @@ void GridManager::GenerateTerrainFromFile(std::string terrainFilename) {
 	this->cellSize = 1.0f;
 	this->halfCellSize.x = 0.5f;
 	this->halfCellSize.y = 0.0f;
-	this->halfCellSize.z = 0.5f;
+	this->halfCellSize.z = -0.5f;
 	this->gridWidth = ROOM_WIDTH_OUTDOORS;
 	this->gridHeight = ROOM_HEIGHT_OUTDOORS;
 	this->roomWidth = ROOM_WIDTH_OUTDOORS;
@@ -96,7 +96,7 @@ void GridManager::GenerateTerrainFromFile(std::string terrainFilename) {
 			glm::vec3 center;
 			center.x = i * this->cellSize;
 			center.y = 0;
-			center.z = j * this->cellSize;
+			center.z = -j * this->cellSize;
 			glm::vec3 origin = center - this->halfCellSize;
 			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, true);
 		}
@@ -121,7 +121,7 @@ GridCell* GridManager::GetCell(int x, int z) {
 
 GridCell* GridManager::GetCell(glm::vec3 loc) {
 	int gX = (int)((loc.x / this->cellSize) + 0.5f);
-	int gZ = (int)((loc.z / this->cellSize) + 0.5f);
+	int gZ = (int)((-loc.z / this->cellSize) + 0.5f);
 	return GetCell(gX, gZ);
 }
 /*
@@ -167,7 +167,7 @@ bool GridManager::IsWithinGrid(int x, int z) {
 
 bool GridManager::IsWithinGrid(glm::vec3 loc) {
 	int gX = (int)((loc.x / this->cellSize) + 0.5f);
-	int gZ = (int)((loc.z / this->cellSize) + 0.5f);
+	int gZ = (int)((-loc.z / this->cellSize) + 0.5f);
 	return IsWithinGrid(gX, gZ);
 }
 #ifdef DEBUG

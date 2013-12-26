@@ -4,7 +4,8 @@
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/Profiler/Profiler.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/Tween/Tween.h"
@@ -42,8 +43,11 @@ void Engine::init() {
 	this->assetLibrary = new AssetLibrary();
 	this->assetLibrary->init();
 
-	this->sceneGraph = new SceneGraph();
-	this->sceneGraph->init();
+	this->sceneGraph3D = new SceneGraph3D();
+	this->sceneGraph3D->init();
+
+	this->sceneGraphUi = new SceneGraphUi();
+	this->sceneGraphUi->init();
 
 	this->debugDrawer = new DebugDrawer();
 	this->debugDrawer->init();
@@ -67,8 +71,10 @@ void Engine::DoFrame() {
 
 	this->updateInput();
 	this->updateTweens();
-	this->updateScene();
-	this->renderScene();
+	this->updateScene3D();
+	this->updateSceneUi();
+	this->renderScene3D();
+	this->renderSceneUi();
 
 	this->GetTimer()->endFrame();
 	this->GetProfiler()->StopExperiment("frame");
@@ -92,25 +98,46 @@ void Engine::updateTweens() {
 	this->GetProfiler()->StopExperiment("tweens");
 }
 
-void Engine::updateScene() {
-	this->GetProfiler()->StartExperiment("update");
+void Engine::updateScene3D() {
+	this->GetProfiler()->StartExperiment("update3d");
 	this->GetTimer()->beginUpdatePhase();
 
 	this->GetMessageHub()->drainMessages();
-	this->GetSceneGraph()->update();
+	this->GetSceneGraph3D()->update();
 
 	this->GetTimer()->endUpdatePhase();
-	this->GetProfiler()->StopExperiment("update");
+	this->GetProfiler()->StopExperiment("update3d");
 }
 
-void Engine::renderScene() {
-	this->GetProfiler()->StartExperiment("render");
+void Engine::renderScene3D() {
+	this->GetProfiler()->StartExperiment("render3d");
 	this->GetTimer()->beginRenderPhase();
 
-	this->GetSceneGraph()->draw();
+	this->GetSceneGraph3D()->draw();
 
 	this->GetTimer()->endRenderPhase();
-	this->GetProfiler()->StopExperiment("render");
+	this->GetProfiler()->StopExperiment("render3d");
+}
+
+void Engine::updateSceneUi() {
+	this->GetProfiler()->StartExperiment("updateUi");
+	this->GetTimer()->beginUpdatePhase();
+
+	this->GetMessageHub()->drainMessages();
+	this->GetSceneGraphUi()->update();
+
+	this->GetTimer()->endUpdatePhase();
+	this->GetProfiler()->StopExperiment("updateUi");
+}
+
+void Engine::renderSceneUi() {
+	this->GetProfiler()->StartExperiment("renderUi");
+	this->GetTimer()->beginRenderPhase();
+
+	this->GetSceneGraphUi()->draw();
+
+	this->GetTimer()->endRenderPhase();
+	this->GetProfiler()->StopExperiment("renderUi");
 }
 
 int testEngineFunction() {
@@ -121,8 +148,11 @@ void Engine::destroy() {
 	if (this->debugDrawer != nullptr) {
 		delete this->debugDrawer;
 	}
-	if (this->sceneGraph != nullptr) {
-		delete this->sceneGraph;
+	if (this->sceneGraph3D != nullptr) {
+		delete this->sceneGraph3D;
+	}
+	if (this->sceneGraphUi != nullptr) {
+		delete this->sceneGraphUi;
 	}
 	if (this->assetLibrary != nullptr) {
 		delete this->assetLibrary;

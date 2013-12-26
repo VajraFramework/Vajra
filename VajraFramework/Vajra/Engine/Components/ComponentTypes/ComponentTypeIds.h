@@ -12,5 +12,6 @@
 #define COMPONENT_TYPE_ID_TWEEN_CALLBACK           (unsigned int)7
 #define COMPONENT_TYPE_ID_ARMATURE                 (unsigned int)8
 #define COMPONENT_TYPE_ID_AUDIO_SOURCE             (unsigned int)9
+#define COMPONENT_TYPE_ID_GAME_SCRIPT              (unsigned int)10
 
 #endif // COMPONENT_TYPE_IDS_H

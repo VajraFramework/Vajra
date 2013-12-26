@@ -21,7 +21,7 @@ class Transform;
 
 class GameObject : public Object {
 public:
-	GameObject();
+	GameObject(SceneGraph* sceneGraph);
 	virtual ~GameObject();
 
 	inline Transform* GetTransform() { return this->transform; }
@@ -32,12 +32,16 @@ public:
 	bool IsVisible() { return this->visible; }
 	void SetVisible(bool visible) { this->visible = visible; }
 
+	SceneGraph* GetParentSceneGraph() { return this->parentSceneGraph; }
+
 private:
-	void init();
+	void init(SceneGraph* sceneGraph);
 	void destroy();
 
 	Transform* transform;
 	bool visible;
+
+	SceneGraph* parentSceneGraph;
 };
 
 #endif // GAMEOBJECT_H

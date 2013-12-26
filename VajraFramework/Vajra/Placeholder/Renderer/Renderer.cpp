@@ -9,8 +9,10 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Timer/Timer.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/DeviceUtils/TextureLoader/TextureLoader.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -30,8 +32,6 @@
 #include <string>
 #include <vector>
 
-static int gWidth, gHeight;
-
 glm::mat4 modelMatrix;
 glm::mat4 viewMatrix;
 glm::mat4 projectionMatrix;
@@ -41,16 +41,18 @@ GLint textureHandle = 0;
 
 
 bool setupGraphics(int w, int h) {
-    gWidth = w;
-    gHeight = h;
 
+	FRAMEWORK->GetDeviceProperties()->SetWidthPixels(w);
+	FRAMEWORK->GetDeviceProperties()->SetHeightPixels(h);
 
     FRAMEWORK->GetLogger()->dbglog("setupGraphics(%d, %d)", w, h);
 
     // Make sure OpenGLWrapper is init'd:
     FRAMEWORK->GetOpenGLWrapper()->PrintGLVersion();
 
-    ENGINE->GetSceneGraph()->Initialize();
+    // TODO [Hack] Get rid of this, somehow
+    ENGINE->GetSceneGraph3D()->Initialize();
+    ENGINE->GetSceneGraphUi()->Initialize();
 
     glViewport(0, 0, w, h);
     checkGlError("glViewport");
@@ -69,31 +71,8 @@ bool setupGraphics(int w, int h) {
     return true;
 }
 
-glm::vec3 eyePosition(2.0f, 2.0f, 2.0f);
-glm::vec3 lookAtPosition(0.0f, 0.0f, 0.0f);
-glm::vec3 upVector(0.0f, 1.0f, 0.0f);
-
-void setupMatrixes(float dt) {
-    static float angle = 0.0f;
-    angle += dt * 180.0f / 2.0f;
-
-    modelMatrix = glm::translate(0.0f, 0.0f, 0.5f) * glm::rotate(angle, 0.0f, 1.0f, 0.0f);
-    // modelMatrix = glm::rotate(angle, 0.0f, 1.0f, 0.0f) * glm::translate(0.0f, 0.0f, 0.5f);
-
-    viewMatrix = glm::lookAt(eyePosition, lookAtPosition, upVector);
-
-    projectionMatrix = glm::perspective(60.0f, (float)gWidth / (float)gHeight, 0.1f, 8000.0f);
-
-    mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
-
-	GLint mvpMatrixHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_mvpMatrix);
-    glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, glm::value_ptr(mvpMatrix));
-
-    return;
-}
 
 void renderFrame(float dt) {
-    setupMatrixes(dt);
 
     static float grey;
     grey += dt / 5.0f;
@@ -106,7 +85,7 @@ void renderFrame(float dt) {
     float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(108);
+        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(111);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -119,7 +98,7 @@ void renderFrame(float dt) {
     }
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(109);
+        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(112);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -132,7 +111,7 @@ void renderFrame(float dt) {
     }
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph()->GetGameObjectById(110);
+        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(113);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -145,7 +124,7 @@ void renderFrame(float dt) {
     }
     {
         // Temp, testing transforms:
-        GameObject* dlight = (GameObject*)ENGINE->GetSceneGraph()->GetMainDirectionalLight()->GetObject();
+        GameObject* dlight = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainDirectionalLight()->GetObject();
         if (dlight != nullptr) {
         	Transform* transform = dlight->GetTransform();
         	if (transform != nullptr) {
@@ -160,12 +139,12 @@ void renderFrame(float dt) {
         // Sending arbit message for testing
         {
 			const Message* const message = new Message();
-			ENGINE->GetMessageHub()->SendPointcastMessage(message, 107);
+			ENGINE->GetMessageHub()->SendPointcastMessage(message, 110);
 			delete message;
         }
     }
     {
-    	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(110);
+    	GameObject* wavybox = ENGINE->GetSceneGraph3D()->GetGameObjectById(113);
     	// Transform* transform = wavybox->GetTransform();
     	// transform->Rotate(10.0f * deltaTime, YAXIS);
     	// transform->Translate(0.05f * deltaTime, transform->GetForward());
@@ -216,7 +195,7 @@ void renderFrame(float dt) {
             Touch temp = ENGINE->GetInput()->GetTouch(0);
             float touchDisplacement = temp.pos.x - temp.prevPos.x;
             glm::vec2 moveDir = temp.pos - temp.prevPos;
-            GameObject* camera = (GameObject*)ENGINE->GetSceneGraph()->GetMainCamera()->GetObject();
+            GameObject* camera = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject();
             Transform* transform = camera->GetTransform();
             float camMag = glm::distance(transform->GetPosition(), ZERO_VEC3);
             transform->SetPosition(0.0f, 0.0f, 0.0f);
@@ -229,7 +208,7 @@ void renderFrame(float dt) {
 
 	DebugDraw::DrawPoint(glm::vec3(1.0f, 1.0f, 1.0f));
 
-	GameObject* torus = ENGINE->GetSceneGraph()->GetGameObjectById(111);
+	GameObject* torus = ENGINE->GetSceneGraph3D()->GetGameObjectById(114);
 	DebugDraw::DrawArrow(ZERO_VEC3, torus->GetTransform()->GetPosition());
 
 	DebugDraw::DrawCube(torus->GetTransform()->GetPosition(), 1.0f);

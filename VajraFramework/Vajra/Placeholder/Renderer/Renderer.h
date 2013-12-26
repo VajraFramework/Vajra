@@ -17,7 +17,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // temp
 bool setupGraphics(int w, int h);
-void setupMatrixes(float dt);
 void renderFrame(float dt);
 //
 extern const char gVertexShader[];

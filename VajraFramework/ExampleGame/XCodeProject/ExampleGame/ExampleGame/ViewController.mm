@@ -167,6 +167,7 @@ GLfloat gCubeVertexData[216] =
     setupGraphics(width, height);
     
     Tesserakonteres::initGameObjectsForScene();
+    Tesserakonteres::initUiGameObjects();
     
 	TestFuntion();
     

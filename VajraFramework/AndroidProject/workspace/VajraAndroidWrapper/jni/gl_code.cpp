@@ -98,6 +98,7 @@ JNIEXPORT void JNICALL Java_com_vajra_androidwrapper_VajraAndroidWrapper_init(JN
     setupGraphics(width, height);
 
     Tesserakonteres::initGameObjectsForScene();
+    Tesserakonteres::initUiGameObjects();
 }
 
 JNIEXPORT void JNICALL Java_com_vajra_androidwrapper_VajraAndroidWrapper_step(JNIEnv * env, jobject obj, float dt)
