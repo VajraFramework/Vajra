@@ -1,5 +1,5 @@
-#ifndef MESH_RENDERER_H
-#define MESH_RENDERER_H
+#ifndef RENDERER_H
+#define RENDERER_H
 
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Engine/AssetLibrary/Assets/MeshAssets/MeshAsset.h"
@@ -11,22 +11,21 @@
 class Object;
 class Mesh;
 
-class MeshRenderer : public Component {
+class Renderer : public Component {
 public:
-	MeshRenderer();
-	MeshRenderer(Object* object_);
-	virtual ~MeshRenderer();
+	Renderer();
+	Renderer(Object* object_);
+	virtual ~Renderer();
 
 	static inline ComponentIdType GetTypeId() { return componentTypeId; }
 
-	void InitMesh(std::string urlOfMesh);
-
 	// @Override
-	virtual void HandleMessage(Message* message);
+	virtual void HandleMessage(Message* message) = 0;
 
-	void Draw();
+	virtual void Draw() = 0;
 
 	inline std::string GetShaderName() { return this->shaderName; }
+	inline void SetShaderName(std::string shaderName_) { this->shaderName = shaderName_; }
 
 private:
 	void init();
@@ -35,8 +34,6 @@ private:
 	static unsigned int componentTypeId;
 
 	std::string shaderName;
-
-	std::shared_ptr<MeshAsset> meshAsset;
 };
 
-#endif // MESH_RENDERER_H
+#endif // RENDERER_H

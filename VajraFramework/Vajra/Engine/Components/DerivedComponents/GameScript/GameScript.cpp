@@ -1,7 +1,7 @@
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/GameScript/GameScript.h"
-#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/Renderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
@@ -38,14 +38,14 @@ void GameScript::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 	
 	this->transform = nullptr;
-	this->meshRenderer = nullptr;
+	this->renderer = nullptr;
 }
 
 void GameScript::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 	this->gameObject = nullptr;
 	this->transform = nullptr;
-	this->meshRenderer = nullptr;
+	this->renderer = nullptr;
 }
 
 // component accessors
@@ -56,9 +56,9 @@ Transform* GameScript::getTransform() {
 	return this->transform;
 }
 
-MeshRenderer* GameScript::getMeshRenderer() {
-	if(this->meshRenderer == nullptr){
-		this->meshRenderer = (MeshRenderer*)gameObject->GetComponent<MeshRenderer>();
+Renderer* GameScript::getRenderer() {
+	if(this->renderer == nullptr){
+		this->renderer = (Renderer*)gameObject->GetComponent<Renderer>();
 	}
-	return this->meshRenderer;
+	return this->renderer;
 }

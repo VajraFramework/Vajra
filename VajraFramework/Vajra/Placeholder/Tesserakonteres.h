@@ -9,6 +9,7 @@ class Mesh;
 namespace Tesserakonteres {
 
 	void initGameObjectsForScene();
+	void initUiGameObjects();
 
 };
 

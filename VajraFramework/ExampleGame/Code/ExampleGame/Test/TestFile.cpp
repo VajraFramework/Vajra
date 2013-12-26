@@ -3,11 +3,11 @@
 #include "ExampleGame/Components/Grid/GridManager.h"
 
 #include "Vajra/Common/Objects/Object.h"
-#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -31,10 +31,10 @@ int TestFuntion() {
 	}
 	{
 #if 1
-		GameObject* testGameScript = new GameObject();
+		GameObject* testGameScript = new GameObject(ENGINE->GetSceneGraph3D());
+		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testGameScript->GetId());
 		MeshRenderer* meshRenderer = testGameScript->AddComponent<MeshRenderer>();
 		meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
-		ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(testGameScript->GetId());
 		testGameScript->AddComponent<SampleGameScript>();
 #endif
 	}

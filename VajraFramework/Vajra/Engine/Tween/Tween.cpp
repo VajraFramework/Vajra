@@ -9,7 +9,7 @@
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/Tween/TweenCallbackComponent.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
@@ -24,7 +24,7 @@ Tween::~Tween() {
 }
 
 void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
-	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
+	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
 		glm::vec3 currentScale       = gameObject->GetTransform()->GetScale();
@@ -36,7 +36,7 @@ void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, 
 }
 
 void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
-	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
+	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
 		glm::vec3 currentScale       = gameObject->GetTransform()->GetScale();
@@ -49,7 +49,7 @@ void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, fl
 
 void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat initialOrientation, glm::quat finalOrientation, float time,
 		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) /* = 0 */) {
-	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
+	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		glm::vec3 currentPosition    = gameObject->GetTransform()->GetPosition();
 		glm::vec3 currentScale       = gameObject->GetTransform()->GetScale();
@@ -62,7 +62,7 @@ void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat initialOrienta
 
 void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientation, float time,
 		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
-	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
+	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		glm::vec3 currentPosition    = gameObject->GetTransform()->GetPosition();
 		glm::vec3 currentScale       = gameObject->GetTransform()->GetScale();
@@ -75,7 +75,7 @@ void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientati
 
 void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::vec3 finalScale, float time,
 		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
-	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
+	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		glm::vec3 currentPosition    = gameObject->GetTransform()->GetPosition();
 		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
@@ -88,7 +88,7 @@ void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::v
 
 void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float time,
 		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
-	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
+	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		glm::vec3 currentPosition    = gameObject->GetTransform()->GetPosition();
 		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
@@ -104,7 +104,7 @@ void Tween::TweenTransform(ObjectIdType gameObjectId, glm::vec3 initialPosition,
 												      glm::vec3 initialScale, glm::vec3 finalScale,
 												      float time,
 												      void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
-	GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(gameObjectId);
+	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		this->tweenTransform_internal(gameObject, initialPosition, finalPosition,
 												  initialOrientation, finalOrientation,

@@ -13,7 +13,7 @@
 
 // forward declarations
 class GameObject;
-class MeshRenderer;
+class Renderer;
 class Transform;
 
 class GameScript : public Component {
@@ -36,14 +36,14 @@ protected:
 
 	// Useful accessors for game-scripting
 	Transform* getTransform();
-	MeshRenderer* getMeshRenderer();
+	Renderer* getRenderer();
 
 private:
 	void init();
 	void destroy();
 
 	Transform* transform;
-	MeshRenderer* meshRenderer;
+	Renderer* renderer;
 
 	static unsigned int componentTypeId;
 };

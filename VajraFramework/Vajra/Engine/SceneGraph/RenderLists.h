@@ -34,6 +34,7 @@ private:
 
 	// friended to SceneGraph so as to not have to expose the constructor and addGameObjectIdToRenderList()
 	friend class SceneGraph;
+	friend class SceneGraph3D;
 };
 
 #endif // RENDER_LISTS_H

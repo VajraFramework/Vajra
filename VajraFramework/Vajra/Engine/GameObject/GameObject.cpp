@@ -3,24 +3,25 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
-#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/Renderer.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 
 
-GameObject::GameObject() {
-	this->init();
+GameObject::GameObject(SceneGraph* sceneGraph) {
+	this->init(sceneGraph);
 }
 
 GameObject::~GameObject() {
 	this->destroy();
 }
 
-void GameObject::init() {
-	ENGINE->GetSceneGraph()->AddNewGameObjectToScene(this);
+void GameObject::init(SceneGraph* sceneGraph) {
+	sceneGraph->AddNewGameObjectToScene(this);
+	this->parentSceneGraph = sceneGraph;
 
 	this->AddComponent<Transform>();
 	this->transform = (Transform*)this->GetComponent<Transform>();
@@ -52,19 +53,19 @@ void GameObject::Draw() {
 		}
 #endif
 
-		// TODO [Cleanup] Cache the MeshRenderer, maybe
-		MeshRenderer* meshRenderer = this->GetComponent<MeshRenderer>();
-		if (meshRenderer != nullptr) {
-			meshRenderer->Draw();
+		// TODO [Cleanup] Cache the Renderer, maybe
+		Renderer* renderer = this->GetComponent<Renderer>();
+		if (renderer != nullptr) {
+			renderer->Draw();
 		}
 	}
 }
 
 std::string GameObject::GetShaderName() {
-	// TODO [Cleanup] Cache the MeshRenderer, maybe
-	MeshRenderer* meshRenderer = this->GetComponent<MeshRenderer>();
-	if (meshRenderer != nullptr) {
-		return meshRenderer->GetShaderName();
+	// TODO [Cleanup] Cache the Renderer, maybe
+	Renderer* renderer = this->GetComponent<Renderer>();
+	if (renderer != nullptr) {
+		return renderer->GetShaderName();
 	}
 	return "";
 }

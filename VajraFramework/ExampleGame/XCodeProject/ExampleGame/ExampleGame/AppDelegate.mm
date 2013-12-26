@@ -2,7 +2,7 @@
 
 #import "Vajra/Engine/Core/Engine.h"
 #import "Vajra/Engine/Profiler/Profiler.h"
-#import "Vajra/Framework/DeviceUtils/DeviceStatistics/DeviceStatistics.h"
+#import "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #import "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
 #import <fstream>
@@ -10,7 +10,7 @@
 void printDebugLog() {
 	// Ensure that the log file exists in the file structure.
 	std::string logPath = FRAMEWORK->GetFileSystemUtils()->GetDeviceLoggingResourcesPath();
-	std::string logFilename = logPath + GetOperatingSystem() + ".log";
+	std::string logFilename = logPath + FRAMEWORK->GetDeviceProperties()->GetOperatingSystem() + ".log";
 	NSFileManager* fileMan = [NSFileManager defaultManager];
 	NSString* logFilePathNSString = [NSString stringWithCString:logPath.c_str() encoding:NSASCIIStringEncoding];
 	if (![fileMan fileExistsAtPath:logFilePathNSString isDirectory:nullptr]) {
