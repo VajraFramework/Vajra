@@ -6,7 +6,7 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Framework/Core/Framework.h"
-#include "Vajra/Framework/DeviceUtils/ModelLoader/ArmatureLoader.h"
+#include "Vajra/Framework/Loaders/ModelLoader/ArmatureLoader.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/FileUtilities.h"

@@ -5,7 +5,7 @@
 
 #include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
 #include "Vajra/Framework/Core/Framework.h"
-#include "Vajra/Framework/DeviceUtils/AudioLoader/AudioLoader.h"
+#include "Vajra/Framework/Loaders/AudioLoader/AudioLoader.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
 
