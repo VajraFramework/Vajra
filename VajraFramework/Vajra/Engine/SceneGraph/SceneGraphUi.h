@@ -19,7 +19,7 @@ class DirectionalLight;
 
 class SceneGraphUi : public SceneGraph {
 public:
-	~SceneGraphUi();
+	virtual ~SceneGraphUi();
 
 	// @Override
 	virtual void update();

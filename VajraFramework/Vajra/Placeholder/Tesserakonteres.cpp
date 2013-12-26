@@ -10,10 +10,11 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
+#include "Vajra/Engine/Ui/UiSpriteObject/UiSpriteObject.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
@@ -199,12 +200,26 @@ namespace Tesserakonteres {
 			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraphUi());
 			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "TexturedCube.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
 
 			Transform* transform = gameObject->GetTransform();
-			transform->Scale(50.0f);
+			transform->SetPosition(100.0f, -100.0f, 0.0f);
 			transform->Rotate(-90.0f, XAXIS);
+			transform->Scale(50.0f);
 		}
+		{
+			UiSpriteObject* uiObject = new UiSpriteObject(ENGINE->GetSceneGraphUi());
+			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiObject->GetId());
+			uiObject->InitSprite(100, 100, "sptshdr", FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + "sample_picture3.png");
+			uiObject->SetPosition(400, 110);
+		}
+		{
+			UiSpriteObject* uiObject = new UiSpriteObject(ENGINE->GetSceneGraphUi());
+			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiObject->GetId());
+			uiObject->InitSprite(100, 100, "spcshdr", glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+			uiObject->SetPosition(600, 210);
+		}
+
 
 		{
 			GameObject* camera = new GameObject(ENGINE->GetSceneGraphUi());

@@ -16,7 +16,7 @@ class RenderLists;
 
 class SceneGraph : public Object {
 public:
-	~SceneGraph();
+	virtual ~SceneGraph();
 
 	void Initialize();
 	

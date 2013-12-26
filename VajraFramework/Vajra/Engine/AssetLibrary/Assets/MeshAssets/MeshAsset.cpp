@@ -244,8 +244,6 @@ void MeshAsset::Draw() {
     // glEnableClientState(GL_VERTEX_ARRAY);
     // glVertexPointer(3, GL_FLOAT, 0, 0);
 
-    FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet(this->shaderName);
-
     ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
 
     GLint positionHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vPosition);
