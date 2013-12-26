@@ -34,7 +34,6 @@ void GameScript::init() {
 	if (this->gameObject != nullptr) {
 		ASSERT(typeid(this->gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(this->gameObject).name(), this->gameObject->GetId(), typeid(GameObject*).name());
 	}
-	// TODO [Implement] Figure out if its better to add/remove subscription dynamically on play/pause/remove
 	// subscribe the game script to the needed messages
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 	
