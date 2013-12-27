@@ -42,8 +42,8 @@ void LoadFontSpecificationsFromCSVFile(const char* filePath,
 
 	for (int i = 0; i < (NUM_FONT_CHARACTER_ROWS * NUM_FONT_CHARACTER_COLUMNS); i++) {
 		AdvanceFileSeekTillChar (file, ',');
-		out_characterWidths[i] = GetNextIntFromFile (file);
-		out_characterWidths[i] /= out_fontboxWidth;	// Scale all widths to 1.0f
+		out_characterWidths[i] = GetNextIntFromFile (file);								// In absolute pixels
+		out_characterWidths[i] /= (out_fontsheetWidth / NUM_FONT_CHARACTER_COLUMNS);	// Scale all widths to 1.0f
 	}
 
 	file.close ();

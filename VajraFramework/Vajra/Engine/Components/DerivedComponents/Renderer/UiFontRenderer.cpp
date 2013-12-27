@@ -148,9 +148,11 @@ void UiFontRenderer::makeText() {
 
 void UiFontRenderer::makeACharacter(int charIdxInAscii, int letterIdx, float woffset) {
 
+	float actual_charwidth_on_fontsheet = this->fontType->GetCharacterWidth(charIdxInAscii);
+
 	this->vertices[letterIdx * 4 + 0].x = woffset;
-	this->vertices[letterIdx * 4 + 1].x = woffset + this->fontType->GetCharacterWidth(charIdxInAscii);
-	this->vertices[letterIdx * 4 + 2].x = woffset + this->fontType->GetCharacterWidth(charIdxInAscii);
+	this->vertices[letterIdx * 4 + 1].x = woffset + actual_charwidth_on_fontsheet;
+	this->vertices[letterIdx * 4 + 2].x = woffset + actual_charwidth_on_fontsheet;
 	this->vertices[letterIdx * 4 + 3].x = woffset;
 
 	this->vertices[letterIdx * 4 + 0].y = 0.0f + 1.0f;
@@ -163,20 +165,20 @@ void UiFontRenderer::makeACharacter(int charIdxInAscii, int letterIdx, float wof
 	this->vertices[letterIdx * 4 + 2].z = 0.0f;
 	this->vertices[letterIdx * 4 + 3].z = 0.0f;
 
-	float charwidth_on_fontsheet = 1.0f / NUM_FONT_CHARACTER_COLUMNS;
-	float charheight_on_fontsheet = 1.0f / NUM_FONT_CHARACTER_ROWS;
-	float woffest_into_fontsheet = ((charIdxInAscii - this->fontType->GetStartingCharacter()) % NUM_FONT_CHARACTER_COLUMNS) * charwidth_on_fontsheet;
-	float hoffest_into_fontsheet = ((charIdxInAscii - this->fontType->GetStartingCharacter()) / NUM_FONT_CHARACTER_ROWS) * charheight_on_fontsheet;
+	float each_charwidth_on_fontsheet = 1.0f / NUM_FONT_CHARACTER_COLUMNS;
+	float each_charheight_on_fontsheet = 1.0f / NUM_FONT_CHARACTER_ROWS;
+	float woffest_into_fontsheet = ((charIdxInAscii - this->fontType->GetStartingCharacter()) % NUM_FONT_CHARACTER_COLUMNS) * each_charwidth_on_fontsheet;
+	float hoffest_into_fontsheet = ((charIdxInAscii - this->fontType->GetStartingCharacter()) / NUM_FONT_CHARACTER_ROWS) * each_charheight_on_fontsheet;
 
 	this->textureCoords[letterIdx * 4 + 0].x = woffest_into_fontsheet;
-	this->textureCoords[letterIdx * 4 + 1].x = woffest_into_fontsheet + charwidth_on_fontsheet;
-	this->textureCoords[letterIdx * 4 + 2].x = woffest_into_fontsheet + charwidth_on_fontsheet;
+	this->textureCoords[letterIdx * 4 + 1].x = woffest_into_fontsheet + each_charwidth_on_fontsheet * actual_charwidth_on_fontsheet;
+	this->textureCoords[letterIdx * 4 + 2].x = woffest_into_fontsheet + each_charwidth_on_fontsheet * actual_charwidth_on_fontsheet;
 	this->textureCoords[letterIdx * 4 + 3].x = woffest_into_fontsheet;
 
 	this->textureCoords[letterIdx * 4 + 0].y = hoffest_into_fontsheet;
 	this->textureCoords[letterIdx * 4 + 1].y = hoffest_into_fontsheet;
-	this->textureCoords[letterIdx * 4 + 2].y = hoffest_into_fontsheet + charheight_on_fontsheet;
-	this->textureCoords[letterIdx * 4 + 3].y = hoffest_into_fontsheet + charheight_on_fontsheet;
+	this->textureCoords[letterIdx * 4 + 2].y = hoffest_into_fontsheet + each_charheight_on_fontsheet;
+	this->textureCoords[letterIdx * 4 + 3].y = hoffest_into_fontsheet + each_charheight_on_fontsheet;
 
 	this->indices[letterIdx * 6 + 0] = letterIdx * 4 + 0;
 	this->indices[letterIdx * 6 + 1] = letterIdx * 4 + 1;
