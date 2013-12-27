@@ -36,3 +36,19 @@ short ReadInt16LittleEndianFromFile(/*char buffer[5], */std::ifstream& file) {
 	return val;
 }
 
+void AdvanceFileSeekTillChar(std::ifstream& file, char endChar) {
+	char c;
+	do {
+		file >> c;
+	} while (c != endChar && !file.eof ());
+
+	return;
+}
+
+int GetNextIntFromFile(std::ifstream& file) {
+	int r;
+	file >> r;
+
+	return r;
+}
+

@@ -11,7 +11,7 @@ UiSpriteObject::~UiSpriteObject() {
 }
 
 void UiSpriteObject::InitSprite(unsigned int width, unsigned int height, std::string shaderName_, std::string pathToTexture /* = "" */) {
-	ASSERT(this->GetComponent<UiSpriteRenderer>() == nullptr, "UiObject doesn't already have a UiRenderer on it");
+	ASSERT(this->GetComponent<Renderer>() == nullptr, "UiObject doesn't already have a Renderer on it");
 	UiSpriteRenderer* uiRenderer = this->AddComponent<UiSpriteRenderer>();
 	uiRenderer->initPlane(width, height, shaderName_, pathToTexture);
 	//
@@ -20,7 +20,7 @@ void UiSpriteObject::InitSprite(unsigned int width, unsigned int height, std::st
 }
 
 void UiSpriteObject::InitSprite(unsigned int width, unsigned int height, std::string shaderName_, glm::vec4 color) {
-	ASSERT(this->GetComponent<UiSpriteRenderer>() == nullptr, "UiObject doesn't already have a UiRenderer on it");
+	ASSERT(this->GetComponent<Renderer>() == nullptr, "UiObject doesn't already have a Renderer on it");
 	UiSpriteRenderer* uiRenderer = this->AddComponent<UiSpriteRenderer>();
 	uiRenderer->initPlane(width, height, shaderName_);
 	uiRenderer->setDiffuseColor(color);

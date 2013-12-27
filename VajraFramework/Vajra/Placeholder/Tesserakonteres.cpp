@@ -6,6 +6,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/UiFontRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
@@ -14,6 +15,8 @@
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
+#include "Vajra/Engine/Ui/UiFont/UiFontType.h"
+#include "Vajra/Engine/Ui/UiFontObject/UiFontObject.h"
 #include "Vajra/Engine/Ui/UiSpriteObject/UiSpriteObject.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -218,6 +221,19 @@ namespace Tesserakonteres {
 			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiObject->GetId());
 			uiObject->InitSprite(100, 100, "spcshdr", glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 			uiObject->SetPosition(600, 210);
+		}
+		{
+			// TODO [Implement] Add all fonts to a seperate place accessible by font name (or better yet, UiFontType should be an asset
+			UiFontType* fontType = new UiFontType(FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + "calibiri.png",
+												  FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + "calibiri.csv",
+												  "sptshdr");
+			{
+				UiFontObject* uiObject = new UiFontObject(ENGINE->GetSceneGraphUi());
+				ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiObject->GetId());
+				uiObject->InitTextToDisplay("Hello World! ", 200, 20, fontType);
+				uiObject->SetPosition(400, 400);
+				uiObject->GetTransform()->Scale(30.0f);
+			}
 		}
 
 

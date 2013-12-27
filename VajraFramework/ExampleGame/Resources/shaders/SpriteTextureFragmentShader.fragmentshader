@@ -5,6 +5,6 @@ uniform sampler2D myTextureSampler;
 
 void main()
 {
-	gl_FragColor = vec4(texture2D(myTextureSampler, uvCoords_out).rgb, 1.0);
+	gl_FragColor = vec4(texture2D(myTextureSampler, uvCoords_out).rgba);
 }
 
