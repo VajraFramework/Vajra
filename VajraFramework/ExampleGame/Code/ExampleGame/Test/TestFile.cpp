@@ -27,12 +27,21 @@ int TestFuntion() {
 		GridManager* gridMgrComp = gridManager->AddComponent<GridManager>();
 		gridMgrComp->GenerateTerrainFromFile("noninjas.txt");
 
-		/*GameObject* camera = new GameObject();
-		ShadyCamera* shadyCamera = camera->AddComponent<ShadyCamera>();
-		ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(camera->GetId());
-		ENGINE->GetSceneGraph()->SetMainCameraId(camera->GetId());
-
-		shadyCamera->setGridManager(gridMgrComp);*/
+		GameObject* camera = new GameObject(ENGINE->GetSceneGraph3D());
+		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(camera->GetId());
+		ShadyCamera* cameraComponent = camera->AddComponent<ShadyCamera>();
+		cameraComponent->SetCameraType(CAMERA_TYPE_PERSPECTIVE);
+		ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
+		cameraComponent->setGridManager(gridMgrComp);
+		
+		float x = gridMgrComp->GetRoomX(0);
+		float z = gridMgrComp->GetRoomZ(0);
+		x += ((float)gridMgrComp->GetRoomWidth()) / 2.0f;
+		z += ((float)gridMgrComp->GetRoomHeight()) / -2.0f;
+		x -= .5f;
+		z += .5f;
+		
+		cameraComponent->PanTo(x, z);
 #endif
 	}
 	{

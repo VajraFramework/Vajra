@@ -28,17 +28,12 @@ void Camera::updateMatrices() {
 	glm::vec3 eyePosition    = gameObject->GetTransform()->GetPosition();
 	glm::vec3 lookAtPosition = eyePosition + 10.0f * gameObject->GetTransform()->GetForward();
 	glm::vec3 upVector       = gameObject->GetTransform()->GetUp();
-	
-	
-	FRAMEWORK->GetLogger()->dbglog("\nCamera forward %f, %f, %f",  gameObject->GetTransform()->GetForward().x,
-																	gameObject->GetTransform()->GetForward().y,
-																	gameObject->GetTransform()->GetForward().z);
 	//
 	this->viewMatrix = glm::lookAt(eyePosition, lookAtPosition, upVector);
 
 	float width  = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
 	float height = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
-	float aspecRatio = width / height;
+	float aspecRatio = height / width;
 
 	switch (this->cameraType) {
 
@@ -47,7 +42,7 @@ void Camera::updateMatrices() {
 		} break;
 
 	case CAMERA_TYPE_PERSPECTIVE: {
-			this->projMatrix = glm::perspective(60.0f, aspecRatio, 0.1f, 8000.0f);
+			this->projMatrix = glm::perspective(this->fov, aspecRatio, 0.1f, 8000.0f);
 		} break;
 
 	default: {

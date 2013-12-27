@@ -113,6 +113,14 @@ int GridManager::GetRoomZ(int cellZ) {
 	return (cellZ / this->roomHeight);
 }
 
+int GridManager::GetRoomWidth() {
+	return this->roomWidth;
+}
+
+int GridManager::GetRoomHeight() {
+	return this->roomHeight;
+}
+
 GridCell* GridManager::GetCell(int x, int z) {
 	if (IsWithinGrid(x * this->cellSize, z * this->cellSize)) { return nullptr; }
 
