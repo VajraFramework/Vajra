@@ -2,7 +2,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Ui/UiFontObject/UiFontObject.h"
 
-UiFontObject::UiFontObject(SceneGraph* sceneGraph) : GameObject(sceneGraph) {
+UiFontObject::UiFontObject(SceneGraph* sceneGraph) : UiObject(sceneGraph) {
 	this->init();
 }
 
@@ -20,16 +20,7 @@ void UiFontObject::InitTextToDisplay(std::string text, unsigned int width, unsig
 	this->setText(text);
 }
 
-void UiFontObject::SetPosition(unsigned int x, unsigned int y) {
-	// TODO [Implement] Implement zorder
-	this->GetTransform()->SetPosition(x, -1.0f * y, 0.0f);
-}
-
 void UiFontObject::init() {
-	this->width  = 0;
-	this->height = 0;
-	//
-	this->clickable = false;
 }
 
 void UiFontObject::destroy() {
