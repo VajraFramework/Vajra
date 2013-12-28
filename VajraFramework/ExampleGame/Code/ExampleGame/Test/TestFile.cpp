@@ -34,8 +34,8 @@ int TestFuntion() {
 		ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
 		cameraComponent->setGridManager(gridMgrComp);
 		//cameraComponent->PanTo(0.0f, 0.0f);
-		//cameraComponent->PanToRoom(20.0f, 0.0f);
-		cameraComponent->ZoomToOverview();
+		cameraComponent->MoveToRoom(0.0f, 0.0f);
+		//cameraComponent->ZoomToOverview();
 #endif
 	}
 	{

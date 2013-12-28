@@ -39,15 +39,12 @@ public:
 	void ZoomTo(float y);
 	void ZoomBy(float yOffset);
 
-	// Given a cell or arbitary coords pan the camera to the room
-	void PanToRoom(float x, float z);
-	void PanToRoom(GridCell cell);
+	// Move camera to game room
+	void MoveToRoom(); // zoom back to previous room
+	void MoveToRoom(float x, float z);
+	void MoveToRoom(GridCell* cell); // cell is a cell in the current room
 
-	// Zooming between game and overview mode
-	void ZoomToGame(); // zoom back to previous room
-	void ZoomToGame(GridCell cell); // cell is a cell in the current room
-
-	void ZoomToOverview();
+	void MoveToOverview();
 
 	// Pan the camera along a preset path for a level intro
 	void LevelStartPan();
@@ -60,9 +57,12 @@ private:
 	GridManager* gridManager;
 
 	Camera_Mode camMode = Camera_Mode::CAMERA_MODE_GAME;
+	// Find and store the current position for the game camera
+	void SetGameCam(float x, float z);
+
 
 	float gameCamHeight;
-	glm::vec3 lastRoomPos;
+	glm::vec3 gameCamPos;
 	glm::vec3 overviewPos;
 };
 

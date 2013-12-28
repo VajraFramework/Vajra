@@ -37,6 +37,9 @@ public:
 	GridCell* GetCell(int x, int z); // Returns the cell at the specified coordinates
 	GridCell* GetCell(glm::vec3 loc); // Returns the cell at the specified world position
 
+	// returns the world position of the center of a room
+	glm::vec3 GetRoomCenter(int x, int z);
+	glm::vec3 GetRoomCenter(GridCell* cell);
 	/****************
 	// TODO [Implement]
 	GridCell* TouchPositionToCell(glm::vec3 touchPos);

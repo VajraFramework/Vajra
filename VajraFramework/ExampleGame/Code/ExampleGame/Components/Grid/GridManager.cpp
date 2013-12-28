@@ -124,6 +124,20 @@ GridCell* GridManager::GetCell(glm::vec3 loc) {
 	int gZ = (int)((-loc.z / this->cellSize) + 0.5f);
 	return GetCell(gX, gZ);
 }
+
+glm::vec3 GridManager::GetRoomCenter(int x, int z) {
+	float roomX = this->GetRoomX(x) * this->roomWidth;
+	float roomZ = this->GetRoomZ(z) * this->roomHeight;
+	roomX += (float)this->roomWidth / 2.0f;
+	roomZ += (float)this->roomHeight / -2.0f;
+	glm::vec3 center = glm::vec3(roomX, 0.0f, roomZ);
+	center -= this->halfCellSize;
+	return center;
+}
+
+glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
+	return this->GetRoomCenter(cell->x, cell->z);
+}
 /*
 GridCell* GridManager::TouchPositionToCell(glm::vec3 touchPos) {
 
