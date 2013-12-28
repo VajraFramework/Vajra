@@ -32,7 +32,7 @@ int TestFuntion() {
 		ShadyCamera* cameraComponent = camera->AddComponent<ShadyCamera>();
 		cameraComponent->SetCameraType(CAMERA_TYPE_PERSPECTIVE);
 		ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
-		cameraComponent->setGridManager(gridMgrComp);
+		cameraComponent->SetGridManager(gridMgrComp);
 		//cameraComponent->PanTo(0.0f, 0.0f);
 		cameraComponent->MoveToRoom(0.0f, 0.0f);
 		//cameraComponent->ZoomToOverview();

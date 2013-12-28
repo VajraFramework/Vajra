@@ -28,7 +28,7 @@ public:
 
 	virtual void HandleMessage(Message* message);
 
-	void setGridManager(GridManager* value);
+	void SetGridManager(GridManager* value);
 
 	// General camera moving functions
 	void MoveTo(glm::vec3 newPos);
@@ -58,7 +58,7 @@ private:
 
 	Camera_Mode camMode = Camera_Mode::CAMERA_MODE_GAME;
 	// Find and store the current position for the game camera
-	void SetGameCam(float x, float z);
+	void setGameCam(float x, float z);
 
 
 	float gameCamHeight;

@@ -50,7 +50,7 @@ void ShadyCamera::destroy() {
 	this->gridManager = nullptr;
 }
 
-void ShadyCamera::setGridManager(GridManager* newManager) {
+void ShadyCamera::SetGridManager(GridManager* newManager) {
 	this->gridManager = newManager;
 }
 
@@ -87,7 +87,7 @@ void ShadyCamera::MoveToRoom() {
 }
 
 void ShadyCamera::MoveToRoom(float x, float z) {
-	this->SetGameCam(x, z);
+	this->setGameCam(x, z);
 	this->MoveToRoom();
 }
 
@@ -104,7 +104,7 @@ void ShadyCamera::LevelStartPan() {
 
 }
 
-void ShadyCamera::SetGameCam(float x, float z) {
+void ShadyCamera::setGameCam(float x, float z) {
 	this->gameCamPos = this->gridManager->GetRoomCenter(x, z);
 	this->gameCamPos.y += this->gameCamHeight;
 }
