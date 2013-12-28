@@ -33,15 +33,9 @@ int TestFuntion() {
 		cameraComponent->SetCameraType(CAMERA_TYPE_PERSPECTIVE);
 		ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
 		cameraComponent->setGridManager(gridMgrComp);
-		
-		float x = gridMgrComp->GetRoomX(0);
-		float z = gridMgrComp->GetRoomZ(0);
-		x += ((float)gridMgrComp->GetRoomWidth()) / 2.0f;
-		z += ((float)gridMgrComp->GetRoomHeight()) / -2.0f;
-		x -= .5f;
-		z += .5f;
-		
-		cameraComponent->PanTo(x, z);
+		//cameraComponent->PanTo(0.0f, 0.0f);
+		//cameraComponent->PanToRoom(20.0f, 0.0f);
+		cameraComponent->ZoomToOverview();
 #endif
 	}
 	{

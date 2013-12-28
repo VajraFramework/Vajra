@@ -84,15 +84,15 @@ void GridManager::GenerateTerrainFromFile(std::string terrainFilename) {
 	this->halfCellSize.x = 0.5f;
 	this->halfCellSize.y = 0.0f;
 	this->halfCellSize.z = -0.5f;
-	this->gridWidth = ROOM_WIDTH_OUTDOORS;
-	this->gridHeight = ROOM_HEIGHT_OUTDOORS;
+	this->gridWidth = ROOM_WIDTH_OUTDOORS * 2.0f;
+	this->gridHeight = ROOM_HEIGHT_OUTDOORS * 2.0f;
 	this->roomWidth = ROOM_WIDTH_OUTDOORS;
 	this->roomHeight = ROOM_HEIGHT_OUTDOORS;
 
-	this->gridCells = new GridCell**[ROOM_WIDTH_OUTDOORS];
-	for (unsigned int i = 0; i < ROOM_WIDTH_OUTDOORS; ++i) {
-		this->gridCells[i] = new GridCell*[ROOM_HEIGHT_OUTDOORS];
-		for (unsigned int j = 0; j < ROOM_HEIGHT_OUTDOORS; ++j) {
+	this->gridCells = new GridCell**[this->gridWidth];
+	for (unsigned int i = 0; i < this->gridWidth; ++i) {
+		this->gridCells[i] = new GridCell*[this->gridHeight];
+		for (unsigned int j = 0; j < this->gridHeight; ++j) {
 			glm::vec3 center;
 			center.x = i * this->cellSize;
 			center.y = 0;
@@ -111,14 +111,6 @@ int GridManager::GetRoomX(int cellX) {
 
 int GridManager::GetRoomZ(int cellZ) {
 	return (cellZ / this->roomHeight);
-}
-
-int GridManager::GetRoomWidth() {
-	return this->roomWidth;
-}
-
-int GridManager::GetRoomHeight() {
-	return this->roomHeight;
 }
 
 GridCell* GridManager::GetCell(int x, int z) {

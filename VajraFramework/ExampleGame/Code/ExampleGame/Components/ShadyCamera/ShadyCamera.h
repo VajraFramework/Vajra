@@ -38,7 +38,7 @@ public:
 	void PanTo(float x, float z);
 	void ZoomTo(float y);
 	void ZoomBy(float yOffset);
-	
+
 	// Given a cell or arbitary coords pan the camera to the room
 	void PanToRoom(float x, float z);
 	void PanToRoom(GridCell cell);
@@ -56,11 +56,13 @@ private:
 	void init();
 	void destroy();
 
+	GameObject* gameObject;
 	GridManager* gridManager;
 
 	Camera_Mode camMode = Camera_Mode::CAMERA_MODE_GAME;
 
-	float camHeight;
+	float gameCamHeight;
+	glm::vec3 lastRoomPos;
 	glm::vec3 overviewPos;
 };
 
