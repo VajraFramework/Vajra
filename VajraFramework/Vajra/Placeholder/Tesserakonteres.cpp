@@ -6,14 +6,17 @@
 #include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/UiFontRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
+#include "Vajra/Engine/Ui/UiFont/UiFontType.h"
+#include "Vajra/Engine/Ui/UiElement/UiElement.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
@@ -202,9 +205,43 @@ namespace Tesserakonteres {
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
 
 			Transform* transform = gameObject->GetTransform();
-			transform->Scale(50.0f);
+			transform->SetPosition(100.0f, -100.0f, 0.0f);
 			transform->Rotate(-90.0f, XAXIS);
+			transform->Scale(50.0f);
 		}
+		{
+			UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
+			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
+			uiElement->InitSprite(100, 100, "sptshdr", FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + "sample_picture3.png");
+			uiElement->SetPosition(400, 110);
+		}
+		{
+			UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
+			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
+			uiElement->InitSprite(100, 100, "spcshdr", glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+			uiElement->SetPosition(600, 210);
+		}
+		{
+			// TODO [Implement] Add all fonts to a seperate place accessible by font name (or better yet, UiFontType should be an asset
+			UiFontType* fontType = new UiFontType(FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + "calibiri.png",
+												  FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + "calibiri.csv",
+												  "sptshdr");
+			{
+				UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
+				ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
+				uiElement->InitTextToDisplay("Hello World! ", 200, 20, fontType);
+				uiElement->SetPosition(400, 400);
+			}
+
+			{
+					UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
+					ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
+					uiElement->InitSprite(100, 100, "sptshdr", FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + "sample_picture3.png");
+					uiElement->InitTextToDisplay("Wheeee", 100, 100, fontType);
+					uiElement->SetPosition(100, 400);
+			}
+		}
+
 
 		{
 			GameObject* camera = new GameObject(ENGINE->GetSceneGraphUi());

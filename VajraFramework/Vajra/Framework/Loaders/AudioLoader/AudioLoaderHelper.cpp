@@ -3,7 +3,7 @@
 //  Created by Matt Kaufmann on 12/04/13.
 //
 
-#include "Vajra/Framework/DeviceUtils/AudioLoader/AudioLoaderHelper.h"
+#include "Vajra/Framework/Loaders/AudioLoader/AudioLoaderHelper.h"
 
 ALenum GetAudioFormat(short channels, short bitsPerSample) {
 	ALenum format = AL_NONE;

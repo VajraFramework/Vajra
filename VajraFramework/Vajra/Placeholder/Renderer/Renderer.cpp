@@ -14,7 +14,7 @@
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
-#include "Vajra/Framework/DeviceUtils/TextureLoader/TextureLoader.h"
+#include "Vajra/Framework/Loaders/TextureLoader/TextureLoader.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"

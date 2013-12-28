@@ -1,0 +1,10 @@
+// precision mediump float;
+
+varying vec2 uvCoords_out;
+uniform sampler2D myTextureSampler;
+
+void main()
+{
+	gl_FragColor = vec4(texture2D(myTextureSampler, uvCoords_out).rgba);
+}
+

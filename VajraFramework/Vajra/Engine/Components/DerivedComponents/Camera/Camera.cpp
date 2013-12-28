@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
@@ -38,7 +39,7 @@ void Camera::updateMatrices() {
 	switch (this->cameraType) {
 
 	case CAMERA_TYPE_ORTHO: {
-			this->projMatrix = glm::ortho(-width/2.0f, width/2.0f, -height/2.0f, height/2.0f, 0.1f, 8000.0f);
+			this->projMatrix = glm::ortho(0.0f, width, -height, 0.0f, 0.1f, 8000.0f);
 		} break;
 
 	case CAMERA_TYPE_PERSPECTIVE: {

@@ -3,7 +3,7 @@
 #include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/BakedSkeletalAnimationClipDataAsset/BakedSkeletalAnimationClipDataAsset.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/Core/Framework.h"
-#include "Vajra/Framework/DeviceUtils/ModelLoader/BakedSkeletalAnimationLoader.h"
+#include "Vajra/Framework/Loaders/ModelLoader/BakedSkeletalAnimationLoader.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
 

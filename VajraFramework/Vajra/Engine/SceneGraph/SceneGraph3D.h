@@ -16,7 +16,7 @@ class DirectionalLight;
 
 class SceneGraph3D : public SceneGraph {
 public:
-	~SceneGraph3D();
+	virtual ~SceneGraph3D();
 
 	DirectionalLight* GetMainDirectionalLight();
 	void SetMainDirectionalLightId(ObjectIdType id);

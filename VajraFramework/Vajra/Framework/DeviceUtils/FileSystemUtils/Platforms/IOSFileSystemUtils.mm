@@ -26,6 +26,7 @@ void FileSystemUtils::init() {
 	std::string documentsPath = [documentsPathNSString cStringUsingEncoding:NSUTF8StringEncoding];
 	
 	this->deviceLoggingResourcesPath    = documentsPath + "/logging/";
+	this->deviceFontResourcesPath       = this->deviceBaseResourcesPath + "fonts/";
 }
 
 void FileSystemUtils::destroy() {

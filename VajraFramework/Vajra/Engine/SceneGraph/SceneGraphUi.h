@@ -10,13 +10,16 @@
 
 #include <map>
 
+#define UI_SCREENWIDTH_PREFERRED  1024
+#define UI_SCREENHEIGHT_PREFERRED 768
+
 // Forward Declarations:
 class Camera;
 class DirectionalLight;
 
 class SceneGraphUi : public SceneGraph {
 public:
-	~SceneGraphUi();
+	virtual ~SceneGraphUi();
 
 	// @Override
 	virtual void update();
