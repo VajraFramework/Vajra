@@ -5,21 +5,25 @@
 
 // Forward Declarations:
 class SceneGraph;
+class UiFontType;
 
 class UiFontObject : public UiObject {
 public:
+private:
 	UiFontObject(SceneGraph* sceneGraph);
 	virtual ~UiFontObject();
 
+	// TODO [Cleanup] Make this private and friended to UiElement
 	void InitTextToDisplay(std::string text, unsigned int width, unsigned int height, UiFontType* fontType_);
 
-private:
 	void init();
 	void destroy();
 
 	void setText(std::string text)     { this->textToDisplay = text;   }
 
 	std::string textToDisplay;
+
+	friend class UiElement;
 };
 
 #endif // UIFONTOBJECT_H

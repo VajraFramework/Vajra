@@ -16,8 +16,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/Ui/UiFont/UiFontType.h"
-#include "Vajra/Engine/Ui/UiFontObject/UiFontObject.h"
-#include "Vajra/Engine/Ui/UiSpriteObject/UiSpriteObject.h"
+#include "Vajra/Engine/Ui/UiElement/UiElement.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
@@ -211,16 +210,16 @@ namespace Tesserakonteres {
 			transform->Scale(50.0f);
 		}
 		{
-			UiSpriteObject* uiObject = new UiSpriteObject(ENGINE->GetSceneGraphUi());
-			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiObject->GetId());
-			uiObject->InitSprite(100, 100, "sptshdr", FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + "sample_picture3.png");
-			uiObject->SetPosition(400, 110);
+			UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
+			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
+			uiElement->InitSprite(100, 100, "sptshdr", FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + "sample_picture3.png");
+			uiElement->SetPosition(400, 110);
 		}
 		{
-			UiSpriteObject* uiObject = new UiSpriteObject(ENGINE->GetSceneGraphUi());
-			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiObject->GetId());
-			uiObject->InitSprite(100, 100, "spcshdr", glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-			uiObject->SetPosition(600, 210);
+			UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
+			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
+			uiElement->InitSprite(100, 100, "spcshdr", glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+			uiElement->SetPosition(600, 210);
 		}
 		{
 			// TODO [Implement] Add all fonts to a seperate place accessible by font name (or better yet, UiFontType should be an asset
@@ -228,11 +227,18 @@ namespace Tesserakonteres {
 												  FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + "calibiri.csv",
 												  "sptshdr");
 			{
-				UiFontObject* uiObject = new UiFontObject(ENGINE->GetSceneGraphUi());
-				ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiObject->GetId());
-				uiObject->InitTextToDisplay("Hello World! ", 200, 20, fontType);
-				uiObject->SetPosition(400, 400);
-				uiObject->GetTransform()->Scale(30.0f);
+				UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
+				ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
+				uiElement->InitTextToDisplay("Hello World! ", 200, 20, fontType);
+				uiElement->SetPosition(400, 400);
+			}
+
+			{
+					UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
+					ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
+					uiElement->InitSprite(100, 100, "sptshdr", FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + "sample_picture3.png");
+					uiElement->InitTextToDisplay("Wheeee", 100, 100, fontType);
+					uiElement->SetPosition(100, 400);
 			}
 		}
 
