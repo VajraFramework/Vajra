@@ -9,8 +9,8 @@
 #ifndef SHADY_CAMERA_H
 #define SHADY_CAMERA_H
 
-#include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Libraries/glm/glm.hpp"
+#include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 
 class GridCell;
 class GridManager;
@@ -40,8 +40,9 @@ public:
 	void ZoomBy(float yOffset);
 
 	// Move camera to game room
-	void MoveToRoom(); // zoom back to previous room
-	void MoveToRoom(float x, float z);
+	void MoveToRoom(); // move to current room
+	// Sets current room and then moves to it
+	void MoveToRoom(float x, float z); // location in current room
 	void MoveToRoom(GridCell* cell); // cell is a cell in the current room
 
 	void MoveToOverview();

@@ -6,7 +6,6 @@
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
-
 namespace ShadyCameraTween {
 	void tweenCallback(ObjectIdType gameObjectId, std::string tweenClipName) {
 	}
@@ -24,10 +23,6 @@ ShadyCamera::~ShadyCamera() {
 	this->destroy();
 }
 
-void ShadyCamera::HandleMessage(Message* message) {
-	Camera::HandleMessage(message);
-	
-}
 void ShadyCamera::init() {
 	// Set camera properties
 	this->SetFOV(30.0f);
@@ -47,7 +42,12 @@ void ShadyCamera::init() {
 }
 
 void ShadyCamera::destroy() {
+	this->gameObject = nullptr;
 	this->gridManager = nullptr;
+}
+
+void ShadyCamera::HandleMessage(Message* message) {
+	Camera::HandleMessage(message);
 }
 
 void ShadyCamera::SetGridManager(GridManager* newManager) {

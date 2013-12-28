@@ -33,8 +33,14 @@ void Camera::updateMatrices() {
 
 	float width  = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
 	float height = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
-	float aspecRatio = height / width;
 
+	// TODO [Hack] : remove once device tilting is suported
+#if 0
+	float aspecRatio = width / height;
+#else
+	float aspecRatio = height / width;
+#endif
+	
 	switch (this->cameraType) {
 
 	case CAMERA_TYPE_ORTHO: {
