@@ -1,11 +1,11 @@
 #ifndef MESSAGE_HUB_H
 #define MESSAGE_HUB_H
 
+#include "Vajra/Engine/MessageHub/Declarations.h"
 #include "Vajra/Engine/MessageHub/MessageCache.h"
 #include "Vajra/Utilities/CommonDeclarations.h"
 
 // Forward Declarations:
-class Message;
 class MessageCache;
 
 class MessageHub {
@@ -20,6 +20,7 @@ public:
 
 	Message* RetrieveNextMessage(ObjectIdType id);
 
+	MessageChunk GetOneFreeMessage() { return this->messagePool.GetManagedChunk(); }
 
 private:
 	MessageHub();
@@ -37,6 +38,8 @@ private:
 
 	// TODO [Implement] Change this to be a sorted list so that we can binary search it maybe (low priority)
 	std::vector<ObjectIdType> subscribersForMessageType[NUM_MESSAGE_TYPES];
+
+	Pool<Message> messagePool;
 
 	friend class Engine;
 };

@@ -29,12 +29,12 @@ public:
 	~Pool();
 
 	ManagedChunk<TMeat> GetManagedChunk();
-	void ReleaseChunk(Chunk<TMeat> *_chunk);
+	void ReleaseChunk(Chunk<TMeat>* _chunk);
 	int GetFreeCount()  { return this->chunks_free.size(); }
 	int GetInuseCount() { return this->chunks_inuse; }
 
 private:
-	std::deque<Chunk<TMeat> *> chunks_free;
+	std::deque<Chunk<TMeat>*> chunks_free;
 #if USING_MULTITHREADING_SUPPORT_FOR_POOLS
 	boost::mutex chunks_free_mutex;
 #endif // USING_MULTITHREADING_SUPPORT_FOR_POOLS
@@ -72,7 +72,7 @@ Pool<TMeat>::~Pool() {
 
 	// Free the pools:
 	for (auto chunk_it = this->chunks_free.begin (); chunk_it != this->chunks_free.end (); ++chunk_it) {
-		Chunk<TMeat> *chunk = (*chunk_it);
+		Chunk<TMeat>* chunk = (*chunk_it);
 		delete chunk;
 	}
 	this->chunks_free.clear ();
@@ -90,7 +90,7 @@ ManagedChunk<TMeat> Pool<TMeat>::GetManagedChunk() {
 	}
 
 	// ASSERT (this->chunks_free.size () != 0, "No more chunks");
-	Chunk<TMeat> *chunk = this->chunks_free.front ();
+	Chunk<TMeat>* chunk = this->chunks_free.front ();
 	this->chunks_free.pop_front ();
 
 	if (this->chunks_free.size () < POOL_SIZE_LOW_THRESHOLD) {
@@ -108,15 +108,15 @@ ManagedChunk<TMeat> Pool<TMeat>::GetManagedChunk() {
 }
 
 template <class TMeat>
-void Pool<TMeat>::ReleaseChunk( Chunk<TMeat> *_chunk ) {
+void Pool<TMeat>::ReleaseChunk(Chunk<TMeat>* _chunk) {
 	// FRAMEWORK->GetLogger()->dbglog("\nIn pool: Moving chunk to free list");
 #if USING_MULTITHREADING_SUPPORT_FOR_POOLS
 	boost::mutex::scoped_lock lock_on_chunks_free_queue (this->chunks_free_mutex);
 #endif // USING_MULTITHREADING_SUPPORT_FOR_POOLS
 
 	this->chunks_free.push_back (_chunk);
+	ASSERT(this->chunks_inuse > 0, "chunks_inuse > 0");
 	this->chunks_inuse--;
-	ASSERT(this->chunks_inuse >= 0, "chunks_inuse >= 0");
 
 #if USING_MULTITHREADING_SUPPORT_FOR_POOLS
 	// Scoped lock on this->chunks_free_mutex falls off
@@ -129,8 +129,8 @@ void Pool<TMeat>::makeMoreChunks() {
 
 	// Create a pool of size POOL_SIZE_DEFAULT and add them all to the free list:
 	for (int i = 0; i < POOL_SIZE_INCREMENT; i++) {
-		TMeat *meat = new TMeat();
-		Chunk<TMeat> *chunk = new Chunk<TMeat>();
+		TMeat* meat = new TMeat();
+		Chunk<TMeat>* chunk = new Chunk<TMeat>();
 		chunk->SetMeat(meat);
 		chunk->SetPool(this);
 		this->chunks_free.push_back(chunk);

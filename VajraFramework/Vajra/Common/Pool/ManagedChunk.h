@@ -6,20 +6,25 @@
 template <class Meat>
 class ManagedChunk {
 public:
-	ManagedChunk (Chunk<Meat> *_chunk) {
+	ManagedChunk(Chunk<Meat> *_chunk) {
 		this->chunk = _chunk;
 		this->chunk->Use ();
 	}
 
-	ManagedChunk (const ManagedChunk<Meat>& _other) {
+	ManagedChunk(const ManagedChunk<Meat>& _other) {
 		this->chunk = _other.chunk;
 		this->chunk->Use ();
 	}
 
-	ManagedChunk& operator= (const ManagedChunk<Meat>& _other) {
+	ManagedChunk& operator=(const ManagedChunk<Meat>& _other) {
 		this->chunk = _other.chunk;
 		this->chunk->Use ();
 		return *this;
+	}
+
+	// Overload the "->" operator for easier access to the managed "meat"
+	Meat* operator->() {
+		return GetChunk()->meat;
 	}
 
 	~ManagedChunk() {
@@ -28,11 +33,11 @@ public:
 		}
 	}
 
-	ManagedChunk () {
+	ManagedChunk() {
 		this->chunk = nullptr;
 	}
 
-	inline Chunk<Meat> *GetChunk () { return this->chunk; }
+	inline Chunk<Meat> *GetChunk() { return this->chunk; }
 	inline void SetChunk (Chunk<Meat> *_chunk) { 
 		if (this->chunk != nullptr) {
 			this->chunk->DisUse ();
