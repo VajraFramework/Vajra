@@ -155,15 +155,16 @@ void UiFontRenderer::makeACharacter(int charIdxInAscii, int letterIdx, float wof
 	this->vertices[letterIdx * 4 + 2].x = woffset + actual_charwidth_on_fontsheet;
 	this->vertices[letterIdx * 4 + 3].x = woffset;
 
-	this->vertices[letterIdx * 4 + 0].y = 0.0f + 1.0f;
-	this->vertices[letterIdx * 4 + 1].y = 0.0f + 1.0f;
-	this->vertices[letterIdx * 4 + 2].y = 0.0f;
-	this->vertices[letterIdx * 4 + 3].y = 0.0f;
+	this->vertices[letterIdx * 4 + 0].y = 0.0f;
+	this->vertices[letterIdx * 4 + 1].y = 0.0f;
+	this->vertices[letterIdx * 4 + 2].y = 0.0f - 1.0f;
+	this->vertices[letterIdx * 4 + 3].y = 0.0f - 1.0f;
 
-	this->vertices[letterIdx * 4 + 0].z = 0.0f;
-	this->vertices[letterIdx * 4 + 1].z = 0.0f;
-	this->vertices[letterIdx * 4 + 2].z = 0.0f;
-	this->vertices[letterIdx * 4 + 3].z = 0.0f;
+	// TODO [Hack] Use zorder instead of 0.1f
+	this->vertices[letterIdx * 4 + 0].z = 0.1f;
+	this->vertices[letterIdx * 4 + 1].z = 0.1f;
+	this->vertices[letterIdx * 4 + 2].z = 0.1f;
+	this->vertices[letterIdx * 4 + 3].z = 0.1f;
 
 	float each_charwidth_on_fontsheet = 1.0f / NUM_FONT_CHARACTER_COLUMNS;
 	float each_charheight_on_fontsheet = 1.0f / NUM_FONT_CHARACTER_ROWS;

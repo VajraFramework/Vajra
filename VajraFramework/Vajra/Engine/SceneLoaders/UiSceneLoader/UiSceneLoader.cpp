@@ -4,6 +4,7 @@
 #include "Vajra/Engine/Ui/UiElement/UiElement.h"
 #include "Vajra/Engine/Ui/UiFont/UiFontType.h"
 #include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
@@ -11,6 +12,27 @@
 #include <fstream>
 
 namespace UiSceneLoader {
+
+static int INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS;
+
+// TODO [Hack] Remove when we have font assets:
+UiFontType* fontType;
+
+
+static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int targetWidthPixels, const int targetHeightPixels) {
+	unsigned int actualWidthPixels  = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
+	unsigned int actualHeightPixels = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
+	float actualAspecRatio = (float)actualWidthPixels / (float)actualHeightPixels;
+	float targetAspecRatio = (float)targetWidthPixels / (float)targetHeightPixels;
+
+	if (actualAspecRatio > targetAspecRatio) { // Wider than expected:
+		out_pixels = out_pixels * (float)actualHeightPixels / (float)targetHeightPixels;
+
+	} else {                                   // Taller than expected:
+		out_pixels = out_pixels * (float)actualWidthPixels / (float)targetWidthPixels;
+
+	}
+}
 
 static void loadOneUiElement(std::ifstream& sceneFile) {
 	std::string itemClass;
@@ -20,6 +42,7 @@ static void loadOneUiElement(std::ifstream& sceneFile) {
 	int zorder;
 	std::string textToDisplay;
 	std::string imageName;
+	glm::vec4 color;
 	std::string onClickHandlerId;
 	{
 		// TODO [Implement]
@@ -35,6 +58,11 @@ static void loadOneUiElement(std::ifstream& sceneFile) {
 		sceneFile >> widthPixels >> heightPixels;
 		// TODO [Implement]
 		sceneFile >> zorder;
+
+		convertPixelsFromTargetSizeToDeviceSize(posXPixels,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+		convertPixelsFromTargetSizeToDeviceSize(posYPixels,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+		convertPixelsFromTargetSizeToDeviceSize(widthPixels,  INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+		convertPixelsFromTargetSizeToDeviceSize(heightPixels, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
 	}
 	{
 		std::string purge;
@@ -52,6 +80,9 @@ static void loadOneUiElement(std::ifstream& sceneFile) {
 		}
 	}
 	{
+		sceneFile >> color.r >> color.g >> color.b >> color.a;
+	}
+	{
 		// TODO [Implement]
 		sceneFile >> onClickHandlerId;
 		if (onClickHandlerId == "NULL") {
@@ -60,12 +91,31 @@ static void loadOneUiElement(std::ifstream& sceneFile) {
 	}
 
 	{
+		// TODO [Hack] Remove when we have font assets:
+		static bool once = false;
+		if (!once) {
+			fontType = new UiFontType(FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + "calibiri.png",
+									  FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + "calibiri.csv",
+									  "sptshdr");
+			once = true;
+		}
+	}
+
+	{
 		// Create a new UiElement with the above properties:
 		UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
+		//
 		ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
 		if (imageName != "") {
 			uiElement->InitSprite(widthPixels, heightPixels, "sptshdr", FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + imageName);
+		} else {
+			uiElement->InitSprite(widthPixels, heightPixels, "spcshdr", color);
 		}
+		//
+		if (textToDisplay != "") {
+			uiElement->InitTextToDisplay(textToDisplay.c_str(), widthPixels, heightPixels, fontType);
+		}
+		//
 		uiElement->SetPosition(posXPixels, posYPixels);
 	}
 }
@@ -81,8 +131,6 @@ void LoadUiSceneFromUiSceneFile(const char* filePath) {
 		sceneFile >> uisceneFormatVersionNumber;
 		VERIFY(uisceneFormatVersionNumber == UISCENE_FORMAT_VERSION_NUMBER, "Model format version number (%d) matches expected (%d)", uisceneFormatVersionNumber, UISCENE_FORMAT_VERSION_NUMBER);
 	}
-
-	int INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS;
 
 	{
 		sceneFile >> INTENDED_SCENE_WIDTH_PIXELS >> INTENDED_SCENE_HEIGHT_PIXELS;
