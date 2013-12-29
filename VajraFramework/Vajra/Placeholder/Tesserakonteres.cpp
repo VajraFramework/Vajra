@@ -15,8 +15,9 @@
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
-#include "Vajra/Engine/Ui/UiFont/UiFontType.h"
+#include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
 #include "Vajra/Engine/Ui/UiElement/UiElement.h"
+#include "Vajra/Engine/Ui/UiFont/UiFontType.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
@@ -254,6 +255,11 @@ namespace Tesserakonteres {
 			// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
 			camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
 			ENGINE->GetSceneGraphUi()->SetMainCameraId(camera->GetId());
+		}
+
+		{
+			std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "testUiScene.uiscene";
+			UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str());
 		}
 	}
 

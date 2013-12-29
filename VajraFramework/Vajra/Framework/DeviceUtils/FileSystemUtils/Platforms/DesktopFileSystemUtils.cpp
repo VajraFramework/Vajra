@@ -20,6 +20,7 @@ void FileSystemUtils::init() {
 	this->deviceAudioResourcesPath      = this->deviceBaseResourcesPath + "audio/";
 	this->deviceLoggingResourcesPath    = this->deviceBaseResourcesPath + "logging/";
 	this->deviceFontResourcesPath       = this->deviceBaseResourcesPath + "fonts/";
+	this->deviceUiScenesResourcesPath   = this->deviceBaseResourcesPath + "uiscenes/";
 }
 
 void FileSystemUtils::destroy() {

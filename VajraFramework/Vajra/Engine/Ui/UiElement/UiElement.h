@@ -21,6 +21,9 @@ public:
 
 	void InitTextToDisplay(std::string text, unsigned int width, unsigned int height, UiFontType* fontType_);
 
+	std::string GetUiElementName()                           { return this->uiElementName;           }
+	void        SetUiElementName(std::string uiElementName_) { this->uiElementName = uiElementName_; }
+
 private:
 	void init();
 	void destroy();
@@ -31,6 +34,8 @@ private:
 
 	UiSpriteObject* childSpriteObjectRef;
 	UiFontObject*   childFontObjectRef;
+
+	std::string uiElementName;
 };
 
 #endif // UIELEMENT_H
