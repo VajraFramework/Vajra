@@ -1,11 +1,11 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
+#include "Vajra/Engine/AssetLibrary/Assets/UiFontType/UiFontType.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/UiFontRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
-#include "Vajra/Engine/Ui/UiFont/UiFontType.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/MathUtilities.h"
@@ -23,8 +23,8 @@ UiFontRenderer::~UiFontRenderer() {
 }
 
 
-void UiFontRenderer::initTextToDisplay(std::string text, unsigned int width, unsigned int height, UiFontType* fontType_) {
-	this->fontType = fontType_;
+void UiFontRenderer::initTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile) {
+	this->fontType = ENGINE->GetAssetLibrary()->GetAsset<UiFontType>(pathToFontSpecificationFile);
 	this->SetShaderName(this->fontType->GetShaderName());
 
 	this->textToDisplay = text;

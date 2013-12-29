@@ -10,10 +10,10 @@ UiFontObject::~UiFontObject() {
 	this->destroy();
 }
 
-void UiFontObject::InitTextToDisplay(std::string text, unsigned int width, unsigned int height, UiFontType* fontType_) {
+void UiFontObject::InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile) {
 	ASSERT(this->GetComponent<Renderer>() == nullptr, "UiObject doesn't already have a Renderer on it");
 	UiFontRenderer* uiRenderer = this->AddComponent<UiFontRenderer>();
-	uiRenderer->initTextToDisplay(text, width, height, fontType_);
+	uiRenderer->initTextToDisplay(text, width, height, pathToFontSpecificationFile);
 	//
 	this->setWidth(width);
 	this->setHeight(height);

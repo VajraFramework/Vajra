@@ -14,7 +14,7 @@ private:
 	virtual ~UiFontObject();
 
 	// TODO [Cleanup] Make this private and friended to UiElement
-	void InitTextToDisplay(std::string text, unsigned int width, unsigned int height, UiFontType* fontType_);
+	void InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile);
 
 	void init();
 	void destroy();

@@ -19,7 +19,7 @@ public:
 	void InitSprite(unsigned int width, unsigned int height, std::string shaderName_, std::string pathToTexture = "");
 	void InitSprite(unsigned int width, unsigned int height, std::string shaderName_, glm::vec4 color);
 
-	void InitTextToDisplay(std::string text, unsigned int width, unsigned int height, UiFontType* fontType_);
+	void InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile);
 
 	std::string GetUiElementName()                           { return this->uiElementName;           }
 	void        SetUiElementName(std::string uiElementName_) { this->uiElementName = uiElementName_; }

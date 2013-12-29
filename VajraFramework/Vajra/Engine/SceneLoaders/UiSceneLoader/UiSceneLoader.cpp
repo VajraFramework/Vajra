@@ -2,7 +2,6 @@
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
 #include "Vajra/Engine/Ui/UiElement/UiElement.h"
-#include "Vajra/Engine/Ui/UiFont/UiFontType.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
@@ -14,10 +13,6 @@
 namespace UiSceneLoader {
 
 static int INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS;
-
-// TODO [Hack] Remove when we have font assets:
-UiFontType* fontType;
-
 
 static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int targetWidthPixels, const int targetHeightPixels) {
 	unsigned int actualWidthPixels  = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
@@ -40,6 +35,7 @@ static void loadOneUiElement(std::ifstream& sceneFile) {
 	int posXPixels, posYPixels;
 	int widthPixels, heightPixels;
 	int zorder;
+	std::string fontName;
 	std::string textToDisplay;
 	std::string imageName;
 	glm::vec4 color;
@@ -65,9 +61,14 @@ static void loadOneUiElement(std::ifstream& sceneFile) {
 		convertPixelsFromTargetSizeToDeviceSize(heightPixels, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
 	}
 	{
+		sceneFile >> fontName;
+		if (fontName == "NULL") {
+			fontName = "";
+		}
+	}
+	{
 		std::string purge;
 		getline (sceneFile, purge);	// purge rest of line
-		// TODO [Implement]
 		getline (sceneFile, textToDisplay);
 		if (textToDisplay == "NULL") {
 			textToDisplay = "";
@@ -91,17 +92,6 @@ static void loadOneUiElement(std::ifstream& sceneFile) {
 	}
 
 	{
-		// TODO [Hack] Remove when we have font assets:
-		static bool once = false;
-		if (!once) {
-			fontType = new UiFontType(FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + "calibiri.png",
-									  FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + "calibiri.csv",
-									  "sptshdr");
-			once = true;
-		}
-	}
-
-	{
 		// Create a new UiElement with the above properties:
 		UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
 		//
@@ -113,7 +103,8 @@ static void loadOneUiElement(std::ifstream& sceneFile) {
 		}
 		//
 		if (textToDisplay != "") {
-			uiElement->InitTextToDisplay(textToDisplay.c_str(), widthPixels, heightPixels, fontType);
+			uiElement->InitTextToDisplay(textToDisplay.c_str(), widthPixels, heightPixels,
+										 FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + fontName);
 		}
 		//
 		uiElement->SetPosition(posXPixels, posYPixels);

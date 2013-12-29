@@ -34,11 +34,12 @@ private:
 	friend class UiFontType;
 };
 
-class UiFontType {
+class UiFontType : public Asset {
 public:
-	UiFontType(std::string pathToFontSheetTexture, std::string pathToFontSpecificationCSV, std::string shaderName_);
+	UiFontType(std::string urlOfFontSpecificationFile);
 	~UiFontType();
 
+	std::string GetFilePathToFontSpecificationFile();
 	inline std::string GetShaderName() { return this->shaderName; }
 
 	inline std::shared_ptr<TextureAsset>& GetTextureAsset() { return this->fontSheet.textureAsset; }
@@ -46,7 +47,21 @@ public:
 	inline float GetCharacterWidth(int charIdx) { return this->fontSpecification.characterWidths[charIdx]; }
 	inline int GetStartingCharacter() { return this->fontSpecification.startingCharacter; }
 
+	// @Override
+	virtual AssetType GetAssetType();
+	// @Override
+	virtual void LoadAsset();
+
 private:
+	void init();
+	void destroy();
+
+	// Utility functions:
+	void loadFont_internal(std::string pathToFontSheetTexture, std::string pathToFontSpecificationCSV, std::string shaderName_);
+
+
+	static AssetType assetType;
+
 	FontSheet fontSheet;
 	FontSpecification fontSpecification;
 	std::string shaderName;
