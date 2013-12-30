@@ -37,8 +37,6 @@ void Message::SetMessageData(MessageData* messageData_) {
 void Message::init(MessageType messageType_) {
 	this->messageType = messageType_;
 	this->messageData = nullptr;
-
-	this->next = nullptr;
 }
 
 void Message::destroy() {

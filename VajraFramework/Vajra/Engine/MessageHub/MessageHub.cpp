@@ -13,8 +13,8 @@ MessageHub::~MessageHub() {
 }
 
 void MessageHub::init() {
-	this->currentlyAcceptingMessageCache = &(this->frontMessageCache);
-	this->currentlyDrainingMessageCache = nullptr;
+	this->currentlyAcceptingMessageCacheRef = &(this->frontMessageCache);
+	this->currentlyDrainingMessageCacheRef = nullptr;
 }
 
 void MessageHub::destroy() {
@@ -27,7 +27,7 @@ void MessageHub::SendPointcastMessage(const Message* const message, ObjectIdType
 	messageCopy->setReceiverId(receiverId);
 	messageCopy->setSenderId(senderId);
 
-	this->currentlyAcceptingMessageCache->PushMessageForReceipientId(messageCopy, receiverId);
+	this->currentlyAcceptingMessageCacheRef->PushMessageForReceipientId(messageCopy, receiverId);
 }
 
 void MessageHub::SendMulticastMessage(const Message* const message, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
@@ -56,28 +56,28 @@ void MessageHub::UnsubscribeToMessageType(MessageType messageType, ObjectIdType 
 }
 
 Message* MessageHub::RetrieveNextMessage(ObjectIdType id) {
-	return this->currentlyDrainingMessageCache->PopMessageForReceipientId(id);
+	return this->currentlyDrainingMessageCacheRef->PopMessageForReceipientId(id);
 }
 
 
 void MessageHub::drainMessages() {
-	this->currentlyAcceptingMessageCache = &this->backMessageCache;
-	this->currentlyDrainingMessageCache = &this->frontMessageCache;
+	this->currentlyAcceptingMessageCacheRef = &this->backMessageCache;
+	this->currentlyDrainingMessageCacheRef = &this->frontMessageCache;
 	this->drainMessageCache_internal();
 
 	// Switching MessageCaches
 
-	this->currentlyAcceptingMessageCache = &this->frontMessageCache;
-	this->currentlyDrainingMessageCache = &this->backMessageCache;
+	this->currentlyAcceptingMessageCacheRef = &this->frontMessageCache;
+	this->currentlyDrainingMessageCacheRef = &this->backMessageCache;
 	this->drainMessageCache_internal();
 
-	this->currentlyDrainingMessageCache = nullptr;
+	this->currentlyDrainingMessageCacheRef = nullptr;
 }
 
 void MessageHub::drainMessageCache_internal() {
 	ObjectIdType receipientId = OBJECT_ID_INVALID;
-	for (auto objectId_it = this->currentlyDrainingMessageCache->objectIdsWithPendingMessages.begin();
-			objectId_it != this->currentlyDrainingMessageCache->objectIdsWithPendingMessages.end(); ++objectId_it) {
+	for (auto objectId_it = this->currentlyDrainingMessageCacheRef->objectIdsWithPendingMessages.begin();
+			objectId_it != this->currentlyDrainingMessageCacheRef->objectIdsWithPendingMessages.end(); ++objectId_it) {
 
 		if (objectId_it->second) {
 			receipientId = objectId_it->first;
@@ -87,7 +87,7 @@ void MessageHub::drainMessageCache_internal() {
 				receipient->HandleMessages();
 			}
 		}
-		this->currentlyDrainingMessageCache->ClearMessagesForReceipientId(receipientId);
+		this->currentlyDrainingMessageCacheRef->ClearMessagesForReceipientId(receipientId);
 	}
-	this->currentlyDrainingMessageCache->objectIdsWithPendingMessages.clear();
+	this->currentlyDrainingMessageCacheRef->objectIdsWithPendingMessages.clear();
 }

@@ -33,8 +33,8 @@ private:
 	MessageCache frontMessageCache;
 	MessageCache backMessageCache;
 	//
-	MessageCache* currentlyAcceptingMessageCache;
-	MessageCache* currentlyDrainingMessageCache;
+	MessageCache* currentlyAcceptingMessageCacheRef;
+	MessageCache* currentlyDrainingMessageCacheRef;
 
 	// TODO [Implement] Change this to be a sorted list so that we can binary search it maybe (low priority)
 	std::vector<ObjectIdType> subscribersForMessageType[NUM_MESSAGE_TYPES];

@@ -2,6 +2,8 @@
 #include "Vajra/Engine/MessageHub/MessageCache.h"
 #include "Vajra/Utilities/Utilities.h"
 
+#include <algorithm>
+
 #define NUM_BUCKETS_IN_CACHE 100
 
 MessageCache::MessageCache() {
@@ -62,62 +64,29 @@ void MessageCache::destroy() {
 ////////////////////////////////////////////////////////////////////////////////
 
 MessageBucket::MessageBucket() {
-	this->head = nullptr;
-	this->count = 0;
 }
 
 void MessageBucket::PushBack(Message* message) {
-	if (this->head == nullptr) {
-		this->head = message;
-
-	} else {
-		Message* current = this->head;
-		while (current->next != nullptr) {
-			current = current->next;
-		}
-		current->next = message;
-	}
-	ASSERT(message->next == nullptr, "Single message given to MessageHub, not linked list [unsupported yet]");
-
-	this->count++;
+	this->messageList.push_back(message);
 }
 
 Message* MessageBucket::PopMessageForReceipientId(ObjectIdType receipientId) {
-	Message* current = this->head;
-	Message* prev = nullptr;
-
-	while (current != nullptr) {
-		if (current->getReceiverId() == receipientId) {
-			// Done, found.
-			break;
-		}
-		prev = current;
-		current = current->next;
+	Message* returnMessage = nullptr;
+	std::list<Message*>::iterator foundMessageIt = std::find_if(this->messageList.begin(), this->messageList.end(),
+									   [receipientId] (const Message* message) {
+									   	   return (message->getReceiverId() == receipientId);
+									   });
+	if (foundMessageIt != this->messageList.end()) {
+		returnMessage = (*foundMessageIt);
+		this->messageList.erase(foundMessageIt);
 	}
-
-	if (current != nullptr) {
-		if (current == this->head) {
-			this->head = current->next;
-		} else if (prev != nullptr) {
-			prev->next = current->next;
-		}
-		this->count--;
-	}
-
-	return current;
+	return returnMessage;
 }
 
 int MessageBucket::GetCount() {
-	return this->count;
+	return this->messageList.size();
 }
 
 MessageBucket::~MessageBucket() {
-	Message* current = this->head;
-	Message* next = nullptr;
-	while (current != nullptr) {
-		next = current->next;
-		delete (current);
-		current = next;
-	}
-	this->count = 0;
+	// TODO [Implement] Implement cleanup of message bucket
 }

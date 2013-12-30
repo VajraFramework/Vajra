@@ -3,6 +3,7 @@
 
 #include "Vajra/Utilities/CommonDeclarations.h"
 
+#include <list>
 #include <map>
 #include <vector>
 
@@ -20,8 +21,7 @@ public:
 	int GetCount();
 
 private:
-	int count;
-	Message* head;
+	std::list<Message*> messageList;
 };
 
 class MessageCache {

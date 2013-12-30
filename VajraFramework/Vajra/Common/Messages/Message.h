@@ -34,10 +34,6 @@ private:
 
 	// TODO [Implement] Add a field for the time at which this message was sent here
 
-	// Internal field needed for chaining messages in the MessageHub
-	// TODO [Implement] Clean this up by having Message inherit from Linkable instead
-	Message* next;
-
 	friend class MessageHub;
 	friend class MessageBucket;
 };
