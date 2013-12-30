@@ -1,11 +1,11 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
+#include "Vajra/Engine/AssetLibrary/Assets/UiFontType/UiFontType.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/UiFontRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
-#include "Vajra/Engine/Ui/UiFont/UiFontType.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/MathUtilities.h"
@@ -23,8 +23,8 @@ UiFontRenderer::~UiFontRenderer() {
 }
 
 
-void UiFontRenderer::initTextToDisplay(std::string text, unsigned int width, unsigned int height, UiFontType* fontType_) {
-	this->fontType = fontType_;
+void UiFontRenderer::initTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile) {
+	this->fontType = ENGINE->GetAssetLibrary()->GetAsset<UiFontType>(pathToFontSpecificationFile);
 	this->SetShaderName(this->fontType->GetShaderName());
 
 	this->textToDisplay = text;
@@ -155,15 +155,16 @@ void UiFontRenderer::makeACharacter(int charIdxInAscii, int letterIdx, float wof
 	this->vertices[letterIdx * 4 + 2].x = woffset + actual_charwidth_on_fontsheet;
 	this->vertices[letterIdx * 4 + 3].x = woffset;
 
-	this->vertices[letterIdx * 4 + 0].y = 0.0f + 1.0f;
-	this->vertices[letterIdx * 4 + 1].y = 0.0f + 1.0f;
-	this->vertices[letterIdx * 4 + 2].y = 0.0f;
-	this->vertices[letterIdx * 4 + 3].y = 0.0f;
+	this->vertices[letterIdx * 4 + 0].y = 0.0f;
+	this->vertices[letterIdx * 4 + 1].y = 0.0f;
+	this->vertices[letterIdx * 4 + 2].y = 0.0f - 1.0f;
+	this->vertices[letterIdx * 4 + 3].y = 0.0f - 1.0f;
 
-	this->vertices[letterIdx * 4 + 0].z = 0.0f;
-	this->vertices[letterIdx * 4 + 1].z = 0.0f;
-	this->vertices[letterIdx * 4 + 2].z = 0.0f;
-	this->vertices[letterIdx * 4 + 3].z = 0.0f;
+	// TODO [Hack] Use zorder instead of 0.1f
+	this->vertices[letterIdx * 4 + 0].z = 0.1f;
+	this->vertices[letterIdx * 4 + 1].z = 0.1f;
+	this->vertices[letterIdx * 4 + 2].z = 0.1f;
+	this->vertices[letterIdx * 4 + 3].z = 0.1f;
 
 	float each_charwidth_on_fontsheet = 1.0f / NUM_FONT_CHARACTER_COLUMNS;
 	float each_charheight_on_fontsheet = 1.0f / NUM_FONT_CHARACTER_ROWS;

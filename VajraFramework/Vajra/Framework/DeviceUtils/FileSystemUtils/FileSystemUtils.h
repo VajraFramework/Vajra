@@ -18,6 +18,7 @@ public:
 	inline const std::string GetDeviceAudioResourcesPath()     const { return this->deviceAudioResourcesPath;     }
 	inline const std::string GetDeviceLoggingResourcesPath()   const { return this->deviceLoggingResourcesPath;   }
 	inline const std::string GetDeviceFontResourcesPath()      const { return this->deviceFontResourcesPath;      }
+	inline const std::string GetDeviceUiScenesResourcesPath()  const { return this->deviceUiScenesResourcesPath;  }
     
 private:
     FileSystemUtils();
@@ -33,6 +34,7 @@ private:
 	std::string deviceAudioResourcesPath;
 	std::string deviceLoggingResourcesPath;
 	std::string deviceFontResourcesPath;
+	std::string deviceUiScenesResourcesPath;
     
     friend class Framework;
 };

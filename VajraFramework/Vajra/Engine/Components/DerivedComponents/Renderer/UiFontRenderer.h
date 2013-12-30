@@ -36,7 +36,7 @@ private:
 	void init();
 	void destroy();
 
-	void initTextToDisplay(std::string text, unsigned int width, unsigned int height, UiFontType* fontType_);
+	void initTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile);
 	inline void setDiffuseColor (glm::vec4 color) { this->diffuseColor  = color; }
 
 	// Utility Functions:
@@ -57,7 +57,7 @@ private:
 
 	glm::vec4 diffuseColor;
 
-	UiFontType* fontType;
+	std::shared_ptr<UiFontType> fontType;
 
 	// Friended to UiObject so as not to have to expose initPlane(), etc
 	friend class UiFontObject;

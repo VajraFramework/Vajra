@@ -15,7 +15,7 @@
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
-#include "Vajra/Engine/Ui/UiFont/UiFontType.h"
+#include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
 #include "Vajra/Engine/Ui/UiElement/UiElement.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -199,51 +199,6 @@ namespace Tesserakonteres {
 	void initUiGameObjects() {
 
 		{
-			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraphUi());
-			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(gameObject->GetId());
-			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
-
-			Transform* transform = gameObject->GetTransform();
-			transform->SetPosition(100.0f, -100.0f, 0.0f);
-			transform->Rotate(-90.0f, XAXIS);
-			transform->Scale(50.0f);
-		}
-		{
-			UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
-			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
-			uiElement->InitSprite(100, 100, "sptshdr", FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + "sample_picture3.png");
-			uiElement->SetPosition(400, 110);
-		}
-		{
-			UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
-			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
-			uiElement->InitSprite(100, 100, "spcshdr", glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-			uiElement->SetPosition(600, 210);
-		}
-		{
-			// TODO [Implement] Add all fonts to a seperate place accessible by font name (or better yet, UiFontType should be an asset
-			UiFontType* fontType = new UiFontType(FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + "calibiri.png",
-												  FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + "calibiri.csv",
-												  "sptshdr");
-			{
-				UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
-				ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
-				uiElement->InitTextToDisplay("Hello World! ", 200, 20, fontType);
-				uiElement->SetPosition(400, 400);
-			}
-
-			{
-					UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
-					ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
-					uiElement->InitSprite(100, 100, "sptshdr", FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + "sample_picture3.png");
-					uiElement->InitTextToDisplay("Wheeee", 100, 100, fontType);
-					uiElement->SetPosition(100, 400);
-			}
-		}
-
-
-		{
 			GameObject* camera = new GameObject(ENGINE->GetSceneGraphUi());
 			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(camera->GetId());
 			Camera* cameraComponent = camera->AddComponent<Camera>();
@@ -254,6 +209,11 @@ namespace Tesserakonteres {
 			// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
 			camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
 			ENGINE->GetSceneGraphUi()->SetMainCameraId(camera->GetId());
+		}
+
+		{
+			std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "testUiScene.uiscene";
+			UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str());
 		}
 	}
 
