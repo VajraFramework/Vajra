@@ -38,11 +38,7 @@ void TweenCallbackComponent::HandleMessage(MessageChunk messageChunk) {
 }
 
 void TweenCallbackComponent::handleCallbacksOnAnimationEnd(MessageChunk messageChunk) {
-	if (messageChunk->GetMessageData() == nullptr ||
-		messageChunk->GetMessageData()->GetMessageDataType() != MESSAGEDATA_TYPE_1S_1I_3FV) {
-		VERIFY(0, "Message Data type mismatch");
-	}
-	MessageData1S1I3FV* data = dynamic_cast<MessageData1S1I3FV*>(messageChunk->GetMessageData());
+	MessageData1S1I3FV* data = &(messageChunk->messageData);
 
 	ObjectIdType gameObjectId = data->i;
 

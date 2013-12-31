@@ -19,10 +19,8 @@ AnimationClip::~AnimationClip() {
 }
 
 void AnimationClip::raiseEvent(MessageChunk messageChunk, int gameObjectId, std::string eventClipName) {
-	MessageData1S1I3FV* messageData = new MessageData1S1I3FV();
-	messageData->i = gameObjectId;
-	messageData->s = eventClipName;
-	messageChunk->SetMessageData(messageData);
+	messageChunk->messageData.i = gameObjectId;
+	messageChunk->messageData.s = eventClipName;
 
 	ObjectIdType parentObjectId = this->parentAnimationComponent->GetGameObject()->GetId();
 	ENGINE->GetMessageHub()->SendPointcastMessage(messageChunk, parentObjectId, parentObjectId);
