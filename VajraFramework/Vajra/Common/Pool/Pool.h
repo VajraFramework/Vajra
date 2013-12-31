@@ -127,7 +127,7 @@ template <class TMeat>
 void Pool<TMeat>::makeMoreChunks() {
 	FRAMEWORK->GetLogger()->dbglog("\nLow on chunks, making %d more", POOL_SIZE_INCREMENT);
 
-	// Create a pool of size POOL_SIZE_DEFAULT and add them all to the free list:
+	// Create a pool of size POOL_SIZE_INCREMENT and add them all to the free list:
 	for (int i = 0; i < POOL_SIZE_INCREMENT; i++) {
 		TMeat* meat = new TMeat();
 		Chunk<TMeat>* chunk = new Chunk<TMeat>();

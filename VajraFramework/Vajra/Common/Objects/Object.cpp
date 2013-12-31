@@ -33,11 +33,10 @@ void Object::destroy() {
 }
 
 void Object::HandleMessages() {
-	MessageChunk messageChunk;
 	bool retrievedMessageIsValid = false;
 	do {
 		retrievedMessageIsValid = false;
-		messageChunk = ENGINE->GetMessageHub()->RetrieveNextMessage(this->GetId(), retrievedMessageIsValid);
+		MessageChunk messageChunk = ENGINE->GetMessageHub()->RetrieveNextMessage(this->GetId(), retrievedMessageIsValid);
 		if (retrievedMessageIsValid) {
 			// FRAMEWORK->GetLogger()->dbglog("\nObject %d got msg of type %d", this->GetId(), messageChunk->GetMessageType());
 			// Forward message to subscribed components:
