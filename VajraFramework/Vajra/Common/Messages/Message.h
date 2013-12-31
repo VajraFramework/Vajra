@@ -22,14 +22,11 @@ private:
 	void init(MessageType messageType_);
 	void destroy();
 
-	inline ObjectIdType getReceiverId() const { return this->receiverId; }
 	void setSenderId(ObjectIdType senderId_);
-	void setReceiverId(ObjectIdType receiverId_);
 
 	MessageType messageType;
 
 	ObjectIdType senderId;
-	ObjectIdType receiverId;
 	MessageData* messageData;
 
 	// TODO [Implement] Add a field for the time at which this message was sent here

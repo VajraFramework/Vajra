@@ -19,11 +19,6 @@ void Message::setSenderId(ObjectIdType senderId_) {
 	this->senderId = senderId_;
 }
 
-void Message::setReceiverId(ObjectIdType receiverId_) {
-	this->receiverId = receiverId_;
-}
-
-
 MessageData* Message::GetMessageData() const {
 	// TODO [Cleanup] Deprecate this in favor of GetTypedData implemented in individual derived message types
 	return this->messageData;

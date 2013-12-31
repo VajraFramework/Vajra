@@ -2,10 +2,6 @@
 #include "Vajra/Engine/MessageHub/MessageCache.h"
 #include "Vajra/Utilities/Utilities.h"
 
-// TODO [Cleanup] Remove after debugging
-#include "Vajra/Framework/Core/Framework.h"
-#include "Vajra/Framework/Logging/Logger.h"
-
 #include <algorithm>
 
 #define NUM_BUCKETS_IN_CACHE 100
@@ -27,10 +23,7 @@ void MessageCache::init() {
 
 void MessageCache::PushMessageForReceipientId(MessageChunk messageChunk, ObjectIdType receipientId) {
 	int targetBucketNumber = (int)receipientId % NUM_BUCKETS_IN_CACHE;
-	this->messageBuckets[targetBucketNumber]->PushBack(messageChunk);
-	if (messageChunk->GetMessageType() == MESSAGE_TYPE_FRAME_EVENT) {
-		FRAMEWORK->GetLogger()->dbglog("\nPush back msg type frame event for recepient: %d, count: %d", receipientId, this->messageBuckets[targetBucketNumber]->GetCount());
-	}
+	this->messageBuckets[targetBucketNumber]->PushBack(receipientId, messageChunk);
 
 	this->objectIdsWithPendingMessages[receipientId] = true;
 }
@@ -73,18 +66,18 @@ void MessageCache::destroy() {
 MessageBucket::MessageBucket() {
 }
 
-void MessageBucket::PushBack(MessageChunk messageChunk) {
-	this->messageList.push_back(messageChunk);
+void MessageBucket::PushBack(ObjectIdType receipientId, MessageChunk messageChunk) {
+	this->messageList.push_back(std::make_pair(receipientId, messageChunk));
 }
 
 MessageChunk MessageBucket::PopMessageForReceipientId(ObjectIdType receipientId, bool& returnValueIsValid) {
 	MessageChunk returnMessage;
-	std::list<MessageChunk>::iterator foundMessageIt = std::find_if(this->messageList.begin(), this->messageList.end(),
-									   [receipientId] (MessageChunk& messageChunk) {
-									   	   return (messageChunk->getReceiverId() == receipientId);
+	std::list< std::pair<ObjectIdType, MessageChunk> >::iterator foundMessageIt = std::find_if(this->messageList.begin(), this->messageList.end(),
+									   [receipientId] (std::pair<ObjectIdType, MessageChunk>& messageChunkPair) {
+									   	   return (messageChunkPair.first == receipientId);
 									   });
 	if (foundMessageIt != this->messageList.end()) {
-		returnMessage = (*foundMessageIt);
+		returnMessage = foundMessageIt->second;
 		this->messageList.erase(foundMessageIt);
 		returnValueIsValid = true;
 	} else {

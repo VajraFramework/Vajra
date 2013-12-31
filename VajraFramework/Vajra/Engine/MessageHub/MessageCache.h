@@ -5,6 +5,7 @@
 
 #include <list>
 #include <map>
+#include <utility>
 #include <vector>
 
 // Forward Declarations:
@@ -15,14 +16,14 @@ public:
 	MessageBucket();
 	~MessageBucket();
 
-	void PushBack(MessageChunk message);
+	void PushBack(ObjectIdType receipientId, MessageChunk message);
 	// TODO [Hack] Use a custom implementation of boost::optional instead of returnValueIsValid
 	MessageChunk PopMessageForReceipientId(ObjectIdType receipientId, bool& returnValueIsValid);
 
 	int GetCount();
 
 private:
-	std::list<MessageChunk> messageList;
+	std::list< std::pair<ObjectIdType /* receipientId */, MessageChunk> > messageList;
 };
 
 class MessageCache {

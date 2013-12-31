@@ -21,7 +21,6 @@ void MessageHub::destroy() {
 }
 
 void MessageHub::SendPointcastMessage(MessageChunk messageChunk, ObjectIdType receiverId, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
-	messageChunk->setReceiverId(receiverId);
 	messageChunk->setSenderId(senderId);
 
 	this->currentlyAcceptingMessageCacheRef->PushMessageForReceipientId(messageChunk, receiverId);
@@ -30,11 +29,7 @@ void MessageHub::SendPointcastMessage(MessageChunk messageChunk, ObjectIdType re
 void MessageHub::SendMulticastMessage(MessageChunk messageChunk, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
 	unsigned int numSubscribers = this->subscribersForMessageType[messageChunk->GetMessageType()].size();
 	for (unsigned int i = 0; i < numSubscribers; ++i) {
-		// TODO [Hack] Formalize this with a copy() function, maybe, or move the ids out of the message
-		MessageChunk messageCopy = this->GetOneFreeMessage();
-		messageCopy->SetMessageData(messageChunk->GetMessageData());
-		messageCopy->SetMessageType(messageChunk->GetMessageType());
-		this->SendPointcastMessage(messageCopy, this->subscribersForMessageType[messageCopy->GetMessageType()][i], senderId);
+		this->SendPointcastMessage(messageChunk, this->subscribersForMessageType[messageChunk->GetMessageType()][i], senderId);
 	}
 }
 
