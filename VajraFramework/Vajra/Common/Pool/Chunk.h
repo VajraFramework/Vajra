@@ -1,5 +1,5 @@
-#ifndef Chunk_h__
-#define Chunk_h__
+#ifndef _Chunk_h__
+#define _Chunk_h__
 
 // Forward Declarations:
 template <class TMeat>
@@ -43,7 +43,18 @@ Chunk<TMeat>::Chunk() {
 	this->use_count = 0;
 }
 
-// #include "Vajra/Common/Pool/Chunk.cpp"
+// #include "Vajra/Common/Pool/Pool.h"
+template <class TMeat>
+void Chunk<TMeat>::returnToPool() {
+	if (this->pool != nullptr) {
+		this->pool->ReleaseChunk(this);
+	} else {
+		// No pool to go back to. Kill self:
+		delete this;
+	}
+}
 
-#endif // Chunk_h__
+
+
+#endif // _Chunk_h__
 

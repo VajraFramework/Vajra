@@ -27,9 +27,9 @@ Transform::~Transform() {
 	this->destroy();
 }
 
-void Transform::HandleMessage(Message* message) {
+void Transform::HandleMessage(MessageChunk messageChunk) {
 	// TODO [Implement] Implement Update logic here, but on SET_TRANSFORM and similar messages
-	switch (message->GetMessageType()) {
+	switch (messageChunk->GetMessageType()) {
 
 	default:
 		break;
@@ -223,10 +223,10 @@ void Transform::updateModelMatrixCumulative() {
 void Transform::rippleMatrixUpdates() {
 	if (this->GetObject() != nullptr) {
 		// Raise event so that any interested parties are alerted that the transform has changed:
-		const Message* const message = new Message(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT);
+		MessageChunk messageChunk = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		messageChunk->SetMessageType(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT);
 		// Send the message to this GameObject
-		ENGINE->GetMessageHub()->SendPointcastMessage(message, this->GetObject()->GetId(), this->GetObject()->GetId());
-		delete message;
+		ENGINE->GetMessageHub()->SendPointcastMessage(messageChunk, this->GetObject()->GetId(), this->GetObject()->GetId());
 
 		// Update this GameObject's children
 		std::list<ObjectIdType> children = this->GetObject()->GetChildren();

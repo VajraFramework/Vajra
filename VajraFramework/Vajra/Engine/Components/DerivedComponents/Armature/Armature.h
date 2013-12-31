@@ -31,7 +31,7 @@ public:
 	void Bind();
 
 	// @Override
-	virtual void HandleMessage(Message* message);
+	virtual void HandleMessage(MessageChunk messageChunk);
 
 	void AddBone(Bone* newBone);
 	Bone* GetBoneById(unsigned int boneId);

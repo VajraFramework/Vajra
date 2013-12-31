@@ -25,7 +25,7 @@ public:
 	static inline ComponentIdType GetTypeId() { return componentTypeId; };
 
 protected:
-	virtual void HandleMessage(Message* message);
+	virtual void HandleMessage(MessageChunk messageChunk);
 
 	// Virtual Methods
 	virtual void start()  = 0;

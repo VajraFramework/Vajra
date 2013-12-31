@@ -138,9 +138,8 @@ void renderFrame(float dt) {
     {
         // Sending arbit message for testing
         {
-			const Message* const message = new Message();
-			ENGINE->GetMessageHub()->SendPointcastMessage(message, 110);
-			delete message;
+			MessageChunk messageChunk = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			ENGINE->GetMessageHub()->SendPointcastMessage(messageChunk, 110);
         }
     }
     {

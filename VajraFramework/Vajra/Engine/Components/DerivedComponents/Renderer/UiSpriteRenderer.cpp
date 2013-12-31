@@ -86,7 +86,7 @@ void UiSpriteRenderer::initVbos() {
     FRAMEWORK->GetLogger()->errlog("\nVBOs made successfully");
 }
 
-void UiSpriteRenderer::HandleMessage(Message* /* message */) {
+void UiSpriteRenderer::HandleMessage(MessageChunk /* messageChunk */) {
 }
 
 void UiSpriteRenderer::Draw() {

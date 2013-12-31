@@ -20,7 +20,7 @@ public:
 	static inline ComponentIdType GetTypeId() { return componentTypeId; }
 
 	// @Override
-	virtual void HandleMessage(Message* message);
+	virtual void HandleMessage(MessageChunk messageChunk);
 
 	void Draw();
 

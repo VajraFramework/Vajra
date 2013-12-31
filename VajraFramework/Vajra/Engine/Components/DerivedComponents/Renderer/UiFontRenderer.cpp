@@ -66,7 +66,7 @@ void UiFontRenderer::initVbos() {
     FRAMEWORK->GetLogger()->errlog("\nVBOs made successfully");
 }
 
-void UiFontRenderer::HandleMessage(Message* /* message */) {
+void UiFontRenderer::HandleMessage(MessageChunk /* messageChunk */) {
 }
 
 void UiFontRenderer::Draw() {

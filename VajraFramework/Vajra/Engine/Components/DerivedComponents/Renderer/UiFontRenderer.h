@@ -22,7 +22,7 @@ public:
 
 
 	// @Override
-	virtual void HandleMessage(Message* message);
+	virtual void HandleMessage(MessageChunk messageChunk);
 
 	// @Override
 	virtual void Draw();

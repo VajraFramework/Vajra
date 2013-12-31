@@ -20,10 +20,10 @@ Animation::~Animation() {
 	this->destroy();
 }
 
-bool Animation::handleMessage(Message* message) {
+bool Animation::handleMessage(MessageChunk messageChunk) {
 	bool handled = false;
 
-	switch (message->GetMessageType()) {
+	switch (messageChunk->GetMessageType()) {
 
 	case MESSAGE_TYPE_FRAME_EVENT:
 		if (this->IsPlaying()) {

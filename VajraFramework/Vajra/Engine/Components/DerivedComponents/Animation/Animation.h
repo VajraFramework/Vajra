@@ -37,7 +37,7 @@ public:
 	inline GameObject* GetGameObject() { return this->gameObject; }
 
 protected:
-	bool handleMessage(Message* message);
+	bool handleMessage(MessageChunk messageChunk);
 	AnimationClip* addAnimationClip(AnimationClip* animationClip, bool takeOwnershipOfMemory);
 
 private:

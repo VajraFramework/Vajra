@@ -15,13 +15,14 @@ public:
 	MessageBucket();
 	~MessageBucket();
 
-	void PushBack(Message* message);
-	Message* PopMessageForReceipientId(ObjectIdType receipientId);
+	void PushBack(MessageChunk message);
+	// TODO [Hack] Use a custom implementation of boost::optional instead of returnValueIsValid
+	MessageChunk PopMessageForReceipientId(ObjectIdType receipientId, bool& returnValueIsValid);
 
 	int GetCount();
 
 private:
-	std::list<Message*> messageList;
+	std::list<MessageChunk> messageList;
 };
 
 class MessageCache {
@@ -31,8 +32,8 @@ public:
 private:
 	MessageCache();
 
-	void PushMessageForReceipientId(Message* message, ObjectIdType receipientId);
-	Message* PopMessageForReceipientId(ObjectIdType receipientId);
+	void PushMessageForReceipientId(MessageChunk message, ObjectIdType receipientId);
+	MessageChunk PopMessageForReceipientId(ObjectIdType receipientId, bool& returnValueIsValid);
 	void ClearMessagesForReceipientId(ObjectIdType receipientId);
 
 	void init();

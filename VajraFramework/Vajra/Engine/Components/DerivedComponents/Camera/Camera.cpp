@@ -52,17 +52,17 @@ void Camera::updateMatrices() {
 	}
 }
 
-void Camera::HandleMessage(Message* message) {
-	// FRAMEWORK->GetLogger()->dbglog("\nCamera got msg of type %d", message->GetMessageType());
+void Camera::HandleMessage(MessageChunk messageChunk) {
+	// FRAMEWORK->GetLogger()->dbglog("\nCamera got msg of type %d", messageChunk->GetMessageType());
 
-	switch (message->GetMessageType()) {
+	switch (messageChunk->GetMessageType()) {
 
 	case MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT:
 		this->updateMatrices();
 		break;
 
 	default:
-		FRAMEWORK->GetLogger()->dbglog("\nCamera got unnecessary msg of type %d", message->GetMessageType());
+		FRAMEWORK->GetLogger()->dbglog("\nCamera got unnecessary msg of type %d", messageChunk->GetMessageType());
 		break;
 	}
 }

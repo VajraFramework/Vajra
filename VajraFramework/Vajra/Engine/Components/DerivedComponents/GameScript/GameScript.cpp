@@ -20,8 +20,8 @@ GameScript::~GameScript() {
 	this->destroy();
 }
 
-void GameScript::HandleMessage(Message* message) {
-	switch(message->GetMessageType()) {
+void GameScript::HandleMessage(MessageChunk messageChunk) {
+	switch(messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_FRAME_EVENT:
 			this->update();
 	default:

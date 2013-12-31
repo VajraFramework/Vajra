@@ -12,13 +12,13 @@ class MessageHub {
 public:
 	~MessageHub();
 
-	void SendPointcastMessage(const Message* const message, ObjectIdType receiverId, ObjectIdType senderId = OBJECT_ID_INVALID);
-	void SendMulticastMessage(const Message* const message, ObjectIdType senderId = OBJECT_ID_INVALID);
+	void SendPointcastMessage(MessageChunk messageChunk, ObjectIdType receiverId, ObjectIdType senderId = OBJECT_ID_INVALID);
+	void SendMulticastMessage(MessageChunk messageChunk, ObjectIdType senderId = OBJECT_ID_INVALID);
 
 	void SubscribeToMessageType(MessageType messageType, ObjectIdType subscriberId);
 	void UnsubscribeToMessageType(MessageType messageType, ObjectIdType subscriberId);
 
-	Message* RetrieveNextMessage(ObjectIdType id);
+	MessageChunk RetrieveNextMessage(ObjectIdType id, bool& returnValueIsValid);
 
 	MessageChunk GetOneFreeMessage() { return this->messagePool.GetManagedChunk(); }
 

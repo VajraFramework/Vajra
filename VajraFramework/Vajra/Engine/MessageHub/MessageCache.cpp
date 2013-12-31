@@ -2,6 +2,10 @@
 #include "Vajra/Engine/MessageHub/MessageCache.h"
 #include "Vajra/Utilities/Utilities.h"
 
+// TODO [Cleanup] Remove after debugging
+#include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/Logging/Logger.h"
+
 #include <algorithm>
 
 #define NUM_BUCKETS_IN_CACHE 100
@@ -21,33 +25,36 @@ void MessageCache::init() {
 	}
 }
 
-void MessageCache::PushMessageForReceipientId(Message* message, ObjectIdType receipientId) {
+void MessageCache::PushMessageForReceipientId(MessageChunk messageChunk, ObjectIdType receipientId) {
 	int targetBucketNumber = (int)receipientId % NUM_BUCKETS_IN_CACHE;
-	this->messageBuckets[targetBucketNumber]->PushBack(message);
+	this->messageBuckets[targetBucketNumber]->PushBack(messageChunk);
+	if (messageChunk->GetMessageType() == MESSAGE_TYPE_FRAME_EVENT) {
+		FRAMEWORK->GetLogger()->dbglog("\nPush back msg type frame event for recepient: %d, count: %d", receipientId, this->messageBuckets[targetBucketNumber]->GetCount());
+	}
 
 	this->objectIdsWithPendingMessages[receipientId] = true;
 }
 
-Message* MessageCache::PopMessageForReceipientId(ObjectIdType receipientId) {
+MessageChunk MessageCache::PopMessageForReceipientId(ObjectIdType receipientId, bool& returnValueIsValid) {
 	int targetBucketNumber = (int)receipientId % NUM_BUCKETS_IN_CACHE;
-	Message* message = this->messageBuckets[targetBucketNumber]->PopMessageForReceipientId(receipientId);
-	if (message == nullptr) {
+	bool poppedMessageIsValid = false;
+	MessageChunk messageChunk = this->messageBuckets[targetBucketNumber]->PopMessageForReceipientId(receipientId, poppedMessageIsValid);
+	if (!poppedMessageIsValid) {
 		if (this->objectIdsWithPendingMessages.find(receipientId) != this->objectIdsWithPendingMessages.end()) {
 			this->objectIdsWithPendingMessages[receipientId] = false;
 		}
 	}
-	return message;
+	returnValueIsValid = poppedMessageIsValid;
+	return messageChunk;
 }
 
 void MessageCache::ClearMessagesForReceipientId(ObjectIdType receipientId) {
 	int targetBucketNumber = (int)receipientId % NUM_BUCKETS_IN_CACHE;
-	Message* message = nullptr;
+	MessageChunk messageChunk;
+	bool poppedMessageIsValid = false;
 	do {
-		message = this->messageBuckets[targetBucketNumber]->PopMessageForReceipientId(receipientId);
-		if (message != nullptr) {
-			delete (message);
-		}
-	} while (message != nullptr);
+		messageChunk = this->messageBuckets[targetBucketNumber]->PopMessageForReceipientId(receipientId, poppedMessageIsValid);
+	} while (poppedMessageIsValid);
 
 	if (this->objectIdsWithPendingMessages.find(receipientId) != this->objectIdsWithPendingMessages.end()) {
 		this->objectIdsWithPendingMessages[receipientId] = false;
@@ -66,19 +73,22 @@ void MessageCache::destroy() {
 MessageBucket::MessageBucket() {
 }
 
-void MessageBucket::PushBack(Message* message) {
-	this->messageList.push_back(message);
+void MessageBucket::PushBack(MessageChunk messageChunk) {
+	this->messageList.push_back(messageChunk);
 }
 
-Message* MessageBucket::PopMessageForReceipientId(ObjectIdType receipientId) {
-	Message* returnMessage = nullptr;
-	std::list<Message*>::iterator foundMessageIt = std::find_if(this->messageList.begin(), this->messageList.end(),
-									   [receipientId] (const Message* message) {
-									   	   return (message->getReceiverId() == receipientId);
+MessageChunk MessageBucket::PopMessageForReceipientId(ObjectIdType receipientId, bool& returnValueIsValid) {
+	MessageChunk returnMessage;
+	std::list<MessageChunk>::iterator foundMessageIt = std::find_if(this->messageList.begin(), this->messageList.end(),
+									   [receipientId] (MessageChunk& messageChunk) {
+									   	   return (messageChunk->getReceiverId() == receipientId);
 									   });
 	if (foundMessageIt != this->messageList.end()) {
 		returnMessage = (*foundMessageIt);
 		this->messageList.erase(foundMessageIt);
+		returnValueIsValid = true;
+	} else {
+		returnValueIsValid = false;
 	}
 	return returnMessage;
 }

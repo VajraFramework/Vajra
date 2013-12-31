@@ -20,20 +20,21 @@ void MessageHub::init() {
 void MessageHub::destroy() {
 }
 
-void MessageHub::SendPointcastMessage(const Message* const message, ObjectIdType receiverId, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
-	// TODO [Cleanup] Too many allocations here. Pools maybe? Or better yet, define messages as const, so that we can just send the same message to all of them (reference counted), somehow
-	Message* messageCopy = new Message(*message);
+void MessageHub::SendPointcastMessage(MessageChunk messageChunk, ObjectIdType receiverId, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
+	messageChunk->setReceiverId(receiverId);
+	messageChunk->setSenderId(senderId);
 
-	messageCopy->setReceiverId(receiverId);
-	messageCopy->setSenderId(senderId);
-
-	this->currentlyAcceptingMessageCacheRef->PushMessageForReceipientId(messageCopy, receiverId);
+	this->currentlyAcceptingMessageCacheRef->PushMessageForReceipientId(messageChunk, receiverId);
 }
 
-void MessageHub::SendMulticastMessage(const Message* const message, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
-	unsigned int numSubscribers = this->subscribersForMessageType[message->GetMessageType()].size();
+void MessageHub::SendMulticastMessage(MessageChunk messageChunk, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
+	unsigned int numSubscribers = this->subscribersForMessageType[messageChunk->GetMessageType()].size();
 	for (unsigned int i = 0; i < numSubscribers; ++i) {
-		this->SendPointcastMessage(message, this->subscribersForMessageType[message->GetMessageType()][i], senderId);
+		// TODO [Hack] Formalize this with a copy() function, maybe, or move the ids out of the message
+		MessageChunk messageCopy = this->GetOneFreeMessage();
+		messageCopy->SetMessageData(messageChunk->GetMessageData());
+		messageCopy->SetMessageType(messageChunk->GetMessageType());
+		this->SendPointcastMessage(messageCopy, this->subscribersForMessageType[messageCopy->GetMessageType()][i], senderId);
 	}
 }
 
@@ -55,8 +56,9 @@ void MessageHub::UnsubscribeToMessageType(MessageType messageType, ObjectIdType 
 	}
 }
 
-Message* MessageHub::RetrieveNextMessage(ObjectIdType id) {
-	return this->currentlyDrainingMessageCacheRef->PopMessageForReceipientId(id);
+MessageChunk MessageHub::RetrieveNextMessage(ObjectIdType id, bool& returnValueIsValid) {
+	MessageChunk messageChunk = this->currentlyDrainingMessageCacheRef->PopMessageForReceipientId(id, returnValueIsValid);
+	return messageChunk;
 }
 
 

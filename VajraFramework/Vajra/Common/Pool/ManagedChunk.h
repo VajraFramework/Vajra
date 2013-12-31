@@ -7,18 +7,24 @@ template <class Meat>
 class ManagedChunk {
 public:
 	ManagedChunk(Chunk<Meat> *_chunk) {
-		this->chunk = _chunk;
-		this->chunk->Use ();
+		if (_chunk != nullptr) {
+			this->chunk = _chunk;
+			this->chunk->Use ();
+		}
 	}
 
 	ManagedChunk(const ManagedChunk<Meat>& _other) {
-		this->chunk = _other.chunk;
-		this->chunk->Use ();
+		if (_other.chunk != nullptr) {
+			this->chunk = _other.chunk;
+			this->chunk->Use ();
+		}
 	}
 
 	ManagedChunk& operator=(const ManagedChunk<Meat>& _other) {
-		this->chunk = _other.chunk;
-		this->chunk->Use ();
+		if (_other.chunk != nullptr) {
+			this->chunk = _other.chunk;
+			this->chunk->Use ();
+		}
 		return *this;
 	}
 
@@ -42,8 +48,10 @@ public:
 		if (this->chunk != nullptr) {
 			this->chunk->DisUse ();
 		}
-		this->chunk = _chunk; 
-		this->chunk->Use ();
+		if (_chunk != nullptr) {
+			this->chunk = _chunk;
+			this->chunk->Use ();
+		}
 	}
 
 private:

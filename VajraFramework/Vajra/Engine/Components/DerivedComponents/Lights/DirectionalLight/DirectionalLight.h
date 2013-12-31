@@ -17,7 +17,7 @@ public:
 	static inline unsigned int GetTypeId() { return componentTypeId; }
 
 	// @Override
-	virtual void HandleMessage(Message* message);
+	virtual void HandleMessage(MessageChunk messageChunk);
 
 	void WriteLightPropertiesToShader();
 

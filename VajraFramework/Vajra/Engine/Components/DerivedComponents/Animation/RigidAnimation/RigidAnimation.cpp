@@ -33,13 +33,13 @@ AnimationClip* RigidAnimation::AddAnimationClip(AnimationClip* animationClip) {
 	return this->addAnimationClip(animationClip, true);
 }
 
-void RigidAnimation::HandleMessage(Message* message) {
-	if (this->handleMessage(message) == NOT_HANDLED) {
+void RigidAnimation::HandleMessage(MessageChunk messageChunk) {
+	if (this->handleMessage(messageChunk) == NOT_HANDLED) {
 
-		switch (message->GetMessageType()) {
+		switch (messageChunk->GetMessageType()) {
 
 		default:
-			FRAMEWORK->GetLogger()->dbglog("\nRigidAnimation got unnecessary msg of type %d", message->GetMessageType());
+			FRAMEWORK->GetLogger()->dbglog("\nRigidAnimation got unnecessary msg of type %d", messageChunk->GetMessageType());
 			break;
 		}
 	}
