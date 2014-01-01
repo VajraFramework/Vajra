@@ -20,6 +20,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vajra.examplegame">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
             android:label="@string/ExampleGameActivity">
         <activity android:name="com.vajra.examplegame.ExampleGameActivity"

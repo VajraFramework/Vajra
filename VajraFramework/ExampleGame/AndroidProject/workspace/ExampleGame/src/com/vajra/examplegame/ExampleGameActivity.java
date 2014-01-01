@@ -40,10 +40,10 @@ public class ExampleGameActivity extends Activity {
         mView = new ExampleGameView(getApplication(), false, 8, 8);
         setContentView(mView);
 
-    	mContext = this;
+    	mContext = getApplicationContext();
 
-        VajraAndroidWrapper.SetContext(this);
-        ExampleGameWrapper.SetContext(this);
+        VajraAndroidWrapper.SetContext(mContext);
+        ExampleGameWrapper.SetContext(mContext);
 
         int number = VajraAndroidWrapper.TestFunction();
         Log.i("tag", "Number: " + Integer.toString(number));

@@ -37,35 +37,39 @@
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
 #include "Vajra/Placeholder/Tesserakonteres.h"
+#include "Vajra/Utilities/VajraToAndroidJavaInterface/VajraToAndroidJavaInterface.h"
 #include "local_test.h"
 
 // #include "Libraries/libpng-android-master/jni/png.h"
 #include "png.h"
 
-JNIEnv *gJNIEnv;
 jobject gInterfaceObject;
 
 
 void testCallIntoJava() {
-    jclass clazz = gJNIEnv->FindClass("com/vajra/androidwrapper/VajraAndroidWrapper");
-    jmethodID methodID = gJNIEnv->GetStaticMethodID(clazz, "TestMethodInJava", "()V");
-    gJNIEnv->CallStaticVoidMethod(clazz, methodID);
+    jclass clazz = VajraToAndroidJavaInterface::GetJNIEnv()->FindClass("com/vajra/androidwrapper/VajraAndroidWrapper");
+    jmethodID methodID = VajraToAndroidJavaInterface::GetJNIEnv()->GetStaticMethodID(clazz, "TestMethodInJava", "()V");
+    VajraToAndroidJavaInterface::GetJNIEnv()->CallStaticVoidMethod(clazz, methodID);
+}
 
-    return;
+void copyAssetsToSDCard() {
+    jclass clazz = VajraToAndroidJavaInterface::GetJNIEnv()->FindClass("com/vajra/androidwrapper/VajraAndroidWrapper");
+    jmethodID methodID = VajraToAndroidJavaInterface::GetJNIEnv()->GetStaticMethodID(clazz, "CopyAssetsToSDCard", "()V");
+    VajraToAndroidJavaInterface::GetJNIEnv()->CallStaticVoidMethod(clazz, methodID);
 }
 
 char* loadAsset(const char* path)
 {
-    jstring _path = gJNIEnv->NewStringUTF(path);
-    jclass clazz = gJNIEnv->GetObjectClass(gInterfaceObject);
-    jmethodID staticMethodId = gJNIEnv->GetStaticMethodID(clazz, "getAssetContents", "(Ljava/lang/String;)[B");
+    jstring _path = VajraToAndroidJavaInterface::GetJNIEnv()->NewStringUTF(path);
+    jclass clazz = VajraToAndroidJavaInterface::GetJNIEnv()->GetObjectClass(gInterfaceObject);
+    jmethodID staticMethodId = VajraToAndroidJavaInterface::GetJNIEnv()->GetStaticMethodID(clazz, "getAssetContents", "(Ljava/lang/String;)[B");
     if (staticMethodId == 0) {
         return 0;
     }
-    jbyteArray result = (jbyteArray) gJNIEnv->CallStaticObjectMethod(clazz, staticMethodId, _path);
-    jsize size = gJNIEnv->GetArrayLength(result);
+    jbyteArray result = (jbyteArray) VajraToAndroidJavaInterface::GetJNIEnv()->CallStaticObjectMethod(clazz, staticMethodId, _path);
+    jsize size = VajraToAndroidJavaInterface::GetJNIEnv()->GetArrayLength(result);
     char* data = (char*)calloc((size_t)size, sizeof(char));
-    gJNIEnv->GetByteArrayRegion(result, (jsize)0, size, (jbyte*)data);
+    VajraToAndroidJavaInterface::GetJNIEnv()->GetByteArrayRegion(result, (jsize)0, size, (jbyte*)data);
     return data; //data is returned as shader source
 }
 
@@ -83,8 +87,12 @@ JNIEXPORT void JNICALL Java_com_vajra_androidwrapper_VajraAndroidWrapper_init(JN
     png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 
 
-    gJNIEnv = env;
-    gInterfaceObject = obj;
+    gInterfaceObject = reinterpret_cast<jobject>(env->NewGlobalRef(obj));
+
+    VajraToAndroidJavaInterface::SetJNIEnv(env);
+
+    // Copy all assets from the apk to the sdcard:
+    copyAssetsToSDCard();
 
     int number = testEngineFunction();
     FRAMEWORK->GetLogger()->dbglog("test number from test: %d", number);
@@ -94,7 +102,9 @@ JNIEXPORT void JNICALL Java_com_vajra_androidwrapper_VajraAndroidWrapper_init(JN
     // loadAsset("simple_vshader");
     testCallIntoJava();
 
+
     setupGraphics(width, height);
+
 
     Tesserakonteres::initGameObjectsForScene();
     Tesserakonteres::initUiGameObjects();
