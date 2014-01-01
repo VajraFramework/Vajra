@@ -5,8 +5,8 @@
 
 #ifdef PLATFORM_IOS
 
-#include "Vajra/Framework/DeviceUtils/AudioLoader/AudioLoader.h"
-#include "Vajra/Framework/DeviceUtils/AudioLoader/AudioLoaderHelper.h"
+#include "Vajra/Framework/Loaders/AudioLoader/AudioLoader.h"
+#include "Vajra/Framework/Loaders/AudioLoader/AudioLoaderHelper.h"
 #include "Vajra/Utilities/FileUtilities.h"
 
 #include <cstring>
