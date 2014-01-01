@@ -58,9 +58,9 @@ void Timer::beginFrame() {
 	this->frameNumber++;
 
 	// Raise the onFrame event for all interested subscribers:
-	const Message* const onFrameMessage = new Message(MESSAGE_TYPE_FRAME_EVENT);
+	MessageChunk onFrameMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	onFrameMessage->SetMessageType(MESSAGE_TYPE_FRAME_EVENT);
 	ENGINE->GetMessageHub()->SendMulticastMessage(onFrameMessage, this->GetId());
-	delete onFrameMessage;
 
 	this->broadcastMultiGranularMessages();
 }
@@ -106,15 +106,15 @@ void Timer::broadcastMultiGranularMessages() {
 	// Frame based messagess
 	// Every 5 frames
 	if(this->frameNumber % 5 == 0){
-		const Message* onFifthFrameMessage = new Message(MESSAGE_TYPE_FIFTH_FRAME_EVENT);
+		MessageChunk onFifthFrameMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		onFifthFrameMessage->SetMessageType(MESSAGE_TYPE_FIFTH_FRAME_EVENT);
 		ENGINE->GetMessageHub()->SendMulticastMessage(onFifthFrameMessage, this->GetId());
-		delete onFifthFrameMessage;
 
 		// Every 10 frames
 		if(this->frameNumber % 10 == 0){
-			const Message* onTenthFrameMessage = new Message(MESSAGE_TYPE_TENTH_FRAME_EVENT);
+			MessageChunk onTenthFrameMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			onTenthFrameMessage->SetMessageType(MESSAGE_TYPE_TENTH_FRAME_EVENT);
 			ENGINE->GetMessageHub()->SendMulticastMessage(onTenthFrameMessage, this->GetId());
-			delete onTenthFrameMessage;
 		}
 	}
 
@@ -126,9 +126,9 @@ void Timer::broadcastMultiGranularMessages() {
 	if(fiveHundredMillisecondCounter_temp >= 0.5)
 	{
 		// Send the message
-		const Message* every500MillisecondsMessage = new Message(MESSAGE_TYPE_500_MS_TIME_EVENT);
+		MessageChunk every500MillisecondsMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		every500MillisecondsMessage->SetMessageType(MESSAGE_TYPE_500_MS_TIME_EVENT);
 		ENGINE->GetMessageHub()->SendMulticastMessage(every500MillisecondsMessage, this->GetId());
-		delete every500MillisecondsMessage;
 
 		// Decrement counter
 		fiveHundredMillisecondCounter_temp -= 0.5;
@@ -137,9 +137,9 @@ void Timer::broadcastMultiGranularMessages() {
 		if(fiveSecondCounter_temp >= 5.0)
 		{
 			// Send the message
-			const Message* every5SecondsMessage = new Message(MESSAGE_TYPE_5_S_TIME_EVENT);
+			MessageChunk every5SecondsMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			every5SecondsMessage->SetMessageType(MESSAGE_TYPE_5_S_TIME_EVENT);
 			ENGINE->GetMessageHub()->SendMulticastMessage(every5SecondsMessage, this->GetId());
-			delete every5SecondsMessage;
 
 			// Decrement counter
 			fiveSecondCounter_temp -= 5.0;

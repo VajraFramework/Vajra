@@ -65,8 +65,8 @@ void GridManager::destroy() {
 	}
 }
 
-void GridManager::HandleMessage(Message* message) {
-	switch (message->GetMessageType()) {
+void GridManager::HandleMessage(MessageChunk messageChunk) {
+	switch (messageChunk->GetMessageType()) {
 #ifdef DEBUG
 		case MESSAGE_TYPE_FRAME_EVENT:
 			DebugDrawGrid();

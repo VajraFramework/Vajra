@@ -19,8 +19,8 @@ TweenCallbackComponent::~TweenCallbackComponent() {
 	this->destroy();
 }
 
-void TweenCallbackComponent::HandleMessage(Message* message) {
-	switch (message->GetMessageType()) {
+void TweenCallbackComponent::HandleMessage(MessageChunk messageChunk) {
+	switch (messageChunk->GetMessageType()) {
 
 	case MESSAGE_TYPE_ANIMATION_BEGAN_EVENT:
 		break;
@@ -29,20 +29,16 @@ void TweenCallbackComponent::HandleMessage(Message* message) {
 	case MESSAGE_TYPE_ANIMATION_RESUMED_EVENT:
 		break;
 	case MESSAGE_TYPE_ANIMATION_ENDED_EVENT:
-		this->handleCallbacksOnAnimationEnd(message);
+		this->handleCallbacksOnAnimationEnd(messageChunk);
 		break;
 
 	default:
-		FRAMEWORK->GetLogger()->dbglog("\nTweenCallbackComponent got unnecessary msg of type %d", message->GetMessageType());
+		FRAMEWORK->GetLogger()->dbglog("\nTweenCallbackComponent got unnecessary msg of type %d", messageChunk->GetMessageType());
 	}
 }
 
-void TweenCallbackComponent::handleCallbacksOnAnimationEnd(Message* message) {
-	if (message->GetMessageData() == nullptr ||
-		message->GetMessageData()->GetMessageDataType() != MESSAGEDATA_TYPE_1S_1I_3FV) {
-		VERIFY(0, "Message Data type mismatch");
-	}
-	MessageData1S1I3FV* data = dynamic_cast<MessageData1S1I3FV*>(message->GetMessageData());
+void TweenCallbackComponent::handleCallbacksOnAnimationEnd(MessageChunk messageChunk) {
+	MessageData1S1I3FV* data = &(messageChunk->messageData);
 
 	ObjectIdType gameObjectId = data->i;
 

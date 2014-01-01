@@ -57,7 +57,7 @@ private:
 	void apply(Transform* transform);
 
 	// Utility Functions:
-	void raiseEvent(Message* const message, int gameObjectId, std::string eventClipName);
+	void raiseEvent(MessageChunk messageChunk, int gameObjectId, std::string eventClipName);
 
 	bool isPlaying;
 	bool isLooping;

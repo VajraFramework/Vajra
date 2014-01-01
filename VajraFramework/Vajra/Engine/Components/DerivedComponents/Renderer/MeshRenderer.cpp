@@ -42,7 +42,7 @@ void MeshRenderer::InitMesh(std::string urlOfMesh) {
 	gameObject->GetParentSceneGraph()->AddGameObjectToRenderLists(gameObject);
 }
 
-void MeshRenderer::HandleMessage(Message* /* message */) {
+void MeshRenderer::HandleMessage(MessageChunk /* messageChunk */) {
 }
 
 void MeshRenderer::Draw() {

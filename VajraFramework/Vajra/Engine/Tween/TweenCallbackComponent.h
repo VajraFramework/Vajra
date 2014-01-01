@@ -17,14 +17,14 @@ public:
 	static inline unsigned int GetTypeId() { return componentTypeId; }
 
 	// @Override
-	virtual void HandleMessage(Message* message);
+	virtual void HandleMessage(MessageChunk messageChunk);
 
 private:
 	void init();
 	void destroy();
 
 	// Utility Functions:
-	void handleCallbacksOnAnimationEnd(Message* message);
+	void handleCallbacksOnAnimationEnd(MessageChunk messageChunk);
 
 	static unsigned int componentTypeId;
 };

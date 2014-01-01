@@ -32,13 +32,13 @@ AnimationClip* BakedSkeletalAnimation::AddAnimationClip(AnimationClip* animation
 	return this->addAnimationClip(animationClip, true);
 }
 
-void BakedSkeletalAnimation::HandleMessage(Message* message) {
-	if (this->handleMessage(message) == NOT_HANDLED) {
+void BakedSkeletalAnimation::HandleMessage(MessageChunk messageChunk) {
+	if (this->handleMessage(messageChunk) == NOT_HANDLED) {
 
-		switch (message->GetMessageType()) {
+		switch (messageChunk->GetMessageType()) {
 
 		default:
-			FRAMEWORK->GetLogger()->dbglog("\nBakedSkeletalAnimation got unnecessary msg of type %d", message->GetMessageType());
+			FRAMEWORK->GetLogger()->dbglog("\nBakedSkeletalAnimation got unnecessary msg of type %d", messageChunk->GetMessageType());
 			break;
 		}
 	}

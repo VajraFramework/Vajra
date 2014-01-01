@@ -1,25 +1,26 @@
 #ifndef MESSAGE_HUB_H
 #define MESSAGE_HUB_H
 
+#include "Vajra/Engine/MessageHub/Declarations.h"
 #include "Vajra/Engine/MessageHub/MessageCache.h"
 #include "Vajra/Utilities/CommonDeclarations.h"
 
 // Forward Declarations:
-class Message;
 class MessageCache;
 
 class MessageHub {
 public:
 	~MessageHub();
 
-	void SendPointcastMessage(const Message* const message, ObjectIdType receiverId, ObjectIdType senderId = OBJECT_ID_INVALID);
-	void SendMulticastMessage(const Message* const message, ObjectIdType senderId = OBJECT_ID_INVALID);
+	void SendPointcastMessage(MessageChunk messageChunk, ObjectIdType receiverId, ObjectIdType senderId = OBJECT_ID_INVALID);
+	void SendMulticastMessage(MessageChunk messageChunk, ObjectIdType senderId = OBJECT_ID_INVALID);
 
 	void SubscribeToMessageType(MessageType messageType, ObjectIdType subscriberId);
 	void UnsubscribeToMessageType(MessageType messageType, ObjectIdType subscriberId);
 
-	Message* RetrieveNextMessage(ObjectIdType id);
+	MessageChunk RetrieveNextMessage(ObjectIdType id, bool& returnValueIsValid);
 
+	MessageChunk GetOneFreeMessage() { return this->messagePool.GetManagedChunk(); }
 
 private:
 	MessageHub();
@@ -32,11 +33,13 @@ private:
 	MessageCache frontMessageCache;
 	MessageCache backMessageCache;
 	//
-	MessageCache* currentlyAcceptingMessageCache;
-	MessageCache* currentlyDrainingMessageCache;
+	MessageCache* currentlyAcceptingMessageCacheRef;
+	MessageCache* currentlyDrainingMessageCacheRef;
 
 	// TODO [Implement] Change this to be a sorted list so that we can binary search it maybe (low priority)
 	std::vector<ObjectIdType> subscribersForMessageType[NUM_MESSAGE_TYPES];
+
+	Pool<Message> messagePool;
 
 	friend class Engine;
 };

@@ -23,7 +23,7 @@ public:
 	void InitMesh(std::string urlOfMesh);
 
 	// @Override
-	virtual void HandleMessage(Message* message);
+	virtual void HandleMessage(MessageChunk messageChunk);
 
 	// @Override
 	virtual void Draw();

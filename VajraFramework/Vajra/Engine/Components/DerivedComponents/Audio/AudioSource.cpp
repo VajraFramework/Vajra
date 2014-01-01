@@ -49,7 +49,7 @@ void AudioSource::destroy() {
 	}
 }
 
-void AudioSource::HandleMessage(Message *message) {
+void AudioSource::HandleMessage(MessageChunk /* messageChunk */) {
 	// TODO [Implement]
 }
 

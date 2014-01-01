@@ -21,11 +21,11 @@ DirectionalLight::~DirectionalLight() {
 	this->destroy();
 }
 
-void DirectionalLight::HandleMessage(Message* message) {
-	switch (message->GetMessageType()) {
+void DirectionalLight::HandleMessage(MessageChunk messageChunk) {
+	switch (messageChunk->GetMessageType()) {
 
 	default:
-		FRAMEWORK->GetLogger()->dbglog("\nDirectionalLight got unnecessary msg of type %d", message->GetMessageType());
+		FRAMEWORK->GetLogger()->dbglog("\nDirectionalLight got unnecessary msg of type %d", messageChunk->GetMessageType());
 	}
 }
 

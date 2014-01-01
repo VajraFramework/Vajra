@@ -20,7 +20,7 @@ public:
 	static inline ComponentIdType GetTypeId() { return BakedSkeletalAnimation::componentTypeId; }
 
 	// @Override
-	void HandleMessage(Message* message);
+	void HandleMessage(MessageChunk messageChunk);
 
 	virtual AnimationClip* AddAnimationClip(std::string urlOfAnimationClip);
 	virtual AnimationClip* AddAnimationClip(AnimationClip* animationClip);

@@ -31,17 +31,17 @@ Armature::~Armature() {
 	this->destroy();
 }
 
-void Armature::HandleMessage(Message* message) {
-	// FRAMEWORK->GetLogger()->dbglog("\nArmature got msg of type %d", message->GetMessageType());
+void Armature::HandleMessage(MessageChunk messageChunk) {
+	// FRAMEWORK->GetLogger()->dbglog("\nArmature got msg of type %d", messageChunk->GetMessageType());
 
-	switch (message->GetMessageType()) {
+	switch (messageChunk->GetMessageType()) {
 
 	case MESSAGE_TYPE_FRAME_EVENT:
 		this->updateBoneMatrices();
 		break;
 
 	default:
-		FRAMEWORK->GetLogger()->dbglog("\nArmature got unnecessary msg of type %d", message->GetMessageType());
+		FRAMEWORK->GetLogger()->dbglog("\nArmature got unnecessary msg of type %d", messageChunk->GetMessageType());
 	}
 }
 

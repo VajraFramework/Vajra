@@ -2,6 +2,8 @@
 #include "Vajra/Engine/MessageHub/MessageCache.h"
 #include "Vajra/Utilities/Utilities.h"
 
+#include <algorithm>
+
 #define NUM_BUCKETS_IN_CACHE 100
 
 MessageCache::MessageCache() {
@@ -19,33 +21,33 @@ void MessageCache::init() {
 	}
 }
 
-void MessageCache::PushMessageForReceipientId(Message* message, ObjectIdType receipientId) {
+void MessageCache::PushMessageForReceipientId(MessageChunk messageChunk, ObjectIdType receipientId) {
 	int targetBucketNumber = (int)receipientId % NUM_BUCKETS_IN_CACHE;
-	this->messageBuckets[targetBucketNumber]->PushBack(message);
+	this->messageBuckets[targetBucketNumber]->PushBack(receipientId, messageChunk);
 
 	this->objectIdsWithPendingMessages[receipientId] = true;
 }
 
-Message* MessageCache::PopMessageForReceipientId(ObjectIdType receipientId) {
+MessageChunk MessageCache::PopMessageForReceipientId(ObjectIdType receipientId, bool& returnValueIsValid) {
 	int targetBucketNumber = (int)receipientId % NUM_BUCKETS_IN_CACHE;
-	Message* message = this->messageBuckets[targetBucketNumber]->PopMessageForReceipientId(receipientId);
-	if (message == nullptr) {
+	bool poppedMessageIsValid = false;
+	MessageChunk messageChunk = this->messageBuckets[targetBucketNumber]->PopMessageForReceipientId(receipientId, poppedMessageIsValid);
+	if (!poppedMessageIsValid) {
 		if (this->objectIdsWithPendingMessages.find(receipientId) != this->objectIdsWithPendingMessages.end()) {
 			this->objectIdsWithPendingMessages[receipientId] = false;
 		}
 	}
-	return message;
+	returnValueIsValid = poppedMessageIsValid;
+	return messageChunk;
 }
 
 void MessageCache::ClearMessagesForReceipientId(ObjectIdType receipientId) {
 	int targetBucketNumber = (int)receipientId % NUM_BUCKETS_IN_CACHE;
-	Message* message = nullptr;
+	MessageChunk messageChunk;
+	bool poppedMessageIsValid = false;
 	do {
-		message = this->messageBuckets[targetBucketNumber]->PopMessageForReceipientId(receipientId);
-		if (message != nullptr) {
-			delete (message);
-		}
-	} while (message != nullptr);
+		messageChunk = this->messageBuckets[targetBucketNumber]->PopMessageForReceipientId(receipientId, poppedMessageIsValid);
+	} while (poppedMessageIsValid);
 
 	if (this->objectIdsWithPendingMessages.find(receipientId) != this->objectIdsWithPendingMessages.end()) {
 		this->objectIdsWithPendingMessages[receipientId] = false;
@@ -62,62 +64,32 @@ void MessageCache::destroy() {
 ////////////////////////////////////////////////////////////////////////////////
 
 MessageBucket::MessageBucket() {
-	this->head = nullptr;
-	this->count = 0;
 }
 
-void MessageBucket::PushBack(Message* message) {
-	if (this->head == nullptr) {
-		this->head = message;
+void MessageBucket::PushBack(ObjectIdType receipientId, MessageChunk messageChunk) {
+	this->messageList.push_back(std::make_pair(receipientId, messageChunk));
+}
 
+MessageChunk MessageBucket::PopMessageForReceipientId(ObjectIdType receipientId, bool& returnValueIsValid) {
+	MessageChunk returnMessage;
+	std::list< std::pair<ObjectIdType, MessageChunk> >::iterator foundMessageIt = std::find_if(this->messageList.begin(), this->messageList.end(),
+									   [receipientId] (std::pair<ObjectIdType, MessageChunk>& messageChunkPair) {
+									   	   return (messageChunkPair.first == receipientId);
+									   });
+	if (foundMessageIt != this->messageList.end()) {
+		returnMessage = foundMessageIt->second;
+		this->messageList.erase(foundMessageIt);
+		returnValueIsValid = true;
 	} else {
-		Message* current = this->head;
-		while (current->next != nullptr) {
-			current = current->next;
-		}
-		current->next = message;
+		returnValueIsValid = false;
 	}
-	ASSERT(message->next == nullptr, "Single message given to MessageHub, not linked list [unsupported yet]");
-
-	this->count++;
-}
-
-Message* MessageBucket::PopMessageForReceipientId(ObjectIdType receipientId) {
-	Message* current = this->head;
-	Message* prev = nullptr;
-
-	while (current != nullptr) {
-		if (current->getReceiverId() == receipientId) {
-			// Done, found.
-			break;
-		}
-		prev = current;
-		current = current->next;
-	}
-
-	if (current != nullptr) {
-		if (current == this->head) {
-			this->head = current->next;
-		} else if (prev != nullptr) {
-			prev->next = current->next;
-		}
-		this->count--;
-	}
-
-	return current;
+	return returnMessage;
 }
 
 int MessageBucket::GetCount() {
-	return this->count;
+	return this->messageList.size();
 }
 
 MessageBucket::~MessageBucket() {
-	Message* current = this->head;
-	Message* next = nullptr;
-	while (current != nullptr) {
-		next = current->next;
-		delete (current);
-		current = next;
-	}
-	this->count = 0;
+	// TODO [Implement] Implement cleanup of message bucket
 }

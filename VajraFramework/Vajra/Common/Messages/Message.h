@@ -1,6 +1,7 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
+#include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I3FV.h"
 #include "Vajra/Common/Messages/Declarations.h"
 #include "Vajra/Common/Messages/MessageData.h"
 #include "Vajra/Utilities/CommonDeclarations.h"
@@ -13,30 +14,23 @@ public:
 
 	inline MessageType GetMessageType() const { return this->messageType; }
 	inline ObjectIdType GetSenderId() const { return this->senderId; }
-	MessageData* GetMessageData() const;
 
 	void SetMessageType(MessageType messageType_);
-	void SetMessageData(MessageData* messageData_);
+
+	// TODO [Hack] Consider storing a MessageData type here, but as a ManagedChunk from its own pool
+	MessageData1S1I3FV messageData;
 
 private:
 	void init(MessageType messageType_);
 	void destroy();
 
-	inline ObjectIdType getReceiverId() const { return this->receiverId; }
 	void setSenderId(ObjectIdType senderId_);
-	void setReceiverId(ObjectIdType receiverId_);
 
 	MessageType messageType;
 
 	ObjectIdType senderId;
-	ObjectIdType receiverId;
-	MessageData* messageData;
 
 	// TODO [Implement] Add a field for the time at which this message was sent here
-
-	// Internal field needed for chaining messages in the MessageHub
-	// TODO [Implement] Clean this up by having Message inherit from Linkable instead
-	Message* next;
 
 	friend class MessageHub;
 	friend class MessageBucket;
