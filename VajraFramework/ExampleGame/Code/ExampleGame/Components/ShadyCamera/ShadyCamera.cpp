@@ -26,10 +26,13 @@ ShadyCamera::~ShadyCamera() {
 void ShadyCamera::init() {
 	// Set camera properties
 	this->SetFOV(30.0f);
-	this->gameObject = (GameObject*)this->GetObject();
-	Transform* camTransform = this->gameObject->GetTransform();
+	this->camSpeed = 3.0f;
+	this->gameObjectRef = (GameObject*)this->GetObject();
+	Transform* camTransform = this->gameObjectRef->GetTransform();
+
 	// TODO [Implement] : set this based on device resolution
 	this->gameCamHeight = 24.0f;
+
 	// TODO [Implement] : get overview pos and start room from level data
 	this->overviewPos = glm::vec3(18.0f, 50.0f, -18.0f);
 	this->gameCamPos = glm::vec3(0.0f, this->gameCamHeight, 0.0f);
@@ -38,12 +41,12 @@ void ShadyCamera::init() {
 	camTransform->Rotate(90.0f, XAXIS);
 	camTransform->Rotate(180.0f, camTransform->GetForward());
 
-	this->gridManager = nullptr;
+	this->gridManagerRef = nullptr;
 }
 
 void ShadyCamera::destroy() {
-	this->gameObject = nullptr;
-	this->gridManager = nullptr;
+	this->gameObjectRef = nullptr;
+	this->gridManagerRef = nullptr;
 }
 
 void ShadyCamera::HandleMessage(Message* message) {
@@ -51,14 +54,14 @@ void ShadyCamera::HandleMessage(Message* message) {
 }
 
 void ShadyCamera::SetGridManager(GridManager* newManager) {
-	this->gridManager = newManager;
+	this->gridManagerRef = newManager;
 }
 
 void ShadyCamera::MoveTo(glm::vec3 newPos) {
-	glm::vec3 curPos = this->gameObject->GetTransform()->GetPosition();
+	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
 	// TODO [HACK] : remove when Tween is changed
-	this->gameObject->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-	ENGINE->GetTween()->TweenPosition(this->gameObject->GetId(), curPos, newPos, 3.0f, ShadyCameraTween::tweenCallback);
+	this->gameObjectRef->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
+	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos, this->camSpeed, ShadyCameraTween::tweenCallback);
 }
 
 void ShadyCamera::MoveTo(float x, float y, float z) {
@@ -66,29 +69,29 @@ void ShadyCamera::MoveTo(float x, float y, float z) {
 }
 
 void ShadyCamera::PanTo(float x, float z) {
-	float y = this->gameObject->GetTransform()->GetPosition().y;
+	float y = this->gameObjectRef->GetTransform()->GetPosition().y;
 	this->MoveTo(glm::vec3(x, y, z));
 }
 
 void ShadyCamera::ZoomTo(float y) {
-	glm::vec3 newPos = this->gameObject->GetTransform()->GetPosition();
+	glm::vec3 newPos = this->gameObjectRef->GetTransform()->GetPosition();
 	newPos.y = y;
 	this->MoveTo(newPos);
 }
 
 void ShadyCamera::ZoomBy(float yOffset) {
-	glm::vec3 newPos = this->gameObject->GetTransform()->GetPosition();
+	glm::vec3 newPos = this->gameObjectRef->GetTransform()->GetPosition();
 	newPos.y += yOffset;
 	this->MoveTo(newPos);
 }
  
-void ShadyCamera::MoveToRoom() {
+void ShadyCamera::MoveToCurrentRoom() {
 	this->MoveTo(this->gameCamPos);
 }
 
 void ShadyCamera::MoveToRoom(float x, float z) {
-	this->setGameCam(x, z);
-	this->MoveToRoom();
+	this->setGameCameraPosition(x, z);
+	this->MoveToCurrentRoom();
 }
 
 void ShadyCamera::MoveToRoom(GridCell* cell) {
@@ -104,7 +107,7 @@ void ShadyCamera::LevelStartPan() {
 
 }
 
-void ShadyCamera::setGameCam(float x, float z) {
-	this->gameCamPos = this->gridManager->GetRoomCenter(x, z);
+void ShadyCamera::setGameCameraPosition(float x, float z) {
+	this->gameCamPos = this->gridManagerRef->GetRoomCenter(x, z);
 	this->gameCamPos.y += this->gameCamHeight;
 }

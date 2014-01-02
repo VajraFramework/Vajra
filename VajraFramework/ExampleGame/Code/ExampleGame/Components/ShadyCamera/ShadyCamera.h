@@ -17,7 +17,7 @@ class GridManager;
 
 class ShadyCamera : public Camera {
 public:
-	enum Camera_Mode {
+	enum CameraMode {
 		CAMERA_MODE_GAME,
 		CAMERA_MODE_OVERVIEW
 	};
@@ -40,7 +40,7 @@ public:
 	void ZoomBy(float yOffset);
 
 	// Move camera to game room
-	void MoveToRoom(); // move to current room
+	void MoveToCurrentRoom(); // move to current room
 	// Sets current room and then moves to it
 	void MoveToRoom(float x, float z); // location in current room
 	void MoveToRoom(GridCell* cell); // cell is a cell in the current room
@@ -54,14 +54,14 @@ private:
 	void init();
 	void destroy();
 
-	GameObject* gameObject;
-	GridManager* gridManager;
+	GameObject* gameObjectRef;
+	GridManager* gridManagerRef;
 
-	Camera_Mode camMode = Camera_Mode::CAMERA_MODE_GAME;
+	CameraMode camMode = CameraMode::CAMERA_MODE_GAME;
 	// Find and store the current position for the game camera
-	void setGameCam(float x, float z);
+	void setGameCameraPosition(float x, float z);
 
-
+	float camSpeed;
 	float gameCamHeight;
 	glm::vec3 gameCamPos;
 	glm::vec3 overviewPos;
