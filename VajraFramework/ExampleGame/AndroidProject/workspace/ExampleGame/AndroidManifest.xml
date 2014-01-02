@@ -20,11 +20,13 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vajra.examplegame">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
             android:label="@string/ExampleGameActivity">
         <activity android:name="com.vajra.examplegame.ExampleGameActivity"
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             	android:launchMode="singleTask"
+            	android:screenOrientation="landscape"
             	android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

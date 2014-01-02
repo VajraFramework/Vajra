@@ -40,6 +40,14 @@ public class VajraAndroidWrapper {
 	public static int TestFunction() {
 		return 4;
 	}
+	
+	public static String GetDeviceResourcesBasePath() {
+		return AssetCopier.GetDeviceResourcesBasePath(VajraAndroidWrapper.savedContext);
+	}
+
+	public static void CopyAssetsToSDCard() {
+		AssetCopier.CopyAssetsToSDCard(VajraAndroidWrapper.savedContext);
+	}
 
 	private static Context savedContext;
 
