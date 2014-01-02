@@ -1,4 +1,4 @@
-#include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationKeyFrames/BakedSkeletalAnimationKeyframe/BakedSkeletalAnimationKeyframe.h"
+#include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationKeyFrames/BSAKeyframe/BSAnimationKeyframe.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -29,3 +29,4 @@ void BakedSkeletalAnimationKeyFrame::init() {
 
 void BakedSkeletalAnimationKeyFrame::destroy() {
 }
+

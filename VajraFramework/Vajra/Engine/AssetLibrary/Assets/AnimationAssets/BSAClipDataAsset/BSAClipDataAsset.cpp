@@ -1,6 +1,6 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
-#include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationKeyFrames/BakedSkeletalAnimationKeyframe/BakedSkeletalAnimationKeyframe.h"
-#include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/BakedSkeletalAnimationClipDataAsset/BakedSkeletalAnimationClipDataAsset.h"
+#include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationKeyFrames/BSAKeyframe/BSAnimationKeyframe.h"
+#include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/BSAClipDataAsset/BSAClipDataAsset.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Loaders/ModelLoader/BakedSkeletalAnimationLoader.h"

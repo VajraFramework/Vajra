@@ -20,7 +20,7 @@ then
 	if [ $1 == "clean" ]
 	then
 		ndk-build clean
-		android update lib-project -p . -t 1
+		android.bat update lib-project -p . -t 1
 		ant clean
 		rm -rf ../../Built
 		exit
@@ -33,7 +33,7 @@ ndk-build NDK_DEBUG=1
 
 # Build the VajraAndroidWrapper jar
 echo -e "\nBuilding VajraAndroidWrapper jar"
-android update lib-project -p . -t 1
+android.bat update lib-project -p . -t 1
 ant debug
 # Rename the generated jar. For some reason the ant build doesn't name the jar correctly.
 mv bin/classes.jar bin/vajraandroidwrapper.jar

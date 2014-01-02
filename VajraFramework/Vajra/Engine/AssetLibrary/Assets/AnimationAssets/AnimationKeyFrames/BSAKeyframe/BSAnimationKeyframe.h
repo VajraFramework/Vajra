@@ -32,3 +32,4 @@ private:
 
 
 #endif // BAKED_SKELETAL_ANIMATION_KEY_FRAME_H
+

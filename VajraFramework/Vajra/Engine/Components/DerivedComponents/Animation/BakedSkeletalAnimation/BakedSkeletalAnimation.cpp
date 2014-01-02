@@ -1,6 +1,6 @@
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
-#include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/BakedSkeletalAnimationClip/BakedSkeletalAnimationClip.h"
+#include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/BSAClip/BSAClip.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"

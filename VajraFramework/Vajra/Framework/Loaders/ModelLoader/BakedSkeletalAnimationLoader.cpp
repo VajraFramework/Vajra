@@ -1,4 +1,4 @@
-#include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationKeyFrames/BakedSkeletalAnimationKeyframe/BakedSkeletalAnimationKeyframe.h"
+#include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationKeyFrames/BSAKeyframe/BSAnimationKeyframe.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Loaders/ModelLoader/Declarations.h"

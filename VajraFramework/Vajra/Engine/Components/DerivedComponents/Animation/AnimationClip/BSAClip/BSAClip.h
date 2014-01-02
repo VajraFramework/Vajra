@@ -1,7 +1,7 @@
 #ifndef BAKED_SKELETAL_ANIMATION_CLIP_H
 #define BAKED_SKELETAL_ANIMATION_CLIP_H
 
-#include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/BakedSkeletalAnimationClipDataAsset/BakedSkeletalAnimationClipDataAsset.h"
+#include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/BSAClipDataAsset/BSAClipDataAsset.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/AnimationClip.h"
 
 #include <memory>
