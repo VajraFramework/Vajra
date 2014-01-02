@@ -48,7 +48,7 @@ void Input::updateInput() {
 }
 
 Touch Input::GetTouch(int index) {
-	ASSERT(index < this->frameTouches.size(), "Index is greater than current number of touches");
+	ASSERT((unsigned int)index < this->frameTouches.size(), "Index is greater than current number of touches");
 	return this->frameTouches[index];
 }
 

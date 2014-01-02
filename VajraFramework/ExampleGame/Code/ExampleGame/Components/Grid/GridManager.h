@@ -116,6 +116,6 @@ CameraController* cC;
 OverviewCam* oV;
 VIEW_MODE curViewMode;
 VIEW_MODE { VIEW_MODE_GAME, VIEW_MODE_TRANSITION, VIEW_MODE_OVERVIEW }
-/****************/
+****************/
 
 #endif // GRIDMANAGER_H

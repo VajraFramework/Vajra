@@ -32,7 +32,7 @@ LOCAL_SRC_DIRS = ./Vajra
 LOCAL_INCLUDES = . ./Libraries /usr/include
 
 INC = $(addprefix -I, $(LOCAL_INCLUDES))
-LOCAL_CFLAGS = -g3 -O0 -Wall -Wextra -rdynamic -DPLATFORM_DESKTOP -DPLATFORM_LINUX -DDEBUG
+LOCAL_CFLAGS = -g3 -O0 -Wall -Wextra -Werror -rdynamic -DPLATFORM_DESKTOP -DPLATFORM_LINUX -DDEBUG
 LOCAL_CPPFLAGS = -std=c++11
 LIBDIR = -L/usr/lib
 

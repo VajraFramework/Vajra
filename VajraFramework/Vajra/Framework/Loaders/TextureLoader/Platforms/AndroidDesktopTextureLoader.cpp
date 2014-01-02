@@ -77,7 +77,7 @@ GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
     return myTexture;
 }
 
-bool loadPngImage(const char *name, int &outWidth, int &outHeight, bool &outHasAlpha, int &colorType, GLubyte **outData) {
+bool loadPngImage(const char* name, int& outWidth, int& outHeight, bool& /* outHasAlpha */, int& colorType, GLubyte** outData) {
     png_structp png_ptr;
     png_infop info_ptr;
     unsigned int sig_read = 0;
