@@ -26,7 +26,7 @@ public:
 	ShadyCamera(Object* object_);
 	~ShadyCamera();
 
-	virtual void HandleMessage(Message* message);
+	virtual void HandleMessage(MessageChunk messageChunk);
 
 	void SetGridManager(GridManager* value);
 

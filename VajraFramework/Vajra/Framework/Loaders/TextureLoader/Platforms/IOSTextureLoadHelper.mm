@@ -1,8 +1,8 @@
 #ifdef PLATFORM_IOS
 
 #include "Vajra/Engine/Core/Engine.h"
-#include "Vajra/Framework/DeviceUtils/TextureLoader/TextureLoader.h"
-#include "Vajra/Framework/DeviceUtils/TextureLoader/Platforms/IOSTextureLoadHelper.h"
+#include "Vajra/Framework/Loaders/TextureLoader/TextureLoader.h"
+#include "Vajra/Framework/Loaders/TextureLoader/Platforms/IOSTextureLoadHelper.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
 

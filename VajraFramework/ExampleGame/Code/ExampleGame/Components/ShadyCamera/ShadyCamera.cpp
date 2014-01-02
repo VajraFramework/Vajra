@@ -49,8 +49,8 @@ void ShadyCamera::destroy() {
 	this->gridManagerRef = nullptr;
 }
 
-void ShadyCamera::HandleMessage(Message* message) {
-	Camera::HandleMessage(message);
+void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
+	Camera::HandleMessage(messageChunk);
 }
 
 void ShadyCamera::SetGridManager(GridManager* newManager) {
