@@ -28,9 +28,18 @@ public:
 
 	int GetRoomX(int cellX); // Returns the room in which the cell resides
 	int GetRoomZ(int cellZ); // Returns the room in which the cell resides
+
+	inline int GetRoomWidth() { return this->roomWidth; }
+	inline int GetRoomHeight() { return this->roomHeight; }
+
+	inline float getCellSize() { return cellSize; }
+
 	GridCell* GetCell(int x, int z); // Returns the cell at the specified coordinates
 	GridCell* GetCell(glm::vec3 loc); // Returns the cell at the specified world position
 
+	// returns the world position of the center of a room
+	glm::vec3 GetRoomCenter(int x, int z);
+	glm::vec3 GetRoomCenter(GridCell* cell);
 	/****************
 	// TODO [Implement]
 	GridCell* TouchPositionToCell(glm::vec3 touchPos);
