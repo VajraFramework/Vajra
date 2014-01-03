@@ -155,7 +155,7 @@ void GridManager::TouchOnGrid(uTouch uT) {
 
 }
 */
-void GridManager::GetNeighbors(GridCell* cel, std::list<GridCell>& outNbrs) {
+void GridManager::GetNeighbors(GridCell* cel, std::list<GridCell*>& outNbrs) {
 	if (IsWithinGrid(cel->x - 1, cel->z)) {
 		outNbrs.push_back(this->gridCells[cel->x - 1][cel->z]);
 	}

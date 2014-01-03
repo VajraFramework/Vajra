@@ -38,7 +38,7 @@ public:
 	GridCell* GetCell(int x, int z); // Returns the cell at the specified coordinates
 	GridCell* GetCell(glm::vec3 loc); // Returns the cell at the specified world position
 
-	void GetNeighbors(GridCell* cel, std::list<GridCell>& outNbrs); // Populates the list with all adjacent cells
+	void GetNeighbors(GridCell* cel, std::list<GridCell*>& outNbrs); // Populates the list with all adjacent cells
 
 	// returns the world position of the center of a room
 	glm::vec3 GetRoomCenter(int x, int z);
@@ -119,6 +119,6 @@ CameraController* cC;
 OverviewCam* oV;
 VIEW_MODE curViewMode;
 VIEW_MODE { VIEW_MODE_GAME, VIEW_MODE_TRANSITION, VIEW_MODE_OVERVIEW }
-/****************/
+****************/
 
 #endif // GRIDMANAGER_H
