@@ -23,7 +23,7 @@ UiFontRenderer::~UiFontRenderer() {
 }
 
 
-void UiFontRenderer::initTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile) {
+void UiFontRenderer::initTextToDisplay(std::string text, unsigned int /* width */, unsigned int /* height */, std::string pathToFontSpecificationFile) {
 	this->fontType = ENGINE->GetAssetLibrary()->GetAsset<UiFontType>(pathToFontSpecificationFile);
 	this->SetShaderName(this->fontType->GetShaderName());
 

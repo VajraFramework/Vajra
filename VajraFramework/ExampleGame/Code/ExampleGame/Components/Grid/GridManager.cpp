@@ -77,22 +77,22 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 	}
 }
 
-void GridManager::GenerateTerrainFromFile(std::string terrainFilename) {
+void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
 	// TODO [Implement] Psych! We're just creating a default terrain right now
 
 	this->cellSize = 1.0f;
 	this->halfCellSize.x = 0.5f;
 	this->halfCellSize.y = 0.0f;
 	this->halfCellSize.z = -0.5f;
-	this->gridWidth = ROOM_WIDTH_OUTDOORS;
-	this->gridHeight = ROOM_HEIGHT_OUTDOORS;
+	this->gridWidth = ROOM_WIDTH_OUTDOORS * 2.0f;
+	this->gridHeight = ROOM_HEIGHT_OUTDOORS * 2.0f;
 	this->roomWidth = ROOM_WIDTH_OUTDOORS;
 	this->roomHeight = ROOM_HEIGHT_OUTDOORS;
 
-	this->gridCells = new GridCell**[ROOM_WIDTH_OUTDOORS];
-	for (unsigned int i = 0; i < ROOM_WIDTH_OUTDOORS; ++i) {
-		this->gridCells[i] = new GridCell*[ROOM_HEIGHT_OUTDOORS];
-		for (unsigned int j = 0; j < ROOM_HEIGHT_OUTDOORS; ++j) {
+	this->gridCells = new GridCell**[this->gridWidth];
+	for (unsigned int i = 0; i < this->gridWidth; ++i) {
+		this->gridCells[i] = new GridCell*[this->gridHeight];
+		for (unsigned int j = 0; j < this->gridHeight; ++j) {
 			glm::vec3 center;
 			center.x = i * this->cellSize;
 			center.y = 0;
@@ -123,6 +123,20 @@ GridCell* GridManager::GetCell(glm::vec3 loc) {
 	int gX = (int)((loc.x / this->cellSize) + 0.5f);
 	int gZ = (int)((-loc.z / this->cellSize) + 0.5f);
 	return GetCell(gX, gZ);
+}
+
+glm::vec3 GridManager::GetRoomCenter(int x, int z) {
+	float roomX = this->GetRoomX(x) * this->roomWidth;
+	float roomZ = this->GetRoomZ(z) * this->roomHeight;
+	roomX += (float)this->roomWidth / 2.0f;
+	roomZ += (float)this->roomHeight / -2.0f;
+	glm::vec3 center = glm::vec3(roomX, 0.0f, roomZ);
+	center -= this->halfCellSize;
+	return center;
+}
+
+glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
+	return this->GetRoomCenter(cell->x, cell->z);
 }
 /*
 GridCell* GridManager::TouchPositionToCell(glm::vec3 touchPos) {
@@ -162,7 +176,7 @@ std::list<GridCell> GridManager::DirectRoute(int startX, int startZ, int endX, i
 }
 */
 bool GridManager::IsWithinGrid(int x, int z) {
-	return (x >= 0) && (x < this->gridWidth) && (z >= 0) && (z < this->gridHeight);
+	return (x >= 0) && (x < (int)this->gridWidth) && (z >= 0) && (z < (int)this->gridHeight);
 }
 
 bool GridManager::IsWithinGrid(glm::vec3 loc) {

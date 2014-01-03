@@ -34,8 +34,14 @@ void Camera::updateMatrices() {
 
 	float width  = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
 	float height = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
-	float aspecRatio = width / height;
 
+	// TODO [Hack] : remove once device tilting is suported
+#if 0
+	float aspecRatio = width / height;
+#else
+	float aspecRatio = height / width;
+#endif
+	
 	switch (this->cameraType) {
 
 	case CAMERA_TYPE_ORTHO: {
@@ -43,7 +49,7 @@ void Camera::updateMatrices() {
 		} break;
 
 	case CAMERA_TYPE_PERSPECTIVE: {
-			this->projMatrix = glm::perspective(60.0f, aspecRatio, 0.1f, 8000.0f);
+			this->projMatrix = glm::perspective(this->fov, aspecRatio, 0.1f, 8000.0f);
 		} break;
 
 	default: {
@@ -82,6 +88,7 @@ void Camera::init() {
 	this->viewMatrix = IDENTITY_MATRIX;
 	this->projMatrix = IDENTITY_MATRIX;
 
+	this->fov = 60.0f;
 	if (gameObject != nullptr) {
 		this->updateMatrices();
 	}
