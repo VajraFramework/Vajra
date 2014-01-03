@@ -1,17 +1,19 @@
 #include "ExampleGame/Test/TestFile.h"
+#include "ExampleGame/Components/GameScripts/SampleGameScript.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
-
+#include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "Vajra/Common/Objects/Object.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
 int TestFuntion() {
 	FRAMEWORK->GetLogger()->dbglog("\nIn TestFunction()");
-
 #if 0
 	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(109);
 	if (wavybox != nullptr) {
@@ -24,6 +26,25 @@ int TestFuntion() {
 		Object* gridManager = new Object();
 		GridManager* gridMgrComp = gridManager->AddComponent<GridManager>();
 		gridMgrComp->GenerateTerrainFromFile("noninjas.txt");
+
+		GameObject* camera = new GameObject(ENGINE->GetSceneGraph3D());
+		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(camera->GetId());
+		ShadyCamera* cameraComponent = camera->AddComponent<ShadyCamera>();
+		cameraComponent->SetCameraType(CAMERA_TYPE_PERSPECTIVE);
+		ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
+		cameraComponent->SetGridManager(gridMgrComp);
+		//cameraComponent->PanTo(0.0f, 0.0f);
+		cameraComponent->MoveToRoom(0.0f, 0.0f);
+		//cameraComponent->ZoomToOverview();
+#endif
+	}
+	{
+#if 1
+		GameObject* testGameScript = new GameObject(ENGINE->GetSceneGraph3D());
+		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testGameScript->GetId());
+		MeshRenderer* meshRenderer = testGameScript->AddComponent<MeshRenderer>();
+		meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
+		testGameScript->AddComponent<SampleGameScript>();
 #endif
 	}
  

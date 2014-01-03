@@ -1,4 +1,5 @@
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
+#include "Vajra/Utilities/VajraToAndroidJavaInterface/VajraToAndroidJavaInterface.h"
 
 #ifdef PLATFORM_ANDROID
 
@@ -11,8 +12,7 @@ FileSystemUtils::~FileSystemUtils() {
 }
 
 void FileSystemUtils::init() {
-    // TODO [Implement] Implement proper deviceResourcesPath on Android:
-    this->deviceBaseResourcesPath = "/sdcard/download/";
+    this->deviceBaseResourcesPath = GetAndroidDeviceBaseResourcesPath();
     this->devicePictureResourcesPath    = this->deviceBaseResourcesPath + "pictures/";
     this->deviceShaderResourcesPath     = this->deviceBaseResourcesPath + "shaders/";
     this->deviceModelResourcesPath      = this->deviceBaseResourcesPath + "models/";
@@ -20,6 +20,8 @@ void FileSystemUtils::init() {
     this->deviceAnimationResourcesPath  = this->deviceBaseResourcesPath + "animations/";
 	this->deviceAudioResourcesPath      = this->deviceBaseResourcesPath + "audio/";
 	this->deviceLoggingResourcesPath    = this->deviceBaseResourcesPath + "logging/";
+	this->deviceFontResourcesPath       = this->deviceBaseResourcesPath + "fonts/";
+	this->deviceUiScenesResourcesPath   = this->deviceBaseResourcesPath + "uiscenes/";
 }
 
 void FileSystemUtils::destroy() {

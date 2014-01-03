@@ -1,16 +1,22 @@
+#include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/AnimationClip.h"
+#include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h"
-#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/UiFontRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/Tween/Tween.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
+#include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
+#include "Vajra/Engine/Ui/UiElement/UiElement.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
@@ -33,7 +39,7 @@ namespace Tesserakonteres {
 	void tweenNumberCallback(float normalizedProgress, std::string tweenName) {
 		// FRAMEWORK->GetLogger()->dbglog("\nIn tweenNumberCallback() with normalized progress %f", normalizedProgress);
 		if (tweenName == "tween_stubby_arrows") {
-			GameObject* gameObject = ENGINE->GetSceneGraph()->GetGameObjectById(112);
+			GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(115);
 			if (gameObject != nullptr) {
 				gameObject->GetTransform()->SetPosition(0.0f, 0.0f, normalizedProgress);
 			}
@@ -46,20 +52,20 @@ namespace Tesserakonteres {
 		GameObject* child = nullptr;
 		GameObject* wavybox = nullptr;
 		{
-			GameObject* gameObject = new GameObject();
+			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
+			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
-			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			parent = gameObject;
 
 			Transform* transform = parent->GetTransform();
 			transform->Scale(0.2f, 0.2f, 0.2f);
 		}
 		{
-			GameObject* gameObject = new GameObject();
+			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
+			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "TexturedCube.model");
-			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			child = gameObject;
 
 			parent->AddChild(child->GetId());
@@ -71,13 +77,23 @@ namespace Tesserakonteres {
 		{
 #if 1
 			// Draw a wavybox
-			GameObject* gameObject = new GameObject();
+			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
+			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "polySurface5.model");
-			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "wavybox.model");
+			BakedSkeletalAnimation* bakedSkeletalAnimation = gameObject->AddComponent<BakedSkeletalAnimation>();
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#idle");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#twitching");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#turning");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#nodding");
+			std::string animclipToPlay = "twitching";
+			AnimationClip* animationClip = bakedSkeletalAnimation->GetAnimationClip(animclipToPlay.c_str());
+			animationClip->SetLooping(true);
+			animationClip->SetPlaybackSpeed(0.1f);
+			bakedSkeletalAnimation->PlayAnimationClip(animclipToPlay.c_str());
 			//
 			Transform* transform = gameObject->GetTransform();
-			transform->Scale(0.04f);
+			transform->Scale(0.2f);
 			transform->Translate(1.0f, transform->GetForward());
 			wavybox = gameObject;
 #endif
@@ -92,12 +108,12 @@ namespace Tesserakonteres {
 			rigidAnimation->PlayAnimationClip("clip1");
 #endif
 
-#if 0
-			ENGINE->GetTween()->TweenPosition(gameObject->GetId(), glm::vec3(0.0f, 0.0f, 0.0f),
-					                                               glm::vec3(0.0f, 1.0f, 0.0f),
+#if 1
+			ENGINE->GetTween()->TweenPosition(gameObject->GetId(), glm::vec3(-1.0f, 0.0f, 0.0f),
+					                                               glm::vec3(-1.0f, 1.0f, 0.0f),
 					                                               2.0f, tweenCallback);
 #endif
-#if 1
+#if 0
 			ENGINE->GetTween()->TweenTransform(gameObject->GetId(), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f),
 																	glm::angleAxis(0.0f, YAXIS), glm::angleAxis(90.0f, YAXIS),
 																	gameObject->GetTransform()->GetScale(), gameObject->GetTransform()->GetScale(),
@@ -106,7 +122,8 @@ namespace Tesserakonteres {
 #endif
 		}
 		{
-			GameObject* gameObject = new GameObject();
+			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
+			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "pTorus1.model");
 			//
@@ -118,16 +135,15 @@ namespace Tesserakonteres {
 			animationClip->SetLooping(true);
 			rigidAnimation->PlayAnimationClip("Take_0010");
 
-			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			Transform* transform = gameObject->GetTransform();
 			transform->SetScale(0.1f, 0.1f, 0.1f);
 #endif
 		}
 		{
-			GameObject* gameObject = new GameObject();
+			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
+			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "stubbyarrows.model");
-			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			FRAMEWORK->GetLogger()->dbglog("\nStubby Arrows id: %d", gameObject->GetId());
 
 			Transform* transform = gameObject->GetTransform();
@@ -135,31 +151,32 @@ namespace Tesserakonteres {
 			transform->SetPosition(wavybox->GetTransform()->GetPositionWorld());
 		}
 		{
-			GameObject* camera = new GameObject();
-			/* Camera* cameraComponent = */ camera->AddComponent<Camera>();
-			camera->GetTransform()->SetPosition(2.0f, 2.0f, 2.0f);
+			GameObject* camera = new GameObject(ENGINE->GetSceneGraph3D());
+			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(camera->GetId());
+			Camera* cameraComponent = camera->AddComponent<Camera>();
+			cameraComponent->SetCameraType(CAMERA_TYPE_PERSPECTIVE);
+			camera->GetTransform()->SetPosition(4.0f, 4.0f, 4.0f);
 			// camera->GetTransform()->SetOrientation(-45.0f, camera->GetTransform()->GetUp());
 			// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
 			camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
-			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(camera->GetId());
-			ENGINE->GetSceneGraph()->SetMainCameraId(camera->GetId());
+			ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
 		}
 		{
-			GameObject* dlight = new GameObject();
+			GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
+			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
 			DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
 			dlight->GetTransform()->SetPosition(1.0f, 0.0f, 0.0f);
-			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(dlight->GetId());
-			ENGINE->GetSceneGraph()->SetMainDirectionalLightId(dlight->GetId());
+			ENGINE->GetSceneGraph3D()->SetMainDirectionalLightId(dlight->GetId());
 			//
 			dlightComponent->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
 			dlightComponent->SetDiffuseColor(0.7f, 0.7f, 0.7f, 1.0f);
 		}
 		{
 #if 0
-			GameObject* gameObject = new GameObject();
+			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
+			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "bone.model");
-			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(gameObject->GetId());
 			parent = gameObject;
 
 			Transform* transform = parent->GetTransform();
@@ -168,9 +185,9 @@ namespace Tesserakonteres {
 		}
 		{
 #if 1
-			GameObject* noiseMaker = new GameObject();
+			GameObject* noiseMaker = new GameObject(ENGINE->GetSceneGraph3D());
+			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(noiseMaker->GetId());
 			AudioSource* source = noiseMaker->AddComponent<AudioSource>();
-			ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(noiseMaker->GetId());
 			source->SetAudioClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesPath() + "lowAlert(hisfixed).wav");
 			source->Play();
 #endif
@@ -178,4 +195,26 @@ namespace Tesserakonteres {
 
 		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");
 	}
+
+	void initUiGameObjects() {
+
+		{
+			GameObject* camera = new GameObject(ENGINE->GetSceneGraphUi());
+			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(camera->GetId());
+			Camera* cameraComponent = camera->AddComponent<Camera>();
+			cameraComponent->SetCameraType(CAMERA_TYPE_ORTHO);
+			camera->GetTransform()->SetPosition(0.0f, 0.0f, 400.0f);
+			camera->GetTransform()->Rotate(10.0f, YAXIS);
+			// camera->GetTransform()->SetOrientation(-45.0f, camera->GetTransform()->GetUp());
+			// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
+			camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
+			ENGINE->GetSceneGraphUi()->SetMainCameraId(camera->GetId());
+		}
+
+		{
+			std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "testUiScene.uiscene";
+			UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str());
+		}
+	}
+
 }

@@ -3,7 +3,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
@@ -27,9 +27,9 @@ Transform::~Transform() {
 	this->destroy();
 }
 
-void Transform::HandleMessage(Message* message) {
+void Transform::HandleMessage(MessageChunk messageChunk) {
 	// TODO [Implement] Implement Update logic here, but on SET_TRANSFORM and similar messages
-	switch (message->GetMessageType()) {
+	switch (messageChunk->GetMessageType()) {
 
 	default:
 		break;
@@ -37,7 +37,14 @@ void Transform::HandleMessage(Message* message) {
 }
 
 void Transform::Draw() {
-	Camera* camera = ENGINE->GetSceneGraph()->GetMainCamera();
+	Camera* camera = nullptr;
+	GameObject* gameObject = (GameObject*)this->GetObject();
+	if (gameObject != nullptr) {
+		camera = gameObject->GetParentSceneGraph()->GetMainCamera();
+	} else {
+		// TODO [Hack] This exists only to make debug drawing work
+		camera = ENGINE->GetSceneGraph3D()->GetMainCamera();
+	}
 	ASSERT(camera != nullptr, "Could get main camera for the scene");
 
 	ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
@@ -194,7 +201,7 @@ void Transform::updateModelMatrix() {
 void Transform::updateModelMatrixCumulative() {
 	GameObject* parent = nullptr;
 	if (this->GetObject() != nullptr) {
-		parent = ENGINE->GetSceneGraph()->GetGameObjectById(this->GetObject()->GetParentId());
+		parent = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->GetObject()->GetParentId());
 	}
 	if (parent != nullptr) {
 		this->modelMatrixCumulative = parent->GetTransform()->modelMatrixCumulative * this->modelMatrix;
@@ -216,15 +223,15 @@ void Transform::updateModelMatrixCumulative() {
 void Transform::rippleMatrixUpdates() {
 	if (this->GetObject() != nullptr) {
 		// Raise event so that any interested parties are alerted that the transform has changed:
-		const Message* const message = new Message(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT);
+		MessageChunk messageChunk = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		messageChunk->SetMessageType(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT);
 		// Send the message to this GameObject
-		ENGINE->GetMessageHub()->SendPointcastMessage(message, this->GetObject()->GetId(), this->GetObject()->GetId());
-		delete message;
+		ENGINE->GetMessageHub()->SendPointcastMessage(messageChunk, this->GetObject()->GetId(), this->GetObject()->GetId());
 
 		// Update this GameObject's children
 		std::list<ObjectIdType> children = this->GetObject()->GetChildren();
 		for (ObjectIdType& childId : children) {
-			GameObject* child = ENGINE->GetSceneGraph()->GetGameObjectById(childId);
+			GameObject* child = ENGINE->GetSceneGraph3D()->GetGameObjectById(childId);
 			if (child != nullptr) {
 				child->GetTransform()->updateModelMatrixCumulative();
 			}

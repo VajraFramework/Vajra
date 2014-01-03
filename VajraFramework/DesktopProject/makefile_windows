@@ -31,7 +31,7 @@ LOCAL_SRC_DIRS = ./Vajra
 LOCAL_INCLUDES = . ./Libraries /usr/include
 
 INC = $(addprefix -I, $(LOCAL_INCLUDES))
-LOCAL_CFLAGS = -g3 -O0 -Wall -Wextra -DPLATFORM_DESKTOP -DPLATFORM_WINDOWS -DDEBUG
+LOCAL_CFLAGS = -g3 -O0 -Wall -Wextra -Werror -DPLATFORM_DESKTOP -DPLATFORM_WINDOWS -DDEBUG
 LOCAL_CPPFLAGS = -std=c++11
 
 LIB_FLAGS = -lglfw -lopengl32 -glu32 -lgdi32 -lglew32 -lz
@@ -82,8 +82,6 @@ before_build:
 	@test -d $(BINDIR) || mkdir -p $(BINDIR)
 	@echo "\n--------------------------------------------------------------------------------"
 	@echo "BUILDING OBJ FILES."
-	@echo "List of all objs: $(OBJECTS) "
-	@echo "List of all deps: $(DEPS) \n"
 	@mkdir -p $(dir $(OBJECTS))
 	@mkdir -p $(dir $(DEPS))
 

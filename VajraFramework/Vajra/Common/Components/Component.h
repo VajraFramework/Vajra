@@ -3,6 +3,7 @@
 
 #include "Vajra/Common/Messages/Declarations.h"
 #include "Vajra/Engine/Components/ComponentTypes/ComponentTypeIds.h"
+#include "Vajra/Engine/MessageHub/Declarations.h"
 #include "Vajra/Utilities/Utilities.h"
 
 #include <string>
@@ -18,7 +19,7 @@ public:
 	Component(Object* object_);
 	virtual ~Component();
 
-	virtual void HandleMessage(Message* message) = 0;
+	virtual void HandleMessage(MessageChunk messageChunk) = 0;
 
 	inline Object* GetObject() { return this->object; }
 	static inline ComponentIdType GetTypeId() { return componentTypeId; }

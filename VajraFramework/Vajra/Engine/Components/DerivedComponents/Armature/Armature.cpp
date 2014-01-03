@@ -4,15 +4,18 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Framework/Core/Framework.h"
-#include "Vajra/Framework/DeviceUtils/ModelLoader/ArmatureLoader.h"
+#include "Vajra/Framework/Loaders/ModelLoader/ArmatureLoader.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
+#include "Vajra/Utilities/FileUtilities.h"
 #include "Vajra/Utilities/MathUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
 
 #include "Libraries/glm/gtx/transform.hpp"
 
+#include <fstream>
 
 unsigned int Armature::componentTypeId = COMPONENT_TYPE_ID_ARMATURE;
 
@@ -28,23 +31,25 @@ Armature::~Armature() {
 	this->destroy();
 }
 
-void Armature::HandleMessage(Message* message) {
-	// FRAMEWORK->GetLogger()->dbglog("\nArmature got msg of type %d", message->GetMessageType());
+void Armature::HandleMessage(MessageChunk messageChunk) {
+	// FRAMEWORK->GetLogger()->dbglog("\nArmature got msg of type %d", messageChunk->GetMessageType());
 
-	switch (message->GetMessageType()) {
+	switch (messageChunk->GetMessageType()) {
 
 	case MESSAGE_TYPE_FRAME_EVENT:
 		this->updateBoneMatrices();
 		break;
 
 	default:
-		FRAMEWORK->GetLogger()->dbglog("\nArmature got unnecessary msg of type %d", message->GetMessageType());
+		FRAMEWORK->GetLogger()->dbglog("\nArmature got unnecessary msg of type %d", messageChunk->GetMessageType());
 	}
 }
 
 void Armature::Bind() {
+#if USING_RUNTIME_COMPUTED_BONE_MATRICES
 	GLint boneTransformsHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneTransforms);
     glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->finalBoneTransforms[0]));
+#endif // USING_RUNTIME_COMPUTED_BONE_MATRICES
 }
 
 void Armature::resetFinalBoneTransforms() {
@@ -54,13 +59,23 @@ void Armature::resetFinalBoneTransforms() {
 }
 
 void Armature::updateBoneMatrices() {
-
+#if USING_RUNTIME_COMPUTED_BONE_MATRICES
 	for (auto bone_it = this->bones.begin(); bone_it != this->bones.end(); ++bone_it) {
 		Bone* bone = bone_it->second;
-		bone->localRotationMatrixCumulative = IDENTITY_MATRIX;
+		bone->localMatrixCumulative = IDENTITY_MATRIX;
 	}
 
 	this->rootBone->updateBoneMatrices_recursive();
+#endif // USING_RUNTIME_COMPUTED_BONE_MATRICES
+
+	/*
+	if (ENGINE->GetTimer()->GetFrameNumber()%600 == 1) {
+		static int keyframeNumberBeingDumped = 0;
+		FRAMEWORK->GetLogger()->dbglog("\nPRINTING BONE MATRICES FOR KEY FRAME NUMBER: %d", keyframeNumberBeingDumped);
+		this->DumpBoneKeyframes();
+		keyframeNumberBeingDumped++;
+	}
+	*/
 }
 
 void Armature::AddBone(Bone* newBone) {
@@ -109,3 +124,12 @@ void Armature::init() {
 void Armature::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
+
+/*
+void Armature::DumpBoneKeyframes() {
+	for (unsigned int i = 0; i < this->bones.size(); ++i) {
+		FRAMEWORK->GetLogger()->dbglog("\nMatrix for bone: %d", i);
+		printGlmMat4(this->finalBoneTransforms[i]);
+	}
+}
+*/

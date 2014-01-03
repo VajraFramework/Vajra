@@ -13,27 +13,23 @@ MessageHub::~MessageHub() {
 }
 
 void MessageHub::init() {
-	this->currentlyAcceptingMessageCache = &(this->frontMessageCache);
-	this->currentlyDrainingMessageCache = nullptr;
+	this->currentlyAcceptingMessageCacheRef = &(this->frontMessageCache);
+	this->currentlyDrainingMessageCacheRef = nullptr;
 }
 
 void MessageHub::destroy() {
 }
 
-void MessageHub::SendPointcastMessage(const Message* const message, ObjectIdType receiverId, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
-	// TODO [Cleanup] Too many allocations here. Pools maybe? Or better yet, define messages as const, so that we can just send the same message to all of them (reference counted), somehow
-	Message* messageCopy = new Message(*message);
+void MessageHub::SendPointcastMessage(MessageChunk messageChunk, ObjectIdType receiverId, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
+	messageChunk->setSenderId(senderId);
 
-	messageCopy->setReceiverId(receiverId);
-	messageCopy->setSenderId(senderId);
-
-	this->currentlyAcceptingMessageCache->PushMessageForReceipientId(messageCopy, receiverId);
+	this->currentlyAcceptingMessageCacheRef->PushMessageForReceipientId(messageChunk, receiverId);
 }
 
-void MessageHub::SendMulticastMessage(const Message* const message, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
-	unsigned int numSubscribers = this->subscribersForMessageType[message->GetMessageType()].size();
+void MessageHub::SendMulticastMessage(MessageChunk messageChunk, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
+	unsigned int numSubscribers = this->subscribersForMessageType[messageChunk->GetMessageType()].size();
 	for (unsigned int i = 0; i < numSubscribers; ++i) {
-		this->SendPointcastMessage(message, this->subscribersForMessageType[message->GetMessageType()][i], senderId);
+		this->SendPointcastMessage(messageChunk, this->subscribersForMessageType[messageChunk->GetMessageType()][i], senderId);
 	}
 }
 
@@ -55,29 +51,30 @@ void MessageHub::UnsubscribeToMessageType(MessageType messageType, ObjectIdType 
 	}
 }
 
-Message* MessageHub::RetrieveNextMessage(ObjectIdType id) {
-	return this->currentlyDrainingMessageCache->PopMessageForReceipientId(id);
+MessageChunk MessageHub::RetrieveNextMessage(ObjectIdType id, bool& returnValueIsValid) {
+	MessageChunk messageChunk = this->currentlyDrainingMessageCacheRef->PopMessageForReceipientId(id, returnValueIsValid);
+	return messageChunk;
 }
 
 
 void MessageHub::drainMessages() {
-	this->currentlyAcceptingMessageCache = &this->backMessageCache;
-	this->currentlyDrainingMessageCache = &this->frontMessageCache;
+	this->currentlyAcceptingMessageCacheRef = &this->backMessageCache;
+	this->currentlyDrainingMessageCacheRef = &this->frontMessageCache;
 	this->drainMessageCache_internal();
 
 	// Switching MessageCaches
 
-	this->currentlyAcceptingMessageCache = &this->frontMessageCache;
-	this->currentlyDrainingMessageCache = &this->backMessageCache;
+	this->currentlyAcceptingMessageCacheRef = &this->frontMessageCache;
+	this->currentlyDrainingMessageCacheRef = &this->backMessageCache;
 	this->drainMessageCache_internal();
 
-	this->currentlyDrainingMessageCache = nullptr;
+	this->currentlyDrainingMessageCacheRef = nullptr;
 }
 
 void MessageHub::drainMessageCache_internal() {
 	ObjectIdType receipientId = OBJECT_ID_INVALID;
-	for (auto objectId_it = this->currentlyDrainingMessageCache->objectIdsWithPendingMessages.begin();
-			objectId_it != this->currentlyDrainingMessageCache->objectIdsWithPendingMessages.end(); ++objectId_it) {
+	for (auto objectId_it = this->currentlyDrainingMessageCacheRef->objectIdsWithPendingMessages.begin();
+			objectId_it != this->currentlyDrainingMessageCacheRef->objectIdsWithPendingMessages.end(); ++objectId_it) {
 
 		if (objectId_it->second) {
 			receipientId = objectId_it->first;
@@ -87,7 +84,7 @@ void MessageHub::drainMessageCache_internal() {
 				receipient->HandleMessages();
 			}
 		}
-		this->currentlyDrainingMessageCache->ClearMessagesForReceipientId(receipientId);
+		this->currentlyDrainingMessageCacheRef->ClearMessagesForReceipientId(receipientId);
 	}
-	this->currentlyDrainingMessageCache->objectIdsWithPendingMessages.clear();
+	this->currentlyDrainingMessageCacheRef->objectIdsWithPendingMessages.clear();
 }

@@ -70,6 +70,9 @@ then
 	JAR_FILE_PATH="../AndroidProject/Built/jars/vajraandroidwrapper.jar";
 	JAR_FILE_DESTINATION="AndroidProject/workspace/ExampleGame/libs/";
 	#
+	RESOURCES_PATH="./Resources/";
+	ASSETS_PATH="./AndroidProject/workspace/ExampleGame/assets/Resources/";
+	#
 	mkdir -p $LIBRARIES_DESTINATION_ARMEABI_PATH;
 	mkdir -p $LIBRARIES_DESTINATION_ARMEABIV7A_PATH;
 	echo -e "Current directory is: "; pwd ;
@@ -81,6 +84,10 @@ then
 	mkdir -p $JAR_FILE_DESTINATION;
 	echo -e "Copying jar file from $JAR_FILE_PATH to $JAR_FILE_DESTINATION";
 	cp $JAR_FILE_PATH $JAR_FILE_DESTINATION/.
+	#
+	mkdir -p $ASSETS_PATH
+	echo -e "Copying resource files from $RESOURCES_PATH to $ASSETS_PATH";
+	rsync -r --delete $RESOURCES_PATH $ASSETS_PATH/.
 
 elif [ $1 == "linux" ]
 then

@@ -73,7 +73,7 @@ void AudioPlayer::Play() {
 	alSourcePlay(this->source);
 }
 
-void AudioPlayer::Play(float delay) {
+void AudioPlayer::Play(float /* delay */) {
 	alSourcePlay(this->source);
 	// TODO [Implement] Determine if OpenAL supports delayed playback
 }
@@ -86,7 +86,7 @@ void AudioPlayer::Stop() {
 	Stop(0.0f);
 }
 
-void AudioPlayer::Stop(float fadeout) {
+void AudioPlayer::Stop(float /* fadeout */) {
 	alSourceStop(this->source);
 	// TODO [Implement] Determine if OpenAL supports fadeout
 }

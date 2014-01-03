@@ -11,14 +11,16 @@ FileSystemUtils::~FileSystemUtils() {
 }
 
 void FileSystemUtils::init() {
-    this->deviceBaseResourcesPath = "./Resources/";
-    this->devicePictureResourcesPath    = this->deviceBaseResourcesPath + "pictures/";
-    this->deviceShaderResourcesPath     = this->deviceBaseResourcesPath + "shaders/";
-    this->deviceModelResourcesPath      = this->deviceBaseResourcesPath + "models/";
-    this->deviceArmatureResourcesPath   = this->deviceBaseResourcesPath + "armatures/";
-    this->deviceAnimationResourcesPath  = this->deviceBaseResourcesPath + "animations/";
+	this->deviceBaseResourcesPath = "./Resources/";
+	this->devicePictureResourcesPath    = this->deviceBaseResourcesPath + "pictures/";
+	this->deviceShaderResourcesPath     = this->deviceBaseResourcesPath + "shaders/";
+	this->deviceModelResourcesPath      = this->deviceBaseResourcesPath + "models/";
+	this->deviceArmatureResourcesPath   = this->deviceBaseResourcesPath + "armatures/";
+	this->deviceAnimationResourcesPath  = this->deviceBaseResourcesPath + "animations/";
 	this->deviceAudioResourcesPath      = this->deviceBaseResourcesPath + "audio/";
 	this->deviceLoggingResourcesPath    = this->deviceBaseResourcesPath + "logging/";
+	this->deviceFontResourcesPath       = this->deviceBaseResourcesPath + "fonts/";
+	this->deviceUiScenesResourcesPath   = this->deviceBaseResourcesPath + "uiscenes/";
 }
 
 void FileSystemUtils::destroy() {

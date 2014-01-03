@@ -3,6 +3,8 @@
 
 #include "Vajra/Utilities/OpenGLIncludes.h"
 
+#include "Libraries/glm/glm.hpp"
+
 #include <string>
 #include <type_traits>
 
@@ -45,10 +47,15 @@ void checkGlError(const char* op);
 
 void printFrameTimeStats();
 
+void printGlmMat4(glm::mat4 m);
+
 #define TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(TemplateName, returnType, baseClassType)	\
 template <typename TemplateName>																\
 typename std::enable_if<std::is_base_of<baseClassType, TemplateName>::value, returnType>::type
 
 typedef int ComponentIdType;
+
+#define NOT_HANDLED false
+#define HANDLED true
 
 #endif // UTILITIES_H

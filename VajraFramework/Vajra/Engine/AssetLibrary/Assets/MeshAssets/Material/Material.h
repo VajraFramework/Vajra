@@ -26,7 +26,7 @@ public:
 	inline bool HasTexture() { return (this->textureAsset != nullptr); }
 
 	void SetTextureFilePath(std::string filePath);
-	std::shared_ptr<TextureAsset>& GetTextureAsset() { return this->textureAsset; }
+	inline std::shared_ptr<TextureAsset>& GetTextureAsset() { return this->textureAsset; }
 
 	void WriteMaterialToShader();
 

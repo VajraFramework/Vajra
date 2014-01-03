@@ -3,6 +3,8 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
+#include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 #include "Libraries/glm/gtx/transform.hpp"
@@ -30,21 +32,44 @@ void Camera::updateMatrices() {
 	//
 	this->viewMatrix = glm::lookAt(eyePosition, lookAtPosition, upVector);
 
-    // TODO [Cleanup] 1024 x 768
-    this->projMatrix = glm::perspective(60.0f, (float)1024 / (float)768, 0.1f, 8000.0f);
+	float width  = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
+	float height = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
+
+	// TODO [Hack] : remove once device tilting is suported
+#if 0
+	float aspecRatio = width / height;
+#else
+	float aspecRatio = height / width;
+#endif
+	
+	switch (this->cameraType) {
+
+	case CAMERA_TYPE_ORTHO: {
+			this->projMatrix = glm::ortho(0.0f, width, -height, 0.0f, 0.1f, 8000.0f);
+		} break;
+
+	case CAMERA_TYPE_PERSPECTIVE: {
+			this->projMatrix = glm::perspective(this->fov, aspecRatio, 0.1f, 8000.0f);
+		} break;
+
+	default: {
+			ASSERT(0, "Unknown camera type, %d", this->cameraType);
+		} break;
+	}
 }
 
-void Camera::HandleMessage(Message* message) {
-	// FRAMEWORK->GetLogger()->dbglog("\nCamera got msg of type %d", message->GetMessageType());
+void Camera::HandleMessage(MessageChunk messageChunk) {
+	// FRAMEWORK->GetLogger()->dbglog("\nCamera got msg of type %d", messageChunk->GetMessageType());
 
-	switch (message->GetMessageType()) {
+	switch (messageChunk->GetMessageType()) {
 
 	case MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT:
 		this->updateMatrices();
 		break;
 
 	default:
-		FRAMEWORK->GetLogger()->dbglog("\nCamera got unnecessary msg of type %d", message->GetMessageType());
+		FRAMEWORK->GetLogger()->dbglog("\nCamera got unnecessary msg of type %d", messageChunk->GetMessageType());
+		break;
 	}
 }
 
@@ -58,9 +83,12 @@ void Camera::init() {
 		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
 	}
 
+	this->cameraType = CAMERA_TYPE_PERSPECTIVE;
+
 	this->viewMatrix = IDENTITY_MATRIX;
 	this->projMatrix = IDENTITY_MATRIX;
 
+	this->fov = 60.0f;
 	if (gameObject != nullptr) {
 		this->updateMatrices();
 	}

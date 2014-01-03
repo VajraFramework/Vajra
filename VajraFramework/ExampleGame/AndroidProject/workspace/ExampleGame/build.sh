@@ -99,7 +99,7 @@ cd $CWD;
 
 if [ $BUILD_JAVA -eq 1 ] 
 then
-	android update project -p . -t 1
+	android.bat update project -p . -t 1
 	echo -e "\nBUILDING APK\n"
 	ant debug
 fi

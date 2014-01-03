@@ -4,7 +4,7 @@
 #include "Vajra/Common/Objects/ObjectRegistry.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
@@ -33,21 +33,22 @@ void Object::destroy() {
 }
 
 void Object::HandleMessages() {
-	Message* message = nullptr;
+	bool retrievedMessageIsValid = false;
 	do {
-		message = ENGINE->GetMessageHub()->RetrieveNextMessage(this->GetId());
-		if (message != nullptr) {
-			// FRAMEWORK->GetLogger()->dbglog("\nObject %d got msg of type %d", this->GetId(), message->GetMessageType());
+		retrievedMessageIsValid = false;
+		MessageChunk messageChunk = ENGINE->GetMessageHub()->RetrieveNextMessage(this->GetId(), retrievedMessageIsValid);
+		if (retrievedMessageIsValid) {
+			// FRAMEWORK->GetLogger()->dbglog("\nObject %d got msg of type %d", this->GetId(), messageChunk->GetMessageType());
 			// Forward message to subscribed components:
-			for(ComponentIdType& componentId : this->subscribersForMessageType[message->GetMessageType()]) {
+			for(ComponentIdType& componentId : this->subscribersForMessageType[messageChunk->GetMessageType()]) {
 				auto componentIt = this->componentMap.find(componentId);
 				if (componentIt != this->componentMap.end()) {
 					Component* component = componentIt->second;
-					component->HandleMessage(message);
+					component->HandleMessage(messageChunk);
 				}
 			}
 		}
-	} while (message != nullptr);
+	} while (retrievedMessageIsValid);
 }
 
 void Object::SubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId, bool onLocalObject) {

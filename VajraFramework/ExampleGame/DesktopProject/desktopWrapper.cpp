@@ -15,13 +15,12 @@ using namespace glm;
 #include "ExampleGame/Test/TestFile.h"
 
 #include "Vajra/Engine/Core/Engine.h"
-#include "Vajra/Engine/Components/DerivedComponents/MeshRenderer/MeshRenderer.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Engine/Profiler/Profiler.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph.h"
-#include "Vajra/Framework/DeviceUtils/DeviceStatistics/DeviceStatistics.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Placeholder/Tesserakonteres.h"
 
@@ -42,8 +41,10 @@ int main( void ) {
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 1);
 #endif // PLATFORM_LINUX
 
+	int width  = 1024;
+	int height = 768;
 	// Open a window and create its OpenGL context
-	if( !glfwOpenWindow( 1024, 768, 0,0,0,0, 32,0, GLFW_WINDOW ) )
+	if( !glfwOpenWindow(width, height, 0,0,0,0, 32,0, GLFW_WINDOW) )
 	{
 		fprintf( stderr, "Failed to open GLFW window.\n" );
 		glfwTerminate();
@@ -84,9 +85,11 @@ int main( void ) {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 	#endif
 
-	setupGraphics(1024, 768);
+	setupGraphics(width, height);
 
 	Tesserakonteres::initGameObjectsForScene();
+	Tesserakonteres::initUiGameObjects();
+
 	TestFuntion();
 
 	do {
@@ -129,7 +132,8 @@ int main( void ) {
 
 	// Print profiler data to file
 	std::ofstream logFile;
-	logFile.open(FRAMEWORK->GetFileSystemUtils()->GetDeviceLoggingResourcesPath() + GetOperatingSystem() + ".log", std::ios_base::out | std::ios_base::app);
+	logFile.open(FRAMEWORK->GetFileSystemUtils()->GetDeviceLoggingResourcesPath() +
+			     FRAMEWORK->GetDeviceProperties()->GetOperatingSystem() + ".log", std::ios_base::out | std::ios_base::app);
 	ENGINE->GetProfiler()->PrintAllExperimentData(logFile);
 	logFile.close();
 

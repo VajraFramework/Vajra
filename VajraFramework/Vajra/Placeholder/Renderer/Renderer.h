@@ -1,5 +1,5 @@
-#ifndef RENDERER_H
-#define RENDERER_H
+#ifndef PLACEHOLDER_RENDERER_H
+#define PLACEHOLDER_RENDERER_H
 
 #include "Vajra/Utilities/OpenGLIncludes.h"
 
@@ -17,7 +17,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // temp
 bool setupGraphics(int w, int h);
-void setupMatrixes(float dt);
 void renderFrame(float dt);
 //
 extern const char gVertexShader[];
@@ -39,4 +38,4 @@ extern GLuint gvPositionHandle;
 ////////////////////////////////////////////////////////////////////////////////
 
 
-#endif // RENDERER_H
+#endif // PLACEHOLDER_RENDERER_H
