@@ -1,6 +1,7 @@
 #include "ExampleGame/Test/TestFile.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
+#include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "Vajra/Common/Objects/Object.h"
@@ -35,6 +36,12 @@ int TestFuntion() {
 		//cameraComponent->PanTo(0.0f, 0.0f);
 		cameraComponent->MoveToRoom(0.0f, 0.0f);
 		//cameraComponent->ZoomToOverview();
+
+		GameObject* walker = new GameObject(ENGINE->GetSceneGraph3D());
+		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(walker->GetId());
+		GridNavigator* gNav = walker->AddComponent<GridNavigator>();
+		gNav->SetGridPosition(0, 2);
+		gNav->SetDestination(8, 0);
 #endif
 	}
 	{
