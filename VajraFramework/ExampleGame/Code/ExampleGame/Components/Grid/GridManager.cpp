@@ -114,7 +114,7 @@ int GridManager::GetRoomZ(int cellZ) {
 }
 
 GridCell* GridManager::GetCell(int x, int z) {
-	if (IsWithinGrid(x * this->cellSize, z * this->cellSize)) { return nullptr; }
+	if (!IsWithinGrid(x, z)) { return nullptr; }
 
 	return this->gridCells[x][z];
 }
