@@ -96,7 +96,7 @@ void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
 			glm::vec3 center;
 			center.x = i * this->cellSize;
 			center.y = 0;
-			center.z = -j * this->cellSize;
+			center.z = j * -this->cellSize;
 			glm::vec3 origin = center - this->halfCellSize;
 			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, true);
 		}
