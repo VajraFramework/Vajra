@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.WindowManager;
 
 import java.io.File;
@@ -47,6 +48,12 @@ public class ExampleGameActivity extends Activity {
 
         int number = VajraAndroidWrapper.TestFunction();
         Log.i("tag", "Number: " + Integer.toString(number));
+    }
+
+    @Override
+	public boolean onTouchEvent(MotionEvent event) {
+    	VajraAndroidWrapper.reportTouchEvent(event);
+        return true;
     }
 
     @Override protected void onPause() {

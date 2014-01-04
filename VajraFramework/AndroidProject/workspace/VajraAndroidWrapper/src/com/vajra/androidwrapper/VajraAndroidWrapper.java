@@ -6,6 +6,7 @@ import java.io.InputStream;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
+import android.view.MotionEvent;
 
 // Wrapper for the Vajra native library
 public class VajraAndroidWrapper {
@@ -48,9 +49,16 @@ public class VajraAndroidWrapper {
 	public static void CopyAssetsToSDCard() {
 		AssetCopier.CopyAssetsToSDCard(VajraAndroidWrapper.savedContext);
 	}
+	
+	public static void reportTouchEvent(MotionEvent event) {
+		InputManager.reportTouchEvent(event);
+	}
 
 	private static Context savedContext;
 
 	public static native void init(int width, int height);
 	public static native void step(float dt);
+
+	public static native void touchEventOccurred(int id, float x, float y, int touchEventType);
+
 }
