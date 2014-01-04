@@ -2,6 +2,7 @@
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
+#include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "Vajra/Common/Objects/Object.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
@@ -23,16 +24,14 @@ int TestFuntion() {
 #endif
 	{
 #if 1
-		Object* gridManager = new Object();
-		GridManager* gridMgrComp = gridManager->AddComponent<GridManager>();
-		gridMgrComp->GenerateTerrainFromFile("noninjas.txt");
+		SINGLETONS->GetGridManager()->GenerateTerrainFromFile("noninjas.txt");
 
 		GameObject* camera = new GameObject(ENGINE->GetSceneGraph3D());
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(camera->GetId());
 		ShadyCamera* cameraComponent = camera->AddComponent<ShadyCamera>();
 		cameraComponent->SetCameraType(CAMERA_TYPE_PERSPECTIVE);
 		ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
-		cameraComponent->SetGridManager(gridMgrComp);
+		cameraComponent->SetGridManager(SINGLETONS->GetGridManager());
 		//cameraComponent->PanTo(0.0f, 0.0f);
 		cameraComponent->MoveToRoom(0.0f, 0.0f);
 		//cameraComponent->ZoomToOverview();
