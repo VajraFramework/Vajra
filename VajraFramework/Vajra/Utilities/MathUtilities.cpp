@@ -32,3 +32,17 @@ void catmullromerp(float& destination, const float p0, const float p1, const flo
 		(-p0 + 3*p1 - 3*p2 +p3) * interp * interp * interp
 		);
 }
+
+float Vec3Distance(glm::vec3 from, glm::vec3 to) {
+	float dx = from.x - to.x;
+	float dy = from.y - to.y;
+	float dz = from.z - to.z;
+	float dist = sqrt(dx * dx + dy * dy + dz * dz);
+	return dist;
+}
+
+void lerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float interp) {
+	lerp(destination.x, a.x, b.x, interp);
+	lerp(destination.y, a.y, b.y, interp);
+	lerp(destination.z, a.z, b.z, interp);
+}
