@@ -57,7 +57,7 @@ private:
 	GameObject* gameObjectRef;
 	GridManager* gridManagerRef;
 
-	CameraMode camMode = CameraMode::CAMERA_MODE_GAME;
+	CameraMode camMode;
 	// Find and store the current position for the game camera
 	void setGameCameraPosition(float x, float z);
 

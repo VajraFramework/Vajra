@@ -26,6 +26,7 @@ ShadyCamera::~ShadyCamera() {
 void ShadyCamera::init() {
 	// Set camera properties
 	this->SetFOV(30.0f);
+	this->camMode = CameraMode::CAMERA_MODE_GAME;
 	this->camSpeed = 3.0f;
 	this->gameObjectRef = (GameObject*)this->GetObject();
 	Transform* camTransform = this->gameObjectRef->GetTransform();
