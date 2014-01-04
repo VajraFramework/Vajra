@@ -6,8 +6,11 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
+#include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 #define ROOM_WIDTH_INDOORS 15
@@ -70,6 +73,7 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 #ifdef DEBUG
 		case MESSAGE_TYPE_FRAME_EVENT:
 			DebugDrawGrid();
+			DebugTouchTest();
 			break;
 #endif
 		default:
@@ -138,15 +142,18 @@ glm::vec3 GridManager::GetRoomCenter(int x, int z) {
 glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
 	return this->GetRoomCenter(cell->x, cell->z);
 }
+
+GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
+	return nullptr;
+}
+
+glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
+	glm::vec3 screenPos = glm::vec3(touchPos.x, touchPos.y, 0);
+	glm::vec3 worldPos = ENGINE->GetSceneGraph3D()->GetMainCamera()->ScreenToWorldPoint(screenPos);
+	return worldPos;
+}
+
 /*
-GridCell* GridManager::TouchPositionToCell(glm::vec3 touchPos) {
-
-}
-
-glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec3 touchPos) {
-
-}
-
 void GridManager::ToggleOverview() {
 
 }
@@ -215,5 +222,20 @@ void GridManager::DebugDrawGrid() {
 		start.z -= this->cellSize;
 		end.z -= this->cellSize;
 	} while (j <= this->gridHeight);
+}
+
+
+void GridManager::DebugTouchTest() {
+	if(ENGINE->GetInput()->GetTouchCount() > 0)
+    {
+        Touch touch = ENGINE->GetInput()->GetTouch(0);
+        glm::vec3 gridPosition = this->TouchPositionToGridPosition(touch.pos);
+        // this->gridOrigin
+        // YAXIS (grid up)
+        //ENGINE->GetSceneGraph3D()->GetMainCamera();
+        //FRAMEWORK->GetLogger()->dbglog("\ntScreenCoord: %f, %f", touch.pos.x, touch.pos.y);
+        
+        DebugDraw::DrawCube(gridPosition, 1.0f);
+    }
 }
 #endif

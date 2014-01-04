@@ -34,6 +34,8 @@ public:
 
 	inline float GetFOV() { return this->fov; }
 	inline void SetFOV(float value) { this->fov = value; this->updateMatrices();}
+
+	glm::vec3 ScreenToWorldPoint(glm::vec3 screenPoint);
 private:
 	void init();
 	void destroy();

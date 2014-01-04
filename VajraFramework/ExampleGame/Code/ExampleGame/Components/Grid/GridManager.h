@@ -40,10 +40,12 @@ public:
 	// returns the world position of the center of a room
 	glm::vec3 GetRoomCenter(int x, int z);
 	glm::vec3 GetRoomCenter(GridCell* cell);
+	
+	GridCell* TouchPositionToCell(glm::vec2 touchPos);
+	glm::vec3 TouchPositionToGridPosition(glm::vec2 touchPos);
+
 	/****************
 	// TODO [Implement]
-	GridCell* TouchPositionToCell(glm::vec3 touchPos);
-	glm::vec3 TouchPositionToGridPosition(glm::vec3 touchPos);
 	std::list<GridCell> GetNeighbors(GridCell* cel, bool diagonals, bool sameRoom);
 	std::list<GridCell> GetNeighborsInRange(glm::vec3 pos, int range, bool includeObstructed, bool lineOfSight, bool sameElevation, GRID_DIR dir);
 	bool HasLineOfSight(int startX, int startZ, int endX, int endZ);
@@ -61,6 +63,7 @@ private:
 	bool IsWithinGrid(glm::vec3 loc); // Returns true if the vector position falls within a defined cell
 #ifdef DEBUG
 	void DebugDrawGrid();
+	void DebugTouchTest();
 #endif
 	float cellSize; // Width and depth of a grid cell in world coordinates
 	glm::vec3 halfCellSize; // Offset vector between center and corner of a grid cell

@@ -72,6 +72,24 @@ void Camera::WriteLookAt() {
 	// TODO [Implement] Camera::WriteLookAt(), will be needed when the shader starts looking for the eyePosition (example: for specular lighting)
 }
 
+glm::vec3 Camera::ScreenToWorldPoint(glm::vec3 screenPoint) {
+	float screenW = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
+    float screenH = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
+    glm::vec4 viewport = glm::vec4(0.0f, 0.0f, screenW, screenH);
+    glm::mat4 tmpView = this->viewMatrix;
+    glm::mat4 tmpProj = this->projMatrix;
+    glm::vec3 screenPos = glm::vec3(screenPoint.x, screenH - screenPoint.y, 0.0f);
+    glm::vec3 worldPos = glm::unProject(screenPos, tmpView, tmpProj, viewport);
+#if 1
+	GameObject* gameObject = (GameObject*)this->GetObject();
+	glm::vec3 eyePosition    = gameObject->GetTransform()->GetPosition();
+	FRAMEWORK->GetLogger()->dbglog("\ncam pos: %f, %f, %f", eyePosition.x, eyePosition.y, eyePosition.z);
+	FRAMEWORK->GetLogger()->dbglog("\nviewport: %f, %f", viewport.z, viewport.w);
+	FRAMEWORK->GetLogger()->dbglog("\nworld pos: %f, %f, %f", worldPos.x, worldPos.y, worldPos.z);
+#endif
+	return worldPos;
+}
+
 void Camera::init() {
 	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
 	if (gameObject != nullptr) {
