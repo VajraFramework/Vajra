@@ -27,6 +27,8 @@ void MessageHub::SendPointcastMessage(MessageChunk messageChunk, ObjectIdType re
 }
 
 void MessageHub::SendMulticastMessage(MessageChunk messageChunk, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
+	unsigned int numMsgTypes = this->subscribersForMessageType.size();
+	if (numMsgTypes <= messageChunk->GetMessageType()) { return; }
 	unsigned int numSubscribers = this->subscribersForMessageType[messageChunk->GetMessageType()].size();
 	for (unsigned int i = 0; i < numSubscribers; ++i) {
 		this->SendPointcastMessage(messageChunk, this->subscribersForMessageType[messageChunk->GetMessageType()][i], senderId);
@@ -34,6 +36,10 @@ void MessageHub::SendMulticastMessage(MessageChunk messageChunk, ObjectIdType se
 }
 
 void MessageHub::SubscribeToMessageType(MessageType messageType, ObjectIdType subscriberId) {
+	while (messageType >= this->subscribersForMessageType.size()) {
+		this->subscribersForMessageType.push_back(std::vector<ObjectIdType>(0));
+	}
+
 	auto it = std::find(this->subscribersForMessageType[messageType].begin(), this->subscribersForMessageType[messageType].end(), subscriberId);
 	if (it == this->subscribersForMessageType[messageType].end()) {
 		this->subscribersForMessageType[messageType].push_back(subscriberId);

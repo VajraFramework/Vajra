@@ -40,11 +40,14 @@ void Object::HandleMessages() {
 		if (retrievedMessageIsValid) {
 			// FRAMEWORK->GetLogger()->dbglog("\nObject %d got msg of type %d", this->GetId(), messageChunk->GetMessageType());
 			// Forward message to subscribed components:
-			for(ComponentIdType& componentId : this->subscribersForMessageType[messageChunk->GetMessageType()]) {
-				auto componentIt = this->componentMap.find(componentId);
-				if (componentIt != this->componentMap.end()) {
-					Component* component = componentIt->second;
-					component->HandleMessage(messageChunk);
+			unsigned int numMsgTypes = this->subscribersForMessageType.size();
+			if (numMsgTypes > messageChunk->GetMessageType()) {
+				for(ComponentIdType& componentId : this->subscribersForMessageType[messageChunk->GetMessageType()]) {
+					auto componentIt = this->componentMap.find(componentId);
+					if (componentIt != this->componentMap.end()) {
+						Component* component = componentIt->second;
+						component->HandleMessage(messageChunk);
+					}
 				}
 			}
 		}
@@ -52,6 +55,10 @@ void Object::HandleMessages() {
 }
 
 void Object::SubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId, bool onLocalObject) {
+	while (messageType >= this->subscribersForMessageType.size()) {
+		this->subscribersForMessageType.push_back(std::vector<ComponentIdType>(0));
+	}
+
 	auto it = std::find(this->subscribersForMessageType[messageType].begin(), this->subscribersForMessageType[messageType].end(), subscriberComponentId);
 	if (it == this->subscribersForMessageType[messageType].end()) {
 		this->subscribersForMessageType[messageType].push_back(subscriberComponentId);
