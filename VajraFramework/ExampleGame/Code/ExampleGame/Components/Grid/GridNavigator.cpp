@@ -67,7 +67,7 @@ void GridNavigator::SetGridPosition(int x, int z) {
 		Transform* myTransform = this->GetObject()->GetComponent<Transform>();
 		myTransform->SetPosition(cell->center);
 		if (this->currentCell != cell) {
-			changeCell(cell);
+			this->changeCell(cell);
 		}
 	}
 }
@@ -76,7 +76,7 @@ bool GridNavigator::SetDestination(int x, int z) {
 	GridCell* startCell = this->currentCell;
 	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(x, z);
 	std::list<GridCell*> newPath;
-	float dist = calculatePath(startCell, goalCell, newPath);
+	float dist = this->calculatePath(startCell, goalCell, newPath);
 	if (dist > 0.0f) {
 		this->currentPath = newPath;
 		this->isTraveling = true;
@@ -85,21 +85,17 @@ bool GridNavigator::SetDestination(int x, int z) {
 }
 
 bool GridNavigator::SetDestination(glm::vec3 loc) {
-	GridCell* startCell = this->currentCell;
 	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(loc);
-	std::list<GridCell*> newPath;
-	float dist = calculatePath(startCell, goalCell, newPath);
-	if (dist > 0.0f) {
-		this->currentPath = newPath;
-		this->isTraveling = true;
+	if (goalCell != nullptr) {
+		SetDestination(goalCell->x, goalCell->z);
 	}
-	return (dist >= 0.0f);
+	return false;
 }
 
 bool GridNavigator::AddDestination(int x, int z) {
 	GridCell* startCell = this->currentCell;
 	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(x, z);
-	float dist = calculatePath(startCell, goalCell, this->currentPath);
+	float dist = this->calculatePath(startCell, goalCell, this->currentPath);
 	if (dist > 0.0f) {
 		this->isTraveling = true;
 	}
@@ -107,13 +103,11 @@ bool GridNavigator::AddDestination(int x, int z) {
 }
 
 bool GridNavigator::AddDestination(glm::vec3 loc) {
-	GridCell* startCell = this->currentCell;
 	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(loc);
-	float dist = calculatePath(startCell, goalCell, this->currentPath);
-	if (dist > 0.0f) {
-		this->isTraveling = true;
+	if (goalCell != nullptr) {
+		AddDestination(goalCell->x, goalCell->z);
 	}
-	return (dist >= 0.0f);
+	return false;
 }
 
 void GridNavigator::update() {
@@ -129,7 +123,6 @@ void GridNavigator::followPath() {
 	glm::vec3 tempLocation = myTransform->GetPosition();
 
 	int count = this->currentPath.size();
-	//while ((distToTravel > 0.0f) && (this->currentPath.size() > 0)) {
 	while ((distToTravel > 0.0f) && (count > 0)) {
 		glm::vec3 targetLocation = this->currentPath.front()->center;
 		float distToTarget = glm::distance(tempLocation, targetLocation);
@@ -150,7 +143,7 @@ void GridNavigator::followPath() {
 	myTransform->SetPosition(tempLocation);
 	GridCell* newCell = SINGLETONS->GetGridManager()->GetCell(tempLocation);
 	if (newCell != this->currentCell) {
-		changeCell(newCell);
+		this->changeCell(newCell);
 	}
 
 	if (this->currentPath.size() == 0) {

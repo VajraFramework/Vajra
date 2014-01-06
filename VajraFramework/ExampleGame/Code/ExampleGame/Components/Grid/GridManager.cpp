@@ -275,7 +275,7 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 	GridCell* destCell = GetCell(dest.x, dest.z);
 
 	GridNavigator* gNav = obj->GetComponent<GridNavigator>();
-	if (gNav == nullptr) { return; }
+	ASSERT(gNav == nullptr, "Moving object has GridNavigator component");
 
 	if (destCell->occupant == nullptr) {
 		if (gNav->GetCurrentCell() != nullptr) {
