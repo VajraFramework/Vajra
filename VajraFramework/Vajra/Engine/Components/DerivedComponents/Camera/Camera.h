@@ -2,6 +2,7 @@
 #define CAMERA_H
 
 #include "Vajra/Common/Components/Component.h"
+#include "Vajra/Utilities/MathUtilities.h"
 
 #include "Libraries/glm/glm.hpp"
 
@@ -36,6 +37,7 @@ public:
 	inline void SetFOV(float value) { this->fov = value; this->updateMatrices();}
 
 	glm::vec3 ScreenToWorldPoint(glm::vec3 screenPoint);
+	Ray ScreenPointToRay(glm::vec2 screenPoint);
 private:
 	void init();
 	void destroy();

@@ -10,6 +10,7 @@
 #include "Libraries/glm/glm.hpp"
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Utilities/MathUtilities.h"
 
 #include <string>
 
@@ -77,7 +78,7 @@ private:
 	int roomOffsetX; // Number of cells separating rooms horizontally
 	int roomOffsetZ; // Number of cells separating rooms vertically
 	int maxElevation;
-	glm::vec3 gridOrigin; // The center of cell (0,0) in world coordinates
+	Plane gridPlane;  // The center of cell (0,0) in world coordinates and it's normal
 
 	//GameObject* transZones;
 

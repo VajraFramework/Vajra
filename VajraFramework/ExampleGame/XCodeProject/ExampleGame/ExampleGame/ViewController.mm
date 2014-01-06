@@ -47,7 +47,6 @@
 	// Set up the Engine input handler
 	IOSInputSender *sender = [[IOSInputSender alloc] initWithFrame:self.view.frame];
 	[self.view addSubview: sender];
-	
     [self setupGL];
 }
 
