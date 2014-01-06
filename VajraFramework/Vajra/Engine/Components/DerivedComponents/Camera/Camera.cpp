@@ -5,7 +5,6 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
-#include "Vajra/Utilities/MathUtilities.h"
 
 #include "Libraries/glm/gtx/transform.hpp"
 
@@ -35,12 +34,7 @@ void Camera::updateMatrices() {
 	float width  = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
 	float height = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
 
-	// TODO [Hack] : remove once device tilting is suported
-#if 0
 	float aspecRatio = width / height;
-#else
-	float aspecRatio = height / width;
-#endif
 	
 	switch (this->cameraType) {
 
@@ -75,6 +69,38 @@ void Camera::HandleMessage(MessageChunk messageChunk) {
 
 void Camera::WriteLookAt() {
 	// TODO [Implement] Camera::WriteLookAt(), will be needed when the shader starts looking for the eyePosition (example: for specular lighting)
+}
+
+glm::vec3 Camera::ScreenToWorldPoint(glm::vec3 screenPoint) {
+	float screenW = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
+    float screenH = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
+    glm::vec4 viewport = glm::vec4(0.0f, 0.0f, screenW, screenH);
+    glm::mat4 tmpView = this->viewMatrix;
+    glm::mat4 tmpProj = this->projMatrix;
+    glm::vec3 screenPos = glm::vec3(screenPoint.x, screenH - screenPoint.y, screenPoint.z);
+    glm::vec3 worldPos = glm::unProject(screenPos, tmpView, tmpProj, viewport);
+#if 0
+	GameObject* gameObject = (GameObject*)this->GetObject();
+	glm::vec3 eyePosition    = gameObject->GetTransform()->GetPosition();
+	FRAMEWORK->GetLogger()->dbglog("\ncam pos: %f, %f, %f", eyePosition.x, eyePosition.y, eyePosition.z);
+	FRAMEWORK->GetLogger()->dbglog("\nviewport: %f, %f", viewport.z, viewport.w);
+	FRAMEWORK->GetLogger()->dbglog("\nworld pos: %f, %f, %f", worldPos.x, worldPos.y, worldPos.z);
+#endif
+	return worldPos;
+}
+
+Ray Camera::ScreenPointToRay(glm::vec2 screenPoint) {
+	Ray screenRay;
+	glm::vec3 nearPlanePoint = this->ScreenToWorldPoint(glm::vec3(screenPoint.x, screenPoint.y, -1.0f));
+	glm::vec3 farPlanePoint = this->ScreenToWorldPoint(glm::vec3(screenPoint.x, screenPoint.y, 1.0f));
+	glm::vec3 dir = farPlanePoint - nearPlanePoint;
+	dir = glm::normalize(dir);
+	screenRay.origin = nearPlanePoint;
+	screenRay.dir = dir;
+#if 0
+	FRAMEWORK->GetLogger()->dbglog("\ray dir: %f, %f, %f", dir.x, dir.y, dir.z);
+#endif
+	return screenRay;
 }
 
 void Camera::init() {

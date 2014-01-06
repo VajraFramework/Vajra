@@ -32,3 +32,12 @@ void catmullromerp(float& destination, const float p0, const float p1, const flo
 		(-p0 + 3*p1 - 3*p2 +p3) * interp * interp * interp
 		);
 }
+
+bool rayPlaneIntersection(Ray& ray, Plane& plane, float& dist) {
+	if(glm::dot(plane.normal, ray.dir) == 0) {
+		return false;
+	}
+	glm::vec3 rayToPlane = plane.normal - ray.origin;
+	dist = (glm::dot(plane.normal, rayToPlane) / glm::dot(plane.normal, ray.dir));
+	return (dist >= 0);
+}
