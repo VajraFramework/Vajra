@@ -7,6 +7,7 @@
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
+#include "ExampleGame/Messages/Declarations.h"
 
 #include "Libraries/glm/glm.hpp"
 
@@ -14,6 +15,7 @@
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
@@ -64,8 +66,9 @@ void GridNavigator::SetGridPosition(int x, int z) {
 	if (cell != nullptr) {
 		Transform* myTransform = this->GetObject()->GetComponent<Transform>();
 		myTransform->SetPosition(cell->center);
-		this->currentCell = cell;
-		// Fire a GridCellChanged event
+		if (this->currentCell != cell) {
+			changeCell(cell);
+		}
 	}
 }
 
@@ -147,13 +150,22 @@ void GridNavigator::followPath() {
 	myTransform->SetPosition(tempLocation);
 	GridCell* newCell = SINGLETONS->GetGridManager()->GetCell(tempLocation);
 	if (newCell != this->currentCell) {
-		// Fire a GridCellChanged event
-		this->currentCell = newCell;
+		changeCell(newCell);
 	}
 
 	if (this->currentPath.size() == 0) {
 		this->isTraveling = false;
 	}
+}
+
+void GridNavigator::changeCell(GridCell* goalCell) {
+	// Send a message to the GridManager "asking" to move from one cell to another.
+	MessageChunk cellChangeMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	cellChangeMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED);
+	cellChangeMessage->messageData.fv1.x = goalCell->x;
+	cellChangeMessage->messageData.fv1.y = goalCell->y;
+	cellChangeMessage->messageData.fv1.z = goalCell->z;
+	ENGINE->GetMessageHub()->SendPointcastMessage(cellChangeMessage, SINGLETONS->GetGridManagerObject()->GetId(), this->GetObject()->GetId());
 }
 
 float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outPath) {

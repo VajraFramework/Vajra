@@ -39,9 +39,6 @@ int TestFuntion() {
 
 		GameObject* walker = new GameObject(ENGINE->GetSceneGraph3D());
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(walker->GetId());
-		GridNavigator* gNav = walker->AddComponent<GridNavigator>();
-		gNav->SetGridPosition(0, 2);
-		gNav->SetDestination(8, 0);
 #endif
 	}
 	{
@@ -51,6 +48,8 @@ int TestFuntion() {
 		MeshRenderer* meshRenderer = testGameScript->AddComponent<MeshRenderer>();
 		meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
 		testGameScript->AddComponent<SampleGameScript>();
+		GridNavigator* gNav = testGameScript->AddComponent<GridNavigator>();
+		gNav->SetGridPosition(0, 2);
 #endif
 	}
  

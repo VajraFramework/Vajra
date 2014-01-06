@@ -25,7 +25,10 @@ public:
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
 
-	inline void SetMovementSpeed(float speed) { this->movementSpeed = speed; }
+	inline GridCell* GetCurrentCell()          { return this->currentCell;    }
+
+	inline void SetMovementSpeed(float speed)  { this->movementSpeed = speed; }
+	inline void SetCurrentCell(GridCell* cell) { this->currentCell = cell;    }
 
 	void SetGridPosition(int x, int z);  // Place the object at the indicated cell on the grid.
 
@@ -42,6 +45,8 @@ private:
 	void update();
 
 	void followPath();
+
+	void changeCell(GridCell* goalCell);
 
 	float calculatePath(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outPath); // Calculates a path and returns its length. Returns -1 if no path found.
 	float travelCostEstimate(GridCell* startCell, GridCell* goalCell); // Estimated distance between two cells
