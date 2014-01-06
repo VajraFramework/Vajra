@@ -63,9 +63,9 @@ ALuint loadALAudioFromWAV(const char* audioPath, ALenum* outFormat, ALubyte** ou
 	if (strcmp(tempBuf, "LIST") == 0) {
 		int listlen = ReadInt32LittleEndianFromFile(file);
 		file.seekg(listlen, std::ios_base::cur);
+		file.read(tempBuf, 4);
 	}
 
-	file.read(tempBuf, 4);
 	if ((file.gcount() != 4) || (strcmp(tempBuf, "data") != 0)) {
 		std::cerr << "Invalid WAV file" << std::endl;
 		file.close();

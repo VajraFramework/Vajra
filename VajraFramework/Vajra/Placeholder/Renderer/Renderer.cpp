@@ -147,7 +147,7 @@ void renderFrame(float dt) {
     	// Transform* transform = wavybox->GetTransform();
     	// transform->Rotate(10.0f * deltaTime, YAXIS);
     	// transform->Translate(0.05f * deltaTime, transform->GetForward());
-    	Armature* armature = wavybox->GetComponent<Armature>();
+    	/* Armature* armature = */ wavybox->GetComponent<Armature>();
 
 
 #if 0

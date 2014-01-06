@@ -81,7 +81,7 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 	}
 }
 
-void GridManager::GenerateTerrainFromFile(std::string terrainFilename) {
+void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
 	// TODO [Implement] Psych! We're just creating a default terrain right now
 
 	this->cellSize = 1.0f;
@@ -189,7 +189,7 @@ std::list<GridCell> GridManager::DirectRoute(int startX, int startZ, int endX, i
 }
 */
 bool GridManager::IsWithinGrid(int x, int z) {
-	return (x >= 0) && (x < this->gridWidth) && (z >= 0) && (z < this->gridHeight);
+	return (x >= 0) && (x < (int)this->gridWidth) && (z >= 0) && (z < (int)this->gridHeight);
 }
 
 bool GridManager::IsWithinGrid(glm::vec3 loc) {
