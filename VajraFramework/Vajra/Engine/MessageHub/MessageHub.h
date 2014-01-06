@@ -37,7 +37,7 @@ private:
 	MessageCache* currentlyDrainingMessageCacheRef;
 
 	// TODO [Implement] Change this to be a sorted list so that we can binary search it maybe (low priority)
-	std::vector<ObjectIdType> subscribersForMessageType[NUM_MESSAGE_TYPES];
+	std::vector<std::vector<ObjectIdType>> subscribersForMessageType;
 
 	Pool<Message> messagePool;
 

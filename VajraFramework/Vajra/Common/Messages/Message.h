@@ -6,6 +6,8 @@
 #include "Vajra/Common/Messages/MessageData.h"
 #include "Vajra/Utilities/CommonDeclarations.h"
 
+typedef unsigned int MessageType;
+
 class Message {
 public:
 	Message();

@@ -80,7 +80,7 @@ private:
 
 	ObjectIdType parentId;
 
-	std::vector<ComponentIdType> subscribersForMessageType[NUM_MESSAGE_TYPES];
+	std::vector<std::vector<ComponentIdType>> subscribersForMessageType;
 };
 
 

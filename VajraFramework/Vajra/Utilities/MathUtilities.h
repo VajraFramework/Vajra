@@ -42,4 +42,8 @@ struct Plane {
 };
 
 bool rayPlaneIntersection(Ray& ray, Plane& plane, float& dist);
+
+// Vector functions
+void lerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float interp);
+
 #endif // MATHUTILITIES_H

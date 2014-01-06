@@ -5,12 +5,16 @@
 
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
+#include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/Messages/Declarations.h"
+
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Utilities/MathUtilities.h"
 
 #define ROOM_WIDTH_INDOORS 15
 #define ROOM_HEIGHT_INDOORS 10
@@ -48,12 +52,15 @@ void GridManager::init() {
 	// TODO [Remove] Just use this to draw the grid until we get some actual objects into the level
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 #endif
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
 }
 
 void GridManager::destroy() {
 #ifdef DEBUG
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 #endif
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+
 	if (this->gridCells != nullptr) {
 		for (unsigned int i = 0; i < this->gridWidth; ++i) {
 			for (unsigned int j = 0; j < this->gridHeight; ++j) {
@@ -76,6 +83,10 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 			DebugTouchTest();
 			break;
 #endif
+		case MESSAGE_TYPE_GRID_CELL_CHANGED:
+			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
+			break;
+
 		default:
 			break;
 	}
@@ -100,7 +111,7 @@ void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
 			glm::vec3 center;
 			center.x = i * this->cellSize;
 			center.y = 0;
-			center.z = -j * this->cellSize;
+			center.z = j * -this->cellSize;
 			glm::vec3 origin = center - this->halfCellSize;
 			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, true);
 		}
@@ -167,7 +178,22 @@ void GridManager::ToggleOverview() {
 void GridManager::TouchOnGrid(uTouch uT) {
 
 }
-
+*/
+void GridManager::GetNeighbors(GridCell* cel, std::list<GridCell*>& outNbrs) {
+	if (IsWithinGrid(cel->x - 1, cel->z)) {
+		outNbrs.push_back(this->gridCells[cel->x - 1][cel->z]);
+	}
+	if (IsWithinGrid(cel->x + 1, cel->z)) {
+		outNbrs.push_back(this->gridCells[cel->x + 1][cel->z]);
+	}
+	if (IsWithinGrid(cel->x, cel->z - 1)) {
+		outNbrs.push_back(this->gridCells[cel->x][cel->z - 1]);
+	}
+	if (IsWithinGrid(cel->x, cel->z + 1)) {
+		outNbrs.push_back(this->gridCells[cel->x][cel->z + 1]);
+	}
+}
+/*
 std::list<GridCell> GridManager::GetNeighbors(GridCell* cel, bool diagonals, bool sameRoom) {
 
 }
@@ -243,3 +269,19 @@ void GridManager::DebugTouchTest() {
     }
 }
 #endif
+
+void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
+	GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+	GridCell* destCell = GetCell(dest.x, dest.z);
+
+	GridNavigator* gNav = obj->GetComponent<GridNavigator>();
+	ASSERT(gNav == nullptr, "Moving object has GridNavigator component");
+
+	if (destCell->occupant == nullptr) {
+		if (gNav->GetCurrentCell() != nullptr) {
+			gNav->GetCurrentCell()->occupant = nullptr;
+		}
+		destCell->occupant = obj;
+		gNav->SetCurrentCell(destCell);
+	}
+}

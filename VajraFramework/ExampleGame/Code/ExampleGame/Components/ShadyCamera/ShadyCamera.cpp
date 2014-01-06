@@ -7,7 +7,7 @@
 #include "Vajra/Utilities/MathUtilities.h"
 
 namespace ShadyCameraTween {
-	void tweenCallback(ObjectIdType gameObjectId, std::string tweenClipName) {
+	void tweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */) {
 	}
 }
 

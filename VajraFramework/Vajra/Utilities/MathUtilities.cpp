@@ -41,3 +41,9 @@ bool rayPlaneIntersection(Ray& ray, Plane& plane, float& dist) {
 	dist = (glm::dot(plane.normal, rayToPlane) / glm::dot(plane.normal, ray.dir));
 	return (dist >= 0);
 }
+
+void lerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float interp) {
+	lerp(destination.x, a.x, b.x, interp);
+	lerp(destination.y, a.y, b.y, interp);
+	lerp(destination.z, a.z, b.z, interp);
+}

@@ -12,6 +12,7 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
+#include <list>
 #include <string>
 
 class GridManager : public Component {
@@ -37,6 +38,8 @@ public:
 
 	GridCell* GetCell(int x, int z); // Returns the cell at the specified coordinates
 	GridCell* GetCell(glm::vec3 loc); // Returns the cell at the specified world position
+
+	void GetNeighbors(GridCell* cel, std::list<GridCell*>& outNbrs); // Populates the list with all adjacent cells
 
 	// returns the world position of the center of a room
 	glm::vec3 GetRoomCenter(int x, int z);
@@ -66,6 +69,9 @@ private:
 	void DebugDrawGrid();
 	void DebugTouchTest();
 #endif
+
+	void gridCellChangedHandler(ObjectIdType id, glm::vec3 dest);
+
 	float cellSize; // Width and depth of a grid cell in world coordinates
 	glm::vec3 halfCellSize; // Offset vector between center and corner of a grid cell
 
