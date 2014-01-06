@@ -14,9 +14,12 @@
 
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame: frame];
+	// resize the view on rotate
+	self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin |
+	UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
+	UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 	return self;
 }
-
 - (void) touchesBegan:(NSSet *) touches withEvent:(UIEvent *) event {
 	for (UITouch *touch in touches) {
 		CGPoint pt = [touch locationInView:self];

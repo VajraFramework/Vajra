@@ -30,6 +30,19 @@ void lerp(float& destination, const float a, const float b, const float interp);
 void slerp(glm::quat& destination, const glm::quat a, const glm::quat b, float interp);
 void catmullromerp(float& destination, const float p0, const float p1, const float p2, const float p3, const float interp);
 
+// Simple intersection
+struct Ray {
+	glm::vec3 origin;
+	glm::vec3 dir;
+};
+
+struct Plane {
+	glm::vec3 origin;
+	glm::vec3 normal;
+};
+
+bool rayPlaneIntersection(Ray& ray, Plane& plane, float& dist);
+
 // Vector functions
 void lerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float interp);
 

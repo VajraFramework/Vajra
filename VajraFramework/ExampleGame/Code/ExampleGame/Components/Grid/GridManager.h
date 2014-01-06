@@ -10,6 +10,7 @@
 #include "Libraries/glm/glm.hpp"
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Utilities/MathUtilities.h"
 
 #include <list>
 #include <string>
@@ -43,10 +44,12 @@ public:
 	// returns the world position of the center of a room
 	glm::vec3 GetRoomCenter(int x, int z);
 	glm::vec3 GetRoomCenter(GridCell* cell);
+	
+	GridCell* TouchPositionToCell(glm::vec2 touchPos);
+	glm::vec3 TouchPositionToGridPosition(glm::vec2 touchPos);
+
 	/****************
 	// TODO [Implement]
-	GridCell* TouchPositionToCell(glm::vec3 touchPos);
-	glm::vec3 TouchPositionToGridPosition(glm::vec3 touchPos);
 	std::list<GridCell> GetNeighbors(GridCell* cel, bool diagonals, bool sameRoom);
 	std::list<GridCell> GetNeighborsInRange(glm::vec3 pos, int range, bool includeObstructed, bool lineOfSight, bool sameElevation, GRID_DIR dir);
 	bool HasLineOfSight(int startX, int startZ, int endX, int endZ);
@@ -64,6 +67,7 @@ private:
 	bool IsWithinGrid(glm::vec3 loc); // Returns true if the vector position falls within a defined cell
 #ifdef DEBUG
 	void DebugDrawGrid();
+	void DebugTouchTest();
 #endif
 
 	void gridCellChangedHandler(ObjectIdType id, glm::vec3 dest);
@@ -80,7 +84,7 @@ private:
 	int roomOffsetX; // Number of cells separating rooms horizontally
 	int roomOffsetZ; // Number of cells separating rooms vertically
 	int maxElevation;
-	glm::vec3 gridOrigin; // The center of cell (0,0) in world coordinates
+	Plane gridPlane;  // The center of cell (0,0) in world coordinates and it's normal
 
 	//GameObject* transZones;
 

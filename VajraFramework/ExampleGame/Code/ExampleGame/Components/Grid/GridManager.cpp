@@ -9,8 +9,10 @@
 #include "ExampleGame/Messages/Declarations.h"
 
 #include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
+#include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
@@ -44,7 +46,8 @@ void GridManager::init() {
 	this->roomOffsetX   = 0;
 	this->roomOffsetZ   = 0;
 	this->maxElevation  = 0;
-	this->gridOrigin    = ZERO_VEC3;
+	this->gridPlane.origin = ZERO_VEC3;
+	this->gridPlane.normal = YAXIS;
 #ifdef DEBUG
 	// TODO [Remove] Just use this to draw the grid until we get some actual objects into the level
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
@@ -77,6 +80,7 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 #ifdef DEBUG
 		case MESSAGE_TYPE_FRAME_EVENT:
 			DebugDrawGrid();
+			DebugTouchTest();
 			break;
 #endif
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
@@ -113,7 +117,7 @@ void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
 		}
 	}
 
-	this->gridOrigin = this->gridCells[0][0]->center;
+	this->gridPlane.origin = this->gridCells[0][0]->center;
 }
 
 int GridManager::GetRoomX(int cellX) {
@@ -125,9 +129,8 @@ int GridManager::GetRoomZ(int cellZ) {
 }
 
 GridCell* GridManager::GetCell(int x, int z) {
-	if (!IsWithinGrid(x, z)) { return nullptr; }
-
-	return this->gridCells[x][z];
+	if (IsWithinGrid(x * this->cellSize, z * this->cellSize)) { return this->gridCells[x][z]; }
+	return nullptr;
 }
 
 GridCell* GridManager::GetCell(glm::vec3 loc) {
@@ -149,15 +152,25 @@ glm::vec3 GridManager::GetRoomCenter(int x, int z) {
 glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
 	return this->GetRoomCenter(cell->x, cell->z);
 }
+
+GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
+	glm::vec3 gridPosition = this->TouchPositionToGridPosition(touchPos);
+	return this->GetCell(gridPosition);;
+}
+
+glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
+	glm::vec3 gridPosition = glm::vec3();
+
+	Ray screenRay = ENGINE->GetSceneGraph3D()->GetMainCamera()->ScreenPointToRay(touchPos);
+	float dist;
+	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
+	{
+		gridPosition = screenRay.origin + screenRay.dir * dist;
+	}
+	return gridPosition;
+}
+
 /*
-GridCell* GridManager::TouchPositionToCell(glm::vec3 touchPos) {
-
-}
-
-glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec3 touchPos) {
-
-}
-
 void GridManager::ToggleOverview() {
 
 }
@@ -241,6 +254,19 @@ void GridManager::DebugDrawGrid() {
 		start.z -= this->cellSize;
 		end.z -= this->cellSize;
 	} while (j <= this->gridHeight);
+}
+
+
+void GridManager::DebugTouchTest() {
+	if(ENGINE->GetInput()->GetTouchCount() > 0)
+    {
+		Touch touch = ENGINE->GetInput()->GetTouch(0);
+		GridCell* cell = this->TouchPositionToCell(touch.pos);
+		if(cell != nullptr)
+			DebugDraw::DrawCube(cell->center, 1.0f);
+		glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
+		DebugDraw::DrawCube(gridPos, 1.0f);
+    }
 }
 #endif
 

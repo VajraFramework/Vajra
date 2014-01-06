@@ -47,7 +47,6 @@
 	// Set up the Engine input handler
 	IOSInputSender *sender = [[IOSInputSender alloc] initWithFrame:self.view.frame];
 	[self.view addSubview: sender];
-	
     [self setupGL];
 }
 
@@ -78,8 +77,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-
 - (void)setupGL
 {
     
@@ -87,7 +84,8 @@
     
     int width = self.view.bounds.size.width;
     int height = self.view.bounds.size.height;
-    setupGraphics(width, height);
+    //TODO [Hack] set these properly when the device moves
+    setupGraphics(height, width);
     
     Tesserakonteres::initGameObjectsForScene();
     Tesserakonteres::initUiGameObjects();
