@@ -51,6 +51,7 @@ private:
 	float calculatePath(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outPath); // Calculates a path and returns its length. Returns -1 if no path found.
 	float travelCostEstimate(GridCell* startCell, GridCell* goalCell); // Estimated distance between two cells
 	float actualTravelCost(GridCell* startCell, GridCell* goalCell);
+	void simplifyPath(std::list<GridCell*>& outPath);
 
 	static ComponentIdType componentTypeId;
 

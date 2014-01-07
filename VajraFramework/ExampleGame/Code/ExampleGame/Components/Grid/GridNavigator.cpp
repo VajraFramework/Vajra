@@ -183,6 +183,7 @@ float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std:
 	gScores[startCell] = 0.0f;
 	fScores[startCell] = travelCostEstimate(startCell, goalCell);
 	openSet.push_back(startCell);
+	cameFrom[startCell] = nullptr;
 
 	while (openSet.size() > 0) {
 		// Find the cell in the open set with the lowest fScore
@@ -198,10 +199,11 @@ float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std:
 		if (current == goalCell) {
 			// Reconstruct and return the path
 			GridCell* checked = current;
-			while (checked != startCell) {
+			while (checked != nullptr) {
 				outPath.push_front(checked);
 				checked = cameFrom[checked];
 			}
+			this->simplifyPath(outPath);
 			return gScores[current];
 		}
 
@@ -242,4 +244,42 @@ float GridNavigator::travelCostEstimate(GridCell* startCell, GridCell* goalCell)
 float GridNavigator::actualTravelCost(GridCell* startCell, GridCell* goalCell) {
 	// The travel cost is the vector distance between the two cells
 	return glm::distance(startCell->center, goalCell->center);
+}
+
+void GridNavigator::simplifyPath(std::list<GridCell*>& outPath) {
+	if (outPath.size() == 0) { return; }
+	std::list<GridCell*> simplePath;
+
+	auto startIter = outPath.begin();
+	auto nextIter = startIter;
+	while (nextIter != outPath.end()) {
+		// Trace the direct route to the target cell from opposite corners.
+		std::list<GridCell*> touchedCells;
+		SINGLETONS->GetGridManager()->TouchedCells(*startIter, *nextIter, touchedCells);
+
+		// Check if any of the cells are blocked.
+		bool isRouteClear = true;
+		for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
+			if (!SINGLETONS->GetGridManager()->Passable(*startIter, *iter)) {
+				isRouteClear = false;
+				break;
+			}
+		}
+
+		if (isRouteClear) {
+			++nextIter;
+		}
+		else {
+			startIter = nextIter;
+			--startIter;
+			simplePath.push_back(*startIter);
+		}
+	}
+	simplePath.push_back(outPath.back());
+
+	outPath.clear();
+	while (simplePath.size() > 0) {
+		outPath.push_back(simplePath.front());
+		simplePath.pop_front();
+	}
 }
