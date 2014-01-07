@@ -114,6 +114,9 @@ void GridNavigator::update() {
 	if (this->isTraveling) {
 		followPath();
 	}
+	else {
+		SetDestination(8, 0);
+	}
 }
 
 void GridNavigator::followPath() {
@@ -122,7 +125,29 @@ void GridNavigator::followPath() {
 	float distToTravel = this->movementSpeed * dt;
 	glm::vec3 tempLocation = myTransform->GetPosition();
 
-	int count = this->currentPath.size();
+	glm::vec3 p0, p1, p2, p3;
+	auto iter = this->currentPath.begin();
+	p0 = tempLocation;
+	p1 = tempLocation;
+	p2 = (*iter)->center;
+	++iter;
+	if (iter != this->currentPath.end()) {
+		p3 = (*iter)->center;
+	}
+	else {
+		p3 = p2;
+	}
+
+	float dist = glm::distance(p1, p2);
+	float ratio = distToTravel / dist;
+	if (ratio > 1.0f) { ratio = 1.0f; }
+	catmullromerp(tempLocation.x, p0.x, p1.x, p2.x, p3.x, ratio);
+	catmullromerp(tempLocation.y, p0.y, p1.y, p2.y, p3.y, ratio);
+	catmullromerp(tempLocation.z, p0.z, p1.z, p2.z, p3.z, ratio);
+	if (glm::distance(tempLocation, p2) < 0.01f) {
+		this->currentPath.pop_front();
+	}
+	/*
 	while ((distToTravel > 0.0f) && (count > 0)) {
 		glm::vec3 targetLocation = this->currentPath.front()->center;
 		float distToTarget = glm::distance(tempLocation, targetLocation);
@@ -139,7 +164,7 @@ void GridNavigator::followPath() {
 			distToTravel = 0.0f;
 		}
 	}
-
+	*/
 	myTransform->SetPosition(tempLocation);
 	GridCell* newCell = SINGLETONS->GetGridManager()->GetCell(tempLocation);
 	if (newCell != this->currentCell) {
@@ -213,21 +238,23 @@ float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std:
 		std::list<GridCell*> neighbors;
 		SINGLETONS->GetGridManager()->GetNeighbors(current, neighbors);
 		for (auto iter = neighbors.begin(); iter != neighbors.end(); ++iter) {
-			float gScoreTentative = gScores[current] + actualTravelCost(current, *iter);
-			float fScoreTentative = gScoreTentative + travelCostEstimate(*iter, goalCell);
+			if (SINGLETONS->GetGridManager()->Passable(current, *iter)) {
+				float gScoreTentative = gScores[current] + actualTravelCost(current, *iter);
+				float fScoreTentative = gScoreTentative + travelCostEstimate(*iter, goalCell);
 
-			auto closedIter = std::find(closedSet.begin(), closedSet.end(), *iter);
+				auto closedIter = std::find(closedSet.begin(), closedSet.end(), *iter);
 
-			if ((closedIter != closedSet.end()) && (fScoreTentative >= fScores[*iter])) { continue; }
+				if ((closedIter != closedSet.end()) && (fScoreTentative >= fScores[*iter])) { continue; }
 
-			auto openIter = std::find(openSet.begin(), openSet.end(), *iter);
+				auto openIter = std::find(openSet.begin(), openSet.end(), *iter);
 
-			if ((openIter == openSet.end()) || (fScoreTentative < fScores[*iter])) {
-				cameFrom[*iter] = current;
-				gScores[*iter] = gScoreTentative;
-				fScores[*iter] = fScoreTentative;
-				if (openIter == openSet.end()) {
-					openSet.push_back(*iter);
+				if ((openIter == openSet.end()) || (fScoreTentative < fScores[*iter])) {
+					cameFrom[*iter] = current;
+					gScores[*iter] = gScoreTentative;
+					fScores[*iter] = fScoreTentative;
+					if (openIter == openSet.end()) {
+						openSet.push_back(*iter);
+					}
 				}
 			}
 		}
