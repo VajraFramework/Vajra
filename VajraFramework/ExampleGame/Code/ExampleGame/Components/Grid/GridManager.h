@@ -7,6 +7,7 @@
 #define GRIDMANAGER_H
 
 #include "ExampleGame/Components/Grid/GridCell.h"
+#include "ExampleGame/Components/Grid/GridZone.h"
 #include "Libraries/glm/glm.hpp"
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
@@ -27,6 +28,7 @@ public:
 	virtual void HandleMessage(MessageChunk messageChunk);
 
 	void GenerateTerrainFromFile(std::string terrainFilename);
+	void AddGridZone(GridZone* zone);
 
 	int GetRoomX(int cellX); // Returns the room in which the cell resides
 	int GetRoomZ(int cellZ); // Returns the room in which the cell resides
@@ -71,11 +73,13 @@ private:
 #endif
 
 	void gridCellChangedHandler(ObjectIdType id, glm::vec3 dest);
+	void checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell);
 
 	float cellSize; // Width and depth of a grid cell in world coordinates
 	glm::vec3 halfCellSize; // Offset vector between center and corner of a grid cell
 
 	GridCell*** gridCells; // 2D array of grid cells
+	std::list<GridZone*> gridZones;
 
 	unsigned int gridWidth;
 	unsigned int gridHeight;

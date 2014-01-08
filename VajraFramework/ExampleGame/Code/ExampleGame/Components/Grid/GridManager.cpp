@@ -13,6 +13,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
@@ -118,6 +119,15 @@ void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
 	}
 
 	this->gridPlane.origin = this->gridCells[0][0]->center;
+}
+
+void GridManager::AddGridZone(GridZone* zone) {
+	for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
+		if (*iter == zone) {
+			return;
+		}
+	}
+	this->gridZones.push_back(zone);
 }
 
 int GridManager::GetRoomX(int cellX) {
@@ -278,10 +288,25 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 	ASSERT(gNav != nullptr, "Moving object has GridNavigator component");
 
 	if (destCell->occupant == nullptr) {
-		if (gNav->GetCurrentCell() != nullptr) {
-			gNav->GetCurrentCell()->occupant = nullptr;
+		GridCell* startCell = gNav->GetCurrentCell();
+		if (startCell != nullptr) {
+			startCell->occupant = nullptr;
 		}
 		destCell->occupant = obj;
 		gNav->SetCurrentCell(destCell);
+		// Determine if the object entered or exited any grid zones.
+		this->checkZoneCollisions(id, startCell, destCell);
+	}
+}
+
+void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
+	for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
+		MessageType collisionType = (*iter)->CollisionCheck(startCell, destCell);
+		if (collisionType != MESSAGE_TYPE_UNSPECIFIED) {
+			MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			collisionMessage->SetMessageType(collisionType);
+			collisionMessage->messageData.i = id;
+			ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, (*iter)->GetObject()->GetId(), id);
+		}
 	}
 }
