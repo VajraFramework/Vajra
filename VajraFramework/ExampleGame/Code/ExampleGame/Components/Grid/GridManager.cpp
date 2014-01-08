@@ -33,7 +33,7 @@ GridManager::GridManager(Object* object_) : Component(object_) {
 }
 
 GridManager::~GridManager() {
-	destroy();
+	this->destroy();
 }
 
 void GridManager::init() {
@@ -42,10 +42,6 @@ void GridManager::init() {
 	this->gridCells     = nullptr;
 	this->gridWidth     = 0;
 	this->gridHeight    = 0;
-	this->roomWidth     = 0;
-	this->roomHeight    = 0;
-	this->roomOffsetX   = 0;
-	this->roomOffsetZ   = 0;
 	this->maxElevation  = 0;
 	this->gridPlane.origin = ZERO_VEC3;
 	this->gridPlane.normal = YAXIS;
@@ -74,6 +70,11 @@ void GridManager::destroy() {
 		delete [] this->gridCells;
 		this->gridCells = nullptr;
 	}
+
+	for (unsigned int i = 0; i < this->gridRooms.size(); ++i) {
+		delete this->gridRooms[i];
+	}
+	this->gridRooms.clear();
 }
 
 void GridManager::HandleMessage(MessageChunk messageChunk) {
@@ -102,8 +103,6 @@ void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
 	this->halfCellSize.z = -0.5f;
 	this->gridWidth = ROOM_WIDTH_OUTDOORS * 2.0f;
 	this->gridHeight = ROOM_HEIGHT_OUTDOORS * 2.0f;
-	this->roomWidth = ROOM_WIDTH_OUTDOORS;
-	this->roomHeight = ROOM_HEIGHT_OUTDOORS;
 
 	this->gridCells = new GridCell**[this->gridWidth];
 	for (unsigned int i = 0; i < this->gridWidth; ++i) {
@@ -115,6 +114,14 @@ void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
 			center.z = j * -this->cellSize;
 			glm::vec3 origin = center - this->halfCellSize;
 			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, true);
+		}
+	}
+
+	// Spawn sample rooms
+	for (int i = 0; i < 2; ++i) {
+		for (int j = 0; j < 2; ++j) {
+			GridRoom* room = new GridRoom(ROOM_WIDTH_OUTDOORS * i, ROOM_HEIGHT_OUTDOORS * j, ROOM_WIDTH_OUTDOORS, ROOM_HEIGHT_OUTDOORS);
+			gridRooms.push_back(room);
 		}
 	}
 
@@ -130,14 +137,6 @@ void GridManager::AddGridZone(ObjectIdType zoneId) {
 	this->gridZones.push_back(zoneId);
 }
 
-int GridManager::GetRoomX(int cellX) {
-	return (cellX / this->roomWidth);
-}
-
-int GridManager::GetRoomZ(int cellZ) {
-	return (cellZ / this->roomHeight);
-}
-
 GridCell* GridManager::GetCell(int x, int z) {
 	if (IsWithinGrid(x * this->cellSize, z * this->cellSize)) { return this->gridCells[x][z]; }
 	return nullptr;
@@ -149,18 +148,43 @@ GridCell* GridManager::GetCell(glm::vec3 loc) {
 	return GetCell(gX, gZ);
 }
 
+GridRoom* GridManager::GetRoom(int x, int z) {
+	GridCell* cell = GetCell(x, z);
+	return GetRoom(cell);
+}
+
+GridRoom* GridManager::GetRoom(glm::vec3 loc) {
+	int gX = (int)((loc.x / this->cellSize) + 0.5f);
+	int gZ = (int)((-loc.z / this->cellSize) + 0.5f);
+	return GetRoom(gX, gZ);
+}
+
+GridRoom* GridManager::GetRoom(GridCell* cell) {
+	if (cell != nullptr) {
+		for (unsigned int i = 0; i < this->gridRooms.size(); ++i) {
+			if (this->gridRooms[i]->IsWithinRoom(cell->x, cell->z)) {
+				return this->gridRooms[i];
+			}
+		}
+	}
+	return nullptr;
+}
+
 glm::vec3 GridManager::GetRoomCenter(int x, int z) {
-	float roomX = this->GetRoomX(x) * this->roomWidth;
-	float roomZ = this->GetRoomZ(z) * this->roomHeight;
-	roomX += (float)this->roomWidth / 2.0f;
-	roomZ += (float)this->roomHeight / -2.0f;
-	glm::vec3 center = glm::vec3(roomX, 0.0f, roomZ);
-	center -= this->halfCellSize;
-	return center;
+	GridCell* cell = GetCell(x, z);
+	return GetRoomCenter(cell);
 }
 
 glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
-	return this->GetRoomCenter(cell->x, cell->z);
+	glm::vec3 center;
+	GridRoom* room = GetRoom(cell);
+	if (room != nullptr) {
+		center.x = (room->westBound + room->eastBound) * this->cellSize * 0.5f;
+		center.y = 0.0f;
+		center.z = (room->southBound + room->northBound) * this->cellSize * -0.5f;
+		return center;
+	}
+	return ZERO_VEC3;
 }
 
 GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
