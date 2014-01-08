@@ -28,7 +28,7 @@ public:
 	virtual void HandleMessage(MessageChunk messageChunk);
 
 	void GenerateTerrainFromFile(std::string terrainFilename);
-	void AddGridZone(GridZone* zone);
+	void AddGridZone(ObjectIdType zoneId);
 
 	int GetRoomX(int cellX); // Returns the room in which the cell resides
 	int GetRoomZ(int cellZ); // Returns the room in which the cell resides
@@ -79,7 +79,7 @@ private:
 	glm::vec3 halfCellSize; // Offset vector between center and corner of a grid cell
 
 	GridCell*** gridCells; // 2D array of grid cells
-	std::list<GridZone*> gridZones;
+	std::list<ObjectIdType> gridZones;
 
 	unsigned int gridWidth;
 	unsigned int gridHeight;

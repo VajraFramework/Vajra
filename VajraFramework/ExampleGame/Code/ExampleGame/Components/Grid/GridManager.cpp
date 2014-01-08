@@ -121,13 +121,13 @@ void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
 	this->gridPlane.origin = this->gridCells[0][0]->center;
 }
 
-void GridManager::AddGridZone(GridZone* zone) {
+void GridManager::AddGridZone(ObjectIdType zoneId) {
 	for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
-		if (*iter == zone) {
+		if (*iter == zoneId) {
 			return;
 		}
 	}
-	this->gridZones.push_back(zone);
+	this->gridZones.push_back(zoneId);
 }
 
 int GridManager::GetRoomX(int cellX) {
@@ -287,12 +287,12 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 	GridNavigator* gNav = obj->GetComponent<GridNavigator>();
 	ASSERT(gNav != nullptr, "Moving object has GridNavigator component");
 
-	if (destCell->occupant == nullptr) {
+	if (destCell->unitId == OBJECT_ID_INVALID) {
 		GridCell* startCell = gNav->GetCurrentCell();
 		if (startCell != nullptr) {
-			startCell->occupant = nullptr;
+			startCell->unitId = OBJECT_ID_INVALID;
 		}
-		destCell->occupant = obj;
+		destCell->unitId = id;
 		gNav->SetCurrentCell(destCell);
 		// Determine if the object entered or exited any grid zones.
 		this->checkZoneCollisions(id, startCell, destCell);
@@ -301,12 +301,14 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 
 void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
 	for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
-		MessageType collisionType = (*iter)->CollisionCheck(startCell, destCell);
+		Object* zoneObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
+		GridZone* zoneComp = zoneObj->GetComponent<GridZone>();
+		MessageType collisionType = zoneComp->CollisionCheck(startCell, destCell);
 		if (collisionType != MESSAGE_TYPE_UNSPECIFIED) {
 			MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 			collisionMessage->SetMessageType(collisionType);
 			collisionMessage->messageData.i = id;
-			ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, (*iter)->GetObject()->GetId(), id);
+			ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, *iter, id);
 		}
 	}
 }

@@ -85,7 +85,7 @@ void GridZone::init() {
 	this->southBound = -1;
 	this->northBound = -1;
 
-	SINGLETONS->GetGridManager()->AddGridZone(this);
+	SINGLETONS->GetGridManager()->AddGridZone(this->GetObject()->GetId());
 
 	// Subscribe to "collision" messages
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED, this->GetTypeId(), false);
