@@ -58,7 +58,6 @@ void Input::updateInput() {
 		this->asyncPinch.gestureState = GestureState::GestureState_Inactive;
 	}
 	if(this->framePinch.gestureState != GestureState::GestureState_Inactive) {
-		FRAMEWORK->GetLogger()->dbglog("Pinch log scale: %f, velocity: %f state = %d \n", this->framePinch.scale, this->framePinch.velocity, this->framePinch.gestureState);
 		// Raise the pinch gesture event
 		MessageChunk pinchGestureMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		pinchGestureMessage->SetMessageType(MESSAGE_TYPE_PINCH_GESTURE);

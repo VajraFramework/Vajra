@@ -1,5 +1,7 @@
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
+#include "ExampleGame/Messages/Declarations.h"
+#include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -31,7 +33,11 @@ void ShadyCamera::init() {
 	this->SetFOV(30.0f);
 	this->camSpeed = 3.0f;
 	this->camMode = CameraMode::CameraMode_Game;
+	
 	this->newPinch = false;
+	this->velocityThreshold = 7.0f;
+	this->heightThreshold = 10.0f;
+
 	this->gameObjectRef = (GameObject*)this->GetObject();
 	Transform* camTransform = this->gameObjectRef->GetTransform();
 
@@ -97,7 +103,6 @@ void ShadyCamera::ZoomTo(float y) {
 }
 
 void ShadyCamera::ZoomBy(float yOffset) {
-	FRAMEWORK->GetLogger()->dbglog("\nZoom by %f", yOffset);
 	glm::vec3 newPos = this->gameObjectRef->GetTransform()->GetPosition();
 	newPos.y += yOffset;
 	this->gameObjectRef->GetTransform()->SetPosition(newPos);
@@ -137,10 +142,8 @@ void ShadyCamera::onPinch() {
 	if(!this->newPinch)
 		return;
 
-	FRAMEWORK->GetLogger()->dbglog("On Pinch");
-	float zoomAmt;
 	float pinchVel = ENGINE->GetInput()->GetPinch().velocity;
-	zoomAmt = -pinchVel;
+	float zoomAmt = -pinchVel;
 
 	this->ZoomBy(zoomAmt);
 
@@ -151,7 +154,7 @@ void ShadyCamera::onPinch() {
 	}
 
 	// if a mode switch hasn't occur reset the camera
-	if(ENGINE->GetInput()->PinchEnded(ENGINE->GetInput()->GetPinch().gestureState)) {
+	if(ENGINE->GetInput()->HasPinchEnded()) {
 		if(this->camMode == CameraMode::CameraMode_Game )
 			this->MoveToCurrentRoom();
 		else
@@ -160,11 +163,9 @@ void ShadyCamera::onPinch() {
 }
 
 bool ShadyCamera::tryModeSwitch(float velocity) {
-	float velMax = 7.0f;
-	float heightDif = 10.0f;
 	float startY = this->camMode == CameraMode::CameraMode_Game ? this->gameCamHeight : this->overviewPos.y;
 	float camY = this->gameObjectRef->GetTransform()->GetPosition().y;
-	if(abs(velocity) >= velMax || abs(startY - camY) >= heightDif)
+	if(abs(velocity) >= this->velocityThreshold || abs(startY - camY) >= this->heightThreshold)
 	{
 		// Zoom in pinch
 		if(velocity > 0) {
@@ -183,7 +184,10 @@ bool ShadyCamera::tryModeSwitch(float velocity) {
 void ShadyCamera::setCameraMode(CameraMode newMode) {
 	if(newMode != this->camMode) {
 		this->camMode = newMode;
-		// TODO [Implement] : Send a message?
+
+		MessageChunk cameraChange = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		cameraChange->SetMessageType(MESSAGE_TYPE_CAMERA_MODE_CHANGED);
+		ENGINE->GetMessageHub()->SendMulticastMessage(cameraChange, this->GetTypeId());
 	}
 }
 

@@ -64,7 +64,7 @@ public:
 
 	Pinch GetPinch() { return this->framePinch; }
 	void UpdatePinch(float scale, float velocity, GestureState gestureState);
-	bool PinchEnded(GestureState gs) { return gs >= GestureState::GestureState_End; }
+	bool HasPinchEnded() { return this->framePinch.gestureState >= GestureState::GestureState_End; }
 private:
 	Input();
 	void init();

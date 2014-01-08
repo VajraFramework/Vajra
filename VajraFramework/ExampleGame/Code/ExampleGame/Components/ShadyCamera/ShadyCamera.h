@@ -26,6 +26,8 @@ public:
 	ShadyCamera(Object* object_);
 	~ShadyCamera();
 
+	static inline unsigned int GetTypeId() { return Camera::GetTypeId(); }
+
 	virtual void HandleMessage(MessageChunk messageChunk);
 
 	void SetGridManager(GridManager* value);
@@ -62,9 +64,12 @@ private:
 	void setGameCameraPosition(float x, float z);
 
 	bool newPinch;
+	float velocityThreshold;
+	float heightThreshold;
 	void onPinch();
 	bool tryModeSwitch(float velocity);
 	void setCameraMode(CameraMode newMode);
+
 	float camSpeed;
 	float gameCamHeight;
 	glm::vec3 gameCamPos;
