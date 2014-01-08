@@ -18,6 +18,8 @@ enum EngineMessageType {
 	MESSAGE_TYPE_ANIMATION_ENDED_EVENT,
 	//
 	NUM_ENGINE_MESSAGE_TYPES,
+	//
+	MESSAGE_TYPE_PINCH_GESTURE,
 };
 
 enum MessageDataType {

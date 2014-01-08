@@ -1,8 +1,11 @@
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
+#include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
@@ -26,7 +29,9 @@ ShadyCamera::~ShadyCamera() {
 void ShadyCamera::init() {
 	// Set camera properties
 	this->SetFOV(30.0f);
-	this->camSpeed = 0.1f;
+	this->camSpeed = 3.0f;
+	this->camMode = CameraMode::CameraMode_Game;
+	this->newPinch = false;
 	this->gameObjectRef = (GameObject*)this->GetObject();
 	Transform* camTransform = this->gameObjectRef->GetTransform();
 
@@ -34,7 +39,7 @@ void ShadyCamera::init() {
 	this->gameCamHeight = 24.0f;
 
 	// TODO [Implement] : get overview pos and start room from level data
-	this->overviewPos = glm::vec3(18.0f, 50.0f, -18.0f);
+	this->overviewPos = glm::vec3(0.0f, 50.0f, 0.0f);
 	this->gameCamPos = glm::vec3(0.0f, this->gameCamHeight, 0.0f);
 
 	camTransform->SetPosition(this->gameCamPos);
@@ -42,15 +47,26 @@ void ShadyCamera::init() {
 	camTransform->Rotate(180.0f, camTransform->GetForward());
 
 	this->gridManagerRef = nullptr;
+
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId(), false);
 }
 
 void ShadyCamera::destroy() {
+	this->removeSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId());
 	this->gameObjectRef = nullptr;
 	this->gridManagerRef = nullptr;
 }
 
 void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
-	Camera::HandleMessage(messageChunk);
+	Camera::HandleMessage(messageChunk);		
+	switch (messageChunk->GetMessageType()) {
+		case MESSAGE_TYPE_PINCH_GESTURE:
+			this->onPinch();
+			break;
+
+		default:
+			break;
+	}
 }
 
 void ShadyCamera::SetGridManager(GridManager* newManager) {
@@ -60,8 +76,9 @@ void ShadyCamera::SetGridManager(GridManager* newManager) {
 void ShadyCamera::MoveTo(glm::vec3 newPos) {
 	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
 	// TODO [HACK] : remove when Tween is changed
-	this->gameObjectRef->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos, this->camSpeed, ShadyCameraTween::tweenCallback);
+	//this->gameObjectRef->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
+	this->gameObjectRef->GetTransform()->SetPosition(newPos);
+	//ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos, this->camSpeed, ShadyCameraTween::tweenCallback);
 }
 
 void ShadyCamera::MoveTo(float x, float y, float z) {
@@ -76,13 +93,14 @@ void ShadyCamera::PanTo(float x, float z) {
 void ShadyCamera::ZoomTo(float y) {
 	glm::vec3 newPos = this->gameObjectRef->GetTransform()->GetPosition();
 	newPos.y = y;
-	this->MoveTo(newPos);
+	this->gameObjectRef->GetTransform()->SetPosition(newPos);
 }
 
 void ShadyCamera::ZoomBy(float yOffset) {
+	FRAMEWORK->GetLogger()->dbglog("\nZoom by %f", yOffset);
 	glm::vec3 newPos = this->gameObjectRef->GetTransform()->GetPosition();
 	newPos.y += yOffset;
-	this->MoveTo(newPos);
+	this->gameObjectRef->GetTransform()->SetPosition(newPos);
 }
  
 void ShadyCamera::MoveToCurrentRoom() {
@@ -111,3 +129,61 @@ void ShadyCamera::setGameCameraPosition(float x, float z) {
 	this->gameCamPos = this->gridManagerRef->GetRoomCenter(x, z);
 	this->gameCamPos.y += this->gameCamHeight;
 }
+
+void ShadyCamera::onPinch() {
+	if(ENGINE->GetInput()->GetPinch().gestureState == GestureState::GestureState_Start) {
+		this->newPinch = true;
+	}
+	if(!this->newPinch)
+		return;
+
+	FRAMEWORK->GetLogger()->dbglog("On Pinch");
+	float zoomAmt;
+	float pinchVel = ENGINE->GetInput()->GetPinch().velocity;
+	zoomAmt = -pinchVel;
+
+	this->ZoomBy(zoomAmt);
+
+	// if a mode switch occurs early out
+	if(tryModeSwitch(pinchVel)) {
+		this->newPinch = false;
+		return;
+	}
+
+	// if a mode switch hasn't occur reset the camera
+	if(ENGINE->GetInput()->PinchEnded(ENGINE->GetInput()->GetPinch().gestureState)) {
+		if(this->camMode == CameraMode::CameraMode_Game )
+			this->MoveToCurrentRoom();
+		else
+			this->MoveToOverview();
+	}
+}
+
+bool ShadyCamera::tryModeSwitch(float velocity) {
+	float velMax = 7.0f;
+	float heightDif = 10.0f;
+	float startY = this->camMode == CameraMode::CameraMode_Game ? this->gameCamHeight : this->overviewPos.y;
+	float camY = this->gameObjectRef->GetTransform()->GetPosition().y;
+	if(abs(velocity) >= velMax || abs(startY - camY) >= heightDif)
+	{
+		// Zoom in pinch
+		if(velocity > 0) {
+			this->setCameraMode(CameraMode::CameraMode_Game);
+			this->MoveToCurrentRoom();
+		}
+		else {
+			this->setCameraMode(CameraMode::CameraMode_Overview);
+			this->MoveToOverview();
+		}
+		return true;
+	} 
+	return false;
+}
+
+void ShadyCamera::setCameraMode(CameraMode newMode) {
+	if(newMode != this->camMode) {
+		this->camMode = newMode;
+		// TODO [Implement] : Send a message?
+	}
+}
+

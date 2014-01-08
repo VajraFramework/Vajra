@@ -18,8 +18,8 @@ class GridManager;
 class ShadyCamera : public Camera {
 public:
 	enum CameraMode {
-		CAMERA_MODE_GAME,
-		CAMERA_MODE_OVERVIEW
+		CameraMode_Game,
+		CameraMode_Overview
 	};
 
 	ShadyCamera();
@@ -61,6 +61,10 @@ private:
 	// Find and store the current position for the game camera
 	void setGameCameraPosition(float x, float z);
 
+	bool newPinch;
+	void onPinch();
+	bool tryModeSwitch(float velocity);
+	void setCameraMode(CameraMode newMode);
 	float camSpeed;
 	float gameCamHeight;
 	glm::vec3 gameCamPos;
