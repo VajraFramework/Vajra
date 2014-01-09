@@ -2,7 +2,6 @@
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
-#include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
