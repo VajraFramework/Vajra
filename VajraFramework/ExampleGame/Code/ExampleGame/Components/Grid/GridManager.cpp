@@ -54,7 +54,6 @@ void GridManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 #endif
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_TOUCH_OFF_UI, this->GetTypeId(), false);
 }
 
 void GridManager::destroy() {
@@ -87,9 +86,6 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 #endif
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
 			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
-			break;
-		case MESSAGE_TYPE_TOUCH_OFF_UI:
-			this->touchOnGrid();
 			break;
 		default:
 			break;
@@ -155,6 +151,10 @@ glm::vec3 GridManager::GetRoomCenter(int x, int z) {
 
 glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
 	return this->GetRoomCenter(cell->x, cell->z);
+}
+
+void GridManager::OnTouch(int fingerId) {
+	FRAMEWORK->GetLogger()->dbglog("\nTouch on grid");	
 }
 
 GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
@@ -353,8 +353,4 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 		destCell->occupant = obj;
 		gNav->SetCurrentCell(destCell);
 	}
-}
-
-void GridManager::touchOnGrid() {
-	FRAMEWORK->GetLogger()->dbglog("\nTouch on grid");
 }

@@ -111,6 +111,7 @@
 		B35F3FEB187B48B60072200B /* MathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B35F3F85187B48B60072200B /* MathUtilities.cpp */; };
 		B35F3FEC187B48B60072200B /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B35F3F88187B48B60072200B /* Utilities.cpp */; };
 		B35F3FED187B48B60072200B /* VajraToAndroidJavaInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B35F3F8B187B48B60072200B /* VajraToAndroidJavaInterface.cpp */; };
+		B39A100E187F2EED00760DF9 /* ITouchTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39A100D187F2EED00760DF9 /* ITouchTarget.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -342,6 +343,8 @@
 		B35F3F89187B48B60072200B /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		B35F3F8B187B48B60072200B /* VajraToAndroidJavaInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VajraToAndroidJavaInterface.cpp; sourceTree = "<group>"; };
 		B35F3F8C187B48B60072200B /* VajraToAndroidJavaInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VajraToAndroidJavaInterface.h; sourceTree = "<group>"; };
+		B39A100B187F190A00760DF9 /* ITouchTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITouchTarget.h; sourceTree = "<group>"; };
+		B39A100D187F2EED00760DF9 /* ITouchTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ITouchTarget.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -875,9 +878,11 @@
 		B35F3EFE187B48B60072200B /* Input */ = {
 			isa = PBXGroup;
 			children = (
+				B39A100D187F2EED00760DF9 /* ITouchTarget.cpp */,
 				B35F3EFF187B48B60072200B /* Input.cpp */,
 				B35F3F00187B48B60072200B /* Input.h */,
 				B35F3F01187B48B60072200B /* Platforms */,
+				B39A100B187F190A00760DF9 /* ITouchTarget.h */,
 			);
 			path = Input;
 			sourceTree = "<group>";
@@ -1476,6 +1481,7 @@
 				B35F3FE9187B48B60072200B /* AndroidJavaToVajraInterface.cpp in Sources */,
 				B35F3FA8187B48B60072200B /* RigidAnimationClip.cpp in Sources */,
 				B35F3FD7187B48B60072200B /* FontLoader.cpp in Sources */,
+				B39A100E187F2EED00760DF9 /* ITouchTarget.cpp in Sources */,
 				B35F3FBE187B48B60072200B /* ProfileExperiment.cpp in Sources */,
 				B35F3FD0187B48B60072200B /* AndroidFileSystemUtils.cpp in Sources */,
 				B35F3F9D187B48B60072200B /* RigidAnimationClipDataAsset.cpp in Sources */,

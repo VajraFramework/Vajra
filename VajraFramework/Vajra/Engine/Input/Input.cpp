@@ -4,6 +4,8 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Utilities/Utilities.h"
 
 #if PLATFORM_DESKTOP
@@ -27,6 +29,7 @@ void Input::init() {
 }
 
 void Input::destroy() {
+	this->currentTouchTarget = nullptr;
 }
 
 bool touchOver(const Touch &touch) {
@@ -34,17 +37,17 @@ bool touchOver(const Touch &touch) {
 }
 
 void Input::updateInput() { 
-#if PLATFORM_DESKTOP
+#if PLATFORM_DESKTOPbett
 	this->updateMouseButton();
 #endif
 	// Populate frame touches with all input that has been asynchronously collected
 	this->frameTouches = this->asyncTouches;
 
-	// Send out input messages
-	for(std::vector<Touch>::iterator it = this->frameTouches.begin(); it != this->frameTouches.end(); ++it) {
-    	MessageChunk touchMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-		touchMessage->SetMessageType(MESSAGE_TYPE_TOUCH_OFF_UI);
-		ENGINE->GetMessageHub()->SendMulticastMessage(touchMessage, this->GetId());
+	// Send touches to the interested target
+	for(Touch touch : this->frameTouches) {
+    	if(this->currentTouchTarget != nullptr) {
+			this->currentTouchTarget->OnTouch(touch.fingerId);
+		}
 	}
 	// Remove all touches that have ended or been cancelled
 	this->asyncTouches.erase( std::remove_if(this->asyncTouches.begin(), this->asyncTouches.end(), touchOver), this->asyncTouches.end());
@@ -86,7 +89,8 @@ void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
 	t.fingerId = this->asyncTouches.size();
 	this->asyncTouches.push_back(t);
 
-	// Send a message to the UI that a touch started
+	// Find correct touch target for touch
+	this->testTouchTargets(t.fingerId);
 }
 
 void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {
@@ -109,11 +113,36 @@ void Input::UpdatePinch(float scale, float velocity, GestureState gestureState) 
 		this->asyncPinch.gestureState = gestureState;
 }
 
+void Input::AddGameTouchTarget(IGameTouchTarget* newTarget) {
+	this->gameTouchTargets.push_back(newTarget);
+}
 void Input::logTouches() {
 	if(this->GetTouchCount() > 0)
 		FRAMEWORK->GetLogger()->dbglog("TOUCH LOG \n");
 	for(std::vector<Touch>::iterator it = this->frameTouches.begin(); it != this->frameTouches.end(); ++it) {
 		FRAMEWORK->GetLogger()->dbglog("Touch id: %i pos: (%f, %f) %i \n", it->fingerId, it->pos.x, it->pos.y, (int)it->phase);
+	}
+}
+
+void Input::testTouchTargets(int index) {
+	// Test UIScene first
+	if(ENGINE->GetSceneGraphUi()->TestTouch(index)) {
+		this->currentTouchTarget = ENGINE->GetSceneGraphUi();
+		return;
+	}
+	
+	// Test all game targets
+	for(ITouchTarget* iTarget : this->gameTouchTargets) {
+    	if(iTarget->TestTouch(index)) {
+    		this->currentTouchTarget = iTarget;
+    		return;
+    	}
+    }
+
+	// test Scene3D last
+	if(ENGINE->GetSceneGraph3D()->TestTouch(index)) {
+		this->currentTouchTarget = ENGINE->GetSceneGraph3D();
+		return;
 	}
 }
 

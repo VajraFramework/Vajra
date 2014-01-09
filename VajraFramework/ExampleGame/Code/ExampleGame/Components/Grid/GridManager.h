@@ -10,12 +10,13 @@
 #include "Libraries/glm/glm.hpp"
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Input/ITouchTarget.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 #include <list>
 #include <string>
 
-class GridManager : public Component {
+class GridManager : public Component, public IGameTouchTarget {
 public:
 	GridManager();
 	GridManager(Object* object_);
@@ -44,6 +45,9 @@ public:
 	// returns the world position of the center of a room
 	glm::vec3 GetRoomCenter(int x, int z);
 	glm::vec3 GetRoomCenter(GridCell* cell);
+
+	virtual bool TestTouch(int fingerId) { return true; }
+	virtual void OnTouch(int fingerId);
 	
 	GridCell* TouchPositionToCell(glm::vec2 touchPos);
 	glm::vec3 TouchPositionToGridPosition(glm::vec2 touchPos);
@@ -74,7 +78,6 @@ private:
 #endif
 
 	void gridCellChangedHandler(ObjectIdType id, glm::vec3 dest);
-	void touchOnGrid();
 	
 	float cellSize; // Width and depth of a grid cell in world coordinates
 	glm::vec3 halfCellSize; // Offset vector between center and corner of a grid cell

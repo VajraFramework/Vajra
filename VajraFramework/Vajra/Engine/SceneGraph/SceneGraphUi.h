@@ -25,6 +25,8 @@ public:
 	virtual void update();
 	virtual void draw();
 
+	virtual bool TestTouch(int fingerId) { return true; }
+	virtual void OnTouch(int fingerId) {}
 protected:
 	SceneGraphUi();
 	virtual void init();
