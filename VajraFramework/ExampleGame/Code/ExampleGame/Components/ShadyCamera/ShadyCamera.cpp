@@ -153,10 +153,12 @@ void ShadyCamera::onPinch() {
 
 	// if a mode switch hasn't occur reset the camera
 	if(ENGINE->GetInput()->HasPinchEnded()) {
-		if(this->camMode == CameraMode::CameraMode_Game )
+		if(this->camMode == CameraMode::CameraMode_Game ) {
 			this->MoveToCurrentRoom();
-		else
+		}
+		else {
 			this->MoveToOverview();
+		}
 	}
 }
 
