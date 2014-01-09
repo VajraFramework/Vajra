@@ -20,7 +20,8 @@ public:
 	glm::vec3 origin; // Southwest corner of the cell in world coordinates
 	glm::vec3 center; // Center of the cell in world coordinates
 	bool isPassable; // If false, units will not attempt to navigate through the cell
-	GameObject* occupant; // The object in the cell
+	ObjectIdType unitId; // The id of the unit occupying the cell
+	std::list<ObjectIdType> staticObjs; // List of static object IDs that occupy the cell
 
 	/*
 	? Vision blocking

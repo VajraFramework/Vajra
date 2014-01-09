@@ -13,6 +13,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
@@ -32,7 +33,7 @@ GridManager::GridManager(Object* object_) : Component(object_) {
 }
 
 GridManager::~GridManager() {
-	destroy();
+	this->destroy();
 }
 
 void GridManager::init() {
@@ -41,10 +42,6 @@ void GridManager::init() {
 	this->gridCells     = nullptr;
 	this->gridWidth     = 0;
 	this->gridHeight    = 0;
-	this->roomWidth     = 0;
-	this->roomHeight    = 0;
-	this->roomOffsetX   = 0;
-	this->roomOffsetZ   = 0;
 	this->maxElevation  = 0;
 	this->gridPlane.origin = ZERO_VEC3;
 	this->gridPlane.normal = YAXIS;
@@ -73,6 +70,11 @@ void GridManager::destroy() {
 		delete [] this->gridCells;
 		this->gridCells = nullptr;
 	}
+
+	for (unsigned int i = 0; i < this->gridRooms.size(); ++i) {
+		delete this->gridRooms[i];
+	}
+	this->gridRooms.clear();
 }
 
 void GridManager::HandleMessage(MessageChunk messageChunk) {
@@ -101,8 +103,6 @@ void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
 	this->halfCellSize.z = -0.5f;
 	this->gridWidth = ROOM_WIDTH_OUTDOORS * 2.0f;
 	this->gridHeight = ROOM_HEIGHT_OUTDOORS * 2.0f;
-	this->roomWidth = ROOM_WIDTH_OUTDOORS;
-	this->roomHeight = ROOM_HEIGHT_OUTDOORS;
 
 	this->gridCells = new GridCell**[this->gridWidth];
 	for (unsigned int i = 0; i < this->gridWidth; ++i) {
@@ -125,14 +125,25 @@ void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
 	this->gridCells[4][2]->isPassable = false;
 	this->gridCells[4][3]->isPassable = false;
 	this->gridCells[4][4]->isPassable = false;
+
+	// Spawn sample rooms
+	for (int i = 0; i < 2; ++i) {
+		for (int j = 0; j < 2; ++j) {
+			GridRoom* room = new GridRoom(ROOM_WIDTH_OUTDOORS * i, ROOM_HEIGHT_OUTDOORS * j, ROOM_WIDTH_OUTDOORS, ROOM_HEIGHT_OUTDOORS);
+			gridRooms.push_back(room);
+		}
+	}
+
+	this->gridPlane.origin = this->gridCells[0][0]->center;
 }
 
-int GridManager::GetRoomX(int cellX) {
-	return (cellX / this->roomWidth);
-}
-
-int GridManager::GetRoomZ(int cellZ) {
-	return (cellZ / this->roomHeight);
+void GridManager::AddGridZone(ObjectIdType zoneId) {
+	for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
+		if (*iter == zoneId) {
+			return;
+		}
+	}
+	this->gridZones.push_back(zoneId);
 }
 
 GridCell* GridManager::GetCell(int x, int z) {
@@ -146,18 +157,43 @@ GridCell* GridManager::GetCell(glm::vec3 loc) {
 	return GetCell(gX, gZ);
 }
 
+GridRoom* GridManager::GetRoom(int x, int z) {
+	GridCell* cell = GetCell(x, z);
+	return GetRoom(cell);
+}
+
+GridRoom* GridManager::GetRoom(glm::vec3 loc) {
+	int gX = (int)((loc.x / this->cellSize) + 0.5f);
+	int gZ = (int)((-loc.z / this->cellSize) + 0.5f);
+	return GetRoom(gX, gZ);
+}
+
+GridRoom* GridManager::GetRoom(GridCell* cell) {
+	if (cell != nullptr) {
+		for (unsigned int i = 0; i < this->gridRooms.size(); ++i) {
+			if (this->gridRooms[i]->IsWithinRoom(cell->x, cell->z)) {
+				return this->gridRooms[i];
+			}
+		}
+	}
+	return nullptr;
+}
+
 glm::vec3 GridManager::GetRoomCenter(int x, int z) {
-	float roomX = this->GetRoomX(x) * this->roomWidth;
-	float roomZ = this->GetRoomZ(z) * this->roomHeight;
-	roomX += (float)this->roomWidth / 2.0f;
-	roomZ += (float)this->roomHeight / -2.0f;
-	glm::vec3 center = glm::vec3(roomX, 0.0f, roomZ);
-	center -= this->halfCellSize;
-	return center;
+	GridCell* cell = GetCell(x, z);
+	return GetRoomCenter(cell);
 }
 
 glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
-	return this->GetRoomCenter(cell->x, cell->z);
+	glm::vec3 center;
+	GridRoom* room = GetRoom(cell);
+	if (room != nullptr) {
+		center.x = (room->westBound + room->eastBound) * this->cellSize * 0.5f;
+		center.y = 0.0f;
+		center.z = (room->southBound + room->northBound) * this->cellSize * -0.5f;
+		return center;
+	}
+	return ZERO_VEC3;
 }
 
 GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
@@ -349,11 +385,40 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 	GridNavigator* gNav = obj->GetComponent<GridNavigator>();
 	ASSERT(gNav != nullptr, "Moving object has GridNavigator component");
 
-	if (destCell->occupant == nullptr) {
-		if (gNav->GetCurrentCell() != nullptr) {
-			gNav->GetCurrentCell()->occupant = nullptr;
+	if (destCell->unitId == OBJECT_ID_INVALID) {
+		GridCell* startCell = gNav->GetCurrentCell();
+		if (startCell != nullptr) {
+			startCell->unitId = OBJECT_ID_INVALID;
 		}
-		destCell->occupant = obj;
+		destCell->unitId = id;
 		gNav->SetCurrentCell(destCell);
+		// Determine if the object entered or exited any grid zones.
+		this->checkZoneCollisions(id, startCell, destCell);
+	}
+	else {
+		// A collision has occurred. Send a message to both units involved.
+		MessageChunk collisionMessageA = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		collisionMessageA->SetMessageType(MESSAGE_TYPE_GRID_UNIT_COLLISION);
+		collisionMessageA->messageData.i = id;
+		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageA, destCell->unitId, id);
+
+		MessageChunk collisionMessageB = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		collisionMessageB->SetMessageType(MESSAGE_TYPE_GRID_UNIT_COLLISION);
+		collisionMessageB->messageData.i = destCell->unitId;
+		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageB, id, destCell->unitId);
+	}
+}
+
+void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
+	for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
+		Object* zoneObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
+		GridZone* zoneComp = zoneObj->GetComponent<GridZone>();
+		MessageType collisionType = zoneComp->CollisionCheck(startCell, destCell);
+		if (collisionType != MESSAGE_TYPE_UNSPECIFIED) {
+			MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			collisionMessage->SetMessageType(collisionType);
+			collisionMessage->messageData.i = id;
+			ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, *iter, id);
+		}
 	}
 }
