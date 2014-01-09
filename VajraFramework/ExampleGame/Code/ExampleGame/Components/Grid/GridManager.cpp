@@ -321,6 +321,18 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 		// Determine if the object entered or exited any grid zones.
 		this->checkZoneCollisions(id, startCell, destCell);
 	}
+	else {
+		// A collision has occurred. Send a message to both units involved.
+		MessageChunk collisionMessageA = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		collisionMessageA->SetMessageType(MESSAGE_TYPE_GRID_UNIT_COLLISION);
+		collisionMessageA->messageData.i = id;
+		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageA, destCell->unitId, id);
+
+		MessageChunk collisionMessageB = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		collisionMessageB->SetMessageType(MESSAGE_TYPE_GRID_UNIT_COLLISION);
+		collisionMessageB->messageData.i = destCell->unitId;
+		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageB, id, destCell->unitId);
+	}
 }
 
 void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
