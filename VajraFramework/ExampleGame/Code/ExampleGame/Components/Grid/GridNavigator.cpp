@@ -106,9 +106,6 @@ void GridNavigator::update() {
 	if (this->isTraveling) {
 		followPath();
 	}
-	else {
-		SetDestination(8, 0);
-	}
 }
 
 void GridNavigator::followPath() {
