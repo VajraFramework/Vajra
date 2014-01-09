@@ -82,6 +82,9 @@ bool GridNavigator::SetDestination(glm::vec3 loc) {
 }
 
 bool GridNavigator::AddDestination(int x, int z) {
+	if (this->currentPath.size() == 0) {
+		return SetDestination(x, z);
+	}
 	GridCell* startCell = this->currentCell;
 	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(x, z);
 	float dist = this->calculatePath(startCell, goalCell, this->currentPath);
@@ -201,21 +204,23 @@ float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std:
 		std::list<GridCell*> neighbors;
 		SINGLETONS->GetGridManager()->GetNeighbors(current, neighbors);
 		for (auto iter = neighbors.begin(); iter != neighbors.end(); ++iter) {
-			float gScoreTentative = gScores[current] + actualTravelCost(current, *iter);
-			float fScoreTentative = gScoreTentative + travelCostEstimate(*iter, goalCell);
+			if (SINGLETONS->GetGridManager()->Passable(current, *iter)) {
+				float gScoreTentative = gScores[current] + actualTravelCost(current, *iter);
+				float fScoreTentative = gScoreTentative + travelCostEstimate(*iter, goalCell);
 
-			auto closedIter = std::find(closedSet.begin(), closedSet.end(), *iter);
+				auto closedIter = std::find(closedSet.begin(), closedSet.end(), *iter);
 
-			if ((closedIter != closedSet.end()) && (fScoreTentative >= fScores[*iter])) { continue; }
+				if ((closedIter != closedSet.end()) && (fScoreTentative >= fScores[*iter])) { continue; }
 
-			auto openIter = std::find(openSet.begin(), openSet.end(), *iter);
+				auto openIter = std::find(openSet.begin(), openSet.end(), *iter);
 
-			if ((openIter == openSet.end()) || (fScoreTentative < fScores[*iter])) {
-				cameFrom[*iter] = current;
-				gScores[*iter] = gScoreTentative;
-				fScores[*iter] = fScoreTentative;
-				if (openIter == openSet.end()) {
-					openSet.push_back(*iter);
+				if ((openIter == openSet.end()) || (fScoreTentative < fScores[*iter])) {
+					cameFrom[*iter] = current;
+					gScores[*iter] = gScoreTentative;
+					fScores[*iter] = fScoreTentative;
+					if (openIter == openSet.end()) {
+						openSet.push_back(*iter);
+					}
 				}
 			}
 		}

@@ -117,6 +117,15 @@ void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
 		}
 	}
 
+	this->gridPlane.origin = this->gridCells[0][0]->center;
+
+	// Set some random cells as blocked to test pathing
+	this->gridCells[4][0]->isPassable = false;
+	this->gridCells[4][1]->isPassable = false;
+	this->gridCells[4][2]->isPassable = false;
+	this->gridCells[4][3]->isPassable = false;
+	this->gridCells[4][4]->isPassable = false;
+
 	// Spawn sample rooms
 	for (int i = 0; i < 2; ++i) {
 		for (int j = 0; j < 2; ++j) {
