@@ -48,6 +48,9 @@ public:
 	GridCell* TouchPositionToCell(glm::vec2 touchPos);
 	glm::vec3 TouchPositionToGridPosition(glm::vec2 touchPos);
 
+	bool Passable(GridCell* startCell, GridCell* goalCell);
+	void TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outTouched);
+
 	/****************
 	// TODO [Implement]
 	std::list<GridCell> GetNeighbors(GridCell* cel, bool diagonals, bool sameRoom);

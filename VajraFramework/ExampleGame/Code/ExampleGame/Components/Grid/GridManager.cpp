@@ -170,6 +170,71 @@ glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
 	return gridPosition;
 }
 
+bool GridManager::Passable(GridCell* /* startCell */, GridCell* goalCell) {
+	if (goalCell->isPassable) { return true; }
+	return false;
+}
+
+void GridManager::TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outTouched) {
+	int spanX = goalCell->x - startCell->x;
+	int spanZ = goalCell->z - startCell->z;
+
+	int xDirection;
+	float fracX, incrX;
+	if (spanX == 0) {
+		xDirection = 0;
+		fracX = 100.0f;
+		incrX = 100.0f;
+	}
+	else {
+		if (spanX > 0)  { xDirection =  1; }
+		else            { xDirection = -1; }
+		fracX = 0.0f;
+		incrX = (float)xDirection / spanX;
+	}
+
+	int zDirection;
+	float fracZ, incrZ;
+	if (spanZ == 0) {
+		zDirection = 0;
+		fracZ = 100.0f;
+		incrZ = 100.0f;
+	}
+	else {
+		if (spanZ > 0)  { zDirection =  1; }
+		else            { zDirection = -1; }
+		fracZ = 0.0f;
+		incrZ = (float)zDirection / spanZ;
+	}
+
+	int xIndex = startCell->x;
+	int zIndex = startCell->z;
+
+	while ((fracX < 1.0f) || (fracZ < 1.0f)) {
+		outTouched.push_back(this->gridCells[xIndex + xDirection][zIndex]);
+		outTouched.push_back(this->gridCells[xIndex][zIndex + zDirection]);
+
+		float diff = (fracZ + incrZ) - (fracX + incrX);
+		const float ERROR_MARGIN = 0.0001f;
+
+		// Find the next cell
+		if (diff > ERROR_MARGIN) {
+			xIndex += xDirection;
+			fracX += incrX;
+		}
+		else if (diff < -ERROR_MARGIN) {
+			zIndex += zDirection;
+			fracZ += incrZ;
+		}
+		else {
+			outTouched.push_back(this->gridCells[xIndex + xDirection][zIndex + zDirection]);
+			xIndex += xDirection;
+			zIndex += zDirection;
+			fracX  += incrX;
+			fracZ  += incrZ;
+		}
+	}
+}
 /*
 void GridManager::ToggleOverview() {
 
