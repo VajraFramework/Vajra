@@ -137,8 +137,9 @@ void ShadyCamera::onPinch() {
 	if(ENGINE->GetInput()->GetPinch().gestureState == GestureState::GestureState_Start) {
 		this->newPinch = true;
 	}
-	if(!this->newPinch)
+	if(!this->newPinch) {
 		return;
+	}
 
 	float pinchVel = ENGINE->GetInput()->GetPinch().velocity;
 	float zoomAmt = -pinchVel;
@@ -187,7 +188,7 @@ void ShadyCamera::setCameraMode(CameraMode newMode) {
 
 		MessageChunk cameraChange = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		cameraChange->SetMessageType(MESSAGE_TYPE_CAMERA_MODE_CHANGED);
-		ENGINE->GetMessageHub()->SendMulticastMessage(cameraChange, this->GetTypeId());
+		ENGINE->GetMessageHub()->SendMulticastMessage(cameraChange, this->GetId());
 	}
 }
 
