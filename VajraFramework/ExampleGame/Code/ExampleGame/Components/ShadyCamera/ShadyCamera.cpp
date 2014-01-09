@@ -2,7 +2,6 @@
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
-#include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
@@ -81,8 +80,7 @@ void ShadyCamera::SetGridManager(GridManager* newManager) {
 
 void ShadyCamera::MoveTo(glm::vec3 newPos) {
 	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
-	// TODO [HACK] : remove when Tween is changed
-	//this->gameObjectRef->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
+	// TODO [HACK] : Replace with tween code once it's working correctly
 	this->gameObjectRef->GetTransform()->SetPosition(newPos);
 	//ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos, this->camSpeed, ShadyCameraTween::tweenCallback);
 }
@@ -139,8 +137,9 @@ void ShadyCamera::onPinch() {
 	if(ENGINE->GetInput()->GetPinch().gestureState == GestureState::GestureState_Start) {
 		this->newPinch = true;
 	}
-	if(!this->newPinch)
+	if(!this->newPinch) {
 		return;
+	}
 
 	float pinchVel = ENGINE->GetInput()->GetPinch().velocity;
 	float zoomAmt = -pinchVel;
@@ -155,10 +154,12 @@ void ShadyCamera::onPinch() {
 
 	// if a mode switch hasn't occur reset the camera
 	if(ENGINE->GetInput()->HasPinchEnded()) {
-		if(this->camMode == CameraMode::CameraMode_Game )
+		if(this->camMode == CameraMode::CameraMode_Game ) {
 			this->MoveToCurrentRoom();
-		else
+		}
+		else {
 			this->MoveToOverview();
+		}
 	}
 }
 
@@ -187,7 +188,7 @@ void ShadyCamera::setCameraMode(CameraMode newMode) {
 
 		MessageChunk cameraChange = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		cameraChange->SetMessageType(MESSAGE_TYPE_CAMERA_MODE_CHANGED);
-		ENGINE->GetMessageHub()->SendMulticastMessage(cameraChange, this->GetTypeId());
+		ENGINE->GetMessageHub()->SendMulticastMessage(cameraChange, this->gameObjectRef->GetId());
 	}
 }
 

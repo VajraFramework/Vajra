@@ -26,11 +26,11 @@
 
 ComponentIdType GridNavigator::componentTypeId = COMPONENT_TYPE_ID_GRID_NAVIGATOR;
 
-GridNavigator::GridNavigator() : Component() {
+GridNavigator::GridNavigator() : GameScript() {
 	this->init();
 }
 
-GridNavigator::GridNavigator(Object* object_) : Component(object_) {
+GridNavigator::GridNavigator(Object* object_) : GameScript(object_) {
 	this->init();
 }
 
@@ -48,17 +48,6 @@ void GridNavigator::init() {
 
 void GridNavigator::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
-}
-
-void GridNavigator::HandleMessage(MessageChunk messageChunk) {
-	switch (messageChunk->GetMessageType()) {
-		case MESSAGE_TYPE_FRAME_EVENT:
-			update();
-			break;
-
-		default:
-			break;
-	}
 }
 
 void GridNavigator::SetGridPosition(int x, int z) {
@@ -117,10 +106,9 @@ void GridNavigator::update() {
 }
 
 void GridNavigator::followPath() {
-	Transform* myTransform = this->GetObject()->GetComponent<Transform>();
 	float dt = ENGINE->GetTimer()->GetDeltaFrameTime();
 	float distToTravel = this->movementSpeed * dt;
-	glm::vec3 tempLocation = myTransform->GetPosition();
+	glm::vec3 tempLocation = getTransform()->GetPosition();
 
 	int count = this->currentPath.size();
 	while ((distToTravel > 0.0f) && (count > 0)) {
@@ -140,7 +128,7 @@ void GridNavigator::followPath() {
 		}
 	}
 
-	myTransform->SetPosition(tempLocation);
+	getTransform()->SetPosition(tempLocation);
 	GridCell* newCell = SINGLETONS->GetGridManager()->GetCell(tempLocation);
 	if (newCell != this->currentCell) {
 		this->changeCell(newCell);

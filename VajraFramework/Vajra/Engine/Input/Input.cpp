@@ -132,10 +132,11 @@ void Input::AddGameTouchTarget(IGameTouchTarget* newTarget) {
 	this->gameTouchTargets.push_back(newTarget);
 }
 void Input::logTouches() {
-	if(this->GetTouchCount() > 0)
+	if(this->GetTouchCount() > 0) {
 		FRAMEWORK->GetLogger()->dbglog("TOUCH LOG \n");
-	for(std::vector<Touch>::iterator it = this->frameTouches.begin(); it != this->frameTouches.end(); ++it) {
-		FRAMEWORK->GetLogger()->dbglog("Touch id: %i pos: (%f, %f) %i \n", it->fingerId, it->pos.x, it->pos.y, (int)it->phase);
+		for(std::vector<Touch>::iterator it = this->frameTouches.begin(); it != this->frameTouches.end(); ++it) {
+			FRAMEWORK->GetLogger()->dbglog("Touch id: %i pos: (%f, %f) %i \n", it->fingerId, it->pos.x, it->pos.y, (int)it->phase);
+		}
 	}
 }
 
