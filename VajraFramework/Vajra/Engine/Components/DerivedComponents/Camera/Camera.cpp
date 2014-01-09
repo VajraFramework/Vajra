@@ -61,9 +61,6 @@ void Camera::HandleMessage(MessageChunk messageChunk) {
 		this->updateMatrices();
 		break;
 
-	default:
-		FRAMEWORK->GetLogger()->dbglog("\nCamera got unnecessary msg of type %d", messageChunk->GetMessageType());
-		break;
 	}
 }
 

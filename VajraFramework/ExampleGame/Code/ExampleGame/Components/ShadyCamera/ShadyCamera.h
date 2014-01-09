@@ -18,13 +18,15 @@ class GridManager;
 class ShadyCamera : public Camera {
 public:
 	enum CameraMode {
-		CAMERA_MODE_GAME,
-		CAMERA_MODE_OVERVIEW
+		CameraMode_Game,
+		CameraMode_Overview
 	};
 
 	ShadyCamera();
 	ShadyCamera(Object* object_);
 	~ShadyCamera();
+
+	static inline unsigned int GetTypeId() { return Camera::GetTypeId(); }
 
 	virtual void HandleMessage(MessageChunk messageChunk);
 
@@ -60,6 +62,13 @@ private:
 	CameraMode camMode;
 	// Find and store the current position for the game camera
 	void setGameCameraPosition(float x, float z);
+
+	bool newPinch;
+	float velocityThreshold;
+	float heightThreshold;
+	void onPinch();
+	bool tryModeSwitch(float velocity);
+	void setCameraMode(CameraMode newMode);
 
 	float camSpeed;
 	float gameCamHeight;

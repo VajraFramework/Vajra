@@ -1,7 +1,9 @@
 #include <algorithm>
 
+#include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Utilities/Utilities.h"
 
 #if PLATFORM_DESKTOP
@@ -40,11 +42,27 @@ void Input::updateInput() {
 
 	// Remove all touches that have ended or been cancelled
 	this->asyncTouches.erase( std::remove_if(this->asyncTouches.begin(), this->asyncTouches.end(), touchOver), this->asyncTouches.end());
-	
+
 	for(std::vector<Touch>::iterator it = this->asyncTouches.begin(); it != this->asyncTouches.end(); ++it) {
     	it->phase = TouchPhase::Stationary;
 	}
 	//logTouches();
+
+	this->framePinch = this->asyncPinch;
+
+	// Set the async pinch as inactive so UpdatePinch will know to update it
+	this->asyncPinch.gestureState = GestureState::GestureState_Inactive;
+
+	// If the gesture state is greater than end it has either ended, been cancelled or another gesture has been detected
+	if(this->asyncPinch.gestureState >= GestureState::GestureState_End) {
+		this->asyncPinch.gestureState = GestureState::GestureState_Inactive;
+	}
+	if(this->framePinch.gestureState != GestureState::GestureState_Inactive) {
+		// Raise the pinch gesture event
+		MessageChunk pinchGestureMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		pinchGestureMessage->SetMessageType(MESSAGE_TYPE_PINCH_GESTURE);
+		ENGINE->GetMessageHub()->SendMulticastMessage(pinchGestureMessage, this->GetId());
+	}	
 }
 
 Touch Input::GetTouch(int index) {
@@ -75,10 +93,20 @@ void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {
 	}
 }
 
+void Input::UpdatePinch(float scale, float velocity, GestureState gestureState) {
+	this->asyncPinch.scale = scale;
+	this->asyncPinch.velocity = velocity;
+
+	if(this->asyncPinch.gestureState != GestureState::GestureState_Start)
+		this->asyncPinch.gestureState = gestureState;
+}
+
 void Input::logTouches() {
-	FRAMEWORK->GetLogger()->dbglog("TOUCH LOG \n");
-	for(std::vector<Touch>::iterator it = this->frameTouches.begin(); it != this->frameTouches.end(); ++it) {
-		FRAMEWORK->GetLogger()->dbglog("Touch id: %i pos: (%f, %f) %i \n", it->fingerId, it->pos.x, it->pos.y, (int)it->phase);
+	if(this->GetTouchCount() > 0) {
+		FRAMEWORK->GetLogger()->dbglog("TOUCH LOG \n");
+		for(std::vector<Touch>::iterator it = this->frameTouches.begin(); it != this->frameTouches.end(); ++it) {
+			FRAMEWORK->GetLogger()->dbglog("Touch id: %i pos: (%f, %f) %i \n", it->fingerId, it->pos.x, it->pos.y, (int)it->phase);
+		}
 	}
 }
 

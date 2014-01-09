@@ -18,6 +18,11 @@
 	self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin |
 	UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
 	UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+	
+	// subscribe to the pinch gesture
+	UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
+	[self addGestureRecognizer: pinch];
+	
 	return self;
 }
 - (void) touchesBegan:(NSSet *) touches withEvent:(UIEvent *) event {
@@ -37,6 +42,11 @@
 
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     [self updateTouches:touches second:TouchPhase::Cancelled];
+}
+
+- (void) handlePinch: (UIPinchGestureRecognizer *) uigr
+{
+	ENGINE->GetInput()->UpdatePinch(uigr.scale, uigr.velocity, (GestureState)uigr.state);
 }
 
 - (void) updateTouches:(NSSet*)touches second:(TouchPhase)phase {
