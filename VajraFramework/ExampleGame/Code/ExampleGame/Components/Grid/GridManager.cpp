@@ -46,6 +46,7 @@ void GridManager::init() {
 	this->maxElevation  = 0;
 	this->gridPlane.origin = ZERO_VEC3;
 	this->gridPlane.normal = YAXIS;
+	this->selectedUnitId   = OBJECT_ID_INVALID;
 #ifdef DEBUG
 	// TODO [Remove] Just use this to draw the grid until we get some actual objects into the level
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
@@ -373,8 +374,20 @@ void GridManager::DebugDrawGrid() {
 void GridManager::DebugTouchTest(int touchIndex) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
-	if(cell != nullptr)
+	if (cell != nullptr) {
 		DebugDraw::DrawCube(cell->center, 1.0f);
+
+		if (touch.phase == TouchPhase::Began) {
+			if (cell->unitId != OBJECT_ID_INVALID) {
+				selectUnitInCell(cell->x, cell->z);
+			}
+			else if (this->selectedUnitId != OBJECT_ID_INVALID) {
+				GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
+				GridNavigator* gNav = obj->GetComponent<GridNavigator>();
+				gNav->SetDestination(cell->x, cell->z);
+			}
+		}
+	}
 	glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
 	DebugDraw::DrawCube(gridPos, 1.0f);
 }
@@ -422,5 +435,11 @@ void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, Grid
 			collisionMessage->messageData.i = id;
 			ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, *iter, id);
 		}
+	}
+}
+
+void GridManager::selectUnitInCell(int x, int z) {
+	if (this->gridCells[x][z]->unitId != OBJECT_ID_INVALID) {
+		this->selectedUnitId = this->gridCells[x][z]->unitId;
 	}
 }
