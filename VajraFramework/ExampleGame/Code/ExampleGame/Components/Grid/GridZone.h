@@ -21,8 +21,6 @@ public:
 	unsigned int CollisionCheck(GridCell* startCell, GridCell* destCell);
 
 protected:
-	virtual void HandleMessage(MessageChunk messageChunk);
-
 	// Virtual Methods
 	virtual void start()  {}
 	virtual void end()    {}

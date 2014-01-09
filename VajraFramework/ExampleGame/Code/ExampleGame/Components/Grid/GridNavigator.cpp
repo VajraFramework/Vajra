@@ -50,11 +50,6 @@ void GridNavigator::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
-void GridNavigator::HandleMessage(MessageChunk messageChunk) {
-	// Pass the message up to the parent class.
-	GameScript::HandleMessage(messageChunk);
-}
-
 void GridNavigator::SetGridPosition(int x, int z) {
 	GridCell* cell = SINGLETONS->GetGridManager()->GetCell(x, z);
 	if (cell != nullptr) {

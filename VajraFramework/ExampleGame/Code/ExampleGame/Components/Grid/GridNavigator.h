@@ -20,10 +20,7 @@ public:
 	GridNavigator(Object* object_);
 	~GridNavigator();
 
-	static inline ComponentIdType GetTypeId() { return componentTypeId; }
-
-	// @Override
-	virtual void HandleMessage(MessageChunk messageChunk);
+	static inline ComponentIdType GetTypeId()  { return componentTypeId; }
 
 	inline GridCell* GetCurrentCell()          { return this->currentCell;    }
 

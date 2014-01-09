@@ -67,18 +67,6 @@ unsigned int GridZone::CollisionCheck(GridCell* startCell, GridCell* destCell) {
 	return MESSAGE_TYPE_UNSPECIFIED;
 }
 
-void GridZone::HandleMessage(MessageChunk messageChunk) {
-	switch(messageChunk->GetMessageType()) {
-		case MESSAGE_TYPE_GRID_ZONE_ENTERED:
-			break;
-
-		case MESSAGE_TYPE_GRID_ZONE_EXITED:
-			break;
-	default:
-		break;
-	}
-}
-
 void GridZone::init() {
 	this->westBound = -1;
 	this->eastBound = -1;
@@ -86,10 +74,6 @@ void GridZone::init() {
 	this->northBound = -1;
 
 	SINGLETONS->GetGridManager()->AddGridZone(this->GetObject()->GetId());
-
-	// Subscribe to "collision" messages
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED, this->GetTypeId(), false);
 }
 
 void GridZone::destroy() {
