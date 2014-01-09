@@ -187,8 +187,9 @@ glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
 }
 
 void GridManager::OnTouch(int touchIndex) {
+#ifdef DEBUG
 	DebugTouchTest(touchIndex);
-
+#endif
 }
 
 GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {

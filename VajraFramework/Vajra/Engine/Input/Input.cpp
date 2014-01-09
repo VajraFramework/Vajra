@@ -38,7 +38,7 @@ bool touchOver(const Touch &touch) {
 }
 
 void Input::updateInput() { 
-#if PLATFORM_DESKTOPbett
+#if PLATFORM_DESKTOP
 	this->updateMouseButton();
 #endif
 	// Populate frame touches with all input that has been asynchronously collected
@@ -50,12 +50,6 @@ void Input::updateInput() {
 			this->currentTouchTarget->OnTouch(i);
     	}
 	}
-
-	/*for(Touch touch : this->frameTouches) {
-    	if(this->currentTouchTarget != nullptr) {
-			this->currentTouchTarget->OnTouch(touch.fingerId);
-		}
-	}*/
 		
 	// Remove all touches that have ended or been cancelled
 	this->asyncTouches.erase( std::remove_if(this->asyncTouches.begin(), this->asyncTouches.end(), touchOver), this->asyncTouches.end());
