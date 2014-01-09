@@ -2,6 +2,7 @@
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/Components/Grid/GridZone.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "Vajra/Common/Objects/Object.h"
@@ -26,6 +27,11 @@ int TestFuntion() {
 	{
 #if 1
 		SINGLETONS->GetGridManager()->GenerateTerrainFromFile("noninjas.txt");
+
+		GameObject* testZone = new GameObject(ENGINE->GetSceneGraph3D());
+		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testZone->GetId());
+		GridZone* zone = testZone->AddComponent<GridZone>();
+		zone->SetZoneBounds(3, 0, 5, 5);
 
 		GameObject* camera = new GameObject(ENGINE->GetSceneGraph3D());
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(camera->GetId());
