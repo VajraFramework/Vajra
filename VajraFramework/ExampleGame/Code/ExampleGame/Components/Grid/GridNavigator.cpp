@@ -82,6 +82,9 @@ bool GridNavigator::SetDestination(glm::vec3 loc) {
 }
 
 bool GridNavigator::AddDestination(int x, int z) {
+	if (this->currentPath.size() == 0) {
+		return SetDestination(x, z);
+	}
 	GridCell* startCell = this->currentCell;
 	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(x, z);
 	float dist = this->calculatePath(startCell, goalCell, this->currentPath);
@@ -113,29 +116,6 @@ void GridNavigator::followPath() {
 	float distToTravel = this->movementSpeed * dt;
 	glm::vec3 tempLocation = getTransform()->GetPosition();
 
-	glm::vec3 p0, p1, p2, p3;
-	auto iter = this->currentPath.begin();
-	p0 = tempLocation;
-	p1 = tempLocation;
-	p2 = (*iter)->center;
-	++iter;
-	if (iter != this->currentPath.end()) {
-		p3 = (*iter)->center;
-	}
-	else {
-		p3 = p2;
-	}
-
-	float dist = glm::distance(p1, p2);
-	float ratio = distToTravel / dist;
-	if (ratio > 1.0f) { ratio = 1.0f; }
-	catmullromerp(tempLocation.x, p0.x, p1.x, p2.x, p3.x, ratio);
-	catmullromerp(tempLocation.y, p0.y, p1.y, p2.y, p3.y, ratio);
-	catmullromerp(tempLocation.z, p0.z, p1.z, p2.z, p3.z, ratio);
-	if (glm::distance(tempLocation, p2) < 0.01f) {
-		this->currentPath.pop_front();
-	}
-	/*
 	int count = this->currentPath.size();
 	while ((distToTravel > 0.0f) && (count > 0)) {
 		glm::vec3 targetLocation = this->currentPath.front()->center;
@@ -153,7 +133,7 @@ void GridNavigator::followPath() {
 			distToTravel = 0.0f;
 		}
 	}
-	*/
+
 	getTransform()->SetPosition(tempLocation);
 	GridCell* newCell = SINGLETONS->GetGridManager()->GetCell(tempLocation);
 	if (newCell != this->currentCell) {
