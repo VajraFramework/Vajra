@@ -46,8 +46,8 @@ public:
 	glm::vec3 GetRoomCenter(int x, int z);
 	glm::vec3 GetRoomCenter(GridCell* cell);
 
-	virtual bool TestTouch(int fingerId) { return true; }
-	virtual void OnTouch(int fingerId);
+	virtual bool TestTouch(int touchIndex) { return true; }
+	virtual void OnTouch(int touchIndex);
 	
 	GridCell* TouchPositionToCell(glm::vec2 touchPos);
 	glm::vec3 TouchPositionToGridPosition(glm::vec2 touchPos);
@@ -74,7 +74,7 @@ private:
 	bool IsWithinGrid(glm::vec3 loc); // Returns true if the vector position falls within a defined cell
 #ifdef DEBUG
 	void DebugDrawGrid();
-	void DebugTouchTest();
+	void DebugTouchTest(int touchIndex);
 #endif
 
 	void gridCellChangedHandler(ObjectIdType id, glm::vec3 dest);

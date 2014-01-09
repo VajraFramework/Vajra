@@ -23,6 +23,7 @@ Input::~Input() {
 }
 
 void Input::init() {
+	this->nextFingerId = 0;
 #if PLATFORM_DESKTOP
 	glfwSetMousePosCallback(cursorPosCallback);
 #endif
@@ -44,11 +45,18 @@ void Input::updateInput() {
 	this->frameTouches = this->asyncTouches;
 
 	// Send touches to the interested target
-	for(Touch touch : this->frameTouches) {
+	for(int i = 0; i < this->frameTouches.size(); ++i) {
+    	if(this->currentTouchTarget != nullptr) {
+			this->currentTouchTarget->OnTouch(i);
+    	}
+	}
+
+	/*for(Touch touch : this->frameTouches) {
     	if(this->currentTouchTarget != nullptr) {
 			this->currentTouchTarget->OnTouch(touch.fingerId);
 		}
-	}
+	}*/
+		
 	// Remove all touches that have ended or been cancelled
 	this->asyncTouches.erase( std::remove_if(this->asyncTouches.begin(), this->asyncTouches.end(), touchOver), this->asyncTouches.end());
 
@@ -86,11 +94,18 @@ void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
 	t.pos.y = startY;
 	t.prevPos = t.pos;
 	t.phase = phase;
-	t.fingerId = this->asyncTouches.size();
+	t.fingerId = this->nextFingerId;
+
+	// increase the unique finger id
+	this->nextFingerId = (this->nextFingerId + 1) % MAX_TOUCHES;
+
+	// add the touch
 	this->asyncTouches.push_back(t);
 
-	// Find correct touch target for touch
-	this->testTouchTargets(t.fingerId);
+	// Find correct touch target for touch using vector index
+	this->testTouchTargets(this->asyncTouches.size() - 1);
+
+
 }
 
 void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {

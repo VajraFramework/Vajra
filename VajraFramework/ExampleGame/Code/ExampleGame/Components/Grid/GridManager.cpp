@@ -81,7 +81,6 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 #ifdef DEBUG
 		case MESSAGE_TYPE_FRAME_EVENT:
 			DebugDrawGrid();
-			DebugTouchTest();
 			break;
 #endif
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
@@ -153,8 +152,9 @@ glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
 	return this->GetRoomCenter(cell->x, cell->z);
 }
 
-void GridManager::OnTouch(int fingerId) {
-	FRAMEWORK->GetLogger()->dbglog("\nTouch on grid");	
+void GridManager::OnTouch(int touchIndex) {
+	DebugTouchTest(touchIndex);
+
 }
 
 GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
@@ -326,16 +326,13 @@ void GridManager::DebugDrawGrid() {
 }
 
 
-void GridManager::DebugTouchTest() {
-	if(ENGINE->GetInput()->GetTouchCount() > 0)
-    {
-		Touch touch = ENGINE->GetInput()->GetTouch(0);
-		GridCell* cell = this->TouchPositionToCell(touch.pos);
-		if(cell != nullptr)
-			DebugDraw::DrawCube(cell->center, 1.0f);
-		glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
-		DebugDraw::DrawCube(gridPos, 1.0f);
-    }
+void GridManager::DebugTouchTest(int touchIndex) {
+	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
+	GridCell* cell = this->TouchPositionToCell(touch.pos);
+	if(cell != nullptr)
+		DebugDraw::DrawCube(cell->center, 1.0f);
+	glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
+	DebugDraw::DrawCube(gridPos, 1.0f);
 }
 #endif
 

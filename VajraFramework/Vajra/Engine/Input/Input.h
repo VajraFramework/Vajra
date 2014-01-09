@@ -86,6 +86,8 @@ private:
 	
     Pinch framePinch;
     Pinch asyncPinch;
+
+    int nextFingerId;
     
 #if PLATFORM_DESKTOP
     int mouseX;
