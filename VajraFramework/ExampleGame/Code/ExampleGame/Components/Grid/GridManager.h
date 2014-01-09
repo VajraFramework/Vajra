@@ -48,7 +48,7 @@ public:
 	glm::vec3 GetRoomCenter(GridCell* cell);
 
 	// @Override
-	virtual bool TestTouch(int touchIndex) { return true; }
+	virtual bool TestTouch(int /*touchIndex*/) { return true; }
 	virtual void OnTouch(int touchIndex);
 	
 	GridCell* TouchPositionToCell(glm::vec2 touchPos);

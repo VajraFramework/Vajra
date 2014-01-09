@@ -25,8 +25,8 @@ public:
 	virtual void update();
 	virtual void draw();
 
-	virtual bool TestTouch(int touchIndex) { return false; }
-	virtual void OnTouch(int touchIndex) {}
+	virtual bool TestTouch(int /*touchIndex*/) { return false; }
+	virtual void OnTouch(int /*touchIndex*/) {}
 protected:
 	SceneGraphUi();
 	virtual void init();

@@ -79,7 +79,7 @@ void ShadyCamera::SetGridManager(GridManager* newManager) {
 }
 
 void ShadyCamera::MoveTo(glm::vec3 newPos) {
-	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
+	//glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
 	// TODO [HACK] : Replace with tween code once it's working correctly
 	this->gameObjectRef->GetTransform()->SetPosition(newPos);
 	//ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos, this->camSpeed, ShadyCameraTween::tweenCallback);

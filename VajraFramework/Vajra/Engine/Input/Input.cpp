@@ -45,7 +45,7 @@ void Input::updateInput() {
 	this->frameTouches = this->asyncTouches;
 
 	// Send touches to the interested target
-	for(int i = 0; i < this->frameTouches.size(); ++i) {
+	for(unsigned int i = 0; i < this->frameTouches.size(); ++i) {
     	if(this->currentTouchTarget != nullptr) {
 			this->currentTouchTarget->OnTouch(i);
     	}
