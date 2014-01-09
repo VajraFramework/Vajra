@@ -2,6 +2,7 @@
 #define INPUT_H
 
 #include "Vajra/Common/Objects/Object.h"
+#include "Vajra/Engine/Input/ITouchTarget.h"
 #include "Libraries/glm/glm.hpp"
 
 #if PLATFORM_DESKTOP
@@ -52,7 +53,7 @@ public:
 
 class Input : public Object {
 
-static const int MAX_TOUCHES = 5;
+static const int MAX_TOUCHES = 1;
 
 public:
 	~Input();
@@ -65,6 +66,8 @@ public:
 	Pinch GetPinch() { return this->framePinch; }
 	void UpdatePinch(float scale, float velocity, GestureState gestureState);
 	bool HasPinchEnded() { return this->framePinch.gestureState >= GestureState::GestureState_End; }
+
+	void AddGameTouchTarget(IGameTouchTarget* newTarget);
 private:
 	Input();
 	void init();
@@ -76,8 +79,15 @@ private:
     std::vector<Touch> frameTouches;
     std::vector<Touch> asyncTouches;
 
+    ITouchTarget* currentTouchTarget;
+    std::vector<ITouchTarget*> gameTouchTargets;
+
+    void testTouchTargets(int index);
+	
     Pinch framePinch;
     Pinch asyncPinch;
+
+    int nextFingerId;
     
 #if PLATFORM_DESKTOP
     int mouseX;

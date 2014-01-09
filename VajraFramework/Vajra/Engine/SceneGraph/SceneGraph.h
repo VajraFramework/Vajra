@@ -1,11 +1,12 @@
 #ifndef SCENEGRAPH_H
 #define SCENEGRAPH_H
 
-#include "Vajra/Common/Objects/ObjectRegistry.h"
 #include "Vajra/Common/Objects/Object.h"
+#include "Vajra/Common/Objects/ObjectRegistry.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Utilities/Utilities.h"
+#include "Vajra/Engine/Input/ITouchTarget.h"
 #include "Vajra/Utilities/CommonDeclarations.h"
+#include "Vajra/Utilities/Utilities.h"
 
 #include <map>
 
@@ -14,7 +15,7 @@ class Camera;
 class GameObject;
 class RenderLists;
 
-class SceneGraph : public Object {
+class SceneGraph : public Object, public ITouchTarget {
 public:
 	virtual ~SceneGraph();
 

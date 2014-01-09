@@ -8,6 +8,7 @@
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Messages/Declarations.h"
 
+#include "Vajra/Common/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -82,13 +83,11 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 #ifdef DEBUG
 		case MESSAGE_TYPE_FRAME_EVENT:
 			DebugDrawGrid();
-			DebugTouchTest();
 			break;
 #endif
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
 			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
 			break;
-
 		default:
 			break;
 	}
@@ -194,6 +193,12 @@ glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
 		return center;
 	}
 	return ZERO_VEC3;
+}
+
+void GridManager::OnTouch(int touchIndex) {
+#ifdef DEBUG
+	DebugTouchTest(touchIndex);
+#endif
 }
 
 GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
@@ -365,16 +370,13 @@ void GridManager::DebugDrawGrid() {
 }
 
 
-void GridManager::DebugTouchTest() {
-	if(ENGINE->GetInput()->GetTouchCount() > 0)
-    {
-		Touch touch = ENGINE->GetInput()->GetTouch(0);
-		GridCell* cell = this->TouchPositionToCell(touch.pos);
-		if(cell != nullptr)
-			DebugDraw::DrawCube(cell->center, 1.0f);
-		glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
-		DebugDraw::DrawCube(gridPos, 1.0f);
-    }
+void GridManager::DebugTouchTest(int touchIndex) {
+	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
+	GridCell* cell = this->TouchPositionToCell(touch.pos);
+	if(cell != nullptr)
+		DebugDraw::DrawCube(cell->center, 1.0f);
+	glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
+	DebugDraw::DrawCube(gridPos, 1.0f);
 }
 #endif
 
