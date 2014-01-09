@@ -10,20 +10,17 @@
 
 #include "Libraries/glm/glm.hpp"
 
-#include "Vajra/Common/Components/Component.h"
+#include "Vajra/Engine/Components/DerivedComponents/GameScript/GameScript.h"
 
 #include <list>
 
-class GridNavigator : public Component {
+class GridNavigator : public GameScript {
 public:
 	GridNavigator();
 	GridNavigator(Object* object_);
 	~GridNavigator();
 
-	static inline ComponentIdType GetTypeId() { return componentTypeId; }
-
-	// @Override
-	virtual void HandleMessage(MessageChunk messageChunk);
+	static inline ComponentIdType GetTypeId()  { return componentTypeId; }
 
 	inline GridCell* GetCurrentCell()          { return this->currentCell;    }
 
@@ -38,11 +35,15 @@ public:
 	bool AddDestination(int x, int z);   // Set new destination without destroying current path
 	bool AddDestination(glm::vec3 loc);  // Set new destination without destroying current path
 
+protected:
+	virtual void start() { }
+	virtual void end()   { }
+	virtual void update();
+
 private:
 	void init();
 	void destroy();
 
-	void update();
 
 	void followPath();
 
@@ -51,6 +52,7 @@ private:
 	float calculatePath(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outPath); // Calculates a path and returns its length. Returns -1 if no path found.
 	float travelCostEstimate(GridCell* startCell, GridCell* goalCell); // Estimated distance between two cells
 	float actualTravelCost(GridCell* startCell, GridCell* goalCell);
+	void simplifyPath(std::list<GridCell*>& outPath);
 
 	static ComponentIdType componentTypeId;
 

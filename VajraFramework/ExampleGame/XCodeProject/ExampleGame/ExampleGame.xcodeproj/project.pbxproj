@@ -35,14 +35,6 @@
 		58F60E6018515DF30036DDDE /* pictures in Resources */ = {isa = PBXBuildFile; fileRef = 58F60E5A18515DF30036DDDE /* pictures */; };
 		58F60E6118515DF30036DDDE /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 58F60E5B18515DF30036DDDE /* shaders */; };
 		58F60E6318515E990036DDDE /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60E6218515E990036DDDE /* OpenAL.framework */; };
-		B35F400B187B48EC0072200B /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B35F3FF1187B48EC0072200B /* AndroidWrapper.cpp */; };
-		B35F400C187B48EC0072200B /* SampleGameScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B35F3FF7187B48EC0072200B /* SampleGameScript.cpp */; };
-		B35F400D187B48EC0072200B /* GridCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B35F3FFA187B48EC0072200B /* GridCell.cpp */; };
-		B35F400E187B48EC0072200B /* GridManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B35F3FFC187B48EC0072200B /* GridManager.cpp */; };
-		B35F400F187B48EC0072200B /* GridNavigator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B35F3FFE187B48EC0072200B /* GridNavigator.cpp */; };
-		B35F4010187B48EC0072200B /* ShadyCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B35F4001187B48EC0072200B /* ShadyCamera.cpp */; };
-		B35F4011187B48EC0072200B /* GameSingletons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B35F4004187B48EC0072200B /* GameSingletons.cpp */; };
-		B35F4012187B48EC0072200B /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B35F4009187B48EC0072200B /* TestFile.cpp */; };
 		B383FD0C187B4B0000999890 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B383FB72187B4AFF00999890 /* .gitignore */; };
 		B383FD0D187B4B0000999890 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = B383FB75187B4AFF00999890 /* CMakeLists.txt */; };
 		B383FD0E187B4B0000999890 /* func_common.inl in Resources */ = {isa = PBXBuildFile; fileRef = B383FB7D187B4AFF00999890 /* func_common.inl */; };
@@ -146,6 +138,16 @@
 		B383FD70187B4B0000999890 /* vector_query.inl in Resources */ = {isa = PBXBuildFile; fileRef = B383FC52187B4B0000999890 /* vector_query.inl */; };
 		B383FD71187B4B0000999890 /* verbose_operator.inl in Resources */ = {isa = PBXBuildFile; fileRef = B383FC54187B4B0000999890 /* verbose_operator.inl */; };
 		B383FD72187B4B0000999890 /* wrap.inl in Resources */ = {isa = PBXBuildFile; fileRef = B383FC56187B4B0000999890 /* wrap.inl */; };
+		B39A1030187F368300760DF9 /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39A1012187F368300760DF9 /* AndroidWrapper.cpp */; };
+		B39A1031187F368300760DF9 /* SampleGameScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39A1018187F368300760DF9 /* SampleGameScript.cpp */; };
+		B39A1032187F368300760DF9 /* GridCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39A101B187F368300760DF9 /* GridCell.cpp */; };
+		B39A1033187F368300760DF9 /* GridManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39A101D187F368300760DF9 /* GridManager.cpp */; };
+		B39A1034187F368300760DF9 /* GridNavigator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39A101F187F368300760DF9 /* GridNavigator.cpp */; };
+		B39A1035187F368300760DF9 /* GridRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39A1021187F368300760DF9 /* GridRoom.cpp */; };
+		B39A1036187F368300760DF9 /* GridZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39A1023187F368300760DF9 /* GridZone.cpp */; };
+		B39A1037187F368300760DF9 /* ShadyCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39A1026187F368300760DF9 /* ShadyCamera.cpp */; };
+		B39A1038187F368300760DF9 /* GameSingletons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39A1029187F368300760DF9 /* GameSingletons.cpp */; };
+		B39A1039187F368300760DF9 /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39A102E187F368300760DF9 /* TestFile.cpp */; };
 		BA97C3C11856824100942107 /* logging in Resources */ = {isa = PBXBuildFile; fileRef = BA97C3C01856824100942107 /* logging */; };
 /* End PBXBuildFile section */
 
@@ -196,24 +198,6 @@
 		58F60E5A18515DF30036DDDE /* pictures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pictures; path = ../../../Resources/pictures; sourceTree = "<group>"; };
 		58F60E5B18515DF30036DDDE /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../../../Resources/shaders; sourceTree = "<group>"; };
 		58F60E6218515E990036DDDE /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
-		B35F3FF1187B48EC0072200B /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
-		B35F3FF2187B48EC0072200B /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
-		B35F3FF5187B48EC0072200B /* ComponentTypeIds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentTypeIds.h; sourceTree = "<group>"; };
-		B35F3FF7187B48EC0072200B /* SampleGameScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SampleGameScript.cpp; sourceTree = "<group>"; };
-		B35F3FF8187B48EC0072200B /* SampleGameScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleGameScript.h; sourceTree = "<group>"; };
-		B35F3FFA187B48EC0072200B /* GridCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridCell.cpp; sourceTree = "<group>"; };
-		B35F3FFB187B48EC0072200B /* GridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridCell.h; sourceTree = "<group>"; };
-		B35F3FFC187B48EC0072200B /* GridManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridManager.cpp; sourceTree = "<group>"; };
-		B35F3FFD187B48EC0072200B /* GridManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridManager.h; sourceTree = "<group>"; };
-		B35F3FFE187B48EC0072200B /* GridNavigator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridNavigator.cpp; sourceTree = "<group>"; };
-		B35F3FFF187B48EC0072200B /* GridNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridNavigator.h; sourceTree = "<group>"; };
-		B35F4001187B48EC0072200B /* ShadyCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShadyCamera.cpp; sourceTree = "<group>"; };
-		B35F4002187B48EC0072200B /* ShadyCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadyCamera.h; sourceTree = "<group>"; };
-		B35F4004187B48EC0072200B /* GameSingletons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSingletons.cpp; sourceTree = "<group>"; };
-		B35F4005187B48EC0072200B /* GameSingletons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSingletons.h; sourceTree = "<group>"; };
-		B35F4007187B48EC0072200B /* Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Declarations.h; sourceTree = "<group>"; };
-		B35F4009187B48EC0072200B /* TestFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestFile.cpp; sourceTree = "<group>"; };
-		B35F400A187B48EC0072200B /* TestFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
 		B383FB72187B4AFF00999890 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		B383FB75187B4AFF00999890 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		B383FB77187B4AFF00999890 /* _detail.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _detail.hpp; sourceTree = "<group>"; };
@@ -537,6 +521,28 @@
 		B383FD08187B4B0000999890 /* OpenGLIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLIncludes.h; sourceTree = "<group>"; };
 		B383FD09187B4B0000999890 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		B383FD0B187B4B0000999890 /* VajraToAndroidJavaInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VajraToAndroidJavaInterface.h; sourceTree = "<group>"; };
+		B39A1012187F368300760DF9 /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
+		B39A1013187F368300760DF9 /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
+		B39A1016187F368300760DF9 /* ComponentTypeIds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentTypeIds.h; sourceTree = "<group>"; };
+		B39A1018187F368300760DF9 /* SampleGameScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SampleGameScript.cpp; sourceTree = "<group>"; };
+		B39A1019187F368300760DF9 /* SampleGameScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleGameScript.h; sourceTree = "<group>"; };
+		B39A101B187F368300760DF9 /* GridCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridCell.cpp; sourceTree = "<group>"; };
+		B39A101C187F368300760DF9 /* GridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridCell.h; sourceTree = "<group>"; };
+		B39A101D187F368300760DF9 /* GridManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridManager.cpp; sourceTree = "<group>"; };
+		B39A101E187F368300760DF9 /* GridManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridManager.h; sourceTree = "<group>"; };
+		B39A101F187F368300760DF9 /* GridNavigator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridNavigator.cpp; sourceTree = "<group>"; };
+		B39A1020187F368300760DF9 /* GridNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridNavigator.h; sourceTree = "<group>"; };
+		B39A1021187F368300760DF9 /* GridRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridRoom.cpp; sourceTree = "<group>"; };
+		B39A1022187F368300760DF9 /* GridRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridRoom.h; sourceTree = "<group>"; };
+		B39A1023187F368300760DF9 /* GridZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridZone.cpp; sourceTree = "<group>"; };
+		B39A1024187F368300760DF9 /* GridZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridZone.h; sourceTree = "<group>"; };
+		B39A1026187F368300760DF9 /* ShadyCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShadyCamera.cpp; sourceTree = "<group>"; };
+		B39A1027187F368300760DF9 /* ShadyCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadyCamera.h; sourceTree = "<group>"; };
+		B39A1029187F368300760DF9 /* GameSingletons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSingletons.cpp; sourceTree = "<group>"; };
+		B39A102A187F368300760DF9 /* GameSingletons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSingletons.h; sourceTree = "<group>"; };
+		B39A102C187F368300760DF9 /* Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Declarations.h; sourceTree = "<group>"; };
+		B39A102E187F368300760DF9 /* TestFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestFile.cpp; sourceTree = "<group>"; };
+		B39A102F187F368300760DF9 /* TestFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
 		BA97C3C01856824100942107 /* logging */ = {isa = PBXFileReference; lastKnownFileType = folder; name = logging; path = ../../../Resources/logging; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -611,7 +617,7 @@
 		58F246F91850F5C90066E804 /* ExampleGame */ = {
 			isa = PBXGroup;
 			children = (
-				B35F3FEE187B48EC0072200B /* Code */,
+				B39A100F187F368300760DF9 /* Code */,
 				58F60E5518515DE20036DDDE /* Resources */,
 				58F247021850F5C90066E804 /* AppDelegate.h */,
 				58F247031850F5C90066E804 /* AppDelegate.mm */,
@@ -668,112 +674,6 @@
 				58F60E5B18515DF30036DDDE /* shaders */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		B35F3FEE187B48EC0072200B /* Code */ = {
-			isa = PBXGroup;
-			children = (
-				B35F3FEF187B48EC0072200B /* ExampleGame */,
-			);
-			name = Code;
-			path = ../../../Code;
-			sourceTree = "<group>";
-		};
-		B35F3FEF187B48EC0072200B /* ExampleGame */ = {
-			isa = PBXGroup;
-			children = (
-				B35F3FF0187B48EC0072200B /* AndroidWrapper */,
-				B35F3FF3187B48EC0072200B /* Components */,
-				B35F4003187B48EC0072200B /* GameSingletons */,
-				B35F4006187B48EC0072200B /* Messages */,
-				B35F4008187B48EC0072200B /* Test */,
-			);
-			path = ExampleGame;
-			sourceTree = "<group>";
-		};
-		B35F3FF0187B48EC0072200B /* AndroidWrapper */ = {
-			isa = PBXGroup;
-			children = (
-				B35F3FF1187B48EC0072200B /* AndroidWrapper.cpp */,
-				B35F3FF2187B48EC0072200B /* AndroidWrapper.h */,
-			);
-			path = AndroidWrapper;
-			sourceTree = "<group>";
-		};
-		B35F3FF3187B48EC0072200B /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				B35F3FF4187B48EC0072200B /* ComponentTypes */,
-				B35F3FF6187B48EC0072200B /* GameScripts */,
-				B35F3FF9187B48EC0072200B /* Grid */,
-				B35F4000187B48EC0072200B /* ShadyCamera */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		B35F3FF4187B48EC0072200B /* ComponentTypes */ = {
-			isa = PBXGroup;
-			children = (
-				B35F3FF5187B48EC0072200B /* ComponentTypeIds.h */,
-			);
-			path = ComponentTypes;
-			sourceTree = "<group>";
-		};
-		B35F3FF6187B48EC0072200B /* GameScripts */ = {
-			isa = PBXGroup;
-			children = (
-				B35F3FF7187B48EC0072200B /* SampleGameScript.cpp */,
-				B35F3FF8187B48EC0072200B /* SampleGameScript.h */,
-			);
-			path = GameScripts;
-			sourceTree = "<group>";
-		};
-		B35F3FF9187B48EC0072200B /* Grid */ = {
-			isa = PBXGroup;
-			children = (
-				B35F3FFA187B48EC0072200B /* GridCell.cpp */,
-				B35F3FFB187B48EC0072200B /* GridCell.h */,
-				B35F3FFC187B48EC0072200B /* GridManager.cpp */,
-				B35F3FFD187B48EC0072200B /* GridManager.h */,
-				B35F3FFE187B48EC0072200B /* GridNavigator.cpp */,
-				B35F3FFF187B48EC0072200B /* GridNavigator.h */,
-			);
-			path = Grid;
-			sourceTree = "<group>";
-		};
-		B35F4000187B48EC0072200B /* ShadyCamera */ = {
-			isa = PBXGroup;
-			children = (
-				B35F4001187B48EC0072200B /* ShadyCamera.cpp */,
-				B35F4002187B48EC0072200B /* ShadyCamera.h */,
-			);
-			path = ShadyCamera;
-			sourceTree = "<group>";
-		};
-		B35F4003187B48EC0072200B /* GameSingletons */ = {
-			isa = PBXGroup;
-			children = (
-				B35F4004187B48EC0072200B /* GameSingletons.cpp */,
-				B35F4005187B48EC0072200B /* GameSingletons.h */,
-			);
-			path = GameSingletons;
-			sourceTree = "<group>";
-		};
-		B35F4006187B48EC0072200B /* Messages */ = {
-			isa = PBXGroup;
-			children = (
-				B35F4007187B48EC0072200B /* Declarations.h */,
-			);
-			path = Messages;
-			sourceTree = "<group>";
-		};
-		B35F4008187B48EC0072200B /* Test */ = {
-			isa = PBXGroup;
-			children = (
-				B35F4009187B48EC0072200B /* TestFile.cpp */,
-				B35F400A187B48EC0072200B /* TestFile.h */,
-			);
-			path = Test;
 			sourceTree = "<group>";
 		};
 		B383FB71187B4AFF00999890 /* include */ = {
@@ -1803,6 +1703,116 @@
 			path = VajraToAndroidJavaInterface;
 			sourceTree = "<group>";
 		};
+		B39A100F187F368300760DF9 /* Code */ = {
+			isa = PBXGroup;
+			children = (
+				B39A1010187F368300760DF9 /* ExampleGame */,
+			);
+			name = Code;
+			path = ../../../Code;
+			sourceTree = "<group>";
+		};
+		B39A1010187F368300760DF9 /* ExampleGame */ = {
+			isa = PBXGroup;
+			children = (
+				B39A1011187F368300760DF9 /* AndroidWrapper */,
+				B39A1014187F368300760DF9 /* Components */,
+				B39A1028187F368300760DF9 /* GameSingletons */,
+				B39A102B187F368300760DF9 /* Messages */,
+				B39A102D187F368300760DF9 /* Test */,
+			);
+			path = ExampleGame;
+			sourceTree = "<group>";
+		};
+		B39A1011187F368300760DF9 /* AndroidWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				B39A1012187F368300760DF9 /* AndroidWrapper.cpp */,
+				B39A1013187F368300760DF9 /* AndroidWrapper.h */,
+			);
+			path = AndroidWrapper;
+			sourceTree = "<group>";
+		};
+		B39A1014187F368300760DF9 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B39A1015187F368300760DF9 /* ComponentTypes */,
+				B39A1017187F368300760DF9 /* GameScripts */,
+				B39A101A187F368300760DF9 /* Grid */,
+				B39A1025187F368300760DF9 /* ShadyCamera */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B39A1015187F368300760DF9 /* ComponentTypes */ = {
+			isa = PBXGroup;
+			children = (
+				B39A1016187F368300760DF9 /* ComponentTypeIds.h */,
+			);
+			path = ComponentTypes;
+			sourceTree = "<group>";
+		};
+		B39A1017187F368300760DF9 /* GameScripts */ = {
+			isa = PBXGroup;
+			children = (
+				B39A1018187F368300760DF9 /* SampleGameScript.cpp */,
+				B39A1019187F368300760DF9 /* SampleGameScript.h */,
+			);
+			path = GameScripts;
+			sourceTree = "<group>";
+		};
+		B39A101A187F368300760DF9 /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				B39A101B187F368300760DF9 /* GridCell.cpp */,
+				B39A101C187F368300760DF9 /* GridCell.h */,
+				B39A101D187F368300760DF9 /* GridManager.cpp */,
+				B39A101E187F368300760DF9 /* GridManager.h */,
+				B39A101F187F368300760DF9 /* GridNavigator.cpp */,
+				B39A1020187F368300760DF9 /* GridNavigator.h */,
+				B39A1021187F368300760DF9 /* GridRoom.cpp */,
+				B39A1022187F368300760DF9 /* GridRoom.h */,
+				B39A1023187F368300760DF9 /* GridZone.cpp */,
+				B39A1024187F368300760DF9 /* GridZone.h */,
+			);
+			path = Grid;
+			sourceTree = "<group>";
+		};
+		B39A1025187F368300760DF9 /* ShadyCamera */ = {
+			isa = PBXGroup;
+			children = (
+				B39A1026187F368300760DF9 /* ShadyCamera.cpp */,
+				B39A1027187F368300760DF9 /* ShadyCamera.h */,
+			);
+			path = ShadyCamera;
+			sourceTree = "<group>";
+		};
+		B39A1028187F368300760DF9 /* GameSingletons */ = {
+			isa = PBXGroup;
+			children = (
+				B39A1029187F368300760DF9 /* GameSingletons.cpp */,
+				B39A102A187F368300760DF9 /* GameSingletons.h */,
+			);
+			path = GameSingletons;
+			sourceTree = "<group>";
+		};
+		B39A102B187F368300760DF9 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				B39A102C187F368300760DF9 /* Declarations.h */,
+			);
+			path = Messages;
+			sourceTree = "<group>";
+		};
+		B39A102D187F368300760DF9 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				B39A102E187F368300760DF9 /* TestFile.cpp */,
+				B39A102F187F368300760DF9 /* TestFile.h */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2033,17 +2043,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B35F4010187B48EC0072200B /* ShadyCamera.cpp in Sources */,
-				B35F4011187B48EC0072200B /* GameSingletons.cpp in Sources */,
 				58F247111850F5C90066E804 /* ViewController.mm in Sources */,
-				B35F400B187B48EC0072200B /* AndroidWrapper.cpp in Sources */,
-				B35F400C187B48EC0072200B /* SampleGameScript.cpp in Sources */,
-				B35F4012187B48EC0072200B /* TestFile.cpp in Sources */,
-				B35F400F187B48EC0072200B /* GridNavigator.cpp in Sources */,
-				B35F400E187B48EC0072200B /* GridManager.cpp in Sources */,
-				B35F400D187B48EC0072200B /* GridCell.cpp in Sources */,
+				B39A1037187F368300760DF9 /* ShadyCamera.cpp in Sources */,
+				B39A1030187F368300760DF9 /* AndroidWrapper.cpp in Sources */,
+				B39A1031187F368300760DF9 /* SampleGameScript.cpp in Sources */,
+				B39A1036187F368300760DF9 /* GridZone.cpp in Sources */,
+				B39A1039187F368300760DF9 /* TestFile.cpp in Sources */,
+				B39A1034187F368300760DF9 /* GridNavigator.cpp in Sources */,
+				B39A1033187F368300760DF9 /* GridManager.cpp in Sources */,
+				B39A1035187F368300760DF9 /* GridRoom.cpp in Sources */,
+				B39A1032187F368300760DF9 /* GridCell.cpp in Sources */,
 				58F247041850F5C90066E804 /* AppDelegate.mm in Sources */,
 				58F247001850F5C90066E804 /* main.mm in Sources */,
+				B39A1038187F368300760DF9 /* GameSingletons.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

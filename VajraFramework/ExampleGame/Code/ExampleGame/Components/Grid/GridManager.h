@@ -7,6 +7,8 @@
 #define GRIDMANAGER_H
 
 #include "ExampleGame/Components/Grid/GridCell.h"
+#include "ExampleGame/Components/Grid/GridRoom.h"
+#include "ExampleGame/Components/Grid/GridZone.h"
 #include "Libraries/glm/glm.hpp"
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
@@ -14,6 +16,7 @@
 
 #include <list>
 #include <string>
+#include <vector>
 
 class GridManager : public Component {
 public:
@@ -27,17 +30,15 @@ public:
 	virtual void HandleMessage(MessageChunk messageChunk);
 
 	void GenerateTerrainFromFile(std::string terrainFilename);
-
-	int GetRoomX(int cellX); // Returns the room in which the cell resides
-	int GetRoomZ(int cellZ); // Returns the room in which the cell resides
-
-	inline int GetRoomWidth() { return this->roomWidth; }
-	inline int GetRoomHeight() { return this->roomHeight; }
+	void AddGridZone(ObjectIdType zoneId);
 
 	inline float getCellSize() { return cellSize; }
 
-	GridCell* GetCell(int x, int z); // Returns the cell at the specified coordinates
-	GridCell* GetCell(glm::vec3 loc); // Returns the cell at the specified world position
+	GridCell* GetCell(int x, int z);    // Returns the cell at the specified coordinates
+	GridCell* GetCell(glm::vec3 loc);   // Returns the cell at the specified world position
+	GridRoom* GetRoom(int x, int z);    // Returns the room at the specified coordinates
+	GridRoom* GetRoom(glm::vec3 loc);   // Returns the room at the specified world position
+	GridRoom* GetRoom(GridCell* cell);  // Returns the room at the specified grid cell
 
 	void GetNeighbors(GridCell* cel, std::list<GridCell*>& outNbrs); // Populates the list with all adjacent cells
 
@@ -47,6 +48,9 @@ public:
 	
 	GridCell* TouchPositionToCell(glm::vec2 touchPos);
 	glm::vec3 TouchPositionToGridPosition(glm::vec2 touchPos);
+
+	bool Passable(GridCell* startCell, GridCell* goalCell);
+	void TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outTouched);
 
 	/****************
 	// TODO [Implement]
@@ -71,18 +75,17 @@ private:
 #endif
 
 	void gridCellChangedHandler(ObjectIdType id, glm::vec3 dest);
+	void checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell);
 
 	float cellSize; // Width and depth of a grid cell in world coordinates
 	glm::vec3 halfCellSize; // Offset vector between center and corner of a grid cell
 
 	GridCell*** gridCells; // 2D array of grid cells
+	std::vector<GridRoom*> gridRooms;
+	std::list<ObjectIdType> gridZones;
 
 	unsigned int gridWidth;
 	unsigned int gridHeight;
-	unsigned int roomWidth; // Width of an individual room in grid cells
-	unsigned int roomHeight; // Height of an individual room in grid cells
-	int roomOffsetX; // Number of cells separating rooms horizontally
-	int roomOffsetZ; // Number of cells separating rooms vertically
 	int maxElevation;
 	Plane gridPlane;  // The center of cell (0,0) in world coordinates and it's normal
 

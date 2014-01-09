@@ -12,5 +12,5 @@ GridCell::GridCell(int x0, int y0, int z0, glm::vec3 origin0, glm::vec3 center0,
 	origin(origin0),
 	center(center0),
 	isPassable(passable0),
-	occupant(nullptr)
+	unitId(OBJECT_ID_INVALID)
 { }
