@@ -40,6 +40,12 @@ void Input::updateInput() {
 	// Populate frame touches with all input that has been asynchronously collected
 	this->frameTouches = this->asyncTouches;
 
+	// Send out input messages
+	for(std::vector<Touch>::iterator it = this->frameTouches.begin(); it != this->frameTouches.end(); ++it) {
+    	MessageChunk touchMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		touchMessage->SetMessageType(MESSAGE_TYPE_TOUCH_OFF_UI);
+		ENGINE->GetMessageHub()->SendMulticastMessage(touchMessage, this->GetId());
+	}
 	// Remove all touches that have ended or been cancelled
 	this->asyncTouches.erase( std::remove_if(this->asyncTouches.begin(), this->asyncTouches.end(), touchOver), this->asyncTouches.end());
 
@@ -79,6 +85,8 @@ void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
 	t.phase = phase;
 	t.fingerId = this->asyncTouches.size();
 	this->asyncTouches.push_back(t);
+
+	// Send a message to the UI that a touch started
 }
 
 void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {

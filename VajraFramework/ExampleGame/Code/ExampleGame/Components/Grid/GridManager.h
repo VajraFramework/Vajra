@@ -74,7 +74,8 @@ private:
 #endif
 
 	void gridCellChangedHandler(ObjectIdType id, glm::vec3 dest);
-
+	void touchOnGrid();
+	
 	float cellSize; // Width and depth of a grid cell in world coordinates
 	glm::vec3 halfCellSize; // Offset vector between center and corner of a grid cell
 

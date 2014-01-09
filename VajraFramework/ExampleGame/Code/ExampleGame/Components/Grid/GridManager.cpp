@@ -8,6 +8,7 @@
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Messages/Declarations.h"
 
+#include "Vajra/Common/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -53,6 +54,7 @@ void GridManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 #endif
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_TOUCH_OFF_UI, this->GetTypeId(), false);
 }
 
 void GridManager::destroy() {
@@ -86,7 +88,9 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
 			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
 			break;
-
+		case MESSAGE_TYPE_TOUCH_OFF_UI:
+			this->touchOnGrid();
+			break;
 		default:
 			break;
 	}
@@ -349,4 +353,8 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 		destCell->occupant = obj;
 		gNav->SetCurrentCell(destCell);
 	}
+}
+
+void GridManager::touchOnGrid() {
+	FRAMEWORK->GetLogger()->dbglog("\nTouch on grid");
 }
