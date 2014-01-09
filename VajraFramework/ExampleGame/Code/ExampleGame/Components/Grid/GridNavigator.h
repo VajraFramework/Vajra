@@ -10,11 +10,11 @@
 
 #include "Libraries/glm/glm.hpp"
 
-#include "Vajra/Common/Components/Component.h"
+#include "Vajra/Engine/Components/DerivedComponents/GameScript/GameScript.h"
 
 #include <list>
 
-class GridNavigator : public Component {
+class GridNavigator : public GameScript {
 public:
 	GridNavigator();
 	GridNavigator(Object* object_);
@@ -38,11 +38,15 @@ public:
 	bool AddDestination(int x, int z);   // Set new destination without destroying current path
 	bool AddDestination(glm::vec3 loc);  // Set new destination without destroying current path
 
+protected:
+	virtual void start() { }
+	virtual void end()   { }
+	virtual void update();
+
 private:
 	void init();
 	void destroy();
 
-	void update();
 
 	void followPath();
 
