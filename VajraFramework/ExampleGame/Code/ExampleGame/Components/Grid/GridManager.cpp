@@ -379,7 +379,7 @@ void GridManager::DebugTouchTest(int touchIndex) {
 
 		if (touch.phase == TouchPhase::Began) {
 			if (cell->unitId != OBJECT_ID_INVALID) {
-				selectUnitInCell(cell->x, cell->z);
+				selectUnitInCell(cell);
 			}
 			else if (this->selectedUnitId != OBJECT_ID_INVALID) {
 				GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
