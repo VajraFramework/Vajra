@@ -47,6 +47,8 @@ public:
 	glm::vec3 GetRoomCenter(int x, int z);
 	glm::vec3 GetRoomCenter(GridCell* cell);
 
+	inline ObjectIdType GetSelectedUnitId() { return this->selectedUnitId; }
+
 	// @Override
 	virtual bool TestTouch(int /*touchIndex*/) { return true; }
 	virtual void OnTouch(int touchIndex);
@@ -82,6 +84,9 @@ private:
 	void gridCellChangedHandler(ObjectIdType id, glm::vec3 dest);
 	void checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell);
 
+	void selectUnitInCell(int x, int z);
+	void selectUnitInCell(GridCell* cell);
+
 	float cellSize; // Width and depth of a grid cell in world coordinates
 	glm::vec3 halfCellSize; // Offset vector between center and corner of a grid cell
 
@@ -93,6 +98,8 @@ private:
 	unsigned int gridHeight;
 	int maxElevation;
 	Plane gridPlane;  // The center of cell (0,0) in world coordinates and it's normal
+
+	ObjectIdType selectedUnitId;
 
 	//GameObject* transZones;
 
