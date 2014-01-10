@@ -439,7 +439,11 @@ void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, Grid
 }
 
 void GridManager::selectUnitInCell(int x, int z) {
-	if (this->gridCells[x][z]->unitId != OBJECT_ID_INVALID) {
-		this->selectedUnitId = this->gridCells[x][z]->unitId;
+	this->selectUnitInCell(GetCell(x, z));
+}
+
+void GridManager::selectUnitInCell(GridCell* cell) {
+	if (cell->unitId != OBJECT_ID_INVALID) {
+		this->selectedUnitId = cell->unitId;
 	}
 }

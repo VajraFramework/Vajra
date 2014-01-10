@@ -56,14 +56,17 @@ int TestFuntion() {
 		testGameScript->AddComponent<SampleGameScript>();
 		GridNavigator* gNav = testGameScript->AddComponent<GridNavigator>();
 		gNav->SetGridPosition(0, 2);
-
-		GameObject* testGameScript2 = new GameObject(ENGINE->GetSceneGraph3D());
-		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testGameScript2->GetId());
-		MeshRenderer* meshRenderer2 = testGameScript2->AddComponent<MeshRenderer>();
-		meshRenderer2->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
-		testGameScript2->AddComponent<SampleGameScript>();
-		GridNavigator* gNav2 = testGameScript2->AddComponent<GridNavigator>();
-		gNav2->SetGridPosition(8, 2);
+#endif
+	}
+	{
+#if 1
+		GameObject* testGameScript = new GameObject(ENGINE->GetSceneGraph3D());
+		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testGameScript->GetId());
+		MeshRenderer* meshRenderer = testGameScript->AddComponent<MeshRenderer>();
+		meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
+		testGameScript->AddComponent<SampleGameScript>();
+		GridNavigator* gNav = testGameScript->AddComponent<GridNavigator>();
+		gNav->SetGridPosition(8, 2);
 #endif
 	}
  
