@@ -10,12 +10,10 @@
 
 #include <map>
 
-#define UI_SCREENWIDTH_PREFERRED  1024
-#define UI_SCREENHEIGHT_PREFERRED 768
-
 // Forward Declarations:
 class Camera;
 class DirectionalLight;
+class UiTouchManager;
 
 class SceneGraphUi : public SceneGraph {
 public:
@@ -25,12 +23,19 @@ public:
 	virtual void update();
 	virtual void draw();
 
-	virtual bool TestTouch(int /*touchIndex*/) { return false; }
-	virtual void OnTouch(int /*touchIndex*/) {}
+	// @Override
+	virtual bool TestTouch(Touch touch);
+	virtual void OnTouch(int touchIndex);
+
+	UiTouchManager* GetUiTouchManager() { return this->uiTouchManager; }
+
 protected:
 	SceneGraphUi();
 	virtual void init();
 	virtual void destroy();
+
+	UiTouchManager* uiTouchManager;
+	void handleTouches();
 
 	friend class Engine;
 };

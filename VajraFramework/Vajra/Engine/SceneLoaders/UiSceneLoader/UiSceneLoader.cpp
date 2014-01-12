@@ -107,6 +107,12 @@ static void loadOneUiElement(std::ifstream& sceneFile) {
 										 FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + fontName);
 		}
 		//
+		if (onClickHandlerId != "") {
+			uiElement->SetClickable(true);
+		} else {
+			uiElement->SetClickable(false);
+		}
+		//
 		uiElement->SetPosition(posXPixels, posYPixels);
 	}
 }

@@ -2,8 +2,10 @@
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneGraph/RenderLists.h"
+#include "Vajra/Engine/Ui/UiTouchManager/UiTouchManager.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
@@ -16,11 +18,10 @@ SceneGraphUi::~SceneGraphUi() {
 }
 
 void SceneGraphUi::update() {
-	// TODO [Implement] Figure out if we need to put anything here
+	this->handleTouches();
 }
 
 void SceneGraphUi::draw() {
-#if 1
 	ASSERT(this->mainCameraId != OBJECT_ID_INVALID, "mainCamera set");
 	GameObject* mainCamera = this->GetGameObjectById(this->mainCameraId);
 
@@ -43,12 +44,33 @@ void SceneGraphUi::draw() {
 
 		this->renderLists->Next();
 	}
-#endif
 }
+
+bool SceneGraphUi::TestTouch(Touch touch) {
+	return this->uiTouchManager->TestTouchCapture(touch);
+}
+
+void SceneGraphUi::OnTouch(int touchIndex) {
+	this->uiTouchManager->OnTouchUpdate(touchIndex);
+}
+
+void SceneGraphUi::handleTouches() {
+	if(ENGINE->GetInput()->GetTouchCount() != 1) {
+		// Nothing to do
+
+	} else {
+		// Exactly one touch (not handling multi-touch yet)
+		/// Touch touch = ENGINE->GetInput()->GetTouch(0);
+		// float touchDisplacement = touch.pos.x - touch.prevPos.x;
+		// glm::vec2 moveDir = touch.pos - touch.prevPos;
+	}
+}
+
 
 void SceneGraphUi::init() {
 	SceneGraph::init();
 	//
+	this->uiTouchManager = new UiTouchManager();
 	this->mainCameraId = OBJECT_ID_INVALID;
 }
 

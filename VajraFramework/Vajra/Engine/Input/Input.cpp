@@ -77,7 +77,7 @@ void Input::updateInput() {
 }
 
 Touch Input::GetTouch(int index) {
-	ASSERT((unsigned int)index < this->frameTouches.size(), "Index is greater than current number of touches");
+	ASSERT((unsigned int)index < this->frameTouches.size(), "Index (%d) is lesser than current number of touches (%u)", index, this->frameTouches.size());
 	return this->frameTouches[index];
 }
 
@@ -97,7 +97,7 @@ void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
 	this->asyncTouches.push_back(t);
 
 	// Find correct touch target for touch using vector index
-	this->testTouchTargets(this->asyncTouches.size() - 1);
+	this->testTouchTargets(t);
 
 
 }
@@ -134,23 +134,23 @@ void Input::logTouches() {
 	}
 }
 
-void Input::testTouchTargets(int index) {
+void Input::testTouchTargets(Touch touch) {
 	// Test UIScene first
-	if(ENGINE->GetSceneGraphUi()->TestTouch(index)) {
+	if(ENGINE->GetSceneGraphUi()->TestTouch(touch)) {
 		this->currentTouchTarget = ENGINE->GetSceneGraphUi();
 		return;
 	}
 	
 	// Test all game targets
 	for(ITouchTarget* iTarget : this->gameTouchTargets) {
-    	if(iTarget->TestTouch(index)) {
+    	if(iTarget->TestTouch(touch)) {
     		this->currentTouchTarget = iTarget;
     		return;
     	}
     }
 
-	// test Scene3D last
-	if(ENGINE->GetSceneGraph3D()->TestTouch(index)) {
+	// Test 3DScene last
+	if(ENGINE->GetSceneGraph3D()->TestTouch(touch)) {
 		this->currentTouchTarget = ENGINE->GetSceneGraph3D();
 		return;
 	}

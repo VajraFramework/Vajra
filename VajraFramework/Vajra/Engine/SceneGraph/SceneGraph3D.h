@@ -25,7 +25,7 @@ public:
 	virtual void update();
 	virtual void draw();
 
-	virtual bool TestTouch(int /*touchIndex*/) { return true; }
+	virtual bool TestTouch(Touch /* touch */) { return true; }
 	virtual void OnTouch(int /*touchIndex*/) {}
 protected:
 	SceneGraph3D();

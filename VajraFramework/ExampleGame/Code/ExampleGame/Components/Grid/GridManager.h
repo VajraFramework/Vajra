@@ -50,7 +50,7 @@ public:
 	inline ObjectIdType GetSelectedUnitId() { return this->selectedUnitId; }
 
 	// @Override
-	virtual bool TestTouch(int /*touchIndex*/) { return true; }
+	virtual bool TestTouch(Touch /* touch */) { return true; }
 	virtual void OnTouch(int touchIndex);
 	
 	GridCell* TouchPositionToCell(glm::vec2 touchPos);
