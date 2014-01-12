@@ -6,8 +6,12 @@
 #ifndef EX_COMPONENTTYPEIDS_H
 #define EX_COMPONENTTYPEIDS_H
 
-#define COMPONENT_TYPE_ID_GRID_MANAGER           (unsigned int)1024
-#define COMPONENT_TYPE_ID_GRID_NAVIGATOR         (unsigned int)1025
-#define COMPONENT_TYPE_ID_GRID_ZONE              (unsigned int)1026
+#include "Vajra/Engine/Components/ComponentTypes/ComponentTypeIds.h"
+
+enum ExComponentIdType {
+	COMPONENT_TYPE_ID_GRID_MANAGER = NUM_ENGINE_COMPONENT_TYPES,
+	COMPONENT_TYPE_ID_GRID_NAVIGATOR,
+	COMPONENT_TYPE_ID_GRID_ZONE,
+};
 
 #endif // EX_COMPONENTTYPEIDS_H
