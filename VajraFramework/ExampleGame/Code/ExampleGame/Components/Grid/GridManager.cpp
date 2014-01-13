@@ -4,6 +4,8 @@
 //
 
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
+#include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
+#include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Messages/Declarations.h"
@@ -52,6 +54,7 @@ void GridManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 #endif
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_KILLED, this->GetTypeId(), false);
 }
 
 void GridManager::destroy() {
@@ -88,6 +91,9 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 #endif
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
 			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
+			break;
+		case MESSAGE_TYPE_UNIT_KILLED:
+			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
 			break;
 		default:
 			break;
@@ -200,6 +206,20 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 #ifdef DEBUG
 	debugTouchUpdate(touchIndex);
 #endif
+	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
+	GridCell* cell = this->TouchPositionToCell(touch.pos);
+	if (cell != nullptr) {
+		if (touch.phase == TouchPhase::Began) {
+			if (cell->unitId != OBJECT_ID_INVALID && cell->unitId != this->selectedUnitId) {
+				selectUnitInCell(cell);
+			}
+		}
+		if (this->selectedUnitId != OBJECT_ID_INVALID) {
+			GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
+			PlayerUnit* unit = obj->GetComponent<PlayerUnit>();
+			unit->OnTouch(touchIndex, cell);
+		}
+	}
 }
 
 GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
@@ -377,17 +397,6 @@ void GridManager::debugTouchUpdate(int touchIndex) {
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
 		DebugDraw::DrawCube(cell->center, 1.0f);
-
-		if (touch.phase == TouchPhase::Began) {
-			if (cell->unitId != OBJECT_ID_INVALID) {
-				selectUnitInCell(cell);
-			}
-			else if (this->selectedUnitId != OBJECT_ID_INVALID) {
-				GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
-				GridNavigator* gNav = obj->GetComponent<GridNavigator>();
-				gNav->SetDestination(cell->x, cell->z);
-			}
-		}
 	}
 	glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
 	DebugDraw::DrawCube(gridPos, 1.0f);
@@ -425,6 +434,12 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 	}
 }
 
+void GridManager::removeNavigatorFromGrid(ObjectIdType id, glm::vec3 cellPos) {
+	GridCell* cell = this->GetCell(cellPos);
+	if(cell->unitId == id) {
+		cell->unitId = OBJECT_ID_INVALID;
+	}
+}
 void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
 	for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
 		Object* zoneObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
@@ -445,6 +460,22 @@ void GridManager::selectUnitInCell(int x, int z) {
 
 void GridManager::selectUnitInCell(GridCell* cell) {
 	if (cell->unitId != OBJECT_ID_INVALID) {
-		this->selectedUnitId = cell->unitId;
+		GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(cell->unitId);
+		BaseUnit* bu = obj->GetComponent<BaseUnit>();
+		ASSERT(bu != nullptr, "Selected object has BaseUnit component");
+		if(bu->GetUnitType() < UnitType::UNIT_TYPE_PLAYER_UNITS_COUNT) {
+			this->deselectUnit();
+			this->selectedUnitId = cell->unitId;
+		}
+	}	
+}
+
+void GridManager::deselectUnit() {
+	if (this->selectedUnitId != OBJECT_ID_INVALID) {
+		GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
+		PlayerUnit* pu = obj->GetComponent<PlayerUnit>();
+		ASSERT(pu != nullptr, "Selected object has PlayerUnit component");
+		pu->OnDeselect();
+		this->selectedUnitId = OBJECT_ID_INVALID;
 	}
 }

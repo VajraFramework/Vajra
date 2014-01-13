@@ -1,10 +1,12 @@
-#include "ExampleGame/Test/TestFile.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
+#include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
+#include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
+#include "ExampleGame/Test/TestFile.h"
 #include "ExampleGame/Ui/TouchHandlers/TestUiSceneTouchHandlers.h"
 #include "Vajra/Common/Objects/Object.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
@@ -62,6 +64,7 @@ int TestFuntion() {
 		testGameScript->AddComponent<SampleGameScript>();
 		GridNavigator* gNav = testGameScript->AddComponent<GridNavigator>();
 		gNav->SetGridPosition(0, 2);
+		testGameScript->AddComponent<PlayerUnit>();
 #endif
 	}
 	{
@@ -73,6 +76,7 @@ int TestFuntion() {
 		testGameScript->AddComponent<SampleGameScript>();
 		GridNavigator* gNav = testGameScript->AddComponent<GridNavigator>();
 		gNav->SetGridPosition(8, 2);
+		testGameScript->AddComponent<BaseUnit>();
 #endif
 	}
 
