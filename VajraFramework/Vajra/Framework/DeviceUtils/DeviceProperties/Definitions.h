@@ -5,7 +5,7 @@ enum DeviceResolutionSlab {
 	// In ascending order of aspect ratios:
 	DEVICE_RESOLUTION_SLAB__4_3,
 	DEVICE_RESOLUTION_SLAB__3_2,
-	DEVICE_RESOLUTION_SLAB_17_10,
+	DEVICE_RESOLUTION_SLAB_16_10,
 	DEVICE_RESOLUTION_SLAB_16_9,
 };
 

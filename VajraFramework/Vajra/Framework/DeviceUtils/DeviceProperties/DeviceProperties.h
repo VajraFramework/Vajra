@@ -57,8 +57,8 @@ void DeviceProperties::computeDeviceResolutionSlab() {
 			return;
 		}
 		//
-		if (aspectRatio >= (17.0f / 10.0f)) {
-			this->deviceResolutionSlab = DEVICE_RESOLUTION_SLAB_17_10;
+		if (aspectRatio >= (16.0f / 10.0f)) {
+			this->deviceResolutionSlab = DEVICE_RESOLUTION_SLAB_16_10;
 		} else {
 			return;
 		}
