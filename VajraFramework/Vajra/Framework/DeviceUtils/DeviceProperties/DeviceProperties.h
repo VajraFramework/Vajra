@@ -48,7 +48,7 @@ void DeviceProperties::computeDeviceResolutionSlab() {
 		if (aspectRatio >= (4.0f / 3.0f)) {
 			this->deviceResolutionSlab = DEVICE_RESOLUTION_SLAB__4_3;
 		} else {
-			ASSERT(0, "Supported aspect ratio: width %u, height %u", this->widthPx, this->heightPx);
+			//ASSERT(0, "Supported aspect ratio: width %u, height %u", this->widthPx, this->heightPx);
 		}
 		//
 		if (aspectRatio >= (3.0f / 2.0f)) {

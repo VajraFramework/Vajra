@@ -7,10 +7,13 @@
 #define BASE_UNIT_H
 
 #include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
-#include "Vajra/Engine/Components/DerivedComponents/GameScript/GameScript.h"
+
+#include "Vajra/Common/Components/Component.h"
 
 class GridNavigator;
-class BaseUnit : public GameScript {
+class GameObject;
+
+class BaseUnit : public Component {
 public:
 	BaseUnit();
 	BaseUnit(Object* object_);
@@ -34,6 +37,7 @@ private:
 	void init();
 	void destroy();
 
+	GameObject* gameObjectRef;
 	GridNavigator* gridNavRef;
 
 	UnitState unitState = UnitState::UNIT_STATE_ALIVE;

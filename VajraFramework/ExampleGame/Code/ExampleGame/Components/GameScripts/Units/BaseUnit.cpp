@@ -10,11 +10,11 @@
 
 ComponentIdType BaseUnit::componentTypeId = COMPONENT_TYPE_ID_BASE_UNIT;
 
-BaseUnit::BaseUnit() : GameScript() {
+BaseUnit::BaseUnit() : Component() {
 	this->init();
 }
 
-BaseUnit::BaseUnit(Object* object_) : GameScript(object_) {
+BaseUnit::BaseUnit(Object* object_) : Component(object_) {
 	this->init();
 }
 
@@ -23,7 +23,11 @@ BaseUnit::~BaseUnit() {
 }
 
 void BaseUnit::init() {
-	this->start();
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_END  , this->GetTypeId(), false);
+
+	this->gameObjectRef = (GameObject*)this->GetObject();
 }
 
 void BaseUnit::destroy() {
@@ -55,6 +59,6 @@ void BaseUnit::Kill() {
 	ENGINE->GetMessageHub()->SendMulticastMessage(unitKilledMessage, this->GetObject()->GetId());
 
 	// Remove the navigator component
-	this->gameObject->RemoveComponent<GridNavigator>();
+	this->gameObjectRef->RemoveComponent<GridNavigator>();
 	this->gridNavRef = nullptr;
 }
