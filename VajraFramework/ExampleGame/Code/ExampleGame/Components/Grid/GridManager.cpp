@@ -85,7 +85,7 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 	switch (messageChunk->GetMessageType()) {
 #ifdef DEBUG
 		case MESSAGE_TYPE_FRAME_EVENT:
-			DebugDrawGrid();
+			debugDrawGrid();
 			break;
 #endif
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
@@ -151,7 +151,7 @@ void GridManager::AddGridZone(ObjectIdType zoneId) {
 }
 
 GridCell* GridManager::GetCell(int x, int z) {
-	if (IsWithinGrid(x * this->cellSize, z * this->cellSize)) { return this->gridCells[x][z]; }
+	if (isWithinGrid(x * this->cellSize, z * this->cellSize)) { return this->gridCells[x][z]; }
 	return nullptr;
 }
 
@@ -200,9 +200,9 @@ glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
 	return ZERO_VEC3;
 }
 
-void GridManager::OnTouch(int touchIndex) {
+void GridManager::OnTouchUpdate(int touchIndex) {
 #ifdef DEBUG
-	DebugTouchTest(touchIndex);
+	debugTouchUpdate(touchIndex);
 #endif
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
@@ -312,16 +312,16 @@ void GridManager::TouchOnGrid(uTouch uT) {
 }
 */
 void GridManager::GetNeighbors(GridCell* cel, std::list<GridCell*>& outNbrs) {
-	if (IsWithinGrid(cel->x - 1, cel->z)) {
+	if (isWithinGrid(cel->x - 1, cel->z)) {
 		outNbrs.push_back(this->gridCells[cel->x - 1][cel->z]);
 	}
-	if (IsWithinGrid(cel->x + 1, cel->z)) {
+	if (isWithinGrid(cel->x + 1, cel->z)) {
 		outNbrs.push_back(this->gridCells[cel->x + 1][cel->z]);
 	}
-	if (IsWithinGrid(cel->x, cel->z - 1)) {
+	if (isWithinGrid(cel->x, cel->z - 1)) {
 		outNbrs.push_back(this->gridCells[cel->x][cel->z - 1]);
 	}
-	if (IsWithinGrid(cel->x, cel->z + 1)) {
+	if (isWithinGrid(cel->x, cel->z + 1)) {
 		outNbrs.push_back(this->gridCells[cel->x][cel->z + 1]);
 	}
 }
@@ -346,17 +346,18 @@ std::list<GridCell> GridManager::DirectRoute(int startX, int startZ, int endX, i
 
 }
 */
-bool GridManager::IsWithinGrid(int x, int z) {
+bool GridManager::isWithinGrid(int x, int z) {
 	return (x >= 0) && (x < (int)this->gridWidth) && (z >= 0) && (z < (int)this->gridHeight);
 }
 
-bool GridManager::IsWithinGrid(glm::vec3 loc) {
+bool GridManager::isWithinGrid(glm::vec3 loc) {
 	int gX = (int)((loc.x / this->cellSize) + 0.5f);
 	int gZ = (int)((-loc.z / this->cellSize) + 0.5f);
-	return IsWithinGrid(gX, gZ);
+	return isWithinGrid(gX, gZ);
 }
+
 #ifdef DEBUG
-void GridManager::DebugDrawGrid() {
+void GridManager::debugDrawGrid() {
 	glm::vec3 start, end;
 
 	start.x = -this->cellSize / 2;
@@ -389,7 +390,7 @@ void GridManager::DebugDrawGrid() {
 }
 
 
-void GridManager::DebugTouchTest(int touchIndex) {
+void GridManager::debugTouchUpdate(int touchIndex) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
