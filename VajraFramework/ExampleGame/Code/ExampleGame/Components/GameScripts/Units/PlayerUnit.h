@@ -23,12 +23,12 @@ protected:
 	void onSelectedTouch();
 	void onNavTouch(int touchId, GridCell* touchedCell);
 
-	virtual void onSpecialTouch(int touchId) {};
-	virtual bool isSpecialTouch(int touchId) {return false;};
-	virtual void specialModeActivate() {};
-	virtual void calcSpecialTargest() {};
+	virtual void onSpecialTouch(int touchId) {}
+	virtual bool isSpecialTouch(int touchId) {return false;}
+	virtual void specialModeActivate() {}
+	virtual void calcSpecialTargets() {}
 
-	InputState inputState = InputState::INPUT_STATE_WAIT;
+	InputState inputState;
 private:
 	void init();
 	void destroy();

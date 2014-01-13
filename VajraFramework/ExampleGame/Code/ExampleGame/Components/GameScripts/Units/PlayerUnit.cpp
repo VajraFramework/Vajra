@@ -20,6 +20,7 @@ PlayerUnit::~PlayerUnit() {
 
 void PlayerUnit::init() {
 	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
+	this->inputState = InputState::INPUT_STATE_WAIT;
 }
 
 void PlayerUnit::destroy() {

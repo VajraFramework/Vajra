@@ -40,7 +40,7 @@ private:
 	void init();
 	void destroy();
 
-	UnitState unitState = UnitState::UNIT_STATE_ALIVE;
+	UnitState unitState;
 
 	static ComponentIdType componentTypeId;
 };
