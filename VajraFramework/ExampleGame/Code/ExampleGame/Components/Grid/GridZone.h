@@ -6,9 +6,9 @@
 #ifndef GRIDZONE_H
 #define GRIDZONE_H
 
-#include "Vajra/Engine/Components/DerivedComponents/GameScript/GameScript.h"
+#include "Vajra/Common/Components/Component.h"
 
-class GridZone : public GameScript {
+class GridZone : public Component {
 public:
 	GridZone();
 	GridZone(Object* object_);
@@ -21,10 +21,6 @@ public:
 	unsigned int CollisionCheck(GridCell* startCell, GridCell* destCell);
 
 protected:
-	// Virtual Methods
-	virtual void start()  {}
-	virtual void end()    {}
-	virtual void update() {}
 
 private:
 	void init();

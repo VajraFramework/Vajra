@@ -19,7 +19,7 @@ public:
 	Component(Object* object_);
 	virtual ~Component();
 
-	virtual void HandleMessage(MessageChunk messageChunk) = 0;
+	virtual void HandleMessage(MessageChunk messageChunk);
 
 	inline Object* GetObject() { return this->object; }
 	static inline ComponentIdType GetTypeId() { return componentTypeId; }
@@ -30,6 +30,10 @@ protected:
 	void addSubscriptionToMessageType(MessageType messageType, ComponentIdType selfComponentIdType, bool onLocalObject);
 	void removeSubscriptionToMessageType(MessageType messageType, ComponentIdType selfComponentIdType);
 	void removeSubscriptionToAllMessageTypes(ComponentIdType selfComponentIdType);
+
+	virtual void start()  {}
+	virtual void update() {}
+	virtual void end()    {}
 
 private:
 	void init(Object* object_ = 0);

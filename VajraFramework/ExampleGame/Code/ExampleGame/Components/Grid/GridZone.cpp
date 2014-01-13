@@ -12,11 +12,11 @@
 
 unsigned int GridZone::componentTypeId = COMPONENT_TYPE_ID_GRID_ZONE;
 
-GridZone::GridZone() : GameScript() {
+GridZone::GridZone() : Component() {
 	this->init();
 }
 
-GridZone::GridZone(Object* object_) : GameScript(object_) {
+GridZone::GridZone(Object* object_) : Component(object_) {
 	this->init();
 }
 
