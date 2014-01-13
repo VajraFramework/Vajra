@@ -26,11 +26,11 @@
 
 ComponentIdType GridNavigator::componentTypeId = COMPONENT_TYPE_ID_GRID_NAVIGATOR;
 
-GridNavigator::GridNavigator() : GameScript() {
+GridNavigator::GridNavigator() : Component() {
 	this->init();
 }
 
-GridNavigator::GridNavigator(Object* object_) : GameScript(object_) {
+GridNavigator::GridNavigator(Object* object_) : Component(object_) {
 	this->init();
 }
 
@@ -39,6 +39,9 @@ GridNavigator::~GridNavigator() {
 }
 
 void GridNavigator::init() {
+	// TODO [Implement] Ensure type-safety here
+	this->gameObject = (GameObject*)this->GetObject();
+
 	this->currentCell = nullptr;
 	this->isTraveling = false;
 	this->movementSpeed = 1.0f;
