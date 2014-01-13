@@ -7,14 +7,12 @@
 #define GRIDNAVIGATOR_H
 
 #include "ExampleGame/Components/Grid/GridCell.h"
-
 #include "Libraries/glm/glm.hpp"
-
-#include "Vajra/Engine/Components/DerivedComponents/GameScript/GameScript.h"
+#include "Vajra/Common/Components/Component.h"
 
 #include <list>
 
-class GridNavigator : public GameScript {
+class GridNavigator : public Component {
 public:
 	GridNavigator();
 	GridNavigator(Object* object_);
@@ -36,14 +34,11 @@ public:
 	bool AddDestination(glm::vec3 loc);  // Set new destination without destroying current path
 
 protected:
-	virtual void start() { }
-	virtual void end()   { }
 	virtual void update();
 
 private:
 	void init();
 	void destroy();
-
 
 	void followPath();
 
@@ -54,12 +49,16 @@ private:
 	float actualTravelCost(GridCell* startCell, GridCell* goalCell);
 	void simplifyPath(std::list<GridCell*>& outPath);
 
-	static ComponentIdType componentTypeId;
+	Transform* getTransform() { return this->gameObject->GetTransform(); }
 
 	GridCell* currentCell;
 	std::list<GridCell*> currentPath;
 	bool isTraveling;
 	float movementSpeed;
+
+	GameObject* gameObject;
+
+	static ComponentIdType componentTypeId;
 };
 
 #endif // GRIDNAVIGATOR_H
