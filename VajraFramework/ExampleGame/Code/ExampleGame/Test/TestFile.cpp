@@ -1,5 +1,6 @@
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
+#include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
@@ -57,6 +58,7 @@ int TestFuntion() {
 		testGameScript->AddComponent<SampleGameScript>();
 		GridNavigator* gNav = testGameScript->AddComponent<GridNavigator>();
 		gNav->SetGridPosition(0, 2);
+		testGameScript->AddComponent<PlayerUnit>();
 #endif
 	}
 	{
@@ -65,7 +67,7 @@ int TestFuntion() {
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testGameScript->GetId());
 		MeshRenderer* meshRenderer = testGameScript->AddComponent<MeshRenderer>();
 		meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
-		//testGameScript->AddComponent<SampleGameScript>();
+		testGameScript->AddComponent<SampleGameScript>();
 		GridNavigator* gNav = testGameScript->AddComponent<GridNavigator>();
 		gNav->SetGridPosition(8, 2);
 		testGameScript->AddComponent<BaseUnit>();

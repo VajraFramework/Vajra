@@ -17,10 +17,10 @@ public:
 	virtual void OnTouch(int touchId);
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 protected:
-	virtual void OnSpeicalTouch(int touchId) = 0;
-	virtual void IsSpecialTouch(int touchId) = 0;
-	virtual void SpecialModeActivate() = 0;
-	virtual void CalcSpecialTargest() = 0;
+	virtual void OnSpeicalTouch(int touchId) {};
+	virtual void IsSpecialTouch(int touchId) {};
+	virtual void SpecialModeActivate() {};
+	virtual void CalcSpecialTargest() {};
 
 private:
 	void init();

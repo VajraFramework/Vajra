@@ -13,11 +13,12 @@ PlayerUnit::~PlayerUnit() {
 }
 
 void PlayerUnit::init() {
+	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
 }
 
 void PlayerUnit::destroy() {
 }
 
 void PlayerUnit::OnTouch(int touchId) {
-	
+
 }

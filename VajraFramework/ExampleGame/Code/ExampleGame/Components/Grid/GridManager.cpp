@@ -4,6 +4,7 @@
 //
 
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
+#include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Messages/Declarations.h"
@@ -203,6 +204,20 @@ void GridManager::OnTouch(int touchIndex) {
 #ifdef DEBUG
 	DebugTouchTest(touchIndex);
 #endif
+	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
+	GridCell* cell = this->TouchPositionToCell(touch.pos);
+	if (cell != nullptr) {
+		if (touch.phase == TouchPhase::Began) {
+			if (cell->unitId != OBJECT_ID_INVALID) {
+				selectUnitInCell(cell);
+			}
+			else if (this->selectedUnitId != OBJECT_ID_INVALID) {
+				GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
+				GridNavigator* gNav = obj->GetComponent<GridNavigator>();
+				gNav->SetDestination(cell->x, cell->z);
+			}
+		}
+	}
 }
 
 GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
@@ -379,17 +394,6 @@ void GridManager::DebugTouchTest(int touchIndex) {
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
 		DebugDraw::DrawCube(cell->center, 1.0f);
-
-		if (touch.phase == TouchPhase::Began) {
-			if (cell->unitId != OBJECT_ID_INVALID) {
-				selectUnitInCell(cell);
-			}
-			else if (this->selectedUnitId != OBJECT_ID_INVALID) {
-				GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
-				GridNavigator* gNav = obj->GetComponent<GridNavigator>();
-				gNav->SetDestination(cell->x, cell->z);
-			}
-		}
 	}
 	glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
 	DebugDraw::DrawCube(gridPos, 1.0f);
@@ -453,6 +457,11 @@ void GridManager::selectUnitInCell(int x, int z) {
 
 void GridManager::selectUnitInCell(GridCell* cell) {
 	if (cell->unitId != OBJECT_ID_INVALID) {
-		this->selectedUnitId = cell->unitId;
+		GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(cell->unitId);
+		BaseUnit* bu = obj->GetComponent<BaseUnit>();
+		ASSERT(bu != nullptr, "Selected object has BaseUnit component");
+		if(bu->GetUnitType() < UnitType::UNIT_TYPE_PLAYER_UNITS_COUNT) {
+			this->selectedUnitId = cell->unitId;
+		}
 	}
 }
