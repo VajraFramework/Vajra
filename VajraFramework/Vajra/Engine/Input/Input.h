@@ -2,7 +2,9 @@
 #define INPUT_H
 
 #include "Vajra/Common/Objects/Object.h"
+#include "Vajra/Engine/Input/Definitions.h"
 #include "Vajra/Engine/Input/ITouchTarget.h"
+
 #include "Libraries/glm/glm.hpp"
 
 #if PLATFORM_DESKTOP
@@ -13,43 +15,6 @@
 #include <iostream>
 #include <vector>
 #include <map>
-
-enum TouchPhase
-{
-	Began,
-	Ended,
-	Moved,
-	Stationary,
-	Cancelled
-};
-
-enum GestureState {
-	GestureState_Inactive,
-	GestureState_Start ,
-	GestureState_Changed,
-	GestureState_End,
-	GestureState_Cancelled
-};
-
-// TODO [Implement] Change this to use pools of Touch objects
-struct Touch {
-private:
-	int uId;
-public:
-	int fingerId;
-	glm::vec2 pos;
-	glm::vec2 prevPos;
-	TouchPhase phase;
-
-friend class Input;
-};
-
-struct Pinch {
-public:	
-	float scale;
-	float velocity;
-	GestureState gestureState = GestureState::GestureState_Inactive;
-};
 
 class Input : public Object {
 
@@ -82,7 +47,7 @@ private:
     ITouchTarget* currentTouchTarget;
     std::vector<ITouchTarget*> gameTouchTargets;
 
-    void testTouchTargets(int index);
+    void testTouchTargets(Touch touch);
 	
     Pinch framePinch;
     Pinch asyncPinch;

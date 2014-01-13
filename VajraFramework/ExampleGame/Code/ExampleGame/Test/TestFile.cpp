@@ -5,15 +5,21 @@
 #include "ExampleGame/Components/Grid/GridZone.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
+#include "ExampleGame/Ui/TouchHandlers/TestUiSceneTouchHandlers.h"
 #include "Vajra/Common/Objects/Object.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
+#include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
+
+// Forward Declarations:
+void initUiGameObjects();
 
 int TestFuntion() {
 	FRAMEWORK->GetLogger()->dbglog("\nIn TestFunction()");
@@ -69,6 +75,28 @@ int TestFuntion() {
 		gNav->SetGridPosition(8, 2);
 #endif
 	}
+
+	initUiGameObjects();
  
 	return 4;
+}
+
+void initUiGameObjects() {
+	{
+		GameObject* camera = new GameObject(ENGINE->GetSceneGraphUi());
+		ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(camera->GetId());
+		Camera* cameraComponent = camera->AddComponent<Camera>();
+		cameraComponent->SetCameraType(CAMERA_TYPE_ORTHO);
+		camera->GetTransform()->SetPosition(0.0f, 0.0f, 400.0f);
+		camera->GetTransform()->Rotate(10.0f, YAXIS);
+		// camera->GetTransform()->SetOrientation(-45.0f, camera->GetTransform()->GetUp());
+		// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
+		camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
+		ENGINE->GetSceneGraphUi()->SetMainCameraId(camera->GetId());
+	}
+
+	{
+		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "testUiScene.uiscene";
+		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new TestUiSceneTouchHandlers());
+	}
 }
