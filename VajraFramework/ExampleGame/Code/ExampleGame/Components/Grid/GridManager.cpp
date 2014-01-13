@@ -94,6 +94,7 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 			break;
 		case MESSAGE_TYPE_UNIT_KILLED:
 			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
+			break;
 		default:
 			break;
 	}
@@ -475,5 +476,6 @@ void GridManager::deselectUnit() {
 		PlayerUnit* pu = obj->GetComponent<PlayerUnit>();
 		ASSERT(pu != nullptr, "Selected object has PlayerUnit component");
 		pu->OnDeselect();
+		this->selectedUnitId = OBJECT_ID_INVALID;
 	}
 }
