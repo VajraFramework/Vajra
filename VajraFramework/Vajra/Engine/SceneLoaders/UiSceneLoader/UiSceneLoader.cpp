@@ -30,7 +30,6 @@ static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int t
 }
 
 static void loadOneUiElement(std::ifstream& sceneFile, UiTouchHandlers* touchHandlers) {
-	std::string itemClass;
 	std::string itemName;
 	int posXPixels, posYPixels;
 	int widthPixels, heightPixels;
@@ -40,11 +39,7 @@ static void loadOneUiElement(std::ifstream& sceneFile, UiTouchHandlers* touchHan
 	std::string imageName;
 	glm::vec4 color;
 	std::string clickable;
-	{
-		// TODO [Implement]
-		sceneFile >> itemClass;
-		FRAMEWORK->GetLogger()->dbglog("Item class: %s", itemClass.c_str());
-	}
+
 	{
 		sceneFile >> itemName;
 		FRAMEWORK->GetLogger()->dbglog("Item name: %s", itemName.c_str());

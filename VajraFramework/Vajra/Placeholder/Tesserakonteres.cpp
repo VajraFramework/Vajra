@@ -184,7 +184,7 @@ namespace Tesserakonteres {
 #endif
 		}
 		{
-#if 0
+#if 1
 			GameObject* noiseMaker = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(noiseMaker->GetId());
 			AudioSource* source = noiseMaker->AddComponent<AudioSource>();
