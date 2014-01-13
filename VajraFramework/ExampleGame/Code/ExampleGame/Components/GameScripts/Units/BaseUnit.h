@@ -33,12 +33,12 @@ protected:
 
 	UnitType unitType;
 
+	GameObject* gameObjectRef;
+	GridNavigator* gridNavRef;
+
 private:
 	void init();
 	void destroy();
-
-	GameObject* gameObjectRef;
-	GridNavigator* gridNavRef;
 
 	UnitState unitState = UnitState::UNIT_STATE_ALIVE;
 

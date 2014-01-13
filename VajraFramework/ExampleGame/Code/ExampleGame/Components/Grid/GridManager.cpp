@@ -5,6 +5,7 @@
 
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
+#include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Messages/Declarations.h"
@@ -208,14 +209,14 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
 		if (touch.phase == TouchPhase::Began) {
-			if (cell->unitId != OBJECT_ID_INVALID) {
+			if (cell->unitId != OBJECT_ID_INVALID && cell->unitId != this->selectedUnitId) {
 				selectUnitInCell(cell);
 			}
-			else if (this->selectedUnitId != OBJECT_ID_INVALID) {
-				GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
-				GridNavigator* gNav = obj->GetComponent<GridNavigator>();
-				gNav->SetDestination(cell->x, cell->z);
-			}
+		}
+		if (this->selectedUnitId != OBJECT_ID_INVALID) {
+			GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
+			PlayerUnit* unit = obj->GetComponent<PlayerUnit>();
+			unit->OnTouch(touchIndex, cell);
 		}
 	}
 }
@@ -462,7 +463,17 @@ void GridManager::selectUnitInCell(GridCell* cell) {
 		BaseUnit* bu = obj->GetComponent<BaseUnit>();
 		ASSERT(bu != nullptr, "Selected object has BaseUnit component");
 		if(bu->GetUnitType() < UnitType::UNIT_TYPE_PLAYER_UNITS_COUNT) {
+			this->deselectUnit();
 			this->selectedUnitId = cell->unitId;
 		}
+	}	
+}
+
+void GridManager::deselectUnit() {
+	if (this->selectedUnitId != OBJECT_ID_INVALID) {
+		GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
+		PlayerUnit* pu = obj->GetComponent<PlayerUnit>();
+		ASSERT(pu != nullptr, "Selected object has PlayerUnit component");
+		pu->OnDeselect();
 	}
 }

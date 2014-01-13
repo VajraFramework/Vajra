@@ -18,6 +18,12 @@ enum UnitType {
 	UNIT_TYPE_CAPTAIN
 };
 
+enum InputState {
+	INPUT_STATE_WAIT,
+	INPUT_STATE_NAV,
+	INPUT_STATE_SPECIAL
+};
+
 struct UnitColorScheme {
 	glm::vec4 baseColor;
 	glm::vec4 uiColor;

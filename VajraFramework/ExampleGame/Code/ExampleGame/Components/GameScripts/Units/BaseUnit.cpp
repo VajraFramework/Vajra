@@ -28,6 +28,7 @@ void BaseUnit::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_END  , this->GetTypeId(), false);
 
 	this->gameObjectRef = (GameObject*)this->GetObject();
+	this->gridNavRef = this->gameObjectRef->GetComponent<GridNavigator>();
 }
 
 void BaseUnit::destroy() {
@@ -35,7 +36,6 @@ void BaseUnit::destroy() {
 }
 
 void BaseUnit::start() {
-	this->gridNavRef = this->GetObject()->GetComponent<GridNavigator>();
 }
 
 void BaseUnit::end() {
