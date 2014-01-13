@@ -20,13 +20,13 @@ public:
 
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 protected:
-	void OnSelectedTouch();
-	void OnNavTouch(int touchId, GridCell* touchedCell);
+	void onSelectedTouch();
+	void onNavTouch(int touchId, GridCell* touchedCell);
 
-	virtual void OnSpecialTouch(int touchId) {};
-	virtual void IsSpecialTouch(int touchId) {};
-	virtual void SpecialModeActivate() {};
-	virtual void CalcSpecialTargest() {};
+	virtual void onSpecialTouch(int touchId) {};
+	virtual bool isSpecialTouch(int touchId) {return false;};
+	virtual void specialModeActivate() {};
+	virtual void calcSpecialTargest() {};
 
 	InputState inputState = InputState::INPUT_STATE_WAIT;
 private:

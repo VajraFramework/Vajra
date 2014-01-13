@@ -26,16 +26,15 @@ void PlayerUnit::destroy() {
 }
 
 void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
-	Touch t = ENGINE->GetInput()->GetTouch(touchId);
 	switch(this->inputState) {
 		case InputState::INPUT_STATE_WAIT:
-			this->OnSelectedTouch();
+			this->onSelectedTouch();
 			break;
 		case InputState::INPUT_STATE_NAV:
-			this->OnNavTouch(touchId, touchedCell);
+			this->onNavTouch(touchId, touchedCell);
 			break;
 		case InputState::INPUT_STATE_SPECIAL:
-			this->OnSpecialTouch(touchId);
+			this->onSpecialTouch(touchId);
 			break;
 		default:
 			break;
@@ -45,11 +44,16 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 void PlayerUnit::OnDeselect() {
 	this->inputState = InputState::INPUT_STATE_WAIT;
 }
-void PlayerUnit::OnSelectedTouch() {
+void PlayerUnit::onSelectedTouch() {
 	this->inputState = InputState::INPUT_STATE_NAV;
 }
 
-void PlayerUnit::OnNavTouch(int touchId, GridCell* touchedCell) {
-	this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
+void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
+	if(this->isSpecialTouch(touchId)) {
+
+	}
+	else {
+		this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
+	}
 
 }
