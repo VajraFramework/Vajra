@@ -29,7 +29,7 @@ static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int t
 	}
 }
 
-static void loadOneUiElement(std::ifstream& sceneFile) {
+static void loadOneUiElement(std::ifstream& sceneFile, UiTouchHandlers* touchHandlers) {
 	std::string itemClass;
 	std::string itemName;
 	int posXPixels, posYPixels;
@@ -39,7 +39,7 @@ static void loadOneUiElement(std::ifstream& sceneFile) {
 	std::string textToDisplay;
 	std::string imageName;
 	glm::vec4 color;
-	std::string onClickHandlerId;
+	std::string clickable;
 	{
 		// TODO [Implement]
 		sceneFile >> itemClass;
@@ -85,17 +85,19 @@ static void loadOneUiElement(std::ifstream& sceneFile) {
 	}
 	{
 		// TODO [Implement]
-		sceneFile >> onClickHandlerId;
-		if (onClickHandlerId == "NULL") {
-			onClickHandlerId = "";
+		sceneFile >> clickable;
+		if (clickable != "true" && clickable != "false") {
+			ASSERT(0, "Unknown value for clickable: %s", clickable.c_str());
 		}
 	}
 
 	{
 		// Create a new UiElement with the above properties:
 		UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
-		//
 		ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
+		//
+		uiElement->SetUiObjectName(itemName);
+		//
 		if (imageName != "") {
 			uiElement->InitSprite(widthPixels, heightPixels, "sptshdr", FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + imageName);
 		} else {
@@ -107,8 +109,8 @@ static void loadOneUiElement(std::ifstream& sceneFile) {
 										 FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + fontName);
 		}
 		//
-		if (onClickHandlerId != "") {
-			uiElement->SetClickable(true);
+		if (clickable == "true") {
+			uiElement->SetClickable(true, touchHandlers);
 		} else {
 			uiElement->SetClickable(false);
 		}
@@ -117,7 +119,7 @@ static void loadOneUiElement(std::ifstream& sceneFile) {
 	}
 }
 
-void LoadUiSceneFromUiSceneFile(const char* filePath) {
+void LoadUiSceneFromUiSceneFile(const char* filePath, UiTouchHandlers* touchHandlers) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading ui scene from uiscene file %s", filePath);
 
 	std::ifstream sceneFile(filePath);
@@ -141,7 +143,7 @@ void LoadUiSceneFromUiSceneFile(const char* filePath) {
 
 		for (int itemNumber = 0; itemNumber < NUMBER_OF_UIITEMS; ++itemNumber) {
 
-			loadOneUiElement(sceneFile);
+			loadOneUiElement(sceneFile, touchHandlers);
 
 		}
 	}

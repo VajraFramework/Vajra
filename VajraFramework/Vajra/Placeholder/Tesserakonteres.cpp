@@ -184,7 +184,7 @@ namespace Tesserakonteres {
 #endif
 		}
 		{
-#if 1
+#if 0
 			GameObject* noiseMaker = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(noiseMaker->GetId());
 			AudioSource* source = noiseMaker->AddComponent<AudioSource>();
@@ -194,27 +194,6 @@ namespace Tesserakonteres {
 		}
 
 		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");
-	}
-
-	void initUiGameObjects() {
-
-		{
-			GameObject* camera = new GameObject(ENGINE->GetSceneGraphUi());
-			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(camera->GetId());
-			Camera* cameraComponent = camera->AddComponent<Camera>();
-			cameraComponent->SetCameraType(CAMERA_TYPE_ORTHO);
-			camera->GetTransform()->SetPosition(0.0f, 0.0f, 400.0f);
-			camera->GetTransform()->Rotate(10.0f, YAXIS);
-			// camera->GetTransform()->SetOrientation(-45.0f, camera->GetTransform()->GetUp());
-			// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
-			camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
-			ENGINE->GetSceneGraphUi()->SetMainCameraId(camera->GetId());
-		}
-
-		{
-			std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "testUiScene.uiscene";
-			UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str());
-		}
 	}
 
 }

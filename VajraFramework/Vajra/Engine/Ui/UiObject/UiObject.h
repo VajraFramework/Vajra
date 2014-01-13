@@ -6,19 +6,23 @@
 
 // Forward Declarations:
 class SceneGraph;
+class UiTouchHandlers;
 
 class UiObject : public GameObject {
 public:
 	UiObject(SceneGraph* sceneGraph);
 	virtual ~UiObject();
 
+	std::string GetUiObjectName() { return this->uiObjectName; }
+	void SetUiObjectName(std::string name_) { this->uiObjectName = name_; }
+
 	unsigned int GetWidth()            { return this->width;           }
 	unsigned int GetHeight()           { return this->height;          }
 	//
 	bool IsClickable()                 { return this->clickable;       }
-	void SetClickable(bool clickable_);
+	void SetClickable(bool clickable_, UiTouchHandlers* touchHandlers_ = nullptr);
 
-	void OnClick(Touch touch);
+	void OnTouchDown(Touch touch);
 	void OnTouchMove(Touch touch);
 
 	bool IsPointWithin(float x, float y);
@@ -33,8 +37,12 @@ private:
 	void init();
 	void destroy();
 
+	std::string uiObjectName;
+
 	unsigned int width, height;
 	bool clickable;
+
+	UiTouchHandlers* touchHandlers;
 };
 
 #endif // UIOBJECT_H

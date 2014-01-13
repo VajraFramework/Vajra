@@ -88,7 +88,6 @@ int main( void ) {
 	setupGraphics(width, height);
 
 	Tesserakonteres::initGameObjectsForScene();
-	Tesserakonteres::initUiGameObjects();
 
 	TestFuntion();
 

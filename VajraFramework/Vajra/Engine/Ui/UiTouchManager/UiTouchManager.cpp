@@ -52,7 +52,7 @@ bool UiTouchManager::TestTouchCapture(Touch touch) {
 		// Forward the touch to the Object which will forward it to its click handlers
 		UiObject* uiObject = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->currentlyRecievingUiObjectId);
 		ASSERT(uiObject != nullptr, "Currently receiving uiObject not null");
-		uiObject->OnClick(touch);
+		uiObject->OnTouchDown(touch);
 		return true;
 	}
 	return false;

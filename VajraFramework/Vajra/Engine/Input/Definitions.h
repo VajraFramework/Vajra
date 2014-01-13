@@ -1,6 +1,8 @@
 #ifndef INPUT_DEFINITIONS_H
 #define INPUT_DEFINITIONS_H
 
+#include "Libraries/glm/glm.hpp"
+
 enum TouchPhase
 {
 	Began,
