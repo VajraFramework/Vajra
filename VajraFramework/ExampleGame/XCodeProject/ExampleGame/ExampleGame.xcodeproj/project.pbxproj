@@ -149,6 +149,7 @@
 		B3AC13E618821B65001DE36B /* GameSingletons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3AC13D718821B65001DE36B /* GameSingletons.cpp */; };
 		B3AC13E718821B65001DE36B /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3AC13DC18821B65001DE36B /* TestFile.cpp */; };
 		B3AC13EB18821B88001DE36B /* BaseUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3AC13E918821B88001DE36B /* BaseUnit.cpp */; };
+		B3AC13EE18847AD2001DE36B /* PlayerUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3AC13EC18847AD2001DE36B /* PlayerUnit.cpp */; };
 		BA97C3C11856824100942107 /* logging in Resources */ = {isa = PBXBuildFile; fileRef = BA97C3C01856824100942107 /* logging */; };
 /* End PBXBuildFile section */
 
@@ -546,6 +547,9 @@
 		B3AC13DD18821B65001DE36B /* TestFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
 		B3AC13E918821B88001DE36B /* BaseUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseUnit.cpp; sourceTree = "<group>"; };
 		B3AC13EA18821B88001DE36B /* BaseUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseUnit.h; sourceTree = "<group>"; };
+		B3AC13EC18847AD2001DE36B /* PlayerUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerUnit.cpp; sourceTree = "<group>"; };
+		B3AC13ED18847AD2001DE36B /* PlayerUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerUnit.h; sourceTree = "<group>"; };
+		B3AC13EF18847BB9001DE36B /* UnitDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitDeclarations.h; sourceTree = "<group>"; };
 		BA97C3C01856824100942107 /* logging */ = {isa = PBXFileReference; lastKnownFileType = folder; name = logging; path = ../../../Resources/logging; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1820,8 +1824,11 @@
 		B3AC13E818821B7D001DE36B /* Units */ = {
 			isa = PBXGroup;
 			children = (
+				B3AC13EF18847BB9001DE36B /* UnitDeclarations.h */,
 				B3AC13E918821B88001DE36B /* BaseUnit.cpp */,
 				B3AC13EA18821B88001DE36B /* BaseUnit.h */,
+				B3AC13EC18847AD2001DE36B /* PlayerUnit.cpp */,
+				B3AC13ED18847AD2001DE36B /* PlayerUnit.h */,
 			);
 			path = Units;
 			sourceTree = "<group>";
@@ -2056,6 +2063,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3AC13EE18847AD2001DE36B /* PlayerUnit.cpp in Sources */,
 				58F247111850F5C90066E804 /* ViewController.mm in Sources */,
 				B3AC13E518821B65001DE36B /* ShadyCamera.cpp in Sources */,
 				B3AC13DE18821B65001DE36B /* AndroidWrapper.cpp in Sources */,

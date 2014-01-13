@@ -1,10 +1,11 @@
-#include "ExampleGame/Test/TestFile.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
+#include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
+#include "ExampleGame/Test/TestFile.h"
 #include "Vajra/Common/Objects/Object.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
@@ -64,9 +65,10 @@ int TestFuntion() {
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testGameScript->GetId());
 		MeshRenderer* meshRenderer = testGameScript->AddComponent<MeshRenderer>();
 		meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
-		testGameScript->AddComponent<SampleGameScript>();
+		//testGameScript->AddComponent<SampleGameScript>();
 		GridNavigator* gNav = testGameScript->AddComponent<GridNavigator>();
 		gNav->SetGridPosition(8, 2);
+		testGameScript->AddComponent<BaseUnit>();
 #endif
 	}
  

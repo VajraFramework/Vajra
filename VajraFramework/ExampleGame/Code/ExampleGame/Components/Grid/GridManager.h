@@ -82,6 +82,7 @@ private:
 #endif
 
 	void gridCellChangedHandler(ObjectIdType id, glm::vec3 dest);
+	void removeNavigatorFromGrid(ObjectIdType id, glm::vec3 cellPos);
 	void checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell);
 
 	void selectUnitInCell(int x, int z);

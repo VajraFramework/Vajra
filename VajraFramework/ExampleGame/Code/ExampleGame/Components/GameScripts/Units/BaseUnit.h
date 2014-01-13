@@ -3,28 +3,13 @@
 //  ExampleGame
 //
 
-#ifndef BASEUNIT_H
-#define BASEUNIT_H
+#ifndef BASE_UNIT_H
+#define BASE_UNIT_H
 
+#include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/GameScript/GameScript.h"
 
 class GridNavigator;
-
-enum UnitState {
-	UNIT_STATE_ALIVE,
-	UNIT_STATE_DEAD
-};
-
-enum UnitType {
-	UNIT_TYPE_ASSASSIN,
-	UNIT_TYPE_THIEF,
-	UNIT_TYPE_IMPOSTOR,
-	UNIT_TYPE_PLAYER_UNITS_COUNT,
-	UNIT_TYPE_GUARD,
-	UNIT_TYPE_TARGET,
-	UNIT_TYPE_CAPTAIN
-};
-
 class BaseUnit : public GameScript {
 public:
 	BaseUnit();
@@ -41,7 +26,7 @@ protected:
 	virtual void end();
 	virtual void update();
 
-	void Kill();
+	void Kill(); 
 
 	UnitType unitType;
 
@@ -56,4 +41,4 @@ private:
 	static ComponentIdType componentTypeId;
 };
 
-#endif // BASEUNIT_H
+#endif // BASE_UNIT_H

@@ -52,6 +52,7 @@ void GridManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 #endif
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_KILLED, this->GetTypeId(), false);
 }
 
 void GridManager::destroy() {
@@ -89,6 +90,8 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
 			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
 			break;
+		case MESSAGE_TYPE_UNIT_KILLED:
+			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
 		default:
 			break;
 	}
@@ -424,6 +427,12 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 	}
 }
 
+void GridManager::removeNavigatorFromGrid(ObjectIdType id, glm::vec3 cellPos) {
+	GridCell* cell = this->GetCell(cellPos);
+	if(cell->unitId == id) {
+		cell->unitId = OBJECT_ID_INVALID;
+	}
+}
 void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
 	for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
 		Object* zoneObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);

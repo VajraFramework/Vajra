@@ -1,6 +1,12 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
+#include "ExampleGame/Components/Grid/GridCell.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/Messages/Declarations.h"
+
+#include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 
 ComponentIdType BaseUnit::componentTypeId = COMPONENT_TYPE_ID_BASE_UNIT;
 
@@ -33,10 +39,22 @@ void BaseUnit::end() {
 }
 
 void BaseUnit::update() {
-
 }
 
 void BaseUnit::Kill() {
 	this->unitState = UnitState::UNIT_STATE_DEAD;
-	// Send a message to grid to remove this navigator
+
+	// broad cast a message about unit death
+	GridCell* currentCell = this->gridNavRef->GetCurrentCell();
+	MessageChunk unitKilledMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	unitKilledMessage->SetMessageType(MESSAGE_TYPE_UNIT_KILLED);
+	unitKilledMessage->messageData.i = this->unitType;
+	unitKilledMessage->messageData.fv1.x = currentCell->x;
+	unitKilledMessage->messageData.fv1.y = currentCell->y;
+	unitKilledMessage->messageData.fv1.z = currentCell->z;
+	ENGINE->GetMessageHub()->SendMulticastMessage(unitKilledMessage, this->GetObject()->GetId());
+
+	// Remove the navigator component
+	this->gameObject->RemoveComponent<GridNavigator>();
+	this->gridNavRef = nullptr;
 }
