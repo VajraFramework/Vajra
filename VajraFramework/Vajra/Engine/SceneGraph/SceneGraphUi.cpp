@@ -46,11 +46,11 @@ void SceneGraphUi::draw() {
 	}
 }
 
-bool SceneGraphUi::TestTouch(Touch touch) {
+bool SceneGraphUi::TestTouchStart(Touch touch) {
 	return this->uiTouchManager->TestTouchCapture(touch);
 }
 
-void SceneGraphUi::OnTouch(int touchIndex) {
+void SceneGraphUi::OnTouchUpdate(int touchIndex) {
 	this->uiTouchManager->OnTouchUpdate(touchIndex);
 }
 

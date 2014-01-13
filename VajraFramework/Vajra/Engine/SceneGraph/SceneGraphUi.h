@@ -24,8 +24,8 @@ public:
 	virtual void draw();
 
 	// @Override
-	virtual bool TestTouch(Touch touch);
-	virtual void OnTouch(int touchIndex);
+	virtual bool TestTouchStart(Touch touch);
+	virtual void OnTouchUpdate(int touchIndex);
 
 	UiTouchManager* GetUiTouchManager() { return this->uiTouchManager; }
 

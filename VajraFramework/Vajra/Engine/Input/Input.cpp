@@ -47,7 +47,7 @@ void Input::updateInput() {
 	// Send touches to the interested target
 	for(unsigned int i = 0; i < this->frameTouches.size(); ++i) {
     	if(this->currentTouchTarget != nullptr) {
-			this->currentTouchTarget->OnTouch(i);
+			this->currentTouchTarget->OnTouchUpdate(i);
     	}
 	}
 		
@@ -136,21 +136,21 @@ void Input::logTouches() {
 
 void Input::testTouchTargets(Touch touch) {
 	// Test UIScene first
-	if(ENGINE->GetSceneGraphUi()->TestTouch(touch)) {
+	if(ENGINE->GetSceneGraphUi()->TestTouchStart(touch)) {
 		this->currentTouchTarget = ENGINE->GetSceneGraphUi();
 		return;
 	}
 	
 	// Test all game targets
 	for(ITouchTarget* iTarget : this->gameTouchTargets) {
-    	if(iTarget->TestTouch(touch)) {
+    	if(iTarget->TestTouchStart(touch)) {
     		this->currentTouchTarget = iTarget;
     		return;
     	}
     }
 
 	// Test 3DScene last
-	if(ENGINE->GetSceneGraph3D()->TestTouch(touch)) {
+	if(ENGINE->GetSceneGraph3D()->TestTouchStart(touch)) {
 		this->currentTouchTarget = ENGINE->GetSceneGraph3D();
 		return;
 	}

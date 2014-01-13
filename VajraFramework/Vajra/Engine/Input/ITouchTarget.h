@@ -5,8 +5,8 @@
 
 class ITouchTarget {
 public:
-	virtual bool TestTouch(Touch touch) = 0; // Test if target wants the touch, return true if touch is accepted
-	virtual void OnTouch(int touchIndex) = 0; 
+	virtual bool TestTouchStart(Touch touch) = 0; // Test if target wants the touch, return true if touch is accepted
+	virtual void OnTouchUpdate(int touchIndex) = 0; 
 };
 
 class IGameTouchTarget : public ITouchTarget {
