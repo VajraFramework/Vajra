@@ -9,8 +9,6 @@ class Mesh;
 namespace Tesserakonteres {
 
 	void initGameObjectsForScene();
-	void initUiGameObjects();
-
 };
 
 #endif // TESSERAKONTERES_H

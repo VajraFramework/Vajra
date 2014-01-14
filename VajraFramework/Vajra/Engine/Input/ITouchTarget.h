@@ -1,10 +1,12 @@
 #ifndef I_TOUCH_TARGET_H
 #define I_TOUCH_TARGET_H
 
+#include "Vajra/Engine/Input/Definitions.h"
+
 class ITouchTarget {
 public:
-	virtual bool TestTouch(int touchIndex) = 0; // Test if target wants the touch, return true if touch is accepted
-	virtual void OnTouch(int touchIndex) = 0; 
+	virtual bool TestTouchStart(Touch touch) = 0; // Test if target wants the touch, return true if touch is accepted
+	virtual void OnTouchUpdate(int touchIndex) = 0; 
 };
 
 class IGameTouchTarget : public ITouchTarget {

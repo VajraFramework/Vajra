@@ -32,7 +32,7 @@ void UiElement::InitTextToDisplay(std::string text, unsigned int width, unsigned
 	this->addChildFontObject();
 
 	this->setWidth(width);
-	this->setWidth(height);
+	this->setHeight(height);
 
 	this->childFontObjectRef->InitTextToDisplay(text, width, height, pathToFontSpecificationFile);
 

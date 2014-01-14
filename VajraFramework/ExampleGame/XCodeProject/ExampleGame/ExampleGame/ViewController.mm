@@ -84,11 +84,14 @@
     
     int width = self.view.bounds.size.width;
     int height = self.view.bounds.size.height;
-    //TODO [Hack] set these properly when the device moves
-    setupGraphics(height, width);
+
+    // ensure width and height are landscape width and height
+    int max = fmax(width, height);
+    int min = fmin(width, height);
+    
+    setupGraphics(max, min);
     
     Tesserakonteres::initGameObjectsForScene();
-    Tesserakonteres::initUiGameObjects();
     
 	TestFuntion();
     

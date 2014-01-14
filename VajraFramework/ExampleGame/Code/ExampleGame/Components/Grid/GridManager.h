@@ -50,8 +50,8 @@ public:
 	inline ObjectIdType GetSelectedUnitId() { return this->selectedUnitId; }
 
 	// @Override
-	virtual bool TestTouch(int /*touchIndex*/) { return true; }
-	virtual void OnTouch(int touchIndex);
+	virtual bool TestTouchStart(Touch /* touch */) { return true; }
+	virtual void OnTouchUpdate(int touchIndex);
 	
 	GridCell* TouchPositionToCell(glm::vec2 touchPos);
 	glm::vec3 TouchPositionToGridPosition(glm::vec2 touchPos);
@@ -74,11 +74,11 @@ private:
 	void init();
 	void destroy();
 
-	bool IsWithinGrid(int cellX, int cellZ); // Returns true if the specified cell falls within the grid boundaries
-	bool IsWithinGrid(glm::vec3 loc); // Returns true if the vector position falls within a defined cell
+	bool isWithinGrid(int cellX, int cellZ); // Returns true if the specified cell falls within the grid boundaries
+	bool isWithinGrid(glm::vec3 loc); // Returns true if the vector position falls within a defined cell
 #ifdef DEBUG
-	void DebugDrawGrid();
-	void DebugTouchTest(int touchIndex);
+	void debugDrawGrid();
+	void debugTouchUpdate(int touchIndex);
 #endif
 
 	void loadGridDataFromStream  (std::istream& ifs);
@@ -86,10 +86,12 @@ private:
 	void placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height);
 	void placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ);
 	void gridCellChangedHandler(ObjectIdType id, glm::vec3 dest);
+	void removeNavigatorFromGrid(ObjectIdType id, glm::vec3 cellPos);
 	void checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell);
 
 	void selectUnitInCell(int x, int z);
 	void selectUnitInCell(GridCell* cell);
+	void deselectUnit();
 
 	float cellSize; // Width and depth of a grid cell in world coordinates
 	glm::vec3 halfCellSize; // Offset vector between center and corner of a grid cell

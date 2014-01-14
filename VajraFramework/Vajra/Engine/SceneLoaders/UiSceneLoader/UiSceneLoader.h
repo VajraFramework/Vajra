@@ -3,8 +3,11 @@
 
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/Declarations.h"
 
+// Forward Declarations:
+class UiTouchHandlers;
+
 namespace UiSceneLoader {
-	void LoadUiSceneFromUiSceneFile(const char* filePath);
+	void LoadUiSceneFromUiSceneFile(const char* filePath, UiTouchHandlers* touchHandlers);
 };
 
 #endif // UISCENELOADER_H
