@@ -12,6 +12,7 @@
 
 // These includes can probably go away once we load objects from prefabs.
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
+#include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridRoom.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
@@ -128,7 +129,8 @@ void LevelManager::loadUnitDataFromStream(std::istream& ifs) {
 		MeshRenderer* unitRenderer = unitObj->AddComponent<MeshRenderer>();
 		unitRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
 		unitObj->AddComponent<SampleGameScript>();
-		/*GridNavigator* gNav = */unitObj->AddComponent<GridNavigator>();
+		unitObj->AddComponent<GridNavigator>();
+		unitObj->AddComponent<PlayerUnit>();
 
 		// Add the unit to the grid
 		SINGLETONS->GetGridManager()->placeUnitOnGrid(unitObj->GetId(), gX, gZ);

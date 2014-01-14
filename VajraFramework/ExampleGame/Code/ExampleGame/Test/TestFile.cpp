@@ -71,7 +71,7 @@ int TestFuntion() {
 #endif
 	}
 	{
-#if 1
+#if 0
 		GameObject* testGameScript = new GameObject(ENGINE->GetSceneGraph3D());
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testGameScript->GetId());
 		MeshRenderer* meshRenderer = testGameScript->AddComponent<MeshRenderer>();
