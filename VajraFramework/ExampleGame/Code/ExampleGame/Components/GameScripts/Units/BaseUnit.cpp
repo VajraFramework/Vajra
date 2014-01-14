@@ -30,6 +30,7 @@ void BaseUnit::init() {
 	this->gameObjectRef = (GameObject*)this->GetObject();
 	this->gridNavRef = this->gameObjectRef->GetComponent<GridNavigator>();
 	this->unitState = UnitState::UNIT_STATE_ALIVE;
+	this->unitType = UnitType::UNIT_TYPE_GUARD;
 }
 
 void BaseUnit::destroy() {
