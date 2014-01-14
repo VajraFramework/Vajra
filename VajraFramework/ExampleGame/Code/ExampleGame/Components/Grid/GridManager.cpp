@@ -399,7 +399,7 @@ void GridManager::debugTouchUpdate(int touchIndex) {
 		DebugDraw::DrawCube(cell->center, 1.0f);
 	}
 	glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
-	DebugDraw::DrawCube(gridPos, 1.0f);
+	DebugDraw::DrawCube(gridPos, 0.1f);
 }
 #endif
 
