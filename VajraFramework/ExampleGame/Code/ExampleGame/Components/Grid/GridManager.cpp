@@ -14,6 +14,7 @@
 #include "Vajra/Common/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/Input/Input.h"
@@ -351,13 +352,6 @@ void GridManager::DebugTouchTest(int touchIndex) {
 #endif
 
 void GridManager::loadGridDataFromStream(std::istream& ifs) {
-	// TODO [Implement] Psych! We're just creating a default terrain right now
-	loadMapDataFromStream(ifs);
-	loadStaticDataFromStream(ifs);
-	loadUnitDataFromStream(ifs);
-}
-
-void GridManager::loadMapDataFromStream(std::istream& ifs) {
 	std::string tag;
 
 	// Maybe this stuff should be hard-coded?
@@ -406,64 +400,39 @@ void GridManager::loadMapDataFromStream(std::istream& ifs) {
 	this->gridPlane.origin = this->gridCells[0][0]->center;
 }
 
-void GridManager::loadStaticDataFromStream(std::istream& ifs) {
-	std::string tag;
+void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height) {
+	int eastBound = westBound + width - 1;
+	int northBound = southBound + height - 1;
 
-	// Static Geometry
-	int nStaticObjs;
-	ifs >> tag;
-	ASSERT(tag == NUM_STATIC_TAG, "Loading static objects for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
-	ifs >> nStaticObjs;
+	// Make sure that the object lies entirely within the grid boundaries.
+	GridCell* swCornerCell = GetCell(westBound, southBound);
+	GridCell* neCornerCell = GetCell(eastBound, northBound);
+	ASSERT((swCornerCell != nullptr) && (neCornerCell != nullptr),
+			"Static object covers cell range from (%d, %d) to (%d, %d)",
+			westBound, southBound, eastBound, northBound);
 
-	for (int i = 0; i < nStaticObjs; ++i) {
-		std::string prefab;
-		int objWestBound, objSouthBound, objWidth, objHeight; // Cell bounds
-		float rotation;
-		ifs >> prefab >> objWestBound >> objSouthBound >> objWidth >> objHeight >> rotation;
-		// Orientation
-		// Mesh asset name
+	// Add the static object's id to every cell it touches.
+	for (int i = westBound; i <= eastBound; ++i) {
+		for (int j = southBound; j <= northBound; ++j) {
+			this->gridCells[i][j]->staticObjs.push_back(id);
+		}
 	}
 }
 
-void GridManager::loadUnitDataFromStream(std::istream& ifs) {
-	std::string tag;
+void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {
+	GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+	GridCell* destCell = GetCell(cellX, cellZ);
 
-	// Player Units
-	int nPlayerUnits;
-	ifs >> tag;
-	ASSERT(tag == NUM_PLAYERS_TAG, "Loading player units for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
-	ifs >> nPlayerUnits;
+	GridNavigator* gNav = obj->GetComponent<GridNavigator>();
+	ASSERT(gNav != nullptr, "Object with id %d has GridNavigator component", id);
+	ASSERT(destCell != nullptr, "Placing object into grid cell (%d, %d)", cellX, cellZ);
+	ASSERT(destCell->unitId == OBJECT_ID_INVALID, "Grid cell (%d, %d) is unoccupied", cellX, cellZ);
 
-	for (int i = 0; i < nPlayerUnits; ++i) {
-		std::string unitType; // Unit type
-		int gX, gZ;           // Starting position
-		float rotation;       // Orientation
-		ifs >> unitType >> gX >> gZ >> rotation;
-	}
+	destCell->unitId = id;
+	gNav->SetCurrentCell(destCell);
 
-	// Enemy Units
-	int nEnemyUnits;
-	ifs >> tag;
-	ASSERT(tag == NUM_ENEMIES_TAG, "Loading enemy units for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
-	ifs >> nEnemyUnits;
-
-	for (int i = 0; i < nEnemyUnits; ++i) {
-		std::string unitType; // Unit type
-		int gX, gZ;           // Starting position
-		float rotation;       // Orientation
-		int nCommands;        // Number of AI commands
-		ifs >> unitType >> gX >> gZ >> rotation >> nCommands;
-		for (int j = 0; j < nCommands; ++j) {
-			std::string command;
-			ifs >> command;
-		}
-	}
-
-	// Starting Player Unit
-	std::string startingUnit;
-	ifs >> tag;
-	ASSERT(tag == UNIT_START_TAG, "Loading starting unit for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
-	ifs >> startingUnit;
+	Transform* trans = obj->GetTransform();
+	trans->SetPosition(destCell->center);
 }
 
 void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {

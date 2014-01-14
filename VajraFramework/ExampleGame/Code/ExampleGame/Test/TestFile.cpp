@@ -32,7 +32,10 @@ int TestFuntion() {
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testZone->GetId());
 		GridZone* zone = testZone->AddComponent<GridZone>();
 		zone->SetZoneBounds(3, 0, 5, 5);
-
+#endif
+	}
+	{
+#if 0
 		GameObject* camera = new GameObject(ENGINE->GetSceneGraph3D());
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(camera->GetId());
 		ShadyCamera* cameraComponent = camera->AddComponent<ShadyCamera>();
@@ -48,7 +51,7 @@ int TestFuntion() {
 #endif
 	}
 	{
-#if 1
+#if 0
 		GameObject* testGameScript = new GameObject(ENGINE->GetSceneGraph3D());
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testGameScript->GetId());
 		MeshRenderer* meshRenderer = testGameScript->AddComponent<MeshRenderer>();
@@ -59,7 +62,7 @@ int TestFuntion() {
 #endif
 	}
 	{
-#if 1
+#if 0
 		GameObject* testGameScript = new GameObject(ENGINE->GetSceneGraph3D());
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testGameScript->GetId());
 		MeshRenderer* meshRenderer = testGameScript->AddComponent<MeshRenderer>();

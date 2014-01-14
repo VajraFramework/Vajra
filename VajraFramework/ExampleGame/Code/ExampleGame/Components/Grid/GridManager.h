@@ -82,10 +82,9 @@ private:
 #endif
 
 	void loadGridDataFromStream  (std::istream& ifs);
-	void loadMapDataFromStream   (std::istream& ifs);
-	void loadStaticDataFromStream(std::istream& ifs);
-	void loadUnitDataFromStream  (std::istream& ifs);
 
+	void placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height);
+	void placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ);
 	void gridCellChangedHandler(ObjectIdType id, glm::vec3 dest);
 	void checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell);
 
