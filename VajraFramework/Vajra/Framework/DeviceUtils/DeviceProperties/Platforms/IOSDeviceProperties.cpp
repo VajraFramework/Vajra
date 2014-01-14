@@ -11,9 +11,8 @@ DeviceProperties::~DeviceProperties() {
 }
 
 void DeviceProperties::init() {
-	// TODO [Implement] Actually get the width and height
-	this->widthPx  = 1024;
-	this->heightPx = 768;
+	this->widthPx  = 0;
+	this->heightPx = 0;
 }
 
 void DeviceProperties::destroy() {
