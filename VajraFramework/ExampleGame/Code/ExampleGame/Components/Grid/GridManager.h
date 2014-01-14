@@ -15,6 +15,7 @@
 #include "Vajra/Engine/Input/ITouchTarget.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
+#include <fstream>
 #include <list>
 #include <string>
 #include <vector>
@@ -30,7 +31,6 @@ public:
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
 
-	void GenerateTerrainFromFile(std::string terrainFilename);
 	void AddGridZone(ObjectIdType zoneId);
 
 	inline float getCellSize() { return cellSize; }
@@ -81,6 +81,11 @@ private:
 	void DebugTouchTest(int touchIndex);
 #endif
 
+	void loadGridDataFromStream  (std::istream& ifs);
+	void loadMapDataFromStream   (std::istream& ifs);
+	void loadStaticDataFromStream(std::istream& ifs);
+	void loadUnitDataFromStream  (std::istream& ifs);
+
 	void gridCellChangedHandler(ObjectIdType id, glm::vec3 dest);
 	void checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell);
 
@@ -126,6 +131,7 @@ private:
 
 	static unsigned int componentTypeId;
 
+	friend class LevelManager;
 };
 
 /****************

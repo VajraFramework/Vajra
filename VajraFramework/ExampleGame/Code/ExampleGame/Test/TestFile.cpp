@@ -26,7 +26,7 @@ int TestFuntion() {
 #endif
 	{
 #if 1
-		SINGLETONS->GetGridManager()->GenerateTerrainFromFile("noninjas.txt");
+		SINGLETONS->GetLevelManager()->LoadLevelFromFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + "levels/ExampleLevel.lvl");
 
 		GameObject* testZone = new GameObject(ENGINE->GetSceneGraph3D());
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testZone->GetId());

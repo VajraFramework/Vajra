@@ -7,6 +7,7 @@
 #define GAMESINGLETONS_H
 
 #include "ExampleGame/Components/Grid/GridManager.h"
+#include "ExampleGame/Components/LevelManager/LevelManager.h"
 
 #include "Vajra/Common/Objects/Object.h"
 
@@ -17,8 +18,10 @@ public:
 	GameSingletons();
 	~GameSingletons();
 
-	inline Object* GetGridManagerObject()  { return this->gridManagerObj;  }
-	inline GridManager* GetGridManager()   { return this->gridManagerComp; }
+	inline Object* GetLevelManagerObject() { return this->levelManagerObj;  }
+	inline LevelManager* GetLevelManager() { return this->levelManagerComp; }
+	inline Object* GetGridManagerObject()  { return this->gridManagerObj;   }
+	inline GridManager* GetGridManager()   { return this->gridManagerComp;  }
 
 private:
 	void init();
@@ -26,6 +29,8 @@ private:
 
 	static GameSingletons* instance;
 
+	Object* levelManagerObj;
+	LevelManager* levelManagerComp;
 	Object* gridManagerObj;
 	GridManager* gridManagerComp;
 };

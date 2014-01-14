@@ -17,7 +17,8 @@ GameSingletons* GameSingletons::GetInstance() {
 }
 
 GameSingletons::GameSingletons() :
-	gridManagerObj(nullptr), gridManagerComp(nullptr)
+	levelManagerObj(nullptr), levelManagerComp(nullptr),
+	gridManagerObj(nullptr),  gridManagerComp(nullptr)
 {
 }
 
@@ -26,14 +27,20 @@ GameSingletons::~GameSingletons() {
 }
 
 void GameSingletons::init() {
+	this->levelManagerObj = new Object();
+	this->levelManagerComp = this->levelManagerObj->AddComponent<LevelManager>();
 	this->gridManagerObj = new Object();
 	this->gridManagerComp = this->gridManagerObj->AddComponent<GridManager>();
 }
 
 void GameSingletons::destroy() {
-	if (this->gridManagerObj) {
+	if (this->levelManagerObj != nullptr) {
+		delete this->levelManagerObj;
+		this->levelManagerObj = nullptr;
+	}
+
+	if (this->gridManagerObj != nullptr) {
 		delete this->gridManagerObj;
 		this->gridManagerObj = nullptr;
 	}
 }
-

@@ -6,6 +6,9 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/Components/LevelManager/LevelFileTags.h"
+#include "ExampleGame/Components/LevelManager/LevelManager.h"
+#include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 
 #include "Vajra/Common/Messages/Declarations.h"
@@ -55,9 +58,6 @@ void GridManager::init() {
 }
 
 void GridManager::destroy() {
-#ifdef DEBUG
-	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
-#endif
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 
 	if (this->gridCells != nullptr) {
@@ -92,49 +92,6 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 		default:
 			break;
 	}
-}
-
-void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
-	// TODO [Implement] Psych! We're just creating a default terrain right now
-
-	this->cellSize = 1.0f;
-	this->halfCellSize.x = 0.5f;
-	this->halfCellSize.y = 0.0f;
-	this->halfCellSize.z = -0.5f;
-	this->gridWidth = ROOM_WIDTH_OUTDOORS * 2.0f;
-	this->gridHeight = ROOM_HEIGHT_OUTDOORS * 2.0f;
-
-	this->gridCells = new GridCell**[this->gridWidth];
-	for (unsigned int i = 0; i < this->gridWidth; ++i) {
-		this->gridCells[i] = new GridCell*[this->gridHeight];
-		for (unsigned int j = 0; j < this->gridHeight; ++j) {
-			glm::vec3 center;
-			center.x = i * this->cellSize;
-			center.y = 0;
-			center.z = j * -this->cellSize;
-			glm::vec3 origin = center - this->halfCellSize;
-			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, true);
-		}
-	}
-
-	this->gridPlane.origin = this->gridCells[0][0]->center;
-
-	// Set some random cells as blocked to test pathing
-	this->gridCells[4][0]->isPassable = false;
-	this->gridCells[4][1]->isPassable = false;
-	this->gridCells[4][2]->isPassable = false;
-	this->gridCells[4][3]->isPassable = false;
-	this->gridCells[4][4]->isPassable = false;
-
-	// Spawn sample rooms
-	for (int i = 0; i < 2; ++i) {
-		for (int j = 0; j < 2; ++j) {
-			GridRoom* room = new GridRoom(ROOM_WIDTH_OUTDOORS * i, ROOM_HEIGHT_OUTDOORS * j, ROOM_WIDTH_OUTDOORS, ROOM_HEIGHT_OUTDOORS);
-			gridRooms.push_back(room);
-		}
-	}
-
-	this->gridPlane.origin = this->gridCells[0][0]->center;
 }
 
 void GridManager::AddGridZone(ObjectIdType zoneId) {
@@ -392,6 +349,122 @@ void GridManager::DebugTouchTest(int touchIndex) {
 	DebugDraw::DrawCube(gridPos, 1.0f);
 }
 #endif
+
+void GridManager::loadGridDataFromStream(std::istream& ifs) {
+	// TODO [Implement] Psych! We're just creating a default terrain right now
+	loadMapDataFromStream(ifs);
+	loadStaticDataFromStream(ifs);
+	loadUnitDataFromStream(ifs);
+}
+
+void GridManager::loadMapDataFromStream(std::istream& ifs) {
+	std::string tag;
+
+	// Maybe this stuff should be hard-coded?
+	this->cellSize = 1.0f;
+	this->halfCellSize.x = 0.5f;
+	this->halfCellSize.y = 0.0f;
+	this->halfCellSize.z = -0.5f;
+
+	// Size of the grid
+	ifs >> tag;
+	ASSERT(tag == GRID_SIZE_TAG, "Loading grid size for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
+	ifs >> this->gridWidth >> this->gridHeight;
+
+	// Cell data
+	ifs >> tag;
+	ASSERT(tag == CELL_DATA_TAG, "Loading cell data for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
+	this->gridCells = new GridCell**[this->gridWidth];
+	for (unsigned int i = 0; i < this->gridWidth; ++i) {
+		this->gridCells[i] = new GridCell*[this->gridHeight];
+		for (unsigned int j = 0; j < this->gridHeight; ++j) {
+			// Elevation
+			// Floor Tile ID
+			glm::vec3 center;
+			center.x = i * this->cellSize;
+			center.y = 0;
+			center.z = j * -this->cellSize;
+			glm::vec3 origin = center - this->halfCellSize;
+			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, true);
+		}
+	}
+
+	// Room Information
+	int nRooms;
+	ifs >> tag;
+	ASSERT(tag == NUM_ROOMS_TAG, "Loading rooms for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
+	ifs >> nRooms;
+
+	for (int i = 0; i < nRooms; ++i) {
+		int roomWestBound, roomSouthBound, roomWidth, roomHeight;
+		ifs >> roomWestBound >> roomSouthBound >> roomWidth >> roomHeight;
+		GridRoom* room = new GridRoom(roomWestBound, roomSouthBound, roomWidth, roomHeight);
+		gridRooms.push_back(room);
+	}
+
+	// Eventually this needs to be a list from highest to lowest.
+	this->gridPlane.origin = this->gridCells[0][0]->center;
+}
+
+void GridManager::loadStaticDataFromStream(std::istream& ifs) {
+	std::string tag;
+
+	// Static Geometry
+	int nStaticObjs;
+	ifs >> tag;
+	ASSERT(tag == NUM_STATIC_TAG, "Loading static objects for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
+	ifs >> nStaticObjs;
+
+	for (int i = 0; i < nStaticObjs; ++i) {
+		std::string prefab;
+		int objWestBound, objSouthBound, objWidth, objHeight; // Cell bounds
+		float rotation;
+		ifs >> prefab >> objWestBound >> objSouthBound >> objWidth >> objHeight >> rotation;
+		// Orientation
+		// Mesh asset name
+	}
+}
+
+void GridManager::loadUnitDataFromStream(std::istream& ifs) {
+	std::string tag;
+
+	// Player Units
+	int nPlayerUnits;
+	ifs >> tag;
+	ASSERT(tag == NUM_PLAYERS_TAG, "Loading player units for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
+	ifs >> nPlayerUnits;
+
+	for (int i = 0; i < nPlayerUnits; ++i) {
+		std::string unitType; // Unit type
+		int gX, gZ;           // Starting position
+		float rotation;       // Orientation
+		ifs >> unitType >> gX >> gZ >> rotation;
+	}
+
+	// Enemy Units
+	int nEnemyUnits;
+	ifs >> tag;
+	ASSERT(tag == NUM_ENEMIES_TAG, "Loading enemy units for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
+	ifs >> nEnemyUnits;
+
+	for (int i = 0; i < nEnemyUnits; ++i) {
+		std::string unitType; // Unit type
+		int gX, gZ;           // Starting position
+		float rotation;       // Orientation
+		int nCommands;        // Number of AI commands
+		ifs >> unitType >> gX >> gZ >> rotation >> nCommands;
+		for (int j = 0; j < nCommands; ++j) {
+			std::string command;
+			ifs >> command;
+		}
+	}
+
+	// Starting Player Unit
+	std::string startingUnit;
+	ifs >> tag;
+	ASSERT(tag == UNIT_START_TAG, "Loading starting unit for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
+	ifs >> startingUnit;
+}
 
 void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 	GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
