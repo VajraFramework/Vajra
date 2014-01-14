@@ -11,9 +11,8 @@ DeviceProperties::~DeviceProperties() {
 }
 
 void DeviceProperties::init() {
-	// TODO [Hack] Hard coding width and height here
-	this->widthPx  = 1024;
-	this->heightPx = 768;
+	this->widthPx  = 0;
+	this->heightPx = 0;
 }
 
 void DeviceProperties::destroy() {
