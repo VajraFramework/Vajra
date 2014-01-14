@@ -168,7 +168,6 @@ void LevelManager::loadCameraDataFromStream(std::istream& ifs) {
 	GameObject* camera = new GameObject(ENGINE->GetSceneGraph3D());
 	ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(camera->GetId());
 	ShadyCamera* cameraComponent = camera->AddComponent<ShadyCamera>();
-	cameraComponent->SetCameraType(CAMERA_TYPE_PERSPECTIVE);
 	ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
 	cameraComponent->SetGridManager(SINGLETONS->GetGridManager());
 
