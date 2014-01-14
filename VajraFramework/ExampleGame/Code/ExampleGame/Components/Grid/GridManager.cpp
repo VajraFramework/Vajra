@@ -372,14 +372,16 @@ void GridManager::loadGridDataFromStream(std::istream& ifs) {
 	for (unsigned int i = 0; i < this->gridWidth; ++i) {
 		this->gridCells[i] = new GridCell*[this->gridHeight];
 		for (unsigned int j = 0; j < this->gridHeight; ++j) {
-			// Elevation
-			// Floor Tile ID
+			int elevation;
+			bool passable;
+			// Possibly store floor information in this list as well?
+			ifs >> elevation >> passable;
 			glm::vec3 center;
 			center.x = i * this->cellSize;
-			center.y = 0;
+			center.y = elevation;
 			center.z = j * -this->cellSize;
 			glm::vec3 origin = center - this->halfCellSize;
-			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, true);
+			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, passable);
 		}
 	}
 
