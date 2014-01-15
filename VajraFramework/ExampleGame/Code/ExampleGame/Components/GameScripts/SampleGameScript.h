@@ -32,9 +32,9 @@ private:
 	void destroy();
 
 	// Utility functions:
-	Transform* getTransform() { return this->gameObject->GetTransform(); }
+	Transform* getTransform() { return this->gameObjectRef->GetTransform(); }
 
-	GameObject* gameObject;
+	GameObject* gameObjectRef;
 
 	static unsigned int componentTypeId;
 };
