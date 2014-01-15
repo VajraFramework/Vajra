@@ -11,6 +11,7 @@
 
 #include "Libraries/glm/glm.hpp"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
+#include "Vajra/Engine/GameObject/GameObject.h"
 
 class GridCell;
 class GridManager;

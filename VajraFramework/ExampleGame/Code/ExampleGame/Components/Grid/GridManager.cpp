@@ -8,11 +8,15 @@
 #include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/Components/LevelManager/LevelFileTags.h"
+#include "ExampleGame/Components/LevelManager/LevelManager.h"
+#include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 
 #include "Vajra/Common/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/Input/Input.h"
@@ -58,9 +62,6 @@ void GridManager::init() {
 }
 
 void GridManager::destroy() {
-#ifdef DEBUG
-	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
-#endif
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 
 	if (this->gridCells != nullptr) {
@@ -98,49 +99,6 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 		default:
 			break;
 	}
-}
-
-void GridManager::GenerateTerrainFromFile(std::string /* terrainFilename */) {
-	// TODO [Implement] Psych! We're just creating a default terrain right now
-
-	this->cellSize = 1.0f;
-	this->halfCellSize.x = 0.5f;
-	this->halfCellSize.y = 0.0f;
-	this->halfCellSize.z = -0.5f;
-	this->gridWidth = ROOM_WIDTH_OUTDOORS * 2.0f;
-	this->gridHeight = ROOM_HEIGHT_OUTDOORS * 2.0f;
-
-	this->gridCells = new GridCell**[this->gridWidth];
-	for (unsigned int i = 0; i < this->gridWidth; ++i) {
-		this->gridCells[i] = new GridCell*[this->gridHeight];
-		for (unsigned int j = 0; j < this->gridHeight; ++j) {
-			glm::vec3 center;
-			center.x = i * this->cellSize;
-			center.y = 0;
-			center.z = j * -this->cellSize;
-			glm::vec3 origin = center - this->halfCellSize;
-			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, true);
-		}
-	}
-
-	this->gridPlane.origin = this->gridCells[0][0]->center;
-
-	// Set some random cells as blocked to test pathing
-	this->gridCells[4][0]->isPassable = false;
-	this->gridCells[4][1]->isPassable = false;
-	this->gridCells[4][2]->isPassable = false;
-	this->gridCells[4][3]->isPassable = false;
-	this->gridCells[4][4]->isPassable = false;
-
-	// Spawn sample rooms
-	for (int i = 0; i < 2; ++i) {
-		for (int j = 0; j < 2; ++j) {
-			GridRoom* room = new GridRoom(ROOM_WIDTH_OUTDOORS * i, ROOM_HEIGHT_OUTDOORS * j, ROOM_WIDTH_OUTDOORS, ROOM_HEIGHT_OUTDOORS);
-			gridRooms.push_back(room);
-		}
-	}
-
-	this->gridPlane.origin = this->gridCells[0][0]->center;
 }
 
 void GridManager::AddGridZone(ObjectIdType zoneId) {
@@ -402,6 +360,92 @@ void GridManager::debugTouchUpdate(int touchIndex) {
 	DebugDraw::DrawCube(gridPos, 0.1f);
 }
 #endif
+
+void GridManager::loadGridDataFromStream(std::istream& ifs) {
+	std::string tag;
+
+	// Maybe this stuff should be hard-coded?
+	this->cellSize = 1.0f;
+	this->halfCellSize.x = 0.5f;
+	this->halfCellSize.y = 0.0f;
+	this->halfCellSize.z = -0.5f;
+
+	// Size of the grid
+	ifs >> tag;
+	ASSERT(tag == GRID_SIZE_TAG, "Loading grid size for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
+	ifs >> this->gridWidth >> this->gridHeight;
+
+	// Cell data
+	ifs >> tag;
+	ASSERT(tag == CELL_DATA_TAG, "Loading cell data for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
+	this->gridCells = new GridCell**[this->gridWidth];
+	for (unsigned int i = 0; i < this->gridWidth; ++i) {
+		this->gridCells[i] = new GridCell*[this->gridHeight];
+		for (unsigned int j = 0; j < this->gridHeight; ++j) {
+			int elevation;
+			bool passable;
+			// Possibly store floor information in this list as well?
+			ifs >> elevation >> passable;
+			glm::vec3 center;
+			center.x = i * this->cellSize;
+			center.y = elevation;
+			center.z = j * -this->cellSize;
+			glm::vec3 origin = center - this->halfCellSize;
+			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, passable);
+		}
+	}
+
+	// Room Information
+	int nRooms;
+	ifs >> tag;
+	ASSERT(tag == NUM_ROOMS_TAG, "Loading rooms for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
+	ifs >> nRooms;
+
+	for (int i = 0; i < nRooms; ++i) {
+		int roomWestBound, roomSouthBound, roomWidth, roomHeight;
+		ifs >> roomWestBound >> roomSouthBound >> roomWidth >> roomHeight;
+		GridRoom* room = new GridRoom(roomWestBound, roomSouthBound, roomWidth, roomHeight);
+		gridRooms.push_back(room);
+	}
+
+	// Eventually this needs to be a list from highest to lowest.
+	this->gridPlane.origin = this->gridCells[0][0]->center;
+}
+
+void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height) {
+	int eastBound = westBound + width - 1;
+	int northBound = southBound + height - 1;
+
+	// Make sure that the object lies entirely within the grid boundaries.
+	GridCell* swCornerCell = GetCell(westBound, southBound);
+	GridCell* neCornerCell = GetCell(eastBound, northBound);
+	ASSERT((swCornerCell != nullptr) && (neCornerCell != nullptr),
+			"Static object covers cell range from (%d, %d) to (%d, %d)",
+			westBound, southBound, eastBound, northBound);
+
+	// Add the static object's id to every cell it touches.
+	for (int i = westBound; i <= eastBound; ++i) {
+		for (int j = southBound; j <= northBound; ++j) {
+			this->gridCells[i][j]->staticObjs.push_back(id);
+		}
+	}
+}
+
+void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {
+	GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+	GridCell* destCell = GetCell(cellX, cellZ);
+
+	GridNavigator* gNav = obj->GetComponent<GridNavigator>();
+	ASSERT(gNav != nullptr, "Object with id %d has GridNavigator component", id);
+	ASSERT(destCell != nullptr, "Placing object into grid cell (%d, %d)", cellX, cellZ);
+	ASSERT(destCell->unitId == OBJECT_ID_INVALID, "Grid cell (%d, %d) is unoccupied", cellX, cellZ);
+
+	destCell->unitId = id;
+	gNav->SetCurrentCell(destCell);
+
+	Transform* trans = obj->GetTransform();
+	trans->SetPosition(destCell->center);
+}
 
 void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 	GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
