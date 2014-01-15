@@ -19,6 +19,7 @@ public:
 	inline const std::string GetDeviceLoggingResourcesPath()   const { return this->deviceLoggingResourcesPath;   }
 	inline const std::string GetDeviceFontResourcesPath()      const { return this->deviceFontResourcesPath;      }
 	inline const std::string GetDeviceUiScenesResourcesPath()  const { return this->deviceUiScenesResourcesPath;  }
+	inline const std::string GetDevicePrefabsResourcesPath()   const { return this->devicePrefabsResourcesPath;   }
     
 private:
     FileSystemUtils();
@@ -35,6 +36,7 @@ private:
 	std::string deviceLoggingResourcesPath;
 	std::string deviceFontResourcesPath;
 	std::string deviceUiScenesResourcesPath;
+	std::string devicePrefabsResourcesPath;
     
     friend class Framework;
 };
