@@ -197,7 +197,7 @@ namespace Tesserakonteres {
 		{
 			FRAMEWORK->GetLogger()->dbglog("\n################################################################################");
 			XmlParser* xmlParser = new XmlParser();
-			xmlParser->ParseXmlFile(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "sample.xml");
+			xmlParser->ParseXmlFile(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "monkey.prefab");
 			//
 			xmlParser->Print();
 		}

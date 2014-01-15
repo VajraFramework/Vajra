@@ -14,6 +14,16 @@ public:
 	std::string GetName()  { return this->name;  }
 	std::string GetValue() { return this->value; }
 
+	std::vector<XmlNode*> GetChildren() const { return this->children; }
+	std::vector<XmlNode*> GetChildrenByNodeName(std::string& nodeName) const;
+
+	std::vector<std::string> GetAttributeNames() const;
+
+	std::string GetAttributeValueS(std::string& attributeName) const;
+	int         GetAttributeValueI(std::string& attributeName) const;
+	float       GetAttributeValueF(std::string& attributeName) const;
+	bool        GetAttributeValueB(std::string& attributeName) const;
+
 	void Print();
 
 private:
@@ -23,6 +33,8 @@ private:
 	void addAttribute(XmlAttribute* attribute);
 	void addChild(XmlNode* childNode);
 	void setParent(XmlNode* parentNode);
+
+	std::string getAttributeValueAsString(std::string& attributeName) const;
 
 	std::string name;
 	std::string value;

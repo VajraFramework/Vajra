@@ -19,6 +19,8 @@ private:
 
 	std::string name;
 	std::string value;
+
+	friend class XmlNode;
 };
 
 #endif // XML_ATTRIBUTE_H

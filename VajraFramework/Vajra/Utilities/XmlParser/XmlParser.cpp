@@ -20,6 +20,7 @@ void XmlParser::ParseXmlFile(std::string filePath) {
 	this->xmlTree = new XmlTree();
 
 	std::ifstream file(filePath.c_str());
+	ASSERT(file.good(), "Successfully opened xml file at path %s for reading", filePath.c_str());
 	this->parseXmlFile_internal(file);
 }
 
