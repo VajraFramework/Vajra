@@ -40,7 +40,7 @@ GridNavigator::~GridNavigator() {
 
 void GridNavigator::init() {
 	// TODO [Implement] Ensure type-safety here
-	this->gameObject = (GameObject*)this->GetObject();
+	this->gameObjectRef = (GameObject*)this->GetObject();
 
 	this->currentCell = nullptr;
 	this->isTraveling = false;

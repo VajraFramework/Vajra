@@ -45,10 +45,59 @@ void AdvanceFileSeekTillChar(std::ifstream& file, char endChar) {
 	return;
 }
 
+std::string ReadFileTillChar(std::ifstream& file, char endChar, bool ignoreWhiteSpace /* = false */) {
+	char c;
+	std::string returnString;
+	do {
+		file.get(c);
+		if (c != endChar) {
+			if (!ignoreWhiteSpace || (c != ' ' && c != '\t')) {
+				returnString.push_back(c);
+			}
+		}
+	} while (c != endChar && !file.eof ());
+
+	return returnString;
+}
+
+std::string ReadFileTillBeforeChar(std::ifstream& file, char endChar, bool ignoreWhiteSpace) {
+	if (!file.good()) {
+		return "";
+	}
+
+	char c;
+	std::string returnString;
+	do {
+		c = file.peek();
+		if (c != endChar) {
+			file.get(c);
+			if (!ignoreWhiteSpace || (c != ' ' && c != '\t')) {
+				returnString.push_back(c);
+			}
+		}
+		if (c == endChar || !file.good()) {
+			return returnString;
+		}
+	} while (true);
+}
+
+void AdvanceFileSeekOverWhiteSpace(std::ifstream& file) {
+	if (!file.good()) {
+		return;
+	}
+
+	char c;
+	do {
+		c = file.peek();
+		if (c == ' ' || c == '\t' || c == '\n') {
+			file.get(c);
+		}
+	} while ((c == ' ' || c == '\t' || c == '\n') && !file.eof());
+}
+
 int GetNextIntFromFile(std::ifstream& file) {
 	int r;
 	file >> r;
 
 	return r;
 }
-

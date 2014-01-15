@@ -22,6 +22,7 @@
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Placeholder/Tesserakonteres.h"
+#include "Vajra/Utilities/XmlParser/XmlParser.h"
 
 #include "Libraries/glm/glm.hpp"
 #include "Libraries/glm/gtx/transform.hpp"
@@ -184,13 +185,21 @@ namespace Tesserakonteres {
 #endif
 		}
 		{
-#if 1
+#if 0
 			GameObject* noiseMaker = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(noiseMaker->GetId());
 			AudioSource* source = noiseMaker->AddComponent<AudioSource>();
 			source->SetAudioClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesPath() + "lowAlert(hisfixed).wav");
 			source->Play();
 #endif
+		}
+
+		{
+			FRAMEWORK->GetLogger()->dbglog("\n################################################################################");
+			XmlParser* xmlParser = new XmlParser();
+			xmlParser->ParseXmlFile(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "sample.xml");
+			//
+			xmlParser->Print();
 		}
 
 		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");

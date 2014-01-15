@@ -14,6 +14,9 @@ int ReadInt32LittleEndianFromFile(/*char buffer[5], */std::ifstream& file);
 short ReadInt16LittleEndianFromFile(/*char buffer[5], */std::ifstream& file);
 
 void AdvanceFileSeekTillChar(std::ifstream& file, char endChar);
+std::string ReadFileTillChar(std::ifstream& file, char endChar, bool ignoreWhiteSpace = false);
+std::string ReadFileTillBeforeChar(std::ifstream& file, char endChar, bool ignoreWhiteSpace = false);
+void AdvanceFileSeekOverWhiteSpace(std::ifstream& file);
 int GetNextIntFromFile(std::ifstream& file);
 
 #endif // FILE_UTILITIES_H

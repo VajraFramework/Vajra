@@ -49,14 +49,14 @@ private:
 	float actualTravelCost(GridCell* startCell, GridCell* goalCell);
 	void simplifyPath(std::list<GridCell*>& outPath);
 
-	Transform* getTransform() { return this->gameObject->GetTransform(); }
+	Transform* getTransform() { return this->gameObjectRef->GetTransform(); }
 
 	GridCell* currentCell;
 	std::list<GridCell*> currentPath;
 	bool isTraveling;
 	float movementSpeed;
 
-	GameObject* gameObject;
+	GameObject* gameObjectRef;
 
 	static ComponentIdType componentTypeId;
 };

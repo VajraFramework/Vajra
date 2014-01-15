@@ -32,7 +32,7 @@ SampleGameScript::~SampleGameScript() {
 
 void SampleGameScript::start() {
 	// TODO [Implement] Ensure type-safety here
-	this->gameObject = (GameObject*)this->GetObject();
+	this->gameObjectRef = (GameObject*)this->GetObject();
 
 	this->getTransform()->Scale(0.5f, 0.5f, 0.5f);
 }
