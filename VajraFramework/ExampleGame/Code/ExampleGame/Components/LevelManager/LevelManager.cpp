@@ -11,6 +11,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 
 // These includes can probably go away once we load objects from prefabs.
+#include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
 #include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
 #include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
@@ -159,6 +160,7 @@ void LevelManager::loadUnitDataFromStream(std::istream& ifs) {
 		enemyObj->AddComponent<SampleGameScript>();
 		enemyObj->AddComponent<GridNavigator>();
 		enemyObj->AddComponent<EnemyUnit>();
+		AiRoutine* aiRoutine = enemyObj->AddComponent<AiRoutine>();
 
 		// Add the unit to the grid
 		SINGLETONS->GetGridManager()->placeUnitOnGrid(enemyObj->GetId(), gX, gZ);
@@ -167,7 +169,9 @@ void LevelManager::loadUnitDataFromStream(std::istream& ifs) {
 		for (int j = 0; j < nCommands; ++j) {
 			std::string command;
 			ifs >> command;
+			aiRoutine->taskStrings.push_back(command);
 		}
+		aiRoutine->parseTaskStrings();
 	}
 }
 
