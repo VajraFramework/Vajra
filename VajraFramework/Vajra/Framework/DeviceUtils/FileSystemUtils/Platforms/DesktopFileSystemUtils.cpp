@@ -21,6 +21,7 @@ void FileSystemUtils::init() {
 	this->deviceLoggingResourcesPath    = this->deviceBaseResourcesPath + "logging/";
 	this->deviceFontResourcesPath       = this->deviceBaseResourcesPath + "fonts/";
 	this->deviceUiScenesResourcesPath   = this->deviceBaseResourcesPath + "uiscenes/";
+	this->devicePrefabsResourcesPath    = this->deviceBaseResourcesPath + "prefabs/";
 }
 
 void FileSystemUtils::destroy() {

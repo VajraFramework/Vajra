@@ -23,8 +23,8 @@ protected:
 	void onSelectedTouch();
 	void onNavTouch(int touchId, GridCell* touchedCell);
 
-	virtual void onSpecialTouch(int /*touchId*/) {}
-	virtual bool isSpecialTouch(int /*touchId*/) {return false;}
+	virtual void onSpecialTouch(int /* touchId */) {}
+	virtual bool isSpecialTouch(int /* touchId */) { return false; }
 	virtual void specialModeActivate() {}
 	virtual void calcSpecialTargets() {}
 
