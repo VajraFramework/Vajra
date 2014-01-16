@@ -8,6 +8,6 @@ namespace StringUtilities {
 	int   ConvertStringToInt  (std::string& s);
 	float ConvertStringToFloat(std::string& s);
 	bool  ConvertStringToBool (std::string& s);
-};
+}
 
 #endif // STRING_UTILITIES_H

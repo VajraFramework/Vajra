@@ -11,6 +11,8 @@ public:
 
 	void Print();
 
+	XmlNode* GetRootNode() { return this->rootNode; }
+
 private:
 	void init();
 	void destroy();

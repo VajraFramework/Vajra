@@ -12,6 +12,7 @@
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
@@ -195,11 +196,9 @@ namespace Tesserakonteres {
 		}
 
 		{
-			FRAMEWORK->GetLogger()->dbglog("\n################################################################################");
-			XmlParser* xmlParser = new XmlParser();
-			xmlParser->ParseXmlFile(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "monkey.prefab");
-			//
-			xmlParser->Print();
+			/* GameObject* gameObject = */ PrefabLoader::InstantiateGameObjectFromPrefab(
+										   FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "monkey.prefab",
+										   ENGINE->GetSceneGraph3D());
 		}
 
 		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");

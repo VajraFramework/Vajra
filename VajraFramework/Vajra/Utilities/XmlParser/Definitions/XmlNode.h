@@ -15,14 +15,17 @@ public:
 	std::string GetValue() { return this->value; }
 
 	std::vector<XmlNode*> GetChildren() const { return this->children; }
-	std::vector<XmlNode*> GetChildrenByNodeName(std::string& nodeName) const;
+	std::vector<XmlNode*> GetChildrenByNodeName(std::string nodeName) const;
+
+	XmlNode* GetFirstChildByNodeName (std::string nodeName = "") const;
+	XmlNode* GetNextSiblingByNodeName(std::string nodeName = "") const;
 
 	std::vector<std::string> GetAttributeNames() const;
 
-	std::string GetAttributeValueS(std::string& attributeName) const;
-	int         GetAttributeValueI(std::string& attributeName) const;
-	float       GetAttributeValueF(std::string& attributeName) const;
-	bool        GetAttributeValueB(std::string& attributeName) const;
+	std::string GetAttributeValueS(std::string attributeName) const;
+	int         GetAttributeValueI(std::string attributeName) const;
+	float       GetAttributeValueF(std::string attributeName) const;
+	bool        GetAttributeValueB(std::string attributeName) const;
 
 	void Print();
 

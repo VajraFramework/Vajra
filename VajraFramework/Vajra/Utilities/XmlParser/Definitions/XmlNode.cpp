@@ -43,7 +43,7 @@ void XmlNode::setParent(XmlNode* parentNode) {
 	this->parentRef = parentNode;
 }
 
-std::vector<XmlNode*> XmlNode::GetChildrenByNodeName(std::string& nodeName) const {
+std::vector<XmlNode*> XmlNode::GetChildrenByNodeName(std::string nodeName) const {
 	std::vector<XmlNode*> result;
 	for (XmlNode* childNode : this->children) {
 		if (childNode->name == nodeName) {
@@ -51,6 +51,34 @@ std::vector<XmlNode*> XmlNode::GetChildrenByNodeName(std::string& nodeName) cons
 		}
 	}
 	return result;
+}
+
+XmlNode* XmlNode::GetFirstChildByNodeName(std::string nodeName /* = "" */) const {
+	for (XmlNode* childNode : this->children) {
+		if (childNode->name == nodeName) {
+			return childNode;
+		}
+	}
+	return nullptr;
+}
+
+XmlNode* XmlNode::GetNextSiblingByNodeName(std::string nodeName /* = "" */) const {
+	if (this->parentRef == nullptr) {
+		return nullptr;
+	}
+
+	bool foundSelfInParentsChildren = false;
+	for (XmlNode* sibling : this->parentRef->children) {
+		if (sibling == this) {
+			foundSelfInParentsChildren = true;
+		}
+		if (foundSelfInParentsChildren) {
+			if (nodeName == "" || sibling->name == nodeName) {
+				return sibling;
+			}
+		}
+	}
+	return nullptr;
 }
 
 std::vector<std::string> XmlNode::GetAttributeNames() const {
@@ -61,21 +89,21 @@ std::vector<std::string> XmlNode::GetAttributeNames() const {
 	return result;
 }
 
-std::string XmlNode::GetAttributeValueS(std::string& attributeName) const {
+std::string XmlNode::GetAttributeValueS(std::string attributeName) const {
 	return this->getAttributeValueAsString(attributeName);
 }
 
-int XmlNode::GetAttributeValueI(std::string& attributeName) const {
+int XmlNode::GetAttributeValueI(std::string attributeName) const {
 	std::string valueAsString = this->getAttributeValueAsString(attributeName);
 	return StringUtilities::ConvertStringToInt(valueAsString);
 }
 
-float XmlNode::GetAttributeValueF(std::string& attributeName) const {
+float XmlNode::GetAttributeValueF(std::string attributeName) const {
 	std::string valueAsString = this->getAttributeValueAsString(attributeName);
 	return StringUtilities::ConvertStringToFloat(valueAsString);
 }
 
-bool XmlNode::GetAttributeValueB(std::string& attributeName) const {
+bool XmlNode::GetAttributeValueB(std::string attributeName) const {
 	std::string valueAsString = this->getAttributeValueAsString(attributeName);
 	return StringUtilities::ConvertStringToBool(valueAsString);
 }
