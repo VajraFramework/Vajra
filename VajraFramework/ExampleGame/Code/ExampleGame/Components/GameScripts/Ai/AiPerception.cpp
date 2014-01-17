@@ -26,6 +26,8 @@ void AiPerception::update() {
 
 void AiPerception::init() {
 	this->knowledge = nullptr;
+
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
 
 void AiPerception::destroy() {

@@ -17,7 +17,7 @@ const glm::vec3 ZERO_VEC3 = glm::vec3(0.0f, 0.0f, 0.0f);
 const glm::vec4 ZERO_VEC4_POSITION  = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 const glm::vec4 ZERO_VEC4_DIRECTION = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
-glm::quat LookRotation(glm::vec3 requiredForward, glm::vec3 up /* = YAXIS */) {
+glm::quat QuaternionFromLookVectors(glm::vec3 requiredForward, glm::vec3 up /* = YAXIS */) {
 	glm::quat quaternion1 = IDENTITY_QUATERNION;
 	glm::quat quaternion2 = IDENTITY_QUATERNION;
 

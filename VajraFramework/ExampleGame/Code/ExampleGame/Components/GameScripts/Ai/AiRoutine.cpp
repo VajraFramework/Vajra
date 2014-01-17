@@ -120,7 +120,7 @@ void AiRoutine::parseStartCommand(std::string args) {
 	glm::vec3 forward = SINGLETONS->GetGridManager()->GetCell(xLook, zLook)->center - mark.Position;
 	forward = glm::normalize(forward);
 
-	mark.Orientation = LookRotation(forward);
+	mark.Orientation = QuaternionFromLookVectors(forward);
 	this->markers.push_back(mark);
 
 	this->GetObject()->GetComponent<Transform>()->SetOrientation(mark.Orientation);
@@ -151,7 +151,7 @@ void AiRoutine::parseWalkCommand(std::string args) {
 	glm::vec3 forward = mark.Position - lastMark.Position;
 	forward = glm::normalize(forward);
 
-	mark.Orientation = LookRotation(forward);
+	mark.Orientation = QuaternionFromLookVectors(forward);
 	this->markers.push_back(mark);
 }
 
@@ -175,7 +175,7 @@ void AiRoutine::parseLookCommand(std::string args) {
 	glm::vec3 forward = SINGLETONS->GetGridManager()->GetCell(x, z)->center - mark.Position;
 	forward = glm::normalize(forward);
 
-	mark.Orientation = LookRotation(forward);
+	mark.Orientation = QuaternionFromLookVectors(forward);
 	float angle = glm::angle(glm::inverse(mark.Orientation) * lastMark.Orientation);
 	mark.ClockTick = lastMark.ClockTick + (angle / 90.0f);
 	this->markers.push_back(mark);
