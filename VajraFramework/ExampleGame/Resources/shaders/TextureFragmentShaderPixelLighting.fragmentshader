@@ -11,9 +11,7 @@ varying vec4 DLight0SpecularColor_out;
 
 void main()
 {
-	vec4 vNormal_world = vNormal_out;
-
-	float cosTheta = clamp( dot( vNormal_world, DLight0Direction_out ), 0.0, 1.0 );
+	float cosTheta = clamp( dot( vNormal_out, DLight0Direction_out ), 0.0, 1.0 );
 	vec4 lightIntensity = DLight0DiffuseColor_out * cosTheta;
 
 	// Fake the ambient lighting:
