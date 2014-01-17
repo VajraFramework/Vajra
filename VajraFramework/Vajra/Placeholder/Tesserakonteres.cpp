@@ -12,6 +12,7 @@
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
@@ -81,21 +82,22 @@ namespace Tesserakonteres {
 			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "wavybox.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "polySurface5.model");
 			BakedSkeletalAnimation* bakedSkeletalAnimation = gameObject->AddComponent<BakedSkeletalAnimation>();
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#idle");
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#twitching");
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#turning");
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pCube1.skeletalanimation#nodding");
-			std::string animclipToPlay = "twitching";
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_GuardCaptain_mesh.skeletalanimation#idle");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_GuardCaptain_mesh.skeletalanimation#twitching");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_GuardCaptain_mesh.skeletalanimation#turning");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_GuardCaptain_mesh.skeletalanimation#nodding");
+			std::string animclipToPlay = "nodding";
 			AnimationClip* animationClip = bakedSkeletalAnimation->GetAnimationClip(animclipToPlay.c_str());
 			animationClip->SetLooping(true);
 			animationClip->SetPlaybackSpeed(0.1f);
 			bakedSkeletalAnimation->PlayAnimationClip(animclipToPlay.c_str());
 			//
 			Transform* transform = gameObject->GetTransform();
-			transform->Scale(0.2f);
+			transform->Scale(0.08f);
 			transform->Translate(1.0f, transform->GetForward());
+			transform->Rotate(90.0f, YAXIS);
 			wavybox = gameObject;
 #endif
 			//
@@ -109,7 +111,7 @@ namespace Tesserakonteres {
 			rigidAnimation->PlayAnimationClip("clip1");
 #endif
 
-#if 1
+#if 0
 			ENGINE->GetTween()->TweenPosition(gameObject->GetId(), glm::vec3(-1.0f, 0.0f, 0.0f),
 					                                               glm::vec3(-1.0f, 1.0f, 0.0f),
 					                                               2.0f, tweenCallback);
@@ -196,11 +198,9 @@ namespace Tesserakonteres {
 
 		{
 #if 0
-			FRAMEWORK->GetLogger()->dbglog("\n################################################################################");
-			XmlParser* xmlParser = new XmlParser();
-			xmlParser->ParseXmlFile(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "monkey.prefab");
-			//
-			xmlParser->Print();
+			/* GameObject* gameObject = */ PrefabLoader::InstantiateGameObjectFromPrefab(
+										   FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "monkey.prefab",
+										   ENGINE->GetSceneGraph3D());
 #endif
 		}
 

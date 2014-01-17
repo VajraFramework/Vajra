@@ -17,6 +17,8 @@ public:
 	void ParseXmlFile(std::string filePath);
 	void Print();
 
+	XmlTree* GetXmlTree() { return this->xmlTree; }
+
 private:
 	void init();
 	void destroy();
