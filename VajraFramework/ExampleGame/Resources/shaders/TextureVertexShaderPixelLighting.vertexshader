@@ -1,0 +1,38 @@
+__VARIABLES__
+vPosition
+vNormal
+vNormal_out
+uvCoords_in
+uvCoords_out
+
+mvpMatrix
+modelInverseTransposeMatrix
+
+DLight0Direction
+DLight0AmbientColor
+DLight0DiffuseColor
+DLight0SpecularColor
+
+DLight0Direction_out
+DLight0AmbientColor_out
+DLight0DiffuseColor_out
+DLight0SpecularColor_out
+__VARIABLES_END__
+
+
+__SOURCE__
+void main()
+{
+	gl_Position = mvpMatrix * vPosition;
+
+	uvCoords_out = uvCoords_in;
+
+	vNormal_out = modelInverseTransposeMatrix * vNormal;
+
+	DLight0Direction_out = DLight0Direction;
+	DLight0AmbientColor_out = DLight0AmbientColor;
+	DLight0DiffuseColor_out = DLight0DiffuseColor;
+	DLight0SpecularColor_out = DLight0SpecularColor;
+}
+__SOURCE_END__
+
