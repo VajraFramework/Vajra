@@ -22,7 +22,9 @@ void EnemyUnit::update() {
 }
 
 void EnemyUnit::init() {
-
+	this->knowledge = nullptr;
+	this->routine = nullptr;
+	this->navigator = nullptr;
 }
 
 void EnemyUnit::destroy() {
