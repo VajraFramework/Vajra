@@ -51,7 +51,7 @@ std::string ReadFileTillChar(std::ifstream& file, char endChar, bool ignoreWhite
 	do {
 		file.get(c);
 		if (c != endChar) {
-			if (!ignoreWhiteSpace || (c != ' ' && c != '\t')) {
+			if (!ignoreWhiteSpace || (c != ' ' && c != '\t' && c != '\n' && c != '\r')) {
 				returnString.push_back(c);
 			}
 		}
@@ -71,7 +71,7 @@ std::string ReadFileTillBeforeChar(std::ifstream& file, char endChar, bool ignor
 		c = file.peek();
 		if (c != endChar) {
 			file.get(c);
-			if (!ignoreWhiteSpace || (c != ' ' && c != '\t')) {
+			if (!ignoreWhiteSpace || (c != ' ' && c != '\t' && c != '\n' && c != '\r')) {
 				returnString.push_back(c);
 			}
 		}
@@ -89,10 +89,10 @@ void AdvanceFileSeekOverWhiteSpace(std::ifstream& file) {
 	char c;
 	do {
 		c = file.peek();
-		if (c == ' ' || c == '\t' || c == '\n') {
+		if (c == ' ' || c == '\t' || c == '\n' || c == '\r') {
 			file.get(c);
 		}
-	} while ((c == ' ' || c == '\t' || c == '\n') && !file.eof());
+	} while ((c == ' ' || c == '\t' || c == '\n' || c == '\r') && !file.eof());
 }
 
 int GetNextIntFromFile(std::ifstream& file) {
