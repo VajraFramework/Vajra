@@ -197,9 +197,11 @@ namespace Tesserakonteres {
 		}
 
 		{
+#if 1
 			/* GameObject* gameObject = */ PrefabLoader::InstantiateGameObjectFromPrefab(
 										   FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "monkey.prefab",
 										   ENGINE->GetSceneGraph3D());
+#endif
 		}
 
 		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");

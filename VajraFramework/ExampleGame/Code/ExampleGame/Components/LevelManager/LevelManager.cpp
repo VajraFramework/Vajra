@@ -11,7 +11,9 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 
 // These includes can probably go away once we load objects from prefabs.
+#include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
+#include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
 #include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridRoom.h"
@@ -149,10 +151,27 @@ void LevelManager::loadUnitDataFromStream(std::istream& ifs) {
 		float rotation;       // Orientation
 		int nCommands;        // Number of AI commands
 		ifs >> unitType >> gX >> gZ >> rotation >> nCommands;
+
+		// Temporary code; Eventually we should be doing this by reading from a prefab.
+		GameObject* enemyObj = new GameObject(ENGINE->GetSceneGraph3D());
+		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(enemyObj->GetId());
+		MeshRenderer* enemyRenderer = enemyObj->AddComponent<MeshRenderer>();
+		enemyRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
+		enemyObj->AddComponent<SampleGameScript>();
+		enemyObj->AddComponent<GridNavigator>();
+		enemyObj->AddComponent<EnemyUnit>();
+		AiRoutine* aiRoutine = enemyObj->AddComponent<AiRoutine>();
+
+		// Add the unit to the grid
+		SINGLETONS->GetGridManager()->placeUnitOnGrid(enemyObj->GetId(), gX, gZ);
+		enemyObj->GetTransform()->SetOrientation(rotation, YAXIS);
+
 		for (int j = 0; j < nCommands; ++j) {
 			std::string command;
 			ifs >> command;
+			aiRoutine->taskStrings.push_back(command);
 		}
+		aiRoutine->parseTaskStrings();
 	}
 }
 
