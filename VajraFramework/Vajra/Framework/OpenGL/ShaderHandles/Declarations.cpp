@@ -57,6 +57,9 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "modelInverseTransposeMatrix") {
 		return SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix;
 	}
+	if (s == "vNormal_out") {
+		return SHADER_VARIABLE_VARIABLENAME_vNormal_out;
+	}
 	if (s == "uvCoords_out") {
 		return SHADER_VARIABLE_VARIABLENAME_uvCoords_out;
 	}
@@ -83,6 +86,18 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	}
 	if (s == "DLight0SpecularColor") {
 		return SHADER_VARIABLE_VARIABLENAME_DLight0SpecularColor;
+	}
+	if (s == "DLight0Direction_out") {
+		return SHADER_VARIABLE_VARIABLENAME_DLight0Direction_out;
+	}
+	if (s == "DLight0AmbientColor_out") {
+		return SHADER_VARIABLE_VARIABLENAME_DLight0AmbientColor_out;
+	}
+	if (s == "DLight0DiffuseColor_out") {
+		return SHADER_VARIABLE_VARIABLENAME_DLight0DiffuseColor_out;
+	}
+	if (s == "DLight0SpecularColor_out") {
+		return SHADER_VARIABLE_VARIABLENAME_DLight0SpecularColor_out;
 	}
 	if (s == "MaterialAmbientColor") {
 		return SHADER_VARIABLE_VARIABLENAME_MaterialAmbientColor;
@@ -133,6 +148,7 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_boneWeights: return "boneWeights";
 	case SHADER_VARIABLE_VARIABLENAME_mvpMatrix: return "mvpMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix: return "modelInverseTransposeMatrix";
+	case SHADER_VARIABLE_VARIABLENAME_vNormal_out: return "vNormal_out";
 	case SHADER_VARIABLE_VARIABLENAME_uvCoords_out: return "uvCoords_out";
 	case SHADER_VARIABLE_VARIABLENAME_lightIntensity: return "lightIntensity";
 	case SHADER_VARIABLE_VARIABLENAME_boneTransforms: return "boneTransforms";
@@ -142,6 +158,10 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_DLight0AmbientColor: return "DLight0AmbientColor";
 	case SHADER_VARIABLE_VARIABLENAME_DLight0DiffuseColor: return "DLight0DiffuseColor";
 	case SHADER_VARIABLE_VARIABLENAME_DLight0SpecularColor: return "DLight0SpecularColor";
+	case SHADER_VARIABLE_VARIABLENAME_DLight0Direction_out: return "DLight0Direction_out";
+	case SHADER_VARIABLE_VARIABLENAME_DLight0AmbientColor_out: return "DLight0AmbientColor_out";
+	case SHADER_VARIABLE_VARIABLENAME_DLight0DiffuseColor_out: return "DLight0DiffuseColor_out";
+	case SHADER_VARIABLE_VARIABLENAME_DLight0SpecularColor_out: return "DLight0SpecularColor_out";
 	case SHADER_VARIABLE_VARIABLENAME_MaterialAmbientColor: return "MaterialAmbientColor";
 	case SHADER_VARIABLE_VARIABLENAME_MaterialDiffuseColor: return "MaterialDiffuseColor";
 	case SHADER_VARIABLE_VARIABLENAME_MaterialSpecularColor: return "MaterialSpecularColor";
