@@ -195,11 +195,13 @@ namespace Tesserakonteres {
 		}
 
 		{
+#if 0
 			FRAMEWORK->GetLogger()->dbglog("\n################################################################################");
 			XmlParser* xmlParser = new XmlParser();
 			xmlParser->ParseXmlFile(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "monkey.prefab");
 			//
 			xmlParser->Print();
+#endif
 		}
 
 		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");

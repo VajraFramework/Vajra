@@ -11,6 +11,17 @@
 #include <string>
 #include <vector>
 
+enum AiCommandType {
+	AI_COMMAND_UNKNOWN,
+	//
+	AI_COMMAND_START,
+	AI_COMMAND_WALK,
+	AI_COMMAND_LOOK,
+	AI_COMMAND_WAIT,
+};
+
+AiCommandType ConvertStringToAiCommand(std::string cmd);
+
 class AiRoutine : public Component {
 public:
 	AiRoutine();
@@ -28,10 +39,10 @@ private:
 	};
 
 	void parseTaskStrings();
-	void processStart(int xPos, int zPos, int xLook, int zLook);
-	void processWalk(int xDiff, int zDiff);
-	void processLook(int xDiff, int zDiff);
-	void processWait(float duration);
+	void parseStartCommand(std::string args);
+	void parseWalkCommand(std::string args);
+	void parseLookCommand(std::string args);
+	void parseWaitCommand(std::string args);
 
 	void resumeSchedule();
 

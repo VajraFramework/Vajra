@@ -25,6 +25,8 @@ extern const glm::vec3 ZERO_VEC3;
 extern const glm::vec4 ZERO_VEC4_POSITION;
 extern const glm::vec4 ZERO_VEC4_DIRECTION;
 
+glm::quat LookRotation(glm::vec3 requiredForward, glm::vec3 up = YAXIS);
+
 // Interpolation Functions:
 void lerp(float& destination, const float a, const float b, const float interp);
 void slerp(glm::quat& destination, const glm::quat a, const glm::quat b, float interp);

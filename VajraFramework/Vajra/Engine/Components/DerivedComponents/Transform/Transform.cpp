@@ -151,10 +151,11 @@ void Transform::LookAt(glm::vec3 point) {
 		// Rotate so that forward faces the point:
 		glm::vec3 connectingVector = glm::normalize(point - this->GetPosition());
 		glm::vec3 crossProduct = glm::normalize( glm::cross(this->GetForward(), connectingVector) );
-		float angleBetweenVectors = glm::orientedAngle(this->GetForward(), connectingVector, crossProduct);
-		if (crossProduct != ZERO_VEC3) {
-			this->Rotate(angleBetweenVectors, crossProduct);
+		if (crossProduct == ZERO_VEC3) {
+			crossProduct = this->up;
 		}
+		float angleBetweenVectors = glm::orientedAngle(this->GetForward(), connectingVector, crossProduct);
+		this->Rotate(angleBetweenVectors, crossProduct);
 	}
 	{
 		// Try to restore up to what it was before the rotation without disturbing forward:
