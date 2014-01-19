@@ -8,6 +8,7 @@
 // Forward Declarations:
 class Object;
 
+//[[COMPONENT]]//
 class DirectionalLight : public Component {
 public:
 	DirectionalLight();
@@ -21,9 +22,12 @@ public:
 
 	void WriteLightPropertiesToShader();
 
-	void SetAmbientColor (float r, float g, float b, float a) { this->ambientColor  = glm::vec4(r, g, b, a); }
-	void SetDiffuseColor (float r, float g, float b, float a) { this->diffuseColor  = glm::vec4(r, g, b, a); }
-	void SetSpecularColor(float r, float g, float b, float a) { this->specularColor = glm::vec4(r, g, b, a); }
+	//[[PROPERTY]]//
+	void SetAmbientColor (float r, float g, float b, float a);
+	//[[PROPERTY]]//
+	void SetDiffuseColor (float r, float g, float b, float a);
+	//[[PROPERTY]]//
+	void SetSpecularColor(float r, float g, float b, float a);
 
 private:
 	void init();
@@ -35,5 +39,20 @@ private:
 
 	static unsigned int componentTypeId;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// Inline Functions:
+
+void DirectionalLight::SetAmbientColor (float r, float g, float b, float a) {
+	this->ambientColor  = glm::vec4(r, g, b, a);
+}
+
+void DirectionalLight::SetDiffuseColor (float r, float g, float b, float a) {
+	this->diffuseColor  = glm::vec4(r, g, b, a);
+}
+
+void DirectionalLight::SetSpecularColor(float r, float g, float b, float a) {
+	this->specularColor = glm::vec4(r, g, b, a);
+}
 
 #endif // DIRECTIONAL_LIGHT_H

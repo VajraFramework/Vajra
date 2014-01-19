@@ -12,6 +12,7 @@
 class Object;
 class Mesh;
 
+//[[COMPONENT]]//
 class MeshRenderer : public Renderer {
 public:
 	MeshRenderer();
@@ -20,6 +21,7 @@ public:
 
 	static inline ComponentIdType GetTypeId() { return Renderer::GetTypeId(); }
 
+	//[[PROPERTY]]//
 	void InitMesh(std::string urlOfMesh);
 
 	// @Override

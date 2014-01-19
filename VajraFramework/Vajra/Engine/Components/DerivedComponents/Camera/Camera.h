@@ -14,6 +14,7 @@ enum CameraType_t {
 	CAMERA_TYPE_PERSPECTIVE,
 };
 
+//[[COMPONENT]]//
 class Camera : public Component {
 public:
 	Camera();
@@ -28,13 +29,16 @@ public:
 	void WriteLookAt();
 
 	CameraType_t GetCameraType() { return this->cameraType; }
+	//[[PROPERTY]]//
+	inline void SetCameraType(int cameraTypeInt);
 	void SetCameraType(CameraType_t cameraType_) { this->cameraType = cameraType_; }
 
 	inline glm::mat4& GetViewMatrix() { return this->viewMatrix; }
 	inline glm::mat4& GetProjMatrix() { return this->projMatrix; }
 
-	inline float GetFOV() { return this->fov; }
-	inline void SetFOV(float value) { this->fov = value; this->updateMatrices();}
+	inline float GetFOV();
+	//[[PROPERTY]]//
+	inline void SetFOV(float value);
 
 	glm::vec3 ScreenToWorldPoint(glm::vec3 screenPoint);
 	Ray ScreenPointToRay(glm::vec2 screenPoint);
@@ -56,5 +60,22 @@ private:
 	static unsigned int componentTypeId;
 
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline Functions:
+
+inline float Camera::GetFOV() {
+	return this->fov;
+}
+
+void Camera::SetFOV(float value) {
+	this->fov = value;
+	this->updateMatrices();
+}
+
+void Camera::SetCameraType(int cameraTypeInt) {
+	this->SetCameraType(cameraTypeInt);
+}
 
 #endif // CAMERA_H
