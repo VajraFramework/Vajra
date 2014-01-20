@@ -1,31 +1,31 @@
 
 <components>
 	
-	<component name="LevelManager">
+	<component name="LevelManager" includePath="ExampleGame/Components/LevelManager/LevelManager.h">
 		<property name="LoadLevelFromFile">
 			<field name="levelFilename" datatype="std::string"></field>
 		</property>
 	</component>
 	
-	<component name="SampleGameScript">
+	<component name="SampleGameScript" includePath="ExampleGame/Components/GameScripts/SampleGameScript.h">
 	</component>
 	
-	<component name="AiPerception">
+	<component name="AiPerception" includePath="ExampleGame/Components/GameScripts/Ai/AiPerception.h">
 	</component>
 	
-	<component name="AiRoutine">
+	<component name="AiRoutine" includePath="ExampleGame/Components/GameScripts/Ai/AiRoutine.h">
 	</component>
 	
-	<component name="AiKnowledge">
+	<component name="AiKnowledge" includePath="ExampleGame/Components/GameScripts/Ai/AiKnowledge.h">
 	</component>
 	
-	<component name="EnemyUnit">
+	<component name="EnemyUnit" includePath="ExampleGame/Components/GameScripts/Units/EnemyUnit.h">
 	</component>
 	
-	<component name="PlayerUnit">
+	<component name="PlayerUnit" includePath="ExampleGame/Components/GameScripts/Units/PlayerUnit.h">
 	</component>
 	
-	<component name="ShadyCamera">
+	<component name="ShadyCamera" includePath="ExampleGame/Components/ShadyCamera/ShadyCamera.h">
 		<property name="MoveTo">
 			<field name="x" datatype="float"></field>
 			<field name="y" datatype="float"></field>
@@ -39,10 +39,10 @@
 		</property>
 	</component>
 	
-	<component name="GridManager">
+	<component name="GridManager" includePath="ExampleGame/Components/Grid/GridManager.h">
 	</component>
 	
-	<component name="GridZone">
+	<component name="GridZone" includePath="ExampleGame/Components/Grid/GridZone.h">
 		<property name="SetZoneBounds">
 			<field name="xMin" datatype="int"></field>
 			<field name="zMin" datatype="int"></field>
@@ -51,7 +51,7 @@
 		</property>
 	</component>
 	
-	<component name="GridNavigator">
+	<component name="GridNavigator" includePath="ExampleGame/Components/Grid/GridNavigator.h">
 		<property name="SetMovementSpeed">
 			<field name="speed" datatype="float"></field>
 		</property>

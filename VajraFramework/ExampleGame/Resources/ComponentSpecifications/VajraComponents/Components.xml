@@ -1,19 +1,19 @@
 
 <components>
 	
-	<component name="RigidAnimation">
+	<component name="RigidAnimation" includePath="Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h">
 		<property name="AddAnimationClip">
 			<field name="urlOfAnimationClip" datatype="std::string"></field>
 		</property>
 	</component>
 	
-	<component name="BakedSkeletalAnimation">
+	<component name="BakedSkeletalAnimation" includePath="Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h">
 		<property name="AddAnimationClip">
 			<field name="urlOfAnimationClip" datatype="std::string"></field>
 		</property>
 	</component>
 	
-	<component name="Camera">
+	<component name="Camera" includePath="Vajra/Engine/Components/DerivedComponents/Camera/Camera.h">
 		<property name="SetCameraType">
 			<field name="cameraTypeInt" datatype="int"></field>
 		</property>
@@ -22,7 +22,7 @@
 		</property>
 	</component>
 	
-	<component name="DirectionalLight">
+	<component name="DirectionalLight" includePath="Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h">
 		<property name="SetAmbientColor">
 			<field name="r" datatype="float"></field>
 			<field name="g" datatype="float"></field>
@@ -43,13 +43,13 @@
 		</property>
 	</component>
 	
-	<component name="MeshRenderer">
+	<component name="MeshRenderer" includePath="Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h">
 		<property name="InitMesh">
 			<field name="urlOfMesh" datatype="std::string"></field>
 		</property>
 	</component>
 	
-	<component name="AudioSource">
+	<component name="AudioSource" includePath="Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h">
 		<property name="SetAudioClip">
 			<field name="assetName" datatype="std::string"></field>
 		</property>
@@ -61,13 +61,13 @@
 		</property>
 	</component>
 	
-	<component name="Armature">
+	<component name="Armature" includePath="Vajra/Engine/Components/DerivedComponents/Armature/Armature.h">
 		<property name="InitArmature">
 			<field name="armatureFilePath" datatype="std::string"></field>
 		</property>
 	</component>
 	
-	<component name="Transform">
+	<component name="Transform" includePath="Vajra/Engine/Components/DerivedComponents/Transform/Transform.h">
 		<property name="SetPosition">
 			<field name="x" datatype="float"></field>
 			<field name="y" datatype="float"></field>
