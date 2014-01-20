@@ -440,7 +440,7 @@ void GridManager::loadGridDataFromXml(XmlNode* gridNode) {
 
 	// Room Information
 	XmlNode* roomNode = gridNode->GetFirstChildByNodeName(ROOM_TAG);
-	while (roomNode == nullptr) {
+	while (roomNode != nullptr) {
 		int roomX      = roomNode->GetAttributeValueI(X_ATTRIBUTE);
 		int roomZ      = roomNode->GetAttributeValueI(Z_ATTRIBUTE);
 		int roomWidth  = roomNode->GetAttributeValueI(WIDTH_ATTRIBUTE);

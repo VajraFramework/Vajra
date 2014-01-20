@@ -250,7 +250,7 @@ void LevelManager::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 	while (unitNode != nullptr) {
 		std::string unitPrefab = unitNode->GetAttributeValueS(PREFAB_ATTRIBUTE);
 		GameObject* unitObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + unitPrefab, ENGINE->GetSceneGraph3D());
-		unitObj->AddComponent<SampleGameScript>();
+		//unitObj->AddComponent<SampleGameScript>();
 		unitObj->AddComponent<GridNavigator>();
 
 		// Read the initial position of the unit

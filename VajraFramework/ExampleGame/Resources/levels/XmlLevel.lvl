@@ -9,20 +9,29 @@
 	
 	<static>
 		<staticObject prefab="monkey.prefab" x="4" z="0" width="1" height="1" rotation="0.0">
+		</staticObject>
 	</static>
 	
 	<units>
-		<playerUnit prefab="monkey.prefab" x="10" z="5" rotation="0.0">
+		<playerUnit prefab="monkey.prefab" x="4" z="4" rotation="0.0">
 		</playerUnit>
 		
-		<playerUnit prefab="monkey.prefab" x="11" z="2" rotation="0.0">
+		<playerUnit prefab="monkey.prefab" x="5" z="5" rotation="0.0">
 		</playerUnit>
 		
-		<enemyUnit prefab="monkey.prefab" x="16" z="8" rotation="0.0">
-			<aiCommand>START_16_8_11_1</aiCommand>
-			<aiCommand>WALK_16_10</aiCommand>
-			<aiCommand>LOOK_14_10</aiCommand>
-			<aiCommand>WAIT_1</aiCommand>
+		<enemyUnit prefab="monkey.prefab" x="6" z="6" rotation="0.0">
+			<aiCommand>
+				START_6_6_11_1
+			</aiCommand>
+			<aiCommand>
+				WALK_16_10
+			</aiCommand>
+			<aiCommand>
+				LOOK_14_10
+			</aiCommand>
+			<aiCommand>
+				WAIT_1
+			</aiCommand>
 		</enemyUnit>
 	</units>
 	
