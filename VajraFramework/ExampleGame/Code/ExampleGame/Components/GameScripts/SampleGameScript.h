@@ -15,6 +15,7 @@
 // Forward Declarations:
 class Transform;
 
+//[[COMPONENT]]//
 class SampleGameScript : public Component {
 public:
 	SampleGameScript();

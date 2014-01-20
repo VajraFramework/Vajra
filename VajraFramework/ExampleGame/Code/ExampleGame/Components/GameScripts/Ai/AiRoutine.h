@@ -22,6 +22,7 @@ enum AiCommandType {
 
 AiCommandType ConvertStringToAiCommand(std::string cmd);
 
+//[[COMPONENT]]//
 class AiRoutine : public Component {
 public:
 	AiRoutine();

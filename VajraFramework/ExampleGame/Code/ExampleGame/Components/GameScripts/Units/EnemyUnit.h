@@ -11,6 +11,7 @@
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 
+//[[COMPONENT]]//
 class EnemyUnit : public BaseUnit {
 public:
 	EnemyUnit();

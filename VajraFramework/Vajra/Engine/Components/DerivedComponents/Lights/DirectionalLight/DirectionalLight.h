@@ -40,19 +40,6 @@ private:
 	static unsigned int componentTypeId;
 };
 
-////////////////////////////////////////////////////////////////////////////////
-// Inline Functions:
 
-void DirectionalLight::SetAmbientColor (float r, float g, float b, float a) {
-	this->ambientColor  = glm::vec4(r, g, b, a);
-}
-
-void DirectionalLight::SetDiffuseColor (float r, float g, float b, float a) {
-	this->diffuseColor  = glm::vec4(r, g, b, a);
-}
-
-void DirectionalLight::SetSpecularColor(float r, float g, float b, float a) {
-	this->specularColor = glm::vec4(r, g, b, a);
-}
 
 #endif // DIRECTIONAL_LIGHT_H

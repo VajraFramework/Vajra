@@ -1,0 +1,71 @@
+
+<components>
+	
+	<component name="LevelManager">
+		<property name="LoadLevelFromFile">
+			<field name="levelFilename" datatype="std::string"></field>
+		</property>
+	</component>
+	
+	<component name="SampleGameScript">
+	</component>
+	
+	<component name="AiPerception">
+	</component>
+	
+	<component name="AiRoutine">
+	</component>
+	
+	<component name="AiKnowledge">
+	</component>
+	
+	<component name="EnemyUnit">
+	</component>
+	
+	<component name="PlayerUnit">
+	</component>
+	
+	<component name="ShadyCamera">
+		<property name="MoveTo">
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="MoveToRoom">
+			<field name="x" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="MoveToOverview">
+		</property>
+	</component>
+	
+	<component name="GridManager">
+	</component>
+	
+	<component name="GridZone">
+		<property name="SetZoneBounds">
+			<field name="xMin" datatype="int"></field>
+			<field name="zMin" datatype="int"></field>
+			<field name="xMax" datatype="int"></field>
+			<field name="zMax" datatype="int"></field>
+		</property>
+	</component>
+	
+	<component name="GridNavigator">
+		<property name="SetMovementSpeed">
+			<field name="speed" datatype="float"></field>
+		</property>
+		<property name="SetGridPosition">
+			<field name="x" datatype="int"></field>
+			<field name="z" datatype="int"></field>
+		</property>
+		<property name="SetDestination">
+			<field name="x" datatype="int"></field>
+			<field name="z" datatype="int"></field>
+		</property>
+		<property name="AddDestination">
+			<field name="x" datatype="int"></field>
+			<field name="z" datatype="int"></field>
+		</property>
+	</component>
+</components>
