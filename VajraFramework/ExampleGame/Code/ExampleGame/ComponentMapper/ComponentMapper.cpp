@@ -152,7 +152,9 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "AddAnimationClip") {
 			if ((int)argv.size() < 1) { return; }
 			component->AddAnimationClip(ConvertStringToString(argv[0]));
+			return;
 		}
+		return;
 	}
 	
 	if (componentName == "BakedSkeletalAnimation") {
@@ -161,7 +163,9 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "AddAnimationClip") {
 			if ((int)argv.size() < 1) { return; }
 			component->AddAnimationClip(ConvertStringToString(argv[0]));
+			return;
 		}
+		return;
 	}
 	
 	if (componentName == "Camera") {
@@ -170,11 +174,14 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetCameraType") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetCameraType(StringUtilities::ConvertStringToInt(argv[0]));
+			return;
 		}
 		if (propertyName == "SetFOV") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetFOV(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
 		}
+		return;
 	}
 	
 	if (componentName == "DirectionalLight") {
@@ -183,15 +190,19 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetAmbientColor") {
 			if ((int)argv.size() < 4) { return; }
 			component->SetAmbientColor(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
 		}
 		if (propertyName == "SetDiffuseColor") {
 			if ((int)argv.size() < 4) { return; }
 			component->SetDiffuseColor(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
 		}
 		if (propertyName == "SetSpecularColor") {
 			if ((int)argv.size() < 4) { return; }
 			component->SetSpecularColor(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
 		}
+		return;
 	}
 	
 	if (componentName == "MeshRenderer") {
@@ -200,7 +211,9 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "InitMesh") {
 			if ((int)argv.size() < 1) { return; }
 			component->InitMesh(ConvertStringToString(argv[0]));
+			return;
 		}
+		return;
 	}
 	
 	if (componentName == "AudioSource") {
@@ -209,15 +222,19 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetAudioClip") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetAudioClip(ConvertStringToString(argv[0]));
+			return;
 		}
 		if (propertyName == "SetVolume") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetVolume(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
 		}
 		if (propertyName == "SetPlaybackSpeed") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetPlaybackSpeed(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
 		}
+		return;
 	}
 	
 	if (componentName == "Armature") {
@@ -226,7 +243,9 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "InitArmature") {
 			if ((int)argv.size() < 1) { return; }
 			component->InitArmature(ConvertStringToString(argv[0]));
+			return;
 		}
+		return;
 	}
 	
 	if (componentName == "Transform") {
@@ -235,31 +254,39 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetPosition") {
 			if ((int)argv.size() < 3) { return; }
 			component->SetPosition(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
 		}
 		if (propertyName == "SetOrientation") {
 			if ((int)argv.size() < 4) { return; }
 			component->SetOrientation(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
 		}
 		if (propertyName == "SetScale") {
 			if ((int)argv.size() < 3) { return; }
 			component->SetScale(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
 		}
 		if (propertyName == "Translate") {
 			if ((int)argv.size() < 3) { return; }
 			component->Translate(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
 		}
 		if (propertyName == "Rotate") {
 			if ((int)argv.size() < 4) { return; }
 			component->Rotate(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
 		}
 		if (propertyName == "Scale") {
 			if ((int)argv.size() < 1) { return; }
 			component->Scale(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
 		}
 		if (propertyName == "LookAt") {
 			if ((int)argv.size() < 3) { return; }
 			component->LookAt(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
 		}
+		return;
 	}
 	
 	if (componentName == "LevelManager") {
@@ -268,37 +295,45 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "LoadLevelFromFile") {
 			if ((int)argv.size() < 1) { return; }
 			component->LoadLevelFromFile(ConvertStringToString(argv[0]));
+			return;
 		}
+		return;
 	}
 	
 	if (componentName == "SampleGameScript") {
 		SampleGameScript* component = gameObject->GetComponent<SampleGameScript>();
 		if (component == nullptr) { return; }
+		return;
 	}
 	
 	if (componentName == "AiPerception") {
 		AiPerception* component = gameObject->GetComponent<AiPerception>();
 		if (component == nullptr) { return; }
+		return;
 	}
 	
 	if (componentName == "AiRoutine") {
 		AiRoutine* component = gameObject->GetComponent<AiRoutine>();
 		if (component == nullptr) { return; }
+		return;
 	}
 	
 	if (componentName == "AiKnowledge") {
 		AiKnowledge* component = gameObject->GetComponent<AiKnowledge>();
 		if (component == nullptr) { return; }
+		return;
 	}
 	
 	if (componentName == "EnemyUnit") {
 		EnemyUnit* component = gameObject->GetComponent<EnemyUnit>();
 		if (component == nullptr) { return; }
+		return;
 	}
 	
 	if (componentName == "PlayerUnit") {
 		PlayerUnit* component = gameObject->GetComponent<PlayerUnit>();
 		if (component == nullptr) { return; }
+		return;
 	}
 	
 	if (componentName == "ShadyCamera") {
@@ -307,20 +342,25 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "MoveTo") {
 			if ((int)argv.size() < 3) { return; }
 			component->MoveTo(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
 		}
 		if (propertyName == "MoveToRoom") {
 			if ((int)argv.size() < 2) { return; }
 			component->MoveToRoom(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]));
+			return;
 		}
 		if (propertyName == "MoveToOverview") {
 			if ((int)argv.size() < 0) { return; }
 			component->MoveToOverview();
+			return;
 		}
+		return;
 	}
 	
 	if (componentName == "GridManager") {
 		GridManager* component = gameObject->GetComponent<GridManager>();
 		if (component == nullptr) { return; }
+		return;
 	}
 	
 	if (componentName == "GridZone") {
@@ -329,7 +369,9 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetZoneBounds") {
 			if ((int)argv.size() < 4) { return; }
 			component->SetZoneBounds(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToInt(argv[2]), StringUtilities::ConvertStringToInt(argv[3]));
+			return;
 		}
+		return;
 	}
 	
 	if (componentName == "GridNavigator") {
@@ -338,18 +380,23 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetMovementSpeed") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetMovementSpeed(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
 		}
 		if (propertyName == "SetGridPosition") {
 			if ((int)argv.size() < 2) { return; }
 			component->SetGridPosition(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
+			return;
 		}
 		if (propertyName == "SetDestination") {
 			if ((int)argv.size() < 2) { return; }
 			component->SetDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
+			return;
 		}
 		if (propertyName == "AddDestination") {
 			if ((int)argv.size() < 2) { return; }
 			component->AddDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
+			return;
 		}
+		return;
 	}
 }
