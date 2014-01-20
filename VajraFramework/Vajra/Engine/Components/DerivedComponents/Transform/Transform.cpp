@@ -69,24 +69,6 @@ void Transform::Draw() {
 		GLint mitMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix);
     	glUniformMatrix4fv(mitMatrixHandle, 1, GL_FALSE, glm::value_ptr(modelInverseTransposeMatrix));
 	}
-	//
-
-	//
-	#if 0 
-	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_zAxisLocal)) {
-		glm::vec4 zAxisLocal = glm::vec4(0.0f, 0.0f, -0.5f, 0.0f) * this->modelMatrixCumulative;
-		GLint zAxisLocalHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_zAxisLocal);
-    	glUniform4fv(zAxisLocalHandle, 1, glm::value_ptr(zAxisLocal));
-
-	}
-	//
-	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_yAxisLocal)) {
-		glm::vec4 yAxisLocal = glm::vec4(0.0f, -0.5f, 0.0f, 0.0f) * this->modelMatrixCumulative;
-		GLint yAxisLocalHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_yAxisLocal);
-    	glUniform4fv(yAxisLocalHandle, 1, glm::value_ptr(yAxisLocal));
-
-	}
-	#endif
 }
 
 glm::vec3& Transform::GetPosition() {
