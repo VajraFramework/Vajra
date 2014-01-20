@@ -2,7 +2,7 @@
 	<gameobject>
 		<component name="MeshRenderer">
 			<property name="InitMesh">
-				<field>Resources/models/TexturedCube.model</field>
+				<field>Resources/models/Suzanne.model</field>
 			</property>
 		</component>
 
@@ -16,9 +16,25 @@
 				<field>0.1</field>
 			</property>
 		</component>
-	</gameobject>
 
-	<model modelName="TexturedCube.model"></model>
-	<position x="0.0" y=0.0" z="0.0"></position>
+		<gameobject>
+			<component name="MeshRenderer">
+				<property name="InitMesh">
+					<field>Resources/models/TexturedCube.model</field>
+				</property>
+			</component>
+			<component name="Transform">
+				<property name="Translate">
+					<field>0.0</field>
+					<field>0.0</field>
+					<field>4.0</field>
+				</property>
+				<property name="Scale">
+					<field>1.0</field>
+				</property>
+			</component>
+		</gameobject>
+
+	</gameobject>
 </prefab>
 
