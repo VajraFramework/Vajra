@@ -14,6 +14,7 @@
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Engine/AudioManager/AudioPlayer.h"
 
+//[[COMPONENT]]//
 class AudioSource : public Component {
 public:
 	// Constructors
@@ -35,10 +36,13 @@ public:
 	AudioAsset* GetAudioClip();
 	
 	// Mutators
+	//[[PROPERTY]]//
 	void SetAudioClip(std::string assetName);
+	//[[PROPERTY]]//
 	void SetVolume(float volume);
+	//[[PROPERTY]]//
 	void SetPlaybackSpeed(float speed);
-	
+
 	// Other methods
 	void Play();
 	void Pause();

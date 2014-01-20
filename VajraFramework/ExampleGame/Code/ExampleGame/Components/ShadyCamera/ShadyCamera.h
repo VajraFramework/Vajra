@@ -16,6 +16,7 @@
 class GridCell;
 class GridManager;
 
+//[[COMPONENT]]//
 class ShadyCamera : public Camera {
 public:
 	enum CameraMode {
@@ -35,6 +36,7 @@ public:
 
 	// General camera moving functions
 	void MoveTo(glm::vec3 newPos);
+	//[[PROPERTY]]//
 	void MoveTo(float x, float y, float z);
 
 	// Moves the camera along x and z, keeping y (height) the same
@@ -45,9 +47,11 @@ public:
 	// Move camera to game room
 	void MoveToCurrentRoom(); // move to current room
 	// Sets current room and then moves to it
+	//[[PROPERTY]]//
 	void MoveToRoom(float x, float z); // location in current room
 	void MoveToRoom(GridCell* cell); // cell is a cell in the current room
 
+	//[[PROPERTY]]//
 	void MoveToOverview();
 
 	// Pan the camera along a preset path for a level intro

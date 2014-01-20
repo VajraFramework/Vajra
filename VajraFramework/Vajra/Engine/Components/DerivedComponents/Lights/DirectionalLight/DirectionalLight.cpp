@@ -53,6 +53,18 @@ void DirectionalLight::WriteLightPropertiesToShader() {
 	}
 }
 
+void DirectionalLight::SetAmbientColor (float r, float g, float b, float a) {
+	this->ambientColor  = glm::vec4(r, g, b, a);
+}
+
+void DirectionalLight::SetDiffuseColor (float r, float g, float b, float a) {
+	this->diffuseColor  = glm::vec4(r, g, b, a);
+}
+
+void DirectionalLight::SetSpecularColor(float r, float g, float b, float a) {
+	this->specularColor = glm::vec4(r, g, b, a);
+}
+
 void DirectionalLight::init() {
 	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
 	if (gameObject != nullptr) {

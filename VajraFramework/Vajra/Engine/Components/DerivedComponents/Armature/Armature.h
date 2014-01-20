@@ -16,6 +16,7 @@ class Bone;
 class FinalBoneTransformsSet;
 class Object;
 
+//[[COMPONENT]]//
 class Armature : public Component {
 public:
 	Armature();
@@ -24,6 +25,7 @@ public:
 
 	static inline unsigned int GetTypeId() { return componentTypeId; }
 
+	//[[PROPERTY]]//
 	void InitArmature(std::string armatureFilePath);
 
 	// Writes the final bone transform matrices to the shader:

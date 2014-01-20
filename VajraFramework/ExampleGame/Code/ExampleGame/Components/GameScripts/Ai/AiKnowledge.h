@@ -15,6 +15,7 @@ struct UnitInformation {
 	// TODO [Implement] Fill this in.
 };
 
+//[[COMPONENT]]//
 class AiKnowledge : public Component {
 public:
 	AiKnowledge();

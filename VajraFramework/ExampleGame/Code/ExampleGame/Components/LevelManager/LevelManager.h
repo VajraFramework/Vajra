@@ -14,6 +14,7 @@
 
 #include <string>
 
+//[[COMPONENT]]//
 class LevelManager : public Component {
 public:
 	LevelManager();
@@ -24,6 +25,7 @@ public:
 
 	inline std::string GetCurrentLevelName() { return this->currentLevelName; }
 
+	//[[PROPERTY]]//
 	void LoadLevelFromFile(std::string levelFilename);
 	//void LoadLevelFromAsset(std::string assetName); // Once we've got the loading process worked out, switch to using an asset
 

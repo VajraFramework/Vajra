@@ -11,6 +11,7 @@
 class Object;
 class Mesh;
 
+// Not exposing this as a Component that can be added via XML since it is purely virtual
 class Renderer : public Component {
 public:
 	Renderer();

@@ -11,6 +11,7 @@
 class Object;
 class Mesh;
 
+// Not exposing this as a Component that can be added via XML since it is exposed only via the UiELement which is exposed adequately by the .uiscene files
 class UiSpriteRenderer : public Renderer {
 public:
 	UiSpriteRenderer();

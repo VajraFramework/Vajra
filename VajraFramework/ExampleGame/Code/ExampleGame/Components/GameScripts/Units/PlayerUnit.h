@@ -9,6 +9,7 @@
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 class GridCell;
 
+//[[COMPONENT]]//
 class PlayerUnit : public BaseUnit {
 public:
 	PlayerUnit();

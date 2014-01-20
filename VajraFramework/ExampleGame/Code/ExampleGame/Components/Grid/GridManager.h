@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 
+//[[COMPONENT]]//
 class GridManager : public Component, public IGameTouchTarget {
 public:
 	GridManager();

@@ -8,6 +8,7 @@
 
 #include "Vajra/Common/Components/Component.h"
 
+//[[COMPONENT]]//
 class GridZone : public Component {
 public:
 	GridZone();
@@ -16,6 +17,7 @@ public:
 
 	static inline ComponentIdType GetTypeId() { return componentTypeId; };
 
+	//[[PROPERTY]]//
 	void SetZoneBounds(int xMin, int zMin, int xMax, int zMax);
 
 	unsigned int CollisionCheck(GridCell* startCell, GridCell* destCell);

@@ -11,6 +11,7 @@
 class GameObject;
 class RigidAnimationClip;
 
+//[[COMPONENT]]//
 class RigidAnimation : public Animation, public Component {
 public:
 	RigidAnimation();
@@ -22,6 +23,7 @@ public:
 	// @Override
 	void HandleMessage(MessageChunk messageChunk);
 
+	//[[PROPERTY]]//
 	virtual AnimationClip* AddAnimationClip(std::string urlOfAnimationClip);
 	virtual AnimationClip* AddAnimationClip(AnimationClip* animationClip);
 

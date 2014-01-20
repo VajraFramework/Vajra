@@ -12,6 +12,7 @@
 
 #include <list>
 
+//[[COMPONENT]]//
 class GridNavigator : public Component {
 public:
 	GridNavigator();
@@ -22,14 +23,18 @@ public:
 
 	inline GridCell* GetCurrentCell()          { return this->currentCell;    }
 
-	inline void SetMovementSpeed(float speed)  { this->movementSpeed = speed; }
+	//[[PROPERTY]]//
+	inline void SetMovementSpeed(float speed);
 	inline void SetCurrentCell(GridCell* cell) { this->currentCell = cell;    }
 
+	//[[PROPERTY]]//
 	void SetGridPosition(int x, int z);  // Place the object at the indicated cell on the grid.
 
 	// Each of the following methods return true if a valid path can be found, false otherwise.
+	//[[PROPERTY]]//
 	bool SetDestination(int x, int z);   // Set destination to the center of the designated cell
 	bool SetDestination(glm::vec3 loc);  // Set destination to the designated world position
+	//[[PROPERTY]]//
 	bool AddDestination(int x, int z);   // Set new destination without destroying current path
 	bool AddDestination(glm::vec3 loc);  // Set new destination without destroying current path
 
@@ -61,4 +66,13 @@ private:
 	static ComponentIdType componentTypeId;
 };
 
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline Functions:
+//
+void GridNavigator::SetMovementSpeed(float speed) {
+	this->movementSpeed = speed;
+}
+
 #endif // GRIDNAVIGATOR_H
+
