@@ -57,6 +57,9 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "modelMatrix") {
 		return SHADER_VARIABLE_VARIABLENAME_modelMatrix;
 	}
+	if (s == "vpMatrix") {
+		return SHADER_VARIABLE_VARIABLENAME_vpMatrix;
+	}
 	if (s == "modelInverseTransposeMatrix") {
 		return SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix;
 	}
@@ -151,6 +154,7 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_boneWeights: return "boneWeights";
 	case SHADER_VARIABLE_VARIABLENAME_mvpMatrix: return "mvpMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_modelMatrix: return "modelMatrix";
+	case SHADER_VARIABLE_VARIABLENAME_vpMatrix: return "vpMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix: return "modelInverseTransposeMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_vNormal_out: return "vNormal_out";
 	case SHADER_VARIABLE_VARIABLENAME_uvCoords_out: return "uvCoords_out";

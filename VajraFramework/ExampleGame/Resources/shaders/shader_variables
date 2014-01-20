@@ -7,6 +7,7 @@ attribute vec4 boneWeights
 
 uniform mat4 mvpMatrix
 uniform mat4 modelMatrix
+uniform mat4 vpMatrix
 uniform mat4 modelInverseTransposeMatrix
 varying vec4 vNormal_out
 varying vec2 uvCoords_out
