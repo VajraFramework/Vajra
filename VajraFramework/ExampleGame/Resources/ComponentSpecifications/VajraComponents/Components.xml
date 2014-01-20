@@ -1,0 +1,107 @@
+
+<components>
+	
+	<component name="RigidAnimation" includePath="Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h">
+		<property name="AddAnimationClip">
+			<field name="urlOfAnimationClip" datatype="std::string"></field>
+		</property>
+	</component>
+	
+	<component name="BakedSkeletalAnimation" includePath="Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h">
+		<property name="AddAnimationClip">
+			<field name="urlOfAnimationClip" datatype="std::string"></field>
+		</property>
+	</component>
+	
+	<component name="Camera" includePath="Vajra/Engine/Components/DerivedComponents/Camera/Camera.h">
+		<property name="SetCameraType">
+			<field name="cameraTypeInt" datatype="int"></field>
+		</property>
+		<property name="SetFOV">
+			<field name="value" datatype="float"></field>
+		</property>
+	</component>
+	
+	<component name="DirectionalLight" includePath="Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h">
+		<property name="SetAmbientColor">
+			<field name="r" datatype="float"></field>
+			<field name="g" datatype="float"></field>
+			<field name="b" datatype="float"></field>
+			<field name="a" datatype="float"></field>
+		</property>
+		<property name="SetDiffuseColor">
+			<field name="r" datatype="float"></field>
+			<field name="g" datatype="float"></field>
+			<field name="b" datatype="float"></field>
+			<field name="a" datatype="float"></field>
+		</property>
+		<property name="SetSpecularColor">
+			<field name="r" datatype="float"></field>
+			<field name="g" datatype="float"></field>
+			<field name="b" datatype="float"></field>
+			<field name="a" datatype="float"></field>
+		</property>
+	</component>
+	
+	<component name="MeshRenderer" includePath="Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h">
+		<property name="InitMesh">
+			<field name="urlOfMesh" datatype="std::string"></field>
+		</property>
+	</component>
+	
+	<component name="AudioSource" includePath="Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h">
+		<property name="SetAudioClip">
+			<field name="assetName" datatype="std::string"></field>
+		</property>
+		<property name="SetVolume">
+			<field name="volume" datatype="float"></field>
+		</property>
+		<property name="SetPlaybackSpeed">
+			<field name="speed" datatype="float"></field>
+		</property>
+	</component>
+	
+	<component name="Armature" includePath="Vajra/Engine/Components/DerivedComponents/Armature/Armature.h">
+		<property name="InitArmature">
+			<field name="armatureFilePath" datatype="std::string"></field>
+		</property>
+	</component>
+	
+	<component name="Transform" includePath="Vajra/Engine/Components/DerivedComponents/Transform/Transform.h">
+		<property name="SetPosition">
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="SetOrientation">
+			<field name="angleInDegrees" datatype="float"></field>
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="SetScale">
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="Translate">
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="Rotate">
+			<field name="angleInDegrees" datatype="float"></field>
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="Scale">
+			<field name="scaleFactor" datatype="float"></field>
+		</property>
+		<property name="LookAt">
+			<field name="point_x" datatype="float"></field>
+			<field name="point_y" datatype="float"></field>
+			<field name="point_z" datatype="float"></field>
+		</property>
+	</component>
+</components>

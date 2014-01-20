@@ -13,6 +13,7 @@
 class GridNavigator;
 class GameObject;
 
+// Not exposing this as a Component that can be added via XML
 class BaseUnit : public Component {
 public:
 	BaseUnit();

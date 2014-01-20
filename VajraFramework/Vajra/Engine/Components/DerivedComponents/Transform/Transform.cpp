@@ -112,12 +112,20 @@ void Transform::SetScale(float x, float y, float z) {
 	this->setScale(glm::vec3(x, y, z));
 }
 
+void Transform::Translate(float x, float y, float z) {
+	this->Translate(glm::vec3(x, y, z));
+}
+
 void Transform::Translate(glm::vec3 diff) {
 	this->setPosition(this->position + diff);
 }
 
 void Transform::Translate(float distance, glm::vec3 along) {
 	this->setPosition(this->position + (distance * glm::normalize(along)));
+}
+
+void Transform::Rotate(float angleInDegrees, float x, float y, float z) {
+	this->Rotate(angleInDegrees, glm::vec3(x, y, z));
 }
 
 void Transform::Rotate(float angleInDegrees, glm::vec3 axis) {

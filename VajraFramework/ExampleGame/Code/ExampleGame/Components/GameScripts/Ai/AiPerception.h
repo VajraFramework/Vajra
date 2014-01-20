@@ -9,6 +9,7 @@
 #include "ExampleGame/Components/GameScripts/Ai/AiKnowledge.h"
 #include "Vajra/Common/Components/Component.h"
 
+//[[COMPONENT]]//
 class AiPerception : public Component {
 public:
 	AiPerception();
