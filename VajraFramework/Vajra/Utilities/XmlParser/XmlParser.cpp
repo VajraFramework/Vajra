@@ -131,6 +131,7 @@ void XmlParser::parseXmlNode(std::ifstream& file) {
 	this->parseStack.push(xmlNode);
 	if (parentXmlNode != nullptr) {
 		parentXmlNode->addChild(xmlNode);
+		xmlNode->setParent(parentXmlNode);
 	} else {
 		this->xmlTree->rootNode = xmlNode;
 	}

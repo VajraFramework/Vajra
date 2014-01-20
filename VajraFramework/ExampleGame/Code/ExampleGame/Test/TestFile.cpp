@@ -13,6 +13,8 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Prefabs/PrefabLoader.h"
+#include "ExampleGame/ComponentMapper/ComponentMapper.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
@@ -24,6 +26,18 @@
 void initUiGameObjects();
 
 int TestFuntion() {
+	// Instantiate a ComponentMapper so that its singleton get stored:
+	/* ComponentMapper* componentMapper = */ new ComponentMapper();
+
+	{
+#if 1
+		/* GameObject* gameObject = */ PrefabLoader::InstantiateGameObjectFromPrefab(
+									   FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "monkey.prefab",
+									   ENGINE->GetSceneGraph3D());
+#endif
+	}
+
+
 	FRAMEWORK->GetLogger()->dbglog("\nIn TestFunction()");
 #if 0
 	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(109);
@@ -96,7 +110,7 @@ int TestFuntion() {
 	}
 
 	initUiGameObjects();
- 
+
 	return 4;
 }
 
