@@ -10,6 +10,7 @@
 
 #include "Vajra/Common/Components/Component.h"
 //#include "Vajra/Engine/Ui/UiElement/UiElement.h"
+#include "Vajra/Utilities/XmlParser/XmlParser.h"
 
 #include <string>
 
@@ -35,10 +36,14 @@ private:
 	bool playerHasWonLevel();
 	bool playerHasLostLevel();
 	*****************/
-
+/*
 	void loadStaticDataFromStream(std::istream& ifs);
 	void loadUnitDataFromStream  (std::istream& ifs);
 	void loadCameraDataFromStream(std::istream& ifs);
+*/
+	void loadStaticDataFromXml(XmlNode* staticNode);
+	void loadUnitDataFromXml  (XmlNode* unitBaseNode);
+	void loadCameraDataFromXml(XmlNode* cameraNode);
 
 	void endLevel(bool success);
 

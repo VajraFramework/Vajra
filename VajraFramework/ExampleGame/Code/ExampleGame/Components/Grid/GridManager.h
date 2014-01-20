@@ -14,6 +14,7 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Input/ITouchTarget.h"
 #include "Vajra/Utilities/MathUtilities.h"
+#include "Vajra/Utilities/XmlParser/XmlParser.h"
 
 #include <fstream>
 #include <list>
@@ -81,7 +82,8 @@ private:
 	void debugTouchUpdate(int touchIndex);
 #endif
 
-	void loadGridDataFromStream  (std::istream& ifs);
+	//void loadGridDataFromStream  (std::istream& ifs);
+	void loadGridDataFromXml(XmlNode* gridNode);
 
 	void placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height);
 	void placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ);

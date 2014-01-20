@@ -34,7 +34,7 @@ int TestFuntion() {
 #endif
 	{
 #if 1
-		SINGLETONS->GetLevelManager()->LoadLevelFromFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + "levels/ExampleLevel.lvl");
+		SINGLETONS->GetLevelManager()->LoadLevelFromFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + "levels/XmlLevel.lvl");
 
 		GameObject* testZone = new GameObject(ENGINE->GetSceneGraph3D());
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testZone->GetId());

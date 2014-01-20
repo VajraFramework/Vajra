@@ -360,7 +360,7 @@ void GridManager::debugTouchUpdate(int touchIndex) {
 	DebugDraw::DrawCube(gridPos, 0.1f);
 }
 #endif
-
+/*
 void GridManager::loadGridDataFromStream(std::istream& ifs) {
 	std::string tag;
 
@@ -406,6 +406,48 @@ void GridManager::loadGridDataFromStream(std::istream& ifs) {
 		ifs >> roomWestBound >> roomSouthBound >> roomWidth >> roomHeight;
 		GridRoom* room = new GridRoom(roomWestBound, roomSouthBound, roomWidth, roomHeight);
 		gridRooms.push_back(room);
+	}
+
+	// Eventually this needs to be a list from highest to lowest.
+	this->gridPlane.origin = this->gridCells[0][0]->center;
+}
+*/
+void GridManager::loadGridDataFromXml(XmlNode* gridNode) {
+	// Maybe this stuff should be hard-coded?
+	this->cellSize       =  1.0f;
+	this->halfCellSize.x =  0.5f;
+	this->halfCellSize.y =  0.0f;
+	this->halfCellSize.z = -0.5f;
+
+	this->gridWidth  = gridNode->GetAttributeValueI(WIDTH_ATTRIBUTE);
+	this->gridHeight = gridNode->GetAttributeValueI(HEIGHT_ATTRIBUTE);
+
+	// Initialize the grid
+	this->gridCells = new GridCell**[this->gridWidth];
+	for (unsigned int i = 0; i < this->gridWidth; ++i) {
+		this->gridCells[i] = new GridCell*[this->gridHeight];
+		for (unsigned int j = 0; j < this->gridHeight; ++j) {
+			glm::vec3 center;
+			center.x = i * this->cellSize;
+			center.y = 0.0f;
+			center.z = j * -this->cellSize;
+			glm::vec3 origin = center - this->halfCellSize;
+			bool passable = true;
+
+			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, passable);
+		}
+	}
+
+	// Room Information
+	XmlNode* roomNode = gridNode->GetFirstChildByNodeName(ROOM_TAG);
+	while (roomNode == nullptr) {
+		int roomX      = roomNode->GetAttributeValueI(X_ATTRIBUTE);
+		int roomZ      = roomNode->GetAttributeValueI(Z_ATTRIBUTE);
+		int roomWidth  = roomNode->GetAttributeValueI(WIDTH_ATTRIBUTE);
+		int roomHeight = roomNode->GetAttributeValueI(HEIGHT_ATTRIBUTE);
+		GridRoom* room = new GridRoom(roomX, roomZ, roomWidth, roomHeight);
+		this->gridRooms.push_back(room);
+		roomNode = roomNode->GetNextSiblingByNodeName(ROOM_TAG);
 	}
 
 	// Eventually this needs to be a list from highest to lowest.
