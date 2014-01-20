@@ -9,5 +9,6 @@ namespace StringUtilities {
 	float ConvertStringToFloat(std::string& s);
 	bool  ConvertStringToBool (std::string& s);
 }
+#define ConvertStringToString(s) s
 
 #endif // STRING_UTILITIES_H

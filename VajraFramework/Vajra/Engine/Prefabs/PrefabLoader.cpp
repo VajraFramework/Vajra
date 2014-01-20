@@ -1,6 +1,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Prefabs/ComponentMapperInterface/ComponentMapperInterface.h"
 #include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/Prefabs/ParsingTags.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
@@ -9,6 +10,47 @@
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/XmlParser/XmlParser.h"
 #include "Vajra/Utilities/Utilities.h"
+
+// Forward Declarations:
+void loadGameObjectFromGameObjectNodeInPrefab(GameObject* gameObject, XmlNode* gameobjectNode) {
+
+	// Find and add any components:
+	XmlNode* componentNode = gameobjectNode->GetFirstChildByNodeName(COMPONENT_TAG);
+	while (componentNode != nullptr) {
+		std::string componentName = componentNode->GetAttributeValueS(NAME_PROPERTY);
+		Component* component = ComponentMapperInterface::GetInstance()->AddNewComponentToGameObjectByComponentName(gameObject, componentName);
+		ASSERT(component != nullptr, "Added valid component (%s) to game object", componentName.c_str());
+
+		// Find and add any properties:
+		XmlNode* propertyNode = componentNode->GetFirstChildByNodeName(PROPERTY_TAG);
+		while (propertyNode != nullptr) {
+			std::string propertyName = propertyNode->GetAttributeValueS(NAME_PROPERTY);
+
+			// Find and pass any fields to the property:
+			std::vector<std::string> argv;
+			XmlNode* fieldNode = propertyNode->GetFirstChildByNodeName(FIELD_TAG);
+			while (fieldNode) {
+				// TODO [Implement] Support field names
+				std::string value = fieldNode->GetValue();
+				argv.push_back(value);
+				fieldNode = fieldNode->GetNextSiblingByNodeName(FIELD_TAG);
+			}
+			ComponentMapperInterface::GetInstance()->InitializePropertyByComponentAndPropertyNames(gameObject, componentName, propertyName, argv);
+			propertyNode = propertyNode->GetNextSiblingByNodeName(PROPERTY_TAG);
+		}
+		componentNode = componentNode->GetNextSiblingByNodeName(COMPONENT_TAG);
+	}
+
+	// Find and add any child game objects:
+	XmlNode* childGameobjectNode = gameobjectNode->GetFirstChildByNodeName(GAMEOBJECT_TAG);
+	while (childGameobjectNode) {
+		GameObject* child = new GameObject(gameObject->GetParentSceneGraph());
+		gameObject->AddChild(child->GetId());
+		loadGameObjectFromGameObjectNodeInPrefab(child, childGameobjectNode);
+		//
+		childGameobjectNode = childGameobjectNode->GetNextSiblingByNodeName(GAMEOBJECT_TAG);
+	}
+}
 
 GameObject* PrefabLoader::InstantiateGameObjectFromPrefab(std::string pathToPrefabFile, SceneGraph* sceneGraph) {
 
@@ -21,34 +63,18 @@ GameObject* PrefabLoader::InstantiateGameObjectFromPrefab(std::string pathToPref
 	parser->Print();
 #endif // DEBUG
 
-	GameObject* gameObject = new GameObject(sceneGraph);
-	sceneGraph->GetRootGameObject()->AddChild(gameObject->GetId());
 
 	XmlTree* xmlTree = parser->GetXmlTree();
 	ASSERT(xmlTree != nullptr, "Got valid xmlTree from parser for prefab file %s", pathToPrefabFile.c_str());
 	XmlNode* prefabNode = xmlTree->GetRootNode();
 	ASSERT(prefabNode != nullptr && prefabNode->GetName() == PREFAB_TAG, "Got valid prefab node from xml tree for prefab file %s", pathToPrefabFile.c_str());
 
-	{
-		// TODO [Hack] Get rid of this once we can add components from xml
-		XmlNode* modelNode = prefabNode->GetFirstChildByNodeName(MODEL_TAG);
-		ASSERT(modelNode != nullptr, "Got valid model node from xml tree for prefab file %s", pathToPrefabFile.c_str());
-		std::string modelName = modelNode->GetAttributeValueS(MODEL_NAME_ATTRIBUTE);
-		ASSERT(modelName != "", "Got valid model name from xml tree for prefab file %s", pathToPrefabFile.c_str());
-		MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-		meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + modelName);
-	}
-
-	{
-		// TODO [Hack] Get rid of this once we can add components from xml
-		XmlNode* positionNode = prefabNode->GetFirstChildByNodeName(POSITION_TAG);
-		ASSERT(positionNode != nullptr, "Got valid position node from xml tree for prefab file %s", pathToPrefabFile.c_str());
-		float x = positionNode->GetAttributeValueF(X_ATTRIBUTE);
-		float y = positionNode->GetAttributeValueF(Y_ATTRIBUTE);
-		float z = positionNode->GetAttributeValueF(Z_ATTRIBUTE);
-		Transform* transform = gameObject->GetTransform();
-		transform->SetPosition(x, y, z);
-	}
+	// TODO [Implement] Support more than 1 game object in the same prefab, maybe as children of the root game object
+	XmlNode* gameobjectNode = prefabNode->GetFirstChildByNodeName(GAMEOBJECT_TAG);
+	ASSERT(gameobjectNode != nullptr, "Got valid game object node from xml tree for prefab file %s", pathToPrefabFile.c_str());
+	GameObject* gameObject = new GameObject(sceneGraph);
+	sceneGraph->GetRootGameObject()->AddChild(gameObject->GetId());
+	loadGameObjectFromGameObjectNodeInPrefab(gameObject, gameobjectNode);
 
 	return gameObject;
 }

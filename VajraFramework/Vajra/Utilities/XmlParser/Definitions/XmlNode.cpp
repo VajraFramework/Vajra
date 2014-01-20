@@ -69,13 +69,13 @@ XmlNode* XmlNode::GetNextSiblingByNodeName(std::string nodeName /* = "" */) cons
 
 	bool foundSelfInParentsChildren = false;
 	for (XmlNode* sibling : this->parentRef->children) {
-		if (sibling == this) {
-			foundSelfInParentsChildren = true;
-		}
 		if (foundSelfInParentsChildren) {
 			if (nodeName == "" || sibling->name == nodeName) {
 				return sibling;
 			}
+		}
+		if (sibling == this) {
+			foundSelfInParentsChildren = true;
 		}
 	}
 	return nullptr;
