@@ -27,6 +27,24 @@
 		58F24F63185120950066E804 /* libVajraStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F24F62185120950066E804 /* libVajraStaticLibrary.a */; };
 		58F60D52185133F90036DDDE /* libVajraStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60D51185133F90036DDDE /* libVajraStaticLibrary.a */; };
 		58F60E6318515E990036DDDE /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60E6218515E990036DDDE /* OpenAL.framework */; };
+		B324BDB2188DCF920014D642 /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BD7D188DCF910014D642 /* AndroidWrapper.cpp */; };
+		B324BDB3188DCF920014D642 /* AiKnowledge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BD84188DCF910014D642 /* AiKnowledge.cpp */; };
+		B324BDB4188DCF920014D642 /* AiPerception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BD86188DCF910014D642 /* AiPerception.cpp */; };
+		B324BDB5188DCF920014D642 /* AiRoutine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BD88188DCF910014D642 /* AiRoutine.cpp */; };
+		B324BDB6188DCF920014D642 /* SampleGameScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BD8A188DCF910014D642 /* SampleGameScript.cpp */; };
+		B324BDB7188DCF920014D642 /* BaseUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BD8D188DCF910014D642 /* BaseUnit.cpp */; };
+		B324BDB8188DCF920014D642 /* EnemyUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BD8F188DCF910014D642 /* EnemyUnit.cpp */; };
+		B324BDB9188DCF920014D642 /* PlayerUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BD91188DCF910014D642 /* PlayerUnit.cpp */; };
+		B324BDBA188DCF920014D642 /* GridCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BD95188DCF910014D642 /* GridCell.cpp */; };
+		B324BDBB188DCF920014D642 /* GridManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BD97188DCF910014D642 /* GridManager.cpp */; };
+		B324BDBC188DCF920014D642 /* GridNavigator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BD99188DCF910014D642 /* GridNavigator.cpp */; };
+		B324BDBD188DCF920014D642 /* GridRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BD9B188DCF910014D642 /* GridRoom.cpp */; };
+		B324BDBE188DCF920014D642 /* GridZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BD9D188DCF910014D642 /* GridZone.cpp */; };
+		B324BDBF188DCF920014D642 /* LevelManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BDA1188DCF920014D642 /* LevelManager.cpp */; };
+		B324BDC0188DCF920014D642 /* ShadyCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BDA4188DCF920014D642 /* ShadyCamera.cpp */; };
+		B324BDC1188DCF920014D642 /* GameSingletons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BDA7188DCF920014D642 /* GameSingletons.cpp */; };
+		B324BDC2188DCF920014D642 /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BDAC188DCF920014D642 /* TestFile.cpp */; };
+		B324BDC3188DCF920014D642 /* TestUiSceneTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B324BDB0188DCF920014D642 /* TestUiSceneTouchHandlers.cpp */; };
 		B383FD0C187B4B0000999890 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B383FB72187B4AFF00999890 /* .gitignore */; };
 		B383FD0D187B4B0000999890 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = B383FB75187B4AFF00999890 /* CMakeLists.txt */; };
 		B383FD0E187B4B0000999890 /* func_common.inl in Resources */ = {isa = PBXBuildFile; fileRef = B383FB7D187B4AFF00999890 /* func_common.inl */; };
@@ -130,20 +148,6 @@
 		B383FD70187B4B0000999890 /* vector_query.inl in Resources */ = {isa = PBXBuildFile; fileRef = B383FC52187B4B0000999890 /* vector_query.inl */; };
 		B383FD71187B4B0000999890 /* verbose_operator.inl in Resources */ = {isa = PBXBuildFile; fileRef = B383FC54187B4B0000999890 /* verbose_operator.inl */; };
 		B383FD72187B4B0000999890 /* wrap.inl in Resources */ = {isa = PBXBuildFile; fileRef = B383FC56187B4B0000999890 /* wrap.inl */; };
-		B38652F31889914000EF3CA9 /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652C71889914000EF3CA9 /* AndroidWrapper.cpp */; };
-		B38652F41889914000EF3CA9 /* SampleGameScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652CD1889914000EF3CA9 /* SampleGameScript.cpp */; };
-		B38652F51889914000EF3CA9 /* BaseUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652D01889914000EF3CA9 /* BaseUnit.cpp */; };
-		B38652F61889914000EF3CA9 /* PlayerUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652D21889914000EF3CA9 /* PlayerUnit.cpp */; };
-		B38652F71889914000EF3CA9 /* GridCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652D61889914000EF3CA9 /* GridCell.cpp */; };
-		B38652F81889914000EF3CA9 /* GridManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652D81889914000EF3CA9 /* GridManager.cpp */; };
-		B38652F91889914000EF3CA9 /* GridNavigator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652DA1889914000EF3CA9 /* GridNavigator.cpp */; };
-		B38652FA1889914000EF3CA9 /* GridRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652DC1889914000EF3CA9 /* GridRoom.cpp */; };
-		B38652FB1889914000EF3CA9 /* GridZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652DE1889914000EF3CA9 /* GridZone.cpp */; };
-		B38652FC1889914000EF3CA9 /* LevelManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652E21889914000EF3CA9 /* LevelManager.cpp */; };
-		B38652FD1889914000EF3CA9 /* ShadyCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652E51889914000EF3CA9 /* ShadyCamera.cpp */; };
-		B38652FE1889914000EF3CA9 /* GameSingletons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652E81889914000EF3CA9 /* GameSingletons.cpp */; };
-		B38652FF1889914000EF3CA9 /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652ED1889914000EF3CA9 /* TestFile.cpp */; };
-		B38653001889914000EF3CA9 /* TestUiSceneTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B38652F11889914000EF3CA9 /* TestUiSceneTouchHandlers.cpp */; };
 		B38653221889AFDB00EF3CA9 /* animations in Resources */ = {isa = PBXBuildFile; fileRef = B38653171889AFDB00EF3CA9 /* animations */; };
 		B38653231889AFDB00EF3CA9 /* armatures in Resources */ = {isa = PBXBuildFile; fileRef = B38653181889AFDB00EF3CA9 /* armatures */; };
 		B38653241889AFDB00EF3CA9 /* audio in Resources */ = {isa = PBXBuildFile; fileRef = B38653191889AFDB00EF3CA9 /* audio */; };
@@ -196,6 +200,46 @@
 		58F24F62185120950066E804 /* libVajraStaticLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVajraStaticLibrary.a; path = ../../lib/ios/iphonesimulator/libVajraStaticLibrary.a; sourceTree = "<group>"; };
 		58F60D51185133F90036DDDE /* libVajraStaticLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVajraStaticLibrary.a; path = ../../lib/ios/iphoneos/libVajraStaticLibrary.a; sourceTree = "<group>"; };
 		58F60E6218515E990036DDDE /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		B324BD7D188DCF910014D642 /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
+		B324BD7E188DCF910014D642 /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
+		B324BD81188DCF910014D642 /* ComponentTypeIds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentTypeIds.h; sourceTree = "<group>"; };
+		B324BD84188DCF910014D642 /* AiKnowledge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiKnowledge.cpp; sourceTree = "<group>"; };
+		B324BD85188DCF910014D642 /* AiKnowledge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiKnowledge.h; sourceTree = "<group>"; };
+		B324BD86188DCF910014D642 /* AiPerception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiPerception.cpp; sourceTree = "<group>"; };
+		B324BD87188DCF910014D642 /* AiPerception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiPerception.h; sourceTree = "<group>"; };
+		B324BD88188DCF910014D642 /* AiRoutine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiRoutine.cpp; sourceTree = "<group>"; };
+		B324BD89188DCF910014D642 /* AiRoutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiRoutine.h; sourceTree = "<group>"; };
+		B324BD8A188DCF910014D642 /* SampleGameScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SampleGameScript.cpp; sourceTree = "<group>"; };
+		B324BD8B188DCF910014D642 /* SampleGameScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleGameScript.h; sourceTree = "<group>"; };
+		B324BD8D188DCF910014D642 /* BaseUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseUnit.cpp; sourceTree = "<group>"; };
+		B324BD8E188DCF910014D642 /* BaseUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseUnit.h; sourceTree = "<group>"; };
+		B324BD8F188DCF910014D642 /* EnemyUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EnemyUnit.cpp; sourceTree = "<group>"; };
+		B324BD90188DCF910014D642 /* EnemyUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnemyUnit.h; sourceTree = "<group>"; };
+		B324BD91188DCF910014D642 /* PlayerUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerUnit.cpp; sourceTree = "<group>"; };
+		B324BD92188DCF910014D642 /* PlayerUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerUnit.h; sourceTree = "<group>"; };
+		B324BD93188DCF910014D642 /* UnitDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitDeclarations.h; sourceTree = "<group>"; };
+		B324BD95188DCF910014D642 /* GridCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridCell.cpp; sourceTree = "<group>"; };
+		B324BD96188DCF910014D642 /* GridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridCell.h; sourceTree = "<group>"; };
+		B324BD97188DCF910014D642 /* GridManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridManager.cpp; sourceTree = "<group>"; };
+		B324BD98188DCF910014D642 /* GridManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridManager.h; sourceTree = "<group>"; };
+		B324BD99188DCF910014D642 /* GridNavigator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridNavigator.cpp; sourceTree = "<group>"; };
+		B324BD9A188DCF910014D642 /* GridNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridNavigator.h; sourceTree = "<group>"; };
+		B324BD9B188DCF910014D642 /* GridRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridRoom.cpp; sourceTree = "<group>"; };
+		B324BD9C188DCF910014D642 /* GridRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridRoom.h; sourceTree = "<group>"; };
+		B324BD9D188DCF910014D642 /* GridZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridZone.cpp; sourceTree = "<group>"; };
+		B324BD9E188DCF910014D642 /* GridZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridZone.h; sourceTree = "<group>"; };
+		B324BDA0188DCF920014D642 /* LevelFileTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelFileTags.h; sourceTree = "<group>"; };
+		B324BDA1188DCF920014D642 /* LevelManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelManager.cpp; sourceTree = "<group>"; };
+		B324BDA2188DCF920014D642 /* LevelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelManager.h; sourceTree = "<group>"; };
+		B324BDA4188DCF920014D642 /* ShadyCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShadyCamera.cpp; sourceTree = "<group>"; };
+		B324BDA5188DCF920014D642 /* ShadyCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadyCamera.h; sourceTree = "<group>"; };
+		B324BDA7188DCF920014D642 /* GameSingletons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSingletons.cpp; sourceTree = "<group>"; };
+		B324BDA8188DCF920014D642 /* GameSingletons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSingletons.h; sourceTree = "<group>"; };
+		B324BDAA188DCF920014D642 /* Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Declarations.h; sourceTree = "<group>"; };
+		B324BDAC188DCF920014D642 /* TestFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestFile.cpp; sourceTree = "<group>"; };
+		B324BDAD188DCF920014D642 /* TestFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
+		B324BDB0188DCF920014D642 /* TestUiSceneTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestUiSceneTouchHandlers.cpp; sourceTree = "<group>"; };
+		B324BDB1188DCF920014D642 /* TestUiSceneTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUiSceneTouchHandlers.h; sourceTree = "<group>"; };
 		B383FB72187B4AFF00999890 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		B383FB75187B4AFF00999890 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		B383FB77187B4AFF00999890 /* _detail.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _detail.hpp; sourceTree = "<group>"; };
@@ -519,38 +563,6 @@
 		B383FD08187B4B0000999890 /* OpenGLIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLIncludes.h; sourceTree = "<group>"; };
 		B383FD09187B4B0000999890 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		B383FD0B187B4B0000999890 /* VajraToAndroidJavaInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VajraToAndroidJavaInterface.h; sourceTree = "<group>"; };
-		B38652C71889914000EF3CA9 /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
-		B38652C81889914000EF3CA9 /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
-		B38652CB1889914000EF3CA9 /* ComponentTypeIds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentTypeIds.h; sourceTree = "<group>"; };
-		B38652CD1889914000EF3CA9 /* SampleGameScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SampleGameScript.cpp; sourceTree = "<group>"; };
-		B38652CE1889914000EF3CA9 /* SampleGameScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleGameScript.h; sourceTree = "<group>"; };
-		B38652D01889914000EF3CA9 /* BaseUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseUnit.cpp; sourceTree = "<group>"; };
-		B38652D11889914000EF3CA9 /* BaseUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseUnit.h; sourceTree = "<group>"; };
-		B38652D21889914000EF3CA9 /* PlayerUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerUnit.cpp; sourceTree = "<group>"; };
-		B38652D31889914000EF3CA9 /* PlayerUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerUnit.h; sourceTree = "<group>"; };
-		B38652D41889914000EF3CA9 /* UnitDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitDeclarations.h; sourceTree = "<group>"; };
-		B38652D61889914000EF3CA9 /* GridCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridCell.cpp; sourceTree = "<group>"; };
-		B38652D71889914000EF3CA9 /* GridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridCell.h; sourceTree = "<group>"; };
-		B38652D81889914000EF3CA9 /* GridManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridManager.cpp; sourceTree = "<group>"; };
-		B38652D91889914000EF3CA9 /* GridManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridManager.h; sourceTree = "<group>"; };
-		B38652DA1889914000EF3CA9 /* GridNavigator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridNavigator.cpp; sourceTree = "<group>"; };
-		B38652DB1889914000EF3CA9 /* GridNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridNavigator.h; sourceTree = "<group>"; };
-		B38652DC1889914000EF3CA9 /* GridRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridRoom.cpp; sourceTree = "<group>"; };
-		B38652DD1889914000EF3CA9 /* GridRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridRoom.h; sourceTree = "<group>"; };
-		B38652DE1889914000EF3CA9 /* GridZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridZone.cpp; sourceTree = "<group>"; };
-		B38652DF1889914000EF3CA9 /* GridZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridZone.h; sourceTree = "<group>"; };
-		B38652E11889914000EF3CA9 /* LevelFileTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelFileTags.h; sourceTree = "<group>"; };
-		B38652E21889914000EF3CA9 /* LevelManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelManager.cpp; sourceTree = "<group>"; };
-		B38652E31889914000EF3CA9 /* LevelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelManager.h; sourceTree = "<group>"; };
-		B38652E51889914000EF3CA9 /* ShadyCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShadyCamera.cpp; sourceTree = "<group>"; };
-		B38652E61889914000EF3CA9 /* ShadyCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadyCamera.h; sourceTree = "<group>"; };
-		B38652E81889914000EF3CA9 /* GameSingletons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSingletons.cpp; sourceTree = "<group>"; };
-		B38652E91889914000EF3CA9 /* GameSingletons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSingletons.h; sourceTree = "<group>"; };
-		B38652EB1889914000EF3CA9 /* Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Declarations.h; sourceTree = "<group>"; };
-		B38652ED1889914000EF3CA9 /* TestFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestFile.cpp; sourceTree = "<group>"; };
-		B38652EE1889914000EF3CA9 /* TestFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
-		B38652F11889914000EF3CA9 /* TestUiSceneTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestUiSceneTouchHandlers.cpp; sourceTree = "<group>"; };
-		B38652F21889914000EF3CA9 /* TestUiSceneTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUiSceneTouchHandlers.h; sourceTree = "<group>"; };
 		B38653171889AFDB00EF3CA9 /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; name = animations; path = ../../../Resources/animations; sourceTree = "<group>"; };
 		B38653181889AFDB00EF3CA9 /* armatures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = armatures; path = ../../../Resources/armatures; sourceTree = "<group>"; };
 		B38653191889AFDB00EF3CA9 /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = audio; path = ../../../Resources/audio; sourceTree = "<group>"; };
@@ -694,6 +706,165 @@
 				B38653211889AFDB00EF3CA9 /* uiscenes */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		B324BD7B188DCF910014D642 /* ExampleGame */ = {
+			isa = PBXGroup;
+			children = (
+				B324BD7C188DCF910014D642 /* AndroidWrapper */,
+				B324BD7F188DCF910014D642 /* Components */,
+				B324BDA6188DCF920014D642 /* GameSingletons */,
+				B324BDA9188DCF920014D642 /* Messages */,
+				B324BDAB188DCF920014D642 /* Test */,
+				B324BDAE188DCF920014D642 /* Ui */,
+			);
+			path = ExampleGame;
+			sourceTree = "<group>";
+		};
+		B324BD7C188DCF910014D642 /* AndroidWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				B324BD7D188DCF910014D642 /* AndroidWrapper.cpp */,
+				B324BD7E188DCF910014D642 /* AndroidWrapper.h */,
+			);
+			path = AndroidWrapper;
+			sourceTree = "<group>";
+		};
+		B324BD7F188DCF910014D642 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B324BD80188DCF910014D642 /* ComponentTypes */,
+				B324BD82188DCF910014D642 /* GameScripts */,
+				B324BD94188DCF910014D642 /* Grid */,
+				B324BD9F188DCF920014D642 /* LevelManager */,
+				B324BDA3188DCF920014D642 /* ShadyCamera */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B324BD80188DCF910014D642 /* ComponentTypes */ = {
+			isa = PBXGroup;
+			children = (
+				B324BD81188DCF910014D642 /* ComponentTypeIds.h */,
+			);
+			path = ComponentTypes;
+			sourceTree = "<group>";
+		};
+		B324BD82188DCF910014D642 /* GameScripts */ = {
+			isa = PBXGroup;
+			children = (
+				B324BD83188DCF910014D642 /* Ai */,
+				B324BD8A188DCF910014D642 /* SampleGameScript.cpp */,
+				B324BD8B188DCF910014D642 /* SampleGameScript.h */,
+				B324BD8C188DCF910014D642 /* Units */,
+			);
+			path = GameScripts;
+			sourceTree = "<group>";
+		};
+		B324BD83188DCF910014D642 /* Ai */ = {
+			isa = PBXGroup;
+			children = (
+				B324BD84188DCF910014D642 /* AiKnowledge.cpp */,
+				B324BD85188DCF910014D642 /* AiKnowledge.h */,
+				B324BD86188DCF910014D642 /* AiPerception.cpp */,
+				B324BD87188DCF910014D642 /* AiPerception.h */,
+				B324BD88188DCF910014D642 /* AiRoutine.cpp */,
+				B324BD89188DCF910014D642 /* AiRoutine.h */,
+			);
+			path = Ai;
+			sourceTree = "<group>";
+		};
+		B324BD8C188DCF910014D642 /* Units */ = {
+			isa = PBXGroup;
+			children = (
+				B324BD8D188DCF910014D642 /* BaseUnit.cpp */,
+				B324BD8E188DCF910014D642 /* BaseUnit.h */,
+				B324BD8F188DCF910014D642 /* EnemyUnit.cpp */,
+				B324BD90188DCF910014D642 /* EnemyUnit.h */,
+				B324BD91188DCF910014D642 /* PlayerUnit.cpp */,
+				B324BD92188DCF910014D642 /* PlayerUnit.h */,
+				B324BD93188DCF910014D642 /* UnitDeclarations.h */,
+			);
+			path = Units;
+			sourceTree = "<group>";
+		};
+		B324BD94188DCF910014D642 /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				B324BD95188DCF910014D642 /* GridCell.cpp */,
+				B324BD96188DCF910014D642 /* GridCell.h */,
+				B324BD97188DCF910014D642 /* GridManager.cpp */,
+				B324BD98188DCF910014D642 /* GridManager.h */,
+				B324BD99188DCF910014D642 /* GridNavigator.cpp */,
+				B324BD9A188DCF910014D642 /* GridNavigator.h */,
+				B324BD9B188DCF910014D642 /* GridRoom.cpp */,
+				B324BD9C188DCF910014D642 /* GridRoom.h */,
+				B324BD9D188DCF910014D642 /* GridZone.cpp */,
+				B324BD9E188DCF910014D642 /* GridZone.h */,
+			);
+			path = Grid;
+			sourceTree = "<group>";
+		};
+		B324BD9F188DCF920014D642 /* LevelManager */ = {
+			isa = PBXGroup;
+			children = (
+				B324BDA0188DCF920014D642 /* LevelFileTags.h */,
+				B324BDA1188DCF920014D642 /* LevelManager.cpp */,
+				B324BDA2188DCF920014D642 /* LevelManager.h */,
+			);
+			path = LevelManager;
+			sourceTree = "<group>";
+		};
+		B324BDA3188DCF920014D642 /* ShadyCamera */ = {
+			isa = PBXGroup;
+			children = (
+				B324BDA4188DCF920014D642 /* ShadyCamera.cpp */,
+				B324BDA5188DCF920014D642 /* ShadyCamera.h */,
+			);
+			path = ShadyCamera;
+			sourceTree = "<group>";
+		};
+		B324BDA6188DCF920014D642 /* GameSingletons */ = {
+			isa = PBXGroup;
+			children = (
+				B324BDA7188DCF920014D642 /* GameSingletons.cpp */,
+				B324BDA8188DCF920014D642 /* GameSingletons.h */,
+			);
+			path = GameSingletons;
+			sourceTree = "<group>";
+		};
+		B324BDA9188DCF920014D642 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				B324BDAA188DCF920014D642 /* Declarations.h */,
+			);
+			path = Messages;
+			sourceTree = "<group>";
+		};
+		B324BDAB188DCF920014D642 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				B324BDAC188DCF920014D642 /* TestFile.cpp */,
+				B324BDAD188DCF920014D642 /* TestFile.h */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
+		B324BDAE188DCF920014D642 /* Ui */ = {
+			isa = PBXGroup;
+			children = (
+				B324BDAF188DCF920014D642 /* TouchHandlers */,
+			);
+			path = Ui;
+			sourceTree = "<group>";
+		};
+		B324BDAF188DCF920014D642 /* TouchHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				B324BDB0188DCF920014D642 /* TestUiSceneTouchHandlers.cpp */,
+				B324BDB1188DCF920014D642 /* TestUiSceneTouchHandlers.h */,
+			);
+			path = TouchHandlers;
 			sourceTree = "<group>";
 		};
 		B383FB71187B4AFF00999890 /* include */ = {
@@ -1726,153 +1897,10 @@
 		B38652C41889914000EF3CA9 /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				B38652C51889914000EF3CA9 /* ExampleGame */,
+				B324BD7B188DCF910014D642 /* ExampleGame */,
 			);
 			name = Code;
 			path = ../../../Code;
-			sourceTree = "<group>";
-		};
-		B38652C51889914000EF3CA9 /* ExampleGame */ = {
-			isa = PBXGroup;
-			children = (
-				B38652C61889914000EF3CA9 /* AndroidWrapper */,
-				B38652C91889914000EF3CA9 /* Components */,
-				B38652E71889914000EF3CA9 /* GameSingletons */,
-				B38652EA1889914000EF3CA9 /* Messages */,
-				B38652EC1889914000EF3CA9 /* Test */,
-				B38652EF1889914000EF3CA9 /* Ui */,
-			);
-			path = ExampleGame;
-			sourceTree = "<group>";
-		};
-		B38652C61889914000EF3CA9 /* AndroidWrapper */ = {
-			isa = PBXGroup;
-			children = (
-				B38652C71889914000EF3CA9 /* AndroidWrapper.cpp */,
-				B38652C81889914000EF3CA9 /* AndroidWrapper.h */,
-			);
-			path = AndroidWrapper;
-			sourceTree = "<group>";
-		};
-		B38652C91889914000EF3CA9 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				B38652CA1889914000EF3CA9 /* ComponentTypes */,
-				B38652CC1889914000EF3CA9 /* GameScripts */,
-				B38652D51889914000EF3CA9 /* Grid */,
-				B38652E01889914000EF3CA9 /* LevelManager */,
-				B38652E41889914000EF3CA9 /* ShadyCamera */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		B38652CA1889914000EF3CA9 /* ComponentTypes */ = {
-			isa = PBXGroup;
-			children = (
-				B38652CB1889914000EF3CA9 /* ComponentTypeIds.h */,
-			);
-			path = ComponentTypes;
-			sourceTree = "<group>";
-		};
-		B38652CC1889914000EF3CA9 /* GameScripts */ = {
-			isa = PBXGroup;
-			children = (
-				B38652CD1889914000EF3CA9 /* SampleGameScript.cpp */,
-				B38652CE1889914000EF3CA9 /* SampleGameScript.h */,
-				B38652CF1889914000EF3CA9 /* Units */,
-			);
-			path = GameScripts;
-			sourceTree = "<group>";
-		};
-		B38652CF1889914000EF3CA9 /* Units */ = {
-			isa = PBXGroup;
-			children = (
-				B38652D01889914000EF3CA9 /* BaseUnit.cpp */,
-				B38652D11889914000EF3CA9 /* BaseUnit.h */,
-				B38652D21889914000EF3CA9 /* PlayerUnit.cpp */,
-				B38652D31889914000EF3CA9 /* PlayerUnit.h */,
-				B38652D41889914000EF3CA9 /* UnitDeclarations.h */,
-			);
-			path = Units;
-			sourceTree = "<group>";
-		};
-		B38652D51889914000EF3CA9 /* Grid */ = {
-			isa = PBXGroup;
-			children = (
-				B38652D61889914000EF3CA9 /* GridCell.cpp */,
-				B38652D71889914000EF3CA9 /* GridCell.h */,
-				B38652D81889914000EF3CA9 /* GridManager.cpp */,
-				B38652D91889914000EF3CA9 /* GridManager.h */,
-				B38652DA1889914000EF3CA9 /* GridNavigator.cpp */,
-				B38652DB1889914000EF3CA9 /* GridNavigator.h */,
-				B38652DC1889914000EF3CA9 /* GridRoom.cpp */,
-				B38652DD1889914000EF3CA9 /* GridRoom.h */,
-				B38652DE1889914000EF3CA9 /* GridZone.cpp */,
-				B38652DF1889914000EF3CA9 /* GridZone.h */,
-			);
-			path = Grid;
-			sourceTree = "<group>";
-		};
-		B38652E01889914000EF3CA9 /* LevelManager */ = {
-			isa = PBXGroup;
-			children = (
-				B38652E11889914000EF3CA9 /* LevelFileTags.h */,
-				B38652E21889914000EF3CA9 /* LevelManager.cpp */,
-				B38652E31889914000EF3CA9 /* LevelManager.h */,
-			);
-			path = LevelManager;
-			sourceTree = "<group>";
-		};
-		B38652E41889914000EF3CA9 /* ShadyCamera */ = {
-			isa = PBXGroup;
-			children = (
-				B38652E51889914000EF3CA9 /* ShadyCamera.cpp */,
-				B38652E61889914000EF3CA9 /* ShadyCamera.h */,
-			);
-			path = ShadyCamera;
-			sourceTree = "<group>";
-		};
-		B38652E71889914000EF3CA9 /* GameSingletons */ = {
-			isa = PBXGroup;
-			children = (
-				B38652E81889914000EF3CA9 /* GameSingletons.cpp */,
-				B38652E91889914000EF3CA9 /* GameSingletons.h */,
-			);
-			path = GameSingletons;
-			sourceTree = "<group>";
-		};
-		B38652EA1889914000EF3CA9 /* Messages */ = {
-			isa = PBXGroup;
-			children = (
-				B38652EB1889914000EF3CA9 /* Declarations.h */,
-			);
-			path = Messages;
-			sourceTree = "<group>";
-		};
-		B38652EC1889914000EF3CA9 /* Test */ = {
-			isa = PBXGroup;
-			children = (
-				B38652ED1889914000EF3CA9 /* TestFile.cpp */,
-				B38652EE1889914000EF3CA9 /* TestFile.h */,
-			);
-			path = Test;
-			sourceTree = "<group>";
-		};
-		B38652EF1889914000EF3CA9 /* Ui */ = {
-			isa = PBXGroup;
-			children = (
-				B38652F01889914000EF3CA9 /* TouchHandlers */,
-			);
-			path = Ui;
-			sourceTree = "<group>";
-		};
-		B38652F01889914000EF3CA9 /* TouchHandlers */ = {
-			isa = PBXGroup;
-			children = (
-				B38652F11889914000EF3CA9 /* TestUiSceneTouchHandlers.cpp */,
-				B38652F21889914000EF3CA9 /* TestUiSceneTouchHandlers.h */,
-			);
-			path = TouchHandlers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2107,23 +2135,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B38652F51889914000EF3CA9 /* BaseUnit.cpp in Sources */,
-				B38652F81889914000EF3CA9 /* GridManager.cpp in Sources */,
+				B324BDC0188DCF920014D642 /* ShadyCamera.cpp in Sources */,
 				58F247111850F5C90066E804 /* ViewController.mm in Sources */,
-				B38653001889914000EF3CA9 /* TestUiSceneTouchHandlers.cpp in Sources */,
-				B38652FB1889914000EF3CA9 /* GridZone.cpp in Sources */,
-				B38652F31889914000EF3CA9 /* AndroidWrapper.cpp in Sources */,
-				B38652F71889914000EF3CA9 /* GridCell.cpp in Sources */,
-				B38652F41889914000EF3CA9 /* SampleGameScript.cpp in Sources */,
-				B38652F61889914000EF3CA9 /* PlayerUnit.cpp in Sources */,
-				B38652F91889914000EF3CA9 /* GridNavigator.cpp in Sources */,
+				B324BDB2188DCF920014D642 /* AndroidWrapper.cpp in Sources */,
+				B324BDC3188DCF920014D642 /* TestUiSceneTouchHandlers.cpp in Sources */,
+				B324BDB4188DCF920014D642 /* AiPerception.cpp in Sources */,
+				B324BDBA188DCF920014D642 /* GridCell.cpp in Sources */,
+				B324BDC2188DCF920014D642 /* TestFile.cpp in Sources */,
+				B324BDB7188DCF920014D642 /* BaseUnit.cpp in Sources */,
+				B324BDBD188DCF920014D642 /* GridRoom.cpp in Sources */,
+				B324BDB8188DCF920014D642 /* EnemyUnit.cpp in Sources */,
 				58F247041850F5C90066E804 /* AppDelegate.mm in Sources */,
-				B38652FD1889914000EF3CA9 /* ShadyCamera.cpp in Sources */,
-				B38652FE1889914000EF3CA9 /* GameSingletons.cpp in Sources */,
-				B38652FC1889914000EF3CA9 /* LevelManager.cpp in Sources */,
-				B38652FF1889914000EF3CA9 /* TestFile.cpp in Sources */,
+				B324BDB5188DCF920014D642 /* AiRoutine.cpp in Sources */,
 				58F247001850F5C90066E804 /* main.mm in Sources */,
-				B38652FA1889914000EF3CA9 /* GridRoom.cpp in Sources */,
+				B324BDB9188DCF920014D642 /* PlayerUnit.cpp in Sources */,
+				B324BDB6188DCF920014D642 /* SampleGameScript.cpp in Sources */,
+				B324BDBF188DCF920014D642 /* LevelManager.cpp in Sources */,
+				B324BDB3188DCF920014D642 /* AiKnowledge.cpp in Sources */,
+				B324BDBB188DCF920014D642 /* GridManager.cpp in Sources */,
+				B324BDBC188DCF920014D642 /* GridNavigator.cpp in Sources */,
+				B324BDBE188DCF920014D642 /* GridZone.cpp in Sources */,
+				B324BDC1188DCF920014D642 /* GameSingletons.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

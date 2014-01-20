@@ -7,6 +7,7 @@ uvCoords_out
 
 mvpMatrix
 modelInverseTransposeMatrix
+modelMatrix
 
 DLight0Direction
 DLight0AmbientColor
@@ -21,9 +22,21 @@ __VARIABLES_END__
 
 
 __SOURCE__
+vec4 zAxis = vec4(0, 0, -.5, 0);
+vec4 yAxis = vec4(0, -.5, 0, 0);
 void main()
 {
-	gl_Position = mvpMatrix * vPosition;
+	gl_Position = modelMatrix * vPosition;
+
+	float yAmt = gl_Position.y;
+
+	gl_Position += zAxis * yAmt;
+	if(yAmt > 0.0) {
+		yAmt *= -1.0;
+	}
+	gl_Position += yAxis * yAmt;
+
+	gl_Position = mvpMatrix * gl_Position;
 
 	uvCoords_out = uvCoords_in;
 
