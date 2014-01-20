@@ -1,0 +1,107 @@
+
+<components>
+	
+	<component name="RigidAnimation">
+		<property name="AddAnimationClip">
+			<field name="urlOfAnimationClip" datatype="std::string"></field>
+		</property>
+	</component>
+	
+	<component name="BakedSkeletalAnimation">
+		<property name="AddAnimationClip">
+			<field name="urlOfAnimationClip" datatype="std::string"></field>
+		</property>
+	</component>
+	
+	<component name="Camera">
+		<property name="SetCameraType">
+			<field name="cameraTypeInt" datatype="int"></field>
+		</property>
+		<property name="SetFOV">
+			<field name="value" datatype="float"></field>
+		</property>
+	</component>
+	
+	<component name="DirectionalLight">
+		<property name="SetAmbientColor">
+			<field name="r" datatype="float"></field>
+			<field name="g" datatype="float"></field>
+			<field name="b" datatype="float"></field>
+			<field name="a" datatype="float"></field>
+		</property>
+		<property name="SetDiffuseColor">
+			<field name="r" datatype="float"></field>
+			<field name="g" datatype="float"></field>
+			<field name="b" datatype="float"></field>
+			<field name="a" datatype="float"></field>
+		</property>
+		<property name="SetSpecularColor">
+			<field name="r" datatype="float"></field>
+			<field name="g" datatype="float"></field>
+			<field name="b" datatype="float"></field>
+			<field name="a" datatype="float"></field>
+		</property>
+	</component>
+	
+	<component name="MeshRenderer">
+		<property name="InitMesh">
+			<field name="urlOfMesh" datatype="std::string"></field>
+		</property>
+	</component>
+	
+	<component name="AudioSource">
+		<property name="SetAudioClip">
+			<field name="assetName" datatype="std::string"></field>
+		</property>
+		<property name="SetVolume">
+			<field name="volume" datatype="float"></field>
+		</property>
+		<property name="SetPlaybackSpeed">
+			<field name="speed" datatype="float"></field>
+		</property>
+	</component>
+	
+	<component name="Armature">
+		<property name="InitArmature">
+			<field name="armatureFilePath" datatype="std::string"></field>
+		</property>
+	</component>
+	
+	<component name="Transform">
+		<property name="SetPosition">
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="SetOrientation">
+			<field name="angleInDegrees" datatype="float"></field>
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="SetScale">
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="Translate">
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="Rotate">
+			<field name="angleInDegrees" datatype="float"></field>
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="Scale">
+			<field name="scaleFactor" datatype="float"></field>
+		</property>
+		<property name="LookAt">
+			<field name="point_x" datatype="float"></field>
+			<field name="point_y" datatype="float"></field>
+			<field name="point_z" datatype="float"></field>
+		</property>
+	</component>
+</components>
