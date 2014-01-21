@@ -29,8 +29,13 @@ __VARIABLES_END__
 
 
 __SOURCE__
-vec4 zSkew = vec4(0, 0, -.5, 0);
-vec4 ySkew = vec4(0, .5, 0, 0);
+#ifdef SKEW_GEOMETRY
+vec4 zSkew = vec4(0.0, 0.0, -.5, 0.0);
+vec4 ySkew = vec4(0.0, 0.5, 0.0, 0.0);
+#else
+vec4 zSkew = vec4(0.0, 0.0, 0.0, 0.0);
+vec4 ySkew = vec4(0.0, 0.0, 0.0, 0.0);
+#endif
 void main()
 {
 	vec4 posL      = vec4(0.0, 0.0, 0.0, 0.0);
