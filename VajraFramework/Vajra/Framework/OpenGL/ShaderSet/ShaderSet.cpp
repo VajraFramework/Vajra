@@ -109,10 +109,15 @@ void ShaderSet::createVShader() {
     {
 		std::string buffer;
 		do {
-			vshadersrcFile >> buffer;
-			if (buffer != VARIABLES_END_STRING) {
-				this->variablesUsed.push_back(buffer);
-				vshaderSourceBuffer += ShaderSetCreationHelper::GetVariableDeclarationForVariableName(buffer) + "\n";
+			std::getline(vshadersrcFile, buffer);
+			if (buffer != "" && buffer != VARIABLES_END_STRING) {
+				if (buffer.find("#") != std::string::npos) {
+					// Parse preprocessors later:
+					vshaderSourceBuffer += buffer + "\n";
+				} else {
+					this->variablesUsed.push_back(buffer);
+					vshaderSourceBuffer += ShaderSetCreationHelper::GetVariableDeclarationForVariableName(buffer) + "\n";
+				}
 			}
 		} while (buffer != VARIABLES_END_STRING);
     }
@@ -127,6 +132,8 @@ void ShaderSet::createVShader() {
 			}
 		} while (buffer != SOURCE_END_STRING);
     }
+
+    vshaderSourceBuffer = ShaderSetCreationHelper::CleanupShaderSourceForPreprocessorDirectives(vshaderSourceBuffer);
 
     FRAMEWORK->GetLogger()->dbglog("\nDone reading vertex shader source:\n%s", vshaderSourceBuffer.c_str());
 
@@ -151,6 +158,8 @@ void ShaderSet::createFShader() {
 			fshaderSourceBuffer += buffer + "\n";
 		} while (fshadersrcFile.good());
     }
+
+	fshaderSourceBuffer = ShaderSetCreationHelper::CleanupShaderSourceForPreprocessorDirectives(fshaderSourceBuffer);
 
     FRAMEWORK->GetLogger()->dbglog("\nDone reading fragment shader source:\n%s", fshaderSourceBuffer.c_str());
 
