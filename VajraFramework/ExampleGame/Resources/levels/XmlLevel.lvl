@@ -1,25 +1,67 @@
 <level levelName="LevelName">
-	<grid width="22" height="16">
-		<cellData>
+	<grid>
+		<cellData width="22" height="16">
+			<cellElevations>
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+			</cellElevations>
+			
+			<passableCells>
+				1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+			</passableCells>
 		</cellData>
 	
-		<room x="2" z="2" width="18" height="12">
-		</room>
+		<roomData>
+			<room x="2" z="2" width="18" height="12">
+			</room>
+		</roomData>
+		
+		<zoneData>
+		</zoneData>
 	</grid>
 	
 	<static>
-		<staticObject prefab="monkey.prefab" x="4" z="0" width="1" height="1" rotation="0.0">
+		<staticObject prefab="minimonkey.prefab" x="4" z="0" width="1" height="1" rotation="0.0">
 		</staticObject>
 	</static>
 	
 	<units>
-		<playerUnit prefab="monkey.prefab" x="4" z="4" rotation="0.0">
+		<playerUnit prefab="minimonkey.prefab" x="4" z="4" rotation="0.0">
 		</playerUnit>
 		
-		<playerUnit prefab="monkey.prefab" x="5" z="5" rotation="0.0">
+		<playerUnit prefab="minimonkey.prefab" x="5" z="5" rotation="0.0">
 		</playerUnit>
 		
-		<enemyUnit prefab="monkey.prefab" x="6" z="6" rotation="0.0">
+		<enemyUnit prefab="minimonkey.prefab" x="6" z="6" rotation="0.0">
 			<aiCommand>
 				START_6_6_11_1
 			</aiCommand>

@@ -24,6 +24,8 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
+#include <sstream>
+
 #define ROOM_WIDTH_INDOORS 15
 #define ROOM_HEIGHT_INDOORS 10
 #define ROOM_WIDTH_OUTDOORS 18
@@ -360,58 +362,7 @@ void GridManager::debugTouchUpdate(int touchIndex) {
 	DebugDraw::DrawCube(gridPos, 0.1f);
 }
 #endif
-/*
-void GridManager::loadGridDataFromStream(std::istream& ifs) {
-	std::string tag;
 
-	// Maybe this stuff should be hard-coded?
-	this->cellSize = 1.0f;
-	this->halfCellSize.x = 0.5f;
-	this->halfCellSize.y = 0.0f;
-	this->halfCellSize.z = -0.5f;
-
-	// Size of the grid
-	ifs >> tag;
-	ASSERT(tag == GRID_SIZE_TAG, "Loading grid size for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
-	ifs >> this->gridWidth >> this->gridHeight;
-
-	// Cell data
-	ifs >> tag;
-	ASSERT(tag == CELL_DATA_TAG, "Loading cell data for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
-	this->gridCells = new GridCell**[this->gridWidth];
-	for (unsigned int i = 0; i < this->gridWidth; ++i) {
-		this->gridCells[i] = new GridCell*[this->gridHeight];
-		for (unsigned int j = 0; j < this->gridHeight; ++j) {
-			int elevation;
-			bool passable;
-			// Possibly store floor information in this list as well?
-			ifs >> elevation >> passable;
-			glm::vec3 center;
-			center.x = i * this->cellSize;
-			center.y = elevation;
-			center.z = j * -this->cellSize;
-			glm::vec3 origin = center - this->halfCellSize;
-			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, passable);
-		}
-	}
-
-	// Room Information
-	int nRooms;
-	ifs >> tag;
-	ASSERT(tag == NUM_ROOMS_TAG, "Loading rooms for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
-	ifs >> nRooms;
-
-	for (int i = 0; i < nRooms; ++i) {
-		int roomWestBound, roomSouthBound, roomWidth, roomHeight;
-		ifs >> roomWestBound >> roomSouthBound >> roomWidth >> roomHeight;
-		GridRoom* room = new GridRoom(roomWestBound, roomSouthBound, roomWidth, roomHeight);
-		gridRooms.push_back(room);
-	}
-
-	// Eventually this needs to be a list from highest to lowest.
-	this->gridPlane.origin = this->gridCells[0][0]->center;
-}
-*/
 void GridManager::loadGridDataFromXml(XmlNode* gridNode) {
 	// Maybe this stuff should be hard-coded?
 	this->cellSize       =  1.0f;
@@ -419,8 +370,31 @@ void GridManager::loadGridDataFromXml(XmlNode* gridNode) {
 	this->halfCellSize.y =  0.0f;
 	this->halfCellSize.z = -0.5f;
 
-	this->gridWidth  = gridNode->GetAttributeValueI(WIDTH_ATTRIBUTE);
-	this->gridHeight = gridNode->GetAttributeValueI(HEIGHT_ATTRIBUTE);
+	// Cell Information
+	XmlNode* cellDataNode = gridNode->GetFirstChildByNodeName(CELL_DATA_TAG);
+	if (cellDataNode != nullptr) {
+		this->loadCellDataFromXml(cellDataNode);
+	}
+
+	// Room Information
+	XmlNode* roomDataNode = gridNode->GetFirstChildByNodeName(ROOM_DATA_TAG);
+	if (roomDataNode != nullptr) {
+		this->loadRoomDataFromXml(roomDataNode);
+	}
+
+	// Zone Information
+	XmlNode* zoneDataNode = gridNode->GetFirstChildByNodeName(ZONE_DATA_TAG);
+	if (zoneDataNode != nullptr) {
+		this->loadZoneDataFromXml(zoneDataNode);
+	}
+
+	// Eventually this needs to be a list from highest to lowest.
+	this->gridPlane.origin = this->gridCells[0][0]->center;
+}
+
+void GridManager::loadCellDataFromXml(XmlNode* cellDataNode) {
+	this->gridWidth  = cellDataNode->GetAttributeValueI(WIDTH_ATTRIBUTE);
+	this->gridHeight = cellDataNode->GetAttributeValueI(HEIGHT_ATTRIBUTE);
 
 	// Initialize the grid
 	this->gridCells = new GridCell**[this->gridWidth];
@@ -438,8 +412,37 @@ void GridManager::loadGridDataFromXml(XmlNode* gridNode) {
 		}
 	}
 
-	// Room Information
-	XmlNode* roomNode = gridNode->GetFirstChildByNodeName(ROOM_TAG);
+	// Cell Elevations
+	XmlNode* elevationNode = cellDataNode->GetFirstChildByNodeName(CELL_ELEVATIONS_TAG);
+	if (elevationNode != nullptr) {
+		std::stringstream dataStream;
+		dataStream.str(elevationNode->GetValue());
+		for (int i = (int)this->gridHeight - 1; i >= 0; --i) {
+			for (unsigned int j = 0; j < this->gridWidth; ++j) {
+				dataStream >> this->gridCells[j][i]->y;
+				this->gridCells[j][i]->origin.y = this->gridCells[j][i]->y;
+				this->gridCells[j][i]->center.y = this->gridCells[j][i]->y;
+			}
+		}
+	}
+
+	// Passable cells
+	XmlNode* passableNode = cellDataNode->GetFirstChildByNodeName(PASSABLE_CELLS_TAG);
+	if (passableNode != nullptr) {
+		std::stringstream dataStream;
+		dataStream.str(passableNode->GetValue());
+		for (int i = (int)this->gridHeight - 1; i >= 0; --i) {
+			for (unsigned int j = 0; j < this->gridWidth; ++j) {
+				int canPass;
+				dataStream >> canPass;
+				this->gridCells[j][i]->isPassable = (canPass == 1) ? true : false;
+			}
+		}
+	}
+}
+
+void GridManager::loadRoomDataFromXml(XmlNode* roomDataNode) {
+	XmlNode* roomNode = roomDataNode->GetFirstChildByNodeName(ROOM_TAG);
 	while (roomNode != nullptr) {
 		int roomX      = roomNode->GetAttributeValueI(X_ATTRIBUTE);
 		int roomZ      = roomNode->GetAttributeValueI(Z_ATTRIBUTE);
@@ -449,9 +452,13 @@ void GridManager::loadGridDataFromXml(XmlNode* gridNode) {
 		this->gridRooms.push_back(room);
 		roomNode = roomNode->GetNextSiblingByNodeName(ROOM_TAG);
 	}
+}
 
-	// Eventually this needs to be a list from highest to lowest.
-	this->gridPlane.origin = this->gridCells[0][0]->center;
+void GridManager::loadZoneDataFromXml(XmlNode* zoneDataNode) {
+	XmlNode* zoneNode = zoneDataNode->GetFirstChildByNodeName(ZONE_TAG);
+	while (zoneNode != nullptr) {
+		zoneNode = zoneNode->GetNextSiblingByNodeName(ZONE_TAG);
+	}
 }
 
 void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height) {

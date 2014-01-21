@@ -38,11 +38,7 @@ private:
 	bool playerHasWonLevel();
 	bool playerHasLostLevel();
 	*****************/
-/*
-	void loadStaticDataFromStream(std::istream& ifs);
-	void loadUnitDataFromStream  (std::istream& ifs);
-	void loadCameraDataFromStream(std::istream& ifs);
-*/
+
 	void loadStaticDataFromXml(XmlNode* staticNode);
 	void loadUnitDataFromXml  (XmlNode* unitBaseNode);
 	void loadCameraDataFromXml(XmlNode* cameraNode);
