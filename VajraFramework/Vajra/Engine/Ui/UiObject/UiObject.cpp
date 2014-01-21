@@ -62,4 +62,7 @@ void UiObject::init() {
 }
 
 void UiObject::destroy() {
+	if (this->clickable) {
+		ENGINE->GetSceneGraphUi()->GetUiTouchManager()->UnRegisterTouchableUiElement(this->GetId());
+	}
 }

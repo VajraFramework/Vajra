@@ -27,6 +27,18 @@
 		58F24F63185120950066E804 /* libVajraStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F24F62185120950066E804 /* libVajraStaticLibrary.a */; };
 		58F60D52185133F90036DDDE /* libVajraStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60D51185133F90036DDDE /* libVajraStaticLibrary.a */; };
 		58F60E6318515E990036DDDE /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60E6218515E990036DDDE /* OpenAL.framework */; };
+		B313ADF11891B71F00FABEB9 /* animations in Resources */ = {isa = PBXBuildFile; fileRef = B313ADE51891B71F00FABEB9 /* animations */; };
+		B313ADF21891B71F00FABEB9 /* armatures in Resources */ = {isa = PBXBuildFile; fileRef = B313ADE61891B71F00FABEB9 /* armatures */; };
+		B313ADF31891B71F00FABEB9 /* audio in Resources */ = {isa = PBXBuildFile; fileRef = B313ADE71891B71F00FABEB9 /* audio */; };
+		B313ADF41891B71F00FABEB9 /* ComponentSpecifications in Resources */ = {isa = PBXBuildFile; fileRef = B313ADE81891B71F00FABEB9 /* ComponentSpecifications */; };
+		B313ADF51891B71F00FABEB9 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B313ADE91891B71F00FABEB9 /* fonts */; };
+		B313ADF61891B71F00FABEB9 /* levels in Resources */ = {isa = PBXBuildFile; fileRef = B313ADEA1891B71F00FABEB9 /* levels */; };
+		B313ADF71891B71F00FABEB9 /* logging in Resources */ = {isa = PBXBuildFile; fileRef = B313ADEB1891B71F00FABEB9 /* logging */; };
+		B313ADF81891B71F00FABEB9 /* models in Resources */ = {isa = PBXBuildFile; fileRef = B313ADEC1891B71F00FABEB9 /* models */; };
+		B313ADF91891B71F00FABEB9 /* pictures in Resources */ = {isa = PBXBuildFile; fileRef = B313ADED1891B71F00FABEB9 /* pictures */; };
+		B313ADFA1891B71F00FABEB9 /* prefabs in Resources */ = {isa = PBXBuildFile; fileRef = B313ADEE1891B71F00FABEB9 /* prefabs */; };
+		B313ADFB1891B71F00FABEB9 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = B313ADEF1891B71F00FABEB9 /* shaders */; };
+		B313ADFC1891B71F00FABEB9 /* uiscenes in Resources */ = {isa = PBXBuildFile; fileRef = B313ADF01891B71F00FABEB9 /* uiscenes */; };
 		B314D53E1891AFBB005EA850 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = B314D38B1891AFBB005EA850 /* CMakeLists.txt */; };
 		B314D53F1891AFBB005EA850 /* func_common.inl in Resources */ = {isa = PBXBuildFile; fileRef = B314D3931891AFBB005EA850 /* func_common.inl */; };
 		B314D5401891AFBB005EA850 /* func_exponential.inl in Resources */ = {isa = PBXBuildFile; fileRef = B314D3951891AFBB005EA850 /* func_exponential.inl */; };
@@ -129,17 +141,6 @@
 		B314D5A11891AFBB005EA850 /* vector_query.inl in Resources */ = {isa = PBXBuildFile; fileRef = B314D4681891AFBB005EA850 /* vector_query.inl */; };
 		B314D5A21891AFBB005EA850 /* verbose_operator.inl in Resources */ = {isa = PBXBuildFile; fileRef = B314D46A1891AFBB005EA850 /* verbose_operator.inl */; };
 		B314D5A31891AFBB005EA850 /* wrap.inl in Resources */ = {isa = PBXBuildFile; fileRef = B314D46C1891AFBB005EA850 /* wrap.inl */; };
-		B324BFB8188EF9060014D642 /* animations in Resources */ = {isa = PBXBuildFile; fileRef = B324BFAC188EF9060014D642 /* animations */; };
-		B324BFB9188EF9060014D642 /* armatures in Resources */ = {isa = PBXBuildFile; fileRef = B324BFAD188EF9060014D642 /* armatures */; };
-		B324BFBA188EF9060014D642 /* audio in Resources */ = {isa = PBXBuildFile; fileRef = B324BFAE188EF9060014D642 /* audio */; };
-		B324BFBB188EF9060014D642 /* ComponentSpecifications in Resources */ = {isa = PBXBuildFile; fileRef = B324BFAF188EF9060014D642 /* ComponentSpecifications */; };
-		B324BFBC188EF9060014D642 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B324BFB0188EF9060014D642 /* fonts */; };
-		B324BFBD188EF9060014D642 /* levels in Resources */ = {isa = PBXBuildFile; fileRef = B324BFB1188EF9060014D642 /* levels */; };
-		B324BFBE188EF9060014D642 /* logging in Resources */ = {isa = PBXBuildFile; fileRef = B324BFB2188EF9060014D642 /* logging */; };
-		B324BFBF188EF9060014D642 /* models in Resources */ = {isa = PBXBuildFile; fileRef = B324BFB3188EF9060014D642 /* models */; };
-		B324BFC0188EF9060014D642 /* pictures in Resources */ = {isa = PBXBuildFile; fileRef = B324BFB4188EF9060014D642 /* pictures */; };
-		B324BFC1188EF9060014D642 /* prefabs in Resources */ = {isa = PBXBuildFile; fileRef = B324BFB5188EF9060014D642 /* prefabs */; };
-		B324BFC3188EF9060014D642 /* uiscenes in Resources */ = {isa = PBXBuildFile; fileRef = B324BFB7188EF9060014D642 /* uiscenes */; };
 		B350FDBB18902989001A81F2 /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B350FD8318902989001A81F2 /* AndroidWrapper.cpp */; };
 		B350FDBC18902989001A81F2 /* ComponentMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B350FD8618902989001A81F2 /* ComponentMapper.cpp */; };
 		B350FDBD18902989001A81F2 /* AiKnowledge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B350FD8D18902989001A81F2 /* AiKnowledge.cpp */; };
@@ -159,7 +160,6 @@
 		B350FDCB18902989001A81F2 /* GameSingletons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B350FDB018902989001A81F2 /* GameSingletons.cpp */; };
 		B350FDCC18902989001A81F2 /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B350FDB518902989001A81F2 /* TestFile.cpp */; };
 		B350FDCD18902989001A81F2 /* TestUiSceneTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B350FDB918902989001A81F2 /* TestUiSceneTouchHandlers.cpp */; };
-		B350FDD11890377E001A81F2 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = B350FDD01890377E001A81F2 /* shaders */; };
 		B383FD0C187B4B0000999890 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B383FB72187B4AFF00999890 /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -202,6 +202,18 @@
 		58F24F62185120950066E804 /* libVajraStaticLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVajraStaticLibrary.a; path = ../../lib/ios/iphonesimulator/libVajraStaticLibrary.a; sourceTree = "<group>"; };
 		58F60D51185133F90036DDDE /* libVajraStaticLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVajraStaticLibrary.a; path = ../../lib/ios/iphoneos/libVajraStaticLibrary.a; sourceTree = "<group>"; };
 		58F60E6218515E990036DDDE /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		B313ADE51891B71F00FABEB9 /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; name = animations; path = ../../../Resources/animations; sourceTree = "<group>"; };
+		B313ADE61891B71F00FABEB9 /* armatures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = armatures; path = ../../../Resources/armatures; sourceTree = "<group>"; };
+		B313ADE71891B71F00FABEB9 /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = audio; path = ../../../Resources/audio; sourceTree = "<group>"; };
+		B313ADE81891B71F00FABEB9 /* ComponentSpecifications */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ComponentSpecifications; path = ../../../Resources/ComponentSpecifications; sourceTree = "<group>"; };
+		B313ADE91891B71F00FABEB9 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fonts; path = ../../../Resources/fonts; sourceTree = "<group>"; };
+		B313ADEA1891B71F00FABEB9 /* levels */ = {isa = PBXFileReference; lastKnownFileType = folder; name = levels; path = ../../../Resources/levels; sourceTree = "<group>"; };
+		B313ADEB1891B71F00FABEB9 /* logging */ = {isa = PBXFileReference; lastKnownFileType = folder; name = logging; path = ../../../Resources/logging; sourceTree = "<group>"; };
+		B313ADEC1891B71F00FABEB9 /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; name = models; path = ../../../Resources/models; sourceTree = "<group>"; };
+		B313ADED1891B71F00FABEB9 /* pictures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pictures; path = ../../../Resources/pictures; sourceTree = "<group>"; };
+		B313ADEE1891B71F00FABEB9 /* prefabs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = prefabs; path = ../../../Resources/prefabs; sourceTree = "<group>"; };
+		B313ADEF1891B71F00FABEB9 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../../../Resources/shaders; sourceTree = "<group>"; };
+		B313ADF01891B71F00FABEB9 /* uiscenes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = uiscenes; path = ../../../Resources/uiscenes; sourceTree = "<group>"; };
 		B314D38B1891AFBB005EA850 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		B314D38D1891AFBB005EA850 /* _detail.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _detail.hpp; sourceTree = "<group>"; };
 		B314D38E1891AFBB005EA850 /* _fixes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _fixes.hpp; sourceTree = "<group>"; };
@@ -544,17 +556,6 @@
 		B314D53B1891AFBB005EA850 /* XmlNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlNode.h; sourceTree = "<group>"; };
 		B314D53C1891AFBB005EA850 /* XmlTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlTree.h; sourceTree = "<group>"; };
 		B314D53D1891AFBB005EA850 /* XmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlParser.h; sourceTree = "<group>"; };
-		B324BFAC188EF9060014D642 /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; name = animations; path = ../../../Resources/animations; sourceTree = "<group>"; };
-		B324BFAD188EF9060014D642 /* armatures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = armatures; path = ../../../Resources/armatures; sourceTree = "<group>"; };
-		B324BFAE188EF9060014D642 /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = audio; path = ../../../Resources/audio; sourceTree = "<group>"; };
-		B324BFAF188EF9060014D642 /* ComponentSpecifications */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ComponentSpecifications; path = ../../../Resources/ComponentSpecifications; sourceTree = "<group>"; };
-		B324BFB0188EF9060014D642 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fonts; path = ../../../Resources/fonts; sourceTree = "<group>"; };
-		B324BFB1188EF9060014D642 /* levels */ = {isa = PBXFileReference; lastKnownFileType = folder; name = levels; path = ../../../Resources/levels; sourceTree = "<group>"; };
-		B324BFB2188EF9060014D642 /* logging */ = {isa = PBXFileReference; lastKnownFileType = folder; name = logging; path = ../../../Resources/logging; sourceTree = "<group>"; };
-		B324BFB3188EF9060014D642 /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; name = models; path = ../../../Resources/models; sourceTree = "<group>"; };
-		B324BFB4188EF9060014D642 /* pictures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pictures; path = ../../../Resources/pictures; sourceTree = "<group>"; };
-		B324BFB5188EF9060014D642 /* prefabs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = prefabs; path = ../../../Resources/prefabs; sourceTree = "<group>"; };
-		B324BFB7188EF9060014D642 /* uiscenes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = uiscenes; path = ../../../Resources/uiscenes; sourceTree = "<group>"; };
 		B350FD8318902989001A81F2 /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
 		B350FD8418902989001A81F2 /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
 		B350FD8618902989001A81F2 /* ComponentMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComponentMapper.cpp; sourceTree = "<group>"; };
@@ -597,7 +598,6 @@
 		B350FDB618902989001A81F2 /* TestFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
 		B350FDB918902989001A81F2 /* TestUiSceneTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestUiSceneTouchHandlers.cpp; sourceTree = "<group>"; };
 		B350FDBA18902989001A81F2 /* TestUiSceneTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUiSceneTouchHandlers.h; sourceTree = "<group>"; };
-		B350FDD01890377E001A81F2 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../../../Resources/shaders; sourceTree = "<group>"; };
 		B383FB72187B4AFF00999890 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -718,18 +718,18 @@
 		58F60E5518515DE20036DDDE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B350FDD01890377E001A81F2 /* shaders */,
-				B324BFAC188EF9060014D642 /* animations */,
-				B324BFAD188EF9060014D642 /* armatures */,
-				B324BFAE188EF9060014D642 /* audio */,
-				B324BFAF188EF9060014D642 /* ComponentSpecifications */,
-				B324BFB0188EF9060014D642 /* fonts */,
-				B324BFB1188EF9060014D642 /* levels */,
-				B324BFB2188EF9060014D642 /* logging */,
-				B324BFB3188EF9060014D642 /* models */,
-				B324BFB4188EF9060014D642 /* pictures */,
-				B324BFB5188EF9060014D642 /* prefabs */,
-				B324BFB7188EF9060014D642 /* uiscenes */,
+				B313ADE51891B71F00FABEB9 /* animations */,
+				B313ADE61891B71F00FABEB9 /* armatures */,
+				B313ADE71891B71F00FABEB9 /* audio */,
+				B313ADE81891B71F00FABEB9 /* ComponentSpecifications */,
+				B313ADE91891B71F00FABEB9 /* fonts */,
+				B313ADEA1891B71F00FABEB9 /* levels */,
+				B313ADEB1891B71F00FABEB9 /* logging */,
+				B313ADEC1891B71F00FABEB9 /* models */,
+				B313ADED1891B71F00FABEB9 /* pictures */,
+				B313ADEE1891B71F00FABEB9 /* prefabs */,
+				B313ADEF1891B71F00FABEB9 /* shaders */,
+				B313ADF01891B71F00FABEB9 /* uiscenes */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2118,12 +2118,14 @@
 				B314D58B1891AFBB005EA850 /* normalize_dot.inl in Resources */,
 				B314D59C1891AFBB005EA850 /* transform2.inl in Resources */,
 				B314D56C1891AFBB005EA850 /* ulp.inl in Resources */,
+				B313ADF91891B71F00FABEB9 /* pictures in Resources */,
+				B313ADF81891B71F00FABEB9 /* models in Resources */,
 				58F247131850F5C90066E804 /* Images.xcassets in Resources */,
 				B314D59E1891AFBB005EA850 /* vec1.inl in Resources */,
 				B314D5531891AFBB005EA850 /* type_mat2x4.inl in Resources */,
 				B314D54C1891AFBB005EA850 /* intrinsic_trigonometric.inl in Resources */,
+				B313ADF21891B71F00FABEB9 /* armatures in Resources */,
 				B314D5711891AFBB005EA850 /* color_space.inl in Resources */,
-				B324BFC0188EF9060014D642 /* pictures in Resources */,
 				B314D55D1891AFBB005EA850 /* type_vec3.inl in Resources */,
 				B314D58D1891AFBB005EA850 /* ocl_type.inl in Resources */,
 				B314D59D1891AFBB005EA850 /* unsigned_int.inl in Resources */,
@@ -2134,27 +2136,27 @@
 				B314D5541891AFBB005EA850 /* type_mat3x2.inl in Resources */,
 				B314D5961891AFBB005EA850 /* simd_mat4.inl in Resources */,
 				B314D5A11891AFBB005EA850 /* vector_query.inl in Resources */,
+				B313ADF51891B71F00FABEB9 /* fonts in Resources */,
 				B314D5621891AFBB005EA850 /* matrix_access.inl in Resources */,
-				B324BFBF188EF9060014D642 /* models in Resources */,
 				B314D58C1891AFBB005EA850 /* number_precision.inl in Resources */,
 				B314D5491891AFBB005EA850 /* intrinsic_exponential.inl in Resources */,
 				B314D5901891AFBB005EA850 /* perpendicular.inl in Resources */,
 				B314D54D1891AFBB005EA850 /* intrinsic_vector_relational.inl in Resources */,
+				B313ADFC1891B71F00FABEB9 /* uiscenes in Resources */,
 				B314D57A1891AFBB005EA850 /* fast_trigonometry.inl in Resources */,
 				B314D5851891AFBB005EA850 /* matrix_operation.inl in Resources */,
 				B314D54A1891AFBB005EA850 /* intrinsic_geometric.inl in Resources */,
 				B314D56B1891AFBB005EA850 /* type_ptr.inl in Resources */,
 				B314D5461891AFBB005EA850 /* func_trigonometric.inl in Resources */,
-				B324BFB9188EF9060014D642 /* armatures in Resources */,
-				B324BFBC188EF9060014D642 /* fonts in Resources */,
 				B314D54B1891AFBB005EA850 /* intrinsic_matrix.inl in Resources */,
 				B314D5411891AFBB005EA850 /* func_geometric.inl in Resources */,
-				B324BFC3188EF9060014D642 /* uiscenes in Resources */,
 				B314D53F1891AFBB005EA850 /* func_common.inl in Resources */,
 				B314D5931891AFBB005EA850 /* quaternion.inl in Resources */,
 				B314D5631891AFBB005EA850 /* matrix_inverse.inl in Resources */,
+				B313ADF11891B71F00FABEB9 /* animations in Resources */,
+				B313ADF61891B71F00FABEB9 /* levels in Resources */,
+				B313ADFB1891B71F00FABEB9 /* shaders in Resources */,
 				B314D53E1891AFBB005EA850 /* CMakeLists.txt in Resources */,
-				B324BFB8188EF9060014D642 /* animations in Resources */,
 				B314D58A1891AFBB005EA850 /* normal.inl in Resources */,
 				B314D55E1891AFBB005EA850 /* type_vec4.inl in Resources */,
 				B314D5521891AFBB005EA850 /* type_mat2x3.inl in Resources */,
@@ -2172,7 +2174,6 @@
 				B314D5891891AFBB005EA850 /* norm.inl in Resources */,
 				B314D57B1891AFBB005EA850 /* gradient_paint.inl in Resources */,
 				B314D55A1891AFBB005EA850 /* type_vec.inl in Resources */,
-				B324BFBD188EF9060014D642 /* levels in Resources */,
 				B314D5791891AFBB005EA850 /* fast_square_root.inl in Resources */,
 				B383FD0C187B4B0000999890 /* .gitignore in Resources */,
 				B314D5451891AFBB005EA850 /* func_packing.inl in Resources */,
@@ -2182,9 +2183,12 @@
 				B314D5691891AFBB005EA850 /* swizzle.inl in Resources */,
 				B314D55F1891AFBB005EA850 /* constants.inl in Resources */,
 				B314D58F1891AFBB005EA850 /* orthonormalize.inl in Resources */,
+				B313ADF41891B71F00FABEB9 /* ComponentSpecifications in Resources */,
 				B314D5751891AFBB005EA850 /* euler_angles.inl in Resources */,
 				58F246FE1850F5C90066E804 /* InfoPlist.strings in Resources */,
+				B313ADFA1891B71F00FABEB9 /* prefabs in Resources */,
 				B314D56D1891AFBB005EA850 /* associated_min_max.inl in Resources */,
+				B313ADF31891B71F00FABEB9 /* audio in Resources */,
 				B314D5731891AFBB005EA850 /* compatibility.inl in Resources */,
 				B314D5A01891AFBB005EA850 /* vector_angle.inl in Resources */,
 				B314D56F1891AFBB005EA850 /* closest_point.inl in Resources */,
@@ -2194,11 +2198,9 @@
 				B314D5441891AFBB005EA850 /* func_noise.inl in Resources */,
 				B314D5981891AFBB005EA850 /* spline.inl in Resources */,
 				B314D5991891AFBB005EA850 /* std_based_type.inl in Resources */,
-				B350FDD11890377E001A81F2 /* shaders in Resources */,
 				B314D5401891AFBB005EA850 /* func_exponential.inl in Resources */,
 				B314D57F1891AFBB005EA850 /* integer.inl in Resources */,
 				B314D5551891AFBB005EA850 /* type_mat3x3.inl in Resources */,
-				B324BFBB188EF9060014D642 /* ComponentSpecifications in Resources */,
 				B314D57C1891AFBB005EA850 /* handed_coordinate_space.inl in Resources */,
 				B314D5601891AFBB005EA850 /* epsilon.inl in Resources */,
 				B314D5431891AFBB005EA850 /* func_matrix.inl in Resources */,
@@ -2211,13 +2213,11 @@
 				B314D5881891AFBB005EA850 /* multiple.inl in Resources */,
 				B314D57D1891AFBB005EA850 /* inertia.inl in Resources */,
 				B314D54E1891AFBB005EA850 /* type_gentype.inl in Resources */,
-				B324BFC1188EF9060014D642 /* prefabs in Resources */,
 				B314D5571891AFBB005EA850 /* type_mat4x2.inl in Resources */,
 				B314D5A21891AFBB005EA850 /* verbose_operator.inl in Resources */,
-				B324BFBA188EF9060014D642 /* audio in Resources */,
 				B314D5581891AFBB005EA850 /* type_mat4x3.inl in Resources */,
+				B313ADF71891B71F00FABEB9 /* logging in Resources */,
 				B314D5A31891AFBB005EA850 /* wrap.inl in Resources */,
-				B324BFBE188EF9060014D642 /* logging in Resources */,
 				B314D5811891AFBB005EA850 /* log_base.inl in Resources */,
 				B314D55C1891AFBB005EA850 /* type_vec2.inl in Resources */,
 				B314D5861891AFBB005EA850 /* matrix_query.inl in Resources */,

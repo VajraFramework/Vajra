@@ -10,7 +10,7 @@ public:
 
 	void RegisterTouchableUiElement(ObjectIdType id);
 	void UnRegisterTouchableUiElement(ObjectIdType id);
-
+	
 	bool TestTouchCapture(Touch touch);
 	void OnTouchUpdate(int touchIndex);
 

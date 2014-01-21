@@ -8,7 +8,10 @@
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/StringUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
+
 #include "Vajra/Utilities/XmlParser/XmlParser.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 
 #include <fstream>
 
@@ -148,6 +151,20 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 
 void LoadUiSceneFromUiSceneFile(std::string filePath, UiTouchHandlers* touchHandlers) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading ui scene from uiscene file %s", filePath.c_str());
+
+	// remove the preivous ui scene
+	ENGINE->GetSceneGraphUi()->UnloadCurrentScene();
+
+	
+	//Todo [HACK] remove this when cameras don't get destroy by unload scene
+	GameObject* camera = new GameObject(ENGINE->GetSceneGraphUi());
+	ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(camera->GetId());
+	Camera* cameraComponent = camera->AddComponent<Camera>();
+	cameraComponent->SetCameraType(CAMERA_TYPE_ORTHO);
+	camera->GetTransform()->SetPosition(0.0f, 0.0f, 400.0f);
+	camera->GetTransform()->Rotate(10.0f, YAXIS);
+	camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
+	ENGINE->GetSceneGraphUi()->SetMainCameraId(camera->GetId());
 
 	std::ifstream sceneFile(filePath);
 	VERIFY(sceneFile.is_open(), "Successfully opened ui scene file at %s", filePath.c_str());
