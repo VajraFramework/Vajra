@@ -24,7 +24,7 @@ public:
 
 	void OnTouchDown(Touch touch);
 	void OnTouchMove(Touch touch);
-
+	void OnTouchUp(Touch touch);
 	bool IsPointWithin(float x, float y);
 
 	void SetPosition(unsigned int x, unsigned int y);

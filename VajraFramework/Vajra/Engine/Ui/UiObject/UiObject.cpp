@@ -53,6 +53,11 @@ void UiObject::OnTouchMove(Touch touch) {
 	this->touchHandlers->OnTouchMoveHandlers(this, touch);
 }
 
+void UiObject::OnTouchUp(Touch touch) {
+	ASSERT(this->touchHandlers != nullptr, "Valid touch handler present");
+	this->touchHandlers->OnTouchUpHandlers(this, touch);
+}
+
 void UiObject::init() {
 	this->width  = 0;
 	this->height = 0;
