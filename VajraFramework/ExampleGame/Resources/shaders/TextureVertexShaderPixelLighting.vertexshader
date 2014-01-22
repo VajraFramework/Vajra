@@ -5,7 +5,8 @@ vNormal_out
 uvCoords_in
 uvCoords_out
 
-mvpMatrix
+modelMatrix
+vpMatrix
 modelInverseTransposeMatrix
 
 DLight0Direction
@@ -21,9 +22,14 @@ __VARIABLES_END__
 
 
 __SOURCE__
+vec4 zSkew = vec4(0, 0, -.5, 0);
+vec4 ySkew = vec4(0, .5, 0, 0);
 void main()
 {
-	gl_Position = mvpMatrix * vPosition;
+	gl_Position = modelMatrix * vPosition;
+
+	float yAmt = gl_Position.y;
+	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
 
 	uvCoords_out = uvCoords_in;
 

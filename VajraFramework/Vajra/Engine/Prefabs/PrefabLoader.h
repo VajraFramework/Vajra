@@ -9,7 +9,8 @@ class SceneGraph;
 
 namespace PrefabLoader {
 
-	GameObject* InstantiateGameObjectFromPrefab(std::string pathToPrefabFile, SceneGraph* sceneGraph);
+	GameObject* InstantiateGameObjectFromPrefab       (std::string pathToPrefabFile, SceneGraph* sceneGraph);
+	void        LoadComponentFromComponentNodeInPrefab(GameObject* gameObject, XmlNode* componentNode);
 
 }
 
