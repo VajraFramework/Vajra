@@ -18,6 +18,7 @@
 #define PLAYER_UNIT_TAG       "playerUnit"
 #define ENEMY_UNIT_TAG        "enemyUnit"
 #define AI_COMMAND_TAG        "aiCommand"
+#define OTHER_TAG             "other"
 #define CAMERA_TAG            "camera"
 
 #define LEVEL_NAME_ATTRIBUTE  "levelName"

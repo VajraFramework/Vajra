@@ -381,13 +381,13 @@ void GridManager::loadGridDataFromXml(XmlNode* gridNode) {
 	if (roomDataNode != nullptr) {
 		this->loadRoomDataFromXml(roomDataNode);
 	}
-
+	/*
 	// Zone Information
 	XmlNode* zoneDataNode = gridNode->GetFirstChildByNodeName(ZONE_DATA_TAG);
 	if (zoneDataNode != nullptr) {
 		this->loadZoneDataFromXml(zoneDataNode);
 	}
-
+	*/
 	// Eventually this needs to be a list from highest to lowest.
 	this->gridPlane.origin = this->gridCells[0][0]->center;
 }
@@ -453,14 +453,14 @@ void GridManager::loadRoomDataFromXml(XmlNode* roomDataNode) {
 		roomNode = roomNode->GetNextSiblingByNodeName(ROOM_TAG);
 	}
 }
-
+/*
 void GridManager::loadZoneDataFromXml(XmlNode* zoneDataNode) {
 	XmlNode* zoneNode = zoneDataNode->GetFirstChildByNodeName(ZONE_TAG);
 	while (zoneNode != nullptr) {
 		zoneNode = zoneNode->GetNextSiblingByNodeName(ZONE_TAG);
 	}
 }
-
+*/
 void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height) {
 	int eastBound = westBound + width - 1;
 	int northBound = southBound + height - 1;

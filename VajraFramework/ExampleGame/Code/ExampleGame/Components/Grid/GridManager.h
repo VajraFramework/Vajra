@@ -86,7 +86,7 @@ private:
 	void loadGridDataFromXml(XmlNode* gridNode);
 	void loadCellDataFromXml(XmlNode* cellDataNode);
 	void loadRoomDataFromXml(XmlNode* roomDataNode);
-	void loadZoneDataFromXml(XmlNode* zoneDataNode);
+	//void loadZoneDataFromXml(XmlNode* zoneDataNode);
 
 	void placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height);
 	void placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ);

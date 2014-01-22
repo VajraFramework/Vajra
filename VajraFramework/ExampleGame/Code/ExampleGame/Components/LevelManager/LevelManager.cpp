@@ -71,6 +71,9 @@ void LevelManager::LoadLevelFromFile(std::string levelFilename) {
 	XmlNode* unitBaseNode = levelNode->GetFirstChildByNodeName(UNITS_TAG);
 	this->loadUnitDataFromXml(unitBaseNode);
 
+	XmlNode* otherDataNode = levelNode->GetFirstChildByNodeName(OTHER_TAG);
+	this->loadOtherDataFromXml(otherDataNode);
+
 	XmlNode* cameraNode = levelNode->GetFirstChildByNodeName(CAMERA_TAG);
 	this->loadCameraDataFromXml(cameraNode);
 
@@ -171,6 +174,10 @@ void LevelManager::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 
 		unitNode = unitNode->GetNextSiblingByNodeName("");
 	}
+}
+
+void LevelManager::loadOtherDataFromXml(XmlNode* /*otherDataNode*/) {
+	// TODO [Implement]
 }
 
 void LevelManager::loadCameraDataFromXml(XmlNode* /*cameraNode*/) {

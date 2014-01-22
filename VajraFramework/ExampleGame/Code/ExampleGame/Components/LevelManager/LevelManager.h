@@ -41,6 +41,7 @@ private:
 
 	void loadStaticDataFromXml(XmlNode* staticNode);
 	void loadUnitDataFromXml  (XmlNode* unitBaseNode);
+	void loadOtherDataFromXml (XmlNode* otherDataNode);
 	void loadCameraDataFromXml(XmlNode* cameraNode);
 
 	void endLevel(bool success);
