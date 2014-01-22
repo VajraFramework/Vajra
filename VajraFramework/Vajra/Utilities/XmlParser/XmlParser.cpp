@@ -2,6 +2,7 @@
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/FileUtilities.h"
 #include "Vajra/Utilities/XmlParser/XmlParser.h"
+#include "Vajra/Utilities/StringUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
 
 #include <sstream>
@@ -70,20 +71,6 @@ bool endOfNodeTagReached(std::ifstream& file) {
 	return false;
 }
 
-// TODO [Cleanup] Move this to StringUtilities
-std::vector<std::string> splitStringIntoTokensOnDelimiter(std::string& s, char delimiter) {
-	std::vector<std::string> tokens;
-	std::istringstream iss(s);
-	std::string token;
-	//
-	while (std::getline(iss, token, delimiter)) {
-		if ( token.size() > 0 && token[0] != delimiter) {
-			tokens.push_back(token);
-		}
-	}
-
-	return tokens;
-}
 
 void XmlParser::Print() {
 	if (this->xmlTree != nullptr) {
@@ -95,9 +82,9 @@ void XmlParser::parseAttributes(std::string& attributesString, XmlNode* xmlNode)
 	if (attributesString == "") {
 		return;
 	}
-	std::vector<std::string> attributes = splitStringIntoTokensOnDelimiter(attributesString, ' ');
+	std::vector<std::string> attributes = StringUtilities::SplitStringIntoTokensOnDelimiter(attributesString, ' ');
 	for (std::string attribute : attributes) {
-		std::vector<std::string> name_value_pair = splitStringIntoTokensOnDelimiter(attribute, '=');
+		std::vector<std::string> name_value_pair = StringUtilities::SplitStringIntoTokensOnDelimiter(attribute, '=');
 		ASSERT(name_value_pair.size() == 2, "Properly formed attribute name=value pairs should have size 2, found %u, in attributesData: %s", name_value_pair.size(), attributesString.c_str());
 		//
 		XmlAttribute* xmlAttribute = new XmlAttribute();

@@ -1,11 +1,16 @@
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
-#include <Vajra/Framework/OpenGL/ShaderSet/ShaderSetCreationHelper/ShaderSetCreationHelper.h>
+#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSetCreationHelper/ShaderSetCreationHelper.h"
+#include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
+#include "Vajra/Utilities/StringUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
 
 #include <fstream>
 #include <map>
 #include <string>
+#include <sstream>
+#include <stack>
+#include <vector>
 
 
 namespace ShaderSetCreationHelper {
@@ -16,6 +21,20 @@ static bool gInited = false;
 static std::map<std::string /* variableName */, std::string /* variable declaration */> gVariableDeclarations;
 static std::map<std::string /* variableName */, std::string /* variable qualifier */> gVariableQualifiers;
 static std::map<std::string /* variableName */, std::string /* variable datatype */> gVariableDatatypes;
+
+bool evaluatePlatformsLine(std::string line) {
+	std::vector<std::string> targetPlatforms = StringUtilities::SplitStringIntoTokensOnDelimiter(line, '|', true);
+	if (StringUtilities::FindStringInVectorOfStrings(targetPlatforms, FRAMEWORK->GetDeviceProperties()->GetOperatingSystem())) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool evaluateIfdefLine(std::string line) {
+	std::string preprocessorVariable = StringUtilities::EraseStringFromString(line, " ");
+	return ShaderSetCreationHelper::IsPreprocessorVariableDefined(preprocessorVariable);
+}
 
 static void initShaderSetCreationHelper() {
     std::string path = FRAMEWORK->GetFileSystemUtils()->GetDeviceShaderResourcesPath() +
@@ -85,4 +104,85 @@ std::string GetVariableDatatypeForVariableName(std::string variableName) {
 	return gVariableDatatypes[variableName];
 }
 
+std::string CleanupShaderSourceForPreprocessorDirectives(std::string shaderSource) {
+	std::string cleanedupShaderSource;
+	std::istringstream iss(shaderSource);
+
+	std::stack<bool> ifdefs;
+	ifdefs.push(true);
+
+	std::string line;
+	while (iss.good()) {
+		std::getline(iss, line);
+		if (line.find("#") == std::string::npos) {
+			if (ifdefs.top()) {
+				cleanedupShaderSource += line + "\n";
+			}
+
+		} else {
+			// Evaluate the preprocessor switch:
+			line = StringUtilities::EraseStringFromString(line, "#");
+			if (line.find("ifplatform") != std::string::npos) {
+				line = StringUtilities::EraseStringFromString(line, "ifplatform");
+				ifdefs.push(evaluatePlatformsLine(line));
+
+			} else if (line.find("ifnplatform") != std::string::npos) {
+				line = StringUtilities::EraseStringFromString(line, "ifplatform");
+				ifdefs.push(!evaluatePlatformsLine(line));
+
+			} else if (line.find("ifdef") != std::string::npos) {
+				line = StringUtilities::EraseStringFromString(line, "ifdef");
+				ifdefs.push(evaluateIfdefLine(line));
+
+			} else if (line.find("ifndef") != std::string::npos) {
+				line = StringUtilities::EraseStringFromString(line, "ifdef");
+				ifdefs.push(!evaluateIfdefLine(line));
+
+			} else if (line.find("else") != std::string::npos) {
+				bool topOfStack = ifdefs.top();
+				ifdefs.pop();
+				ifdefs.push(!topOfStack);
+
+			} else if (line.find("endif") != std::string::npos) {
+				ASSERT(!ifdefs.empty(), "Properly matched number of if / endif pairs");
+				ifdefs.pop();
+
+			} else {
+				ASSERT(0, "Recognized preprocessor directive: %s", line.c_str());
+			}
+		}
+	}
+
+	ifdefs.pop();
+	ASSERT(ifdefs.empty(), "Properly matched number of if / endif pairs");
+
+	return cleanedupShaderSource;
 }
+
+std::map<std::string /* variable name */, bool> preprocessorVariables;
+void LoadPreprocessorVariables() {
+	std::string filePath = FRAMEWORK->GetFileSystemUtils()->GetDeviceShaderResourcesPath() + "preprocessor_variables";
+	std::ifstream file(filePath.c_str());
+
+	std::string buffer;
+	while (file.good()) {
+		std::getline(file, buffer);
+		if (buffer.find("!") == std::string::npos) {
+			preprocessorVariables[buffer] = true;
+		} else {
+			preprocessorVariables[StringUtilities::EraseStringFromString(buffer, "!")] = false;
+		}
+	}
+	file.close();
+}
+
+bool IsPreprocessorVariableDefined(std::string variableName) {
+	if (preprocessorVariables.find(variableName) != preprocessorVariables.end()) {
+		return preprocessorVariables[variableName];
+	}
+	return false;
+}
+
+
+}
+

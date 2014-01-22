@@ -11,33 +11,37 @@
 #include "Vajra/Utilities/XmlParser/XmlParser.h"
 #include "Vajra/Utilities/Utilities.h"
 
-// Forward Declarations:
+void LoadComponentFromComponentNodeInPrefab(GameObject* gameObject, XmlNode* componentNode) {
+	std::string componentName = componentNode->GetAttributeValueS(NAME_PROPERTY);
+	Component* component = ComponentMapperInterface::GetInstance()->AddNewComponentToGameObjectByComponentName(gameObject, componentName);
+	ASSERT(component != nullptr, "Added valid component (%s) to game object", componentName.c_str());
+
+	// Find and add any properties:
+	XmlNode* propertyNode = componentNode->GetFirstChildByNodeName(PROPERTY_TAG);
+	while (propertyNode != nullptr) {
+		std::string propertyName = propertyNode->GetAttributeValueS(NAME_PROPERTY);
+
+		// Find and pass any fields to the property:
+		std::vector<std::string> argv;
+		XmlNode* fieldNode = propertyNode->GetFirstChildByNodeName(FIELD_TAG);
+		while (fieldNode) {
+			// TODO [Implement] Support field names
+			std::string value = fieldNode->GetValue();
+			argv.push_back(value);
+			fieldNode = fieldNode->GetNextSiblingByNodeName(FIELD_TAG);
+		}
+		ComponentMapperInterface::GetInstance()->InitializePropertyByComponentAndPropertyNames(gameObject, componentName, propertyName, argv);
+		propertyNode = propertyNode->GetNextSiblingByNodeName(PROPERTY_TAG);
+	}
+}
+
 void loadGameObjectFromGameObjectNodeInPrefab(GameObject* gameObject, XmlNode* gameobjectNode) {
 
 	// Find and add any components:
 	XmlNode* componentNode = gameobjectNode->GetFirstChildByNodeName(COMPONENT_TAG);
 	while (componentNode != nullptr) {
-		std::string componentName = componentNode->GetAttributeValueS(NAME_PROPERTY);
-		Component* component = ComponentMapperInterface::GetInstance()->AddNewComponentToGameObjectByComponentName(gameObject, componentName);
-		ASSERT(component != nullptr, "Added valid component (%s) to game object", componentName.c_str());
+		LoadComponentFromComponentNodeInPrefab(gameObject, componentNode);
 
-		// Find and add any properties:
-		XmlNode* propertyNode = componentNode->GetFirstChildByNodeName(PROPERTY_TAG);
-		while (propertyNode != nullptr) {
-			std::string propertyName = propertyNode->GetAttributeValueS(NAME_PROPERTY);
-
-			// Find and pass any fields to the property:
-			std::vector<std::string> argv;
-			XmlNode* fieldNode = propertyNode->GetFirstChildByNodeName(FIELD_TAG);
-			while (fieldNode) {
-				// TODO [Implement] Support field names
-				std::string value = fieldNode->GetValue();
-				argv.push_back(value);
-				fieldNode = fieldNode->GetNextSiblingByNodeName(FIELD_TAG);
-			}
-			ComponentMapperInterface::GetInstance()->InitializePropertyByComponentAndPropertyNames(gameObject, componentName, propertyName, argv);
-			propertyNode = propertyNode->GetNextSiblingByNodeName(PROPERTY_TAG);
-		}
 		componentNode = componentNode->GetNextSiblingByNodeName(COMPONENT_TAG);
 	}
 

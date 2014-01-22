@@ -3,6 +3,7 @@
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
+#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSetCreationHelper/ShaderSetCreationHelper.h"
 #include "Vajra/Utilities/Utilities.h"
 
 OpenGLWrapper::OpenGLWrapper() {
@@ -56,6 +57,8 @@ void OpenGLWrapper::init() {
     glEnable(GL_DEPTH_TEST);
 
     this->currentShaderSet = nullptr;
+
+    ShaderSetCreationHelper::LoadPreprocessorVariables();
 
 	this->CreateShaderSet("simshdr", "SimplestShader.shaderspec");
 	this->CreateShaderSet("txrshdr", "TextureShader.shaderspec");

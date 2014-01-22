@@ -1,11 +1,23 @@
 __VARIABLES__
 vPosition
 vNormal
-vNormal_out
+
 uvCoords_in
 uvCoords_out
 
+#ifdef SKEW_GEOMETRY
+modelMatrix
+vpMatrix
+#else
 mvpMatrix
+#endif
+
+#ifdef PER_PIXEL_LIGHTING
+vNormal_out
+#else
+lightIntensity
+#endif
+
 modelInverseTransposeMatrix
 
 DLight0Direction
@@ -13,26 +25,58 @@ DLight0AmbientColor
 DLight0DiffuseColor
 DLight0SpecularColor
 
+#ifdef PER_PIXEL_LIGHTING
 DLight0Direction_out
 DLight0AmbientColor_out
 DLight0DiffuseColor_out
 DLight0SpecularColor_out
+#endif
 __VARIABLES_END__
 
 
 __SOURCE__
+
+#ifdef SKEW_GEOMETRY
+vec4 zSkew = vec4(0.0, 0.0, -.5, 0.0);
+vec4 ySkew = vec4(0.0, 0.5, 0.0, 0.0);
+#else
+vec4 zSkew = vec4(0.0, 0.0, 0.0, 0.0);
+vec4 ySkew = vec4(0.0, 0.0, 0.0, 0.0);
+#endif
+
 void main()
 {
+#ifdef SKEW_GEOMETRY
+	gl_Position = modelMatrix * vPosition;
+	float yAmt = gl_Position.y;
+	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
+#else
 	gl_Position = mvpMatrix * vPosition;
+#endif
 
 	uvCoords_out = uvCoords_in;
 
+
+#ifdef PER_PIXEL_LIGHTING
 	vNormal_out = modelInverseTransposeMatrix * vNormal;
 
 	DLight0Direction_out = DLight0Direction;
 	DLight0AmbientColor_out = DLight0AmbientColor;
 	DLight0DiffuseColor_out = DLight0DiffuseColor;
 	DLight0SpecularColor_out = DLight0SpecularColor;
+
+#else
+	vec4 vNormal_world = modelInverseTransposeMatrix * vNormal;
+	float cosTheta = clamp( dot( vNormal_world, DLight0Direction ), 0.0, 1.0 );
+	lightIntensity = DLight0DiffuseColor * cosTheta;
+
+	// Fake the ambient lighting:
+	lightIntensity = lightIntensity + DLight0AmbientColor;
+
+	// Temp using variables:
+	lightIntensity = lightIntensity + DLight0SpecularColor;
+#endif
+
 }
 __SOURCE_END__
 

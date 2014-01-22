@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 
-void ReadTextFileTillStringToken(std::ifstream& outFile, const std::string token);
+void ReadTextFileTillStringToken(std::istream& outFile, const std::string token);
 
 glm::mat4x4 ReadGlmMat4x4FromFile(std::ifstream& file);
 
