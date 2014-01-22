@@ -45,6 +45,7 @@ void GridNavigator::init() {
 
 	this->currentCell = nullptr;
 	this->isTraveling = false;
+	this->isTurning = false;
 	this->movementSpeed = 1.0f;
 	this->turningSpeed = 90.0f;
 
@@ -107,9 +108,29 @@ bool GridNavigator::AddDestination(glm::vec3 loc) {
 	return false;
 }
 
+void GridNavigator::SetLookTarget(int x, int z) {
+	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(x, z);
+	if (goalCell != nullptr) {
+		SetLookTarget(goalCell->center);
+	}
+}
+
+void GridNavigator::SetLookTarget(glm::vec3 loc) {
+	this->targetForward = glm::normalize(loc - this->getTransform()->GetPositionWorld());
+	this->isTurning = true;
+}
+
+void GridNavigator::SetLookTarget(glm::quat orient) {
+	this->targetForward = QuaternionForwardVector(orient);
+	this->isTurning = true;
+}
+
 void GridNavigator::update() {
 	if (this->isTraveling) {
 		followPath();
+	}
+	if (this->isTurning) {
+		updateFacing();
 	}
 }
 
@@ -138,42 +159,37 @@ void GridNavigator::followPath() {
 		}
 	}
 
-	// Face the unit in the direction it is moving.
-	glm::vec3 direction = tempLocation - trans->GetPositionWorld();
-	direction.y = 0.0f;
-	direction = glm::normalize(direction);
-	float turnAmount = this->turningSpeed * dt;
-	float angle = glm::angle(direction, trans->GetForward());
-	glm::vec3 axis = YAXIS;
-	if (angle < 180.0f) {
-		axis = glm::cross(trans->GetForward(), direction);
-		//axis = glm::normalize(axis);
-		if (angle > turnAmount) {
-			getTransform()->Rotate(turnAmount, axis);
-		}
-		else {
-			getTransform()->Rotate(angle, axis);
-		}
-	}
-	/*if (angle > turnAmount) {
-		glm::vec3 axis = YAXIS;
-		if (angle < 180.0f) {
-			axis = glm::cross(trans->GetForward(), direction);
-		}
-		getTransform()->Rotate(turnAmount, axis);
-	}
-	else {
-		getTransform()->SetOrientation(QuaternionFromLookVectors(direction));
-	}*/
-
-	getTransform()->SetPosition(tempLocation);
+	trans->SetPosition(tempLocation);
 	GridCell* newCell = SINGLETONS->GetGridManager()->GetCell(tempLocation);
 	if (newCell != this->currentCell) {
 		this->changeCell(newCell);
 	}
 
-	if (this->currentPath.size() == 0) {
+	if (this->currentPath.size() > 0) {
+		SetLookTarget(this->currentPath.front()->center);
+	}
+	else {
 		this->isTraveling = false;
+	}
+}
+
+void GridNavigator::updateFacing() {
+	float dt = ENGINE->GetTimer()->GetDeltaFrameTime();
+	float turnAmount = this->turningSpeed * dt;
+	Transform* trans = getTransform(); // Store the reference locally to save on function calls.
+
+	float angle = glm::angle(this->targetForward, trans->GetForward());
+	glm::vec3 axis = YAXIS;
+	if (angle < 180.0f) {
+		axis = glm::cross(trans->GetForward(), this->targetForward);
+	}
+
+	if (angle > turnAmount) {
+		getTransform()->Rotate(turnAmount, axis);
+	}
+	else {
+		getTransform()->Rotate(angle, axis);
+		this->isTurning = false;
 	}
 }
 

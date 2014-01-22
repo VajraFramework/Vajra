@@ -57,7 +57,9 @@ void AiRoutine::Follow() {
 		}
 	}
 	else if (this->currentMarkerType == AI_MARKER_LOOK) {
-		this->nextMarker();
+		if (!gNav->IsTurning()) {
+			this->nextMarker();
+		}
 	}
 	else if (this->currentMarkerType == AI_MARKER_WAIT) {
 		this->currentTick += ENGINE->GetTimer()->GetDeltaFrameTime();
@@ -243,16 +245,16 @@ void AiRoutine::resumeSchedule() {
 
 	float dist = glm::distance(prevMark.Position, newMark.Position);
 	float angle = glm::angle(glm::inverse(prevMark.Orientation) * newMark.Orientation);
+	GridNavigator* gNav = this->GetObject()->GetComponent<GridNavigator>();
 	if (dist > MIN_DISTANCE) {
 		this->currentMarkerType = AI_MARKER_WALK;
-		GridNavigator* gNav = this->GetObject()->GetComponent<GridNavigator>();
 		gNav->SetDestination(newMark.Position);
 	}
 	else if (angle > MIN_ANGLE) {
 		this->currentMarkerType = AI_MARKER_LOOK;
+		gNav->SetLookTarget(newMark.Orientation);
 	}
 	else {
 		this->currentMarkerType = AI_MARKER_WAIT;
-
 	}
 }
