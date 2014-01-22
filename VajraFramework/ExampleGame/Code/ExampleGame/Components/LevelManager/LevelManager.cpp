@@ -130,7 +130,6 @@ void LevelManager::loadUnitDataFromStream(std::istream& ifs) {
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(unitObj->GetId());
 		MeshRenderer* unitRenderer = unitObj->AddComponent<MeshRenderer>();
 		unitRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
-		unitObj->AddComponent<SampleGameScript>();
 		unitObj->AddComponent<GridNavigator>();
 		unitObj->AddComponent<PlayerUnit>();
 
@@ -157,9 +156,11 @@ void LevelManager::loadUnitDataFromStream(std::istream& ifs) {
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(enemyObj->GetId());
 		MeshRenderer* enemyRenderer = enemyObj->AddComponent<MeshRenderer>();
 		enemyRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
-		enemyObj->AddComponent<SampleGameScript>();
+		//enemyObj->AddComponent<SampleGameScript>();
 		enemyObj->AddComponent<GridNavigator>();
-		enemyObj->AddComponent<EnemyUnit>();
+		EnemyUnit* enemyUnit = enemyObj->AddComponent<EnemyUnit>();
+		//enemyObj->AddComponent<AiKnowledge>();
+		//enemyObj->AddComponent<AiPerception>();
 		AiRoutine* aiRoutine = enemyObj->AddComponent<AiRoutine>();
 
 		// Add the unit to the grid
@@ -172,6 +173,7 @@ void LevelManager::loadUnitDataFromStream(std::istream& ifs) {
 			aiRoutine->taskStrings.push_back(command);
 		}
 		aiRoutine->parseTaskStrings();
+		enemyUnit->Activate();
 	}
 }
 

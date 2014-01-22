@@ -22,6 +22,7 @@ public:
 	static inline ComponentIdType GetTypeId()  { return componentTypeId; }
 
 	inline GridCell* GetCurrentCell()          { return this->currentCell;    }
+	inline bool IsTraveling()                  { return this->isTraveling;    }
 
 	//[[PROPERTY]]//
 	inline void SetMovementSpeed(float speed);
@@ -60,6 +61,7 @@ private:
 	std::list<GridCell*> currentPath;
 	bool isTraveling;
 	float movementSpeed;
+	float turningSpeed;
 
 	GameObject* gameObjectRef;
 

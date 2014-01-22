@@ -10,6 +10,7 @@
 #include "ExampleGame/Messages/Declarations.h"
 
 #include "Libraries/glm/glm.hpp"
+#include "Libraries/glm/gtx/vector_angle.hpp"
 
 #include "Vajra/Common/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
@@ -45,6 +46,7 @@ void GridNavigator::init() {
 	this->currentCell = nullptr;
 	this->isTraveling = false;
 	this->movementSpeed = 1.0f;
+	this->turningSpeed = 90.0f;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
@@ -114,7 +116,9 @@ void GridNavigator::update() {
 void GridNavigator::followPath() {
 	float dt = ENGINE->GetTimer()->GetDeltaFrameTime();
 	float distToTravel = this->movementSpeed * dt;
-	glm::vec3 tempLocation = getTransform()->GetPosition();
+	Transform* trans = getTransform(); // Store the reference locally to save on function calls.
+
+	glm::vec3 tempLocation = trans->GetPosition();
 
 	int count = this->currentPath.size();
 	while ((distToTravel > 0.0f) && (count > 0)) {
@@ -133,6 +137,34 @@ void GridNavigator::followPath() {
 			distToTravel = 0.0f;
 		}
 	}
+
+	// Face the unit in the direction it is moving.
+	glm::vec3 direction = tempLocation - trans->GetPositionWorld();
+	direction.y = 0.0f;
+	direction = glm::normalize(direction);
+	float turnAmount = this->turningSpeed * dt;
+	float angle = glm::angle(direction, trans->GetForward());
+	glm::vec3 axis = YAXIS;
+	if (angle < 180.0f) {
+		axis = glm::cross(trans->GetForward(), direction);
+		//axis = glm::normalize(axis);
+		if (angle > turnAmount) {
+			getTransform()->Rotate(turnAmount, axis);
+		}
+		else {
+			getTransform()->Rotate(angle, axis);
+		}
+	}
+	/*if (angle > turnAmount) {
+		glm::vec3 axis = YAXIS;
+		if (angle < 180.0f) {
+			axis = glm::cross(trans->GetForward(), direction);
+		}
+		getTransform()->Rotate(turnAmount, axis);
+	}
+	else {
+		getTransform()->SetOrientation(QuaternionFromLookVectors(direction));
+	}*/
 
 	getTransform()->SetPosition(tempLocation);
 	GridCell* newCell = SINGLETONS->GetGridManager()->GetCell(tempLocation);

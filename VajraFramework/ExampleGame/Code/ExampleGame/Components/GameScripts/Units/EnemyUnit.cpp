@@ -17,8 +17,18 @@ EnemyUnit::~EnemyUnit() {
 	this->destroy();
 }
 
-void EnemyUnit::update() {
+void EnemyUnit::Activate() {
+	this->knowledge = this->GetObject()->GetComponent<AiKnowledge>();
+	this->routine = this->GetObject()->GetComponent<AiRoutine>();
+	this->navigator = this->GetObject()->GetComponent<GridNavigator>();
+}
 
+void EnemyUnit::update() {
+	this->idleUpdate();
+}
+
+void EnemyUnit::idleUpdate() {
+	this->routine->Follow();
 }
 
 void EnemyUnit::init() {

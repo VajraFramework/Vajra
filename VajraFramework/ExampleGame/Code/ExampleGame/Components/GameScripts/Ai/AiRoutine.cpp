@@ -6,12 +6,16 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
+#include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
+#include "Libraries/glm/gtx/quaternion.hpp"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Utilities/StringUtilities.h"
 
-#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
-
-#include "Libraries/glm/gtx/quaternion.hpp"
+#define MIN_DISTANCE 0.0001f
+#define MIN_ANGLE    0.0001f
 
 AiCommandType ConvertStringToAiCommand(std::string cmd) {
 	if (cmd == "START") {
@@ -42,6 +46,25 @@ AiRoutine::AiRoutine(Object* object_) : Component(object_) {
 
 AiRoutine::~AiRoutine() {
 	this->destroy();
+}
+
+void AiRoutine::Follow() {
+	GridNavigator* gNav = this->GetObject()->GetComponent<GridNavigator>();
+
+	if (this->currentMarkerType == AI_MARKER_WALK) {
+		if (!gNav->IsTraveling()) {
+			this->nextMarker();
+		}
+	}
+	else if (this->currentMarkerType == AI_MARKER_LOOK) {
+		this->nextMarker();
+	}
+	else if (this->currentMarkerType == AI_MARKER_WAIT) {
+		this->currentTick += ENGINE->GetTimer()->GetDeltaFrameTime();
+		if (this->currentTick >= this->markers[this->currentMarker].ClockTick) {
+			this->nextMarker();
+		}
+	}
 }
 
 void AiRoutine::init() {
@@ -88,7 +111,9 @@ void AiRoutine::parseTaskStrings() {
 		}
 	}
 
-	this->currentMarker = this->markers.size() - 1;
+	this->currentTick = 0.0f;
+	this->maxTick = this->markers[this->markers.size()].ClockTick;
+	this->currentMarker = 0;
 	this->resumeSchedule();
 }
 
@@ -197,6 +222,37 @@ void AiRoutine::parseWaitCommand(std::string args) {
 	this->markers.push_back(mark);
 }
 
-void AiRoutine::resumeSchedule() {
+void AiRoutine::nextMarker() {
+	this->currentTick = this->markers[this->currentMarker].ClockTick;
+	if (this->currentTick >= this->maxTick) {
+		this->currentTick -= this->maxTick;
+	}
+	this->currentMarker = (this->currentMarker + 1) % this->markers.size();
 
+	resumeSchedule();
+}
+
+void AiRoutine::resumeSchedule() {
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+
+	AiMarker prevMark;
+	prevMark.ClockTick = this->currentTick;
+	prevMark.Position = trans->GetPositionWorld();
+	prevMark.Orientation = trans->GetOrientationWorld();
+	AiMarker newMark = this->markers[this->currentMarker];
+
+	float dist = glm::distance(prevMark.Position, newMark.Position);
+	float angle = glm::angle(glm::inverse(prevMark.Orientation) * newMark.Orientation);
+	if (dist > MIN_DISTANCE) {
+		this->currentMarkerType = AI_MARKER_WALK;
+		GridNavigator* gNav = this->GetObject()->GetComponent<GridNavigator>();
+		gNav->SetDestination(newMark.Position);
+	}
+	else if (angle > MIN_ANGLE) {
+		this->currentMarkerType = AI_MARKER_LOOK;
+	}
+	else {
+		this->currentMarkerType = AI_MARKER_WAIT;
+
+	}
 }
