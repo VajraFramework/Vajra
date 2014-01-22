@@ -13,7 +13,15 @@
 #define COLOR_TAG "color"
 
 #define NAME_ATTRIBUTE  "name"
+#define TYPE_ATTRIBUTE  "type"
+#define X_ATTRIBUTE  "x"
+#define Y_ATTRIBUTE  "y"
+#define R_ATTRIBUTE  "r"
+#define G_ATTRIBUTE  "g"
+#define B_ATTRIBUTE  "b"
+#define A_ATTRIBUTE  "a"
 #define WIDTHPIXELS_ATTRIBUTE  "widthPixels"
 #define HEIGHTPIXELS_ATTRIBUTE "heightPixels"
+#define CLICKABLE_ATTRIBUTE "clickable"
 
 #endif // PARSER_TAGS_H

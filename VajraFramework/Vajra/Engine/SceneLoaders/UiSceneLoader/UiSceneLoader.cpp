@@ -6,6 +6,7 @@
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Utilities/StringUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
 #include "Vajra/Utilities/XmlParser/XmlParser.h"
 
@@ -47,11 +48,23 @@ static void loadOneUiElement(XmlNode* uielementNode, UiTouchHandlers* touchHandl
 	}
 	{
 		XmlNode* dimensionsNode = uielementNode->GetFirstChildByNodeName(DIMENSIONS_TAG);
-		`````````````````````````````````````````````````````````````````````````````````
-		sceneFile >> posXPixels  >> posYPixels;
-		sceneFile >> widthPixels >> heightPixels;
+		ASSERT(dimensionsNode != nullptr, "Got valid xmlNode from uielement node for dimensions");
+		XmlNode* positionNode = dimensionsNode->GetFirstChildByNodeName(POSITION_TAG);
+		ASSERT(positionNode != nullptr, "Got valid xmlNode from dimensions node for position");
+		XmlNode* sizeNode = dimensionsNode->GetFirstChildByNodeName(SIZE_TAG);
+		ASSERT(sizeNode != nullptr, "Got valid xmlNode from dimensions node for size");
+		//
+		posXPixels = positionNode->GetAttributeValueF(X_ATTRIBUTE);
+		posYPixels = positionNode->GetAttributeValueF(Y_ATTRIBUTE);
+		widthPixels  = sizeNode->GetAttributeValueF(WIDTHPIXELS_ATTRIBUTE );
+		heightPixels = sizeNode->GetAttributeValueF(HEIGHTPIXELS_ATTRIBUTE);
+
+		XmlNode* zorderNode = dimensionsNode->GetFirstChildByNodeName(ZORDER_TAG);
+		ASSERT(zorderNode != nullptr, "Got valid xmlNode from dimensions node for zorder");
 		// TODO [Implement]
-		sceneFile >> zorder;
+		zorder = StringUtilities::ConvertStringToInt(zorderNode->GetValue());
+		// TODO [Cleanup] Temp, using variable
+		FRAMEWORK->GetLogger()->dbglog("\nzorder (temp, using variable): %d", zorder);
 
 		convertPixelsFromTargetSizeToDeviceSize(posXPixels,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
 		convertPixelsFromTargetSizeToDeviceSize(posYPixels,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
@@ -59,34 +72,35 @@ static void loadOneUiElement(XmlNode* uielementNode, UiTouchHandlers* touchHandl
 		convertPixelsFromTargetSizeToDeviceSize(heightPixels, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
 	}
 	{
-		sceneFile >> fontName;
-		if (fontName == "NULL") {
-			fontName = "";
+		XmlNode* textNode = uielementNode->GetFirstChildByNodeName(TEXT_TAG);
+		if (textNode != nullptr) {
+			XmlNode* fontNode = textNode->GetFirstChildByNodeName(FONT_TAG);
+			ASSERT(fontNode != nullptr, "Got valid xmlNode from text node for font");
+			fontName = fontNode->GetAttributeValueS(TYPE_ATTRIBUTE);
+			// TODO [Implement] read in font size here
+
+			textToDisplay = textNode->GetValue();
+			StringUtilities::EraseStringFromString(textToDisplay, "\n");
+			StringUtilities::EraseStringFromString(textToDisplay, "\t");
 		}
 	}
 	{
-		std::string purge;
-		getline (sceneFile, purge);	// purge rest of line
-		getline (sceneFile, textToDisplay);
-		if (textToDisplay == "NULL") {
-			textToDisplay = "";
+		XmlNode* imageNode = uielementNode->GetFirstChildByNodeName(IMAGE_TAG);
+		if (imageNode != nullptr) {
+			imageName = imageNode->GetAttributeValueS(NAME_ATTRIBUTE);
 		}
 	}
 	{
-		sceneFile >> imageName;
-		if (imageName == "NULL") {
-			imageName = "";
+		XmlNode* colorNode = uielementNode->GetFirstChildByNodeName(COLOR_TAG);
+		if (colorNode != nullptr) {
+			color.r = colorNode->GetAttributeValueF(R_ATTRIBUTE);
+			color.g = colorNode->GetAttributeValueF(G_ATTRIBUTE);
+			color.b = colorNode->GetAttributeValueF(B_ATTRIBUTE);
+			color.a = colorNode->GetAttributeValueF(A_ATTRIBUTE);
 		}
 	}
 	{
-		sceneFile >> color.r >> color.g >> color.b >> color.a;
-	}
-	{
-		// TODO [Implement]
-		sceneFile >> clickable;
-		if (clickable != "true" && clickable != "false") {
-			ASSERT(0, "Unknown value for clickable: %s", clickable.c_str());
-		}
+		clickable = uielementNode->GetAttributeValueB(CLICKABLE_ATTRIBUTE);
 	}
 
 	{

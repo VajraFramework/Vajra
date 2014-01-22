@@ -6,9 +6,9 @@
 #include <vector>
 
 namespace StringUtilities {
-	int   ConvertStringToInt  (std::string& s);
-	float ConvertStringToFloat(std::string& s);
-	bool  ConvertStringToBool (std::string& s);
+	int   ConvertStringToInt  (std::string s);
+	float ConvertStringToFloat(std::string s);
+	bool  ConvertStringToBool (std::string s);
 
 	std::string StringToLower(std::string s);
 	std::string StringToUpper(std::string s);

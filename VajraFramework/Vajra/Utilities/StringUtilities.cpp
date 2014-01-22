@@ -3,21 +3,21 @@
 #include <algorithm>
 #include <locale>
 
-int StringUtilities::ConvertStringToInt(std::string& s) {
+int StringUtilities::ConvertStringToInt(std::string s) {
 	std::istringstream iss(s);
 	int result;
 	iss >> result;
 	return result;
 }
 
-float StringUtilities::ConvertStringToFloat(std::string& s) {
+float StringUtilities::ConvertStringToFloat(std::string s) {
 	std::istringstream iss(s);
 	float result;
 	iss >> result;
 	return result;
 }
 
-bool StringUtilities::ConvertStringToBool(std::string& s) {
+bool StringUtilities::ConvertStringToBool(std::string s) {
 	if (StringUtilities::StringToLower(s) == "false" || s == "0") {
 		return false;
 	}
