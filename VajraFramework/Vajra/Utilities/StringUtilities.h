@@ -10,6 +10,9 @@ namespace StringUtilities {
 	float ConvertStringToFloat(std::string& s);
 	bool  ConvertStringToBool (std::string& s);
 
+	std::string StringToLower(std::string s);
+	std::string StringToUpper(std::string s);
+
 	std::vector<std::string> SplitStringIntoTokensOnDelimiter (std::string& s, char delimiter, bool removeWhiteSpace = false);
 
 	std::string EraseStringFromString(std::string bigString, std::string smallString, bool onlyFirstOccurance = false);

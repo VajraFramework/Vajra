@@ -1,6 +1,7 @@
 #include "Vajra/Utilities/StringUtilities.h"
 
 #include <algorithm>
+#include <locale>
 
 int StringUtilities::ConvertStringToInt(std::string& s) {
 	std::istringstream iss(s);
@@ -17,7 +18,7 @@ float StringUtilities::ConvertStringToFloat(std::string& s) {
 }
 
 bool StringUtilities::ConvertStringToBool(std::string& s) {
-	if (s == "false" || s == "0") {
+	if (StringUtilities::StringToLower(s) == "false" || s == "0") {
 		return false;
 	}
 	return true;
@@ -58,4 +59,20 @@ bool StringUtilities::FindStringInVectorOfStrings(std::vector<std::string> v, st
 		}
 	}
 	return false;
+}
+
+std::string StringUtilities::StringToLower(std::string s) {
+	std::string result;
+	for (char c : s) {
+		result.push_back(std::tolower(c));
+	}
+	return result;
+}
+
+std::string StringUtilities::StringToUpper(std::string s) {
+	std::string result;
+	for (char c : s) {
+		result.push_back(std::toupper(c));
+	}
+	return result;
 }

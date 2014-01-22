@@ -7,6 +7,7 @@
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
+#include "Vajra/Utilities/XmlParser/XmlParser.h"
 
 #include <fstream>
 
@@ -29,7 +30,7 @@ static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int t
 	}
 }
 
-static void loadOneUiElement(std::ifstream& sceneFile, UiTouchHandlers* touchHandlers) {
+static void loadOneUiElement(XmlNode* uielementNode, UiTouchHandlers* touchHandlers) {
 	std::string itemName;
 	int posXPixels, posYPixels;
 	int widthPixels, heightPixels;
@@ -41,10 +42,12 @@ static void loadOneUiElement(std::ifstream& sceneFile, UiTouchHandlers* touchHan
 	std::string clickable;
 
 	{
-		sceneFile >> itemName;
+		itemName = uielementNode->GetAttributeValueS(NAME_ATTRIBUTE);
 		FRAMEWORK->GetLogger()->dbglog("Item name: %s", itemName.c_str());
 	}
 	{
+		XmlNode* dimensionsNode = uielementNode->GetFirstChildByNodeName(DIMENSIONS_TAG);
+		`````````````````````````````````````````````````````````````````````````````````
 		sceneFile >> posXPixels  >> posYPixels;
 		sceneFile >> widthPixels >> heightPixels;
 		// TODO [Implement]
@@ -114,32 +117,35 @@ static void loadOneUiElement(std::ifstream& sceneFile, UiTouchHandlers* touchHan
 	}
 }
 
-void LoadUiSceneFromUiSceneFile(const char* filePath, UiTouchHandlers* touchHandlers) {
-	FRAMEWORK->GetLogger()->dbglog("\nLoading ui scene from uiscene file %s", filePath);
+void LoadUiSceneFromUiSceneFile(std::string filePath, UiTouchHandlers* touchHandlers) {
+	FRAMEWORK->GetLogger()->dbglog("\nLoading ui scene from uiscene file %s", filePath.c_str());
 
 	std::ifstream sceneFile(filePath);
-	VERIFY(sceneFile.is_open(), "Successfully opened ui scene file at %s", filePath);
+	VERIFY(sceneFile.is_open(), "Successfully opened ui scene file at %s", filePath.c_str());
+
+	XmlParser* parser = new XmlParser();
+	parser->ParseXmlFile(filePath);
+
+#ifdef DEBUG
+	parser->Print();
+#endif // DEBUG
+
+	XmlTree* xmlTree = parser->GetXmlTree();
+	ASSERT(xmlTree != nullptr, "Got valid xmlTree from parser for uiscene file %s", filePath.c_str());
+	XmlNode* uisceneNode = xmlTree->GetRootNode();
+	ASSERT(uisceneNode != nullptr && uisceneNode->GetName() == UISCENE_TAG, "Got valid uiscene node from xml tree for uiscene file %s", filePath.c_str());
 
 	{
-		int uisceneFormatVersionNumber = -1;
-		sceneFile >> uisceneFormatVersionNumber;
-		VERIFY(uisceneFormatVersionNumber == UISCENE_FORMAT_VERSION_NUMBER, "Model format version number (%d) matches expected (%d)", uisceneFormatVersionNumber, UISCENE_FORMAT_VERSION_NUMBER);
-	}
-
-	{
-		sceneFile >> INTENDED_SCENE_WIDTH_PIXELS >> INTENDED_SCENE_HEIGHT_PIXELS;
+		INTENDED_SCENE_WIDTH_PIXELS  = uisceneNode->GetAttributeValueF(WIDTHPIXELS_ATTRIBUTE );
+		INTENDED_SCENE_HEIGHT_PIXELS = uisceneNode->GetAttributeValueF(HEIGHTPIXELS_ATTRIBUTE);
 		FRAMEWORK->GetLogger()->dbglog("Intended ui scene width, height: %d, %d", INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
 	}
 
-	int NUMBER_OF_UIITEMS;
 	{
-		sceneFile >> NUMBER_OF_UIITEMS;
-		FRAMEWORK->GetLogger()->dbglog("Number of ui elements in ui scene: %d", NUMBER_OF_UIITEMS);
-
-		for (int itemNumber = 0; itemNumber < NUMBER_OF_UIITEMS; ++itemNumber) {
-
-			loadOneUiElement(sceneFile, touchHandlers);
-
+		XmlNode* uielementNode = uisceneNode->GetFirstChildByNodeName(UIELEMENT_TAG);
+		while (uielementNode != nullptr) {
+			loadOneUiElement(uielementNode, touchHandlers);
+			uielementNode = uielementNode->GetNextSiblingByNodeName(UIELEMENT_TAG);
 		}
 	}
 }
