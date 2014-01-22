@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include <vector>
 
 // Forward Declarations:
@@ -98,39 +99,44 @@ void ShaderSet::createShaderProgram() {
 void ShaderSet::createVShader() {
     std::string path = FRAMEWORK->GetFileSystemUtils()->GetDeviceShaderResourcesPath() + this->vshaderSrcName;
 
-    std::ifstream vshadersrcFile(path.c_str());
-    VERIFY_LOG(vshadersrcFile.good(), "Successfully opened vertex shader src file %s for reading", path.c_str());
+	std::string buffer;
+    {
+    	std::ifstream vshadersrcFile(path.c_str());
+    	VERIFY_LOG(vshadersrcFile.good(), "Successfully opened vertex shader src file %s for reading", path.c_str());
+    	while (vshadersrcFile.good()) {
+    		std::string line;
+    		std::getline(vshadersrcFile, line);
+    		buffer += line + "\n";
+    	}
+    	buffer = ShaderSetCreationHelper::CleanupShaderSourceForPreprocessorDirectives(buffer);
+    }
+    std::istringstream vshader_cleanedupSource(buffer);
+
 
     // TODO [Implement] Move this parsing somewhere else
 
     std::string vshaderSourceBuffer;
 
-    ReadTextFileTillStringToken(vshadersrcFile, VARIABLES_STRING);
+    ReadTextFileTillStringToken(vshader_cleanedupSource, VARIABLES_STRING);
     {
-		std::string buffer;
 		do {
-			std::getline(vshadersrcFile, buffer);
+			std::getline(vshader_cleanedupSource, buffer);
 			if (buffer != "" && buffer != VARIABLES_END_STRING) {
-				if (buffer.find("#") != std::string::npos) {
-					// Parse preprocessors later:
-					vshaderSourceBuffer += buffer + "\n";
-				} else {
-					this->variablesUsed.push_back(buffer);
-					vshaderSourceBuffer += ShaderSetCreationHelper::GetVariableDeclarationForVariableName(buffer) + "\n";
-				}
+				this->variablesUsed.push_back(buffer);
+				vshaderSourceBuffer += ShaderSetCreationHelper::GetVariableDeclarationForVariableName(buffer) + "\n";
 			}
-		} while (buffer != VARIABLES_END_STRING);
+		} while (buffer != VARIABLES_END_STRING && vshader_cleanedupSource.good());
     }
 
-    ReadTextFileTillStringToken(vshadersrcFile, SOURCE_STRING);
+    ReadTextFileTillStringToken(vshader_cleanedupSource, SOURCE_STRING);
     {
 		std::string buffer;
 		do {
-			std::getline(vshadersrcFile, buffer);
+			std::getline(vshader_cleanedupSource, buffer);
 			if (buffer != SOURCE_END_STRING) {
 				vshaderSourceBuffer += buffer + "\n";
 			}
-		} while (buffer != SOURCE_END_STRING);
+		} while (buffer != SOURCE_END_STRING && vshader_cleanedupSource.good());
     }
 
     vshaderSourceBuffer = ShaderSetCreationHelper::CleanupShaderSourceForPreprocessorDirectives(vshaderSourceBuffer);

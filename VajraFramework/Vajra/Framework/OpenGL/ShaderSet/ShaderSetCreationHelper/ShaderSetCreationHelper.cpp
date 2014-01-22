@@ -146,6 +146,9 @@ std::string CleanupShaderSourceForPreprocessorDirectives(std::string shaderSourc
 			} else if (line.find("endif") != std::string::npos) {
 				ASSERT(!ifdefs.empty(), "Properly matched number of if / endif pairs");
 				ifdefs.pop();
+
+			} else {
+				ASSERT(0, "Recognized preprocessor directive: %s", line.c_str());
 			}
 		}
 	}
