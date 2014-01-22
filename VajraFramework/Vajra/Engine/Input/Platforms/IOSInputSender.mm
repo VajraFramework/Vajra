@@ -19,9 +19,11 @@
 	UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
 	UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 	
-	// subscribe to the pinch gesture
+	// subscribe to the pinch and long press gesture
 	UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
-	[self addGestureRecognizer: pinch];
+	UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+	[self addGestureRecognizer : pinch];
+	[self addGestureRecognizer : press];
 	
 	return self;
 }
@@ -44,9 +46,13 @@
     [self updateTouches:touches second:TouchPhase::Cancelled];
 }
 
-- (void) handlePinch: (UIPinchGestureRecognizer *) uigr
-{
+- (void) handlePinch: (UIPinchGestureRecognizer *) uigr{
 	ENGINE->GetInput()->UpdatePinch(uigr.scale, uigr.velocity, (GestureState)uigr.state);
+}
+
+- (void) handleLongPress: (UIPinchGestureRecognizer *)uigr {
+	CGPoint pt = [uigr locationInView:self];
+	ENGINE->GetInput()->UpdateLongPress(pt.x, pt.y, (GestureState)uigr.state);
 }
 
 - (void) updateTouches:(NSSet*)touches second:(TouchPhase)phase {

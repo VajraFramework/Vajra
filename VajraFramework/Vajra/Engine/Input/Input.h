@@ -32,6 +32,8 @@ public:
 	void UpdatePinch(float scale, float velocity, GestureState gestureState);
 	bool HasPinchEnded() { return this->framePinch.gestureState >= GestureState::GestureState_End; }
 
+	void UpdateLongPress(float x, float y, GestureState gestureState);
+
 	void AddGameTouchTarget(IGameTouchTarget* newTarget);
 private:
 	Input();
@@ -51,6 +53,9 @@ private:
 	
     Pinch framePinch;
     Pinch asyncPinch;
+
+    LongPress frameLongPress;
+    LongPress asyncLongPress;
 
     int nextFingerId;
     
