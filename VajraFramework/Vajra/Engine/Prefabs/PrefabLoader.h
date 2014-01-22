@@ -6,6 +6,7 @@
 // Forward Declarations:
 class GameObject;
 class SceneGraph;
+class XmlNode;
 
 namespace PrefabLoader {
 
