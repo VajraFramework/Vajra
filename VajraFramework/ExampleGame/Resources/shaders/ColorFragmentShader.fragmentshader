@@ -1,4 +1,6 @@
+#ifplatform iOS | Android
 precision mediump float;
+#endif
 
 varying vec4 lightIntensity;
 

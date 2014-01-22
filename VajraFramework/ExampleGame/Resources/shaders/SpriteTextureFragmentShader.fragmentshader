@@ -1,4 +1,6 @@
+#ifplatform iOS | Android
 precision mediump float;
+#endif
 
 varying vec2 uvCoords_out;
 uniform sampler2D myTextureSampler;
