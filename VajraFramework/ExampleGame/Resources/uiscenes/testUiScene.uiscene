@@ -9,7 +9,7 @@
 		<text>
 			<font type="calibiri.fontspec" size="10.0">
 			</font>
-			MARY HAD A LITTLE LAMB, LITTLE LAMB, LITTLE LAMB.
+			Random text
 		</text>
 		<image name="sample_picture4.png"> </image>
 		<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
@@ -30,13 +30,32 @@
 		<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 	</uielement>
 
-	<uielement name="testButton3" clickable="true">
-		<dimensions>
-			<position x="0" y="730"></position>
-			<size widthPixels="1024" heightPixels="38"></size>
-			<zorder>0</zorder>
-		</dimensions>
-		<color r="0.4" g="0.6" b="0.2" a="1.0"></color>
+	<uielement name="borders" clickable="true">
+	<dimensions>
+		<position x="0" y="0"></position>
+		<size widthPixels="0" heightPixels="0"></size>
+		<zorder>0</zorder>
+	</dimensions>
+
+		<uielement name="topBorder" clickable="true">
+			<dimensions>
+				<position x="0" y="0"></position>
+				<size widthPixels="1024" heightPixels="38"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+
+		<uielement name="bottomBorder" clickable="true">
+			<dimensions>
+				<position x="0" y="730"></position>
+				<size widthPixels="1024" heightPixels="38"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<color r="0.4" g="0.6" b="0.2" a="1.0"></color>
+		</uielement>
+
 	</uielement>
 
 

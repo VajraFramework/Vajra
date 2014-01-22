@@ -31,7 +31,7 @@ static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int t
 	}
 }
 
-static void loadOneUiElement(XmlNode* uielementNode, UiTouchHandlers* touchHandlers) {
+static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTouchHandlers* touchHandlers) {
 	std::string itemName;
 	int posXPixels, posYPixels;
 	int widthPixels, heightPixels;
@@ -40,7 +40,7 @@ static void loadOneUiElement(XmlNode* uielementNode, UiTouchHandlers* touchHandl
 	std::string textToDisplay;
 	std::string imageName;
 	glm::vec4 color;
-	std::string clickable;
+	bool clickable;
 
 	{
 		itemName = uielementNode->GetAttributeValueS(NAME_ATTRIBUTE);
@@ -104,10 +104,6 @@ static void loadOneUiElement(XmlNode* uielementNode, UiTouchHandlers* touchHandl
 	}
 
 	{
-		// Create a new UiElement with the above properties:
-		UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
-		ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
-		//
 		uiElement->SetUiObjectName(itemName);
 		//
 		if (imageName != "") {
@@ -121,13 +117,24 @@ static void loadOneUiElement(XmlNode* uielementNode, UiTouchHandlers* touchHandl
 										 FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + fontName);
 		}
 		//
-		if (clickable == "true") {
+		if (clickable == true) {
 			uiElement->SetClickable(true, touchHandlers);
 		} else {
 			uiElement->SetClickable(false);
 		}
 		//
 		uiElement->SetPosition(posXPixels, posYPixels);
+	}
+
+	XmlNode* childNode = uielementNode->GetFirstChildByNodeName(UIELEMENT_TAG);
+	while (childNode != nullptr) {
+		UiElement* childUiElement = new UiElement(ENGINE->GetSceneGraphUi());
+		ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(childUiElement->GetId());
+		uiElement->AddChild(childUiElement->GetId());
+
+		loadOneUiElement(childUiElement, childNode, touchHandlers);
+
+		childNode = childNode->GetNextSiblingByNodeName(UIELEMENT_TAG);
 	}
 }
 
@@ -158,7 +165,10 @@ void LoadUiSceneFromUiSceneFile(std::string filePath, UiTouchHandlers* touchHand
 	{
 		XmlNode* uielementNode = uisceneNode->GetFirstChildByNodeName(UIELEMENT_TAG);
 		while (uielementNode != nullptr) {
-			loadOneUiElement(uielementNode, touchHandlers);
+			UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
+			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
+			loadOneUiElement(uiElement, uielementNode, touchHandlers);
+
 			uielementNode = uielementNode->GetNextSiblingByNodeName(UIELEMENT_TAG);
 		}
 	}
