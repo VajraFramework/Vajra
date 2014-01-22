@@ -76,6 +76,8 @@ void Input::updateInput() {
 	}	
 
 	this->frameLongPress = this->asyncLongPress;
+	this->asyncLongPress.gestureState = GestureState::GestureState_Inactive;
+
 	if(this->asyncLongPress.gestureState >= GestureState::GestureState_End) {
 			this->asyncLongPress.gestureState = GestureState::GestureState_Inactive;
 	}
@@ -145,6 +147,7 @@ void Input::UpdateLongPress(float x, float y, GestureState gestureState) {
 void Input::AddGameTouchTarget(IGameTouchTarget* newTarget) {
 	this->gameTouchTargets.push_back(newTarget);
 }
+
 void Input::logTouches() {
 	if(this->GetTouchCount() > 0) {
 		FRAMEWORK->GetLogger()->dbglog("TOUCH LOG \n");

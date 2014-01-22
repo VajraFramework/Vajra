@@ -33,7 +33,8 @@ public:
 	bool HasPinchEnded() { return this->framePinch.gestureState >= GestureState::GestureState_End; }
 
 	void UpdateLongPress(float x, float y, GestureState gestureState);
-
+	LongPress GetLongPress() { return this->frameLongPress; }
+	
 	void AddGameTouchTarget(IGameTouchTarget* newTarget);
 private:
 	Input();
