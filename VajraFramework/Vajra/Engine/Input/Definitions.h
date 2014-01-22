@@ -40,4 +40,10 @@ public:
 	GestureState gestureState = GestureState::GestureState_Inactive;
 };
 
+struct LongPress {
+public:
+	glm::vec2 pos;
+	GestureState gestureState = GestureState::GestureState_Inactive;
+};
+
 #endif // INPUT_DEFINITIONS_H
