@@ -44,9 +44,9 @@ glm::quat QuaternionFromLookVectors(glm::vec3 requiredForward, glm::vec3 up /* =
 
 glm::vec3 QuaternionRightVector(glm::quat q) {
 	glm::vec3 v;
-	v.x = 2.0f * (q.x * q.z + q.w * q.y);
-	v.y = 2.0f * (q.y * q.x - q.w * q.x);
-	v.z = 1.0f - 2.0f * (q.x * q.x + q.y * q.y);
+	v.x = 1.0f - 2.0f * (q.y * q.y + q.z * q.z);
+	v.y = 2.0f * (q.x * q.y + q.w * q.z);
+	v.z = 2.0f * (q.x * q.z - q.w * q.y);
 	return glm::normalize(v);
 }
 
@@ -60,9 +60,9 @@ glm::vec3 QuaternionUpVector(glm::quat q) {
 
 glm::vec3 QuaternionForwardVector(glm::quat q) {
 	glm::vec3 v;
-	v.x = 1.0f - 2.0f * (q.y * q.y + q.z * q.z);
-	v.y = 2.0f * (q.x * q.y + q.w * q.z);
-	v.z = 2.0f * (q.x * q.z - q.w * q.y);
+	v.x = 2.0f * (q.x * q.z + q.w * q.y);
+	v.y = 2.0f * (q.y * q.x - q.w * q.x);
+	v.z = 1.0f - 2.0f * (q.x * q.x + q.y * q.y);
 	return glm::normalize(v);
 }
 
