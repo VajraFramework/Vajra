@@ -28,7 +28,7 @@ void UiElement::InitSprite(unsigned int width, unsigned int height, std::string 
 	this->childSpriteObjectRef->InitSprite(width, height, shaderName_, color);
 }
 
-void UiElement::InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile) {
+void UiElement::InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile, float fontSize) {
 	this->addChildFontObject();
 
 	this->setWidth(width);
@@ -36,8 +36,7 @@ void UiElement::InitTextToDisplay(std::string text, unsigned int width, unsigned
 
 	this->childFontObjectRef->InitTextToDisplay(text, width, height, pathToFontSpecificationFile);
 
-	// TODO [Hack] Change this to use a font size concept instead
-	this->childFontObjectRef->GetTransform()->Scale(30.0f);
+	this->childFontObjectRef->GetTransform()->Scale(fontSize);
 }
 
 void UiElement::init() {
