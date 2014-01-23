@@ -16,7 +16,7 @@ namespace UiSceneLoader {
 
 static int INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS;
 
-static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int targetWidthPixels, const int targetHeightPixels) {
+static void convertPixelsFromTargetSizeToDeviceSize(float& out_pixels, const int targetWidthPixels, const int targetHeightPixels) {
 	unsigned int actualWidthPixels  = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
 	unsigned int actualHeightPixels = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
 	float actualAspecRatio = (float)actualWidthPixels / (float)actualHeightPixels;
@@ -31,12 +31,19 @@ static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int t
 	}
 }
 
+static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int targetWidthPixels, const int targetHeightPixels) {
+	float out_pixelsf = out_pixels;
+	convertPixelsFromTargetSizeToDeviceSize(out_pixelsf, targetWidthPixels, targetHeightPixels);
+	out_pixels = out_pixelsf;
+}
+
 static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTouchHandlers* touchHandlers) {
 	std::string itemName;
 	int posXPixels, posYPixels;
 	int widthPixels, heightPixels;
 	int zorder;
 	std::string fontName;
+	float fontSize;
 	std::string textToDisplay;
 	std::string imageName;
 	glm::vec4 color;
@@ -77,7 +84,8 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 			XmlNode* fontNode = textNode->GetFirstChildByNodeName(FONT_TAG);
 			ASSERT(fontNode != nullptr, "Got valid xmlNode from text node for font");
 			fontName = fontNode->GetAttributeValueS(TYPE_ATTRIBUTE);
-			// TODO [Implement] read in font size here
+			fontSize = fontNode->GetAttributeValueF(SIZE_TAG);
+			convertPixelsFromTargetSizeToDeviceSize(fontSize,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
 
 			textToDisplay = textNode->GetValue();
 			StringUtilities::EraseStringFromString(textToDisplay, "\n");
@@ -114,7 +122,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 		//
 		if (textToDisplay != "") {
 			uiElement->InitTextToDisplay(textToDisplay.c_str(), widthPixels, heightPixels,
-										 FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + fontName);
+										 FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + fontName, fontSize);
 		}
 		//
 		if (clickable == true) {
