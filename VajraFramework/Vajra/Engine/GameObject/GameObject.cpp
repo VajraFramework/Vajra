@@ -61,6 +61,15 @@ void GameObject::Draw() {
 	}
 }
 
+// TODO [Implement] Make it so that the child's invisibility is respected when the parent switches visibility on
+void GameObject::SetVisible(bool visible_) {
+	this->visible = visible_;
+	for (ObjectIdType childId : this->children) {
+		GameObject* child = this->GetParentSceneGraph()->GetGameObjectById(childId);
+		child->SetVisible(visible_);
+	}
+}
+
 std::string GameObject::GetShaderName() {
 	// TODO [Cleanup] Cache the Renderer, maybe
 	Renderer* renderer = this->GetComponent<Renderer>();
