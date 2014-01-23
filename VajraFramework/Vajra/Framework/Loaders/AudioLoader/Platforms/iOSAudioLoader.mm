@@ -55,10 +55,10 @@ ALuint loadALAudioFromWAV(const char* audioPath, ALenum* outFormat, ALubyte** ou
 
 	// Parse the metadata
 	ReadInt32LittleEndianFromFile(file);
-	short format = ReadInt16LittleEndianFromFile(file);
+	/* short format = */ ReadInt16LittleEndianFromFile(file);
 	short channels = ReadInt16LittleEndianFromFile(file);
 	int sampleRate = ReadInt32LittleEndianFromFile(file);
-	int byteRate = ReadInt32LittleEndianFromFile(file);
+	/* int byteRate = */ ReadInt32LittleEndianFromFile(file);
 	ReadInt16LittleEndianFromFile(file);
 	short bitsPerSample = ReadInt16LittleEndianFromFile(file);
 	ALenum audioFormat = GetAudioFormat(channels, bitsPerSample);
