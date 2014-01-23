@@ -49,6 +49,9 @@ enum Shader_variable_variablename_id_t {
 	SHADER_VARIABLE_VARIABLENAME_MaterialAmbientColor,
 	SHADER_VARIABLE_VARIABLENAME_MaterialDiffuseColor,
 	SHADER_VARIABLE_VARIABLENAME_MaterialSpecularColor,
+	SHADER_VARIABLE_VARIABLENAME_MaterialAmbientColor_out,
+	SHADER_VARIABLE_VARIABLENAME_MaterialDiffuseColor_out,
+	SHADER_VARIABLE_VARIABLENAME_MaterialSpecularColor_out,
 	SHADER_VARIABLE_VARIABLENAME_invalid,
 };
 

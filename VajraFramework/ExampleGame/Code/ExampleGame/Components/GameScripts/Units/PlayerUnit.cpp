@@ -54,7 +54,9 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 
 	}
 	else {
-		this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
+		if(ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Ended) {
+			this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
+		}
 	}
 
 }

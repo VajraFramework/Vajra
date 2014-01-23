@@ -64,7 +64,7 @@ void Input::updateInput() {
 	// Set the async pinch as inactive so UpdatePinch will know to update it
 	this->asyncPinch.gestureState = GestureState::GestureState_Inactive;
 
-	// If the gesture state is greater than end it has either ended, been cancelled or another gesture has been detected
+	// If the gesture state is greater then end it has either ended, been cancelled or another gesture has been detected
 	if(this->asyncPinch.gestureState >= GestureState::GestureState_End) {
 		this->asyncPinch.gestureState = GestureState::GestureState_Inactive;
 	}
@@ -73,6 +73,19 @@ void Input::updateInput() {
 		MessageChunk pinchGestureMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		pinchGestureMessage->SetMessageType(MESSAGE_TYPE_PINCH_GESTURE);
 		ENGINE->GetMessageHub()->SendMulticastMessage(pinchGestureMessage, this->GetId());
+	}	
+
+	this->frameLongPress = this->asyncLongPress;
+	this->asyncLongPress.gestureState = GestureState::GestureState_Inactive;
+
+	if(this->asyncLongPress.gestureState >= GestureState::GestureState_End) {
+			this->asyncLongPress.gestureState = GestureState::GestureState_Inactive;
+	}
+	if(this->frameLongPress.gestureState != GestureState::GestureState_Inactive) {
+		// Raise the pinch gesture event
+		MessageChunk longPressGestureMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		longPressGestureMessage->SetMessageType(MESSAGE_TYPE_LONG_PRESS_GESTURE);
+		ENGINE->GetMessageHub()->SendMulticastMessage(longPressGestureMessage, this->GetId());
 	}	
 }
 
@@ -89,7 +102,6 @@ void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
 	t.prevPos = t.pos;
 	t.phase = phase;
 	t.fingerId = this->nextFingerId;
-
 	// increase the unique finger id
 	this->nextFingerId = (this->nextFingerId + 1) % MAX_TOUCHES;
 
@@ -122,9 +134,20 @@ void Input::UpdatePinch(float scale, float velocity, GestureState gestureState) 
 		this->asyncPinch.gestureState = gestureState;
 }
 
+void Input::UpdateLongPress(float x, float y, GestureState gestureState) {
+	this->asyncLongPress.pos.x = x;
+	this->asyncLongPress.pos.y = y;
+
+	if(this->asyncLongPress.gestureState != GestureState::GestureState_Start) {
+		this->asyncLongPress.gestureState = gestureState;
+	}
+}
+
+
 void Input::AddGameTouchTarget(IGameTouchTarget* newTarget) {
 	this->gameTouchTargets.push_back(newTarget);
 }
+
 void Input::logTouches() {
 	if(this->GetTouchCount() > 0) {
 		FRAMEWORK->GetLogger()->dbglog("TOUCH LOG \n");

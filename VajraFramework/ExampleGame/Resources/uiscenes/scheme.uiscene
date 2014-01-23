@@ -1,15 +1,23 @@
-VERSION_NUMBER
-WIDTH_PIXELS HEIGHT_PIXELS
+<uiscene widthPixels="WIDTH_PIXELS" heightPixels="HEIGHT_PIXELS">
 
-NUMBER_OF_ITEMS
+	<uielement name="NAME" clickable="TRUE||FALSE">
+		<dimensions>
+			<position x="X" y="Y"></position>
+			<size widthPixels="WIDTH_PIXELS" heightPixels="HEIGHT_PIXELS"></size>
+			<zorder>ZORDER</zorder>
+		</dimensions>
+		<text>
+			<font type="FONT_NAME" size="FONT_SIZE">
+			</font>
+			MARY HAD A LITTLE LAMB, LITTLE LAMB, LITTLE LAMB.
+		</text>
+		<image name="IMAGE_NAME"> </image>
+		<color r="R" g="G" b="B" a="A"></color>
 
-ITEM_NAME
-POS_X POS_Y
-WIDTH_PIXELS HEIGHT_PIXELS
-ZORDER
-FONT_NAME (for the TEXT to be displayed, or NULL)
-TEXT
-IMAGE_NAME
-COLOR_R COLOR_G COLOR_B COLOR_A
-CLICKABLE? (true||false)
+		// Optional nested ui elements:
+		<uielement>
+		</uielement>
+	</uielement>
+
+</uiscene>
 
