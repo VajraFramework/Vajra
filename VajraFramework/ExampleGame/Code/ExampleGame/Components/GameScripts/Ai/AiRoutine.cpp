@@ -300,6 +300,14 @@ void AiRoutine::parseLookCommand(std::string args) {
 	mark.ClockTick = lastMark.ClockTick + (angle / 90.0f);
 
 	this->markers.push_back(mark);
+
+	// There might also be a wait command embedded in here
+	nextPiece = ReadFileTillChar(argstream, '_', true);
+	if (nextPiece != "") {
+		float t = StringUtilities::ConvertStringToFloat(nextPiece);
+		mark.ClockTick += t;
+		this->markers.push_back(mark);
+	}
 }
 
 void AiRoutine::parseWaitCommand(std::string args) {
