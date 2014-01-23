@@ -37,6 +37,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	int widthPixels, heightPixels;
 	int zorder;
 	std::string fontName;
+	// float fontSize;
 	std::string textToDisplay;
 	std::string imageName;
 	glm::vec4 color;
@@ -77,7 +78,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 			XmlNode* fontNode = textNode->GetFirstChildByNodeName(FONT_TAG);
 			ASSERT(fontNode != nullptr, "Got valid xmlNode from text node for font");
 			fontName = fontNode->GetAttributeValueS(TYPE_ATTRIBUTE);
-			// TODO [Implement] read in font size here
+			// fontSize = fontNode->GetAttributeValueF(FONT)
 
 			textToDisplay = textNode->GetValue();
 			StringUtilities::EraseStringFromString(textToDisplay, "\n");
