@@ -27,7 +27,7 @@ void Bone::SetName(std::string name) {
 	this->name = name;
 }
 
-void Bone::Rotate(float angleInDegrees, glm::vec3 axis, bool boneSpace /* = false */) {
+void Bone::Rotate(float angleInRadians, glm::vec3 axis, bool boneSpace /* = false */) {
 	if (!boneSpace) {
 		// Axis specified in object space coordinates
 		// Convert it to boneSPace
@@ -36,7 +36,7 @@ void Bone::Rotate(float angleInDegrees, glm::vec3 axis, bool boneSpace /* = fals
 	}
 
 	if (axis != ZERO_VEC3) {
-		this->localRotationMatrix = this->localRotationMatrix * glm::rotate(angleInDegrees, axis);
+		this->localRotationMatrix = this->localRotationMatrix * glm::rotate(angleInRadians, axis);
 	}
 }
 

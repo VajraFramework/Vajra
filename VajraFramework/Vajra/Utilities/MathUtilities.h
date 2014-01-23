@@ -13,6 +13,7 @@
 #include "Libraries/glm/gtx/transform.hpp"
 
 extern const float PI;
+#define inRadians * PI / 180.0f
 
 extern const glm::mat4 IDENTITY_MATRIX;
 extern const glm::quat IDENTITY_QUATERNION;
@@ -26,6 +27,8 @@ extern const glm::vec4 ZERO_VEC4_POSITION;
 extern const glm::vec4 ZERO_VEC4_DIRECTION;
 
 glm::quat QuaternionFromLookVectors(glm::vec3 requiredForward, glm::vec3 up = YAXIS);
+
+// Functions to extract basis vectors from a quaternion:
 glm::vec3 QuaternionRightVector(glm::quat q);
 glm::vec3 QuaternionUpVector(glm::quat q);
 glm::vec3 QuaternionForwardVector(glm::quat q);

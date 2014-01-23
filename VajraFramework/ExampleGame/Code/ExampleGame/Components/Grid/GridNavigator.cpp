@@ -178,10 +178,20 @@ void GridNavigator::updateFacing() {
 	float turnAmount = this->turningSpeed * dt;
 	Transform* trans = getTransform(); // Store the reference locally to save on function calls.
 
+	if (this->targetForward == trans->GetForward()) {
+		this->isTurning = false;
+		return;
+	}
+
 	float angle = glm::angle(this->targetForward, trans->GetForward());
 	glm::vec3 axis = YAXIS;
 	if (angle < 180.0f) {
 		axis = glm::cross(trans->GetForward(), this->targetForward);
+	}
+
+	if (axis == ZERO_VEC3) {
+		this->isTurning = false;
+		return;
 	}
 
 	if (angle > turnAmount) {

@@ -185,6 +185,7 @@ void LevelManager::loadCameraDataFromStream(std::istream& ifs) {
 	ASSERT(tag == UNIT_START_TAG, "Loading starting unit for level %s", SINGLETONS->GetLevelManager()->GetCurrentLevelName().c_str());
 	ifs >> startingUnit;
 
+#if 1
 	// Create the ShadyCamera; this should possibly be a prefab as well.
 	GameObject* camera = new GameObject(ENGINE->GetSceneGraph3D());
 	ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(camera->GetId());
@@ -196,6 +197,7 @@ void LevelManager::loadCameraDataFromStream(std::istream& ifs) {
 	int gX = SINGLETONS->GetGridManager()->gridRooms[0]->westBound;
 	int gZ = SINGLETONS->GetGridManager()->gridRooms[0]->southBound;
 	cameraComponent->MoveToRoom(gX, gZ);
+#endif
 }
 
 void LevelManager::endLevel(bool /*success*/) {

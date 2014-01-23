@@ -220,7 +220,7 @@ void AiRoutine::parseWalkCommand(std::string args) {
 		int distance = StringUtilities::ConvertStringToInt(str);
 		AddDirectionToCellCoordinates(x, z, dir, distance);
 
-		if (end != std::string::npos) {
+		if (end != (unsigned int)std::string::npos) {
 			// We can support two different directions in one command.
 			start = end + 1;
 			end = args.find('_', start);
