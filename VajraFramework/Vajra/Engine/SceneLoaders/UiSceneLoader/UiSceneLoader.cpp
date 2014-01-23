@@ -136,7 +136,8 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 		}
 		//
 		if (clickable == true) {
-			uiElement->SetClickable(true, touchHandlers);
+			uiElement->SetTouchHandlers(touchHandlers);
+			uiElement->SetClickable(true);
 		} else {
 			uiElement->SetClickable(false);
 		}

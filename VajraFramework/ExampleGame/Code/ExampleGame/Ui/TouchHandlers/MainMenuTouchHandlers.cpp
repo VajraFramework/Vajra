@@ -13,6 +13,10 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 
 
+#define START_MENU "startMenu"
+#define OPTIONS_MENU "optionsMenu"
+
+
 void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch touch) {
 	FRAMEWORK->GetLogger()->dbglog("\nGot touch down: name (%s): %f, %f", uiObject->GetUiObjectName().c_str(), touch.pos.x, touch.pos.y);
 
@@ -54,6 +58,8 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "testUiScene.uiscene";
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new TestUiSceneTouchHandlers());
 
+	} else if(uiObject->GetUiObjectName() == "options") {
+		
 	} else {
 		// Do something
 
