@@ -116,13 +116,23 @@ void GridNavigator::SetLookTarget(int x, int z) {
 }
 
 void GridNavigator::SetLookTarget(glm::vec3 loc) {
-	this->targetForward = glm::normalize(loc - this->getTransform()->GetPositionWorld());
-	this->isTurning = true;
+	glm::vec3 target = glm::normalize(loc - this->getTransform()->GetPositionWorld());
+	float angle = glm::angle(target, this->getTransform()->GetForward());
+
+	if (angle > 0.001f) {
+		this->targetForward = target;
+		this->isTurning = true;
+	}
 }
 
 void GridNavigator::SetLookTarget(glm::quat orient) {
-	this->targetForward = QuaternionForwardVector(orient);
-	this->isTurning = true;
+	glm::vec3 target = QuaternionForwardVector(orient);
+	float angle = glm::angle(target, this->getTransform()->GetForward());
+
+	if (angle > 0.001f) {
+		this->targetForward = target;
+		this->isTurning = true;
+	}
 }
 
 void GridNavigator::update() {
@@ -175,7 +185,7 @@ void GridNavigator::followPath() {
 
 void GridNavigator::updateFacing() {
 	float dt = ENGINE->GetTimer()->GetDeltaFrameTime();
-	float turnAmount = this->turningSpeed * dt;
+	float turnAmount = this->turningSpeed inRadians * dt;
 	Transform* trans = getTransform(); // Store the reference locally to save on function calls.
 
 	if (this->targetForward == trans->GetForward()) {
@@ -185,7 +195,7 @@ void GridNavigator::updateFacing() {
 
 	float angle = glm::angle(this->targetForward, trans->GetForward());
 	glm::vec3 axis = YAXIS;
-	if (angle < 180.0f) {
+	if (angle < PI) {
 		axis = glm::cross(trans->GetForward(), this->targetForward);
 	}
 
