@@ -51,6 +51,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	std::string imageName;
 	glm::vec4 color;
 	bool clickable;
+	bool visible;
 
 	{
 		itemName = uielementNode->GetAttributeValueS(NAME_ATTRIBUTE);
@@ -113,7 +114,13 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	{
 		clickable = uielementNode->GetAttributeValueB(CLICKABLE_ATTRIBUTE);
 	}
-
+	{
+		if(uielementNode->HasAttribute(VISIBLE_ATTRIBUTE)) {
+			visible = uielementNode->GetAttributeValueB(VISIBLE_ATTRIBUTE);
+		} else {
+			visible = true;
+		}
+	}
 	{
 		uiElement->SetUiObjectName(itemName);
 		//
@@ -133,6 +140,15 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 		} else {
 			uiElement->SetClickable(false);
 		}
+		//
+		// TODO [Cleanup] remove this when visible works correctly
+		if(uiElement->GetParentId() != OBJECT_ID_INVALID) {
+			bool parentVis = (GameObject*)uiElement->GetParentSceneGraph()->GetGameObjectById(uiElement->GetParentId())->IsVisible();
+			if(!parentVis) {
+				visible = false;
+			}
+		}
+		uiElement->SetVisible(visible);
 		//
 		uiElement->SetPosition(posXPixels, posYPixels);
 	}
