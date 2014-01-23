@@ -1,0 +1,26 @@
+<uiscene widthPixels="1024" heightPixels="768">
+
+	<uielement name="startMenu" clickable="true">
+	<dimensions>
+		<position x="0" y="0"></position>
+		<size widthPixels="0" heightPixels="0"></size>
+		<zorder>0</zorder>
+	</dimensions>
+
+		<uielement name="play" clickable="true">
+			<dimensions>
+				<position x="512" y="300"></position>
+				<size widthPixels="320" heightPixels="160"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Play
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+	</uielement>
+
+</uiscene>
+

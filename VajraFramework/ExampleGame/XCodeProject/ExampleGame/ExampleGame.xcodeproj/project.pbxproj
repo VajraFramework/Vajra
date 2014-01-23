@@ -39,6 +39,7 @@
 		B313ADFA1891B71F00FABEB9 /* prefabs in Resources */ = {isa = PBXBuildFile; fileRef = B313ADEE1891B71F00FABEB9 /* prefabs */; };
 		B313ADFB1891B71F00FABEB9 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = B313ADEF1891B71F00FABEB9 /* shaders */; };
 		B313ADFC1891B71F00FABEB9 /* uiscenes in Resources */ = {isa = PBXBuildFile; fileRef = B313ADF01891B71F00FABEB9 /* uiscenes */; };
+		B313AE011891B98000FABEB9 /* MainMenuTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B313ADFF1891B98000FABEB9 /* MainMenuTouchHandlers.cpp */; };
 		B314D53E1891AFBB005EA850 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = B314D38B1891AFBB005EA850 /* CMakeLists.txt */; };
 		B314D53F1891AFBB005EA850 /* func_common.inl in Resources */ = {isa = PBXBuildFile; fileRef = B314D3931891AFBB005EA850 /* func_common.inl */; };
 		B314D5401891AFBB005EA850 /* func_exponential.inl in Resources */ = {isa = PBXBuildFile; fileRef = B314D3951891AFBB005EA850 /* func_exponential.inl */; };
@@ -214,6 +215,8 @@
 		B313ADEE1891B71F00FABEB9 /* prefabs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = prefabs; path = ../../../Resources/prefabs; sourceTree = "<group>"; };
 		B313ADEF1891B71F00FABEB9 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../../../Resources/shaders; sourceTree = "<group>"; };
 		B313ADF01891B71F00FABEB9 /* uiscenes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = uiscenes; path = ../../../Resources/uiscenes; sourceTree = "<group>"; };
+		B313ADFF1891B98000FABEB9 /* MainMenuTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenuTouchHandlers.cpp; sourceTree = "<group>"; };
+		B313AE001891B98000FABEB9 /* MainMenuTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuTouchHandlers.h; sourceTree = "<group>"; };
 		B314D38B1891AFBB005EA850 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		B314D38D1891AFBB005EA850 /* _detail.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _detail.hpp; sourceTree = "<group>"; };
 		B314D38E1891AFBB005EA850 /* _fixes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _fixes.hpp; sourceTree = "<group>"; };
@@ -1999,6 +2002,8 @@
 			children = (
 				B350FDB918902989001A81F2 /* TestUiSceneTouchHandlers.cpp */,
 				B350FDBA18902989001A81F2 /* TestUiSceneTouchHandlers.h */,
+				B313ADFF1891B98000FABEB9 /* MainMenuTouchHandlers.cpp */,
+				B313AE001891B98000FABEB9 /* MainMenuTouchHandlers.h */,
 			);
 			path = TouchHandlers;
 			sourceTree = "<group>";
@@ -2259,6 +2264,7 @@
 				B350FDCC18902989001A81F2 /* TestFile.cpp in Sources */,
 				B350FDC718902989001A81F2 /* GridRoom.cpp in Sources */,
 				B350FDC318902989001A81F2 /* PlayerUnit.cpp in Sources */,
+				B313AE011891B98000FABEB9 /* MainMenuTouchHandlers.cpp in Sources */,
 				B350FDCD18902989001A81F2 /* TestUiSceneTouchHandlers.cpp in Sources */,
 				B350FDBD18902989001A81F2 /* AiKnowledge.cpp in Sources */,
 				B350FDBC18902989001A81F2 /* ComponentMapper.cpp in Sources */,

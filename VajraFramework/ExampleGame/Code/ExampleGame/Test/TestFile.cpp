@@ -7,7 +7,7 @@
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Test/TestFile.h"
-#include "ExampleGame/Ui/TouchHandlers/TestUiSceneTouchHandlers.h"
+#include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
 #include "Vajra/Common/Objects/Object.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
@@ -129,7 +129,7 @@ void initUiGameObjects() {
 	}
 
 	{
-		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "testUiScene.uiscene";
-		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new TestUiSceneTouchHandlers());
+		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
+		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
 	}
 }
