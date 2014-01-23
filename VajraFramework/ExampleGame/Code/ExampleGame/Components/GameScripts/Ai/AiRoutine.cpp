@@ -103,8 +103,8 @@ void AiRoutine::Follow() {
 		}
 	}
 	else if (this->currentMarkerType == AI_MARKER_WAIT) {
-		this->currentTick += ENGINE->GetTimer()->GetDeltaFrameTime();
-		if (this->currentTick >= this->markers[this->currentMarker].ClockTick) {
+		this->waitTimer -= ENGINE->GetTimer()->GetDeltaFrameTime();
+		if (this->waitTimer <= 0.0f) {
 			this->nextMarker();
 		}
 	}
@@ -154,8 +154,7 @@ void AiRoutine::parseTaskStrings() {
 		}
 	}
 
-	this->currentTick = 0.0f;
-	this->maxTick = this->markers[this->markers.size()].ClockTick;
+	this->waitTimer = 0.0f;
 	this->currentMarker = 0;
 	this->resumeSchedule();
 }
@@ -167,7 +166,7 @@ void AiRoutine::parseStartCommand(std::string args) {
 	AiMarker mark;
 
 	// Reset the clock ticker
-	mark.ClockTick = 0.0f;
+	mark.WaitTime = 0.0f;
 
 	// Determine starting position
 	nextPiece = ReadFileTillChar(argstream, '_', true);
@@ -212,6 +211,7 @@ void AiRoutine::parseWalkCommand(std::string args) {
 	int nMarks = this->markers.size();
 	AiMarker lastMark = this->markers[nMarks - 1];
 	AiMarker mark;
+	mark.WaitTime = 0.0f;
 
 	// The arguments will be passed as displacements from the enemy's last position
 	int x =  (int)lastMark.Position.x;
@@ -246,12 +246,6 @@ void AiRoutine::parseWalkCommand(std::string args) {
 	}
 
 	mark.Position = SINGLETONS->GetGridManager()->GetCell(x, z)->center;
-
-	float dx = mark.Position.x - lastMark.Position.x;
-	float dz = mark.Position.z - lastMark.Position.z;
-	float dist = sqrt(dx * dx + dz * dz);
-	mark.ClockTick = lastMark.ClockTick + dist;
-
 	glm::vec3 forward = mark.Position - lastMark.Position;
 	forward = glm::normalize(forward);
 	mark.Orientation = QuaternionFromLookVectors(forward);
@@ -271,6 +265,7 @@ void AiRoutine::parseLookCommand(std::string args) {
 
 	// The enemy's position won't change
 	mark.Position = lastMark.Position;
+	mark.WaitTime = 0.0f;
 
 	// The arguments will be passed as displacements from the enemy's position
 	int x =  (int)lastMark.Position.x;
@@ -296,16 +291,13 @@ void AiRoutine::parseLookCommand(std::string args) {
 	forward = glm::normalize(forward);
 	mark.Orientation = QuaternionFromLookVectors(forward);
 
-	float angle = glm::angle(glm::inverse(mark.Orientation) * lastMark.Orientation);
-	mark.ClockTick = lastMark.ClockTick + (angle / 90.0f);
-
 	this->markers.push_back(mark);
 
 	// There might also be a wait command embedded in here
 	nextPiece = ReadFileTillChar(argstream, '_', true);
 	if (nextPiece != "") {
 		float t = StringUtilities::ConvertStringToFloat(nextPiece);
-		mark.ClockTick += t;
+		mark.WaitTime = t;
 		this->markers.push_back(mark);
 	}
 }
@@ -325,16 +317,12 @@ void AiRoutine::parseWaitCommand(std::string args) {
 	// The amount of time to wait will be given in seconds
 	nextPiece = ReadFileTillChar(argstream, '_', true);
 	float t = StringUtilities::ConvertStringToFloat(nextPiece);
-	mark.ClockTick = lastMark.ClockTick + t;
+	mark.WaitTime = t;
 
 	this->markers.push_back(mark);
 }
 
 void AiRoutine::nextMarker() {
-	this->currentTick = this->markers[this->currentMarker].ClockTick;
-	if (this->currentTick >= this->maxTick) {
-		this->currentTick -= this->maxTick;
-	}
 	this->currentMarker = (this->currentMarker + 1) % this->markers.size();
 
 	resumeSchedule();
@@ -344,7 +332,7 @@ void AiRoutine::resumeSchedule() {
 	Transform* trans = this->GetObject()->GetComponent<Transform>();
 
 	AiMarker prevMark;
-	prevMark.ClockTick = this->currentTick;
+	prevMark.WaitTime = this->waitTimer;
 	prevMark.Position = trans->GetPositionWorld();
 	prevMark.Orientation = trans->GetOrientationWorld();
 	AiMarker newMark = this->markers[this->currentMarker];
@@ -362,5 +350,6 @@ void AiRoutine::resumeSchedule() {
 	}
 	else {
 		this->currentMarkerType = AI_MARKER_WAIT;
+		this->waitTimer = newMark.WaitTime;
 	}
 }

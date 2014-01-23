@@ -52,7 +52,7 @@ private:
 	void destroy();
 
 	struct AiMarker {
-		float ClockTick;
+		float WaitTime;
 		glm::vec3 Position;
 		glm::quat Orientation;
 	};
@@ -75,7 +75,7 @@ private:
 	std::vector<std::string> taskStrings;
 	std::vector<AiMarker> markers;
 	int currentMarker;
-	float currentTick;
+	float waitTimer;
 	float maxTick;
 	AiMarkerType currentMarkerType;
 
