@@ -1,35 +1,63 @@
-1
-1024 768
+<uiscene widthPixels="1024" heightPixels="768">
 
-3
+	<uielement name="testButton" clickable="true">
+		<dimensions>
+			<position x="10" y="20"></position>
+			<size widthPixels="125" heightPixels="100"></size>
+			<zorder>0</zorder>
+		</dimensions>
+		<text>
+			<font type="calibiri.fontspec" size="10.0">
+			</font>
+			Random text
+		</text>
+		<image name="sample_picture4.png"> </image>
+		<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+	</uielement>
 
-testButton
-10 20
-125 100
-0
-calibiri.fontspec
-random text
-sample_picture4.png
-1.0 1.0 1.0 1.0
-true
+	<uielement name="testButton2" clickable="true">
+		<dimensions>
+			<position x="940" y="650"></position>
+			<size widthPixels="74" heightPixels="68"></size>
+			<zorder>0</zorder>
+		</dimensions>
+		<text>
+			<font type="calibiri.fontspec" size="10.0">
+			</font>
+			Wheeee
+		</text>
+		<image name="sample_picture5.png"> </image>
+		<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+	</uielement>
 
-testButton2
-940 650
-74 68
-0
-calibiri.fontspec
-whee
-sample_picture5.png
-1.0 1.0 1.0 1.0
-true
+	<uielement name="borders" clickable="true">
+	<dimensions>
+		<position x="0" y="0"></position>
+		<size widthPixels="0" heightPixels="0"></size>
+		<zorder>0</zorder>
+	</dimensions>
 
-testButton3
-0 730
-1024 38
-0
-NULL
-NULL
-NULL
-0.4 0.6 0.2 1.0
-false
+		<uielement name="topBorder" clickable="true">
+			<dimensions>
+				<position x="0" y="0"></position>
+				<size widthPixels="1024" heightPixels="38"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+
+		<uielement name="bottomBorder" clickable="true">
+			<dimensions>
+				<position x="0" y="730"></position>
+				<size widthPixels="1024" heightPixels="38"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<color r="0.4" g="0.6" b="0.2" a="1.0"></color>
+		</uielement>
+
+	</uielement>
+
+
+</uiscene>
 
