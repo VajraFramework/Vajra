@@ -84,10 +84,10 @@ namespace Tesserakonteres {
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "polySurface5.model");
 			BakedSkeletalAnimation* bakedSkeletalAnimation = gameObject->AddComponent<BakedSkeletalAnimation>();
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_GuardCaptain_mesh.skeletalanimation#idle");
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_GuardCaptain_mesh.skeletalanimation#twitching");
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_GuardCaptain_mesh.skeletalanimation#turning");
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_GuardCaptain_mesh.skeletalanimation#nodding");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_Imposter_mesh.skeletalanimation#idle");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_Imposter_mesh.skeletalanimation#twitching");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_Imposter_mesh.skeletalanimation#turning");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_Imposter_mesh.skeletalanimation#nodding");
 			std::string animclipToPlay = "nodding";
 			AnimationClip* animationClip = bakedSkeletalAnimation->GetAnimationClip(animclipToPlay.c_str());
 			animationClip->SetLooping(true);
@@ -97,7 +97,8 @@ namespace Tesserakonteres {
 			Transform* transform = gameObject->GetTransform();
 			transform->Scale(0.08f);
 			transform->Translate(1.0f, transform->GetForward());
-			transform->Rotate(90.0f, YAXIS);
+			// transform->Rotate(180.0f, YAXIS);
+			transform->SetPosition(10.0f, 0.0f, -10.0f);
 			wavybox = gameObject;
 #endif
 			//

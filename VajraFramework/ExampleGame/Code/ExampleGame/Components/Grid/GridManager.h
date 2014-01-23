@@ -97,7 +97,8 @@ private:
 	void selectUnitInCell(int x, int z);
 	void selectUnitInCell(GridCell* cell);
 	void deselectUnit();
-
+	void longPressOnGrid();
+	
 	float cellSize; // Width and depth of a grid cell in world coordinates
 	glm::vec3 halfCellSize; // Offset vector between center and corner of a grid cell
 

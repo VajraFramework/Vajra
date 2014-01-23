@@ -61,6 +61,7 @@ void GridManager::init() {
 #endif
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_KILLED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_LONG_PRESS_GESTURE, this->GetTypeId(), false);
 }
 
 void GridManager::destroy() {
@@ -98,6 +99,8 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_UNIT_KILLED:
 			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
 			break;
+		case MESSAGE_TYPE_LONG_PRESS_GESTURE:
+			this->longPressOnGrid();
 		default:
 			break;
 	}
@@ -169,7 +172,8 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
-		if (touch.phase == TouchPhase::Began) {
+		// Todo [HACK] remove this when all devices have long press
+		if (touch.phase == TouchPhase::Ended) {
 			if (cell->unitId != OBJECT_ID_INVALID && cell->unitId != this->selectedUnitId) {
 				selectUnitInCell(cell);
 			}
@@ -574,4 +578,18 @@ void GridManager::deselectUnit() {
 			this->selectedUnitId = OBJECT_ID_INVALID;
 		}
 	}
+}
+
+void GridManager::longPressOnGrid() {
+	LongPress lp = ENGINE->GetInput()->GetLongPress();
+	GridCell* c = this->TouchPositionToCell(lp.pos);
+	if(c->unitId != OBJECT_ID_INVALID) {
+		if(c->unitId == selectedUnitId) {
+			
+		}
+		else {
+			selectUnitInCell(c);
+		}
+	}
+		
 }

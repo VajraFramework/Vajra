@@ -30,3 +30,8 @@ varying vec4 DLight0SpecularColor_out
 uniform vec4 MaterialAmbientColor
 uniform vec4 MaterialDiffuseColor
 uniform vec4 MaterialSpecularColor
+
+varying vec4 MaterialAmbientColor_out
+varying vec4 MaterialDiffuseColor_out
+varying vec4 MaterialSpecularColor_out
+
