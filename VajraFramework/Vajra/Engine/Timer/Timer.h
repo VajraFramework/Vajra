@@ -10,7 +10,7 @@ public:
 	~Timer();
 
 	inline unsigned long long GetFrameNumber() { return this->frameNumber; }
-	double GetDeltaFrameTime() { return this->deltaFrameTime; }
+	double GetDeltaFrameTime() { return 1.0f / 8.0f; /*this->deltaFrameTime;*/ }
 	double GetFPS() { return this->fps; }
 
 	inline unsigned long long GetSecondsSinceBoot() { return this->secondsSinceBoot; }

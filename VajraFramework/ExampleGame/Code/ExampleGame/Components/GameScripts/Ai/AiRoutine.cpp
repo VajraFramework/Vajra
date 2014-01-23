@@ -18,20 +18,58 @@
 #define MIN_ANGLE    0.0001f
 
 AiCommandType ConvertStringToAiCommand(std::string cmd) {
-	if (cmd == "START") {
-		return AI_COMMAND_START;
-	}
-	else if (cmd == "WALK") {
-		return AI_COMMAND_WALK;
-	}
-	else if (cmd == "LOOK") {
-		return AI_COMMAND_LOOK;
-	}
-	else if (cmd == "WAIT") {
-		return AI_COMMAND_WAIT;
-	}
-
+	if      (cmd == "START")  { return AI_COMMAND_START; }
+	else if (cmd == "WALK" )  { return AI_COMMAND_WALK;  }
+	else if (cmd == "LOOK" )  { return AI_COMMAND_LOOK;  }
+	else if (cmd == "WAIT" )  { return AI_COMMAND_WAIT;  }
 	return AI_COMMAND_UNKNOWN;
+}
+
+DirectionType ConvertStringToDirection(std::string dir) {
+	if      (dir == "N" )  { return DIR_NORTH;     }
+	else if (dir == "E" )  { return DIR_EAST;      }
+	else if (dir == "S" )  { return DIR_SOUTH;     }
+	else if (dir == "W" )  { return DIR_WEST;      }
+	else if (dir == "NE")  { return DIR_NORTHEAST; }
+	else if (dir == "SE")  { return DIR_SOUTHEAST; }
+	else if (dir == "SW")  { return DIR_SOUTHWEST; }
+	else if (dir == "NW")  { return DIR_NORTHWEST; }
+	return DIR_INVALID;
+}
+
+void AddDirectionToCellCoordinates(int& x, int& z, DirectionType dir, int distance) {
+	switch (dir) {
+		case DIR_NORTH:
+			z += distance;
+			break;
+		case DIR_EAST:
+			x += distance;
+			break;
+		case DIR_SOUTH:
+			z -= distance;
+			break;
+		case DIR_WEST:
+			x -= distance;
+			break;
+		case DIR_NORTHEAST:
+			x += distance;
+			z += distance;
+			break;
+		case DIR_SOUTHEAST:
+			x += distance;
+			z -= distance;
+			break;
+		case DIR_SOUTHWEST:
+			x -= distance;
+			z -= distance;
+			break;
+		case DIR_NORTHWEST:
+			x += distance;
+			z -= distance;
+			break;
+		default:
+			break;
+	}
 }
 
 ComponentIdType AiRoutine::componentTypeId = COMPONENT_TYPE_ID_AI_ROUTINE;
@@ -120,36 +158,47 @@ void AiRoutine::parseTaskStrings() {
 }
 
 void AiRoutine::parseStartCommand(std::string args) {
+	// Determine starting position
 	int start = 0;
 	int end = args.find('_');
-	std::string str = args.substr(start, end);
+	std::string str = args.substr(start, end - start);
 	int xPos = StringUtilities::ConvertStringToInt(str);
 
 	start = end + 1;
 	end = args.find('_', start);
-	str = args.substr(start, end);
+	str = args.substr(start, end - start);
 	int zPos = StringUtilities::ConvertStringToInt(str);
-
-	start = end + 1;
-	end = args.find('_', start);
-	str = args.substr(start, end);
-	int xLook = StringUtilities::ConvertStringToInt(str);
-
-	start = end + 1;
-	end = args.find('_', start);
-	str = args.substr(start, end);
-	int zLook = StringUtilities::ConvertStringToInt(str);
 
 	AiMarker mark;
 	mark.ClockTick = 0.0f;
 	mark.Position = SINGLETONS->GetGridManager()->GetCell(xPos, zPos)->center;
 
+	start = end + 1;
+	end = args.find('_', start);
+	str = args.substr(start, end - start);
+
+	DirectionType dir = ConvertStringToDirection(str);
+	int xLook = xPos;
+	int zLook = zPos;
+	if (dir != DIR_INVALID) {
+		// The second argument is a direction
+		AddDirectionToCellCoordinates(xLook, zLook, dir, 1);
+	}
+	else {
+		// The second argument is a cell position
+		xLook = StringUtilities::ConvertStringToInt(str);
+
+		start = end + 1;
+		end = args.find('_', start);
+		str = args.substr(start, end - start);
+		zLook = StringUtilities::ConvertStringToInt(str);
+	}
 	glm::vec3 forward = SINGLETONS->GetGridManager()->GetCell(xLook, zLook)->center - mark.Position;
 	forward = glm::normalize(forward);
 
 	mark.Orientation = QuaternionFromLookVectors(forward);
-	this->markers.push_back(mark);
 
+	this->markers.push_back(mark);
 	this->GetObject()->GetComponent<Transform>()->SetOrientation(mark.Orientation);
 }
 
@@ -157,15 +206,43 @@ void AiRoutine::parseWalkCommand(std::string args) {
 	int nMarks = this->markers.size();
 	AiMarker lastMark = this->markers[nMarks - 1];
 
-	int start = 0;
-	int end = args.find('_');
-	std::string str = args.substr(start, end);
-	int x = StringUtilities::ConvertStringToInt(str);
+	unsigned int start = 0;
+	unsigned int end = args.find('_');
+	std::string str = args.substr(start, end - start);
 
-	start = end + 1;
-	end = args.find('_', start);
-	str = args.substr(start, end);
-	int z = StringUtilities::ConvertStringToInt(str);
+	DirectionType dir = ConvertStringToDirection(str);
+	int x =  (int)lastMark.Position.x;
+	int z = -(int)lastMark.Position.z;
+	if (dir != DIR_INVALID) {
+		start = end + 1;
+		end = args.find('_', start);
+		str = args.substr(start, end - start);
+		int distance = StringUtilities::ConvertStringToInt(str);
+		AddDirectionToCellCoordinates(x, z, dir, distance);
+
+		if (end != std::string::npos) {
+			// We can support two different directions in one command.
+			start = end + 1;
+			end = args.find('_', start);
+			str = args.substr(start, end - start);
+			dir = ConvertStringToDirection(str);
+			if (dir != DIR_INVALID) {
+				start = end + 1;
+				end = args.find('_', start);
+				str = args.substr(start, end - start);
+				distance = StringUtilities::ConvertStringToInt(str);
+				AddDirectionToCellCoordinates(x, z, dir, distance);
+			}
+		}
+	}
+	else {
+		x = StringUtilities::ConvertStringToInt(str);
+
+		start = end + 1;
+		end = args.find('_', start);
+		str = args.substr(start, end - start);
+		z = StringUtilities::ConvertStringToInt(str);
+	}
 
 	AiMarker mark;
 	mark.Position = SINGLETONS->GetGridManager()->GetCell(x, z)->center;
@@ -188,13 +265,22 @@ void AiRoutine::parseLookCommand(std::string args) {
 
 	int start = 0;
 	int end = args.find('_');
-	std::string str = args.substr(start, end);
-	int x = StringUtilities::ConvertStringToInt(str);
+	std::string str = args.substr(start, end - start);
 
-	start = end + 1;
-	end = args.find('_', start);
-	str = args.substr(start, end);
-	int z = StringUtilities::ConvertStringToInt(str);
+	DirectionType dir = ConvertStringToDirection(str);
+	int x =  (int)lastMark.Position.x;
+	int z = -(int)lastMark.Position.z;
+	if (dir != DIR_INVALID) {
+		AddDirectionToCellCoordinates(x, z, dir, 1);
+	}
+	else {
+		x = StringUtilities::ConvertStringToInt(str);
+
+		start = end + 1;
+		end = args.find('_', start);
+		str = args.substr(start, end - start);
+		z = StringUtilities::ConvertStringToInt(str);
+	}
 
 	AiMarker mark;
 	mark.Position = lastMark.Position;
@@ -214,7 +300,7 @@ void AiRoutine::parseWaitCommand(std::string args) {
 
 	int start = 0;
 	int end = args.find('_');
-	std::string str = args.substr(start, end);
+	std::string str = args.substr(start, end - start);
 	float t = StringUtilities::ConvertStringToFloat(str);
 
 	AiMarker mark;

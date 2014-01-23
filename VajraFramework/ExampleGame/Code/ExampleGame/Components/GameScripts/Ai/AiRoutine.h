@@ -20,7 +20,23 @@ enum AiCommandType {
 	AI_COMMAND_WAIT,
 };
 
+enum DirectionType {
+	DIR_INVALID,
+	//
+	DIR_NORTH,
+	DIR_EAST,
+	DIR_SOUTH,
+	DIR_WEST,
+	//
+	DIR_NORTHEAST,
+	DIR_SOUTHEAST,
+	DIR_SOUTHWEST,
+	DIR_NORTHWEST,
+};
+
 AiCommandType ConvertStringToAiCommand(std::string cmd);
+DirectionType ConvertStringToDirection(std::string cmd);
+void AddDirectionToCellCoordinates(int& x, int& z, DirectionType dir, int distance);
 
 //[[COMPONENT]]//
 class AiRoutine : public Component {
