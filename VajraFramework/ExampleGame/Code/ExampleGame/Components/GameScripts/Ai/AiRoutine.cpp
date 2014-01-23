@@ -12,7 +12,10 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Timer/Timer.h"
+#include "Vajra/Utilities/FileUtilities.h"
 #include "Vajra/Utilities/StringUtilities.h"
+
+#include <sstream>
 
 #define MIN_DISTANCE 0.0001f
 #define MIN_ANGLE    0.0001f
@@ -26,14 +29,14 @@ AiCommandType ConvertStringToAiCommand(std::string cmd) {
 }
 
 DirectionType ConvertStringToDirection(std::string dir) {
-	if      (dir == "N" )  { return DIR_NORTH;     }
-	else if (dir == "E" )  { return DIR_EAST;      }
-	else if (dir == "S" )  { return DIR_SOUTH;     }
-	else if (dir == "W" )  { return DIR_WEST;      }
-	else if (dir == "NE")  { return DIR_NORTHEAST; }
-	else if (dir == "SE")  { return DIR_SOUTHEAST; }
-	else if (dir == "SW")  { return DIR_SOUTHWEST; }
-	else if (dir == "NW")  { return DIR_NORTHWEST; }
+	if      (dir == "NORTH"    )  { return DIR_NORTH;     }
+	else if (dir == "EAST"     )  { return DIR_EAST;      }
+	else if (dir == "SOUTH"    )  { return DIR_SOUTH;     }
+	else if (dir == "WEST"     )  { return DIR_WEST;      }
+	else if (dir == "NORTHEAST")  { return DIR_NORTHEAST; }
+	else if (dir == "SOUTHEAST")  { return DIR_SOUTHEAST; }
+	else if (dir == "SOUTHWEST")  { return DIR_SOUTHWEST; }
+	else if (dir == "NORTHWEST")  { return DIR_NORTHWEST; }
 	return DIR_INVALID;
 }
 
@@ -158,93 +161,90 @@ void AiRoutine::parseTaskStrings() {
 }
 
 void AiRoutine::parseStartCommand(std::string args) {
-	// Determine starting position
-	int start = 0;
-	int end = args.find('_');
-	std::string str = args.substr(start, end - start);
-	int xPos = StringUtilities::ConvertStringToInt(str);
-
-	start = end + 1;
-	end = args.find('_', start);
-	str = args.substr(start, end - start);
-	int zPos = StringUtilities::ConvertStringToInt(str);
-
+	std::stringstream argstream;
+	argstream.str(args);
+	std::string nextPiece;
 	AiMarker mark;
+
+	// Reset the clock ticker
 	mark.ClockTick = 0.0f;
+
+	// Determine starting position
+	nextPiece = ReadFileTillChar(argstream, '_', true);
+	int xPos = StringUtilities::ConvertStringToInt(nextPiece);
+	nextPiece = ReadFileTillChar(argstream, '_', true);
+	int zPos = StringUtilities::ConvertStringToInt(nextPiece);
 	mark.Position = SINGLETONS->GetGridManager()->GetCell(xPos, zPos)->center;
 
-	start = end + 1;
-	end = args.find('_', start);
-	str = args.substr(start, end - start);
-
-	DirectionType dir = ConvertStringToDirection(str);
+	// Determine the facing of the unit
 	int xLook = xPos;
 	int zLook = zPos;
+
+	// The next piece can either be a direction or a set of coordinates
+	nextPiece = ReadFileTillChar(argstream, '_', true);
+	DirectionType dir = ConvertStringToDirection(nextPiece);
 	if (dir != DIR_INVALID) {
-		// The second argument is a direction
+		// The enemy should face the direction specified
 		AddDirectionToCellCoordinates(xLook, zLook, dir, 1);
 	}
 	else {
-		// The second argument is a cell position
-		xLook = StringUtilities::ConvertStringToInt(str);
-
-		start = end + 1;
-		end = args.find('_', start);
-		str = args.substr(start, end - start);
-		zLook = StringUtilities::ConvertStringToInt(str);
+		// The enemy should face towards the indicated cell
+		int xDiff = StringUtilities::ConvertStringToInt(nextPiece);
+		xLook += xDiff;
+		nextPiece = ReadFileTillChar(argstream, '_', true);
+		int zDiff = StringUtilities::ConvertStringToInt(nextPiece);
+		zLook += zDiff;
 	}
+
 	glm::vec3 forward = SINGLETONS->GetGridManager()->GetCell(xLook, zLook)->center - mark.Position;
 	forward = glm::normalize(forward);
-
 	mark.Orientation = QuaternionFromLookVectors(forward);
 
 	this->markers.push_back(mark);
-	this->GetObject()->GetComponent<Transform>()->SetOrientation(mark.Orientation);
 }
 
 void AiRoutine::parseWalkCommand(std::string args) {
+	std::stringstream argstream;
+	argstream.str(args);
+	std::string nextPiece;
+
+	// Use the previous marker as a basis
 	int nMarks = this->markers.size();
 	AiMarker lastMark = this->markers[nMarks - 1];
+	AiMarker mark;
 
-	unsigned int start = 0;
-	unsigned int end = args.find('_');
-	std::string str = args.substr(start, end - start);
-
-	DirectionType dir = ConvertStringToDirection(str);
+	// The arguments will be passed as displacements from the enemy's last position
 	int x =  (int)lastMark.Position.x;
 	int z = -(int)lastMark.Position.z;
+
+	// The displacement will be given either as directions or as a pair of coordinates
+	nextPiece = ReadFileTillChar(argstream, '_', true);
+	DirectionType dir = ConvertStringToDirection(nextPiece);
 	if (dir != DIR_INVALID) {
-		start = end + 1;
-		end = args.find('_', start);
-		str = args.substr(start, end - start);
-		int distance = StringUtilities::ConvertStringToInt(str);
+		// The enemy should travel the specified number of cells in this direction
+		nextPiece = ReadFileTillChar(argstream, '_', true);
+		int distance = StringUtilities::ConvertStringToInt(nextPiece);
 		AddDirectionToCellCoordinates(x, z, dir, distance);
 
-		if (end != (unsigned int)std::string::npos) {
-			// We can support two different directions in one command.
-			start = end + 1;
-			end = args.find('_', start);
-			str = args.substr(start, end - start);
-			dir = ConvertStringToDirection(str);
-			if (dir != DIR_INVALID) {
-				start = end + 1;
-				end = args.find('_', start);
-				str = args.substr(start, end - start);
-				distance = StringUtilities::ConvertStringToInt(str);
-				AddDirectionToCellCoordinates(x, z, dir, distance);
-			}
+		// There might also be a second direction specified
+		nextPiece = ReadFileTillChar(argstream, '_', true);
+		DirectionType dir = ConvertStringToDirection(nextPiece);
+		if (dir != DIR_INVALID) {
+			// The enemy should travel the specified number of cells in this direction
+			nextPiece = ReadFileTillChar(argstream, '_', true);
+			int distance = StringUtilities::ConvertStringToInt(nextPiece);
+			AddDirectionToCellCoordinates(x, z, dir, distance);
 		}
 	}
 	else {
-		x = StringUtilities::ConvertStringToInt(str);
-
-		start = end + 1;
-		end = args.find('_', start);
-		str = args.substr(start, end - start);
-		z = StringUtilities::ConvertStringToInt(str);
+		// The enemy should travel by the specified coordinates
+		int xDiff = StringUtilities::ConvertStringToInt(nextPiece);
+		nextPiece = ReadFileTillChar(argstream, '_', true);
+		int zDiff = StringUtilities::ConvertStringToInt(nextPiece);
+		x += xDiff;
+		z += zDiff;
 	}
 
-	AiMarker mark;
 	mark.Position = SINGLETONS->GetGridManager()->GetCell(x, z)->center;
 
 	float dx = mark.Position.x - lastMark.Position.x;
@@ -254,59 +254,71 @@ void AiRoutine::parseWalkCommand(std::string args) {
 
 	glm::vec3 forward = mark.Position - lastMark.Position;
 	forward = glm::normalize(forward);
-
 	mark.Orientation = QuaternionFromLookVectors(forward);
+
 	this->markers.push_back(mark);
 }
 
 void AiRoutine::parseLookCommand(std::string args) {
+	std::stringstream argstream;
+	argstream.str(args);
+	std::string nextPiece;
+
+	// Use the previous marker as a basis
 	int nMarks = this->markers.size();
 	AiMarker lastMark = this->markers[nMarks - 1];
+	AiMarker mark;
 
-	int start = 0;
-	int end = args.find('_');
-	std::string str = args.substr(start, end - start);
+	// The enemy's position won't change
+	mark.Position = lastMark.Position;
 
-	DirectionType dir = ConvertStringToDirection(str);
+	// The arguments will be passed as displacements from the enemy's position
 	int x =  (int)lastMark.Position.x;
 	int z = -(int)lastMark.Position.z;
+
+	// The target facing will be given either as a direction or as a pair of coordinates
+	nextPiece = ReadFileTillChar(argstream, '_', true);
+	DirectionType dir = ConvertStringToDirection(nextPiece);
 	if (dir != DIR_INVALID) {
+		// The enemy should face the specified number of cells in this direction
 		AddDirectionToCellCoordinates(x, z, dir, 1);
 	}
 	else {
-		x = StringUtilities::ConvertStringToInt(str);
-
-		start = end + 1;
-		end = args.find('_', start);
-		str = args.substr(start, end - start);
-		z = StringUtilities::ConvertStringToInt(str);
+		// The enemy should face the cell at the specified coordinates
+		int xDiff = StringUtilities::ConvertStringToInt(nextPiece);
+		nextPiece = ReadFileTillChar(argstream, '_', true);
+		int zDiff = StringUtilities::ConvertStringToInt(nextPiece);
+		x += xDiff;
+		z += zDiff;
 	}
-
-	AiMarker mark;
-	mark.Position = lastMark.Position;
 
 	glm::vec3 forward = SINGLETONS->GetGridManager()->GetCell(x, z)->center - mark.Position;
 	forward = glm::normalize(forward);
-
 	mark.Orientation = QuaternionFromLookVectors(forward);
+
 	float angle = glm::angle(glm::inverse(mark.Orientation) * lastMark.Orientation);
 	mark.ClockTick = lastMark.ClockTick + (angle / 90.0f);
+
 	this->markers.push_back(mark);
 }
 
 void AiRoutine::parseWaitCommand(std::string args) {
+	std::stringstream argstream;
+	argstream.str(args);
+	std::string nextPiece;
+
+	// Use the previous marker as a basis
 	int nMarks = this->markers.size();
 	AiMarker lastMark = this->markers[nMarks - 1];
-
-	int start = 0;
-	int end = args.find('_');
-	std::string str = args.substr(start, end - start);
-	float t = StringUtilities::ConvertStringToFloat(str);
-
 	AiMarker mark;
-	mark.ClockTick = lastMark.ClockTick + t;
 	mark.Position = lastMark.Position;
 	mark.Orientation = lastMark.Orientation;
+
+	// The amount of time to wait will be given in seconds
+	nextPiece = ReadFileTillChar(argstream, '_', true);
+	float t = StringUtilities::ConvertStringToFloat(nextPiece);
+	mark.ClockTick = lastMark.ClockTick + t;
+
 	this->markers.push_back(mark);
 }
 
