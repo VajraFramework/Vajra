@@ -29,7 +29,7 @@ ShadyCamera::~ShadyCamera() {
 
 void ShadyCamera::init() {
 	// Set camera properties
-	this->SetFOV(30.0f);
+	this->SetFOV(30.0f inRadians);
 	this->camSpeed = 3.0f;
 	this->camMode = CameraMode::CameraMode_Game;
 	
@@ -48,8 +48,8 @@ void ShadyCamera::init() {
 	this->gameCamPos = glm::vec3(0.0f, this->gameCamHeight, 0.0f);
 
 	camTransform->SetPosition(this->gameCamPos);
-	camTransform->Rotate(90.0f, XAXIS);
-	camTransform->Rotate(180.0f, camTransform->GetForward());
+	camTransform->Rotate(90.0f inRadians, XAXIS);
+	camTransform->Rotate(180.0f inRadians, camTransform->GetForward());
 
 	this->gridManagerRef = nullptr;
 
@@ -166,7 +166,7 @@ void ShadyCamera::onPinch() {
 bool ShadyCamera::tryModeSwitch(float velocity) {
 	float startY = this->camMode == CameraMode::CameraMode_Game ? this->gameCamHeight : this->overviewPos.y;
 	float camY = this->gameObjectRef->GetTransform()->GetPosition().y;
-	if(abs(velocity) >= this->velocityThreshold || abs(startY - camY) >= this->heightThreshold)
+	if(std::abs(velocity) >= this->velocityThreshold || std::abs(startY - camY) >= this->heightThreshold)
 	{
 		// Zoom in pinch
 		if(velocity > 0) {
