@@ -42,8 +42,8 @@ void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch)
 
 void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 	if (uiObject->GetUiObjectName() == "play") {
-		// Do something
-		SINGLETONS->GetLevelManager()->LoadLevelFromFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + "levels/ExampleLevel.lvl");
+		// Load the test level
+		SINGLETONS->GetLevelManager()->LoadLevelFromFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + "levels/SD_TestScene.lvl");
 		GameObject* testZone = new GameObject(ENGINE->GetSceneGraph3D());
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testZone->GetId());
 		GridZone* zone = testZone->AddComponent<GridZone>();
