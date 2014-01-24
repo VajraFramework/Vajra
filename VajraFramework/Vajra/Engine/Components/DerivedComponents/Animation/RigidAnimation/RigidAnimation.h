@@ -31,11 +31,11 @@ public:
 	virtual void Bind();
 
 	//[[PROPERTY]]//
-	void PlayAnimationClip(std::string animationClipName) { this->playAnimationClip(animationClipName); }
-	void PlayAnimationClip()   {}
-	void PauseAnimationClip()  {}
-	void ResumeAnimationClip() {}
-	void StopAnimationClip()   {}
+	inline void PlayAnimationClip(std::string animationClipName);
+	inline void PlayAnimationClip();
+	inline void PauseAnimationClip();
+	inline void ResumeAnimationClip();
+	inline void StopAnimationClip();
 
 private:
 	void init();
@@ -43,5 +43,14 @@ private:
 
 	static unsigned int componentTypeId;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline Functions:
+void RigidAnimation::PlayAnimationClip(std::string animationClipName) { this->playAnimationClip(animationClipName); }
+void RigidAnimation::PlayAnimationClip()   {}
+void RigidAnimation::PauseAnimationClip()  {}
+void RigidAnimation::ResumeAnimationClip() {}
+void RigidAnimation::StopAnimationClip()   {}
 
 #endif // RIGID_ANIMATION_H

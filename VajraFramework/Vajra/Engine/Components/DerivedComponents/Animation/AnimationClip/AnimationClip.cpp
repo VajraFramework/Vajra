@@ -97,7 +97,7 @@ void AnimationClip::apply(Transform* transform) {
 void AnimationClip::init(Animation* parentAnimationComponent_) {
 	this->parentAnimationComponent = parentAnimationComponent_;
 	this->isPlaying = false;
-	this->isLooping = false;
+	this->isLooping = true;
 	this->isTween   = false;
 	this->playbackSpeed = 1.0f;
 	this->interpolation = 0.0f;
