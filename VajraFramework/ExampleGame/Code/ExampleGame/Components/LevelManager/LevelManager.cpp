@@ -126,7 +126,7 @@ void LevelManager::loadStaticDataFromXml(XmlNode* staticNode) {
 		int objHeight      = staticObjNode->GetAttributeValueI(HEIGHT_ATTRIBUTE);
 		float rotation     = staticObjNode->GetAttributeValueF(ROTATION_ATTRIBUTE);
 
-		GameObject* staticObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab, ENGINE->GetSceneGraph3D());
+		GameObject* staticObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
 
 		// Position and orient the object.
 		staticObj->GetTransform()->SetPosition(westBound + objWidth / 2.0f, 0.0f, -(southBound + objHeight / 2.0f));
@@ -144,7 +144,7 @@ void LevelManager::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 	XmlNode* unitNode = unitBaseNode->GetFirstChildByNodeName("");
 	while (unitNode != nullptr) {
 		std::string unitPrefab = unitNode->GetAttributeValueS(PREFAB_ATTRIBUTE);
-		GameObject* unitObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + unitPrefab, ENGINE->GetSceneGraph3D());
+		GameObject* unitObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + unitPrefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
 		//unitObj->AddComponent<SampleGameScript>();
 		unitObj->AddComponent<GridNavigator>();
 
@@ -182,8 +182,27 @@ void LevelManager::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 	}
 }
 
-void LevelManager::loadOtherDataFromXml(XmlNode* /*otherDataNode*/) {
-	// TODO [Implement]
+void LevelManager::loadOtherDataFromXml(XmlNode* otherDataNode) {
+	XmlNode* zoneNode = otherDataNode->GetFirstChildByNodeName(ZONE_TAG);
+	while (zoneNode != nullptr) {
+		std::string prefab = zoneNode->GetAttributeValueS(PREFAB_ATTRIBUTE);
+		int westBound      = zoneNode->GetAttributeValueI(X_ATTRIBUTE);
+		int southBound     = zoneNode->GetAttributeValueI(Z_ATTRIBUTE);
+		int zoneWidth      = zoneNode->GetAttributeValueI(WIDTH_ATTRIBUTE);
+		int zoneHeight     = zoneNode->GetAttributeValueI(HEIGHT_ATTRIBUTE);
+
+		GameObject* zoneObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
+
+		GridZone* zoneComp = zoneObj->GetComponent<GridZone>();
+		ASSERT(zoneComp != nullptr, "Object within %s tag has GridZone component", ZONE_TAG);
+		zoneComp->SetZoneBounds(westBound, southBound, westBound + zoneWidth, southBound + zoneHeight);
+
+		SINGLETONS->GetGridManager()->AddGridZone(zoneObj->GetId());
+
+		zoneNode = zoneNode->GetNextSiblingByNodeName(ZONE_TAG);
+	}
+
+	// TODO [Implement] Other things such as triggerables
 }
 
 void LevelManager::loadCameraDataFromXml(XmlNode* /*cameraNode*/) {

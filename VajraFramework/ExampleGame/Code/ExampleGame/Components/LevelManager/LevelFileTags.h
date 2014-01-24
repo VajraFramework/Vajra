@@ -3,6 +3,8 @@
 //  Created by Matt Kaufmann on 01/13/14.
 //
 
+#define PREFAB_EXTENSION      ".prefab"
+
 #define LEVEL_TAG             "level"
 #define GRID_TAG              "grid"
 #define CELL_DATA_TAG         "cellData"
@@ -10,8 +12,7 @@
 #define PASSABLE_CELLS_TAG    "passableCells"
 #define ROOM_DATA_TAG         "roomData"
 #define ROOM_TAG              "room"
-#define ZONE_DATA_TAG         "zoneData"
-#define ZONE_TAG              "zone"
+//#define ZONE_DATA_TAG         "zoneData"
 #define STATIC_TAG            "static"
 #define STATIC_OBJECT_TAG     "staticObject"
 #define UNITS_TAG             "units"
@@ -19,6 +20,7 @@
 #define ENEMY_UNIT_TAG        "enemyUnit"
 #define AI_COMMAND_TAG        "aiCommand"
 #define OTHER_TAG             "other"
+#define ZONE_TAG              "zone"
 #define CAMERA_TAG            "camera"
 
 #define LEVEL_NAME_ATTRIBUTE  "levelName"
