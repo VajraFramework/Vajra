@@ -31,6 +31,8 @@
 #define ROOM_WIDTH_OUTDOORS 18
 #define ROOM_HEIGHT_OUTDOORS 12
 
+const glm::vec3 HALF_CELL = glm::vec3(CELL_SIZE, GROUND_Y, -CELL_SIZE);
+
 unsigned int GridManager::componentTypeId = COMPONENT_TYPE_ID_GRID_MANAGER;
 
 GridManager::GridManager() {
@@ -46,8 +48,6 @@ GridManager::~GridManager() {
 }
 
 void GridManager::init() {
-	this->cellSize      = 0.0f;
-	this->halfCellSize  = ZERO_VEC3;
 	this->gridCells     = nullptr;
 	this->gridWidth     = 0;
 	this->gridHeight    = 0;
@@ -116,13 +116,13 @@ void GridManager::AddGridZone(ObjectIdType zoneId) {
 }
 
 GridCell* GridManager::GetCell(int x, int z) {
-	if (isWithinGrid(x * this->cellSize, z * this->cellSize)) { return this->gridCells[x][z]; }
+	if (isWithinGrid(x * CELL_SIZE, z * CELL_SIZE)) { return this->gridCells[x][z]; }
 	return nullptr;
 }
 
 GridCell* GridManager::GetCell(glm::vec3 loc) {
-	int gX = (int)((loc.x / this->cellSize) + 0.5f);
-	int gZ = (int)((-loc.z / this->cellSize) + 0.5f);
+	int gX = (int)((loc.x / CELL_SIZE) + 0.5f);
+	int gZ = (int)((-loc.z / CELL_SIZE) + 0.5f);
 	return GetCell(gX, gZ);
 }
 
@@ -132,8 +132,8 @@ GridRoom* GridManager::GetRoom(int x, int z) {
 }
 
 GridRoom* GridManager::GetRoom(glm::vec3 loc) {
-	int gX = (int)((loc.x / this->cellSize) + 0.5f);
-	int gZ = (int)((-loc.z / this->cellSize) + 0.5f);
+	int gX = (int)((loc.x / CELL_SIZE) + 0.5f);
+	int gZ = (int)((-loc.z / CELL_SIZE) + 0.5f);
 	return GetRoom(gX, gZ);
 }
 
@@ -157,9 +157,9 @@ glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
 	glm::vec3 center;
 	GridRoom* room = GetRoom(cell);
 	if (room != nullptr) {
-		center.x = (room->westBound + room->eastBound) * this->cellSize * 0.5f;
+		center.x = (room->westBound + room->eastBound) * CELL_SIZE * 0.5f;
 		center.y = 0.0f;
-		center.z = (room->southBound + room->northBound) * this->cellSize * -0.5f;
+		center.z = (room->southBound + room->northBound) * CELL_SIZE * -0.5f;
 		return center;
 	}
 	return ZERO_VEC3;
@@ -317,8 +317,8 @@ bool GridManager::isWithinGrid(int x, int z) {
 }
 
 bool GridManager::isWithinGrid(glm::vec3 loc) {
-	int gX = (int)((loc.x / this->cellSize) + 0.5f);
-	int gZ = (int)((-loc.z / this->cellSize) + 0.5f);
+	int gX = (int)((loc.x / CELL_SIZE) + 0.5f);
+	int gZ = (int)((-loc.z / CELL_SIZE) + 0.5f);
 	return isWithinGrid(gX, gZ);
 }
 
@@ -326,32 +326,32 @@ bool GridManager::isWithinGrid(glm::vec3 loc) {
 void GridManager::debugDrawGrid() {
 	glm::vec3 start, end;
 
-	start.x = -this->cellSize / 2;
+	start.x = -CELL_SIZE / 2;
 	start.y = 0.0f;
-	start.z = this->cellSize / 2;
-	end.x = -this->cellSize / 2;
+	start.z = CELL_SIZE / 2;
+	end.x = -CELL_SIZE / 2;
 	end.y = 0.0f;
-	end.z = (0.5f - this->gridHeight) * this->cellSize;
+	end.z = (0.5f - this->gridHeight) * CELL_SIZE;
 	unsigned int i = 0;
 	do {
 		DebugDraw::DrawLine(start, end);
 		++i;
-		start.x += this->cellSize;
-		end.x += this->cellSize;
+		start.x += CELL_SIZE;
+		end.x += CELL_SIZE;
 	} while (i <= this->gridWidth);
 
-	start.x = -this->cellSize / 2;
+	start.x = -CELL_SIZE / 2;
 	start.y = 0.0f;
-	start.z = this->cellSize / 2;
-	end.x = (this->gridWidth - 0.5f) * this->cellSize;
+	start.z = CELL_SIZE / 2;
+	end.x = (this->gridWidth - 0.5f) * CELL_SIZE;
 	end.y = 0.0f;
-	end.z = this->cellSize / 2;
+	end.z = CELL_SIZE / 2;
 	unsigned int j = 0;
 	do {
 		DebugDraw::DrawLine(start, end);
 		++j;
-		start.z -= this->cellSize;
-		end.z -= this->cellSize;
+		start.z -= CELL_SIZE;
+		end.z -= CELL_SIZE;
 	} while (j <= this->gridHeight);
 }
 
@@ -368,12 +368,6 @@ void GridManager::debugTouchUpdate(int touchIndex) {
 #endif
 
 void GridManager::loadGridDataFromXml(XmlNode* gridNode) {
-	// Maybe this stuff should be hard-coded?
-	this->cellSize       =  1.0f;
-	this->halfCellSize.x =  0.5f;
-	this->halfCellSize.y =  0.0f;
-	this->halfCellSize.z = -0.5f;
-
 	// Cell Information
 	XmlNode* cellDataNode = gridNode->GetFirstChildByNodeName(CELL_DATA_TAG);
 	if (cellDataNode != nullptr) {
@@ -385,13 +379,7 @@ void GridManager::loadGridDataFromXml(XmlNode* gridNode) {
 	if (roomDataNode != nullptr) {
 		this->loadRoomDataFromXml(roomDataNode);
 	}
-	/*
-	// Zone Information
-	XmlNode* zoneDataNode = gridNode->GetFirstChildByNodeName(ZONE_DATA_TAG);
-	if (zoneDataNode != nullptr) {
-		this->loadZoneDataFromXml(zoneDataNode);
-	}
-	*/
+
 	// Eventually this needs to be a list from highest to lowest.
 	this->gridPlane.origin = this->gridCells[0][0]->center;
 }
@@ -406,10 +394,10 @@ void GridManager::loadCellDataFromXml(XmlNode* cellDataNode) {
 		this->gridCells[i] = new GridCell*[this->gridHeight];
 		for (unsigned int j = 0; j < this->gridHeight; ++j) {
 			glm::vec3 center;
-			center.x = i * this->cellSize;
+			center.x = i * CELL_SIZE;
 			center.y = 0.0f;
-			center.z = j * -this->cellSize;
-			glm::vec3 origin = center - this->halfCellSize;
+			center.z = j * -CELL_SIZE;
+			glm::vec3 origin = center - HALF_CELL;
 			bool passable = true;
 
 			this->gridCells[i][j] = new GridCell(i, 0, j, origin, center, passable);
@@ -457,17 +445,14 @@ void GridManager::loadRoomDataFromXml(XmlNode* roomDataNode) {
 		roomNode = roomNode->GetNextSiblingByNodeName(ROOM_TAG);
 	}
 }
-/*
-void GridManager::loadZoneDataFromXml(XmlNode* zoneDataNode) {
-	XmlNode* zoneNode = zoneDataNode->GetFirstChildByNodeName(ZONE_TAG);
-	while (zoneNode != nullptr) {
-		zoneNode = zoneNode->GetNextSiblingByNodeName(ZONE_TAG);
-	}
-}
-*/
+
 void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height) {
 	int eastBound = westBound + width - 1;
 	int northBound = southBound + height - 1;
+
+	// Set the object's position in the world.
+	GameObject* staticObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+	staticObj->GetTransform()->SetPosition(westBound + (width - 1) / 2.0f, 0.0f, -(southBound + (height - 1) / 2.0f));
 
 	// Make sure that the object lies entirely within the grid boundaries.
 	GridCell* swCornerCell = GetCell(westBound, southBound);

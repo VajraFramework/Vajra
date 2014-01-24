@@ -63,38 +63,31 @@ void LevelManager::LoadLevelFromFile(std::string levelFilename) {
 	ASSERT(levelNode != nullptr && levelNode->GetName() == LEVEL_TAG, "Got valid level node from xml tree for level file %s", levelFilename.c_str());
 
 	XmlNode* gridNode = levelNode->GetFirstChildByNodeName(GRID_TAG);
+	ASSERT(gridNode != nullptr, "Level definition contains <%s> node", GRID_TAG);
 	SINGLETONS->GetGridManager()->loadGridDataFromXml(gridNode);
 
 	XmlNode* staticNode = levelNode->GetFirstChildByNodeName(STATIC_TAG);
-	this->loadStaticDataFromXml(staticNode);
+	// The level doesn't need to have a STATIC_TAG node
+	if (staticNode != nullptr) {
+		this->loadStaticDataFromXml(staticNode);
+	}
 
 	XmlNode* unitBaseNode = levelNode->GetFirstChildByNodeName(UNITS_TAG);
+	ASSERT(unitBaseNode != nullptr, "Level definition contains <%s> node", UNITS_TAG);
 	this->loadUnitDataFromXml(unitBaseNode);
 
 	XmlNode* otherDataNode = levelNode->GetFirstChildByNodeName(OTHER_TAG);
-	this->loadOtherDataFromXml(otherDataNode);
+	// The level doesn't need to have an OTHER_TAG node
+	if (otherDataNode != nullptr) {
+		this->loadOtherDataFromXml(otherDataNode);
+	}
 
 	XmlNode* cameraNode = levelNode->GetFirstChildByNodeName(CAMERA_TAG);
+	ASSERT(cameraNode != nullptr, "Level definition contains <%s> node", CAMERA_TAG);
 	this->loadCameraDataFromXml(cameraNode);
 
 	delete parser;
-/*	std::ifstream ifs;
-	ifs.open(levelFilename, std::ios_base::in);
 
-	ASSERT(!ifs.fail(), "Loading level data from file %s", levelFilename.c_str());
-
-	std::string tag;
-	ifs >> tag;
-	ASSERT(tag == LEVEL_NAME_TAG, "Reading level name from file %s", levelFilename.c_str());
-	ifs >> this->currentLevelName;
-
-	SINGLETONS->GetGridManager()->loadGridDataFromStream(ifs);
-	this->loadStaticDataFromStream(ifs);
-	this->loadUnitDataFromStream(ifs);
-	this->loadCameraDataFromStream(ifs);
-
-	ifs.close();
-*/
 	this->isPaused = false;
 }
 
@@ -128,12 +121,11 @@ void LevelManager::loadStaticDataFromXml(XmlNode* staticNode) {
 
 		GameObject* staticObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
 
-		// Position and orient the object.
-		staticObj->GetTransform()->SetPosition(westBound + (objWidth - 1) / 2.0f, 0.0f, -(southBound + (objHeight - 1) / 2.0f));
-		staticObj->GetTransform()->SetOrientation(rotation, YAXIS);
-
 		// Add the object to the grid
 		SINGLETONS->GetGridManager()->placeStaticObjectOnGrid(staticObj->GetId(), westBound, southBound, objWidth, objHeight);
+
+		// Orient the object.
+		staticObj->GetTransform()->SetOrientation(rotation, YAXIS);
 
 		staticObjNode = staticObjNode->GetNextSiblingByNodeName(STATIC_OBJECT_TAG);
 	}
@@ -145,28 +137,26 @@ void LevelManager::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 	while (unitNode != nullptr) {
 		std::string unitPrefab = unitNode->GetAttributeValueS(PREFAB_ATTRIBUTE);
 		GameObject* unitObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + unitPrefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
-		//unitObj->AddComponent<SampleGameScript>();
-		unitObj->AddComponent<GridNavigator>();
+
+		// Units require a GridNavigator component
+		GridNavigator* gNav = unitObj->GetComponent<GridNavigator>();
+		ASSERT(gNav != nullptr, "Unit with id %d has GridNavigator component", unitObj->GetId());
 
 		// Read the initial position of the unit
 		int gX = unitNode->GetAttributeValueI(X_ATTRIBUTE);
 		int gZ = unitNode->GetAttributeValueI(Z_ATTRIBUTE);
 		float rotation = unitNode->GetAttributeValueF(ROTATION_ATTRIBUTE);
 
-		// Position and orient the unit.
-		unitObj->GetTransform()->SetPosition(gX, 0.0f, -gZ);
-		unitObj->GetTransform()->SetOrientation(rotation, YAXIS);
-
 		// Add the unit to the grid
 		SINGLETONS->GetGridManager()->placeUnitOnGrid(unitObj->GetId(), gX, gZ);
 
+		// Orient the unit.
+		unitObj->GetTransform()->SetOrientation(rotation, YAXIS);
+
 		// Check unit type
-		if (unitNode->GetName() == PLAYER_UNIT_TAG) {
-			unitObj->AddComponent<PlayerUnit>();
-		}
-		else if (unitNode->GetName() == ENEMY_UNIT_TAG) {
-			unitObj->AddComponent<EnemyUnit>();
-			AiRoutine* aiRoutine = unitObj->AddComponent<AiRoutine>();
+		if (unitNode->GetName() == ENEMY_UNIT_TAG) {
+			AiRoutine* aiRoutine = unitObj->GetComponent<AiRoutine>();
+			ASSERT(aiRoutine != nullptr, "Enemy unit with id %d has AiRoutine component", unitObj->GetId());
 
 			// Load the AI routine.
 			XmlNode* aiCommandNode = unitNode->GetFirstChildByNodeName(AI_COMMAND_TAG);

@@ -21,6 +21,10 @@
 #include <string>
 #include <vector>
 
+#define CELL_SIZE 1.0f
+#define GROUND_Y 0.0f
+extern const glm::vec3 HALF_CELL;
+
 //[[COMPONENT]]//
 class GridManager : public Component, public IGameTouchTarget {
 public:
@@ -35,7 +39,7 @@ public:
 
 	void AddGridZone(ObjectIdType zoneId);
 
-	inline float getCellSize() { return cellSize; }
+	//inline float getCellSize() { return cellSize; }
 
 	GridCell* GetCell(int x, int z);    // Returns the cell at the specified coordinates
 	GridCell* GetCell(glm::vec3 loc);   // Returns the cell at the specified world position
@@ -99,7 +103,7 @@ private:
 	void deselectUnit();
 	void longPressOnGrid();
 	
-	float cellSize; // Width and depth of a grid cell in world coordinates
+	//float cellSize; // Width and depth of a grid cell in world coordinates
 	glm::vec3 halfCellSize; // Offset vector between center and corner of a grid cell
 
 	GridCell*** gridCells; // 2D array of grid cells
