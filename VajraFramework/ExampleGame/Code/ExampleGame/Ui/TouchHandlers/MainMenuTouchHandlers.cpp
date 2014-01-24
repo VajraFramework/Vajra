@@ -30,8 +30,6 @@ void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch touch)
 }
 
 void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch) {
-	FRAMEWORK->GetLogger()->dbglog("\nGot touch move: name (%s): %f, %f", uiObject->GetUiObjectName().c_str(), touch.pos.x, touch.pos.y);
-
 	if (uiObject->GetUiObjectName() == "play") {
 		// Do something
 
