@@ -57,7 +57,7 @@ private:
 	void destroy();
 
 	// Utility functions:
-	void loadFont_internal(std::string pathToFontSheetTexture, std::string pathToFontSpecificationCSV, std::string shaderName_);
+	void loadFont_internal(std::string nameOfFontSheetTexture, std::string pathToFontSpecificationCSV, std::string shaderName_);
 
 
 	static AssetType assetType;
