@@ -2,6 +2,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
 #include "Vajra/Engine/Ui/UiElement/UiElement.h"
+#include "Vajra/Engine/Ui/UiTouchHandlers/UiTouchHandlers.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
@@ -55,6 +56,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 
 	{
 		itemName = uielementNode->GetAttributeValueS(NAME_ATTRIBUTE);
+		touchHandlers->uiSceneObjects[itemName] = uiElement->GetId();
 		FRAMEWORK->GetLogger()->dbglog("Item name: %s", itemName.c_str());
 	}
 	{

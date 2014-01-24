@@ -1,5 +1,6 @@
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/TestUiSceneTouchHandlers.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUI.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
 #include "Vajra/Engine/Ui/UiObject/UiObject.h"
 #include "Vajra/Framework/Core/Framework.h"
@@ -59,8 +60,18 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new TestUiSceneTouchHandlers());
 
 	} else if(uiObject->GetUiObjectName() == "options") {
+		UiObject* startMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[START_MENU]);
+		UiObject* optionsMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[OPTIONS_MENU]);
+		startMenu->SetVisible(false);
+		optionsMenu->SetVisible(true);
 		
-	} else {
+	} else if(uiObject->GetUiObjectName() == "back") {
+		UiObject* startMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[START_MENU]);
+		UiObject* optionsMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[OPTIONS_MENU]);
+		startMenu->SetVisible(true);
+		optionsMenu->SetVisible(false);
+		
+	}else {
 		// Do something
 
 	}

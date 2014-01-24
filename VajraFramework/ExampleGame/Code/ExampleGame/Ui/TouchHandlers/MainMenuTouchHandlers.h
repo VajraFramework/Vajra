@@ -9,7 +9,6 @@ public:
 	virtual void OnTouchDownHandlers(UiObject* uiObject, Touch touch);
 	virtual void OnTouchMoveHandlers(UiObject* uiObject, Touch touch);
 	virtual void OnTouchUpHandlers  (UiObject* uiObject, Touch touch);
-
 private:
 };
 
