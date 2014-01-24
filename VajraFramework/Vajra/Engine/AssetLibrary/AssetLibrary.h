@@ -3,6 +3,7 @@
 
 #include "Vajra/Engine/AssetLibrary/Asset.h"
 #include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
 
@@ -33,6 +34,8 @@ private:
 // Templated Functions:
 template <class T>
 std::shared_ptr<T> AssetLibrary::GetAsset(std::string url) {
+	url = FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() +  "/" + url;
+
 	auto it = this->allAssets.find(url);
 	if (it == this->allAssets.end()) {
 		// Asset not found in library. Create new asset and load it:

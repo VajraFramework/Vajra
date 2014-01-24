@@ -13,16 +13,16 @@ FileSystemUtils::~FileSystemUtils() {
 
 void FileSystemUtils::init() {
     this->deviceBaseResourcesPath = GetAndroidDeviceBaseResourcesPath();
-    this->devicePictureResourcesPath    = this->deviceBaseResourcesPath + "pictures/";
-    this->deviceShaderResourcesPath     = this->deviceBaseResourcesPath + "shaders/";
-    this->deviceModelResourcesPath      = this->deviceBaseResourcesPath + "models/";
-    this->deviceArmatureResourcesPath   = this->deviceBaseResourcesPath + "armatures/";
-    this->deviceAnimationResourcesPath  = this->deviceBaseResourcesPath + "animations/";
-	this->deviceAudioResourcesPath      = this->deviceBaseResourcesPath + "audio/";
-	this->deviceLoggingResourcesPath    = this->deviceBaseResourcesPath + "logging/";
-	this->deviceFontResourcesPath       = this->deviceBaseResourcesPath + "fonts/";
-	this->deviceUiScenesResourcesPath   = this->deviceBaseResourcesPath + "uiscenes/";
-	this->devicePrefabsResourcesPath    = this->deviceBaseResourcesPath + "prefabs/";
+    this->devicePictureResourcesPath    = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_PICTURES;
+	this->deviceShaderResourcesPath     = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_SHADERS;
+	this->deviceModelResourcesPath      = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_MODELS;
+	this->deviceArmatureResourcesPath   = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_ARMATURES;
+	this->deviceAnimationResourcesPath  = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_ANIMATIONS;
+	this->deviceAudioResourcesPath      = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_AUDIO;
+	this->deviceLoggingResourcesPath    = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_LOGGING;
+	this->deviceFontResourcesPath       = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_FONTS;
+	this->deviceUiScenesResourcesPath   = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_UISCENES;
+	this->devicePrefabsResourcesPath    = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_PREFABS;
 }
 
 void FileSystemUtils::destroy() {

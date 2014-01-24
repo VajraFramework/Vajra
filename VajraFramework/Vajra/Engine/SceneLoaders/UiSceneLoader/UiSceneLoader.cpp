@@ -127,14 +127,14 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 		uiElement->SetUiObjectName(itemName);
 		//
 		if (imageName != "") {
-			uiElement->InitSprite(widthPixels, heightPixels, "sptshdr", FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + imageName);
+			uiElement->InitSprite(widthPixels, heightPixels, "sptshdr", FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + imageName);
 		} else {
 			uiElement->InitSprite(widthPixels, heightPixels, "spcshdr", color);
 		}
 		//
 		if (textToDisplay != "") {
 			uiElement->InitTextToDisplay(textToDisplay.c_str(), widthPixels, heightPixels,
-										 FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + fontName, fontSize);
+										 FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesFolderName() + fontName, fontSize);
 		}
 		//
 		if (clickable == true) {
