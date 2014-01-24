@@ -84,5 +84,53 @@
 		</uielement>
 	</uielement>
 
+	<uielement name="postGame" clickable="false" visible="false">
+	<dimensions>
+		<position x="700" y="128"></position>
+		<size widthPixels="768" heightPixels="16"></size>
+		<zorder>0</zorder>
+		<color r="0.0" g="0.9" b="0.0" a="1.0"></color>
+	</dimensions>
+
+		<uielement name="continue" clickable="true" visible="true">
+			<dimensions>
+				<position x="256" y="100"></position>
+				<size widthPixels="256" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Resume
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+		<uielement name="restart" clickable="true" visible="true">
+			<dimensions>
+				<position x="256" y="200"></position>
+				<size widthPixels="256" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Restart
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+		<uielement name="mission" clickable="true" visible="true">
+			<dimensions>
+				<position x="256" y="300"></position>
+				<size widthPixels="256" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Menu
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+	</uielement>
+
 </uiscene>
 

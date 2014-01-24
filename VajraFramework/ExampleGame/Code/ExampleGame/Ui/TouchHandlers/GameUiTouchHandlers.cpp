@@ -42,16 +42,13 @@ void GameUiTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch) {
 }
 
 void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
-	FRAMEWORK->GetLogger()->dbglog("\nGot touch up: name (%s): %f, %f", uiObject->GetUiObjectName().c_str(), touch.pos.x, touch.pos.y);
-
 	if (uiObject->GetUiObjectName() == "pause") {
 		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(!pauseMenu->IsVisible());
 	} else if (uiObject->GetUiObjectName() == "resume") {
 		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(false);
-	}
-	else if (uiObject->GetUiObjectName() == "mission") {
+	} else if (uiObject->GetUiObjectName() == "mission") {
 		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(false);
 
