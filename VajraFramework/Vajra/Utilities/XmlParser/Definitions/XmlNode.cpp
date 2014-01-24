@@ -55,7 +55,7 @@ std::vector<XmlNode*> XmlNode::GetChildrenByNodeName(std::string nodeName) const
 
 XmlNode* XmlNode::GetFirstChildByNodeName(std::string nodeName /* = "" */) const {
 	for (XmlNode* childNode : this->children) {
-		if (childNode->name == nodeName) {
+		if (nodeName == "" || childNode->name == nodeName) {
 			return childNode;
 		}
 	}

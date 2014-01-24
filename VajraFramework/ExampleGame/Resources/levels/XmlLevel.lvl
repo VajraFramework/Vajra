@@ -1,0 +1,84 @@
+<level levelName="LevelName">
+	<grid>
+		<cellData width="22" height="16">
+			<cellElevations>
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+				0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+			</cellElevations>
+			
+			<passableCells>
+				1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+				1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1
+			</passableCells>
+		</cellData>
+	
+		<roomData>
+			<room x="2" z="2" width="18" height="12">
+			</room>
+		</roomData>
+	</grid>
+	
+	<static>
+		<staticObject prefab="minimonkey.prefab" x="4" z="0" width="1" height="1" rotation="0.0">
+		</staticObject>
+	</static>
+	
+	<units>
+		<playerUnit prefab="minimonkey.prefab" x="4" z="4" rotation="0.0">
+		</playerUnit>
+		
+		<playerUnit prefab="minimonkey.prefab" x="5" z="5" rotation="0.0">
+		</playerUnit>
+		
+		<enemyUnit prefab="minimonkey.prefab" x="6" z="6" rotation="0.0">
+			<aiCommand>
+				START_6_6_11_1
+			</aiCommand>
+			<aiCommand>
+				WALK_16_10
+			</aiCommand>
+			<aiCommand>
+				LOOK_14_10
+			</aiCommand>
+			<aiCommand>
+				WAIT_1
+			</aiCommand>
+		</enemyUnit>
+	</units>
+	
+	<other>
+		<zone prefab="transitionzone.prefab" x="0" z="0" width="4" height="4">
+		</zone>
+	</other>
+	
+	<camera focus="PLAYER_THIEF">
+	</camera>
+</level>
