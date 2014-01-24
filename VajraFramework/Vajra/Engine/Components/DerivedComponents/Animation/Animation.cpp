@@ -84,7 +84,7 @@ AnimationClip* Animation::GetAnimationClip(std::string animationClipName) {
 	return nullptr;
 }
 
-void Animation::PlayAnimationClip(std::string animationClipName) {
+void Animation::playAnimationClip(std::string animationClipName) {
 	auto animationClipIt = this->animationClips.find(animationClipName);
 	if (animationClipIt != this->animationClips.end()) {
 		this->playAnimationClip_internal(animationClipIt->second);
@@ -93,25 +93,25 @@ void Animation::PlayAnimationClip(std::string animationClipName) {
 	}
 }
 
-void Animation::PlayAnimationClip() {
+void Animation::playAnimationClip() {
 	if (this->currentAnimationClip != nullptr) {
 		this->playAnimationClip_internal(this->currentAnimationClip);
 	}
 }
 
-void Animation::PauseAnimationClip() {
+void Animation::pauseAnimationClip() {
 	if (this->currentAnimationClip != nullptr) {
 		this->currentAnimationClip->Pause();
 	}
 }
 
-void Animation::ResumeAnimationClip() {
+void Animation::resumeAnimationClip() {
 	if (this->currentAnimationClip != nullptr) {
 		this->currentAnimationClip->Resume();
 	}
 }
 
-void Animation::StopAnimationClip() {
+void Animation::stopAnimationClip() {
 	if (this->currentAnimationClip != nullptr) {
 		this->currentAnimationClip->Stop();
 		this->currentAnimationClip = nullptr;

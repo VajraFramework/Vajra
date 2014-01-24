@@ -20,12 +20,6 @@ public:
 	virtual AnimationClip* AddAnimationClip(AnimationClip* animationClip) = 0;
 	void DeleteAnimationClip(std::string animationClipName);
 
-	void PlayAnimationClip(std::string animationClipName);
-	void PlayAnimationClip();
-	void PauseAnimationClip();
-	void ResumeAnimationClip();
-	void StopAnimationClip();
-
 	bool IsPlaying();
 	bool IsPlaying(std::string animationClipName);
 
@@ -39,6 +33,12 @@ public:
 protected:
 	bool handleMessage(MessageChunk messageChunk);
 	AnimationClip* addAnimationClip(AnimationClip* animationClip, bool takeOwnershipOfMemory);
+
+	void playAnimationClip(std::string animationClipName);
+	void playAnimationClip();
+	void pauseAnimationClip();
+	void resumeAnimationClip();
+	void stopAnimationClip();
 
 private:
 	void init(GameObject* gameObject_);

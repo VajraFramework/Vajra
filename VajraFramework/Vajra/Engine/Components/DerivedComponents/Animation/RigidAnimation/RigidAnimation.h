@@ -30,6 +30,13 @@ public:
 	// @Override
 	virtual void Bind();
 
+	//[[PROPERTY]]//
+	void PlayAnimationClip(std::string animationClipName) { this->playAnimationClip(animationClipName); }
+	void PlayAnimationClip()   {}
+	void PauseAnimationClip()  {}
+	void ResumeAnimationClip() {}
+	void StopAnimationClip()   {}
+
 private:
 	void init();
 	void destroy();

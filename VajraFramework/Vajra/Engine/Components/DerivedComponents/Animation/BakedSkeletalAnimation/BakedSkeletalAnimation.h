@@ -27,6 +27,13 @@ public:
 	virtual AnimationClip* AddAnimationClip(std::string urlOfAnimationClip);
 	virtual AnimationClip* AddAnimationClip(AnimationClip* animationClip);
 
+	//[[PROPERTY]]//
+	void PlayAnimationClip(std::string animationClipName) { this->playAnimationClip(animationClipName); }
+	void PlayAnimationClip()   {}
+	void PauseAnimationClip()  {}
+	void ResumeAnimationClip() {}
+	void StopAnimationClip()   {}
+
 private:
 	void init();
 	void destroy();
