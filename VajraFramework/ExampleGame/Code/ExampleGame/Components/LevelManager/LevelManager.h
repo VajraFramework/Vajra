@@ -10,7 +10,6 @@
 
 #include "Vajra/Common/Components/Component.h"
 //#include "Vajra/Engine/Ui/UiElement/UiElement.h"
-#include "Vajra/Utilities/XmlParser/XmlParser.h"
 
 #include <string>
 
@@ -38,11 +37,6 @@ private:
 	bool playerHasWonLevel();
 	bool playerHasLostLevel();
 	*****************/
-
-	void loadStaticDataFromXml(XmlNode* staticNode);
-	void loadUnitDataFromXml  (XmlNode* unitBaseNode);
-	void loadOtherDataFromXml (XmlNode* otherDataNode);
-	void loadCameraDataFromXml(XmlNode* cameraNode);
 
 	void endLevel(bool success);
 

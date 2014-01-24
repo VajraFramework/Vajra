@@ -142,7 +142,7 @@ private:
 
 	static unsigned int componentTypeId;
 
-	friend class LevelManager;
+	friend class LevelLoader;
 };
 
 /****************
