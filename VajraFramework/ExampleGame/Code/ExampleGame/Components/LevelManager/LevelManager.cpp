@@ -129,7 +129,7 @@ void LevelManager::loadStaticDataFromXml(XmlNode* staticNode) {
 		GameObject* staticObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
 
 		// Position and orient the object.
-		staticObj->GetTransform()->SetPosition(westBound + objWidth / 2.0f, 0.0f, -(southBound + objHeight / 2.0f));
+		staticObj->GetTransform()->SetPosition(westBound + (objWidth - 1) / 2.0f, 0.0f, -(southBound + (objHeight - 1) / 2.0f));
 		staticObj->GetTransform()->SetOrientation(rotation, YAXIS);
 
 		// Add the object to the grid
