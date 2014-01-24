@@ -187,11 +187,12 @@ void renderFrame(float dt) {
     	}
 #endif
     }
-#if 1
+#if 0
     {
         if(ENGINE->GetInput()->GetTouchCount() > 0)
         {
             Touch temp = ENGINE->GetInput()->GetTouch(0);
+            //float touchDisplacement = temp.pos.x - temp.prevPos.x;
             glm::vec2 moveDir = temp.pos - temp.prevPos;
             GameObject* camera = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject();
             Transform* transform = camera->GetTransform();

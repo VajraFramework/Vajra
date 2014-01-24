@@ -2,14 +2,11 @@
 	<gameobject>
 		<component name="MeshRenderer">
 			<property name="InitMesh">
-				<field>Resources/models/HighWall_3Way.model</field>
+				<field>Resources/models/Suzanne.model</field>
 			</property>
 		</component>
 
 		<component name="Transform">
-			<property name="Scale">
-				<field>1.0</field>
-			</property>
 		</component>
 	</gameobject>
 </prefab>

@@ -81,7 +81,7 @@ private:
 
 	static ComponentIdType componentTypeId;
 
-	friend class LevelManager;
+	friend class LevelLoader;
 };
 
 #endif // AIROUTINE_H

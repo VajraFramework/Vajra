@@ -38,10 +38,6 @@ private:
 	bool playerHasLostLevel();
 	*****************/
 
-	void loadStaticDataFromStream(std::istream& ifs);
-	void loadUnitDataFromStream  (std::istream& ifs);
-	void loadCameraDataFromStream(std::istream& ifs);
-
 	void endLevel(bool success);
 
 	static ComponentIdType componentTypeId;
