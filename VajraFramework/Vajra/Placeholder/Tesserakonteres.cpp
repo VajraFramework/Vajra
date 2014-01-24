@@ -88,7 +88,7 @@ namespace Tesserakonteres {
 			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Imposter_mesh.skeletalanimation#twitching");
 			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Imposter_mesh.skeletalanimation#turning");
 			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Imposter_mesh.skeletalanimation#nodding");
-			std::string animclipToPlay = "nodding";
+			std::string animclipToPlay = "twitching";
 			AnimationClip* animationClip = bakedSkeletalAnimation->GetAnimationClip(animclipToPlay.c_str());
 			animationClip->SetLooping(true);
 			animationClip->SetPlaybackSpeed(0.1f);

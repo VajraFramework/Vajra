@@ -9,9 +9,18 @@
 		<component name="BakedSkeletalAnimation">
 			<property name="AddAnimationClip">
 				<field>animations/SD_Imposter_mesh.skeletalanimation#idle</field>
+			</property>
+			<property name="AddAnimationClip">
 				<field>animations/SD_Imposter_mesh.skeletalanimation#twitching</field>
+			</property>
+			<property name="AddAnimationClip">
 				<field>animations/SD_Imposter_mesh.skeletalanimation#turning</field>
+			</property>
+			<property name="AddAnimationClip">
 				<field>animations/SD_Imposter_mesh.skeletalanimation#nodding</field>
+			</property>
+			<property name="PlayAnimationClip">
+				<field>nodding</field>
 			</property>
 		</component>
 
