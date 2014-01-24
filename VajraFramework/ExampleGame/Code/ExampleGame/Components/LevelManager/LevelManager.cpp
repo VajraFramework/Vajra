@@ -153,9 +153,12 @@ void LevelManager::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 		int gZ = unitNode->GetAttributeValueI(Z_ATTRIBUTE);
 		float rotation = unitNode->GetAttributeValueF(ROTATION_ATTRIBUTE);
 
+		// Position and orient the unit.
+		unitObj->GetTransform()->SetPosition(gX, 0.0f, -gZ);
+		unitObj->GetTransform()->SetOrientation(rotation, YAXIS);
+
 		// Add the unit to the grid
 		SINGLETONS->GetGridManager()->placeUnitOnGrid(unitObj->GetId(), gX, gZ);
-		unitObj->GetTransform()->SetOrientation(rotation, YAXIS);
 
 		// Check unit type
 		if (unitNode->GetName() == PLAYER_UNIT_TAG) {
