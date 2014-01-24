@@ -1146,13 +1146,13 @@
       </playerUnit>
 		<enemyUnit id="70222" prefab="SentryEnemy" x="27" z="7" rotation="0">
 			<aiCommand>
-              START_27_7_0
+              START_27_7_WEST
           </aiCommand>
 			<aiCommand>
-              LOOK_26_11_3
+              LOOK_NORTH_3
           </aiCommand>
 			<aiCommand>
-              LOOK_26_0_3
+              LOOK_SOUTH_3
           </aiCommand>
       </enemyUnit>
   </units>
