@@ -1,5 +1,5 @@
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
-#include "ExampleGame/Ui/TouchHandlers/TestUiSceneTouchHandlers.h"
+#include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUI.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
 #include "Vajra/Engine/Ui/UiObject/UiObject.h"
@@ -16,7 +16,7 @@
 
 #define START_MENU "startMenu"
 #define OPTIONS_MENU "optionsMenu"
-
+#define MISSION_MENU "missionMenu"
 
 void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch touch) {
 	if (uiObject->GetUiObjectName() == "play") {
@@ -50,8 +50,8 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 		zone->SetZoneBounds(3, 0, 5, 5);
 
 
-		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "testUiScene.uiscene";
-		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new TestUiSceneTouchHandlers());
+		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
+		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new GameUiTouchHandlers());
 
 	} else if(uiObject->GetUiObjectName() == "options") {
 		UiObject* startMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[START_MENU]);

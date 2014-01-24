@@ -1,0 +1,88 @@
+<uiscene widthPixels="1024" heightPixels="768">
+
+	<uielement name="inGame" clickable="false">
+	<dimensions>
+		<position x="0" y="0"></position>
+		<size widthPixels="1024" heightPixels="10"></size>
+		<zorder>0</zorder>
+		<color r="0.5" g="0.0" b="0.6" a="1.0"></color>
+	</dimensions>
+
+		<uielement name="pause" clickable="true">
+			<dimensions>
+				<position x="4" y="4"></position>
+				<size widthPixels="64" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				| |
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+		<uielement name="changeUnit" clickable="true">
+			<dimensions>
+				<position x="4" y="700"></position>
+				<size widthPixels="64" heightPixels="64"></size>
+				<zorder>-1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				@
+			</text>
+			<color r="0.7" g="0.0" b="0.0" a="1.0"></color>
+		</uielement>
+
+	</uielement>
+
+	<uielement name="pauseMenu" clickable="false" visible="false">
+	<dimensions>
+		<position x="128" y="128"></position>
+		<size widthPixels="768" heightPixels="16"></size>
+		<zorder>0</zorder>
+		<color r="0.0" g="0.9" b="0.0" a="1.0"></color>
+	</dimensions>
+
+		<uielement name="resume" clickable="true" visible="true">
+			<dimensions>
+				<position x="256" y="100"></position>
+				<size widthPixels="256" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Resume
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+		<uielement name="restart" clickable="true" visible="true">
+			<dimensions>
+				<position x="256" y="200"></position>
+				<size widthPixels="256" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Restart
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+		<uielement name="mission" clickable="true" visible="true">
+			<dimensions>
+				<position x="256" y="300"></position>
+				<size widthPixels="256" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Menu
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+	</uielement>
+
+</uiscene>
+

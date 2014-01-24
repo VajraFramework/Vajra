@@ -40,6 +40,7 @@
 		B313ADFB1891B71F00FABEB9 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = B313ADEF1891B71F00FABEB9 /* shaders */; };
 		B313ADFC1891B71F00FABEB9 /* uiscenes in Resources */ = {isa = PBXBuildFile; fileRef = B313ADF01891B71F00FABEB9 /* uiscenes */; };
 		B313AE011891B98000FABEB9 /* MainMenuTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B313ADFF1891B98000FABEB9 /* MainMenuTouchHandlers.cpp */; };
+		B313AE041892EC3300FABEB9 /* GameUiTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B313AE021892EC3300FABEB9 /* GameUiTouchHandlers.cpp */; };
 		B314D53E1891AFBB005EA850 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = B314D38B1891AFBB005EA850 /* CMakeLists.txt */; };
 		B314D53F1891AFBB005EA850 /* func_common.inl in Resources */ = {isa = PBXBuildFile; fileRef = B314D3931891AFBB005EA850 /* func_common.inl */; };
 		B314D5401891AFBB005EA850 /* func_exponential.inl in Resources */ = {isa = PBXBuildFile; fileRef = B314D3951891AFBB005EA850 /* func_exponential.inl */; };
@@ -217,6 +218,8 @@
 		B313ADF01891B71F00FABEB9 /* uiscenes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = uiscenes; path = ../../../Resources/uiscenes; sourceTree = "<group>"; };
 		B313ADFF1891B98000FABEB9 /* MainMenuTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenuTouchHandlers.cpp; sourceTree = "<group>"; };
 		B313AE001891B98000FABEB9 /* MainMenuTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuTouchHandlers.h; sourceTree = "<group>"; };
+		B313AE021892EC3300FABEB9 /* GameUiTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUiTouchHandlers.cpp; sourceTree = "<group>"; };
+		B313AE031892EC3300FABEB9 /* GameUiTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUiTouchHandlers.h; sourceTree = "<group>"; };
 		B314D38B1891AFBB005EA850 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		B314D38D1891AFBB005EA850 /* _detail.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _detail.hpp; sourceTree = "<group>"; };
 		B314D38E1891AFBB005EA850 /* _fixes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _fixes.hpp; sourceTree = "<group>"; };
@@ -2000,6 +2003,8 @@
 		B350FDB818902989001A81F2 /* TouchHandlers */ = {
 			isa = PBXGroup;
 			children = (
+				B313AE021892EC3300FABEB9 /* GameUiTouchHandlers.cpp */,
+				B313AE031892EC3300FABEB9 /* GameUiTouchHandlers.h */,
 				B350FDB918902989001A81F2 /* TestUiSceneTouchHandlers.cpp */,
 				B350FDBA18902989001A81F2 /* TestUiSceneTouchHandlers.h */,
 				B313ADFF1891B98000FABEB9 /* MainMenuTouchHandlers.cpp */,
@@ -2273,6 +2278,7 @@
 				58F247111850F5C90066E804 /* ViewController.mm in Sources */,
 				B350FDC418902989001A81F2 /* GridCell.cpp in Sources */,
 				B350FDC618902989001A81F2 /* GridNavigator.cpp in Sources */,
+				B313AE041892EC3300FABEB9 /* GameUiTouchHandlers.cpp in Sources */,
 				B350FDBE18902989001A81F2 /* AiPerception.cpp in Sources */,
 				B350FDBB18902989001A81F2 /* AndroidWrapper.cpp in Sources */,
 				B350FDCB18902989001A81F2 /* GameSingletons.cpp in Sources */,
