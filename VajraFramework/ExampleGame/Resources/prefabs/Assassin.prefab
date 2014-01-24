@@ -2,7 +2,7 @@
 	<gameobject>
 		<component name="MeshRenderer">
 			<property name="InitMesh">
-				<field>Resources/models/GrassFloor_A.model</field>
+				<field>Resources/models/TexturedCube.model</field>
 			</property>
 		</component>
 
@@ -10,6 +10,12 @@
 			<property name="Scale">
 				<field>1.0</field>
 			</property>
+		</component>
+		
+		<component name="GridNavigator">
+		</component>
+		
+		<component name="PlayerUnit">
 		</component>
 	</gameobject>
 </prefab>

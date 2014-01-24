@@ -14,11 +14,16 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Input/ITouchTarget.h"
 #include "Vajra/Utilities/MathUtilities.h"
+#include "Vajra/Utilities/XmlParser/XmlParser.h"
 
 #include <fstream>
 #include <list>
 #include <string>
 #include <vector>
+
+#define CELL_SIZE 1.0f
+#define GROUND_Y 0.0f
+extern const glm::vec3 HALF_CELL;
 
 //[[COMPONENT]]//
 class GridManager : public Component, public IGameTouchTarget {
@@ -34,7 +39,7 @@ public:
 
 	void AddGridZone(ObjectIdType zoneId);
 
-	inline float getCellSize() { return cellSize; }
+	//inline float getCellSize() { return cellSize; }
 
 	GridCell* GetCell(int x, int z);    // Returns the cell at the specified coordinates
 	GridCell* GetCell(glm::vec3 loc);   // Returns the cell at the specified world position
@@ -82,7 +87,10 @@ private:
 	void debugTouchUpdate(int touchIndex);
 #endif
 
-	void loadGridDataFromStream  (std::istream& ifs);
+	void loadGridDataFromXml(XmlNode* gridNode);
+	void loadCellDataFromXml(XmlNode* cellDataNode);
+	void loadRoomDataFromXml(XmlNode* roomDataNode);
+	//void loadZoneDataFromXml(XmlNode* zoneDataNode);
 
 	void placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height);
 	void placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ);
@@ -95,7 +103,7 @@ private:
 	void deselectUnit();
 	void longPressOnGrid();
 	
-	float cellSize; // Width and depth of a grid cell in world coordinates
+	//float cellSize; // Width and depth of a grid cell in world coordinates
 	glm::vec3 halfCellSize; // Offset vector between center and corner of a grid cell
 
 	GridCell*** gridCells; // 2D array of grid cells
@@ -134,7 +142,7 @@ private:
 
 	static unsigned int componentTypeId;
 
-	friend class LevelManager;
+	friend class LevelLoader;
 };
 
 /****************
