@@ -172,12 +172,6 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
-		// Todo [HACK] remove this when all devices have long press
-		if (touch.phase == TouchPhase::Ended) {
-			if (cell->unitId != OBJECT_ID_INVALID && cell->unitId != this->selectedUnitId) {
-				selectUnitInCell(cell);
-			}
-		}
 		if (this->selectedUnitId != OBJECT_ID_INVALID) {
 			GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
 			PlayerUnit* unit = obj->GetComponent<PlayerUnit>();
