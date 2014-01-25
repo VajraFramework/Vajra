@@ -122,6 +122,7 @@ void renderFrame(float dt) {
         	}
         }
     }
+#if 0
     {
         // Temp, testing transforms:
         GameObject* dlight = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainDirectionalLight()->GetObject();
@@ -135,6 +136,7 @@ void renderFrame(float dt) {
         	}
         }
     }
+#endif
     {
         // Sending arbit message for testing
         {
