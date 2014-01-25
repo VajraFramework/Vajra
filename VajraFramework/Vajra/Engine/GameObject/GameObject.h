@@ -30,7 +30,7 @@ public:
 	virtual void Draw();
 
 	bool IsVisible() { return this->visible; }
-	void SetVisible(bool visible_);
+	virtual void SetVisible(bool visible_);
 
 	SceneGraph* GetParentSceneGraph() { return this->parentSceneGraph; }
 

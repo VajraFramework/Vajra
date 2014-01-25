@@ -130,137 +130,141 @@
 		B383FD70187B4B0000999890 /* vector_query.inl in Resources */ = {isa = PBXBuildFile; fileRef = B383FC52187B4B0000999890 /* vector_query.inl */; };
 		B383FD71187B4B0000999890 /* verbose_operator.inl in Resources */ = {isa = PBXBuildFile; fileRef = B383FC54187B4B0000999890 /* verbose_operator.inl */; };
 		B383FD72187B4B0000999890 /* wrap.inl in Resources */ = {isa = PBXBuildFile; fileRef = B383FC56187B4B0000999890 /* wrap.inl */; };
-		BA97C4141894487200942107 /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3DA1894487200942107 /* AndroidWrapper.cpp */; };
-		BA97C4151894487200942107 /* ComponentMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3DD1894487200942107 /* ComponentMapper.cpp */; };
-		BA97C4161894487200942107 /* AiKnowledge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3E41894487200942107 /* AiKnowledge.cpp */; };
-		BA97C4171894487200942107 /* AiPerception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3E61894487200942107 /* AiPerception.cpp */; };
-		BA97C4181894487200942107 /* AiRoutine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3E81894487200942107 /* AiRoutine.cpp */; };
-		BA97C4191894487200942107 /* SampleGameScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3EA1894487200942107 /* SampleGameScript.cpp */; };
-		BA97C41A1894487200942107 /* BaseUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3ED1894487200942107 /* BaseUnit.cpp */; };
-		BA97C41B1894487200942107 /* EnemyUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3EF1894487200942107 /* EnemyUnit.cpp */; };
-		BA97C41C1894487200942107 /* PlayerUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3F11894487200942107 /* PlayerUnit.cpp */; };
-		BA97C41D1894487200942107 /* GridCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3F51894487200942107 /* GridCell.cpp */; };
-		BA97C41E1894487200942107 /* GridManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3F71894487200942107 /* GridManager.cpp */; };
-		BA97C41F1894487200942107 /* GridNavigator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3F91894487200942107 /* GridNavigator.cpp */; };
-		BA97C4201894487200942107 /* GridRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3FB1894487200942107 /* GridRoom.cpp */; };
-		BA97C4211894487200942107 /* GridZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C3FD1894487200942107 /* GridZone.cpp */; };
-		BA97C4221894487200942107 /* LevelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C4011894487200942107 /* LevelLoader.cpp */; };
-		BA97C4231894487200942107 /* LevelManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C4031894487200942107 /* LevelManager.cpp */; };
-		BA97C4241894487200942107 /* ShadyCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C4061894487200942107 /* ShadyCamera.cpp */; };
-		BA97C4251894487200942107 /* GameSingletons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C4091894487200942107 /* GameSingletons.cpp */; };
-		BA97C4261894487200942107 /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C40E1894487200942107 /* TestFile.cpp */; };
-		BA97C4271894487200942107 /* TestUiSceneTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C4121894487200942107 /* TestUiSceneTouchHandlers.cpp */; };
-		BA97C4A41894489E00942107 /* pCube1.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C42A1894489D00942107 /* pCube1.skeletalanimation */; };
-		BA97C4A51894489E00942107 /* pTorus1.animclips in Resources */ = {isa = PBXBuildFile; fileRef = BA97C42B1894489D00942107 /* pTorus1.animclips */; };
-		BA97C4A61894489E00942107 /* SD_Assassin_mesh.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C42C1894489D00942107 /* SD_Assassin_mesh.skeletalanimation */; };
-		BA97C4A71894489E00942107 /* SD_AssassinMesh_03__1__polySurface5.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C42D1894489D00942107 /* SD_AssassinMesh_03__1__polySurface5.skeletalanimation */; };
-		BA97C4A81894489E00942107 /* SD_Guard_mesh.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C42E1894489D00942107 /* SD_Guard_mesh.skeletalanimation */; };
-		BA97C4A91894489E00942107 /* SD_GuardCaptain_mesh.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C42F1894489D00942107 /* SD_GuardCaptain_mesh.skeletalanimation */; };
-		BA97C4AA1894489E00942107 /* SD_GuardCaptainMesh_03_polySurface9.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4301894489D00942107 /* SD_GuardCaptainMesh_03_polySurface9.skeletalanimation */; };
-		BA97C4AB1894489E00942107 /* SD_GuardCaptainMesh_04_polySurface9.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4311894489D00942107 /* SD_GuardCaptainMesh_04_polySurface9.skeletalanimation */; };
-		BA97C4AC1894489E00942107 /* SD_Imposter_mesh.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4321894489D00942107 /* SD_Imposter_mesh.skeletalanimation */; };
-		BA97C4AD1894489E00942107 /* simpleanimation.animclips in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4331894489D00942107 /* simpleanimation.animclips */; };
-		BA97C4AE1894489E00942107 /* LadyAssassinWeights_polySurface5.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4351894489D00942107 /* LadyAssassinWeights_polySurface5.armature */; };
-		BA97C4AF1894489E00942107 /* pCube1.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4361894489D00942107 /* pCube1.armature */; };
-		BA97C4B01894489E00942107 /* SD_Assassin_mesh.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4371894489D00942107 /* SD_Assassin_mesh.armature */; };
-		BA97C4B11894489E00942107 /* SD_AssassinMesh_03__1__polySurface5.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4381894489D00942107 /* SD_AssassinMesh_03__1__polySurface5.armature */; };
-		BA97C4B21894489E00942107 /* SD_Guard_mesh.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4391894489D00942107 /* SD_Guard_mesh.armature */; };
-		BA97C4B31894489E00942107 /* SD_GuardCaptain_mesh.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C43A1894489D00942107 /* SD_GuardCaptain_mesh.armature */; };
-		BA97C4B41894489E00942107 /* SD_GuardCaptainMesh_03_polySurface9.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C43B1894489D00942107 /* SD_GuardCaptainMesh_03_polySurface9.armature */; };
-		BA97C4B51894489E00942107 /* SD_GuardCaptainMesh_04_polySurface9.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C43C1894489D00942107 /* SD_GuardCaptainMesh_04_polySurface9.armature */; };
-		BA97C4B61894489E00942107 /* SD_Imposter_mesh.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C43D1894489D00942107 /* SD_Imposter_mesh.armature */; };
-		BA97C4B71894489E00942107 /* lowAlert(hisfixed).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BA97C43F1894489D00942107 /* lowAlert(hisfixed).mp3 */; };
-		BA97C4B81894489E00942107 /* lowAlert(hisfixed).wav in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4401894489D00942107 /* lowAlert(hisfixed).wav */; };
-		BA97C4B91894489E00942107 /* Components.xml in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4421894489D00942107 /* Components.xml */; };
-		BA97C4BA1894489E00942107 /* calibiri.csv in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4441894489D00942107 /* calibiri.csv */; };
-		BA97C4BB1894489E00942107 /* calibiri.fontspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4451894489D00942107 /* calibiri.fontspec */; };
-		BA97C4BC1894489E00942107 /* calibiri.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4461894489D00942107 /* calibiri.png */; };
-		BA97C4BD1894489E00942107 /* calibiri_inverted.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4471894489D00942107 /* calibiri_inverted.png */; };
-		BA97C4BE1894489E00942107 /* ExampleLevel.lvl in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4491894489D00942107 /* ExampleLevel.lvl */; };
-		BA97C4BF1894489E00942107 /* SD_TestScene.lvl in Resources */ = {isa = PBXBuildFile; fileRef = BA97C44A1894489D00942107 /* SD_TestScene.lvl */; };
-		BA97C4C01894489E00942107 /* XmlLevel.lvl in Resources */ = {isa = PBXBuildFile; fileRef = BA97C44B1894489D00942107 /* XmlLevel.lvl */; };
-		BA97C4C11894489E00942107 /* iOS.log in Resources */ = {isa = PBXBuildFile; fileRef = BA97C44D1894489D00942107 /* iOS.log */; };
-		BA97C4C21894489E00942107 /* Windows.log in Resources */ = {isa = PBXBuildFile; fileRef = BA97C44E1894489D00942107 /* Windows.log */; };
-		BA97C4C31894489E00942107 /* bone.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4501894489D00942107 /* bone.model */; };
-		BA97C4C41894489E00942107 /* flyer.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4511894489D00942107 /* flyer.model */; };
-		BA97C4C51894489E00942107 /* Plane.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4521894489D00942107 /* Plane.model */; };
-		BA97C4C61894489E00942107 /* polySurface5.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4531894489D00942107 /* polySurface5.model */; };
-		BA97C4C71894489E00942107 /* pTorus1.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4541894489D00942107 /* pTorus1.model */; };
-		BA97C4C81894489E00942107 /* SD_Assassin_mesh.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4551894489D00942107 /* SD_Assassin_mesh.model */; };
-		BA97C4C91894489E00942107 /* SD_GrassFloor_A.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4561894489D00942107 /* SD_GrassFloor_A.model */; };
-		BA97C4CA1894489E00942107 /* SD_Guard_mesh.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4571894489D00942107 /* SD_Guard_mesh.model */; };
-		BA97C4CB1894489E00942107 /* SD_GuardCaptainMesh_03_polySurface9.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4581894489D00942107 /* SD_GuardCaptainMesh_03_polySurface9.model */; };
-		BA97C4CC1894489E00942107 /* SD_HighWall_3Way.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4591894489D00942107 /* SD_HighWall_3Way.model */; };
-		BA97C4CD1894489E00942107 /* SD_HighWall_Backface.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C45A1894489D00942107 /* SD_HighWall_Backface.model */; };
-		BA97C4CE1894489E00942107 /* SD_HighWall_Corner.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C45B1894489D00942107 /* SD_HighWall_Corner.model */; };
-		BA97C4CF1894489E00942107 /* SD_HighWall_End.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C45C1894489D00942107 /* SD_HighWall_End.model */; };
-		BA97C4D01894489E00942107 /* SD_HighWall_Straight.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C45D1894489D00942107 /* SD_HighWall_Straight.model */; };
-		BA97C4D11894489E00942107 /* SD_LowWall_End.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C45E1894489D00942107 /* SD_LowWall_End.model */; };
-		BA97C4D21894489E00942107 /* SD_LowWall_Straight.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C45F1894489D00942107 /* SD_LowWall_Straight.model */; };
-		BA97C4D31894489E00942107 /* SD_StoneFloor_A.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4601894489D00942107 /* SD_StoneFloor_A.model */; };
-		BA97C4D41894489E00942107 /* stubbyarrows.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4611894489D00942107 /* stubbyarrows.model */; };
-		BA97C4D51894489E00942107 /* Suzanne.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4621894489D00942107 /* Suzanne.model */; };
-		BA97C4D61894489E00942107 /* TexturedCube.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4631894489D00942107 /* TexturedCube.model */; };
-		BA97C4D71894489E00942107 /* wavybox.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4641894489D00942107 /* wavybox.model */; };
-		BA97C4D81894489E00942107 /* ash_uvgrid01.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4661894489D00942107 /* ash_uvgrid01.png */; };
-		BA97C4D91894489E00942107 /* assassin.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4671894489D00942107 /* assassin.png */; };
-		BA97C4DA1894489E00942107 /* flyer_colour.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4681894489D00942107 /* flyer_colour.png */; };
-		BA97C4DB1894489E00942107 /* monkey.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4691894489D00942107 /* monkey.png */; };
-		BA97C4DC1894489E00942107 /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C46A1894489D00942107 /* picture.png */; };
-		BA97C4DD1894489E00942107 /* pyramidtexture.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C46B1894489D00942107 /* pyramidtexture.png */; };
-		BA97C4DE1894489E00942107 /* sample_picture.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C46C1894489D00942107 /* sample_picture.png */; };
-		BA97C4DF1894489E00942107 /* sample_picture2.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C46D1894489D00942107 /* sample_picture2.png */; };
-		BA97C4E01894489E00942107 /* sample_picture3.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C46E1894489D00942107 /* sample_picture3.png */; };
-		BA97C4E11894489E00942107 /* sample_picture4.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C46F1894489D00942107 /* sample_picture4.png */; };
-		BA97C4E21894489E00942107 /* sample_picture5.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4701894489D00942107 /* sample_picture5.png */; };
-		BA97C4E31894489E00942107 /* sample_picture6.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4711894489D00942107 /* sample_picture6.png */; };
-		BA97C4E41894489E00942107 /* SD_Cube_01.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4721894489D00942107 /* SD_Cube_01.png */; };
-		BA97C4E51894489E00942107 /* SD_EnviroAtlas_01.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4731894489D00942107 /* SD_EnviroAtlas_01.png */; };
-		BA97C4E61894489E00942107 /* simpletexture.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4741894489D00942107 /* simpletexture.png */; };
-		BA97C4E71894489E00942107 /* square.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4751894489D00942107 /* square.png */; };
-		BA97C4E81894489E00942107 /* texture.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4761894489D00942107 /* texture.png */; };
-		BA97C4E91894489E00942107 /* texturedcube.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4771894489D00942107 /* texturedcube.png */; };
-		BA97C4EA1894489E00942107 /* voronoi.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4781894489D00942107 /* voronoi.png */; };
-		BA97C4EB1894489E00942107 /* yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4791894489D00942107 /* yellow.png */; };
-		BA97C4EC1894489E00942107 /* Assassin.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C47B1894489D00942107 /* Assassin.prefab */; };
-		BA97C4ED1894489E00942107 /* GrassFloor_A.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C47C1894489E00942107 /* GrassFloor_A.prefab */; };
-		BA97C4EE1894489E00942107 /* HighWall_3Way.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C47D1894489E00942107 /* HighWall_3Way.prefab */; };
-		BA97C4EF1894489E00942107 /* HighWall_Backface.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C47E1894489E00942107 /* HighWall_Backface.prefab */; };
-		BA97C4F01894489E00942107 /* HighWall_Corner.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C47F1894489E00942107 /* HighWall_Corner.prefab */; };
-		BA97C4F11894489E00942107 /* HighWall_End.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4801894489E00942107 /* HighWall_End.prefab */; };
-		BA97C4F21894489E00942107 /* HighWall_Straight in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4811894489E00942107 /* HighWall_Straight */; };
-		BA97C4F31894489E00942107 /* HighWall_Straight.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4821894489E00942107 /* HighWall_Straight.prefab */; };
-		BA97C4F41894489E00942107 /* LowWall_End.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4831894489E00942107 /* LowWall_End.prefab */; };
-		BA97C4F51894489E00942107 /* LowWall_Straight in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4841894489E00942107 /* LowWall_Straight */; };
-		BA97C4F61894489E00942107 /* LowWall_Straight.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4851894489E00942107 /* LowWall_Straight.prefab */; };
-		BA97C4F71894489E00942107 /* minimonkey.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4861894489E00942107 /* minimonkey.prefab */; };
-		BA97C4F81894489E00942107 /* monkey.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4871894489E00942107 /* monkey.prefab */; };
-		BA97C4F91894489E00942107 /* ScreenTransZone.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4881894489E00942107 /* ScreenTransZone.prefab */; };
-		BA97C4FA1894489E00942107 /* SentryEnemy.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4891894489E00942107 /* SentryEnemy.prefab */; };
-		BA97C4FB1894489E00942107 /* StoneFloor_A.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C48A1894489E00942107 /* StoneFloor_A.prefab */; };
-		BA97C4FC1894489E00942107 /* BoneColorShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C48C1894489E00942107 /* BoneColorShader.shaderspec */; };
-		BA97C4FD1894489E00942107 /* BoneColorVertexShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C48D1894489E00942107 /* BoneColorVertexShader.vertexshader */; };
-		BA97C4FE1894489E00942107 /* BoneTextureShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C48E1894489E00942107 /* BoneTextureShader.shaderspec */; };
-		BA97C4FF1894489E00942107 /* BoneTextureVertexShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C48F1894489E00942107 /* BoneTextureVertexShader.vertexshader */; };
-		BA97C5001894489E00942107 /* ColorFragmentShader.fragmentshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4901894489E00942107 /* ColorFragmentShader.fragmentshader */; };
-		BA97C5011894489E00942107 /* ColorShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4911894489E00942107 /* ColorShader.shaderspec */; };
-		BA97C5021894489E00942107 /* ColorVertexShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4921894489E00942107 /* ColorVertexShader.vertexshader */; };
-		BA97C5031894489E00942107 /* preprocessor_variables in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4931894489E00942107 /* preprocessor_variables */; };
-		BA97C5041894489E00942107 /* shader_variables in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4941894489E00942107 /* shader_variables */; };
-		BA97C5051894489E00942107 /* SimplestShader.fragmentshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4951894489E00942107 /* SimplestShader.fragmentshader */; };
-		BA97C5061894489E00942107 /* SimplestShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4961894489E00942107 /* SimplestShader.shaderspec */; };
-		BA97C5071894489E00942107 /* SimplestShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4971894489E00942107 /* SimplestShader.vertexshader */; };
-		BA97C5081894489E00942107 /* SpriteColorFragmentShader.fragmentshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4981894489E00942107 /* SpriteColorFragmentShader.fragmentshader */; };
-		BA97C5091894489E00942107 /* SpriteColorShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4991894489E00942107 /* SpriteColorShader.shaderspec */; };
-		BA97C50A1894489E00942107 /* SpriteColorVertexShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C49A1894489E00942107 /* SpriteColorVertexShader.vertexshader */; };
-		BA97C50B1894489E00942107 /* SpriteTextureFragmentShader.fragmentshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C49B1894489E00942107 /* SpriteTextureFragmentShader.fragmentshader */; };
-		BA97C50C1894489E00942107 /* SpriteTextureShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C49C1894489E00942107 /* SpriteTextureShader.shaderspec */; };
-		BA97C50D1894489E00942107 /* SpriteTextureVertexShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C49D1894489E00942107 /* SpriteTextureVertexShader.vertexshader */; };
-		BA97C50E1894489E00942107 /* TextureFragmentShader.fragmentshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C49E1894489E00942107 /* TextureFragmentShader.fragmentshader */; };
-		BA97C50F1894489E00942107 /* TextureShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C49F1894489E00942107 /* TextureShader.shaderspec */; };
-		BA97C5101894489E00942107 /* TextureVertexShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4A01894489E00942107 /* TextureVertexShader.vertexshader */; };
-		BA97C5111894489E00942107 /* scheme.uiscene in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4A21894489E00942107 /* scheme.uiscene */; };
-		BA97C5121894489E00942107 /* testUiScene.uiscene in Resources */ = {isa = PBXBuildFile; fileRef = BA97C4A31894489E00942107 /* testUiScene.uiscene */; };
+		BA97C55418945EBF00942107 /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C51618945EBE00942107 /* AndroidWrapper.cpp */; };
+		BA97C55518945EBF00942107 /* ComponentMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C51918945EBE00942107 /* ComponentMapper.cpp */; };
+		BA97C55618945EBF00942107 /* AiKnowledge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C52018945EBE00942107 /* AiKnowledge.cpp */; };
+		BA97C55718945EBF00942107 /* AiPerception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C52218945EBE00942107 /* AiPerception.cpp */; };
+		BA97C55818945EBF00942107 /* AiRoutine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C52418945EBE00942107 /* AiRoutine.cpp */; };
+		BA97C55918945EBF00942107 /* SampleGameScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C52618945EBE00942107 /* SampleGameScript.cpp */; };
+		BA97C55A18945EBF00942107 /* BaseUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C52918945EBE00942107 /* BaseUnit.cpp */; };
+		BA97C55B18945EBF00942107 /* EnemyUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C52B18945EBE00942107 /* EnemyUnit.cpp */; };
+		BA97C55C18945EBF00942107 /* PlayerUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C52D18945EBE00942107 /* PlayerUnit.cpp */; };
+		BA97C55D18945EBF00942107 /* GridCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C53118945EBE00942107 /* GridCell.cpp */; };
+		BA97C55E18945EBF00942107 /* GridManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C53318945EBE00942107 /* GridManager.cpp */; };
+		BA97C55F18945EBF00942107 /* GridNavigator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C53518945EBE00942107 /* GridNavigator.cpp */; };
+		BA97C56018945EBF00942107 /* GridRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C53718945EBE00942107 /* GridRoom.cpp */; };
+		BA97C56118945EBF00942107 /* GridZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C53918945EBE00942107 /* GridZone.cpp */; };
+		BA97C56218945EBF00942107 /* LevelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C53D18945EBF00942107 /* LevelLoader.cpp */; };
+		BA97C56318945EBF00942107 /* LevelManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C53F18945EBF00942107 /* LevelManager.cpp */; };
+		BA97C56418945EBF00942107 /* ShadyCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C54218945EBF00942107 /* ShadyCamera.cpp */; };
+		BA97C56518945EBF00942107 /* GameSingletons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C54518945EBF00942107 /* GameSingletons.cpp */; };
+		BA97C56618945EBF00942107 /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C54A18945EBF00942107 /* TestFile.cpp */; };
+		BA97C56718945EBF00942107 /* GameUiTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C54E18945EBF00942107 /* GameUiTouchHandlers.cpp */; };
+		BA97C56818945EBF00942107 /* MainMenuTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C55018945EBF00942107 /* MainMenuTouchHandlers.cpp */; };
+		BA97C56918945EBF00942107 /* TestUiSceneTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA97C55218945EBF00942107 /* TestUiSceneTouchHandlers.cpp */; };
+		BA97C5E818945ECF00942107 /* pCube1.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C56C18945ECE00942107 /* pCube1.skeletalanimation */; };
+		BA97C5E918945ECF00942107 /* pTorus1.animclips in Resources */ = {isa = PBXBuildFile; fileRef = BA97C56D18945ECE00942107 /* pTorus1.animclips */; };
+		BA97C5EA18945ECF00942107 /* SD_Assassin_mesh.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C56E18945ECE00942107 /* SD_Assassin_mesh.skeletalanimation */; };
+		BA97C5EB18945ECF00942107 /* SD_AssassinMesh_03__1__polySurface5.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C56F18945ECE00942107 /* SD_AssassinMesh_03__1__polySurface5.skeletalanimation */; };
+		BA97C5EC18945ECF00942107 /* SD_Guard_mesh.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57018945ECE00942107 /* SD_Guard_mesh.skeletalanimation */; };
+		BA97C5ED18945ECF00942107 /* SD_GuardCaptain_mesh.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57118945ECE00942107 /* SD_GuardCaptain_mesh.skeletalanimation */; };
+		BA97C5EE18945ECF00942107 /* SD_GuardCaptainMesh_03_polySurface9.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57218945ECE00942107 /* SD_GuardCaptainMesh_03_polySurface9.skeletalanimation */; };
+		BA97C5EF18945ECF00942107 /* SD_GuardCaptainMesh_04_polySurface9.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57318945ECE00942107 /* SD_GuardCaptainMesh_04_polySurface9.skeletalanimation */; };
+		BA97C5F018945ECF00942107 /* SD_Imposter_mesh.skeletalanimation in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57418945ECE00942107 /* SD_Imposter_mesh.skeletalanimation */; };
+		BA97C5F118945ECF00942107 /* simpleanimation.animclips in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57518945ECE00942107 /* simpleanimation.animclips */; };
+		BA97C5F218945ECF00942107 /* LadyAssassinWeights_polySurface5.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57718945ECE00942107 /* LadyAssassinWeights_polySurface5.armature */; };
+		BA97C5F318945ECF00942107 /* pCube1.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57818945ECE00942107 /* pCube1.armature */; };
+		BA97C5F418945ECF00942107 /* SD_Assassin_mesh.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57918945ECE00942107 /* SD_Assassin_mesh.armature */; };
+		BA97C5F518945ECF00942107 /* SD_AssassinMesh_03__1__polySurface5.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57A18945ECE00942107 /* SD_AssassinMesh_03__1__polySurface5.armature */; };
+		BA97C5F618945ECF00942107 /* SD_Guard_mesh.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57B18945ECE00942107 /* SD_Guard_mesh.armature */; };
+		BA97C5F718945ECF00942107 /* SD_GuardCaptain_mesh.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57C18945ECE00942107 /* SD_GuardCaptain_mesh.armature */; };
+		BA97C5F818945ECF00942107 /* SD_GuardCaptainMesh_03_polySurface9.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57D18945ECE00942107 /* SD_GuardCaptainMesh_03_polySurface9.armature */; };
+		BA97C5F918945ECF00942107 /* SD_GuardCaptainMesh_04_polySurface9.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57E18945ECE00942107 /* SD_GuardCaptainMesh_04_polySurface9.armature */; };
+		BA97C5FA18945ECF00942107 /* SD_Imposter_mesh.armature in Resources */ = {isa = PBXBuildFile; fileRef = BA97C57F18945ECE00942107 /* SD_Imposter_mesh.armature */; };
+		BA97C5FB18945ECF00942107 /* lowAlert(hisfixed).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BA97C58118945ECE00942107 /* lowAlert(hisfixed).mp3 */; };
+		BA97C5FC18945ECF00942107 /* lowAlert(hisfixed).wav in Resources */ = {isa = PBXBuildFile; fileRef = BA97C58218945ECE00942107 /* lowAlert(hisfixed).wav */; };
+		BA97C5FD18945ECF00942107 /* Components.xml in Resources */ = {isa = PBXBuildFile; fileRef = BA97C58418945ECE00942107 /* Components.xml */; };
+		BA97C5FE18945ECF00942107 /* calibiri.csv in Resources */ = {isa = PBXBuildFile; fileRef = BA97C58618945ECE00942107 /* calibiri.csv */; };
+		BA97C5FF18945ECF00942107 /* calibiri.fontspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C58718945ECE00942107 /* calibiri.fontspec */; };
+		BA97C60018945ECF00942107 /* calibiri.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C58818945ECE00942107 /* calibiri.png */; };
+		BA97C60118945ECF00942107 /* calibiri_inverted.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C58918945ECE00942107 /* calibiri_inverted.png */; };
+		BA97C60218945ECF00942107 /* ExampleLevel.lvl in Resources */ = {isa = PBXBuildFile; fileRef = BA97C58B18945ECE00942107 /* ExampleLevel.lvl */; };
+		BA97C60318945ECF00942107 /* SD_TestScene.lvl in Resources */ = {isa = PBXBuildFile; fileRef = BA97C58C18945ECE00942107 /* SD_TestScene.lvl */; };
+		BA97C60418945ECF00942107 /* XmlLevel.lvl in Resources */ = {isa = PBXBuildFile; fileRef = BA97C58D18945ECE00942107 /* XmlLevel.lvl */; };
+		BA97C60518945ECF00942107 /* iOS.log in Resources */ = {isa = PBXBuildFile; fileRef = BA97C58F18945ECE00942107 /* iOS.log */; };
+		BA97C60618945ECF00942107 /* Windows.log in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59018945ECE00942107 /* Windows.log */; };
+		BA97C60718945ECF00942107 /* bone.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59218945ECE00942107 /* bone.model */; };
+		BA97C60818945ECF00942107 /* flyer.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59318945ECE00942107 /* flyer.model */; };
+		BA97C60918945ECF00942107 /* Plane.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59418945ECE00942107 /* Plane.model */; };
+		BA97C60A18945ECF00942107 /* polySurface5.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59518945ECE00942107 /* polySurface5.model */; };
+		BA97C60B18945ECF00942107 /* pTorus1.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59618945ECE00942107 /* pTorus1.model */; };
+		BA97C60C18945ECF00942107 /* SD_Assassin_mesh.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59718945ECE00942107 /* SD_Assassin_mesh.model */; };
+		BA97C60D18945ECF00942107 /* SD_GrassFloor_A.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59818945ECE00942107 /* SD_GrassFloor_A.model */; };
+		BA97C60E18945ECF00942107 /* SD_Guard_mesh.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59918945ECE00942107 /* SD_Guard_mesh.model */; };
+		BA97C60F18945ECF00942107 /* SD_GuardCaptainMesh_03_polySurface9.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59A18945ECE00942107 /* SD_GuardCaptainMesh_03_polySurface9.model */; };
+		BA97C61018945ECF00942107 /* SD_HighWall_3Way.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59B18945ECE00942107 /* SD_HighWall_3Way.model */; };
+		BA97C61118945ECF00942107 /* SD_HighWall_Backface.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59C18945ECE00942107 /* SD_HighWall_Backface.model */; };
+		BA97C61218945ECF00942107 /* SD_HighWall_Corner.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59D18945ECE00942107 /* SD_HighWall_Corner.model */; };
+		BA97C61318945ECF00942107 /* SD_HighWall_End.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59E18945ECE00942107 /* SD_HighWall_End.model */; };
+		BA97C61418945ECF00942107 /* SD_HighWall_Straight.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C59F18945ECE00942107 /* SD_HighWall_Straight.model */; };
+		BA97C61518945ECF00942107 /* SD_LowWall_End.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5A018945ECE00942107 /* SD_LowWall_End.model */; };
+		BA97C61618945ECF00942107 /* SD_LowWall_Straight.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5A118945ECE00942107 /* SD_LowWall_Straight.model */; };
+		BA97C61718945ECF00942107 /* SD_StoneFloor_A.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5A218945ECE00942107 /* SD_StoneFloor_A.model */; };
+		BA97C61818945ECF00942107 /* stubbyarrows.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5A318945ECE00942107 /* stubbyarrows.model */; };
+		BA97C61918945ECF00942107 /* Suzanne.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5A418945ECE00942107 /* Suzanne.model */; };
+		BA97C61A18945ECF00942107 /* TexturedCube.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5A518945ECE00942107 /* TexturedCube.model */; };
+		BA97C61B18945ECF00942107 /* wavybox.model in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5A618945ECE00942107 /* wavybox.model */; };
+		BA97C61C18945ECF00942107 /* ash_uvgrid01.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5A818945ECE00942107 /* ash_uvgrid01.png */; };
+		BA97C61D18945ECF00942107 /* assassin.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5A918945ECE00942107 /* assassin.png */; };
+		BA97C61E18945ECF00942107 /* flyer_colour.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5AA18945ECE00942107 /* flyer_colour.png */; };
+		BA97C61F18945ECF00942107 /* monkey.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5AB18945ECE00942107 /* monkey.png */; };
+		BA97C62018945ECF00942107 /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5AC18945ECE00942107 /* picture.png */; };
+		BA97C62118945ECF00942107 /* pyramidtexture.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5AD18945ECE00942107 /* pyramidtexture.png */; };
+		BA97C62218945ECF00942107 /* sample_picture.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5AE18945ECE00942107 /* sample_picture.png */; };
+		BA97C62318945ECF00942107 /* sample_picture2.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5AF18945ECE00942107 /* sample_picture2.png */; };
+		BA97C62418945ECF00942107 /* sample_picture3.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5B018945ECE00942107 /* sample_picture3.png */; };
+		BA97C62518945ECF00942107 /* sample_picture4.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5B118945ECE00942107 /* sample_picture4.png */; };
+		BA97C62618945ECF00942107 /* sample_picture5.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5B218945ECE00942107 /* sample_picture5.png */; };
+		BA97C62718945ECF00942107 /* sample_picture6.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5B318945ECE00942107 /* sample_picture6.png */; };
+		BA97C62818945ECF00942107 /* SD_Cube_01.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5B418945ECE00942107 /* SD_Cube_01.png */; };
+		BA97C62918945ECF00942107 /* SD_EnviroAtlas_01.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5B518945ECE00942107 /* SD_EnviroAtlas_01.png */; };
+		BA97C62A18945ECF00942107 /* simpletexture.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5B618945ECE00942107 /* simpletexture.png */; };
+		BA97C62B18945ECF00942107 /* square.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5B718945ECE00942107 /* square.png */; };
+		BA97C62C18945ECF00942107 /* texture.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5B818945ECE00942107 /* texture.png */; };
+		BA97C62D18945ECF00942107 /* texturedcube.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5B918945ECE00942107 /* texturedcube.png */; };
+		BA97C62E18945ECF00942107 /* voronoi.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5BA18945ECE00942107 /* voronoi.png */; };
+		BA97C62F18945ECF00942107 /* yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5BB18945ECE00942107 /* yellow.png */; };
+		BA97C63018945ECF00942107 /* Assassin.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5BD18945ECE00942107 /* Assassin.prefab */; };
+		BA97C63118945ECF00942107 /* GrassFloor_A.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5BE18945ECE00942107 /* GrassFloor_A.prefab */; };
+		BA97C63218945ECF00942107 /* HighWall_3Way.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5BF18945ECE00942107 /* HighWall_3Way.prefab */; };
+		BA97C63318945ECF00942107 /* HighWall_Backface.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5C018945ECE00942107 /* HighWall_Backface.prefab */; };
+		BA97C63418945ECF00942107 /* HighWall_Corner.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5C118945ECE00942107 /* HighWall_Corner.prefab */; };
+		BA97C63518945ECF00942107 /* HighWall_End.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5C218945ECE00942107 /* HighWall_End.prefab */; };
+		BA97C63618945ECF00942107 /* HighWall_Straight in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5C318945ECE00942107 /* HighWall_Straight */; };
+		BA97C63718945ECF00942107 /* HighWall_Straight.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5C418945ECE00942107 /* HighWall_Straight.prefab */; };
+		BA97C63818945ECF00942107 /* LowWall_End.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5C518945ECE00942107 /* LowWall_End.prefab */; };
+		BA97C63918945ECF00942107 /* LowWall_Straight in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5C618945ECE00942107 /* LowWall_Straight */; };
+		BA97C63A18945ECF00942107 /* LowWall_Straight.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5C718945ECE00942107 /* LowWall_Straight.prefab */; };
+		BA97C63B18945ECF00942107 /* minimonkey.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5C818945ECE00942107 /* minimonkey.prefab */; };
+		BA97C63C18945ECF00942107 /* monkey.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5C918945ECE00942107 /* monkey.prefab */; };
+		BA97C63D18945ECF00942107 /* ScreenTransZone.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5CA18945ECE00942107 /* ScreenTransZone.prefab */; };
+		BA97C63E18945ECF00942107 /* SentryEnemy.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5CB18945ECE00942107 /* SentryEnemy.prefab */; };
+		BA97C63F18945ECF00942107 /* StoneFloor_A.prefab in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5CC18945ECE00942107 /* StoneFloor_A.prefab */; };
+		BA97C64018945ECF00942107 /* BoneColorShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5CE18945ECE00942107 /* BoneColorShader.shaderspec */; };
+		BA97C64118945ECF00942107 /* BoneColorVertexShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5CF18945ECE00942107 /* BoneColorVertexShader.vertexshader */; };
+		BA97C64218945ECF00942107 /* BoneTextureShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5D018945ECE00942107 /* BoneTextureShader.shaderspec */; };
+		BA97C64318945ECF00942107 /* BoneTextureVertexShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5D118945ECE00942107 /* BoneTextureVertexShader.vertexshader */; };
+		BA97C64418945ECF00942107 /* ColorFragmentShader.fragmentshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5D218945ECE00942107 /* ColorFragmentShader.fragmentshader */; };
+		BA97C64518945ECF00942107 /* ColorShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5D318945ECE00942107 /* ColorShader.shaderspec */; };
+		BA97C64618945ECF00942107 /* ColorVertexShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5D418945ECE00942107 /* ColorVertexShader.vertexshader */; };
+		BA97C64718945ECF00942107 /* preprocessor_variables in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5D518945ECE00942107 /* preprocessor_variables */; };
+		BA97C64818945ECF00942107 /* shader_variables in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5D618945ECF00942107 /* shader_variables */; };
+		BA97C64918945ECF00942107 /* SimplestShader.fragmentshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5D718945ECF00942107 /* SimplestShader.fragmentshader */; };
+		BA97C64A18945ECF00942107 /* SimplestShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5D818945ECF00942107 /* SimplestShader.shaderspec */; };
+		BA97C64B18945ECF00942107 /* SimplestShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5D918945ECF00942107 /* SimplestShader.vertexshader */; };
+		BA97C64C18945ECF00942107 /* SpriteColorFragmentShader.fragmentshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5DA18945ECF00942107 /* SpriteColorFragmentShader.fragmentshader */; };
+		BA97C64D18945ECF00942107 /* SpriteColorShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5DB18945ECF00942107 /* SpriteColorShader.shaderspec */; };
+		BA97C64E18945ECF00942107 /* SpriteColorVertexShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5DC18945ECF00942107 /* SpriteColorVertexShader.vertexshader */; };
+		BA97C64F18945ECF00942107 /* SpriteTextureFragmentShader.fragmentshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5DD18945ECF00942107 /* SpriteTextureFragmentShader.fragmentshader */; };
+		BA97C65018945ECF00942107 /* SpriteTextureShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5DE18945ECF00942107 /* SpriteTextureShader.shaderspec */; };
+		BA97C65118945ECF00942107 /* SpriteTextureVertexShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5DF18945ECF00942107 /* SpriteTextureVertexShader.vertexshader */; };
+		BA97C65218945ECF00942107 /* TextureFragmentShader.fragmentshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5E018945ECF00942107 /* TextureFragmentShader.fragmentshader */; };
+		BA97C65318945ECF00942107 /* TextureShader.shaderspec in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5E118945ECF00942107 /* TextureShader.shaderspec */; };
+		BA97C65418945ECF00942107 /* TextureVertexShader.vertexshader in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5E218945ECF00942107 /* TextureVertexShader.vertexshader */; };
+		BA97C65518945ECF00942107 /* gameUi.uiscene in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5E418945ECF00942107 /* gameUi.uiscene */; };
+		BA97C65618945ECF00942107 /* mainMenu.uiscene in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5E518945ECF00942107 /* mainMenu.uiscene */; };
+		BA97C65718945ECF00942107 /* scheme.uiscene in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5E618945ECF00942107 /* scheme.uiscene */; };
+		BA97C65818945ECF00942107 /* testUiScene.uiscene in Resources */ = {isa = PBXBuildFile; fileRef = BA97C5E718945ECF00942107 /* testUiScene.uiscene */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -625,161 +629,167 @@
 		B383FD08187B4B0000999890 /* OpenGLIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLIncludes.h; sourceTree = "<group>"; };
 		B383FD09187B4B0000999890 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		B383FD0B187B4B0000999890 /* VajraToAndroidJavaInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VajraToAndroidJavaInterface.h; sourceTree = "<group>"; };
-		BA97C3DA1894487200942107 /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
-		BA97C3DB1894487200942107 /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
-		BA97C3DD1894487200942107 /* ComponentMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComponentMapper.cpp; sourceTree = "<group>"; };
-		BA97C3DE1894487200942107 /* ComponentMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentMapper.h; sourceTree = "<group>"; };
-		BA97C3E11894487200942107 /* ComponentTypeIds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentTypeIds.h; sourceTree = "<group>"; };
-		BA97C3E41894487200942107 /* AiKnowledge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiKnowledge.cpp; sourceTree = "<group>"; };
-		BA97C3E51894487200942107 /* AiKnowledge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiKnowledge.h; sourceTree = "<group>"; };
-		BA97C3E61894487200942107 /* AiPerception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiPerception.cpp; sourceTree = "<group>"; };
-		BA97C3E71894487200942107 /* AiPerception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiPerception.h; sourceTree = "<group>"; };
-		BA97C3E81894487200942107 /* AiRoutine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiRoutine.cpp; sourceTree = "<group>"; };
-		BA97C3E91894487200942107 /* AiRoutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiRoutine.h; sourceTree = "<group>"; };
-		BA97C3EA1894487200942107 /* SampleGameScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SampleGameScript.cpp; sourceTree = "<group>"; };
-		BA97C3EB1894487200942107 /* SampleGameScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleGameScript.h; sourceTree = "<group>"; };
-		BA97C3ED1894487200942107 /* BaseUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseUnit.cpp; sourceTree = "<group>"; };
-		BA97C3EE1894487200942107 /* BaseUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseUnit.h; sourceTree = "<group>"; };
-		BA97C3EF1894487200942107 /* EnemyUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EnemyUnit.cpp; sourceTree = "<group>"; };
-		BA97C3F01894487200942107 /* EnemyUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnemyUnit.h; sourceTree = "<group>"; };
-		BA97C3F11894487200942107 /* PlayerUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerUnit.cpp; sourceTree = "<group>"; };
-		BA97C3F21894487200942107 /* PlayerUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerUnit.h; sourceTree = "<group>"; };
-		BA97C3F31894487200942107 /* UnitDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitDeclarations.h; sourceTree = "<group>"; };
-		BA97C3F51894487200942107 /* GridCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridCell.cpp; sourceTree = "<group>"; };
-		BA97C3F61894487200942107 /* GridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridCell.h; sourceTree = "<group>"; };
-		BA97C3F71894487200942107 /* GridManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridManager.cpp; sourceTree = "<group>"; };
-		BA97C3F81894487200942107 /* GridManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridManager.h; sourceTree = "<group>"; };
-		BA97C3F91894487200942107 /* GridNavigator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridNavigator.cpp; sourceTree = "<group>"; };
-		BA97C3FA1894487200942107 /* GridNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridNavigator.h; sourceTree = "<group>"; };
-		BA97C3FB1894487200942107 /* GridRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridRoom.cpp; sourceTree = "<group>"; };
-		BA97C3FC1894487200942107 /* GridRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridRoom.h; sourceTree = "<group>"; };
-		BA97C3FD1894487200942107 /* GridZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridZone.cpp; sourceTree = "<group>"; };
-		BA97C3FE1894487200942107 /* GridZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridZone.h; sourceTree = "<group>"; };
-		BA97C4001894487200942107 /* LevelFileTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelFileTags.h; sourceTree = "<group>"; };
-		BA97C4011894487200942107 /* LevelLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelLoader.cpp; sourceTree = "<group>"; };
-		BA97C4021894487200942107 /* LevelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelLoader.h; sourceTree = "<group>"; };
-		BA97C4031894487200942107 /* LevelManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelManager.cpp; sourceTree = "<group>"; };
-		BA97C4041894487200942107 /* LevelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelManager.h; sourceTree = "<group>"; };
-		BA97C4061894487200942107 /* ShadyCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShadyCamera.cpp; sourceTree = "<group>"; };
-		BA97C4071894487200942107 /* ShadyCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadyCamera.h; sourceTree = "<group>"; };
-		BA97C4091894487200942107 /* GameSingletons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSingletons.cpp; sourceTree = "<group>"; };
-		BA97C40A1894487200942107 /* GameSingletons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSingletons.h; sourceTree = "<group>"; };
-		BA97C40C1894487200942107 /* Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Declarations.h; sourceTree = "<group>"; };
-		BA97C40E1894487200942107 /* TestFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestFile.cpp; sourceTree = "<group>"; };
-		BA97C40F1894487200942107 /* TestFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
-		BA97C4121894487200942107 /* TestUiSceneTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestUiSceneTouchHandlers.cpp; sourceTree = "<group>"; };
-		BA97C4131894487200942107 /* TestUiSceneTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUiSceneTouchHandlers.h; sourceTree = "<group>"; };
-		BA97C42A1894489D00942107 /* pCube1.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pCube1.skeletalanimation; sourceTree = "<group>"; };
-		BA97C42B1894489D00942107 /* pTorus1.animclips */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pTorus1.animclips; sourceTree = "<group>"; };
-		BA97C42C1894489D00942107 /* SD_Assassin_mesh.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Assassin_mesh.skeletalanimation; sourceTree = "<group>"; };
-		BA97C42D1894489D00942107 /* SD_AssassinMesh_03__1__polySurface5.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_AssassinMesh_03__1__polySurface5.skeletalanimation; sourceTree = "<group>"; };
-		BA97C42E1894489D00942107 /* SD_Guard_mesh.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Guard_mesh.skeletalanimation; sourceTree = "<group>"; };
-		BA97C42F1894489D00942107 /* SD_GuardCaptain_mesh.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptain_mesh.skeletalanimation; sourceTree = "<group>"; };
-		BA97C4301894489D00942107 /* SD_GuardCaptainMesh_03_polySurface9.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptainMesh_03_polySurface9.skeletalanimation; sourceTree = "<group>"; };
-		BA97C4311894489D00942107 /* SD_GuardCaptainMesh_04_polySurface9.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptainMesh_04_polySurface9.skeletalanimation; sourceTree = "<group>"; };
-		BA97C4321894489D00942107 /* SD_Imposter_mesh.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Imposter_mesh.skeletalanimation; sourceTree = "<group>"; };
-		BA97C4331894489D00942107 /* simpleanimation.animclips */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simpleanimation.animclips; sourceTree = "<group>"; };
-		BA97C4351894489D00942107 /* LadyAssassinWeights_polySurface5.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LadyAssassinWeights_polySurface5.armature; sourceTree = "<group>"; };
-		BA97C4361894489D00942107 /* pCube1.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pCube1.armature; sourceTree = "<group>"; };
-		BA97C4371894489D00942107 /* SD_Assassin_mesh.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Assassin_mesh.armature; sourceTree = "<group>"; };
-		BA97C4381894489D00942107 /* SD_AssassinMesh_03__1__polySurface5.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_AssassinMesh_03__1__polySurface5.armature; sourceTree = "<group>"; };
-		BA97C4391894489D00942107 /* SD_Guard_mesh.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Guard_mesh.armature; sourceTree = "<group>"; };
-		BA97C43A1894489D00942107 /* SD_GuardCaptain_mesh.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptain_mesh.armature; sourceTree = "<group>"; };
-		BA97C43B1894489D00942107 /* SD_GuardCaptainMesh_03_polySurface9.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptainMesh_03_polySurface9.armature; sourceTree = "<group>"; };
-		BA97C43C1894489D00942107 /* SD_GuardCaptainMesh_04_polySurface9.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptainMesh_04_polySurface9.armature; sourceTree = "<group>"; };
-		BA97C43D1894489D00942107 /* SD_Imposter_mesh.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Imposter_mesh.armature; sourceTree = "<group>"; };
-		BA97C43F1894489D00942107 /* lowAlert(hisfixed).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "lowAlert(hisfixed).mp3"; sourceTree = "<group>"; };
-		BA97C4401894489D00942107 /* lowAlert(hisfixed).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "lowAlert(hisfixed).wav"; sourceTree = "<group>"; };
-		BA97C4421894489D00942107 /* Components.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Components.xml; sourceTree = "<group>"; };
-		BA97C4441894489D00942107 /* calibiri.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = calibiri.csv; sourceTree = "<group>"; };
-		BA97C4451894489D00942107 /* calibiri.fontspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = calibiri.fontspec; sourceTree = "<group>"; };
-		BA97C4461894489D00942107 /* calibiri.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calibiri.png; sourceTree = "<group>"; };
-		BA97C4471894489D00942107 /* calibiri_inverted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calibiri_inverted.png; sourceTree = "<group>"; };
-		BA97C4491894489D00942107 /* ExampleLevel.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ExampleLevel.lvl; sourceTree = "<group>"; };
-		BA97C44A1894489D00942107 /* SD_TestScene.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_TestScene.lvl; sourceTree = "<group>"; };
-		BA97C44B1894489D00942107 /* XmlLevel.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = XmlLevel.lvl; sourceTree = "<group>"; };
-		BA97C44D1894489D00942107 /* iOS.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iOS.log; sourceTree = "<group>"; };
-		BA97C44E1894489D00942107 /* Windows.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Windows.log; sourceTree = "<group>"; };
-		BA97C4501894489D00942107 /* bone.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bone.model; sourceTree = "<group>"; };
-		BA97C4511894489D00942107 /* flyer.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flyer.model; sourceTree = "<group>"; };
-		BA97C4521894489D00942107 /* Plane.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Plane.model; sourceTree = "<group>"; };
-		BA97C4531894489D00942107 /* polySurface5.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = polySurface5.model; sourceTree = "<group>"; };
-		BA97C4541894489D00942107 /* pTorus1.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pTorus1.model; sourceTree = "<group>"; };
-		BA97C4551894489D00942107 /* SD_Assassin_mesh.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Assassin_mesh.model; sourceTree = "<group>"; };
-		BA97C4561894489D00942107 /* SD_GrassFloor_A.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GrassFloor_A.model; sourceTree = "<group>"; };
-		BA97C4571894489D00942107 /* SD_Guard_mesh.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Guard_mesh.model; sourceTree = "<group>"; };
-		BA97C4581894489D00942107 /* SD_GuardCaptainMesh_03_polySurface9.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptainMesh_03_polySurface9.model; sourceTree = "<group>"; };
-		BA97C4591894489D00942107 /* SD_HighWall_3Way.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_HighWall_3Way.model; sourceTree = "<group>"; };
-		BA97C45A1894489D00942107 /* SD_HighWall_Backface.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_HighWall_Backface.model; sourceTree = "<group>"; };
-		BA97C45B1894489D00942107 /* SD_HighWall_Corner.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_HighWall_Corner.model; sourceTree = "<group>"; };
-		BA97C45C1894489D00942107 /* SD_HighWall_End.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_HighWall_End.model; sourceTree = "<group>"; };
-		BA97C45D1894489D00942107 /* SD_HighWall_Straight.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_HighWall_Straight.model; sourceTree = "<group>"; };
-		BA97C45E1894489D00942107 /* SD_LowWall_End.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_LowWall_End.model; sourceTree = "<group>"; };
-		BA97C45F1894489D00942107 /* SD_LowWall_Straight.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_LowWall_Straight.model; sourceTree = "<group>"; };
-		BA97C4601894489D00942107 /* SD_StoneFloor_A.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_StoneFloor_A.model; sourceTree = "<group>"; };
-		BA97C4611894489D00942107 /* stubbyarrows.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stubbyarrows.model; sourceTree = "<group>"; };
-		BA97C4621894489D00942107 /* Suzanne.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Suzanne.model; sourceTree = "<group>"; };
-		BA97C4631894489D00942107 /* TexturedCube.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TexturedCube.model; sourceTree = "<group>"; };
-		BA97C4641894489D00942107 /* wavybox.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wavybox.model; sourceTree = "<group>"; };
-		BA97C4661894489D00942107 /* ash_uvgrid01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ash_uvgrid01.png; sourceTree = "<group>"; };
-		BA97C4671894489D00942107 /* assassin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = assassin.png; sourceTree = "<group>"; };
-		BA97C4681894489D00942107 /* flyer_colour.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_colour.png; sourceTree = "<group>"; };
-		BA97C4691894489D00942107 /* monkey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = monkey.png; sourceTree = "<group>"; };
-		BA97C46A1894489D00942107 /* picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = picture.png; sourceTree = "<group>"; };
-		BA97C46B1894489D00942107 /* pyramidtexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pyramidtexture.png; sourceTree = "<group>"; };
-		BA97C46C1894489D00942107 /* sample_picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_picture.png; sourceTree = "<group>"; };
-		BA97C46D1894489D00942107 /* sample_picture2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_picture2.png; sourceTree = "<group>"; };
-		BA97C46E1894489D00942107 /* sample_picture3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_picture3.png; sourceTree = "<group>"; };
-		BA97C46F1894489D00942107 /* sample_picture4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_picture4.png; sourceTree = "<group>"; };
-		BA97C4701894489D00942107 /* sample_picture5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_picture5.png; sourceTree = "<group>"; };
-		BA97C4711894489D00942107 /* sample_picture6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_picture6.png; sourceTree = "<group>"; };
-		BA97C4721894489D00942107 /* SD_Cube_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SD_Cube_01.png; sourceTree = "<group>"; };
-		BA97C4731894489D00942107 /* SD_EnviroAtlas_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SD_EnviroAtlas_01.png; sourceTree = "<group>"; };
-		BA97C4741894489D00942107 /* simpletexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = simpletexture.png; sourceTree = "<group>"; };
-		BA97C4751894489D00942107 /* square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = square.png; sourceTree = "<group>"; };
-		BA97C4761894489D00942107 /* texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture.png; sourceTree = "<group>"; };
-		BA97C4771894489D00942107 /* texturedcube.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texturedcube.png; sourceTree = "<group>"; };
-		BA97C4781894489D00942107 /* voronoi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voronoi.png; sourceTree = "<group>"; };
-		BA97C4791894489D00942107 /* yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellow.png; sourceTree = "<group>"; };
-		BA97C47B1894489D00942107 /* Assassin.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Assassin.prefab; sourceTree = "<group>"; };
-		BA97C47C1894489E00942107 /* GrassFloor_A.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GrassFloor_A.prefab; sourceTree = "<group>"; };
-		BA97C47D1894489E00942107 /* HighWall_3Way.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HighWall_3Way.prefab; sourceTree = "<group>"; };
-		BA97C47E1894489E00942107 /* HighWall_Backface.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HighWall_Backface.prefab; sourceTree = "<group>"; };
-		BA97C47F1894489E00942107 /* HighWall_Corner.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HighWall_Corner.prefab; sourceTree = "<group>"; };
-		BA97C4801894489E00942107 /* HighWall_End.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HighWall_End.prefab; sourceTree = "<group>"; };
-		BA97C4811894489E00942107 /* HighWall_Straight */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HighWall_Straight; sourceTree = "<group>"; };
-		BA97C4821894489E00942107 /* HighWall_Straight.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HighWall_Straight.prefab; sourceTree = "<group>"; };
-		BA97C4831894489E00942107 /* LowWall_End.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LowWall_End.prefab; sourceTree = "<group>"; };
-		BA97C4841894489E00942107 /* LowWall_Straight */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LowWall_Straight; sourceTree = "<group>"; };
-		BA97C4851894489E00942107 /* LowWall_Straight.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LowWall_Straight.prefab; sourceTree = "<group>"; };
-		BA97C4861894489E00942107 /* minimonkey.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = minimonkey.prefab; sourceTree = "<group>"; };
-		BA97C4871894489E00942107 /* monkey.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey.prefab; sourceTree = "<group>"; };
-		BA97C4881894489E00942107 /* ScreenTransZone.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ScreenTransZone.prefab; sourceTree = "<group>"; };
-		BA97C4891894489E00942107 /* SentryEnemy.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SentryEnemy.prefab; sourceTree = "<group>"; };
-		BA97C48A1894489E00942107 /* StoneFloor_A.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StoneFloor_A.prefab; sourceTree = "<group>"; };
-		BA97C48C1894489E00942107 /* BoneColorShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BoneColorShader.shaderspec; sourceTree = "<group>"; };
-		BA97C48D1894489E00942107 /* BoneColorVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BoneColorVertexShader.vertexshader; sourceTree = "<group>"; };
-		BA97C48E1894489E00942107 /* BoneTextureShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BoneTextureShader.shaderspec; sourceTree = "<group>"; };
-		BA97C48F1894489E00942107 /* BoneTextureVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BoneTextureVertexShader.vertexshader; sourceTree = "<group>"; };
-		BA97C4901894489E00942107 /* ColorFragmentShader.fragmentshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ColorFragmentShader.fragmentshader; sourceTree = "<group>"; };
-		BA97C4911894489E00942107 /* ColorShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ColorShader.shaderspec; sourceTree = "<group>"; };
-		BA97C4921894489E00942107 /* ColorVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ColorVertexShader.vertexshader; sourceTree = "<group>"; };
-		BA97C4931894489E00942107 /* preprocessor_variables */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = preprocessor_variables; sourceTree = "<group>"; };
-		BA97C4941894489E00942107 /* shader_variables */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shader_variables; sourceTree = "<group>"; };
-		BA97C4951894489E00942107 /* SimplestShader.fragmentshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimplestShader.fragmentshader; sourceTree = "<group>"; };
-		BA97C4961894489E00942107 /* SimplestShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimplestShader.shaderspec; sourceTree = "<group>"; };
-		BA97C4971894489E00942107 /* SimplestShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimplestShader.vertexshader; sourceTree = "<group>"; };
-		BA97C4981894489E00942107 /* SpriteColorFragmentShader.fragmentshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpriteColorFragmentShader.fragmentshader; sourceTree = "<group>"; };
-		BA97C4991894489E00942107 /* SpriteColorShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpriteColorShader.shaderspec; sourceTree = "<group>"; };
-		BA97C49A1894489E00942107 /* SpriteColorVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpriteColorVertexShader.vertexshader; sourceTree = "<group>"; };
-		BA97C49B1894489E00942107 /* SpriteTextureFragmentShader.fragmentshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpriteTextureFragmentShader.fragmentshader; sourceTree = "<group>"; };
-		BA97C49C1894489E00942107 /* SpriteTextureShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpriteTextureShader.shaderspec; sourceTree = "<group>"; };
-		BA97C49D1894489E00942107 /* SpriteTextureVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpriteTextureVertexShader.vertexshader; sourceTree = "<group>"; };
-		BA97C49E1894489E00942107 /* TextureFragmentShader.fragmentshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TextureFragmentShader.fragmentshader; sourceTree = "<group>"; };
-		BA97C49F1894489E00942107 /* TextureShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TextureShader.shaderspec; sourceTree = "<group>"; };
-		BA97C4A01894489E00942107 /* TextureVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TextureVertexShader.vertexshader; sourceTree = "<group>"; };
-		BA97C4A21894489E00942107 /* scheme.uiscene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scheme.uiscene; sourceTree = "<group>"; };
-		BA97C4A31894489E00942107 /* testUiScene.uiscene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testUiScene.uiscene; sourceTree = "<group>"; };
+		BA97C51618945EBE00942107 /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
+		BA97C51718945EBE00942107 /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
+		BA97C51918945EBE00942107 /* ComponentMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComponentMapper.cpp; sourceTree = "<group>"; };
+		BA97C51A18945EBE00942107 /* ComponentMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentMapper.h; sourceTree = "<group>"; };
+		BA97C51D18945EBE00942107 /* ComponentTypeIds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentTypeIds.h; sourceTree = "<group>"; };
+		BA97C52018945EBE00942107 /* AiKnowledge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiKnowledge.cpp; sourceTree = "<group>"; };
+		BA97C52118945EBE00942107 /* AiKnowledge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiKnowledge.h; sourceTree = "<group>"; };
+		BA97C52218945EBE00942107 /* AiPerception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiPerception.cpp; sourceTree = "<group>"; };
+		BA97C52318945EBE00942107 /* AiPerception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiPerception.h; sourceTree = "<group>"; };
+		BA97C52418945EBE00942107 /* AiRoutine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiRoutine.cpp; sourceTree = "<group>"; };
+		BA97C52518945EBE00942107 /* AiRoutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiRoutine.h; sourceTree = "<group>"; };
+		BA97C52618945EBE00942107 /* SampleGameScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SampleGameScript.cpp; sourceTree = "<group>"; };
+		BA97C52718945EBE00942107 /* SampleGameScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleGameScript.h; sourceTree = "<group>"; };
+		BA97C52918945EBE00942107 /* BaseUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseUnit.cpp; sourceTree = "<group>"; };
+		BA97C52A18945EBE00942107 /* BaseUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseUnit.h; sourceTree = "<group>"; };
+		BA97C52B18945EBE00942107 /* EnemyUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EnemyUnit.cpp; sourceTree = "<group>"; };
+		BA97C52C18945EBE00942107 /* EnemyUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnemyUnit.h; sourceTree = "<group>"; };
+		BA97C52D18945EBE00942107 /* PlayerUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerUnit.cpp; sourceTree = "<group>"; };
+		BA97C52E18945EBE00942107 /* PlayerUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerUnit.h; sourceTree = "<group>"; };
+		BA97C52F18945EBE00942107 /* UnitDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitDeclarations.h; sourceTree = "<group>"; };
+		BA97C53118945EBE00942107 /* GridCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridCell.cpp; sourceTree = "<group>"; };
+		BA97C53218945EBE00942107 /* GridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridCell.h; sourceTree = "<group>"; };
+		BA97C53318945EBE00942107 /* GridManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridManager.cpp; sourceTree = "<group>"; };
+		BA97C53418945EBE00942107 /* GridManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridManager.h; sourceTree = "<group>"; };
+		BA97C53518945EBE00942107 /* GridNavigator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridNavigator.cpp; sourceTree = "<group>"; };
+		BA97C53618945EBE00942107 /* GridNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridNavigator.h; sourceTree = "<group>"; };
+		BA97C53718945EBE00942107 /* GridRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridRoom.cpp; sourceTree = "<group>"; };
+		BA97C53818945EBE00942107 /* GridRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridRoom.h; sourceTree = "<group>"; };
+		BA97C53918945EBE00942107 /* GridZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridZone.cpp; sourceTree = "<group>"; };
+		BA97C53A18945EBE00942107 /* GridZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridZone.h; sourceTree = "<group>"; };
+		BA97C53C18945EBF00942107 /* LevelFileTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelFileTags.h; sourceTree = "<group>"; };
+		BA97C53D18945EBF00942107 /* LevelLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelLoader.cpp; sourceTree = "<group>"; };
+		BA97C53E18945EBF00942107 /* LevelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelLoader.h; sourceTree = "<group>"; };
+		BA97C53F18945EBF00942107 /* LevelManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelManager.cpp; sourceTree = "<group>"; };
+		BA97C54018945EBF00942107 /* LevelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelManager.h; sourceTree = "<group>"; };
+		BA97C54218945EBF00942107 /* ShadyCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShadyCamera.cpp; sourceTree = "<group>"; };
+		BA97C54318945EBF00942107 /* ShadyCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadyCamera.h; sourceTree = "<group>"; };
+		BA97C54518945EBF00942107 /* GameSingletons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSingletons.cpp; sourceTree = "<group>"; };
+		BA97C54618945EBF00942107 /* GameSingletons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSingletons.h; sourceTree = "<group>"; };
+		BA97C54818945EBF00942107 /* Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Declarations.h; sourceTree = "<group>"; };
+		BA97C54A18945EBF00942107 /* TestFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestFile.cpp; sourceTree = "<group>"; };
+		BA97C54B18945EBF00942107 /* TestFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
+		BA97C54E18945EBF00942107 /* GameUiTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUiTouchHandlers.cpp; sourceTree = "<group>"; };
+		BA97C54F18945EBF00942107 /* GameUiTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUiTouchHandlers.h; sourceTree = "<group>"; };
+		BA97C55018945EBF00942107 /* MainMenuTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenuTouchHandlers.cpp; sourceTree = "<group>"; };
+		BA97C55118945EBF00942107 /* MainMenuTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuTouchHandlers.h; sourceTree = "<group>"; };
+		BA97C55218945EBF00942107 /* TestUiSceneTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestUiSceneTouchHandlers.cpp; sourceTree = "<group>"; };
+		BA97C55318945EBF00942107 /* TestUiSceneTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUiSceneTouchHandlers.h; sourceTree = "<group>"; };
+		BA97C56C18945ECE00942107 /* pCube1.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pCube1.skeletalanimation; sourceTree = "<group>"; };
+		BA97C56D18945ECE00942107 /* pTorus1.animclips */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pTorus1.animclips; sourceTree = "<group>"; };
+		BA97C56E18945ECE00942107 /* SD_Assassin_mesh.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Assassin_mesh.skeletalanimation; sourceTree = "<group>"; };
+		BA97C56F18945ECE00942107 /* SD_AssassinMesh_03__1__polySurface5.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_AssassinMesh_03__1__polySurface5.skeletalanimation; sourceTree = "<group>"; };
+		BA97C57018945ECE00942107 /* SD_Guard_mesh.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Guard_mesh.skeletalanimation; sourceTree = "<group>"; };
+		BA97C57118945ECE00942107 /* SD_GuardCaptain_mesh.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptain_mesh.skeletalanimation; sourceTree = "<group>"; };
+		BA97C57218945ECE00942107 /* SD_GuardCaptainMesh_03_polySurface9.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptainMesh_03_polySurface9.skeletalanimation; sourceTree = "<group>"; };
+		BA97C57318945ECE00942107 /* SD_GuardCaptainMesh_04_polySurface9.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptainMesh_04_polySurface9.skeletalanimation; sourceTree = "<group>"; };
+		BA97C57418945ECE00942107 /* SD_Imposter_mesh.skeletalanimation */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Imposter_mesh.skeletalanimation; sourceTree = "<group>"; };
+		BA97C57518945ECE00942107 /* simpleanimation.animclips */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simpleanimation.animclips; sourceTree = "<group>"; };
+		BA97C57718945ECE00942107 /* LadyAssassinWeights_polySurface5.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LadyAssassinWeights_polySurface5.armature; sourceTree = "<group>"; };
+		BA97C57818945ECE00942107 /* pCube1.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pCube1.armature; sourceTree = "<group>"; };
+		BA97C57918945ECE00942107 /* SD_Assassin_mesh.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Assassin_mesh.armature; sourceTree = "<group>"; };
+		BA97C57A18945ECE00942107 /* SD_AssassinMesh_03__1__polySurface5.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_AssassinMesh_03__1__polySurface5.armature; sourceTree = "<group>"; };
+		BA97C57B18945ECE00942107 /* SD_Guard_mesh.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Guard_mesh.armature; sourceTree = "<group>"; };
+		BA97C57C18945ECE00942107 /* SD_GuardCaptain_mesh.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptain_mesh.armature; sourceTree = "<group>"; };
+		BA97C57D18945ECE00942107 /* SD_GuardCaptainMesh_03_polySurface9.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptainMesh_03_polySurface9.armature; sourceTree = "<group>"; };
+		BA97C57E18945ECE00942107 /* SD_GuardCaptainMesh_04_polySurface9.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptainMesh_04_polySurface9.armature; sourceTree = "<group>"; };
+		BA97C57F18945ECE00942107 /* SD_Imposter_mesh.armature */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Imposter_mesh.armature; sourceTree = "<group>"; };
+		BA97C58118945ECE00942107 /* lowAlert(hisfixed).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "lowAlert(hisfixed).mp3"; sourceTree = "<group>"; };
+		BA97C58218945ECE00942107 /* lowAlert(hisfixed).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "lowAlert(hisfixed).wav"; sourceTree = "<group>"; };
+		BA97C58418945ECE00942107 /* Components.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Components.xml; sourceTree = "<group>"; };
+		BA97C58618945ECE00942107 /* calibiri.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = calibiri.csv; sourceTree = "<group>"; };
+		BA97C58718945ECE00942107 /* calibiri.fontspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = calibiri.fontspec; sourceTree = "<group>"; };
+		BA97C58818945ECE00942107 /* calibiri.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calibiri.png; sourceTree = "<group>"; };
+		BA97C58918945ECE00942107 /* calibiri_inverted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calibiri_inverted.png; sourceTree = "<group>"; };
+		BA97C58B18945ECE00942107 /* ExampleLevel.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ExampleLevel.lvl; sourceTree = "<group>"; };
+		BA97C58C18945ECE00942107 /* SD_TestScene.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_TestScene.lvl; sourceTree = "<group>"; };
+		BA97C58D18945ECE00942107 /* XmlLevel.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = XmlLevel.lvl; sourceTree = "<group>"; };
+		BA97C58F18945ECE00942107 /* iOS.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iOS.log; sourceTree = "<group>"; };
+		BA97C59018945ECE00942107 /* Windows.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Windows.log; sourceTree = "<group>"; };
+		BA97C59218945ECE00942107 /* bone.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bone.model; sourceTree = "<group>"; };
+		BA97C59318945ECE00942107 /* flyer.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flyer.model; sourceTree = "<group>"; };
+		BA97C59418945ECE00942107 /* Plane.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Plane.model; sourceTree = "<group>"; };
+		BA97C59518945ECE00942107 /* polySurface5.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = polySurface5.model; sourceTree = "<group>"; };
+		BA97C59618945ECE00942107 /* pTorus1.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pTorus1.model; sourceTree = "<group>"; };
+		BA97C59718945ECE00942107 /* SD_Assassin_mesh.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Assassin_mesh.model; sourceTree = "<group>"; };
+		BA97C59818945ECE00942107 /* SD_GrassFloor_A.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GrassFloor_A.model; sourceTree = "<group>"; };
+		BA97C59918945ECE00942107 /* SD_Guard_mesh.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_Guard_mesh.model; sourceTree = "<group>"; };
+		BA97C59A18945ECE00942107 /* SD_GuardCaptainMesh_03_polySurface9.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_GuardCaptainMesh_03_polySurface9.model; sourceTree = "<group>"; };
+		BA97C59B18945ECE00942107 /* SD_HighWall_3Way.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_HighWall_3Way.model; sourceTree = "<group>"; };
+		BA97C59C18945ECE00942107 /* SD_HighWall_Backface.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_HighWall_Backface.model; sourceTree = "<group>"; };
+		BA97C59D18945ECE00942107 /* SD_HighWall_Corner.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_HighWall_Corner.model; sourceTree = "<group>"; };
+		BA97C59E18945ECE00942107 /* SD_HighWall_End.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_HighWall_End.model; sourceTree = "<group>"; };
+		BA97C59F18945ECE00942107 /* SD_HighWall_Straight.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_HighWall_Straight.model; sourceTree = "<group>"; };
+		BA97C5A018945ECE00942107 /* SD_LowWall_End.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_LowWall_End.model; sourceTree = "<group>"; };
+		BA97C5A118945ECE00942107 /* SD_LowWall_Straight.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_LowWall_Straight.model; sourceTree = "<group>"; };
+		BA97C5A218945ECE00942107 /* SD_StoneFloor_A.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SD_StoneFloor_A.model; sourceTree = "<group>"; };
+		BA97C5A318945ECE00942107 /* stubbyarrows.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stubbyarrows.model; sourceTree = "<group>"; };
+		BA97C5A418945ECE00942107 /* Suzanne.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Suzanne.model; sourceTree = "<group>"; };
+		BA97C5A518945ECE00942107 /* TexturedCube.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TexturedCube.model; sourceTree = "<group>"; };
+		BA97C5A618945ECE00942107 /* wavybox.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wavybox.model; sourceTree = "<group>"; };
+		BA97C5A818945ECE00942107 /* ash_uvgrid01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ash_uvgrid01.png; sourceTree = "<group>"; };
+		BA97C5A918945ECE00942107 /* assassin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = assassin.png; sourceTree = "<group>"; };
+		BA97C5AA18945ECE00942107 /* flyer_colour.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flyer_colour.png; sourceTree = "<group>"; };
+		BA97C5AB18945ECE00942107 /* monkey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = monkey.png; sourceTree = "<group>"; };
+		BA97C5AC18945ECE00942107 /* picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = picture.png; sourceTree = "<group>"; };
+		BA97C5AD18945ECE00942107 /* pyramidtexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pyramidtexture.png; sourceTree = "<group>"; };
+		BA97C5AE18945ECE00942107 /* sample_picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_picture.png; sourceTree = "<group>"; };
+		BA97C5AF18945ECE00942107 /* sample_picture2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_picture2.png; sourceTree = "<group>"; };
+		BA97C5B018945ECE00942107 /* sample_picture3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_picture3.png; sourceTree = "<group>"; };
+		BA97C5B118945ECE00942107 /* sample_picture4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_picture4.png; sourceTree = "<group>"; };
+		BA97C5B218945ECE00942107 /* sample_picture5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_picture5.png; sourceTree = "<group>"; };
+		BA97C5B318945ECE00942107 /* sample_picture6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_picture6.png; sourceTree = "<group>"; };
+		BA97C5B418945ECE00942107 /* SD_Cube_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SD_Cube_01.png; sourceTree = "<group>"; };
+		BA97C5B518945ECE00942107 /* SD_EnviroAtlas_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SD_EnviroAtlas_01.png; sourceTree = "<group>"; };
+		BA97C5B618945ECE00942107 /* simpletexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = simpletexture.png; sourceTree = "<group>"; };
+		BA97C5B718945ECE00942107 /* square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = square.png; sourceTree = "<group>"; };
+		BA97C5B818945ECE00942107 /* texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture.png; sourceTree = "<group>"; };
+		BA97C5B918945ECE00942107 /* texturedcube.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texturedcube.png; sourceTree = "<group>"; };
+		BA97C5BA18945ECE00942107 /* voronoi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voronoi.png; sourceTree = "<group>"; };
+		BA97C5BB18945ECE00942107 /* yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellow.png; sourceTree = "<group>"; };
+		BA97C5BD18945ECE00942107 /* Assassin.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Assassin.prefab; sourceTree = "<group>"; };
+		BA97C5BE18945ECE00942107 /* GrassFloor_A.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GrassFloor_A.prefab; sourceTree = "<group>"; };
+		BA97C5BF18945ECE00942107 /* HighWall_3Way.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HighWall_3Way.prefab; sourceTree = "<group>"; };
+		BA97C5C018945ECE00942107 /* HighWall_Backface.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HighWall_Backface.prefab; sourceTree = "<group>"; };
+		BA97C5C118945ECE00942107 /* HighWall_Corner.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HighWall_Corner.prefab; sourceTree = "<group>"; };
+		BA97C5C218945ECE00942107 /* HighWall_End.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HighWall_End.prefab; sourceTree = "<group>"; };
+		BA97C5C318945ECE00942107 /* HighWall_Straight */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HighWall_Straight; sourceTree = "<group>"; };
+		BA97C5C418945ECE00942107 /* HighWall_Straight.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HighWall_Straight.prefab; sourceTree = "<group>"; };
+		BA97C5C518945ECE00942107 /* LowWall_End.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LowWall_End.prefab; sourceTree = "<group>"; };
+		BA97C5C618945ECE00942107 /* LowWall_Straight */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LowWall_Straight; sourceTree = "<group>"; };
+		BA97C5C718945ECE00942107 /* LowWall_Straight.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LowWall_Straight.prefab; sourceTree = "<group>"; };
+		BA97C5C818945ECE00942107 /* minimonkey.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = minimonkey.prefab; sourceTree = "<group>"; };
+		BA97C5C918945ECE00942107 /* monkey.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey.prefab; sourceTree = "<group>"; };
+		BA97C5CA18945ECE00942107 /* ScreenTransZone.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ScreenTransZone.prefab; sourceTree = "<group>"; };
+		BA97C5CB18945ECE00942107 /* SentryEnemy.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SentryEnemy.prefab; sourceTree = "<group>"; };
+		BA97C5CC18945ECE00942107 /* StoneFloor_A.prefab */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StoneFloor_A.prefab; sourceTree = "<group>"; };
+		BA97C5CE18945ECE00942107 /* BoneColorShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BoneColorShader.shaderspec; sourceTree = "<group>"; };
+		BA97C5CF18945ECE00942107 /* BoneColorVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BoneColorVertexShader.vertexshader; sourceTree = "<group>"; };
+		BA97C5D018945ECE00942107 /* BoneTextureShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BoneTextureShader.shaderspec; sourceTree = "<group>"; };
+		BA97C5D118945ECE00942107 /* BoneTextureVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BoneTextureVertexShader.vertexshader; sourceTree = "<group>"; };
+		BA97C5D218945ECE00942107 /* ColorFragmentShader.fragmentshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ColorFragmentShader.fragmentshader; sourceTree = "<group>"; };
+		BA97C5D318945ECE00942107 /* ColorShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ColorShader.shaderspec; sourceTree = "<group>"; };
+		BA97C5D418945ECE00942107 /* ColorVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ColorVertexShader.vertexshader; sourceTree = "<group>"; };
+		BA97C5D518945ECE00942107 /* preprocessor_variables */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = preprocessor_variables; sourceTree = "<group>"; };
+		BA97C5D618945ECF00942107 /* shader_variables */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shader_variables; sourceTree = "<group>"; };
+		BA97C5D718945ECF00942107 /* SimplestShader.fragmentshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimplestShader.fragmentshader; sourceTree = "<group>"; };
+		BA97C5D818945ECF00942107 /* SimplestShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimplestShader.shaderspec; sourceTree = "<group>"; };
+		BA97C5D918945ECF00942107 /* SimplestShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimplestShader.vertexshader; sourceTree = "<group>"; };
+		BA97C5DA18945ECF00942107 /* SpriteColorFragmentShader.fragmentshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpriteColorFragmentShader.fragmentshader; sourceTree = "<group>"; };
+		BA97C5DB18945ECF00942107 /* SpriteColorShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpriteColorShader.shaderspec; sourceTree = "<group>"; };
+		BA97C5DC18945ECF00942107 /* SpriteColorVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpriteColorVertexShader.vertexshader; sourceTree = "<group>"; };
+		BA97C5DD18945ECF00942107 /* SpriteTextureFragmentShader.fragmentshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpriteTextureFragmentShader.fragmentshader; sourceTree = "<group>"; };
+		BA97C5DE18945ECF00942107 /* SpriteTextureShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpriteTextureShader.shaderspec; sourceTree = "<group>"; };
+		BA97C5DF18945ECF00942107 /* SpriteTextureVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpriteTextureVertexShader.vertexshader; sourceTree = "<group>"; };
+		BA97C5E018945ECF00942107 /* TextureFragmentShader.fragmentshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TextureFragmentShader.fragmentshader; sourceTree = "<group>"; };
+		BA97C5E118945ECF00942107 /* TextureShader.shaderspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TextureShader.shaderspec; sourceTree = "<group>"; };
+		BA97C5E218945ECF00942107 /* TextureVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TextureVertexShader.vertexshader; sourceTree = "<group>"; };
+		BA97C5E418945ECF00942107 /* gameUi.uiscene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gameUi.uiscene; sourceTree = "<group>"; };
+		BA97C5E518945ECF00942107 /* mainMenu.uiscene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mainMenu.uiscene; sourceTree = "<group>"; };
+		BA97C5E618945ECF00942107 /* scheme.uiscene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scheme.uiscene; sourceTree = "<group>"; };
+		BA97C5E718945ECF00942107 /* testUiScene.uiscene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testUiScene.uiscene; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -853,8 +863,8 @@
 		58F246F91850F5C90066E804 /* ExampleGame */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C3D71894487100942107 /* Code */,
-				BA97C4281894489D00942107 /* Resources */,
+				BA97C51318945EBE00942107 /* Code */,
+				BA97C56A18945ECE00942107 /* Resources */,
 				58F247021850F5C90066E804 /* AppDelegate.h */,
 				58F247031850F5C90066E804 /* AppDelegate.mm */,
 				58F247051850F5C90066E804 /* Main_iPhone.storyboard */,
@@ -1923,397 +1933,403 @@
 			path = VajraToAndroidJavaInterface;
 			sourceTree = "<group>";
 		};
-		BA97C3D71894487100942107 /* Code */ = {
+		BA97C51318945EBE00942107 /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C3D81894487200942107 /* ExampleGame */,
+				BA97C51418945EBE00942107 /* ExampleGame */,
 			);
 			name = Code;
 			path = ../../../Code;
 			sourceTree = "<group>";
 		};
-		BA97C3D81894487200942107 /* ExampleGame */ = {
+		BA97C51418945EBE00942107 /* ExampleGame */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C3D91894487200942107 /* AndroidWrapper */,
-				BA97C3DC1894487200942107 /* ComponentMapper */,
-				BA97C3DF1894487200942107 /* Components */,
-				BA97C4081894487200942107 /* GameSingletons */,
-				BA97C40B1894487200942107 /* Messages */,
-				BA97C40D1894487200942107 /* Test */,
-				BA97C4101894487200942107 /* Ui */,
+				BA97C51518945EBE00942107 /* AndroidWrapper */,
+				BA97C51818945EBE00942107 /* ComponentMapper */,
+				BA97C51B18945EBE00942107 /* Components */,
+				BA97C54418945EBF00942107 /* GameSingletons */,
+				BA97C54718945EBF00942107 /* Messages */,
+				BA97C54918945EBF00942107 /* Test */,
+				BA97C54C18945EBF00942107 /* Ui */,
 			);
 			path = ExampleGame;
 			sourceTree = "<group>";
 		};
-		BA97C3D91894487200942107 /* AndroidWrapper */ = {
+		BA97C51518945EBE00942107 /* AndroidWrapper */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C3DA1894487200942107 /* AndroidWrapper.cpp */,
-				BA97C3DB1894487200942107 /* AndroidWrapper.h */,
+				BA97C51618945EBE00942107 /* AndroidWrapper.cpp */,
+				BA97C51718945EBE00942107 /* AndroidWrapper.h */,
 			);
 			path = AndroidWrapper;
 			sourceTree = "<group>";
 		};
-		BA97C3DC1894487200942107 /* ComponentMapper */ = {
+		BA97C51818945EBE00942107 /* ComponentMapper */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C3DD1894487200942107 /* ComponentMapper.cpp */,
-				BA97C3DE1894487200942107 /* ComponentMapper.h */,
+				BA97C51918945EBE00942107 /* ComponentMapper.cpp */,
+				BA97C51A18945EBE00942107 /* ComponentMapper.h */,
 			);
 			path = ComponentMapper;
 			sourceTree = "<group>";
 		};
-		BA97C3DF1894487200942107 /* Components */ = {
+		BA97C51B18945EBE00942107 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C3E01894487200942107 /* ComponentTypes */,
-				BA97C3E21894487200942107 /* GameScripts */,
-				BA97C3F41894487200942107 /* Grid */,
-				BA97C3FF1894487200942107 /* LevelManager */,
-				BA97C4051894487200942107 /* ShadyCamera */,
+				BA97C51C18945EBE00942107 /* ComponentTypes */,
+				BA97C51E18945EBE00942107 /* GameScripts */,
+				BA97C53018945EBE00942107 /* Grid */,
+				BA97C53B18945EBF00942107 /* LevelManager */,
+				BA97C54118945EBF00942107 /* ShadyCamera */,
 			);
 			path = Components;
 			sourceTree = "<group>";
 		};
-		BA97C3E01894487200942107 /* ComponentTypes */ = {
+		BA97C51C18945EBE00942107 /* ComponentTypes */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C3E11894487200942107 /* ComponentTypeIds.h */,
+				BA97C51D18945EBE00942107 /* ComponentTypeIds.h */,
 			);
 			path = ComponentTypes;
 			sourceTree = "<group>";
 		};
-		BA97C3E21894487200942107 /* GameScripts */ = {
+		BA97C51E18945EBE00942107 /* GameScripts */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C3E31894487200942107 /* Ai */,
-				BA97C3EA1894487200942107 /* SampleGameScript.cpp */,
-				BA97C3EB1894487200942107 /* SampleGameScript.h */,
-				BA97C3EC1894487200942107 /* Units */,
+				BA97C51F18945EBE00942107 /* Ai */,
+				BA97C52618945EBE00942107 /* SampleGameScript.cpp */,
+				BA97C52718945EBE00942107 /* SampleGameScript.h */,
+				BA97C52818945EBE00942107 /* Units */,
 			);
 			path = GameScripts;
 			sourceTree = "<group>";
 		};
-		BA97C3E31894487200942107 /* Ai */ = {
+		BA97C51F18945EBE00942107 /* Ai */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C3E41894487200942107 /* AiKnowledge.cpp */,
-				BA97C3E51894487200942107 /* AiKnowledge.h */,
-				BA97C3E61894487200942107 /* AiPerception.cpp */,
-				BA97C3E71894487200942107 /* AiPerception.h */,
-				BA97C3E81894487200942107 /* AiRoutine.cpp */,
-				BA97C3E91894487200942107 /* AiRoutine.h */,
+				BA97C52018945EBE00942107 /* AiKnowledge.cpp */,
+				BA97C52118945EBE00942107 /* AiKnowledge.h */,
+				BA97C52218945EBE00942107 /* AiPerception.cpp */,
+				BA97C52318945EBE00942107 /* AiPerception.h */,
+				BA97C52418945EBE00942107 /* AiRoutine.cpp */,
+				BA97C52518945EBE00942107 /* AiRoutine.h */,
 			);
 			path = Ai;
 			sourceTree = "<group>";
 		};
-		BA97C3EC1894487200942107 /* Units */ = {
+		BA97C52818945EBE00942107 /* Units */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C3ED1894487200942107 /* BaseUnit.cpp */,
-				BA97C3EE1894487200942107 /* BaseUnit.h */,
-				BA97C3EF1894487200942107 /* EnemyUnit.cpp */,
-				BA97C3F01894487200942107 /* EnemyUnit.h */,
-				BA97C3F11894487200942107 /* PlayerUnit.cpp */,
-				BA97C3F21894487200942107 /* PlayerUnit.h */,
-				BA97C3F31894487200942107 /* UnitDeclarations.h */,
+				BA97C52918945EBE00942107 /* BaseUnit.cpp */,
+				BA97C52A18945EBE00942107 /* BaseUnit.h */,
+				BA97C52B18945EBE00942107 /* EnemyUnit.cpp */,
+				BA97C52C18945EBE00942107 /* EnemyUnit.h */,
+				BA97C52D18945EBE00942107 /* PlayerUnit.cpp */,
+				BA97C52E18945EBE00942107 /* PlayerUnit.h */,
+				BA97C52F18945EBE00942107 /* UnitDeclarations.h */,
 			);
 			path = Units;
 			sourceTree = "<group>";
 		};
-		BA97C3F41894487200942107 /* Grid */ = {
+		BA97C53018945EBE00942107 /* Grid */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C3F51894487200942107 /* GridCell.cpp */,
-				BA97C3F61894487200942107 /* GridCell.h */,
-				BA97C3F71894487200942107 /* GridManager.cpp */,
-				BA97C3F81894487200942107 /* GridManager.h */,
-				BA97C3F91894487200942107 /* GridNavigator.cpp */,
-				BA97C3FA1894487200942107 /* GridNavigator.h */,
-				BA97C3FB1894487200942107 /* GridRoom.cpp */,
-				BA97C3FC1894487200942107 /* GridRoom.h */,
-				BA97C3FD1894487200942107 /* GridZone.cpp */,
-				BA97C3FE1894487200942107 /* GridZone.h */,
+				BA97C53118945EBE00942107 /* GridCell.cpp */,
+				BA97C53218945EBE00942107 /* GridCell.h */,
+				BA97C53318945EBE00942107 /* GridManager.cpp */,
+				BA97C53418945EBE00942107 /* GridManager.h */,
+				BA97C53518945EBE00942107 /* GridNavigator.cpp */,
+				BA97C53618945EBE00942107 /* GridNavigator.h */,
+				BA97C53718945EBE00942107 /* GridRoom.cpp */,
+				BA97C53818945EBE00942107 /* GridRoom.h */,
+				BA97C53918945EBE00942107 /* GridZone.cpp */,
+				BA97C53A18945EBE00942107 /* GridZone.h */,
 			);
 			path = Grid;
 			sourceTree = "<group>";
 		};
-		BA97C3FF1894487200942107 /* LevelManager */ = {
+		BA97C53B18945EBF00942107 /* LevelManager */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C4001894487200942107 /* LevelFileTags.h */,
-				BA97C4011894487200942107 /* LevelLoader.cpp */,
-				BA97C4021894487200942107 /* LevelLoader.h */,
-				BA97C4031894487200942107 /* LevelManager.cpp */,
-				BA97C4041894487200942107 /* LevelManager.h */,
+				BA97C53C18945EBF00942107 /* LevelFileTags.h */,
+				BA97C53D18945EBF00942107 /* LevelLoader.cpp */,
+				BA97C53E18945EBF00942107 /* LevelLoader.h */,
+				BA97C53F18945EBF00942107 /* LevelManager.cpp */,
+				BA97C54018945EBF00942107 /* LevelManager.h */,
 			);
 			path = LevelManager;
 			sourceTree = "<group>";
 		};
-		BA97C4051894487200942107 /* ShadyCamera */ = {
+		BA97C54118945EBF00942107 /* ShadyCamera */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C4061894487200942107 /* ShadyCamera.cpp */,
-				BA97C4071894487200942107 /* ShadyCamera.h */,
+				BA97C54218945EBF00942107 /* ShadyCamera.cpp */,
+				BA97C54318945EBF00942107 /* ShadyCamera.h */,
 			);
 			path = ShadyCamera;
 			sourceTree = "<group>";
 		};
-		BA97C4081894487200942107 /* GameSingletons */ = {
+		BA97C54418945EBF00942107 /* GameSingletons */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C4091894487200942107 /* GameSingletons.cpp */,
-				BA97C40A1894487200942107 /* GameSingletons.h */,
+				BA97C54518945EBF00942107 /* GameSingletons.cpp */,
+				BA97C54618945EBF00942107 /* GameSingletons.h */,
 			);
 			path = GameSingletons;
 			sourceTree = "<group>";
 		};
-		BA97C40B1894487200942107 /* Messages */ = {
+		BA97C54718945EBF00942107 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C40C1894487200942107 /* Declarations.h */,
+				BA97C54818945EBF00942107 /* Declarations.h */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
 		};
-		BA97C40D1894487200942107 /* Test */ = {
+		BA97C54918945EBF00942107 /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C40E1894487200942107 /* TestFile.cpp */,
-				BA97C40F1894487200942107 /* TestFile.h */,
+				BA97C54A18945EBF00942107 /* TestFile.cpp */,
+				BA97C54B18945EBF00942107 /* TestFile.h */,
 			);
 			path = Test;
 			sourceTree = "<group>";
 		};
-		BA97C4101894487200942107 /* Ui */ = {
+		BA97C54C18945EBF00942107 /* Ui */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C4111894487200942107 /* TouchHandlers */,
+				BA97C54D18945EBF00942107 /* TouchHandlers */,
 			);
 			path = Ui;
 			sourceTree = "<group>";
 		};
-		BA97C4111894487200942107 /* TouchHandlers */ = {
+		BA97C54D18945EBF00942107 /* TouchHandlers */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C4121894487200942107 /* TestUiSceneTouchHandlers.cpp */,
-				BA97C4131894487200942107 /* TestUiSceneTouchHandlers.h */,
+				BA97C54E18945EBF00942107 /* GameUiTouchHandlers.cpp */,
+				BA97C54F18945EBF00942107 /* GameUiTouchHandlers.h */,
+				BA97C55018945EBF00942107 /* MainMenuTouchHandlers.cpp */,
+				BA97C55118945EBF00942107 /* MainMenuTouchHandlers.h */,
+				BA97C55218945EBF00942107 /* TestUiSceneTouchHandlers.cpp */,
+				BA97C55318945EBF00942107 /* TestUiSceneTouchHandlers.h */,
 			);
 			path = TouchHandlers;
 			sourceTree = "<group>";
 		};
-		BA97C4281894489D00942107 /* Resources */ = {
+		BA97C56A18945ECE00942107 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C4291894489D00942107 /* animations */,
-				BA97C4341894489D00942107 /* armatures */,
-				BA97C43E1894489D00942107 /* audio */,
-				BA97C4411894489D00942107 /* ComponentSpecifications */,
-				BA97C4431894489D00942107 /* fonts */,
-				BA97C4481894489D00942107 /* levels */,
-				BA97C44C1894489D00942107 /* logging */,
-				BA97C44F1894489D00942107 /* models */,
-				BA97C4651894489D00942107 /* pictures */,
-				BA97C47A1894489D00942107 /* prefabs */,
-				BA97C48B1894489E00942107 /* shaders */,
-				BA97C4A11894489E00942107 /* uiscenes */,
+				BA97C56B18945ECE00942107 /* animations */,
+				BA97C57618945ECE00942107 /* armatures */,
+				BA97C58018945ECE00942107 /* audio */,
+				BA97C58318945ECE00942107 /* ComponentSpecifications */,
+				BA97C58518945ECE00942107 /* fonts */,
+				BA97C58A18945ECE00942107 /* levels */,
+				BA97C58E18945ECE00942107 /* logging */,
+				BA97C59118945ECE00942107 /* models */,
+				BA97C5A718945ECE00942107 /* pictures */,
+				BA97C5BC18945ECE00942107 /* prefabs */,
+				BA97C5CD18945ECE00942107 /* shaders */,
+				BA97C5E318945ECF00942107 /* uiscenes */,
 			);
 			name = Resources;
 			path = ../../../Resources;
 			sourceTree = "<group>";
 		};
-		BA97C4291894489D00942107 /* animations */ = {
+		BA97C56B18945ECE00942107 /* animations */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C42A1894489D00942107 /* pCube1.skeletalanimation */,
-				BA97C42B1894489D00942107 /* pTorus1.animclips */,
-				BA97C42C1894489D00942107 /* SD_Assassin_mesh.skeletalanimation */,
-				BA97C42D1894489D00942107 /* SD_AssassinMesh_03__1__polySurface5.skeletalanimation */,
-				BA97C42E1894489D00942107 /* SD_Guard_mesh.skeletalanimation */,
-				BA97C42F1894489D00942107 /* SD_GuardCaptain_mesh.skeletalanimation */,
-				BA97C4301894489D00942107 /* SD_GuardCaptainMesh_03_polySurface9.skeletalanimation */,
-				BA97C4311894489D00942107 /* SD_GuardCaptainMesh_04_polySurface9.skeletalanimation */,
-				BA97C4321894489D00942107 /* SD_Imposter_mesh.skeletalanimation */,
-				BA97C4331894489D00942107 /* simpleanimation.animclips */,
+				BA97C56C18945ECE00942107 /* pCube1.skeletalanimation */,
+				BA97C56D18945ECE00942107 /* pTorus1.animclips */,
+				BA97C56E18945ECE00942107 /* SD_Assassin_mesh.skeletalanimation */,
+				BA97C56F18945ECE00942107 /* SD_AssassinMesh_03__1__polySurface5.skeletalanimation */,
+				BA97C57018945ECE00942107 /* SD_Guard_mesh.skeletalanimation */,
+				BA97C57118945ECE00942107 /* SD_GuardCaptain_mesh.skeletalanimation */,
+				BA97C57218945ECE00942107 /* SD_GuardCaptainMesh_03_polySurface9.skeletalanimation */,
+				BA97C57318945ECE00942107 /* SD_GuardCaptainMesh_04_polySurface9.skeletalanimation */,
+				BA97C57418945ECE00942107 /* SD_Imposter_mesh.skeletalanimation */,
+				BA97C57518945ECE00942107 /* simpleanimation.animclips */,
 			);
 			path = animations;
 			sourceTree = "<group>";
 		};
-		BA97C4341894489D00942107 /* armatures */ = {
+		BA97C57618945ECE00942107 /* armatures */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C4351894489D00942107 /* LadyAssassinWeights_polySurface5.armature */,
-				BA97C4361894489D00942107 /* pCube1.armature */,
-				BA97C4371894489D00942107 /* SD_Assassin_mesh.armature */,
-				BA97C4381894489D00942107 /* SD_AssassinMesh_03__1__polySurface5.armature */,
-				BA97C4391894489D00942107 /* SD_Guard_mesh.armature */,
-				BA97C43A1894489D00942107 /* SD_GuardCaptain_mesh.armature */,
-				BA97C43B1894489D00942107 /* SD_GuardCaptainMesh_03_polySurface9.armature */,
-				BA97C43C1894489D00942107 /* SD_GuardCaptainMesh_04_polySurface9.armature */,
-				BA97C43D1894489D00942107 /* SD_Imposter_mesh.armature */,
+				BA97C57718945ECE00942107 /* LadyAssassinWeights_polySurface5.armature */,
+				BA97C57818945ECE00942107 /* pCube1.armature */,
+				BA97C57918945ECE00942107 /* SD_Assassin_mesh.armature */,
+				BA97C57A18945ECE00942107 /* SD_AssassinMesh_03__1__polySurface5.armature */,
+				BA97C57B18945ECE00942107 /* SD_Guard_mesh.armature */,
+				BA97C57C18945ECE00942107 /* SD_GuardCaptain_mesh.armature */,
+				BA97C57D18945ECE00942107 /* SD_GuardCaptainMesh_03_polySurface9.armature */,
+				BA97C57E18945ECE00942107 /* SD_GuardCaptainMesh_04_polySurface9.armature */,
+				BA97C57F18945ECE00942107 /* SD_Imposter_mesh.armature */,
 			);
 			path = armatures;
 			sourceTree = "<group>";
 		};
-		BA97C43E1894489D00942107 /* audio */ = {
+		BA97C58018945ECE00942107 /* audio */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C43F1894489D00942107 /* lowAlert(hisfixed).mp3 */,
-				BA97C4401894489D00942107 /* lowAlert(hisfixed).wav */,
+				BA97C58118945ECE00942107 /* lowAlert(hisfixed).mp3 */,
+				BA97C58218945ECE00942107 /* lowAlert(hisfixed).wav */,
 			);
 			path = audio;
 			sourceTree = "<group>";
 		};
-		BA97C4411894489D00942107 /* ComponentSpecifications */ = {
+		BA97C58318945ECE00942107 /* ComponentSpecifications */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C4421894489D00942107 /* Components.xml */,
+				BA97C58418945ECE00942107 /* Components.xml */,
 			);
 			path = ComponentSpecifications;
 			sourceTree = "<group>";
 		};
-		BA97C4431894489D00942107 /* fonts */ = {
+		BA97C58518945ECE00942107 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C4441894489D00942107 /* calibiri.csv */,
-				BA97C4451894489D00942107 /* calibiri.fontspec */,
-				BA97C4461894489D00942107 /* calibiri.png */,
-				BA97C4471894489D00942107 /* calibiri_inverted.png */,
+				BA97C58618945ECE00942107 /* calibiri.csv */,
+				BA97C58718945ECE00942107 /* calibiri.fontspec */,
+				BA97C58818945ECE00942107 /* calibiri.png */,
+				BA97C58918945ECE00942107 /* calibiri_inverted.png */,
 			);
 			path = fonts;
 			sourceTree = "<group>";
 		};
-		BA97C4481894489D00942107 /* levels */ = {
+		BA97C58A18945ECE00942107 /* levels */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C4491894489D00942107 /* ExampleLevel.lvl */,
-				BA97C44A1894489D00942107 /* SD_TestScene.lvl */,
-				BA97C44B1894489D00942107 /* XmlLevel.lvl */,
+				BA97C58B18945ECE00942107 /* ExampleLevel.lvl */,
+				BA97C58C18945ECE00942107 /* SD_TestScene.lvl */,
+				BA97C58D18945ECE00942107 /* XmlLevel.lvl */,
 			);
 			path = levels;
 			sourceTree = "<group>";
 		};
-		BA97C44C1894489D00942107 /* logging */ = {
+		BA97C58E18945ECE00942107 /* logging */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C44D1894489D00942107 /* iOS.log */,
-				BA97C44E1894489D00942107 /* Windows.log */,
+				BA97C58F18945ECE00942107 /* iOS.log */,
+				BA97C59018945ECE00942107 /* Windows.log */,
 			);
 			path = logging;
 			sourceTree = "<group>";
 		};
-		BA97C44F1894489D00942107 /* models */ = {
+		BA97C59118945ECE00942107 /* models */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C4501894489D00942107 /* bone.model */,
-				BA97C4511894489D00942107 /* flyer.model */,
-				BA97C4521894489D00942107 /* Plane.model */,
-				BA97C4531894489D00942107 /* polySurface5.model */,
-				BA97C4541894489D00942107 /* pTorus1.model */,
-				BA97C4551894489D00942107 /* SD_Assassin_mesh.model */,
-				BA97C4561894489D00942107 /* SD_GrassFloor_A.model */,
-				BA97C4571894489D00942107 /* SD_Guard_mesh.model */,
-				BA97C4581894489D00942107 /* SD_GuardCaptainMesh_03_polySurface9.model */,
-				BA97C4591894489D00942107 /* SD_HighWall_3Way.model */,
-				BA97C45A1894489D00942107 /* SD_HighWall_Backface.model */,
-				BA97C45B1894489D00942107 /* SD_HighWall_Corner.model */,
-				BA97C45C1894489D00942107 /* SD_HighWall_End.model */,
-				BA97C45D1894489D00942107 /* SD_HighWall_Straight.model */,
-				BA97C45E1894489D00942107 /* SD_LowWall_End.model */,
-				BA97C45F1894489D00942107 /* SD_LowWall_Straight.model */,
-				BA97C4601894489D00942107 /* SD_StoneFloor_A.model */,
-				BA97C4611894489D00942107 /* stubbyarrows.model */,
-				BA97C4621894489D00942107 /* Suzanne.model */,
-				BA97C4631894489D00942107 /* TexturedCube.model */,
-				BA97C4641894489D00942107 /* wavybox.model */,
+				BA97C59218945ECE00942107 /* bone.model */,
+				BA97C59318945ECE00942107 /* flyer.model */,
+				BA97C59418945ECE00942107 /* Plane.model */,
+				BA97C59518945ECE00942107 /* polySurface5.model */,
+				BA97C59618945ECE00942107 /* pTorus1.model */,
+				BA97C59718945ECE00942107 /* SD_Assassin_mesh.model */,
+				BA97C59818945ECE00942107 /* SD_GrassFloor_A.model */,
+				BA97C59918945ECE00942107 /* SD_Guard_mesh.model */,
+				BA97C59A18945ECE00942107 /* SD_GuardCaptainMesh_03_polySurface9.model */,
+				BA97C59B18945ECE00942107 /* SD_HighWall_3Way.model */,
+				BA97C59C18945ECE00942107 /* SD_HighWall_Backface.model */,
+				BA97C59D18945ECE00942107 /* SD_HighWall_Corner.model */,
+				BA97C59E18945ECE00942107 /* SD_HighWall_End.model */,
+				BA97C59F18945ECE00942107 /* SD_HighWall_Straight.model */,
+				BA97C5A018945ECE00942107 /* SD_LowWall_End.model */,
+				BA97C5A118945ECE00942107 /* SD_LowWall_Straight.model */,
+				BA97C5A218945ECE00942107 /* SD_StoneFloor_A.model */,
+				BA97C5A318945ECE00942107 /* stubbyarrows.model */,
+				BA97C5A418945ECE00942107 /* Suzanne.model */,
+				BA97C5A518945ECE00942107 /* TexturedCube.model */,
+				BA97C5A618945ECE00942107 /* wavybox.model */,
 			);
 			path = models;
 			sourceTree = "<group>";
 		};
-		BA97C4651894489D00942107 /* pictures */ = {
+		BA97C5A718945ECE00942107 /* pictures */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C4661894489D00942107 /* ash_uvgrid01.png */,
-				BA97C4671894489D00942107 /* assassin.png */,
-				BA97C4681894489D00942107 /* flyer_colour.png */,
-				BA97C4691894489D00942107 /* monkey.png */,
-				BA97C46A1894489D00942107 /* picture.png */,
-				BA97C46B1894489D00942107 /* pyramidtexture.png */,
-				BA97C46C1894489D00942107 /* sample_picture.png */,
-				BA97C46D1894489D00942107 /* sample_picture2.png */,
-				BA97C46E1894489D00942107 /* sample_picture3.png */,
-				BA97C46F1894489D00942107 /* sample_picture4.png */,
-				BA97C4701894489D00942107 /* sample_picture5.png */,
-				BA97C4711894489D00942107 /* sample_picture6.png */,
-				BA97C4721894489D00942107 /* SD_Cube_01.png */,
-				BA97C4731894489D00942107 /* SD_EnviroAtlas_01.png */,
-				BA97C4741894489D00942107 /* simpletexture.png */,
-				BA97C4751894489D00942107 /* square.png */,
-				BA97C4761894489D00942107 /* texture.png */,
-				BA97C4771894489D00942107 /* texturedcube.png */,
-				BA97C4781894489D00942107 /* voronoi.png */,
-				BA97C4791894489D00942107 /* yellow.png */,
+				BA97C5A818945ECE00942107 /* ash_uvgrid01.png */,
+				BA97C5A918945ECE00942107 /* assassin.png */,
+				BA97C5AA18945ECE00942107 /* flyer_colour.png */,
+				BA97C5AB18945ECE00942107 /* monkey.png */,
+				BA97C5AC18945ECE00942107 /* picture.png */,
+				BA97C5AD18945ECE00942107 /* pyramidtexture.png */,
+				BA97C5AE18945ECE00942107 /* sample_picture.png */,
+				BA97C5AF18945ECE00942107 /* sample_picture2.png */,
+				BA97C5B018945ECE00942107 /* sample_picture3.png */,
+				BA97C5B118945ECE00942107 /* sample_picture4.png */,
+				BA97C5B218945ECE00942107 /* sample_picture5.png */,
+				BA97C5B318945ECE00942107 /* sample_picture6.png */,
+				BA97C5B418945ECE00942107 /* SD_Cube_01.png */,
+				BA97C5B518945ECE00942107 /* SD_EnviroAtlas_01.png */,
+				BA97C5B618945ECE00942107 /* simpletexture.png */,
+				BA97C5B718945ECE00942107 /* square.png */,
+				BA97C5B818945ECE00942107 /* texture.png */,
+				BA97C5B918945ECE00942107 /* texturedcube.png */,
+				BA97C5BA18945ECE00942107 /* voronoi.png */,
+				BA97C5BB18945ECE00942107 /* yellow.png */,
 			);
 			path = pictures;
 			sourceTree = "<group>";
 		};
-		BA97C47A1894489D00942107 /* prefabs */ = {
+		BA97C5BC18945ECE00942107 /* prefabs */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C47B1894489D00942107 /* Assassin.prefab */,
-				BA97C47C1894489E00942107 /* GrassFloor_A.prefab */,
-				BA97C47D1894489E00942107 /* HighWall_3Way.prefab */,
-				BA97C47E1894489E00942107 /* HighWall_Backface.prefab */,
-				BA97C47F1894489E00942107 /* HighWall_Corner.prefab */,
-				BA97C4801894489E00942107 /* HighWall_End.prefab */,
-				BA97C4811894489E00942107 /* HighWall_Straight */,
-				BA97C4821894489E00942107 /* HighWall_Straight.prefab */,
-				BA97C4831894489E00942107 /* LowWall_End.prefab */,
-				BA97C4841894489E00942107 /* LowWall_Straight */,
-				BA97C4851894489E00942107 /* LowWall_Straight.prefab */,
-				BA97C4861894489E00942107 /* minimonkey.prefab */,
-				BA97C4871894489E00942107 /* monkey.prefab */,
-				BA97C4881894489E00942107 /* ScreenTransZone.prefab */,
-				BA97C4891894489E00942107 /* SentryEnemy.prefab */,
-				BA97C48A1894489E00942107 /* StoneFloor_A.prefab */,
+				BA97C5BD18945ECE00942107 /* Assassin.prefab */,
+				BA97C5BE18945ECE00942107 /* GrassFloor_A.prefab */,
+				BA97C5BF18945ECE00942107 /* HighWall_3Way.prefab */,
+				BA97C5C018945ECE00942107 /* HighWall_Backface.prefab */,
+				BA97C5C118945ECE00942107 /* HighWall_Corner.prefab */,
+				BA97C5C218945ECE00942107 /* HighWall_End.prefab */,
+				BA97C5C318945ECE00942107 /* HighWall_Straight */,
+				BA97C5C418945ECE00942107 /* HighWall_Straight.prefab */,
+				BA97C5C518945ECE00942107 /* LowWall_End.prefab */,
+				BA97C5C618945ECE00942107 /* LowWall_Straight */,
+				BA97C5C718945ECE00942107 /* LowWall_Straight.prefab */,
+				BA97C5C818945ECE00942107 /* minimonkey.prefab */,
+				BA97C5C918945ECE00942107 /* monkey.prefab */,
+				BA97C5CA18945ECE00942107 /* ScreenTransZone.prefab */,
+				BA97C5CB18945ECE00942107 /* SentryEnemy.prefab */,
+				BA97C5CC18945ECE00942107 /* StoneFloor_A.prefab */,
 			);
 			path = prefabs;
 			sourceTree = "<group>";
 		};
-		BA97C48B1894489E00942107 /* shaders */ = {
+		BA97C5CD18945ECE00942107 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C48C1894489E00942107 /* BoneColorShader.shaderspec */,
-				BA97C48D1894489E00942107 /* BoneColorVertexShader.vertexshader */,
-				BA97C48E1894489E00942107 /* BoneTextureShader.shaderspec */,
-				BA97C48F1894489E00942107 /* BoneTextureVertexShader.vertexshader */,
-				BA97C4901894489E00942107 /* ColorFragmentShader.fragmentshader */,
-				BA97C4911894489E00942107 /* ColorShader.shaderspec */,
-				BA97C4921894489E00942107 /* ColorVertexShader.vertexshader */,
-				BA97C4931894489E00942107 /* preprocessor_variables */,
-				BA97C4941894489E00942107 /* shader_variables */,
-				BA97C4951894489E00942107 /* SimplestShader.fragmentshader */,
-				BA97C4961894489E00942107 /* SimplestShader.shaderspec */,
-				BA97C4971894489E00942107 /* SimplestShader.vertexshader */,
-				BA97C4981894489E00942107 /* SpriteColorFragmentShader.fragmentshader */,
-				BA97C4991894489E00942107 /* SpriteColorShader.shaderspec */,
-				BA97C49A1894489E00942107 /* SpriteColorVertexShader.vertexshader */,
-				BA97C49B1894489E00942107 /* SpriteTextureFragmentShader.fragmentshader */,
-				BA97C49C1894489E00942107 /* SpriteTextureShader.shaderspec */,
-				BA97C49D1894489E00942107 /* SpriteTextureVertexShader.vertexshader */,
-				BA97C49E1894489E00942107 /* TextureFragmentShader.fragmentshader */,
-				BA97C49F1894489E00942107 /* TextureShader.shaderspec */,
-				BA97C4A01894489E00942107 /* TextureVertexShader.vertexshader */,
+				BA97C5CE18945ECE00942107 /* BoneColorShader.shaderspec */,
+				BA97C5CF18945ECE00942107 /* BoneColorVertexShader.vertexshader */,
+				BA97C5D018945ECE00942107 /* BoneTextureShader.shaderspec */,
+				BA97C5D118945ECE00942107 /* BoneTextureVertexShader.vertexshader */,
+				BA97C5D218945ECE00942107 /* ColorFragmentShader.fragmentshader */,
+				BA97C5D318945ECE00942107 /* ColorShader.shaderspec */,
+				BA97C5D418945ECE00942107 /* ColorVertexShader.vertexshader */,
+				BA97C5D518945ECE00942107 /* preprocessor_variables */,
+				BA97C5D618945ECF00942107 /* shader_variables */,
+				BA97C5D718945ECF00942107 /* SimplestShader.fragmentshader */,
+				BA97C5D818945ECF00942107 /* SimplestShader.shaderspec */,
+				BA97C5D918945ECF00942107 /* SimplestShader.vertexshader */,
+				BA97C5DA18945ECF00942107 /* SpriteColorFragmentShader.fragmentshader */,
+				BA97C5DB18945ECF00942107 /* SpriteColorShader.shaderspec */,
+				BA97C5DC18945ECF00942107 /* SpriteColorVertexShader.vertexshader */,
+				BA97C5DD18945ECF00942107 /* SpriteTextureFragmentShader.fragmentshader */,
+				BA97C5DE18945ECF00942107 /* SpriteTextureShader.shaderspec */,
+				BA97C5DF18945ECF00942107 /* SpriteTextureVertexShader.vertexshader */,
+				BA97C5E018945ECF00942107 /* TextureFragmentShader.fragmentshader */,
+				BA97C5E118945ECF00942107 /* TextureShader.shaderspec */,
+				BA97C5E218945ECF00942107 /* TextureVertexShader.vertexshader */,
 			);
 			path = shaders;
 			sourceTree = "<group>";
 		};
-		BA97C4A11894489E00942107 /* uiscenes */ = {
+		BA97C5E318945ECF00942107 /* uiscenes */ = {
 			isa = PBXGroup;
 			children = (
-				BA97C4A21894489E00942107 /* scheme.uiscene */,
-				BA97C4A31894489E00942107 /* testUiScene.uiscene */,
+				BA97C5E418945ECF00942107 /* gameUi.uiscene */,
+				BA97C5E518945ECF00942107 /* mainMenu.uiscene */,
+				BA97C5E618945ECF00942107 /* scheme.uiscene */,
+				BA97C5E718945ECF00942107 /* testUiScene.uiscene */,
 			);
 			path = uiscenes;
 			sourceTree = "<group>";
@@ -2398,223 +2414,225 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA97C4A71894489E00942107 /* SD_AssassinMesh_03__1__polySurface5.skeletalanimation in Resources */,
-				BA97C4B81894489E00942107 /* lowAlert(hisfixed).wav in Resources */,
-				BA97C4DC1894489E00942107 /* picture.png in Resources */,
+				BA97C5EB18945ECF00942107 /* SD_AssassinMesh_03__1__polySurface5.skeletalanimation in Resources */,
+				BA97C5FC18945ECF00942107 /* lowAlert(hisfixed).wav in Resources */,
+				BA97C62018945ECF00942107 /* picture.png in Resources */,
 				58F2470A1850F5C90066E804 /* Main_iPad.storyboard in Resources */,
-				BA97C4C71894489E00942107 /* pTorus1.model in Resources */,
+				BA97C60B18945ECF00942107 /* pTorus1.model in Resources */,
 				B383FD13187B4B0000999890 /* func_noise.inl in Resources */,
-				BA97C4D51894489E00942107 /* Suzanne.model in Resources */,
+				BA97C61918945ECF00942107 /* Suzanne.model in Resources */,
 				B383FD4B187B4B0000999890 /* handed_coordinate_space.inl in Resources */,
-				BA97C4F31894489E00942107 /* HighWall_Straight.prefab in Resources */,
-				BA97C4D71894489E00942107 /* wavybox.model in Resources */,
+				BA97C63718945ECF00942107 /* HighWall_Straight.prefab in Resources */,
+				BA97C61B18945ECF00942107 /* wavybox.model in Resources */,
 				B383FD38187B4B0000999890 /* swizzle.inl in Resources */,
-				BA97C4AA1894489E00942107 /* SD_GuardCaptainMesh_03_polySurface9.skeletalanimation in Resources */,
+				BA97C5EE18945ECF00942107 /* SD_GuardCaptainMesh_03_polySurface9.skeletalanimation in Resources */,
 				B383FD10187B4B0000999890 /* func_geometric.inl in Resources */,
-				BA97C4CE1894489E00942107 /* SD_HighWall_Corner.model in Resources */,
-				BA97C50D1894489E00942107 /* SpriteTextureVertexShader.vertexshader in Resources */,
+				BA97C61218945ECF00942107 /* SD_HighWall_Corner.model in Resources */,
+				BA97C65118945ECF00942107 /* SpriteTextureVertexShader.vertexshader in Resources */,
 				B383FD23187B4B0000999890 /* type_mat3x2.inl in Resources */,
-				BA97C4A81894489E00942107 /* SD_Guard_mesh.skeletalanimation in Resources */,
+				BA97C5EC18945ECF00942107 /* SD_Guard_mesh.skeletalanimation in Resources */,
 				B383FD36187B4B0000999890 /* random.inl in Resources */,
-				BA97C5001894489E00942107 /* ColorFragmentShader.fragmentshader in Resources */,
-				BA97C4FF1894489E00942107 /* BoneTextureVertexShader.vertexshader in Resources */,
+				BA97C64418945ECF00942107 /* ColorFragmentShader.fragmentshader in Resources */,
+				BA97C64318945ECF00942107 /* BoneTextureVertexShader.vertexshader in Resources */,
 				58F247071850F5C90066E804 /* Main_iPhone.storyboard in Resources */,
 				B383FD3E187B4B0000999890 /* closest_point.inl in Resources */,
-				BA97C4E41894489E00942107 /* SD_Cube_01.png in Resources */,
-				BA97C4BD1894489E00942107 /* calibiri_inverted.png in Resources */,
+				BA97C62818945ECF00942107 /* SD_Cube_01.png in Resources */,
+				BA97C60118945ECF00942107 /* calibiri_inverted.png in Resources */,
 				B383FD4E187B4B0000999890 /* integer.inl in Resources */,
-				BA97C4A61894489E00942107 /* SD_Assassin_mesh.skeletalanimation in Resources */,
-				BA97C4CB1894489E00942107 /* SD_GuardCaptainMesh_03_polySurface9.model in Resources */,
+				BA97C5EA18945ECF00942107 /* SD_Assassin_mesh.skeletalanimation in Resources */,
+				BA97C60F18945ECF00942107 /* SD_GuardCaptainMesh_03_polySurface9.model in Resources */,
 				B383FD55187B4B0000999890 /* matrix_query.inl in Resources */,
 				58F247131850F5C90066E804 /* Images.xcassets in Resources */,
 				B383FD62187B4B0000999890 /* quaternion.inl in Resources */,
-				BA97C5021894489E00942107 /* ColorVertexShader.vertexshader in Resources */,
-				BA97C50F1894489E00942107 /* TextureShader.shaderspec in Resources */,
-				BA97C4EA1894489E00942107 /* voronoi.png in Resources */,
+				BA97C64618945ECF00942107 /* ColorVertexShader.vertexshader in Resources */,
+				BA97C65318945ECF00942107 /* TextureShader.shaderspec in Resources */,
+				BA97C62E18945ECF00942107 /* voronoi.png in Resources */,
 				B383FD54187B4B0000999890 /* matrix_operation.inl in Resources */,
-				BA97C4CC1894489E00942107 /* SD_HighWall_3Way.model in Resources */,
+				BA97C61018945ECF00942107 /* SD_HighWall_3Way.model in Resources */,
 				B383FD21187B4B0000999890 /* type_mat2x3.inl in Resources */,
 				B383FD0E187B4B0000999890 /* func_common.inl in Resources */,
 				B383FD15187B4B0000999890 /* func_trigonometric.inl in Resources */,
 				B383FD3D187B4B0000999890 /* bit.inl in Resources */,
-				BA97C4D41894489E00942107 /* stubbyarrows.model in Resources */,
+				BA97C61818945ECF00942107 /* stubbyarrows.model in Resources */,
 				B383FD11187B4B0000999890 /* func_integer.inl in Resources */,
-				BA97C5121894489E00942107 /* testUiScene.uiscene in Resources */,
 				B383FD2E187B4B0000999890 /* constants.inl in Resources */,
-				BA97C4AB1894489E00942107 /* SD_GuardCaptainMesh_04_polySurface9.skeletalanimation in Resources */,
-				BA97C4AE1894489E00942107 /* LadyAssassinWeights_polySurface5.armature in Resources */,
-				BA97C4BA1894489E00942107 /* calibiri.csv in Resources */,
+				BA97C5EF18945ECF00942107 /* SD_GuardCaptainMesh_04_polySurface9.skeletalanimation in Resources */,
+				BA97C5F218945ECF00942107 /* LadyAssassinWeights_polySurface5.armature in Resources */,
+				BA97C5FE18945ECF00942107 /* calibiri.csv in Resources */,
 				B383FD24187B4B0000999890 /* type_mat3x3.inl in Resources */,
-				BA97C4E91894489E00942107 /* texturedcube.png in Resources */,
-				BA97C4AF1894489E00942107 /* pCube1.armature in Resources */,
-				BA97C50A1894489E00942107 /* SpriteColorVertexShader.vertexshader in Resources */,
-				BA97C4F21894489E00942107 /* HighWall_Straight in Resources */,
-				BA97C4FC1894489E00942107 /* BoneColorShader.shaderspec in Resources */,
-				BA97C4B41894489E00942107 /* SD_GuardCaptainMesh_03_polySurface9.armature in Resources */,
+				BA97C62D18945ECF00942107 /* texturedcube.png in Resources */,
+				BA97C5F318945ECF00942107 /* pCube1.armature in Resources */,
+				BA97C64E18945ECF00942107 /* SpriteColorVertexShader.vertexshader in Resources */,
+				BA97C63618945ECF00942107 /* HighWall_Straight in Resources */,
+				BA97C64018945ECF00942107 /* BoneColorShader.shaderspec in Resources */,
+				BA97C5F818945ECF00942107 /* SD_GuardCaptainMesh_03_polySurface9.armature in Resources */,
 				B383FD6E187B4B0000999890 /* vector_access.inl in Resources */,
-				BA97C4B51894489E00942107 /* SD_GuardCaptainMesh_04_polySurface9.armature in Resources */,
+				BA97C5F918945ECF00942107 /* SD_GuardCaptainMesh_04_polySurface9.armature in Resources */,
 				B383FD30187B4B0000999890 /* half_float.inl in Resources */,
 				B383FD29187B4B0000999890 /* type_vec.inl in Resources */,
 				B383FD2B187B4B0000999890 /* type_vec2.inl in Resources */,
-				BA97C4AD1894489E00942107 /* simpleanimation.animclips in Resources */,
-				BA97C5041894489E00942107 /* shader_variables in Resources */,
+				BA97C5F118945ECF00942107 /* simpleanimation.animclips in Resources */,
+				BA97C64818945ECF00942107 /* shader_variables in Resources */,
 				B383FD5A187B4B0000999890 /* normalize_dot.inl in Resources */,
 				B383FD58187B4B0000999890 /* norm.inl in Resources */,
-				BA97C4FB1894489E00942107 /* StoneFloor_A.prefab in Resources */,
+				BA97C63F18945ECF00942107 /* StoneFloor_A.prefab in Resources */,
 				B383FD6D187B4B0000999890 /* vec1.inl in Resources */,
-				BA97C4F91894489E00942107 /* ScreenTransZone.prefab in Resources */,
+				BA97C63D18945ECF00942107 /* ScreenTransZone.prefab in Resources */,
 				B383FD37187B4B0000999890 /* reciprocal.inl in Resources */,
 				B383FD52187B4B0000999890 /* matrix_interpolation.inl in Resources */,
 				B383FD65187B4B0000999890 /* simd_mat4.inl in Resources */,
 				B383FD35187B4B0000999890 /* quaternion.inl in Resources */,
 				B383FD42187B4B0000999890 /* compatibility.inl in Resources */,
-				BA97C4D11894489E00942107 /* SD_LowWall_End.model in Resources */,
+				BA97C61518945ECF00942107 /* SD_LowWall_End.model in Resources */,
 				B383FD71187B4B0000999890 /* verbose_operator.inl in Resources */,
 				B383FD67187B4B0000999890 /* spline.inl in Resources */,
-				BA97C4F81894489E00942107 /* monkey.prefab in Resources */,
+				BA97C63C18945ECF00942107 /* monkey.prefab in Resources */,
 				B383FD5E187B4B0000999890 /* orthonormalize.inl in Resources */,
 				B383FD5D187B4B0000999890 /* optimum_pow.inl in Resources */,
-				BA97C4C21894489E00942107 /* Windows.log in Resources */,
+				BA97C60618945ECF00942107 /* Windows.log in Resources */,
 				B383FD34187B4B0000999890 /* noise.inl in Resources */,
 				B383FD25187B4B0000999890 /* type_mat3x4.inl in Resources */,
-				BA97C4DE1894489E00942107 /* sample_picture.png in Resources */,
-				BA97C4E51894489E00942107 /* SD_EnviroAtlas_01.png in Resources */,
+				BA97C62218945ECF00942107 /* sample_picture.png in Resources */,
+				BA97C62918945ECF00942107 /* SD_EnviroAtlas_01.png in Resources */,
 				B383FD20187B4B0000999890 /* type_mat2x2.inl in Resources */,
-				BA97C4F01894489E00942107 /* HighWall_Corner.prefab in Resources */,
+				BA97C63418945ECF00942107 /* HighWall_Corner.prefab in Resources */,
 				B383FD56187B4B0000999890 /* mixed_product.inl in Resources */,
-				BA97C4F61894489E00942107 /* LowWall_Straight.prefab in Resources */,
+				BA97C63A18945ECF00942107 /* LowWall_Straight.prefab in Resources */,
 				B383FD2F187B4B0000999890 /* epsilon.inl in Resources */,
 				B383FD50187B4B0000999890 /* log_base.inl in Resources */,
 				B383FD16187B4B0000999890 /* func_vector_relational.inl in Resources */,
-				BA97C4A51894489E00942107 /* pTorus1.animclips in Resources */,
+				BA97C5E918945ECF00942107 /* pTorus1.animclips in Resources */,
 				B383FD2A187B4B0000999890 /* type_vec1.inl in Resources */,
 				B383FD6F187B4B0000999890 /* vector_angle.inl in Resources */,
-				BA97C4DB1894489E00942107 /* monkey.png in Resources */,
+				BA97C61F18945ECF00942107 /* monkey.png in Resources */,
 				B383FD4D187B4B0000999890 /* int_10_10_10_2.inl in Resources */,
-				BA97C4E61894489E00942107 /* simpletexture.png in Resources */,
+				BA97C62A18945ECF00942107 /* simpletexture.png in Resources */,
 				B383FD6C187B4B0000999890 /* unsigned_int.inl in Resources */,
-				BA97C4F71894489E00942107 /* minimonkey.prefab in Resources */,
+				BA97C63B18945ECF00942107 /* minimonkey.prefab in Resources */,
 				B383FD28187B4B0000999890 /* type_mat4x4.inl in Resources */,
-				BA97C4DA1894489E00942107 /* flyer_colour.png in Resources */,
-				BA97C4B11894489E00942107 /* SD_AssassinMesh_03__1__polySurface5.armature in Resources */,
-				BA97C4C11894489E00942107 /* iOS.log in Resources */,
-				BA97C50C1894489E00942107 /* SpriteTextureShader.shaderspec in Resources */,
-				BA97C4EE1894489E00942107 /* HighWall_3Way.prefab in Resources */,
+				BA97C61E18945ECF00942107 /* flyer_colour.png in Resources */,
+				BA97C5F518945ECF00942107 /* SD_AssassinMesh_03__1__polySurface5.armature in Resources */,
+				BA97C60518945ECF00942107 /* iOS.log in Resources */,
+				BA97C65018945ECF00942107 /* SpriteTextureShader.shaderspec in Resources */,
+				BA97C63218945ECF00942107 /* HighWall_3Way.prefab in Resources */,
 				B383FD27187B4B0000999890 /* type_mat4x3.inl in Resources */,
 				B383FD0C187B4B0000999890 /* .gitignore in Resources */,
 				B383FD61187B4B0000999890 /* projection.inl in Resources */,
 				B383FD22187B4B0000999890 /* type_mat2x4.inl in Resources */,
 				B383FD4F187B4B0000999890 /* intersect.inl in Resources */,
 				B383FD18187B4B0000999890 /* intrinsic_exponential.inl in Resources */,
-				BA97C4E71894489E00942107 /* square.png in Resources */,
+				BA97C62B18945ECF00942107 /* square.png in Resources */,
 				B383FD43187B4B0000999890 /* component_wise.inl in Resources */,
-				BA97C4AC1894489E00942107 /* SD_Imposter_mesh.skeletalanimation in Resources */,
-				BA97C5031894489E00942107 /* preprocessor_variables in Resources */,
-				BA97C4EF1894489E00942107 /* HighWall_Backface.prefab in Resources */,
-				BA97C4E01894489E00942107 /* sample_picture3.png in Resources */,
+				BA97C5F018945ECF00942107 /* SD_Imposter_mesh.skeletalanimation in Resources */,
+				BA97C64718945ECF00942107 /* preprocessor_variables in Resources */,
+				BA97C63318945ECF00942107 /* HighWall_Backface.prefab in Resources */,
+				BA97C62418945ECF00942107 /* sample_picture3.png in Resources */,
 				B383FD57187B4B0000999890 /* multiple.inl in Resources */,
 				B383FD5F187B4B0000999890 /* perpendicular.inl in Resources */,
-				BA97C4CA1894489E00942107 /* SD_Guard_mesh.model in Resources */,
-				BA97C50B1894489E00942107 /* SpriteTextureFragmentShader.fragmentshader in Resources */,
-				BA97C4E21894489E00942107 /* sample_picture5.png in Resources */,
+				BA97C60E18945ECF00942107 /* SD_Guard_mesh.model in Resources */,
+				BA97C64F18945ECF00942107 /* SpriteTextureFragmentShader.fragmentshader in Resources */,
+				BA97C62618945ECF00942107 /* sample_picture5.png in Resources */,
 				B383FD44187B4B0000999890 /* euler_angles.inl in Resources */,
-				BA97C4EC1894489E00942107 /* Assassin.prefab in Resources */,
-				BA97C4BB1894489E00942107 /* calibiri.fontspec in Resources */,
+				BA97C63018945ECF00942107 /* Assassin.prefab in Resources */,
+				BA97C65618945ECF00942107 /* mainMenu.uiscene in Resources */,
+				BA97C5FF18945ECF00942107 /* calibiri.fontspec in Resources */,
 				B383FD3F187B4B0000999890 /* color_cast.inl in Resources */,
-				BA97C5061894489E00942107 /* SimplestShader.shaderspec in Resources */,
+				BA97C64A18945ECF00942107 /* SimplestShader.shaderspec in Resources */,
 				B383FD40187B4B0000999890 /* color_space.inl in Resources */,
 				B383FD1B187B4B0000999890 /* intrinsic_trigonometric.inl in Resources */,
-				BA97C4B31894489E00942107 /* SD_GuardCaptain_mesh.armature in Resources */,
-				BA97C4D31894489E00942107 /* SD_StoneFloor_A.model in Resources */,
-				BA97C4CD1894489E00942107 /* SD_HighWall_Backface.model in Resources */,
-				BA97C4EB1894489E00942107 /* yellow.png in Resources */,
-				BA97C5011894489E00942107 /* ColorShader.shaderspec in Resources */,
+				BA97C5F718945ECF00942107 /* SD_GuardCaptain_mesh.armature in Resources */,
+				BA97C61718945ECF00942107 /* SD_StoneFloor_A.model in Resources */,
+				BA97C61118945ECF00942107 /* SD_HighWall_Backface.model in Resources */,
+				BA97C62F18945ECF00942107 /* yellow.png in Resources */,
+				BA97C64518945ECF00942107 /* ColorShader.shaderspec in Resources */,
 				58F246FE1850F5C90066E804 /* InfoPlist.strings in Resources */,
-				BA97C4C01894489E00942107 /* XmlLevel.lvl in Resources */,
+				BA97C60418945ECF00942107 /* XmlLevel.lvl in Resources */,
 				B383FD63187B4B0000999890 /* raw_data.inl in Resources */,
 				B383FD49187B4B0000999890 /* fast_trigonometry.inl in Resources */,
-				BA97C4DF1894489E00942107 /* sample_picture2.png in Resources */,
-				BA97C4D01894489E00942107 /* SD_HighWall_Straight.model in Resources */,
+				BA97C62318945ECF00942107 /* sample_picture2.png in Resources */,
+				BA97C61418945ECF00942107 /* SD_HighWall_Straight.model in Resources */,
 				B383FD2C187B4B0000999890 /* type_vec3.inl in Resources */,
-				BA97C4D91894489E00942107 /* assassin.png in Resources */,
-				BA97C5101894489E00942107 /* TextureVertexShader.vertexshader in Resources */,
-				BA97C4F41894489E00942107 /* LowWall_End.prefab in Resources */,
-				BA97C4BE1894489E00942107 /* ExampleLevel.lvl in Resources */,
+				BA97C61D18945ECF00942107 /* assassin.png in Resources */,
+				BA97C65418945ECF00942107 /* TextureVertexShader.vertexshader in Resources */,
+				BA97C63818945ECF00942107 /* LowWall_End.prefab in Resources */,
+				BA97C60218945ECF00942107 /* ExampleLevel.lvl in Resources */,
 				B383FD2D187B4B0000999890 /* type_vec4.inl in Resources */,
 				B383FD17187B4B0000999890 /* intrinsic_common.inl in Resources */,
 				B383FD72187B4B0000999890 /* wrap.inl in Resources */,
-				BA97C4B61894489E00942107 /* SD_Imposter_mesh.armature in Resources */,
+				BA97C5FA18945ECF00942107 /* SD_Imposter_mesh.armature in Resources */,
 				B383FD1D187B4B0000999890 /* type_gentype.inl in Resources */,
 				B383FD4C187B4B0000999890 /* inertia.inl in Resources */,
 				B383FD5B187B4B0000999890 /* number_precision.inl in Resources */,
-				BA97C4BC1894489E00942107 /* calibiri.png in Resources */,
-				BA97C4C41894489E00942107 /* flyer.model in Resources */,
-				BA97C4C61894489E00942107 /* polySurface5.model in Resources */,
+				BA97C60018945ECF00942107 /* calibiri.png in Resources */,
+				BA97C60818945ECF00942107 /* flyer.model in Resources */,
+				BA97C60A18945ECF00942107 /* polySurface5.model in Resources */,
 				B383FD6B187B4B0000999890 /* transform2.inl in Resources */,
+				BA97C65818945ECF00942107 /* testUiScene.uiscene in Resources */,
 				B383FD51187B4B0000999890 /* matrix_cross_product.inl in Resources */,
 				B383FD3A187B4B0000999890 /* type_ptr.inl in Resources */,
-				BA97C4C31894489E00942107 /* bone.model in Resources */,
-				BA97C4FE1894489E00942107 /* BoneTextureShader.shaderspec in Resources */,
+				BA97C60718945ECF00942107 /* bone.model in Resources */,
+				BA97C64218945ECF00942107 /* BoneTextureShader.shaderspec in Resources */,
 				B383FD41187B4B0000999890 /* color_space_YCoCg.inl in Resources */,
 				B383FD45187B4B0000999890 /* extend.inl in Resources */,
 				B383FD46187B4B0000999890 /* extented_min_max.inl in Resources */,
 				B383FD3C187B4B0000999890 /* associated_min_max.inl in Resources */,
 				B383FD3B187B4B0000999890 /* ulp.inl in Resources */,
-				BA97C4E11894489E00942107 /* sample_picture4.png in Resources */,
+				BA97C62518945ECF00942107 /* sample_picture4.png in Resources */,
 				B383FD69187B4B0000999890 /* string_cast.inl in Resources */,
 				B383FD31187B4B0000999890 /* matrix_access.inl in Resources */,
 				B383FD12187B4B0000999890 /* func_matrix.inl in Resources */,
 				B383FD1C187B4B0000999890 /* intrinsic_vector_relational.inl in Resources */,
 				B383FD19187B4B0000999890 /* intrinsic_geometric.inl in Resources */,
-				BA97C50E1894489E00942107 /* TextureFragmentShader.fragmentshader in Resources */,
-				BA97C4D61894489E00942107 /* TexturedCube.model in Resources */,
-				BA97C5081894489E00942107 /* SpriteColorFragmentShader.fragmentshader in Resources */,
+				BA97C65218945ECF00942107 /* TextureFragmentShader.fragmentshader in Resources */,
+				BA97C61A18945ECF00942107 /* TexturedCube.model in Resources */,
+				BA97C64C18945ECF00942107 /* SpriteColorFragmentShader.fragmentshader in Resources */,
 				B383FD6A187B4B0000999890 /* transform.inl in Resources */,
-				BA97C4FD1894489E00942107 /* BoneColorVertexShader.vertexshader in Resources */,
-				BA97C4CF1894489E00942107 /* SD_HighWall_End.model in Resources */,
-				BA97C4A91894489E00942107 /* SD_GuardCaptain_mesh.skeletalanimation in Resources */,
+				BA97C64118945ECF00942107 /* BoneColorVertexShader.vertexshader in Resources */,
+				BA97C61318945ECF00942107 /* SD_HighWall_End.model in Resources */,
+				BA97C5ED18945ECF00942107 /* SD_GuardCaptain_mesh.skeletalanimation in Resources */,
 				B383FD66187B4B0000999890 /* simd_vec4.inl in Resources */,
 				B383FD39187B4B0000999890 /* type_precision.inl in Resources */,
-				BA97C4E81894489E00942107 /* texture.png in Resources */,
-				BA97C4C91894489E00942107 /* SD_GrassFloor_A.model in Resources */,
-				BA97C5071894489E00942107 /* SimplestShader.vertexshader in Resources */,
-				BA97C4F11894489E00942107 /* HighWall_End.prefab in Resources */,
+				BA97C62C18945ECF00942107 /* texture.png in Resources */,
+				BA97C65718945ECF00942107 /* scheme.uiscene in Resources */,
+				BA97C60D18945ECF00942107 /* SD_GrassFloor_A.model in Resources */,
+				BA97C64B18945ECF00942107 /* SimplestShader.vertexshader in Resources */,
+				BA97C63518945ECF00942107 /* HighWall_End.prefab in Resources */,
 				B383FD33187B4B0000999890 /* matrix_transform.inl in Resources */,
-				BA97C5051894489E00942107 /* SimplestShader.fragmentshader in Resources */,
+				BA97C64918945ECF00942107 /* SimplestShader.fragmentshader in Resources */,
 				B383FD4A187B4B0000999890 /* gradient_paint.inl in Resources */,
-				BA97C4BF1894489E00942107 /* SD_TestScene.lvl in Resources */,
+				BA97C60318945ECF00942107 /* SD_TestScene.lvl in Resources */,
 				B383FD59187B4B0000999890 /* normal.inl in Resources */,
 				B383FD1E187B4B0000999890 /* type_half.inl in Resources */,
-				BA97C4B01894489E00942107 /* SD_Assassin_mesh.armature in Resources */,
+				BA97C5F418945ECF00942107 /* SD_Assassin_mesh.armature in Resources */,
 				B383FD26187B4B0000999890 /* type_mat4x2.inl in Resources */,
-				BA97C4C81894489E00942107 /* SD_Assassin_mesh.model in Resources */,
-				BA97C5091894489E00942107 /* SpriteColorShader.shaderspec in Resources */,
-				BA97C4B21894489E00942107 /* SD_Guard_mesh.armature in Resources */,
-				BA97C4D21894489E00942107 /* SD_LowWall_Straight.model in Resources */,
+				BA97C60C18945ECF00942107 /* SD_Assassin_mesh.model in Resources */,
+				BA97C64D18945ECF00942107 /* SpriteColorShader.shaderspec in Resources */,
+				BA97C5F618945ECF00942107 /* SD_Guard_mesh.armature in Resources */,
+				BA97C61618945ECF00942107 /* SD_LowWall_Straight.model in Resources */,
 				B383FD70187B4B0000999890 /* vector_query.inl in Resources */,
-				BA97C4FA1894489E00942107 /* SentryEnemy.prefab in Resources */,
+				BA97C63E18945ECF00942107 /* SentryEnemy.prefab in Resources */,
 				B383FD53187B4B0000999890 /* matrix_major_storage.inl in Resources */,
-				BA97C4E31894489E00942107 /* sample_picture6.png in Resources */,
+				BA97C65518945ECF00942107 /* gameUi.uiscene in Resources */,
+				BA97C62718945ECF00942107 /* sample_picture6.png in Resources */,
 				B383FD60187B4B0000999890 /* polar_coordinates.inl in Resources */,
-				BA97C4D81894489E00942107 /* ash_uvgrid01.png in Resources */,
+				BA97C61C18945ECF00942107 /* ash_uvgrid01.png in Resources */,
 				B383FD1A187B4B0000999890 /* intrinsic_matrix.inl in Resources */,
 				B383FD32187B4B0000999890 /* matrix_inverse.inl in Resources */,
 				B383FD68187B4B0000999890 /* std_based_type.inl in Resources */,
-				BA97C4A41894489E00942107 /* pCube1.skeletalanimation in Resources */,
-				BA97C4B91894489E00942107 /* Components.xml in Resources */,
+				BA97C5E818945ECF00942107 /* pCube1.skeletalanimation in Resources */,
+				BA97C5FD18945ECF00942107 /* Components.xml in Resources */,
 				B383FD47187B4B0000999890 /* fast_exponential.inl in Resources */,
 				B383FD5C187B4B0000999890 /* ocl_type.inl in Resources */,
-				BA97C5111894489E00942107 /* scheme.uiscene in Resources */,
-				BA97C4DD1894489E00942107 /* pyramidtexture.png in Resources */,
+				BA97C62118945ECF00942107 /* pyramidtexture.png in Resources */,
 				B383FD1F187B4B0000999890 /* type_mat.inl in Resources */,
 				B383FD48187B4B0000999890 /* fast_square_root.inl in Resources */,
 				B383FD14187B4B0000999890 /* func_packing.inl in Resources */,
-				BA97C4ED1894489E00942107 /* GrassFloor_A.prefab in Resources */,
-				BA97C4B71894489E00942107 /* lowAlert(hisfixed).mp3 in Resources */,
+				BA97C63118945ECF00942107 /* GrassFloor_A.prefab in Resources */,
+				BA97C5FB18945ECF00942107 /* lowAlert(hisfixed).mp3 in Resources */,
 				B383FD0F187B4B0000999890 /* func_exponential.inl in Resources */,
 				B383FD0D187B4B0000999890 /* CMakeLists.txt in Resources */,
-				BA97C4C51894489E00942107 /* Plane.model in Resources */,
-				BA97C4F51894489E00942107 /* LowWall_Straight in Resources */,
+				BA97C60918945ECF00942107 /* Plane.model in Resources */,
+				BA97C63918945ECF00942107 /* LowWall_Straight in Resources */,
 				B383FD64187B4B0000999890 /* rotate_vector.inl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2650,29 +2668,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA97C4201894487200942107 /* GridRoom.cpp in Sources */,
-				BA97C4271894487200942107 /* TestUiSceneTouchHandlers.cpp in Sources */,
-				BA97C41C1894487200942107 /* PlayerUnit.cpp in Sources */,
-				BA97C4161894487200942107 /* AiKnowledge.cpp in Sources */,
-				BA97C4221894487200942107 /* LevelLoader.cpp in Sources */,
-				BA97C4151894487200942107 /* ComponentMapper.cpp in Sources */,
-				BA97C4261894487200942107 /* TestFile.cpp in Sources */,
-				BA97C41E1894487200942107 /* GridManager.cpp in Sources */,
-				BA97C4241894487200942107 /* ShadyCamera.cpp in Sources */,
-				BA97C4231894487200942107 /* LevelManager.cpp in Sources */,
-				BA97C4191894487200942107 /* SampleGameScript.cpp in Sources */,
+				BA97C56818945EBF00942107 /* MainMenuTouchHandlers.cpp in Sources */,
+				BA97C56718945EBF00942107 /* GameUiTouchHandlers.cpp in Sources */,
+				BA97C56018945EBF00942107 /* GridRoom.cpp in Sources */,
+				BA97C55C18945EBF00942107 /* PlayerUnit.cpp in Sources */,
+				BA97C55618945EBF00942107 /* AiKnowledge.cpp in Sources */,
+				BA97C56218945EBF00942107 /* LevelLoader.cpp in Sources */,
+				BA97C56918945EBF00942107 /* TestUiSceneTouchHandlers.cpp in Sources */,
+				BA97C55518945EBF00942107 /* ComponentMapper.cpp in Sources */,
+				BA97C56618945EBF00942107 /* TestFile.cpp in Sources */,
+				BA97C55E18945EBF00942107 /* GridManager.cpp in Sources */,
+				BA97C56418945EBF00942107 /* ShadyCamera.cpp in Sources */,
+				BA97C56318945EBF00942107 /* LevelManager.cpp in Sources */,
+				BA97C55918945EBF00942107 /* SampleGameScript.cpp in Sources */,
 				58F247111850F5C90066E804 /* ViewController.mm in Sources */,
-				BA97C41D1894487200942107 /* GridCell.cpp in Sources */,
-				BA97C41F1894487200942107 /* GridNavigator.cpp in Sources */,
-				BA97C4171894487200942107 /* AiPerception.cpp in Sources */,
-				BA97C4141894487200942107 /* AndroidWrapper.cpp in Sources */,
-				BA97C41A1894487200942107 /* BaseUnit.cpp in Sources */,
+				BA97C55D18945EBF00942107 /* GridCell.cpp in Sources */,
+				BA97C55F18945EBF00942107 /* GridNavigator.cpp in Sources */,
+				BA97C55718945EBF00942107 /* AiPerception.cpp in Sources */,
+				BA97C55418945EBF00942107 /* AndroidWrapper.cpp in Sources */,
+				BA97C55A18945EBF00942107 /* BaseUnit.cpp in Sources */,
 				58F247041850F5C90066E804 /* AppDelegate.mm in Sources */,
-				BA97C4181894487200942107 /* AiRoutine.cpp in Sources */,
+				BA97C55818945EBF00942107 /* AiRoutine.cpp in Sources */,
 				58F247001850F5C90066E804 /* main.mm in Sources */,
-				BA97C4211894487200942107 /* GridZone.cpp in Sources */,
-				BA97C41B1894487200942107 /* EnemyUnit.cpp in Sources */,
-				BA97C4251894487200942107 /* GameSingletons.cpp in Sources */,
+				BA97C56118945EBF00942107 /* GridZone.cpp in Sources */,
+				BA97C55B18945EBF00942107 /* EnemyUnit.cpp in Sources */,
+				BA97C56518945EBF00942107 /* GameSingletons.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

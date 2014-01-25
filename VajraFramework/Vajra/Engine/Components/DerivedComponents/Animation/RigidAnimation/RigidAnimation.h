@@ -30,11 +30,27 @@ public:
 	// @Override
 	virtual void Bind();
 
+	//[[PROPERTY]]//
+	inline void PlayAnimationClip(std::string animationClipName);
+	inline void PlayAnimationClip();
+	inline void PauseAnimationClip();
+	inline void ResumeAnimationClip();
+	inline void StopAnimationClip();
+
 private:
 	void init();
 	void destroy();
 
 	static unsigned int componentTypeId;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline Functions:
+void RigidAnimation::PlayAnimationClip(std::string animationClipName) { this->playAnimationClip(animationClipName); }
+void RigidAnimation::PlayAnimationClip()   {}
+void RigidAnimation::PauseAnimationClip()  {}
+void RigidAnimation::ResumeAnimationClip() {}
+void RigidAnimation::StopAnimationClip()   {}
 
 #endif // RIGID_ANIMATION_H

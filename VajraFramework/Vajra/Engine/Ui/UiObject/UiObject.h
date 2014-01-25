@@ -19,12 +19,14 @@ public:
 	unsigned int GetWidth()            { return this->width;           }
 	unsigned int GetHeight()           { return this->height;          }
 	//
+	virtual void SetVisible(bool visible_);
 	bool IsClickable()                 { return this->clickable;       }
-	void SetClickable(bool clickable_, UiTouchHandlers* touchHandlers_ = nullptr);
+	void SetClickable(bool clickable_);
+	void SetTouchHandlers(UiTouchHandlers* touchHandlers_ = nullptr);
 
 	void OnTouchDown(Touch touch);
 	void OnTouchMove(Touch touch);
-
+	void OnTouchUp(Touch touch);
 	bool IsPointWithin(float x, float y);
 
 	void SetPosition(unsigned int x, unsigned int y);
@@ -36,6 +38,9 @@ protected:
 private:
 	void init();
 	void destroy();
+
+	void registerWithTouchHandlers();
+	void unregisterWithTouchHandlers();
 
 	std::string uiObjectName;
 

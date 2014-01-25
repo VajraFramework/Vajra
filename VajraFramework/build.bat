@@ -12,4 +12,4 @@ set pathInDrive=%pathInDrive: =\ %
 set cwdPathForCygwin=/cygdrive/%driveLetter%%pathInDrive%
 echo %cwdPathForCygwin%
 
-bash.exe --login -c 'cd %cwdPathForCygwin% ; ./build.sh %*'
+bash.exe --login -c 'cd %cwdPathForCygwin% ; dos2unix.exe build.sh; ./build.sh %*'

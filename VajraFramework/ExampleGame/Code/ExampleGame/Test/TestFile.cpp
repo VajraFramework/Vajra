@@ -7,7 +7,7 @@
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Test/TestFile.h"
-#include "ExampleGame/Ui/TouchHandlers/TestUiSceneTouchHandlers.h"
+#include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
 #include "Vajra/Common/Objects/Object.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
@@ -30,7 +30,7 @@ int TestFuntion() {
 	/* ComponentMapper* componentMapper = */ new ComponentMapper();
 
 	{
-#if 1
+#if 0
 		/* GameObject* gameObject = */ PrefabLoader::InstantiateGameObjectFromPrefab(
 									   FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "monkey.prefab",
 									   ENGINE->GetSceneGraph3D());
@@ -47,9 +47,8 @@ int TestFuntion() {
 	}
 #endif
 	{
-#if 1
+#if 0
 		SINGLETONS->GetLevelManager()->LoadLevelFromFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + "levels/SD_TestScene.lvl");
-
 		GameObject* testZone = new GameObject(ENGINE->GetSceneGraph3D());
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testZone->GetId());
 		GridZone* zone = testZone->AddComponent<GridZone>();
@@ -129,7 +128,7 @@ void initUiGameObjects() {
 	}
 
 	{
-		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "testUiScene.uiscene";
-		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new TestUiSceneTouchHandlers());
+		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
+		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
 	}
 }

@@ -154,6 +154,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->AddAnimationClip(ConvertStringToString(argv[0]));
 			return;
 		}
+		if (propertyName == "PlayAnimationClip") {
+			if ((int)argv.size() < 1) { return; }
+			component->PlayAnimationClip(ConvertStringToString(argv[0]));
+			return;
+		}
 		return;
 	}
 	
@@ -163,6 +168,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "AddAnimationClip") {
 			if ((int)argv.size() < 1) { return; }
 			component->AddAnimationClip(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "PlayAnimationClip") {
+			if ((int)argv.size() < 1) { return; }
+			component->PlayAnimationClip(ConvertStringToString(argv[0]));
 			return;
 		}
 		return;
