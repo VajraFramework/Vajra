@@ -81,6 +81,8 @@ private:
 	ObjectIdType parentId;
 
 	std::vector<std::vector<ComponentIdType>> subscribersForMessageType;
+
+friend class SceneGraph;
 };
 
 

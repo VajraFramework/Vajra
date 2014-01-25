@@ -28,7 +28,7 @@ public:
 	virtual void OnTouchUpdate(int touchIndex);
 
 	UiTouchManager* GetUiTouchManager() { return this->uiTouchManager; }
-
+	
 protected:
 	SceneGraphUi();
 	virtual void init();

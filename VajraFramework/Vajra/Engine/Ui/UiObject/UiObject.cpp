@@ -31,17 +31,29 @@ bool UiObject::IsPointWithin(float x, float y) {
 	return false;
 }
 
-void UiObject::SetClickable(bool clickable_, UiTouchHandlers* touchHandlers_ /* = nullptr */) {
-	if (!this->clickable && clickable_) {
-		VERIFY(touchHandlers_ != nullptr, "Valid touch handler provided");
-		ENGINE->GetSceneGraphUi()->GetUiTouchManager()->RegisterTouchableUiElement(this->GetId());
-		this->touchHandlers = touchHandlers_;
-	} else if (this->clickable && !clickable_) {
-		ENGINE->GetSceneGraphUi()->GetUiTouchManager()->UnRegisterTouchableUiElement(this->GetId());
-		this->touchHandlers = nullptr;
+void UiObject::SetVisible(bool visible_) {
+	if(visible_ && !this->IsVisible() && this->clickable) {
+		this->registerWithTouchHandlers();
+	}
+	else if(!visible_ && this->IsVisible() && this->clickable ) {
+		this->unregisterWithTouchHandlers();
+	}
+	GameObject::SetVisible(visible_);
+}
+void UiObject::SetClickable(bool clickable_) {
+	if(clickable_ && !this->clickable && this->IsVisible()) {
+		this->registerWithTouchHandlers();
+	}
+	else if(!clickable_ && this->clickable && this->IsVisible()) {
+		this->unregisterWithTouchHandlers();
 	}
 	this->clickable = clickable_;
 }
+
+void UiObject::SetTouchHandlers(UiTouchHandlers* touchHandlers_ /* = nullptr */) {
+	VERIFY(touchHandlers_ != nullptr, "Valid touch handler provided");
+	this->touchHandlers = touchHandlers_;
+} 
 
 void UiObject::OnTouchDown(Touch touch) {
 	ASSERT(this->touchHandlers != nullptr, "Valid touch handler present");
@@ -53,6 +65,11 @@ void UiObject::OnTouchMove(Touch touch) {
 	this->touchHandlers->OnTouchMoveHandlers(this, touch);
 }
 
+void UiObject::OnTouchUp(Touch touch) {
+	ASSERT(this->touchHandlers != nullptr, "Valid touch handler present");
+	this->touchHandlers->OnTouchUpHandlers(this, touch);
+}
+
 void UiObject::init() {
 	this->width  = 0;
 	this->height = 0;
@@ -62,4 +79,16 @@ void UiObject::init() {
 }
 
 void UiObject::destroy() {
+	if (this->clickable && this->IsVisible()) {
+		ENGINE->GetSceneGraphUi()->GetUiTouchManager()->UnRegisterTouchableUiElement(this->GetId());
+	}
+}
+
+void UiObject::registerWithTouchHandlers() {
+	VERIFY(this->touchHandlers != nullptr, "Valid touch handler exits");
+	ENGINE->GetSceneGraphUi()->GetUiTouchManager()->RegisterTouchableUiElement(this->GetId());
+}
+
+void UiObject::unregisterWithTouchHandlers() {
+	ENGINE->GetSceneGraphUi()->GetUiTouchManager()->UnRegisterTouchableUiElement(this->GetId());
 }

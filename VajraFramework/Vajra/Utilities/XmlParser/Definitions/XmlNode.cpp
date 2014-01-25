@@ -108,6 +108,15 @@ bool XmlNode::GetAttributeValueB(std::string attributeName) const {
 	return StringUtilities::ConvertStringToBool(valueAsString);
 }
 
+bool XmlNode::HasAttribute(std::string attributeName) const {
+	for (XmlAttribute* attribute : this->attributes) {
+		if (attribute->name == attributeName) {
+			return true;
+		}
+	}
+	return false;
+}
+
 std::string XmlNode::getAttributeValueAsString(std::string& attributeName) const {
 	for (XmlAttribute* attribute : this->attributes) {
 		if (attribute->name == attributeName) {

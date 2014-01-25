@@ -2,13 +2,17 @@
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
 #include "Vajra/Engine/Ui/UiElement/UiElement.h"
+#include "Vajra/Engine/Ui/UiTouchHandlers/UiTouchHandlers.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/StringUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
+
 #include "Vajra/Utilities/XmlParser/XmlParser.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 
 #include <fstream>
 
@@ -48,9 +52,11 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	std::string imageName;
 	glm::vec4 color;
 	bool clickable;
+	bool visible;
 
 	{
 		itemName = uielementNode->GetAttributeValueS(NAME_ATTRIBUTE);
+		touchHandlers->uiSceneObjects[itemName] = uiElement->GetId();
 		FRAMEWORK->GetLogger()->dbglog("Item name: %s", itemName.c_str());
 	}
 	{
@@ -110,7 +116,13 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	{
 		clickable = uielementNode->GetAttributeValueB(CLICKABLE_ATTRIBUTE);
 	}
-
+	{
+		if(uielementNode->HasAttribute(VISIBLE_ATTRIBUTE)) {
+			visible = uielementNode->GetAttributeValueB(VISIBLE_ATTRIBUTE);
+		} else {
+			visible = true;
+		}
+	}
 	{
 		uiElement->SetUiObjectName(itemName);
 		//
@@ -126,10 +138,20 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 		}
 		//
 		if (clickable == true) {
-			uiElement->SetClickable(true, touchHandlers);
+			uiElement->SetTouchHandlers(touchHandlers);
+			uiElement->SetClickable(true);
 		} else {
 			uiElement->SetClickable(false);
 		}
+		//
+		// TODO [Cleanup] remove this when visible works correctly
+		if(uiElement->GetParentId() != OBJECT_ID_INVALID) {
+			bool parentVis = (GameObject*)uiElement->GetParentSceneGraph()->GetGameObjectById(uiElement->GetParentId())->IsVisible();
+			if(!parentVis) {
+				visible = false;
+			}
+		}
+		uiElement->SetVisible(visible);
 		//
 		uiElement->SetPosition(posXPixels, posYPixels);
 	}
@@ -148,6 +170,20 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 
 void LoadUiSceneFromUiSceneFile(std::string filePath, UiTouchHandlers* touchHandlers) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading ui scene from uiscene file %s", filePath.c_str());
+
+	// remove the preivous ui scene
+	ENGINE->GetSceneGraphUi()->UnloadCurrentScene();
+
+	
+	//Todo [HACK] remove this when cameras don't get destroy by unload scene
+	GameObject* camera = new GameObject(ENGINE->GetSceneGraphUi());
+	ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(camera->GetId());
+	Camera* cameraComponent = camera->AddComponent<Camera>();
+	cameraComponent->SetCameraType(CAMERA_TYPE_ORTHO);
+	camera->GetTransform()->SetPosition(0.0f, 0.0f, 400.0f);
+	camera->GetTransform()->Rotate(10.0f, YAXIS);
+	camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
+	ENGINE->GetSceneGraphUi()->SetMainCameraId(camera->GetId());
 
 	std::ifstream sceneFile(filePath);
 	VERIFY(sceneFile.is_open(), "Successfully opened ui scene file at %s", filePath.c_str());
