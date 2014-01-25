@@ -108,11 +108,11 @@
 
 - (void)update
 {
+    renderFrame();
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    renderFrame();
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation
