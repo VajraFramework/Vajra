@@ -5,11 +5,17 @@
 		<property name="AddAnimationClip">
 			<field name="urlOfAnimationClip" datatype="std::string"></field>
 		</property>
+		<property name="PlayAnimationClip">
+			<field name="animationClipName" datatype="std::string"></field>
+		</property>
 	</component>
 	
 	<component name="BakedSkeletalAnimation" includePath="Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h">
 		<property name="AddAnimationClip">
 			<field name="urlOfAnimationClip" datatype="std::string"></field>
+		</property>
+		<property name="PlayAnimationClip">
+			<field name="animationClipName" datatype="std::string"></field>
 		</property>
 	</component>
 	

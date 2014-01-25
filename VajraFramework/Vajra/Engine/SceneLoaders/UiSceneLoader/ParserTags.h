@@ -23,5 +23,7 @@
 #define WIDTHPIXELS_ATTRIBUTE  "widthPixels"
 #define HEIGHTPIXELS_ATTRIBUTE "heightPixels"
 #define CLICKABLE_ATTRIBUTE "clickable"
+#define VISIBLE_ATTRIBUTE "visible"
+
 
 #endif // PARSER_TAGS_H

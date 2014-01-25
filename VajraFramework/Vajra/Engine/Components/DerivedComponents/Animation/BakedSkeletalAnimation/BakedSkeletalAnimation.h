@@ -27,11 +27,27 @@ public:
 	virtual AnimationClip* AddAnimationClip(std::string urlOfAnimationClip);
 	virtual AnimationClip* AddAnimationClip(AnimationClip* animationClip);
 
+	//[[PROPERTY]]//
+	inline void PlayAnimationClip(std::string animationClipName);
+	inline void PlayAnimationClip();
+	inline void PauseAnimationClip();
+	inline void ResumeAnimationClip();
+	inline void StopAnimationClip();
+
 private:
 	void init();
 	void destroy();
 
 	static unsigned int componentTypeId;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline Functions:
+void BakedSkeletalAnimation::PlayAnimationClip(std::string animationClipName) { this->playAnimationClip(animationClipName); }
+void BakedSkeletalAnimation::PlayAnimationClip()   {}
+void BakedSkeletalAnimation::PauseAnimationClip()  {}
+void BakedSkeletalAnimation::ResumeAnimationClip() {}
+void BakedSkeletalAnimation::StopAnimationClip()   {}
 
 #endif // BAKED_SKELETAL_ANIMATION_H

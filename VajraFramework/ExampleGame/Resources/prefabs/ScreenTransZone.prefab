@@ -1,15 +1,12 @@
 <prefab>
 	<gameobject>
-		<component name="MeshRenderer">
-			<property name="InitMesh">
-				<field>Resources/models/HighWall_End.model</field>
-			</property>
-		</component>
-
 		<component name="Transform">
 			<property name="Scale">
 				<field>1.0</field>
 			</property>
+		</component>
+
+		<component name="GridZone">
 		</component>
 	</gameobject>
 </prefab>

@@ -27,7 +27,7 @@ void LoadMeshFromModelFile(const char* filePath,
 	    glm::vec4&                     outDiffuseColor,
 		glm::vec4&                     outSpecularColor,
 		//
-		std::string&                   outTextureFilePath,
+		std::string&                   outTextureFileName,
 		//
 		std::string&                   outArmatureFilePath,
 		//
@@ -141,7 +141,7 @@ void LoadMeshFromModelFile(const char* filePath,
 		if (hasTexture == "yes") {
 			std::string textureImageName;
 			modelFile >> textureImageName;
-			outTextureFilePath = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesPath() + textureImageName;
+			outTextureFileName = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + textureImageName;
 		} else if (hasTexture == "no") {
 			// Nothing to do
 		} else {

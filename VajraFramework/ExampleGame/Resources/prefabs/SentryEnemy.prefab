@@ -2,7 +2,7 @@
 	<gameobject>
 		<component name="MeshRenderer">
 			<property name="InitMesh">
-				<field>Resources/models/TexturedCube.model</field>
+				<field>models/TexturedCube.model</field>
 			</property>
 		</component>
 
@@ -10,6 +10,15 @@
 			<property name="Scale">
 				<field>1.0</field>
 			</property>
+		</component>
+		
+		<component name="GridNavigator">
+		</component>
+		
+		<component name="EnemyUnit">
+		</component>
+		
+		<component name="AiRoutine">
 		</component>
 	</gameobject>
 </prefab>

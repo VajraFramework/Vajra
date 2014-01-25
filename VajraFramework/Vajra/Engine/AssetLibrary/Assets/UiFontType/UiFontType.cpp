@@ -19,12 +19,11 @@ void FontSheet::loadToFontSheetTexture(std::string pathToTexture) {
 	this->textureAsset = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(pathToTexture);
 }
 
-
 std::string UiFontType::GetFilePathToFontSpecificationFile() {
 	return this->GetUrl();
 }
 
-void UiFontType::loadFont_internal(std::string pathToFontSheetTexture, std::string pathToFontSpecificationCSV, std::string shaderName_) {
+void UiFontType::loadFont_internal(std::string nameOfFontSheetTexture, std::string pathToFontSpecificationCSV, std::string shaderName_) {
 	this->shaderName = shaderName_;
 
 	FontLoader::LoadFontSpecificationsFromCSVFile(pathToFontSpecificationCSV.c_str(),
@@ -32,7 +31,7 @@ void UiFontType::loadFont_internal(std::string pathToFontSheetTexture, std::stri
 												  this->fontSpecification.fontboxWidth, this->fontSpecification.fontboxHeight,
 												  this->fontSpecification.startingCharacter,
 												  this->fontSpecification.characterWidths);
-	this->fontSheet.loadToFontSheetTexture(pathToFontSheetTexture);
+	this->fontSheet.loadToFontSheetTexture(nameOfFontSheetTexture);
 
 
 }
@@ -56,7 +55,7 @@ void UiFontType::LoadAsset() {
 	fontSpecificationFile >> nameOfFontSpecificationCSV;
 	fontSpecificationFile >> shaderName;
 
-	this->loadFont_internal(FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + nameOfFontSheetTexture,
+	this->loadFont_internal(FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesFolderName() + nameOfFontSheetTexture,
 							FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesPath() + nameOfFontSpecificationCSV,
 							shaderName);
 }

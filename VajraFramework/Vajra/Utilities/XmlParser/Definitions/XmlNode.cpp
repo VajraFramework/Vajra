@@ -55,7 +55,7 @@ std::vector<XmlNode*> XmlNode::GetChildrenByNodeName(std::string nodeName) const
 
 XmlNode* XmlNode::GetFirstChildByNodeName(std::string nodeName /* = "" */) const {
 	for (XmlNode* childNode : this->children) {
-		if (childNode->name == nodeName) {
+		if (nodeName == "" || childNode->name == nodeName) {
 			return childNode;
 		}
 	}
@@ -106,6 +106,15 @@ float XmlNode::GetAttributeValueF(std::string attributeName) const {
 bool XmlNode::GetAttributeValueB(std::string attributeName) const {
 	std::string valueAsString = this->getAttributeValueAsString(attributeName);
 	return StringUtilities::ConvertStringToBool(valueAsString);
+}
+
+bool XmlNode::HasAttribute(std::string attributeName) const {
+	for (XmlAttribute* attribute : this->attributes) {
+		if (attribute->name == attributeName) {
+			return true;
+		}
+	}
+	return false;
 }
 
 std::string XmlNode::getAttributeValueAsString(std::string& attributeName) const {

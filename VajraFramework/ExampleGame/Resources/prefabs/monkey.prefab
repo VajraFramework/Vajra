@@ -2,7 +2,7 @@
 	<gameobject>
 		<component name="MeshRenderer">
 			<property name="InitMesh">
-				<field>Resources/models/Suzanne.model</field>
+				<field>models/Suzanne.model</field>
 			</property>
 		</component>
 
@@ -13,14 +13,14 @@
 				<field>0.0</field>
 			</property>
 			<property name="Scale">
-				<field>0.1</field>
+				<field>1.0</field>
 			</property>
 		</component>
 
 		<gameobject>
 			<component name="MeshRenderer">
 				<property name="InitMesh">
-					<field>Resources/models/TexturedCube.model</field>
+					<field>models/TexturedCube.model</field>
 				</property>
 			</component>
 			<component name="Transform">

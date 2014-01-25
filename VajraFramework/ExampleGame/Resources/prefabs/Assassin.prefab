@@ -1,0 +1,40 @@
+<prefab>
+	<gameobject>
+		<component name="MeshRenderer">
+			<property name="InitMesh">
+				<field>models/polySurface5.model</field>
+			</property>
+		</component>
+
+		<component name="BakedSkeletalAnimation">
+			<property name="AddAnimationClip">
+				<field>animations/SD_Imposter_mesh.skeletalanimation#idle</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Imposter_mesh.skeletalanimation#twitching</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Imposter_mesh.skeletalanimation#turning</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Imposter_mesh.skeletalanimation#nodding</field>
+			</property>
+			<property name="PlayAnimationClip">
+				<field>nodding</field>
+			</property>
+		</component>
+
+		<component name="Transform">
+			<property name="Scale">
+				<field>0.06</field>
+			</property>
+		</component>
+		
+		<component name="GridNavigator">
+		</component>
+		
+		<component name="PlayerUnit">
+		</component>
+	</gameobject>
+</prefab>
+

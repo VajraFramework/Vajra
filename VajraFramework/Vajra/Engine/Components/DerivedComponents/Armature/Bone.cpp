@@ -128,7 +128,7 @@ void Bone::init() {
 #if DRAW_BONES
 	this->visualizer = new GameObject();
 	MeshRenderer* meshRenderer = this->visualizer->AddComponent<MeshRenderer>();
-	meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "bone.model");
+	meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "bone.model");
 	ENGINE->GetSceneGraph()->GetRootGameObject()->AddChild(this->visualizer->GetId());
 #endif
 }

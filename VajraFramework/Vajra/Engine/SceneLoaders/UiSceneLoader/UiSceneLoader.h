@@ -2,7 +2,7 @@
 #define UISCENELOADER_H
 
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/ParserTags.h"
-
+#include <string>
 // Forward Declarations:
 class UiTouchHandlers;
 
