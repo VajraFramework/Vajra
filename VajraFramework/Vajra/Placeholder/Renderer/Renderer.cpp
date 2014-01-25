@@ -72,13 +72,9 @@ bool setupGraphics(int w, int h) {
 }
 
 
-void renderFrame(float dt) {
+void renderFrame() {
 
-    static float grey;
-    grey += dt / 5.0f;
-    if (grey > 1.0f) {
-        grey = 0.0f;
-    }
+    static float grey = 0.0f;
     glClearColor(0.5f, grey, grey, 1.0f);                    checkGlError("glClearColor");
     glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);    checkGlError("glClear");
 

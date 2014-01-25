@@ -17,7 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // temp
 bool setupGraphics(int w, int h);
-void renderFrame(float dt);
+void renderFrame();
 //
 extern const char gVertexShader[];
 extern const char gFragmentShader[];

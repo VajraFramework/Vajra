@@ -26,9 +26,8 @@ void Timer::init() {
 	this->secondsSinceBoot = 0;
 
 	// Initialize with fake values; will correct itself after 1 frame
-	double FAKE_FPS = 30.0;
-	this->fps = FAKE_FPS;
-	this->deltaFrameTime = 1.0 / FAKE_FPS;
+	this->fps = CONST_FPS;
+	this->deltaFrameTime = 1.0 / CONST_FPS;
 
 	this->totalFrameDuration  = 0.0;
 	this->renderPhaseDuration = 0.0;
@@ -48,7 +47,6 @@ void Timer::beginFrame() {
 
 	// Update high res time fields
 	this->frameBeginSystemClock = clockTimeNow;
-	this->deltaFrameTime = highResSecondsSincePrevFrame;
 	this->fps = 1.0 / highResSecondsSincePrevFrame;
 
 	// Update low res time fields
