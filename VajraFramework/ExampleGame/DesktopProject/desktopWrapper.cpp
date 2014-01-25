@@ -17,7 +17,6 @@ using namespace glm;
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Profiler/Profiler.h"
-#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
@@ -93,38 +92,35 @@ int main( void ) {
 	TestFuntion();
 
 	do {
-		double dt = ENGINE->GetTimer()->GetTimeSinceFrameBegin();
-		if (dt >= ENGINE->GetTimer()->GetDeltaFrameTime()) {
-			#if 0
-			// Clear the screen
-			glClear( GL_COLOR_BUFFER_BIT );
+		#if 0
+		// Clear the screen
+		glClear( GL_COLOR_BUFFER_BIT );
 
-			// Use our shader
-			glUseProgram(programID);
+		// Use our shader
+		glUseProgram(programID);
 
-			// 1rst attribute buffer : vertices
-			glEnableVertexAttribArray(vertexPosition_modelspaceID);
-			glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-			glVertexAttribPointer(
-				vertexPosition_modelspaceID, // The attribute we want to configure
-				3,                  // size
-				GL_FLOAT,           // type
-				GL_FALSE,           // normalized?
-				0,                  // stride
-				(void*)0            // array buffer offset
-				);
+		// 1rst attribute buffer : vertices
+		glEnableVertexAttribArray(vertexPosition_modelspaceID);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+		glVertexAttribPointer(
+			vertexPosition_modelspaceID, // The attribute we want to configure
+			3,                  // size
+			GL_FLOAT,           // type
+			GL_FALSE,           // normalized?
+			0,                  // stride
+			(void*)0            // array buffer offset
+			);
 
-			// Draw the triangle !
-			glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
+		// Draw the triangle !
+		glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
 
-			glDisableVertexAttribArray(vertexPosition_modelspaceID);
-			#endif
+		glDisableVertexAttribArray(vertexPosition_modelspaceID);
+		#endif
 
-			renderFrame();
+		renderFrame();
 
-			// Swap buffers
-			glfwSwapBuffers();
-		}
+		// Swap buffers
+		glfwSwapBuffers();
 	} // Check if the ESC key was pressed or the window was closed
 	while( glfwGetKey( GLFW_KEY_ESC ) != GLFW_PRESS && glfwGetWindowParam( GLFW_OPENED ) );
 

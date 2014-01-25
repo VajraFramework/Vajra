@@ -72,7 +72,11 @@ bool setupGraphics(int w, int h) {
 }
 
 
-void renderFrame() {
+bool renderFrame() {
+	double dt = ENGINE->GetTimer()->GetTimeSinceFrameBegin();
+	if (dt < ENGINE->GetTimer()->GetDeltaFrameTime()) {
+		return false;
+	}
 
     static float grey = 0.0f;
     glClearColor(0.5f, grey, grey, 1.0f);                    checkGlError("glClearColor");
@@ -218,5 +222,5 @@ void renderFrame() {
     // FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMVPMatrixHandle(mvpMatrix);
 
 
-    return;
+    return true;
 }
