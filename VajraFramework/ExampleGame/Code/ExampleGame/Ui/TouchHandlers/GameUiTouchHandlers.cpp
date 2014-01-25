@@ -18,7 +18,7 @@
 #define PAUSE_MENU "pauseMenu"
 #define POST_GAME_MENU "postGame"
 
-void GameUiTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch touch) {
+void GameUiTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /* touch */) {
 	if (uiObject->GetUiObjectName() == "play") {
 		// Do something
 
@@ -29,7 +29,7 @@ void GameUiTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch touch) {
 
 }
 
-void GameUiTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch) {
+void GameUiTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch /* touch */) {
 
 	if (uiObject->GetUiObjectName() == "play") {
 		// Do something
@@ -41,7 +41,7 @@ void GameUiTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch) {
 
 }
 
-void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
+void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch */) {
 	if (uiObject->GetUiObjectName() == "pause") {
 		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(!pauseMenu->IsVisible());

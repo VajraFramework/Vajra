@@ -18,7 +18,7 @@
 #define OPTIONS_MENU "optionsMenu"
 #define MISSION_MENU "missionMenu"
 
-void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch touch) {
+void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /* touch */) {
 	if (uiObject->GetUiObjectName() == "play") {
 		// Do something
 
@@ -29,7 +29,7 @@ void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch touch)
 
 }
 
-void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch) {
+void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch /* touch */) {
 	if (uiObject->GetUiObjectName() == "play") {
 		// Do something
 
@@ -40,7 +40,7 @@ void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch)
 
 }
 
-void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
+void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch */) {
 	if (uiObject->GetUiObjectName() == "play") {
 		// Load the test level
 		SINGLETONS->GetLevelManager()->LoadLevelFromFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + "levels/SD_TestScene.lvl");
