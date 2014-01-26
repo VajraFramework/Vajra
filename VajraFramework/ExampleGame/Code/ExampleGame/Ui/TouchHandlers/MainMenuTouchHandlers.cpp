@@ -1,6 +1,6 @@
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
-#include "Vajra/Engine/SceneGraph/SceneGraphUI.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
 #include "Vajra/Engine/Ui/UiObject/UiObject.h"
 #include "Vajra/Framework/Core/Framework.h"

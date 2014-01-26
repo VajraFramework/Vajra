@@ -35,15 +35,23 @@ public:
 
 struct Pinch {
 public:
+	Pinch() {
+		this->gestureState = GestureState::GestureState_Inactive;
+	}
+
 	float scale;
 	float velocity;
-	GestureState gestureState = GestureState::GestureState_Inactive;
+	GestureState gestureState;
 };
 
 struct LongPress {
 public:
+	LongPress() {
+		this->gestureState = GestureState::GestureState_Inactive;
+	}
+
 	glm::vec2 pos;
-	GestureState gestureState = GestureState::GestureState_Inactive;
+	GestureState gestureState;
 };
 
 #endif // INPUT_DEFINITIONS_H

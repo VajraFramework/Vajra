@@ -5,6 +5,8 @@
 #include "Vajra/Engine/Input/Definitions.h"
 
 #include <map>
+#include <string>
+
 // Forward Declarations:
 class UiObject;
 
