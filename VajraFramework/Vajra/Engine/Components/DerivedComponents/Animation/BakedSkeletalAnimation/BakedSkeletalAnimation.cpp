@@ -58,4 +58,3 @@ void BakedSkeletalAnimation::init() {
 void BakedSkeletalAnimation::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
-

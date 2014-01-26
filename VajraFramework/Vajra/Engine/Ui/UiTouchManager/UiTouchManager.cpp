@@ -67,7 +67,18 @@ void UiTouchManager::OnTouchUpdate(int touchIndex) {
 		// Forward the touch to the Object which will forward it to its touch move handlers
 		UiObject* uiObject = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->currentlyRecievingUiObjectId);
 		ASSERT(uiObject != nullptr, "Currently receiving uiObject not null");
-		uiObject->OnTouchMove(touch);
+
+		if (uiObject->IsPointWithin(touch.pos.x, touch.pos.y)) {
+			if (touch.phase == TouchPhase::Ended || touch.phase == TouchPhase::Cancelled) {
+				uiObject->OnTouchUp(touch);
+			}
+			else {
+				uiObject->OnTouchMove(touch);
+			}
+		}
+		else {
+			this->currentlyRecievingUiObjectId = OBJECT_ID_INVALID;
+		}
 	}
 
 	if (touch.phase == TouchPhase::Ended || touch.phase == TouchPhase::Cancelled) {

@@ -51,6 +51,12 @@ void SceneGraph::SetMainCameraId(ObjectIdType id) {
 	this->mainCameraId = id;
 }
 
+void SceneGraph::UnloadCurrentScene() {
+	this->root->destroyAllChildren();
+
+	delete this->renderLists; 
+	this->renderLists = new RenderLists();
+}
 void SceneGraph::init() {
 	this->root = nullptr;
 	this->renderLists = new RenderLists();

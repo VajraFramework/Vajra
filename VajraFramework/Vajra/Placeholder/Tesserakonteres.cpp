@@ -57,7 +57,7 @@ namespace Tesserakonteres {
 			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "Suzanne.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "Suzanne.model");
 			parent = gameObject;
 
 			Transform* transform = parent->GetTransform();
@@ -67,7 +67,7 @@ namespace Tesserakonteres {
 			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "TexturedCube.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "TexturedCube.model");
 			child = gameObject;
 
 			parent->AddChild(child->GetId());
@@ -82,13 +82,13 @@ namespace Tesserakonteres {
 			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "polySurface5.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "polySurface5.model");
 			BakedSkeletalAnimation* bakedSkeletalAnimation = gameObject->AddComponent<BakedSkeletalAnimation>();
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_Imposter_mesh.skeletalanimation#idle");
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_Imposter_mesh.skeletalanimation#twitching");
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_Imposter_mesh.skeletalanimation#turning");
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "SD_Imposter_mesh.skeletalanimation#nodding");
-			std::string animclipToPlay = "nodding";
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Imposter_mesh.skeletalanimation#idle");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Imposter_mesh.skeletalanimation#twitching");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Imposter_mesh.skeletalanimation#turning");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Imposter_mesh.skeletalanimation#nodding");
+			std::string animclipToPlay = "twitching";
 			AnimationClip* animationClip = bakedSkeletalAnimation->GetAnimationClip(animclipToPlay.c_str());
 			animationClip->SetLooping(true);
 			animationClip->SetPlaybackSpeed(0.1f);
@@ -104,8 +104,8 @@ namespace Tesserakonteres {
 			//
 #if 0
 			RigidAnimation* rigidAnimation = gameObject->AddComponent<RigidAnimation>();
-			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "simpleanimation.animclips#clip0");
-			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "simpleanimation.animclips#clip1");
+			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "simpleanimation.animclips#clip0");
+			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "simpleanimation.animclips#clip1");
 			AnimationClip* animationClip = rigidAnimation->GetAnimationClip("clip1");
 			animationClip->SetPlaybackSpeed(1.0f);
 			animationClip->SetLooping(true);
@@ -129,11 +129,11 @@ namespace Tesserakonteres {
 			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "pTorus1.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "pTorus1.model");
 			//
 #if 1
 			RigidAnimation* rigidAnimation = gameObject->AddComponent<RigidAnimation>();
-			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesPath() + "pTorus1.animclips#Take_0010");
+			rigidAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "pTorus1.animclips#Take_0010");
 			AnimationClip* animationClip = rigidAnimation->GetAnimationClip("Take_0010");
 			animationClip->SetPlaybackSpeed(0.2f);
 			animationClip->SetLooping(true);
@@ -147,7 +147,7 @@ namespace Tesserakonteres {
 			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "stubbyarrows.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "stubbyarrows.model");
 			FRAMEWORK->GetLogger()->dbglog("\nStubby Arrows id: %d", gameObject->GetId());
 
 			Transform* transform = gameObject->GetTransform();
@@ -169,18 +169,19 @@ namespace Tesserakonteres {
 			GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
 			DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
-			dlight->GetTransform()->SetPosition(1.0f, 0.0f, 0.0f);
+			dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
+			dlight->GetTransform()->LookAt(0.5f, 10.0f, 0.5f);
 			ENGINE->GetSceneGraph3D()->SetMainDirectionalLightId(dlight->GetId());
 			//
-			dlightComponent->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
-			dlightComponent->SetDiffuseColor(0.7f, 0.7f, 0.7f, 1.0f);
+			dlightComponent->SetAmbientColor(0.15f, 0.15f, 0.3f, 1.0f);
+			dlightComponent->SetDiffuseColor(0.5f, 0.5f, 0.55f, 1.0f);
 		}
 		{
 #if 0
 			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesPath() + "bone.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "bone.model");
 			parent = gameObject;
 
 			Transform* transform = parent->GetTransform();
@@ -192,7 +193,7 @@ namespace Tesserakonteres {
 			GameObject* noiseMaker = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(noiseMaker->GetId());
 			AudioSource* source = noiseMaker->AddComponent<AudioSource>();
-			source->SetAudioClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesPath() + "lowAlert(hisfixed).wav");
+			source->SetAudioClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesFolderName() + "lowAlert(hisfixed).wav");
 			source->Play();
 #endif
 		}

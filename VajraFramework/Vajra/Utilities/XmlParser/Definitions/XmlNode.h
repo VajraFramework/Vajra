@@ -27,6 +27,7 @@ public:
 	float       GetAttributeValueF(std::string attributeName) const;
 	bool        GetAttributeValueB(std::string attributeName) const;
 
+	bool        HasAttribute(std::string attributeName) const;
 	void Print();
 
 private:
