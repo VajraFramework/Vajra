@@ -38,6 +38,7 @@ private:
 	GridNavigator* navigator;
 
 	float alertness;
+	bool isActive;
 };
 
 #endif // ENEMYUNIT_H
