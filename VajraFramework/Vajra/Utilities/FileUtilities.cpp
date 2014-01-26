@@ -10,7 +10,7 @@ void ReadTextFileTillStringToken(std::istream& inFile, const std::string token) 
 	}
 }
 
-glm::mat4x4 ReadGlmMat4x4FromFile(std::ifstream& file) {
+glm::mat4x4 ReadGlmMat4x4FromFile(std::istream& file) {
 	glm::mat4x4 m;
 	for (int r = 0; r < 4; ++r) {
 		for (int c = 0; c < 4; ++c) {
@@ -20,7 +20,7 @@ glm::mat4x4 ReadGlmMat4x4FromFile(std::ifstream& file) {
 	return m;
 }
 
-int ReadInt32LittleEndianFromFile(/*char buffer[5], */std::ifstream& file) {
+int ReadInt32LittleEndianFromFile(/*char buffer[5], */std::istream& file) {
 	int val = 0;
 	unsigned char buffer[5];
 	file.read((char*)buffer, 4);
@@ -28,7 +28,7 @@ int ReadInt32LittleEndianFromFile(/*char buffer[5], */std::ifstream& file) {
 	return val;
 }
 
-short ReadInt16LittleEndianFromFile(/*char buffer[5], */std::ifstream& file) {
+short ReadInt16LittleEndianFromFile(/*char buffer[5], */std::istream& file) {
 	short val = 0;
 	unsigned char buffer[3];
 	file.read((char*)buffer, 2);
@@ -36,7 +36,7 @@ short ReadInt16LittleEndianFromFile(/*char buffer[5], */std::ifstream& file) {
 	return val;
 }
 
-void AdvanceFileSeekTillChar(std::ifstream& file, char endChar) {
+void AdvanceFileSeekTillChar(std::istream& file, char endChar) {
 	char c;
 	do {
 		file >> c;
@@ -45,12 +45,12 @@ void AdvanceFileSeekTillChar(std::ifstream& file, char endChar) {
 	return;
 }
 
-std::string ReadFileTillChar(std::ifstream& file, char endChar, bool ignoreWhiteSpace /* = false */) {
+std::string ReadFileTillChar(std::istream& file, char endChar, bool ignoreWhiteSpace /* = false */) {
 	char c;
 	std::string returnString;
 	do {
 		file.get(c);
-		if (c != endChar) {
+		if (c != endChar && !file.eof ()) {
 			if (!ignoreWhiteSpace || (c != ' ' && c != '\t' && c != '\n' && c != '\r')) {
 				returnString.push_back(c);
 			}
@@ -60,7 +60,7 @@ std::string ReadFileTillChar(std::ifstream& file, char endChar, bool ignoreWhite
 	return returnString;
 }
 
-std::string ReadFileTillBeforeChar(std::ifstream& file, char endChar, bool ignoreWhiteSpace) {
+std::string ReadFileTillBeforeChar(std::istream& file, char endChar, bool ignoreWhiteSpace) {
 	if (!file.good()) {
 		return "";
 	}
@@ -81,7 +81,7 @@ std::string ReadFileTillBeforeChar(std::ifstream& file, char endChar, bool ignor
 	} while (true);
 }
 
-void AdvanceFileSeekOverWhiteSpace(std::ifstream& file) {
+void AdvanceFileSeekOverWhiteSpace(std::istream& file) {
 	if (!file.good()) {
 		return;
 	}
@@ -95,7 +95,7 @@ void AdvanceFileSeekOverWhiteSpace(std::ifstream& file) {
 	} while ((c == ' ' || c == '\t' || c == '\n' || c == '\r') && !file.eof());
 }
 
-int GetNextIntFromFile(std::ifstream& file) {
+int GetNextIntFromFile(std::istream& file) {
 	int r;
 	file >> r;
 

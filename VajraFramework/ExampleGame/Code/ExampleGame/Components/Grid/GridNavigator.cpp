@@ -10,6 +10,7 @@
 #include "ExampleGame/Messages/Declarations.h"
 
 #include "Libraries/glm/glm.hpp"
+#include "Libraries/glm/gtx/vector_angle.hpp"
 
 #include "Vajra/Common/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
@@ -44,7 +45,9 @@ void GridNavigator::init() {
 
 	this->currentCell = nullptr;
 	this->isTraveling = false;
+	this->isTurning = false;
 	this->movementSpeed = 1.0f;
+	this->turningSpeed = 90.0f inRadians;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
@@ -105,16 +108,48 @@ bool GridNavigator::AddDestination(glm::vec3 loc) {
 	return false;
 }
 
+void GridNavigator::SetLookTarget(int x, int z) {
+	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(x, z);
+	if (goalCell != nullptr) {
+		SetLookTarget(goalCell->center);
+	}
+}
+
+void GridNavigator::SetLookTarget(glm::vec3 loc) {
+	glm::vec3 target = glm::normalize(loc - this->getTransform()->GetPositionWorld());
+	float angle = glm::angle(target, this->getTransform()->GetForward());
+
+	if (angle > ROUNDING_ERROR) {
+		this->targetForward = target;
+		this->isTurning = true;
+	}
+}
+
+void GridNavigator::SetLookTarget(glm::quat orient) {
+	glm::vec3 target = QuaternionForwardVector(orient);
+	float angle = glm::angle(target, this->getTransform()->GetForward());
+
+	if (angle > ROUNDING_ERROR) {
+		this->targetForward = target;
+		this->isTurning = true;
+	}
+}
+
 void GridNavigator::update() {
 	if (this->isTraveling) {
 		followPath();
+	}
+	if (this->isTurning) {
+		updateFacing();
 	}
 }
 
 void GridNavigator::followPath() {
 	float dt = ENGINE->GetTimer()->GetDeltaFrameTime();
 	float distToTravel = this->movementSpeed * dt;
-	glm::vec3 tempLocation = getTransform()->GetPosition();
+	Transform* trans = getTransform(); // Store the reference locally to save on function calls.
+
+	glm::vec3 tempLocation = trans->GetPosition();
 
 	int count = this->currentPath.size();
 	while ((distToTravel > 0.0f) && (count > 0)) {
@@ -134,14 +169,47 @@ void GridNavigator::followPath() {
 		}
 	}
 
-	getTransform()->SetPosition(tempLocation);
+	trans->SetPosition(tempLocation);
 	GridCell* newCell = SINGLETONS->GetGridManager()->GetCell(tempLocation);
 	if (newCell != this->currentCell) {
 		this->changeCell(newCell);
 	}
 
-	if (this->currentPath.size() == 0) {
+	if (this->currentPath.size() > 0) {
+		SetLookTarget(this->currentPath.front()->center);
+	}
+	else {
 		this->isTraveling = false;
+	}
+}
+
+void GridNavigator::updateFacing() {
+	float dt = ENGINE->GetTimer()->GetDeltaFrameTime();
+	float turnAmount = this->turningSpeed * dt;
+	Transform* trans = getTransform(); // Store the reference locally to save on function calls.
+
+	if (this->targetForward == trans->GetForward()) {
+		this->isTurning = false;
+		return;
+	}
+
+	float angle = glm::angle(this->targetForward, trans->GetForward());
+	glm::vec3 axis = YAXIS;
+	if (angle < PI) {
+		axis = glm::cross(trans->GetForward(), this->targetForward);
+	}
+
+	if (axis == ZERO_VEC3) {
+		this->isTurning = false;
+		return;
+	}
+
+	if (angle > turnAmount) {
+		getTransform()->Rotate(turnAmount, axis);
+	}
+	else {
+		getTransform()->Rotate(angle, axis);
+		this->isTurning = false;
 	}
 }
 

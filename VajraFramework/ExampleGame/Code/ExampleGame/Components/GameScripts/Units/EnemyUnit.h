@@ -11,6 +11,10 @@
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 
+enum EnemyStates {
+	ENEMY_STATE_IDLE,
+};
+
 //[[COMPONENT]]//
 class EnemyUnit : public BaseUnit {
 public:
@@ -18,8 +22,12 @@ public:
 	EnemyUnit(Object* object_);
 	~EnemyUnit();
 
+	void Activate();
+
 protected:
 	virtual void update();
+
+	virtual void idleUpdate();
 
 private:
 	void init();
@@ -28,6 +36,9 @@ private:
 	AiKnowledge* knowledge;
 	AiRoutine* routine;
 	GridNavigator* navigator;
+
+	float alertness;
+	bool isActive;
 };
 
 #endif // ENEMYUNIT_H

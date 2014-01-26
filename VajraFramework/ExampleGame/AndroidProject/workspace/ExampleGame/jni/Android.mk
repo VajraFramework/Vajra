@@ -31,7 +31,7 @@ endef
 include $(CLEAR_VARS)
 
 LOCAL_MODULE    := libExampleGame
-LOCAL_CFLAGS    := -Werror -DPLATFORM_ANDROID -DDEBUG -g -rdynamic
+LOCAL_CFLAGS    := -Werror -DPLATFORM_ANDROID -DDEBUG -g -rdynamic -DGLM_FORCE_RADIANS
 LOCAL_CPPFLAGS  := -std=c++11
 LOCAL_CPP_FEATURES += rtti
 

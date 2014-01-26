@@ -37,8 +37,8 @@ public:
 	void SetPosition(float x, float y, float z);
 	void SetPosition(glm::vec3 newPosition);
 	//[[PROPERTY]]//
-	void SetOrientation(float angleInDegrees, float x, float y, float z);
-	void SetOrientation(float angleInDegrees, glm::vec3 axis);
+	void SetOrientation(float angleInRadians, float x, float y, float z);
+	void SetOrientation(float angleInRadians, glm::vec3 axis);
 	void SetOrientation(glm::quat newOrientation);
 	//[[PROPERTY]]//
 	void SetScale(float x, float y, float z);
@@ -48,8 +48,8 @@ public:
 	void Translate(glm::vec3 diff);
 	void Translate(float distance, glm::vec3 along);
 	//[[PROPERTY]]//
-	void Rotate(float angleInDegrees, float x, float y, float z);
-	void Rotate(float angleInDegrees, glm::vec3 axis);
+	void Rotate(float angleInRadians, float x, float y, float z);
+	void Rotate(float angleInRadians, glm::vec3 axis);
 	void Rotate(glm::quat quaternion);
 	void Scale(float x, float y, float z);
 	void Scale(glm::vec3 scaleVector);

@@ -111,7 +111,7 @@ void Camera::init() {
 	this->viewMatrix = IDENTITY_MATRIX;
 	this->projMatrix = IDENTITY_MATRIX;
 
-	this->fov = 60.0f;
+	this->fov = 60.0f inRadians;
 	if (gameObject != nullptr) {
 		this->updateMatrices();
 	}

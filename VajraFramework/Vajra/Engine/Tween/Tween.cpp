@@ -13,6 +13,8 @@
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
+#include <cstdio>
+
 // Forward Declarations:
 std::string getRandomTweenName();
 
