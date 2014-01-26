@@ -1145,15 +1145,9 @@
 		<playerUnit id="65492" prefab="Assassin" x="24" z="7" rotation="180">
       </playerUnit>
 		<enemyUnit id="70222" prefab="SentryEnemy" x="27" z="7" rotation="0">
-			<aiCommand>
-              START_27_7_WEST
-          </aiCommand>
-			<aiCommand>
-              LOOK_NORTH_3
-          </aiCommand>
-			<aiCommand>
-              LOOK_SOUTH_3
-          </aiCommand>
+			<aiCommand>START_27_7_WEST</aiCommand>
+			<aiCommand>LOOK_NORTH_3</aiCommand>
+			<aiCommand>LOOK_SOUTH_3</aiCommand>
       </enemyUnit>
   </units>
 

@@ -47,7 +47,7 @@ void GridNavigator::init() {
 	this->isTraveling = false;
 	this->isTurning = false;
 	this->movementSpeed = 1.0f;
-	this->turningSpeed = 90.0f;
+	this->turningSpeed = 90.0f inRadians;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
@@ -119,7 +119,7 @@ void GridNavigator::SetLookTarget(glm::vec3 loc) {
 	glm::vec3 target = glm::normalize(loc - this->getTransform()->GetPositionWorld());
 	float angle = glm::angle(target, this->getTransform()->GetForward());
 
-	if (angle > 0.001f) {
+	if (angle > ROUNDING_ERROR) {
 		this->targetForward = target;
 		this->isTurning = true;
 	}
@@ -129,7 +129,7 @@ void GridNavigator::SetLookTarget(glm::quat orient) {
 	glm::vec3 target = QuaternionForwardVector(orient);
 	float angle = glm::angle(target, this->getTransform()->GetForward());
 
-	if (angle > 0.001f) {
+	if (angle > ROUNDING_ERROR) {
 		this->targetForward = target;
 		this->isTurning = true;
 	}
@@ -185,7 +185,7 @@ void GridNavigator::followPath() {
 
 void GridNavigator::updateFacing() {
 	float dt = ENGINE->GetTimer()->GetDeltaFrameTime();
-	float turnAmount = this->turningSpeed inRadians * dt;
+	float turnAmount = this->turningSpeed * dt;
 	Transform* trans = getTransform(); // Store the reference locally to save on function calls.
 
 	if (this->targetForward == trans->GetForward()) {

@@ -12,6 +12,8 @@
 #include "Libraries/glm/gtx/quaternion.hpp"
 #include "Libraries/glm/gtx/transform.hpp"
 
+#define ROUNDING_ERROR 0.0001f
+
 extern const float PI;
 #define inRadians * PI / 180.0f
 

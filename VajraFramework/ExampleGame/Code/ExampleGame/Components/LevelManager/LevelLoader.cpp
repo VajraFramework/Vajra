@@ -114,13 +114,13 @@ void LevelLoader::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 
 			// Load the AI routine.
 			XmlNode* aiCommandNode = unitNode->GetFirstChildByNodeName(AI_COMMAND_TAG);
+			std::vector<std::string> commands;
 			while (aiCommandNode != nullptr) {
 				std::string command = aiCommandNode->GetValue();
-				aiRoutine->taskStrings.push_back(command);
-
+				commands.push_back(command);
 				aiCommandNode = aiCommandNode->GetNextSiblingByNodeName(AI_COMMAND_TAG);
 			}
-			aiRoutine->parseTaskStrings();
+			aiRoutine->SetBehavior(commands);
 			enemyUnit->Activate();
 		}
 

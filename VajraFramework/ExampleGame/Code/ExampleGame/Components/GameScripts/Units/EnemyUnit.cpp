@@ -19,7 +19,7 @@ EnemyUnit::~EnemyUnit() {
 
 void EnemyUnit::Activate() {
 	this->knowledge = this->GetObject()->GetComponent<AiKnowledge>();
-	this->routine = this->GetObject()->GetComponent<AiRoutine>();
+	this->routine   = this->GetObject()->GetComponent<AiRoutine>();
 	this->navigator = this->GetObject()->GetComponent<GridNavigator>();
 }
 
@@ -33,7 +33,7 @@ void EnemyUnit::idleUpdate() {
 
 void EnemyUnit::init() {
 	this->knowledge = nullptr;
-	this->routine = nullptr;
+	this->routine   = nullptr;
 	this->navigator = nullptr;
 }
 
