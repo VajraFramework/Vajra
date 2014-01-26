@@ -17,19 +17,19 @@ SRCROOT="../Vajra/";
 HEADERS_DESTINATION="./include/Vajra";
 echo -e "Extracting and copying Headers from $SRCROOT/ to $HEADERS_DESTINATION/";
 mkdir -p $HEADERS_DESTINATION
-rsync -r --delete --include "*/" --include "*.h" --exclude "*" $SRCROOT/* $HEADERS_DESTINATION/.
+rsync -r --delete --update --include "*/" --include "*.h" --exclude "*" $SRCROOT/* $HEADERS_DESTINATION/.
 
 LIBRARIES_HEADERS_ROOT="../Libraries/glm";
 LIBRARIES_HEADERS_DESTINATION="./include/Libraries/glm";
 echo -e "Extracting and copying Headers from $LIBRARIES_HEADERS_ROOT/ to $LIBRARIES_HEADERS_DESTINATION/";
 mkdir -p $LIBRARIES_HEADERS_DESTINATION
-rsync -r --delete $LIBRARIES_HEADERS_ROOT/* $LIBRARIES_HEADERS_DESTINATION/.
+rsync -r --delete --update $LIBRARIES_HEADERS_ROOT/* $LIBRARIES_HEADERS_DESTINATION/.
 
 LIBRARIES_HEADERS_ROOT="../Libraries/openal/headers";
 LIBRARIES_HEADERS_DESTINATION="./include/Libraries/openal/headers";
 echo -e "Extracting and copying Headers from $LIBRARIES_HEADERS_ROOT/ to $LIBRARIES_HEADERS_DESTINATION/";
 mkdir -p $LIBRARIES_HEADERS_DESTINATION
-rsync -r --delete $LIBRARIES_HEADERS_ROOT/* $LIBRARIES_HEADERS_DESTINATION/.
+rsync -r --delete --update $LIBRARIES_HEADERS_ROOT/* $LIBRARIES_HEADERS_DESTINATION/.
 
 if [ $1 == "ios" ]
 then
