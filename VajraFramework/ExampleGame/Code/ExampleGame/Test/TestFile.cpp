@@ -120,9 +120,9 @@ void initUiGameObjects() {
 		Camera* cameraComponent = camera->AddComponent<Camera>();
 		cameraComponent->SetCameraType(CAMERA_TYPE_ORTHO);
 		camera->GetTransform()->SetPosition(0.0f, 0.0f, 400.0f);
-		camera->GetTransform()->Rotate(10.0f, YAXIS);
-		// camera->GetTransform()->SetOrientation(-45.0f, camera->GetTransform()->GetUp());
-		// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
+		camera->GetTransform()->Rotate(10.0f inRadians, YAXIS);
+		// camera->GetTransform()->SetOrientation(-45.0f inRadians, camera->GetTransform()->GetUp());
+		// camera->GetTransform()->Rotate(45.0f inRadians, camera->GetTransform()->GetLeft());
 		camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
 		ENGINE->GetSceneGraphUi()->SetMainCameraId(camera->GetId());
 	}

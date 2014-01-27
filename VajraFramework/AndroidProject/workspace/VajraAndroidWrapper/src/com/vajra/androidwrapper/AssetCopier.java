@@ -25,9 +25,11 @@ public class AssetCopier {
 				"armatures",
 				"audio",
 				"fonts",
+				"levels",
 				"logging",
 				"models",
 				"pictures",
+				"prefabs",
 				"shaders",
 				"uiscenes",
 		};

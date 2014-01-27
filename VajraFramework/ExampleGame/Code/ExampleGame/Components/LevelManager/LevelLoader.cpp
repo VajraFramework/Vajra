@@ -5,6 +5,7 @@
 
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
+#include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
@@ -67,7 +68,7 @@ void LevelLoader::loadStaticDataFromXml(XmlNode* staticNode) {
 		int southBound     = staticObjNode->GetAttributeValueI(Z_ATTRIBUTE);
 		int objWidth       = staticObjNode->GetAttributeValueI(WIDTH_ATTRIBUTE);
 		int objHeight      = staticObjNode->GetAttributeValueI(HEIGHT_ATTRIBUTE);
-		float rotation     = staticObjNode->GetAttributeValueF(ROTATION_ATTRIBUTE);
+		float rotation     = staticObjNode->GetAttributeValueF(ROTATION_ATTRIBUTE) inRadians;
 
 		GameObject* staticObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
 
@@ -95,7 +96,7 @@ void LevelLoader::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 		// Read the initial position of the unit
 		int gX = unitNode->GetAttributeValueI(X_ATTRIBUTE);
 		int gZ = unitNode->GetAttributeValueI(Z_ATTRIBUTE);
-		float rotation = unitNode->GetAttributeValueF(ROTATION_ATTRIBUTE);
+		float rotation = unitNode->GetAttributeValueF(ROTATION_ATTRIBUTE) inRadians;
 
 		// Add the unit to the grid
 		SINGLETONS->GetGridManager()->placeUnitOnGrid(unitObj->GetId(), gX, gZ);
@@ -105,17 +106,22 @@ void LevelLoader::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 
 		// Check unit type
 		if (unitNode->GetName() == ENEMY_UNIT_TAG) {
+			EnemyUnit* enemyUnit = unitObj->GetComponent<EnemyUnit>();
+			ASSERT(enemyUnit != nullptr, "Enemy unit with id %d has EnemyUnit component", unitObj->GetId());
+
 			AiRoutine* aiRoutine = unitObj->GetComponent<AiRoutine>();
 			ASSERT(aiRoutine != nullptr, "Enemy unit with id %d has AiRoutine component", unitObj->GetId());
 
 			// Load the AI routine.
 			XmlNode* aiCommandNode = unitNode->GetFirstChildByNodeName(AI_COMMAND_TAG);
+			std::vector<std::string> commands;
 			while (aiCommandNode != nullptr) {
 				std::string command = aiCommandNode->GetValue();
-				aiRoutine->taskStrings.push_back(command);
-
+				commands.push_back(command);
 				aiCommandNode = aiCommandNode->GetNextSiblingByNodeName(AI_COMMAND_TAG);
 			}
+			aiRoutine->SetBehavior(commands);
+			enemyUnit->Activate();
 		}
 
 		unitNode = unitNode->GetNextSiblingByNodeName("");

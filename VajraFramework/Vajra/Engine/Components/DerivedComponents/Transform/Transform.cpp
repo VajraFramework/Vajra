@@ -103,13 +103,13 @@ void Transform::SetPosition(glm::vec3 newPosition) {
 	this->setPosition(newPosition);
 }
 
-void Transform::SetOrientation(float angleInDegrees, float x, float y, float z) {
-	this->setOrientation(glm::angleAxis(angleInDegrees, \
+void Transform::SetOrientation(float angleInRadians, float x, float y, float z) {
+	this->setOrientation(glm::angleAxis(angleInRadians, \
 										glm::vec3(x, y, z)));
 }
 
-void Transform::SetOrientation(float angleInDegrees, glm::vec3 axis) {
-	this->setOrientation(glm::angleAxis(angleInDegrees, \
+void Transform::SetOrientation(float angleInRadians, glm::vec3 axis) {
+	this->setOrientation(glm::angleAxis(angleInRadians, \
 										axis));
 }
 
@@ -133,12 +133,12 @@ void Transform::Translate(float distance, glm::vec3 along) {
 	this->setPosition(this->position + (distance * glm::normalize(along)));
 }
 
-void Transform::Rotate(float angleInDegrees, float x, float y, float z) {
-	this->Rotate(angleInDegrees, glm::vec3(x, y, z));
+void Transform::Rotate(float angleInRadians, float x, float y, float z) {
+	this->Rotate(angleInRadians, glm::vec3(x, y, z));
 }
 
-void Transform::Rotate(float angleInDegrees, glm::vec3 axis) {
-	this->setOrientation(glm::angleAxis(angleInDegrees, axis) * this->orientation);
+void Transform::Rotate(float angleInRadians, glm::vec3 axis) {
+	this->setOrientation(glm::angleAxis(angleInRadians, glm::normalize(axis)) * this->orientation);
 }
 
 void Transform::Rotate(glm::quat quaternion) {
@@ -167,8 +167,10 @@ void Transform::LookAt(glm::vec3 point) {
 	{
 		// Rotate so that forward faces the point:
 		glm::vec3 connectingVector = glm::normalize(point - this->GetPosition());
-		glm::vec3 crossProduct = glm::normalize( glm::cross(this->GetForward(), connectingVector) );
-		if (crossProduct == ZERO_VEC3) {
+		glm::vec3 crossProduct = glm::cross(this->GetForward(), connectingVector);
+		if (crossProduct != ZERO_VEC3) {
+			crossProduct = glm::normalize(crossProduct);
+		} else {
 			crossProduct = this->up;
 		}
 		float angleBetweenVectors = glm::orientedAngle(this->GetForward(), connectingVector, crossProduct);

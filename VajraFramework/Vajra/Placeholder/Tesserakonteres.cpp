@@ -73,7 +73,7 @@ namespace Tesserakonteres {
 			parent->AddChild(child->GetId());
 			Transform* transform = child->GetTransform();
 			transform->Translate(1.5f, transform->GetForward());
-			transform->Rotate(-90.0f, transform->GetLeft());
+			transform->Rotate(-90.0f inRadians, transform->GetLeft());
 			transform->Scale(0.4f, 0.4f, 0.4f);
 		}
 		{
@@ -161,7 +161,7 @@ namespace Tesserakonteres {
 			cameraComponent->SetCameraType(CAMERA_TYPE_PERSPECTIVE);
 			camera->GetTransform()->SetPosition(4.0f, 4.0f, 4.0f);
 			// camera->GetTransform()->SetOrientation(-45.0f, camera->GetTransform()->GetUp());
-			// camera->GetTransform()->Rotate(45.0f, camera->GetTransform()->GetLeft());
+			// camera->GetTransform()->Rotate(45.0f inRadians, camera->GetTransform()->GetLeft());
 			camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
 			ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
 		}
@@ -169,11 +169,12 @@ namespace Tesserakonteres {
 			GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
 			DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
-			dlight->GetTransform()->SetPosition(1.0f, 0.0f, 0.0f);
+			dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
+			dlight->GetTransform()->LookAt(0.5f, 10.0f, 0.5f);
 			ENGINE->GetSceneGraph3D()->SetMainDirectionalLightId(dlight->GetId());
 			//
-			dlightComponent->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
-			dlightComponent->SetDiffuseColor(0.7f, 0.7f, 0.7f, 1.0f);
+			dlightComponent->SetAmbientColor(0.15f, 0.15f, 0.3f, 1.0f);
+			dlightComponent->SetDiffuseColor(0.5f, 0.5f, 0.55f, 1.0f);
 		}
 		{
 #if 0

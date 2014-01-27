@@ -89,10 +89,10 @@ bool renderFrame() {
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
-        		// transform->SetOrientation(90.0f, YAXIS);
+        		// transform->SetOrientation(90.0f inRadians, YAXIS);
         		transform->Translate(0.5f * deltaTime, transform->GetForward());
-        		transform->Rotate(60.0f * deltaTime, YAXIS);
-        		transform->Rotate(30.0f * deltaTime, -transform->GetLeft());
+        		transform->Rotate(60.0f * deltaTime inRadians, YAXIS);
+        		transform->Rotate(30.0f * deltaTime inRadians, -transform->GetLeft());
         	}
         }
     }
@@ -102,10 +102,10 @@ bool renderFrame() {
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
-        		// transform->SetOrientation(90.0f, YAXIS);
+        		// transform->SetOrientation(90.0f inRadians, YAXIS);
         		// transform->Translate(0.04f, transform->GetForward());
-        		// transform->Rotate(30.0f * deltaTime, YAXIS);
-        		// transform->Rotate(0.4f, -transform->GetLeft());
+        		// transform->Rotate(30.0f * deltaTime inRadians, YAXIS);
+        		// transform->Rotate(0.4f inRadians, -transform->GetLeft());
         	}
         }
     }
@@ -115,26 +115,28 @@ bool renderFrame() {
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
-        		// transform->SetOrientation(90.0f, YAXIS);
+        		// transform->SetOrientation(90.0f inRadians, YAXIS);
         		// transform->Translate(0.04f, transform->GetForward());
-        		// transform->Rotate(50.0f * deltaTime, YAXIS);
-        		// transform->Rotate(0.4f, -transform->GetLeft());
+        		// transform->Rotate(50.0f * deltaTime inRadians, YAXIS);
+        		// transform->Rotate(0.4f inRadians, -transform->GetLeft());
         	}
         }
     }
+#if 0
     {
         // Temp, testing transforms:
         GameObject* dlight = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainDirectionalLight()->GetObject();
         if (dlight != nullptr) {
         	Transform* transform = dlight->GetTransform();
         	if (transform != nullptr) {
-        		// transform->SetOrientation(90.0f, YAXIS);
+        		// transform->SetOrientation(90.0f inRadians, YAXIS);
         		transform->Translate(0.1f * deltaTime, transform->GetForward());
-        		transform->Rotate(-10.0f * deltaTime, YAXIS);
-        		// transform->Rotate(100.0f * deltaTime, -transform->GetLeft());
+        		transform->Rotate(-10.0f * deltaTime inRadians, YAXIS);
+        		// transform->Rotate(100.0f * deltaTime inRadians, -transform->GetLeft());
         	}
         }
     }
+#endif
     {
         // Sending arbit message for testing
         {
@@ -145,7 +147,7 @@ bool renderFrame() {
     {
     	GameObject* wavybox = ENGINE->GetSceneGraph3D()->GetGameObjectById(113);
     	// Transform* transform = wavybox->GetTransform();
-    	// transform->Rotate(10.0f * deltaTime, YAXIS);
+    	// transform->Rotate(10.0f * deltaTime inRadians, YAXIS);
     	// transform->Translate(0.05f * deltaTime, transform->GetForward());
     	/* Armature* armature = */ wavybox->GetComponent<Armature>();
 
@@ -153,19 +155,19 @@ bool renderFrame() {
 #if 0
     	{
 			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_BackJoint01");
-			someBone->Rotate(5.0f * deltaTime, XAXIS, false);
+			someBone->Rotate(5.0f * deltaTime inRadians, XAXIS, false);
     	}
 #endif
 #if 0
     	{
 			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_Left_ElbowJoint01");
-			someBone->Rotate(-5.0f * deltaTime, YAXIS, false);
+			someBone->Rotate(-5.0f * deltaTime inRadians, YAXIS, false);
     	}
 #endif
 #if 0
     	{
 			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_Left_ShoulderJoint01");
-			someBone->Rotate(-5.0f * deltaTime, YAXIS, true);
+			someBone->Rotate(-5.0f * deltaTime inRadians, YAXIS, true);
     	}
 #endif
 #if 0
@@ -177,13 +179,13 @@ bool renderFrame() {
 #if 0
     	{
 			Bone* someBone = armature->GetBoneByName("joint13");
-			someBone->Rotate(5.0f * deltaTime, ZAXIS, false);
+			someBone->Rotate(5.0f * deltaTime inRadians, ZAXIS, false);
     	}
 #endif
 #if 0
     	{
 			Bone* someBone = armature->GetBoneByName("joint6");
-			someBone->Rotate(5.0f * deltaTime, ZAXIS, true);
+			someBone->Rotate(5.0f * deltaTime inRadians, ZAXIS, true);
     	}
 #endif
     }
@@ -198,8 +200,8 @@ bool renderFrame() {
             Transform* transform = camera->GetTransform();
             float camMag = glm::distance(transform->GetPosition(), ZERO_VEC3);
             transform->SetPosition(0.0f, 0.0f, 0.0f);
-            transform->Rotate(-1 * moveDir.x, transform->GetUp());
-            transform->Rotate(moveDir.y, transform->GetLeft());
+            transform->Rotate(-1 * moveDir.x inRadians, transform->GetUp());
+            transform->Rotate(moveDir.y inRadians, transform->GetLeft());
             transform->Translate(-camMag, transform->GetForward());
         }
     }
@@ -216,10 +218,6 @@ bool renderFrame() {
     ENGINE->DoFrame();
 
     // printFrameTimeStats();
-
-    modelMatrix = glm::rotate(0.0f, 0.0f, 1.0f, 0.0f);
-    mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
-    // FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->SetMVPMatrixHandle(mvpMatrix);
 
 
     return true;
