@@ -174,12 +174,12 @@ void Transform::LookAt(glm::vec3 point) {
 			crossProduct = this->up;
 		}
 		float angleBetweenVectors = glm::orientedAngle(this->GetForward(), connectingVector, crossProduct);
-		this->Rotate(angleBetweenVectors inRadians, crossProduct);
+		this->Rotate(angleBetweenVectors, crossProduct);
 	}
 	{
 		// Try to restore up to what it was before the rotation without disturbing forward:
 		float angleToUp = glm::orientedAngle(this->GetUp(), oldUp, this->GetForward());
-		this->Rotate(angleToUp inRadians, this->GetForward());
+		this->Rotate(angleToUp, this->GetForward());
 	}
 }
 
