@@ -74,7 +74,7 @@ bool setupGraphics(int w, int h) {
 
 bool renderFrame() {
 	double dt = ENGINE->GetTimer()->GetTimeSinceFrameBegin();
-	if (dt < ENGINE->GetTimer()->GetDeltaFrameTime()) {
+	if (dt < CONST_FRAME_DURATION) {
 		return false;
 	}
 

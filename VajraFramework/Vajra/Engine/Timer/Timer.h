@@ -6,6 +6,7 @@
 #include <chrono>
 
 #define CONST_FPS 30.0
+#define CONST_FRAME_DURATION 1.0f / CONST_FPS
 
 class Timer : public Object {
 public:
