@@ -63,7 +63,8 @@ private:
 #if PLATFORM_DESKTOP
     int mouseX;
     int mouseY;
-    void updateMouseButton();
+    bool touchDown = false;
+    void updateDesktopInput();
 public:
     void cursorPosUpdate(int x, int y);
 #endif

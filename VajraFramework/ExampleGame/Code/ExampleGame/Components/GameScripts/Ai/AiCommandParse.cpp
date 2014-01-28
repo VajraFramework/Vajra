@@ -125,6 +125,7 @@ void ParseStartCommand(std::vector<std::string>& args, std::vector<AiMarker>& ma
 	marker.Position = SINGLETONS->GetGridManager()->GetCell(xPos, zPos)->center;
 
 	glm::vec3 lookPos = SINGLETONS->GetGridManager()->GetCell(xLook, zLook)->center;
+	VERIFY(lookPos != marker.Position, "Valid Ai command, lookPos != marker position");
 	glm::vec3 forward = glm::normalize(lookPos - marker.Position);
 
 	marker.Orientation = QuaternionFromLookVectors(forward);
@@ -205,7 +206,9 @@ void ParseLookCommand(std::vector<std::string>& args, std::vector<AiMarker>& mar
 	marker.WaitTime = 0.0f;
 	marker.Position = prevMarker.Position;
 
-	glm::vec3 lookPos = SINGLETONS->GetGridManager()->GetCell(xLook, zLook)->center;
+	GridCell* cell = SINGLETONS->GetGridManager()->GetCell(xLook, zLook);
+	VERIFY(cell != nullptr, "Got valid grid cell for location (%d, %d)", xLook, zLook);
+	glm::vec3 lookPos = cell->center;
 	glm::vec3 forward = glm::normalize(lookPos - marker.Position);
 
 	marker.Orientation = QuaternionFromLookVectors(forward);

@@ -9,6 +9,7 @@
 #include "Vajra/Utilities/Utilities.h"
 
 #if PLATFORM_DESKTOP
+#include "Vajra/Engine/Timer/Timer.h"
 // Global callback function for desktop input
 void cursorPosCallback(int x, int y) {
 	ENGINE->GetInput()->cursorPosUpdate(x, y);
@@ -34,28 +35,32 @@ void Input::destroy() {
 }
 
 bool touchOver(const Touch &touch) {
-	return (touch.phase == TouchPhase::Ended || touch.phase == TouchPhase::Cancelled);
+	return (touch.phase == TouchPhase::Ended
+			|| touch.phase == TouchPhase::Cancelled);
 }
 
-void Input::updateInput() { 
+void Input::updateInput() {
 #if PLATFORM_DESKTOP
-	this->updateMouseButton();
+	this->updateDesktopInput();
 #endif
 	// Populate frame touches with all input that has been asynchronously collected
 	this->frameTouches = this->asyncTouches;
 
 	// Send touches to the interested target
-	for(unsigned int i = 0; i < this->frameTouches.size(); ++i) {
-    	if(this->currentTouchTarget != nullptr) {
+	for (unsigned int i = 0; i < this->frameTouches.size(); ++i) {
+		if (this->currentTouchTarget != nullptr) {
 			this->currentTouchTarget->OnTouchUpdate(i);
-    	}
+		}
 	}
-		
-	// Remove all touches that have ended or been cancelled
-	this->asyncTouches.erase( std::remove_if(this->asyncTouches.begin(), this->asyncTouches.end(), touchOver), this->asyncTouches.end());
 
-	for(std::vector<Touch>::iterator it = this->asyncTouches.begin(); it != this->asyncTouches.end(); ++it) {
-    	it->phase = TouchPhase::Stationary;
+	// Remove all touches that have ended or been cancelled
+	this->asyncTouches.erase(
+			std::remove_if(this->asyncTouches.begin(), this->asyncTouches.end(),
+					touchOver), this->asyncTouches.end());
+
+	for (std::vector<Touch>::iterator it = this->asyncTouches.begin();
+			it != this->asyncTouches.end(); ++it) {
+		it->phase = TouchPhase::Stationary;
 	}
 	//logTouches();
 
@@ -65,28 +70,29 @@ void Input::updateInput() {
 	this->asyncPinch.gestureState = GestureState::GestureState_Inactive;
 
 	// If the gesture state is greater then end it has either ended, been cancelled or another gesture has been detected
-	if(this->asyncPinch.gestureState >= GestureState::GestureState_End) {
+	if (this->asyncPinch.gestureState >= GestureState::GestureState_End) {
 		this->asyncPinch.gestureState = GestureState::GestureState_Inactive;
 	}
-	if(this->framePinch.gestureState != GestureState::GestureState_Inactive) {
+	if (this->framePinch.gestureState != GestureState::GestureState_Inactive) {
 		// Raise the pinch gesture event
-		MessageChunk pinchGestureMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		MessageChunkpinchGestureMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		pinchGestureMessage->SetMessageType(MESSAGE_TYPE_PINCH_GESTURE);
 		ENGINE->GetMessageHub()->SendMulticastMessage(pinchGestureMessage, this->GetId());
-	}	
+	}
 
 	this->frameLongPress = this->asyncLongPress;
 	this->asyncLongPress.gestureState = GestureState::GestureState_Inactive;
 
-	if(this->asyncLongPress.gestureState >= GestureState::GestureState_End) {
-			this->asyncLongPress.gestureState = GestureState::GestureState_Inactive;
+	if (this->asyncLongPress.gestureState >= GestureState::GestureState_End) {
+		this->asyncLongPress.gestureState = GestureState::GestureState_Inactive;
 	}
-	if(this->frameLongPress.gestureState != GestureState::GestureState_Inactive) {
+	if (this->frameLongPress.gestureState
+			!= GestureState::GestureState_Inactive) {
 		// Raise the pinch gesture event
-		MessageChunk longPressGestureMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		MessageChunklongPressGestureMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		longPressGestureMessage->SetMessageType(MESSAGE_TYPE_LONG_PRESS_GESTURE);
 		ENGINE->GetMessageHub()->SendMulticastMessage(longPressGestureMessage, this->GetId());
-	}	
+	}
 }
 
 Touch Input::GetTouch(int index) {
@@ -111,12 +117,12 @@ void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
 	// Find correct touch target for touch using vector index
 	this->testTouchTargets(t);
 
-
 }
 
 void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {
-	for(std::vector<Touch>::iterator it = this->asyncTouches.begin(); it != this->asyncTouches.end(); ++it) {
-		if(it->uId == uId) {
+	for (std::vector<Touch>::iterator it = this->asyncTouches.begin();
+			it != this->asyncTouches.end(); ++it) {
+		if (it->uId == uId) {
 			it->prevPos = it->pos;
 			it->pos.x = curX;
 			it->pos.y = curY;
@@ -126,11 +132,12 @@ void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {
 	}
 }
 
-void Input::UpdatePinch(float scale, float velocity, GestureState gestureState) {
+void Input::UpdatePinch(float scale, float velocity,
+		GestureState gestureState) {
 	this->asyncPinch.scale = scale;
 	this->asyncPinch.velocity = velocity;
 
-	if(this->asyncPinch.gestureState != GestureState::GestureState_Start)
+	if (this->asyncPinch.gestureState != GestureState::GestureState_Start)
 		this->asyncPinch.gestureState = gestureState;
 }
 
@@ -138,18 +145,17 @@ void Input::UpdateLongPress(float x, float y, GestureState gestureState) {
 	this->asyncLongPress.pos.x = x;
 	this->asyncLongPress.pos.y = y;
 
-	if(this->asyncLongPress.gestureState != GestureState::GestureState_Start) {
+	if (this->asyncLongPress.gestureState != GestureState::GestureState_Start) {
 		this->asyncLongPress.gestureState = gestureState;
 	}
 }
-
 
 void Input::AddGameTouchTarget(IGameTouchTarget* newTarget) {
 	this->gameTouchTargets.push_back(newTarget);
 }
 
 void Input::logTouches() {
-	if(this->GetTouchCount() > 0) {
+	if (this->GetTouchCount() > 0) {
 		FRAMEWORK->GetLogger()->dbglog("TOUCH LOG \n");
 		for(std::vector<Touch>::iterator it = this->frameTouches.begin(); it != this->frameTouches.end(); ++it) {
 			FRAMEWORK->GetLogger()->dbglog("Touch id: %i pos: (%f, %f) %i \n", it->fingerId, it->pos.x, it->pos.y, (int)it->phase);
@@ -159,18 +165,18 @@ void Input::logTouches() {
 
 void Input::testTouchTargets(Touch touch) {
 	// Test UIScene first
-	if(ENGINE->GetSceneGraphUi()->TestTouchStart(touch)) {
+	if (ENGINE->GetSceneGraphUi()->TestTouchStart(touch)) {
 		this->currentTouchTarget = ENGINE->GetSceneGraphUi();
 		return;
 	}
-	
+
 	// Test all game targets
 	for(ITouchTarget* iTarget : this->gameTouchTargets) {
-    	if(iTarget->TestTouchStart(touch)) {
-    		this->currentTouchTarget = iTarget;
-    		return;
-    	}
-    }
+		if(iTarget->TestTouchStart(touch)) {
+			this->currentTouchTarget = iTarget;
+			return;
+		}
+	}
 
 	// Test 3DScene last
 	if(ENGINE->GetSceneGraph3D()->TestTouchStart(touch)) {
@@ -180,24 +186,75 @@ void Input::testTouchTargets(Touch touch) {
 }
 
 #if PLATFORM_DESKTOP
-void Input::updateMouseButton() {
+#define GLFW_KEY_I 73
+#define GLFW_KEY_O 79
+
+float downTime = 0;
+const float longPress = 1.0f;
+float startX, startY;
+void Input::updateDesktopInput() {
 	// Grab the left click state and make it act like a single touch
 	int button = glfwGetMouseButton(GLFW_MOUSE_BUTTON_LEFT);
-	if(ENGINE->GetInput()->GetTouchCount() == 0) {
-		if(button == GLFW_PRESS) {
-			ENGINE->GetInput()->AddTouch(0, this->mouseX, this->mouseY);
+
+	if (this->frameLongPress.gestureState != GestureState::GestureState_Inactive
+			&& this->frameLongPress.gestureState
+					!= GestureState::GestureState_End) {
+		if (button == GLFW_RELEASE) {
+			this->UpdateLongPress(this->mouseX, this->mouseY,
+					GestureState::GestureState_End);
+		} else {
+			this->UpdateLongPress(this->mouseX, this->mouseY,
+					GestureState::GestureState_Changed);
+		}
+	} else {
+		if (this->frameTouches.size() == 0) {
+			if (button == GLFW_PRESS) {
+				this->touchDown = true;
+				downTime = 0;
+				ENGINE->GetInput()->AddTouch(0, this->mouseX, this->mouseY);
+				startX = this->mouseX;
+				startY = this->mouseY;
+			}
+		} else {
+			if (button == GLFW_RELEASE) {
+				if (this->touchDown) {
+					ENGINE->GetInput()->UpdateTouch(0, this->mouseX, this->mouseY, TouchPhase::Ended);
+					this->touchDown = false;
+				}
+			}
+			else {
+				if(this->touchDown) {
+					downTime += (float)ENGINE->GetTimer()->GetDeltaFrameTime();
+					if(downTime >= longPress) {
+						if((startX == this->mouseX) && (startY == this->mouseY)) {
+							ENGINE->GetInput()->UpdateTouch(0, this->mouseX, this->mouseY, TouchPhase::Cancelled);
+							this->UpdateLongPress(this->mouseX, this->mouseY, GestureState::GestureState_Start);
+							this->touchDown = false;
+						}
+					}
+				}
+			}
 		}
 	}
-	else {
-		if(button == GLFW_RELEASE) {
-			ENGINE->GetInput()->UpdateTouch(0, this->mouseX, this->mouseY, TouchPhase::Ended);
-		}
+	//pinch
+	int pinchIn = glfwGetKey(GLFW_KEY_I);
+	int pinchOut = glfwGetKey(GLFW_KEY_O);
+
+	if (pinchIn == GLFW_PRESS) {
+		this->UpdatePinch(10.0f, 10.0f, GestureState::GestureState_Start);
+	}
+	if (pinchOut == GLFW_PRESS) {
+		this->UpdatePinch(10.0f, -10.0f, GestureState::GestureState_Start);
 	}
 }
 
 void Input::cursorPosUpdate(int x, int y) {
 	this->mouseX = x;
 	this->mouseY = y;
+	if (this->frameTouches.size() == 0) {
+		return;
+	}
 	this->UpdateTouch(0, x, y, TouchPhase::Moved);
+
 }
 #endif
