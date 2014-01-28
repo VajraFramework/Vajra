@@ -42,7 +42,7 @@ void Bone::Rotate(float angleInRadians, glm::vec3 axis, bool boneSpace /* = fals
 
 void Bone::Translate(float distance, glm::vec3 along, bool boneSpace /* = false */) {
 	if (!boneSpace) {
-		// Axis specified in object space coordinates
+		// Along vector specified in object space coordinates
 		// Convert it to boneSPace
 		glm::vec4 newAxis = this->toBoneMatrix * glm::vec4(along.x, along.y, along.z, 0.0f);
 		along = glm::vec3(newAxis.x, newAxis.y, newAxis.z);

@@ -84,21 +84,22 @@ namespace Tesserakonteres {
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "polySurface5.model");
 			BakedSkeletalAnimation* bakedSkeletalAnimation = gameObject->AddComponent<BakedSkeletalAnimation>();
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Imposter_mesh.skeletalanimation#idle");
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Imposter_mesh.skeletalanimation#twitching");
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Imposter_mesh.skeletalanimation#turning");
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Imposter_mesh.skeletalanimation#nodding");
-			std::string animclipToPlay = "twitching";
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "pCube1.skeletalanimation#idle");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "pCube1.skeletalanimation#twitching");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "pCube1.skeletalanimation#turning");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "pCube1.skeletalanimation#nodding");
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "pCube1.skeletalanimation#jumping");
+			std::string animclipToPlay = "jumping";
 			AnimationClip* animationClip = bakedSkeletalAnimation->GetAnimationClip(animclipToPlay.c_str());
 			animationClip->SetLooping(true);
-			animationClip->SetPlaybackSpeed(0.1f);
+			animationClip->SetPlaybackSpeed(0.5f);
 			bakedSkeletalAnimation->PlayAnimationClip(animclipToPlay.c_str());
 			//
 			Transform* transform = gameObject->GetTransform();
 			transform->Scale(0.08f);
 			transform->Translate(1.0f, transform->GetForward());
 			// transform->Rotate(180.0f, YAXIS);
-			transform->SetPosition(10.0f, 0.0f, -10.0f);
+			transform->SetPosition(10.0f, 0.0f, 10.0f);
 			wavybox = gameObject;
 #endif
 			//
@@ -200,6 +201,8 @@ namespace Tesserakonteres {
 
 
 		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");
+
+
 	}
 
 }
