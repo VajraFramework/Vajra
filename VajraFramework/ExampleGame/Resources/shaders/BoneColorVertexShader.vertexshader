@@ -80,7 +80,7 @@ void main()
 	float yAmt = gl_Position.y;
 	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
 #else
-	gl_Position = mvpMatrix * vPosition;
+	gl_Position = mvpMatrix * posL;
 #endif
 
 #ifdef PER_PIXEL_LIGHTING
