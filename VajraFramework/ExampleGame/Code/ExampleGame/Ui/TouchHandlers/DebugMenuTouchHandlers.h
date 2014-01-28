@@ -4,13 +4,16 @@
 
 #include "Vajra/Engine/Ui/UiTouchHandlers/UiTouchHandlers.h"
 
+class Camera;
 class DebugMenuTouchHandlers : public UiTouchHandlers {
 public:
+	DebugMenuTouchHandlers();
 	// @Override
 	virtual void OnTouchDownHandlers(UiObject* uiObject, Touch touch);
 	virtual void OnTouchMoveHandlers(UiObject* uiObject, Touch touch);
 	virtual void OnTouchUpHandlers  (UiObject* uiObject, Touch touch);
 private:
+	int shadyCamId;
 	float cameraSpeed = 2.0f;
 };
 

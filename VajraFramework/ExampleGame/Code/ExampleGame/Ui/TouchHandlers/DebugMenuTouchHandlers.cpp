@@ -16,6 +16,19 @@
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 
+DebugMenuTouchHandlers::DebugMenuTouchHandlers() : UiTouchHandlers() {
+	GameObject* debugCam = new GameObject(ENGINE->GetSceneGraph3D());
+	ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(debugCam->GetId());
+	Camera* camComponent = debugCam->AddComponent<Camera>();
+	camComponent->SetFOV(30.0f inRadians);
+	
+	GameObject* shadyCam = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject();
+	debugCam->GetTransform()->SetPosition(shadyCam->GetTransform()->GetPosition());
+	debugCam->GetTransform()->SetOrientation(shadyCam->GetTransform()->GetOrientation());
+	
+	this->shadyCamId = shadyCam->GetId();
+	ENGINE->GetSceneGraph3D()->SetMainCameraId(debugCam->GetId());
+}
 void DebugMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch touch ) {
 	if (uiObject->GetUiObjectName() == "touchPad") {
 		// Do something
@@ -53,6 +66,14 @@ void DebugMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touc
 		trans->Translate(this->cameraSpeed, trans->GetLeft());
 	} else if (uiObject->GetUiObjectName() == "right") {
 		trans->Translate(-this->cameraSpeed, trans->GetLeft());
-	} 
+	} else if (uiObject->GetUiObjectName() == "back") {
+		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
+		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new GameUiTouchHandlers());
+
+
+		GameObject* debugCam = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject();
+		ENGINE->GetSceneGraph3D()->SetMainCameraId(this->shadyCamId);
+		delete debugCam;
+	}
 }
 #endif

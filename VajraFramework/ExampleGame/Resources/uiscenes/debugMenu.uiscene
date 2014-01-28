@@ -1,4 +1,16 @@
 <uiscene widthPixels="1024" heightPixels="768">
+	<uielement name="back" clickable="true">
+		<dimensions>
+			<position x="0" y="0"></position>
+			<size widthPixels="128" heightPixels="64"></size>
+			<zorder>1</zorder>
+		</dimensions>
+		<text>
+			<font type="calibiri.fontspec" size="32.0"></font>
+			Back
+		</text>
+		<color r="0.6" g="0.0" b="0.0" a="0.6"></color>
+	</uielement>
 
 	<uielement name="freeCam" clickable="false">
 	<dimensions>

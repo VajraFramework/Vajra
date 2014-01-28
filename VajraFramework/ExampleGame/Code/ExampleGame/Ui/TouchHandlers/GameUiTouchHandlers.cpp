@@ -52,18 +52,6 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	if (uiObject->GetUiObjectName() == "debugMenu") {
 		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "debugMenu.uiscene";
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new DebugMenuTouchHandlers());
-		
-		
-		GameObject* debugCam = new GameObject(ENGINE->GetSceneGraph3D());
-		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(debugCam->GetId());
-		Camera* camComponent = debugCam->AddComponent<Camera>();
-		camComponent->SetFOV(30.0f inRadians);
-		
-		GameObject* shadyCam = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject();
-		debugCam->GetTransform()->SetPosition(shadyCam->GetTransform()->GetPosition());
-		debugCam->GetTransform()->SetOrientation(shadyCam->GetTransform()->GetOrientation());
-		
-		ENGINE->GetSceneGraph3D()->SetMainCameraId(debugCam->GetId());
 	} 
 #endif
 	if (uiObject->GetUiObjectName() == "pause") {
