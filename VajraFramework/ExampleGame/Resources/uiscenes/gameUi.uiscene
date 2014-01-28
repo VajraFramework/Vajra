@@ -1,5 +1,14 @@
 <uiscene widthPixels="1024" heightPixels="768">
 
+	<uielement name="debugMenu" clickable="true">
+			<dimensions>
+				<position x="992" y="736"></position>
+				<size widthPixels="32" heightPixels="32"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<color r="0.5" g="0.5" b="0.5" a="0.5"></color>
+		</uielement>
+
 	<uielement name="inGame" clickable="false">
 	<dimensions>
 		<position x="0" y="0"></position>
