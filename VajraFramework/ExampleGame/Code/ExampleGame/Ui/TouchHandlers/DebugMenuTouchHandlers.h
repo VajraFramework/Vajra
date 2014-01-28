@@ -13,6 +13,7 @@ public:
 	virtual void OnTouchUpHandlers  (UiObject* uiObject, Touch touch);
 private:
 	float cameraSpeed = 2.0f;
+	bool positionMode = true;
 	glm::vec2 downPos;
 };
 

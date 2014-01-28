@@ -67,6 +67,32 @@
 			</text>
 			<color r="0.5" g="0.5" b="0.5" a="1.0"></color>
 		</uielement>
+
+		<uielement name="move" clickable="true">
+			<dimensions>
+				<position x="796" y="500"></position>
+				<size widthPixels="64" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="32.0"></font>
+				Move
+			</text>
+			<color r="0.5" g="0.5" b="0.5" a="1.0"></color>
+		</uielement>
+
+		<uielement name="rotate" clickable="true">
+			<dimensions>
+				<position x="796" y="564"></position>
+				<size widthPixels="64" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="32.0"></font>
+				Rotate
+			</text>
+			<color r="0.5" g="0.5" b="0.5" a="1.0"></color>
+		</uielement>
 	</uielement>
 
 	<uielement name="optionsMenu" clickable="true" visible="false">

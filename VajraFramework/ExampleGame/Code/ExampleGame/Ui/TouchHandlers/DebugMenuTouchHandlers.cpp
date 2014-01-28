@@ -39,9 +39,9 @@ void DebugMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch
 		glm::vec2 moveDir = touch.pos - touch.prevPos;
 		GameObject* debugCam = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject();
 		Transform* trans = debugCam->GetTransform();
-		
-		trans->Rotate(-moveDir.x inRadians, trans->GetUp());
-		trans->Rotate(moveDir.y inRadians, trans->GetLeft());
+
+		trans->Rotate(-moveDir.x inRadians, YAXIS);
+		trans->Rotate(-moveDir.y inRadians, trans->GetLeft());
 
 	} else {
 		// Do something
@@ -54,16 +54,38 @@ void DebugMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touc
 	GameObject* debugCam = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject();
 	Transform* trans = debugCam->GetTransform();
 	if (uiObject->GetUiObjectName() == "up") {
-		trans->Translate(this->cameraSpeed, trans->GetForward());
+		if(this->positionMode) {
+			trans->Translate(this->cameraSpeed, trans->GetForward());
+		} else {
+			trans->Rotate(-this->cameraSpeed inRadians, trans->GetLeft());
+		}
 
 	} else if (uiObject->GetUiObjectName() == "down") {
-		trans->Translate(-this->cameraSpeed, trans->GetForward());
+		if(this->positionMode) {
+			trans->Translate(-this->cameraSpeed, trans->GetForward());
+		} else {
+			trans->Rotate(this->cameraSpeed inRadians, trans->GetLeft());
+		}
 
 	} else if (uiObject->GetUiObjectName() == "left") {
-		trans->Translate(this->cameraSpeed, trans->GetLeft());
+		if(this->positionMode) {
+			trans->Translate(this->cameraSpeed, trans->GetLeft());
+		} else {
+			trans->Rotate(this->cameraSpeed inRadians, YAXIS);
+		}
 
 	} else if (uiObject->GetUiObjectName() == "right") {
-		trans->Translate(-this->cameraSpeed, trans->GetLeft());
+		if(this->positionMode) {
+			trans->Translate(-this->cameraSpeed, trans->GetLeft());
+		} else {
+			trans->Rotate(-this->cameraSpeed inRadians, YAXIS);
+		}
+	} 
+	else if (uiObject->GetUiObjectName() == "move") {
+		this->positionMode = true;
+	} 
+	else if (uiObject->GetUiObjectName() == "rotate") {
+		this->positionMode = false;
 	} 
 
 
