@@ -2,6 +2,7 @@
 
 #import "Vajra/Engine/Core/Engine.h"
 #import "Vajra/Engine/Input/Platforms/IOSInputSender.h"
+#import "Vajra/Engine/Timer/Timer.h"
 #import "Vajra/Placeholder/Renderer/Renderer.h"
 #import "Vajra/Placeholder/Tesserakonteres.h"
 
@@ -95,6 +96,7 @@
     
 	TestFuntion();
     
+	self.preferredFramesPerSecond = CONST_FPS;
 }
 
 - (void)tearDownGL
@@ -106,11 +108,11 @@
 
 - (void)update
 {
+    renderFrame();
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    renderFrame(0.02f);
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation

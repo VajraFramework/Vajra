@@ -25,10 +25,9 @@ void Timer::init() {
 	this->frameNumber = 0;
 	this->secondsSinceBoot = 0;
 
-	// Initialize with fake values; will correct itself after 1 frame
-	double FAKE_FPS = 30.0;
-	this->fps = FAKE_FPS;
-	this->deltaFrameTime = 1.0 / FAKE_FPS;
+	// Initialize with ideal values; will correct itself after 1 frame
+	this->fps = CONST_FPS;
+	this->deltaFrameTime = 1.0 / CONST_FPS;
 
 	this->totalFrameDuration  = 0.0;
 	this->renderPhaseDuration = 0.0;

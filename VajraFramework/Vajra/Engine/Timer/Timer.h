@@ -5,6 +5,9 @@
 
 #include <chrono>
 
+#define CONST_FPS 30.0
+#define CONST_FRAME_DURATION 1.0f / CONST_FPS
+
 class Timer : public Object {
 public:
 	~Timer();
@@ -71,8 +74,9 @@ private:
 // Inline Functions:
 
 inline double Timer::GetTimeSinceFrameBegin() {
-	// TODO [Implement]
-	return 0.0;
+	std::chrono::time_point<std::chrono::system_clock> clockTimeNow = std::chrono::system_clock::now();
+	auto durationSincePrevFrame = clockTimeNow - this->frameBeginSystemClock;
+	return (std::chrono::duration_cast<std::chrono::nanoseconds>(durationSincePrevFrame).count() / 1000000000.0);
 }
 
 #endif // TIMER_H

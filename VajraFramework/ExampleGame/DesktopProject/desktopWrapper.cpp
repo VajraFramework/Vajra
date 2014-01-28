@@ -92,7 +92,6 @@ int main( void ) {
 	TestFuntion();
 
 	do {
-
 		#if 0
 		// Clear the screen
 		glClear( GL_COLOR_BUFFER_BIT );
@@ -118,11 +117,10 @@ int main( void ) {
 		glDisableVertexAttribArray(vertexPosition_modelspaceID);
 		#endif
 
-		renderFrame(1/1000.0f);
+		renderFrame();
 
 		// Swap buffers
 		glfwSwapBuffers();
-
 	} // Check if the ESC key was pressed or the window was closed
 	while( glfwGetKey( GLFW_KEY_ESC ) != GLFW_PRESS && glfwGetWindowParam( GLFW_OPENED ) );
 
