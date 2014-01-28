@@ -60,6 +60,7 @@ void Input::updateInput() {
 
 	for (std::vector<Touch>::iterator it = this->asyncTouches.begin();
 			it != this->asyncTouches.end(); ++it) {
+		it->prevPos = it->pos;
 		it->phase = TouchPhase::Stationary;
 	}
 	//logTouches();

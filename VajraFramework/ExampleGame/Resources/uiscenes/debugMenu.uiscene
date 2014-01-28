@@ -1,0 +1,107 @@
+<uiscene widthPixels="1024" heightPixels="768">
+	<uielement name="back" clickable="true">
+		<dimensions>
+			<position x="0" y="0"></position>
+			<size widthPixels="128" heightPixels="64"></size>
+			<zorder>1</zorder>
+		</dimensions>
+		<text>
+			<font type="calibiri.fontspec" size="32.0"></font>
+			Back
+		</text>
+		<color r="0.6" g="0.0" b="0.0" a="0.6"></color>
+	</uielement>
+
+	<uielement name="freeCam" clickable="false">
+	<dimensions>
+		<position x="0" y="0"></position>
+		<size widthPixels="1024" heightPixels="4"></size>
+		<zorder>0</zorder>
+		<color r="0.5" g="0.5" b="0.6" a="1.0"></color>
+	</dimensions>
+		<uielement name="touchPad" clickable="true">
+			<dimensions>
+				<position x="256" y="200"></position>
+				<size widthPixels="512" heightPixels="512"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="32.0"></font>
+				
+			</text>
+			<color r="0.6" g="0.6" b="0.6" a="0.2"></color>
+		</uielement>
+		<uielement name="up" clickable="true">
+			<dimensions>
+				<position x="896" y="640"></position>
+				<size widthPixels="64" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="32.0"></font>
+				^
+			</text>
+			<color r="0.5" g="0.5" b="0.5" a="1.0"></color>
+		</uielement>
+		<uielement name="down" clickable="true">
+			<dimensions>
+				<position x="896" y="704"></position>
+				<size widthPixels="64" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="32.0"></font>
+				\/
+			</text>
+			<color r="0.5" g="0.5" b="0.5" a="1.0"></color>
+		</uielement>
+		<uielement name="left" clickable="true">
+			<dimensions>
+				<position x="832" y="704"></position>
+				<size widthPixels="64" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="32.0"></font>
+				{-
+			</text>
+			<color r="0.5" g="0.5" b="0.5" a="1.0"></color>
+		</uielement>
+		<uielement name="right" clickable="true">
+			<dimensions>
+				<position x="960" y="704"></position>
+				<size widthPixels="64" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="32.0"></font>
+				-}
+			</text>
+			<color r="0.5" g="0.5" b="0.5" a="1.0"></color>
+		</uielement>
+	</uielement>
+
+	<uielement name="optionsMenu" clickable="true" visible="false">
+	<dimensions>
+		<position x="0" y="0"></position>
+		<size widthPixels="0" heightPixels="0"></size>
+		<zorder>0</zorder>
+	</dimensions>
+
+		<uielement name="back" clickable="true" visible="true">
+			<dimensions>
+				<position x="430" y="300"></position>
+				<size widthPixels="320" heightPixels="160"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Back
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+	</uielement>
+
+</uiscene>
+

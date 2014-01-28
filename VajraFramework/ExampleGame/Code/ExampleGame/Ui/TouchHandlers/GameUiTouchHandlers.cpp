@@ -7,6 +7,12 @@
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
+#if DEBUG
+#include "ExampleGame/Ui/TouchHandlers/DebugMenuTouchHandlers.h"
+#include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#endif
+
 // Todo [HACK] when level loading is better we probably won't need all these
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -42,6 +48,12 @@ void GameUiTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch /* touch
 }
 
 void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch */) {
+#ifdef DEBUG 
+	if (uiObject->GetUiObjectName() == "debugMenu") {
+		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "debugMenu.uiscene";
+		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new DebugMenuTouchHandlers());
+	} 
+#endif
 	if (uiObject->GetUiObjectName() == "pause") {
 		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(!pauseMenu->IsVisible());
