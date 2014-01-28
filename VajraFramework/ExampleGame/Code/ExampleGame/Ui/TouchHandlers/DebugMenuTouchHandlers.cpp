@@ -16,21 +16,14 @@
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 
-DebugMenuTouchHandlers::DebugMenuTouchHandlers() : UiTouchHandlers() {
-	//Subscribe to the frame event
-	
-}
-
 void DebugMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch touch ) {
 	if (uiObject->GetUiObjectName() == "touchPad") {
 		// Do something
-		this->downPos = touch.pos;
 
 	} else {
 		// Do something
 
 	}
-
 }
 
 void DebugMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch ) {
@@ -41,53 +34,25 @@ void DebugMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch
 		Transform* trans = debugCam->GetTransform();
 
 		trans->Rotate(-moveDir.x inRadians, YAXIS);
-		trans->Rotate(-moveDir.y inRadians, trans->GetLeft());
+		trans->Rotate(moveDir.y inRadians, trans->GetLeft());
 
 	} else {
 		// Do something
 
 	}
-
 }
 
 void DebugMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch */) {
 	GameObject* debugCam = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject();
 	Transform* trans = debugCam->GetTransform();
 	if (uiObject->GetUiObjectName() == "up") {
-		if(this->positionMode) {
-			trans->Translate(this->cameraSpeed, trans->GetForward());
-		} else {
-			trans->Rotate(-this->cameraSpeed inRadians, trans->GetLeft());
-		}
-
+		trans->Translate(this->cameraSpeed, trans->GetForward());
 	} else if (uiObject->GetUiObjectName() == "down") {
-		if(this->positionMode) {
-			trans->Translate(-this->cameraSpeed, trans->GetForward());
-		} else {
-			trans->Rotate(this->cameraSpeed inRadians, trans->GetLeft());
-		}
-
+		trans->Translate(-this->cameraSpeed, trans->GetForward());
 	} else if (uiObject->GetUiObjectName() == "left") {
-		if(this->positionMode) {
-			trans->Translate(this->cameraSpeed, trans->GetLeft());
-		} else {
-			trans->Rotate(this->cameraSpeed inRadians, YAXIS);
-		}
-
+		trans->Translate(this->cameraSpeed, trans->GetLeft());
 	} else if (uiObject->GetUiObjectName() == "right") {
-		if(this->positionMode) {
-			trans->Translate(-this->cameraSpeed, trans->GetLeft());
-		} else {
-			trans->Rotate(-this->cameraSpeed inRadians, YAXIS);
-		}
+		trans->Translate(-this->cameraSpeed, trans->GetLeft());
 	} 
-	else if (uiObject->GetUiObjectName() == "move") {
-		this->positionMode = true;
-	} 
-	else if (uiObject->GetUiObjectName() == "rotate") {
-		this->positionMode = false;
-	} 
-
-
 }
 #endif
