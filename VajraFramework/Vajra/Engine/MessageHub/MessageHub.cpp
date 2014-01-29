@@ -86,7 +86,7 @@ void MessageHub::drainMessageCache_internal() {
 			receipientId = objectId_it->first;
 
 			Object* receipient = ObjectRegistry::GetObjectById(receipientId);
-			if (receipient != nullptr) {
+			if (receipient != nullptr && receipient->GetId() > OBJECT_ID_INVALID) {
 				receipient->HandleMessages();
 			}
 		}
