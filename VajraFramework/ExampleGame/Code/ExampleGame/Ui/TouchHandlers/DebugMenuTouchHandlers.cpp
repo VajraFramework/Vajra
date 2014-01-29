@@ -29,7 +29,7 @@ DebugMenuTouchHandlers::DebugMenuTouchHandlers() : UiTouchHandlers() {
 	this->shadyCamId = shadyCam->GetId();
 	ENGINE->GetSceneGraph3D()->SetMainCameraId(debugCam->GetId());
 }
-void DebugMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch touch ) {
+void DebugMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /*touch*/ ) {
 	if (uiObject->GetUiObjectName() == "touchPad") {
 		// Do something
 
