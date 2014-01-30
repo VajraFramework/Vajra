@@ -32,14 +32,6 @@
 #include <string>
 #include <vector>
 
-glm::mat4 modelMatrix;
-glm::mat4 viewMatrix;
-glm::mat4 projectionMatrix;
-glm::mat4 mvpMatrix;
-//
-GLint textureHandle = 0;
-
-
 bool setupGraphics(int w, int h) {
 
 	FRAMEWORK->GetDeviceProperties()->SetWidthPixels(w);

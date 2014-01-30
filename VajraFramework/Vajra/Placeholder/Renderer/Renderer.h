@@ -17,24 +17,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // temp
 bool setupGraphics(int w, int h);
-bool renderFrame(); // If not enough time has passed since last frame
-//
-extern const char gVertexShader[];
-extern const char gFragmentShader[];
-//
-extern glm::mat4 modelMatrix;
-extern glm::mat4 viewMatrix;
-extern glm::mat4 projectionMatrix;
-extern GLint modelMatrixLocation;
-extern GLint viewMatrixLocation;
-extern GLint projectionMatrixLocation;
-//
-extern std::vector<unsigned int> indices;
-extern GLuint elementbuffer;
-//
-extern GLuint gProgram;
-extern GLuint gvPositionHandle;
-//
+
+// Returns false if not enough time has passed since the last frame and no work was done, true otherwise
+bool renderFrame();
+
+
 ////////////////////////////////////////////////////////////////////////////////
 
 
