@@ -38,14 +38,16 @@ namespace Tesserakonteres {
 		FRAMEWORK->GetLogger()->dbglog("\nIn tweenCallback() with %d, %s\n", gameObjectId, tweenClipName.c_str());
 	}
 
-	void tweenNumberCallback(float normalizedProgress, std::string tweenName) {
-		// FRAMEWORK->GetLogger()->dbglog("\nIn tweenNumberCallback() with normalized progress %f", normalizedProgress);
+	void tweenNumberCallback(float /* fromNumber */, float /* toNumber */, float /* currentNumber */, std::string /* tweenName */) {
+		// FRAMEWORK->GetLogger()->dbglog("\nIn tweenNumberCallback() (%s) with current number %f", tweenName.c_str(), currentNumber);
+#if 0
 		if (tweenName == "tween_stubby_arrows") {
 			GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(115);
 			if (gameObject != nullptr) {
 				gameObject->GetTransform()->SetPosition(0.0f, 0.0f, normalizedProgress);
 			}
 		}
+#endif
 	}
 
 	void initGameObjectsForScene() {
@@ -234,6 +236,8 @@ namespace Tesserakonteres {
 
 
 		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");
+
+		ENGINE->GetTween()->TweenToNumber(-20.0f, 20.0f, 20.0f, false, true, "numbertween", tweenNumberCallback);
 	}
 
 }

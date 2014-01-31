@@ -116,9 +116,10 @@ void Tween::TweenTransform(ObjectIdType gameObjectId, glm::vec3 initialPosition,
 }
 
 void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool looping, bool continuousUpdates, std::string tweenName,
-						  void (*callback)(float normalizedProgress, std::string tweenName)) {
+						  void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName)) {
 	OnGoingNumberTweenDetails* newNumberTween = new OnGoingNumberTweenDetails();
 	newNumberTween->fromNumber                = fromNumber;
+	newNumberTween->currentNumber             = fromNumber;
 	newNumberTween->toNumber                  = toNumber;
 	newNumberTween->totalTime                 = timePeriod;
 	newNumberTween->callback                  = callback;
@@ -136,19 +137,22 @@ void Tween::updateTweens() {
 		OnGoingNumberTweenDetails* tweenDetails = *it;
 
 		float newCurrentNumber = tweenDetails->currentNumber + deltaTime * (tweenDetails->toNumber - tweenDetails->fromNumber) / tweenDetails->totalTime;
-		float normalizedProgress = newCurrentNumber / (tweenDetails->toNumber - tweenDetails->fromNumber);
-		if (normalizedProgress > 1.0f || tweenDetails->continuousUpdates) {
-			tweenDetails->callback(normalizedProgress, tweenDetails->tweenName);
-		}
 		tweenDetails->currentNumber = newCurrentNumber;
+		if (newCurrentNumber > tweenDetails->toNumber || tweenDetails->continuousUpdates) {
+			tweenDetails->callback(tweenDetails->fromNumber, tweenDetails->toNumber, newCurrentNumber, tweenDetails->tweenName);
+		}
 
-		// Erase completed tweens:
-		if (normalizedProgress > 1.0f) {
-			std::list<OnGoingNumberTweenDetails*>::iterator nextIt = this->ongoingNumberTweens.erase(it);
-			if (nextIt != this->ongoingNumberTweens.end()) {
-				it = nextIt;
+		if (newCurrentNumber > tweenDetails->toNumber) {
+			if (tweenDetails->looping) {
+				tweenDetails->currentNumber = tweenDetails->fromNumber;
 			} else {
-				break;
+				// Erase completed tweens:
+				std::list<OnGoingNumberTweenDetails*>::iterator nextIt = this->ongoingNumberTweens.erase(it);
+				if (nextIt != this->ongoingNumberTweens.end()) {
+					it = nextIt;
+				} else {
+					break;
+				}
 			}
 		}
 	}

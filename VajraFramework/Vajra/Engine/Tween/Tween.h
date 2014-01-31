@@ -33,7 +33,7 @@ public:
 												   void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 
 	void TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool looping, bool continuousUpdates, std::string tweenName,
-					   void (*callback)(float normalizedProgress, std::string tweenName));
+					   void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName));
 
 	bool IsTweening(ObjectIdType gameObjectId);
 
@@ -84,7 +84,7 @@ public:
 	//
 	float currentNumber;
 
-	void (*callback)(float normalizedProgress, std::string tweenName);
+	void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName);
 
 	bool continuousUpdates;
 
