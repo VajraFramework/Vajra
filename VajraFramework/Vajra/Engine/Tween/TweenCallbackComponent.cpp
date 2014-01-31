@@ -1,5 +1,7 @@
 #include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I3FV.h"
 #include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Common/Objects/ObjectRegistry.h"
+#include "Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Tween/TweenCallbackComponent.h"
@@ -46,6 +48,17 @@ void TweenCallbackComponent::handleCallbacksOnAnimationEnd(MessageChunk messageC
 	if (tweenDetails != nullptr) {
 		if (tweenDetails->callback != 0) {
 			tweenDetails->callback(gameObjectId, tweenDetails->tweenClipName);
+		}
+		GameObject* gameObject = (GameObject*)ObjectRegistry::GetObjectById(gameObjectId);
+		ASSERT(gameObject != nullptr, "Found game object on which the tween just ended (id = %d)", gameObjectId);
+		if (!tweenDetails->looping) {
+			// TODO [Implement] Ensure type safety here
+			RigidAnimation* rigidAnimationComponent = (RigidAnimation*)gameObject->GetComponent<RigidAnimation>();
+			ASSERT(rigidAnimationComponent != nullptr, "Found rigid animation component on game object on which the tween just ended (id = %d)", gameObjectId);
+			FRAMEWORK->GetLogger()->dbglog("\nDeleting animation clip (%s) from game object (%d) at the end of tween", tweenDetails->tweenClipName.c_str(), gameObjectId);
+			rigidAnimationComponent->DeleteAnimationClip(tweenDetails->tweenClipName);
+		} else {
+			// Reset to start:
 		}
 	} else {
 		FRAMEWORK->GetLogger()->dbglog("\nWARNING Received tween animation end event on GameObject %d, but there was no tween going on on it", gameObjectId);

@@ -194,7 +194,7 @@ namespace Tesserakonteres {
 			glm::quat finalOrientation   = glm::angleAxis(PI / 4.0f, YAXIS);
 
 			glm::vec3 currentScale = transform->GetScale();
-			glm::vec3 finalScale   = currentScale * 2.0f;
+			glm::vec3 finalScale   = currentScale;
 
 #if 0
 			ENGINE->GetTween()->TweenPosition(gameObject->GetId(),
@@ -206,7 +206,8 @@ namespace Tesserakonteres {
 											   currentPosition, finalPosition,
 											   currentOrientation, finalOrientation,
 											   currentScale, finalScale,
-											   10.0f);
+											   10.0f,
+											   true);
 #endif
 		}
 		{
