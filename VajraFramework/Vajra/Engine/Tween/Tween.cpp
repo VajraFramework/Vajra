@@ -167,6 +167,10 @@ void Tween::tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPos
 		return;
 	}
 
+	// Reset the current transform of the game object to the origin:
+	gameObject->GetTransform()->SetPosition(ZERO_VEC3);
+	gameObject->GetTransform()->SetOrientation(IDENTITY_QUATERNION);
+	gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
 
 	RigidAnimation* rigidAnimation = gameObject->GetComponent<RigidAnimation>();
 	if (rigidAnimation == nullptr) {

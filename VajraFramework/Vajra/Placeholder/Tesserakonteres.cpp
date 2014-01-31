@@ -130,6 +130,9 @@ namespace Tesserakonteres {
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "pTorus1.model");
+
+			Transform* transform = gameObject->GetTransform();
+			transform->SetScale(0.1f, 0.1f, 0.1f);
 			//
 #if 1
 			RigidAnimation* rigidAnimation = gameObject->AddComponent<RigidAnimation>();
@@ -138,9 +141,6 @@ namespace Tesserakonteres {
 			animationClip->SetPlaybackSpeed(0.2f);
 			animationClip->SetLooping(true);
 			rigidAnimation->PlayAnimationClip("Take_0010");
-
-			Transform* transform = gameObject->GetTransform();
-			transform->SetScale(0.1f, 0.1f, 0.1f);
 #endif
 		}
 		{
@@ -175,6 +175,39 @@ namespace Tesserakonteres {
 			//
 			dlightComponent->SetAmbientColor(0.15f, 0.15f, 0.3f, 1.0f);
 			dlightComponent->SetDiffuseColor(0.5f, 0.5f, 0.55f, 1.0f);
+		}
+		{
+			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
+			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
+			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "TexturedCube.model");
+
+			Transform* transform = gameObject->GetTransform();
+			transform->Scale(0.6f);
+			transform->SetPosition(25.0f, 0.0f, -10.0f);
+			transform->SetOrientation(PI / 2.0f, YAXIS);
+
+			glm::vec3 currentPosition = transform->GetPosition();
+			glm::vec3 finalPosition   = currentPosition + glm::vec3(10.0f, 0.0f, 0.0f);
+
+			glm::quat currentOrientation = transform->GetOrientation();
+			glm::quat finalOrientation   = glm::angleAxis(PI / 4.0f, YAXIS);
+
+			glm::vec3 currentScale = transform->GetScale();
+			glm::vec3 finalScale   = currentScale * 2.0f;
+
+#if 0
+			ENGINE->GetTween()->TweenPosition(gameObject->GetId(),
+											  currentPosition, finalPosition,
+											  10.0f);
+#endif
+#if 1
+			ENGINE->GetTween()->TweenTransform(gameObject->GetId(),
+											   currentPosition, finalPosition,
+											   currentOrientation, finalOrientation,
+											   currentScale, finalScale,
+											   10.0f);
+#endif
 		}
 		{
 #if 0
