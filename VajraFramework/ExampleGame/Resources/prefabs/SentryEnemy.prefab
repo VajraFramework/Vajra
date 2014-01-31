@@ -22,6 +22,17 @@
 		</component>
 		
 		<component name="AiPerception">
+			<property name="SetVisionRange">
+				<field>3.0</field>
+			</property>
+			
+			<property name="SetFieldOfVision">
+				<field>45.0</field>
+			</property>
+			
+			<property name="SetVisionAcuity">
+				<field>0.5</field>
+			</property>
 		</component>
 		
 		<component name="AiRoutine">

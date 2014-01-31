@@ -20,6 +20,13 @@ public:
 
 	void Activate();
 
+	//[[PROPERTY]]//
+	inline void SetVisionRange(float range)    { this->visionRange = range; }
+	//[[PROPERTY]]//
+	inline void SetFieldOfVision(float angle)  { this->fieldOfVision = angle; }
+	//[[PROPERTY]]//
+	inline void SetVisionAcuity(float acuity)  { this->visionAcuity = acuity; }
+
 protected:
 	virtual void update();
 
@@ -35,6 +42,10 @@ private:
 	float calculateAudioAwareness(ObjectIdType objId);
 
 	AiKnowledge* knowledge;
+
+	float visionRange;    // Maximum distance the AI can see
+	float fieldOfVision;  // Angular range of the AI's vision
+	float visionAcuity;   // Strength of the AI's vision [0..1]
 
 	static ComponentIdType componentTypeId;
 };

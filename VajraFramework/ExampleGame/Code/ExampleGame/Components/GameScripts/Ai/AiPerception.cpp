@@ -5,6 +5,7 @@
 
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiPerception.h"
+#include "Vajra/Engine/GameObject/GameObject.h"
 
 ComponentIdType AiPerception::componentTypeId = COMPONENT_TYPE_ID_AI_PERCEPTION;
 
