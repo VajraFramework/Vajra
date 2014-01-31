@@ -22,6 +22,8 @@ public:
 	AiKnowledge(Object* object_);
 	~AiKnowledge();
 
+	static inline ComponentIdType GetTypeId() { return AiKnowledge::componentTypeId; }
+
 private:
 	void init();
 	void destroy();

@@ -16,6 +16,8 @@ public:
 	AiPerception(Object* object_);
 	~AiPerception();
 
+	static inline ComponentIdType GetTypeId() { return AiPerception::componentTypeId; }
+
 protected:
 	virtual void update();
 
