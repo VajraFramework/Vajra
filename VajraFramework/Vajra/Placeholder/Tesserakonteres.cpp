@@ -38,14 +38,16 @@ namespace Tesserakonteres {
 		FRAMEWORK->GetLogger()->dbglog("\nIn tweenCallback() with %d, %s\n", gameObjectId, tweenClipName.c_str());
 	}
 
-	void tweenNumberCallback(float normalizedProgress, std::string tweenName) {
-		// FRAMEWORK->GetLogger()->dbglog("\nIn tweenNumberCallback() with normalized progress %f", normalizedProgress);
+	void tweenNumberCallback(float /* fromNumber */, float /* toNumber */, float /* currentNumber */, std::string /* tweenName */) {
+		// FRAMEWORK->GetLogger()->dbglog("\nIn tweenNumberCallback() (%s) with current number %f", tweenName.c_str(), currentNumber);
+#if 0
 		if (tweenName == "tween_stubby_arrows") {
 			GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(115);
 			if (gameObject != nullptr) {
 				gameObject->GetTransform()->SetPosition(0.0f, 0.0f, normalizedProgress);
 			}
 		}
+#endif
 	}
 
 	void initGameObjectsForScene() {
@@ -130,6 +132,9 @@ namespace Tesserakonteres {
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "pTorus1.model");
+
+			Transform* transform = gameObject->GetTransform();
+			transform->SetScale(0.1f, 0.1f, 0.1f);
 			//
 #if 1
 			RigidAnimation* rigidAnimation = gameObject->AddComponent<RigidAnimation>();
@@ -138,9 +143,6 @@ namespace Tesserakonteres {
 			animationClip->SetPlaybackSpeed(0.2f);
 			animationClip->SetLooping(true);
 			rigidAnimation->PlayAnimationClip("Take_0010");
-
-			Transform* transform = gameObject->GetTransform();
-			transform->SetScale(0.1f, 0.1f, 0.1f);
 #endif
 		}
 		{
@@ -177,6 +179,40 @@ namespace Tesserakonteres {
 			dlightComponent->SetDiffuseColor(0.5f, 0.5f, 0.55f, 1.0f);
 		}
 		{
+			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
+			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
+			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "TexturedCube.model");
+
+			Transform* transform = gameObject->GetTransform();
+			transform->Scale(0.6f);
+			transform->SetPosition(25.0f, 0.0f, -10.0f);
+			transform->SetOrientation(PI / 2.0f, YAXIS);
+
+			glm::vec3 currentPosition = transform->GetPosition();
+			glm::vec3 finalPosition   = currentPosition + glm::vec3(10.0f, 0.0f, 0.0f);
+
+			glm::quat currentOrientation = transform->GetOrientation();
+			glm::quat finalOrientation   = glm::angleAxis(PI / 4.0f, YAXIS);
+
+			glm::vec3 currentScale = transform->GetScale();
+			glm::vec3 finalScale   = currentScale;
+
+#if 0
+			ENGINE->GetTween()->TweenPosition(gameObject->GetId(),
+											  currentPosition, finalPosition,
+											  10.0f);
+#endif
+#if 1
+			ENGINE->GetTween()->TweenTransform(gameObject->GetId(),
+											   currentPosition, finalPosition,
+											   currentOrientation, finalOrientation,
+											   currentScale, finalScale,
+											   10.0f,
+											   true);
+#endif
+		}
+		{
 #if 0
 			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
@@ -200,6 +236,8 @@ namespace Tesserakonteres {
 
 
 		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");
+
+		ENGINE->GetTween()->TweenToNumber(-20.0f, 20.0f, 20.0f, false, true, "numbertween", tweenNumberCallback);
 	}
 
 }
