@@ -165,6 +165,14 @@ glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
 	return ZERO_VEC3;
 }
 
+ObjectIdType GridManager::GetPlayerUnitOfType(UnitType uType) {
+	auto iter = this->playerUnits.find(uType);
+	if (iter == this->playerUnits.end()) {
+		return OBJECT_ID_INVALID;
+	}
+	return iter->second;
+}
+
 void GridManager::OnTouchUpdate(int touchIndex) {
 #ifdef DEBUG
 	debugTouchUpdate(touchIndex);
@@ -465,6 +473,18 @@ void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int so
 
 void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {
 	GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+	ASSERT(obj != nullptr, "Object with id %d exists", id);
+
+	BaseUnit* unit = obj->GetComponent<BaseUnit>();
+	ASSERT(unit != nullptr, "Object with id %d has BaseUnit component", id);
+	UnitType uType = unit->GetUnitType();
+
+	if (uType < UNIT_TYPE_PLAYER_UNITS_COUNT) {
+		auto iter = this->playerUnits.find(uType);
+		ASSERT(iter == this->playerUnits.end(), "Grid does not already have player unit of type %d", uType);
+		this->playerUnits[uType] = id;
+	}
+
 	GridCell* destCell = GetCell(cellX, cellZ);
 
 	GridNavigator* gNav = obj->GetComponent<GridNavigator>();

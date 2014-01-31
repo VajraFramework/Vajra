@@ -18,6 +18,16 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
+UnitType StringToUnitType(std::string str) {
+	if (str == "Assassin") {
+		return UNIT_TYPE_ASSASSIN;
+	}
+	if (str == "Thief") {
+		return UNIT_TYPE_THIEF;
+	}
+	return UNIT_TYPE_UNKNOWN;
+}
+
 void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading level from level file: %s", levelFilename.c_str());
 
@@ -151,8 +161,9 @@ void LevelLoader::loadOtherDataFromXml(XmlNode* otherDataNode) {
 	// TODO [Implement] Other things such as triggerables
 }
 
-void LevelLoader::loadCameraDataFromXml(XmlNode* /*cameraNode*/) {
+void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	// The level data file will specify which unit the camera should focus on by default
+	std::string unitNameStr = cameraNode->GetAttributeValueS("focus");
 
 	// Create the ShadyCamera; this should possibly be a prefab as well.
 	GameObject* camera = new GameObject(ENGINE->GetSceneGraph3D());
@@ -161,8 +172,23 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* /*cameraNode*/) {
 	ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
 	cameraComponent->SetGridManager(SINGLETONS->GetGridManager());
 
+	// Find the unit that the camera should focus on
+	UnitType uType = StringToUnitType(unitNameStr);
+	ObjectIdType id = SINGLETONS->GetGridManager()->GetPlayerUnitOfType(uType);
+	ASSERT(id != OBJECT_ID_INVALID, "Player unit of type %d exists in level", uType);
+
+	// Set the camera's position
+	GameObject* target = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+	GridNavigator* gNav = target->GetComponent<GridNavigator>();
+	ASSERT(gNav != nullptr, "Object with id %d has GridNavigator component", id);
+
+	GridCell* cell = gNav->GetCurrentCell();
+	ASSERT(cell != nullptr, "Object with id %d is on grid", id);
+
+	cameraComponent->MoveToRoom(cell->x, cell->z);
+
 	// TODO [Hack] Figure out a better way to do this.
-	int gX = SINGLETONS->GetGridManager()->gridRooms[0]->westBound;
+	/*int gX = SINGLETONS->GetGridManager()->gridRooms[0]->westBound;
 	int gZ = SINGLETONS->GetGridManager()->gridRooms[0]->southBound;
-	cameraComponent->MoveToRoom(gX, gZ);
+	cameraComponent->MoveToRoom(gX, gZ);*/
 }
