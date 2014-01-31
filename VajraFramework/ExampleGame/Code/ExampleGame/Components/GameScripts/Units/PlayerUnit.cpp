@@ -5,6 +5,10 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
 
+#include "Vajra/Engine/Prefabs/PrefabLoader.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 
 PlayerUnit::PlayerUnit() : BaseUnit() {
 	this->init();
@@ -21,12 +25,18 @@ PlayerUnit::~PlayerUnit() {
 void PlayerUnit::init() {
 	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
 	this->inputState = InputState::INPUT_STATE_WAIT;
+
+	// DECAL TEST
+	this->touchIndicator = PrefabLoader::InstantiateGameObjectFromPrefab(
+								FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "decal.prefab",
+								ENGINE->GetSceneGraph3D());
 }
 
 void PlayerUnit::destroy() {
 }
 
 void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
+	this->touchIndicator->GetTransform()->SetPosition(touchedCell->center);
 	switch(this->inputState) {
 		case InputState::INPUT_STATE_WAIT:
 			this->onSelectedTouch();

@@ -7,6 +7,7 @@
 #define PLAYER_UNIT_H
 
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
+class GameObject;
 class GridCell;
 
 //[[COMPONENT]]//
@@ -33,6 +34,8 @@ protected:
 private:
 	void init();
 	void destroy();
+
+	GameObject* touchIndicator;
 
 	UnitColorScheme colorScheme;
 };
