@@ -18,6 +18,8 @@ public:
 
 	static inline ComponentIdType GetTypeId() { return AiPerception::componentTypeId; }
 
+	void Activate();
+
 protected:
 	virtual void update();
 

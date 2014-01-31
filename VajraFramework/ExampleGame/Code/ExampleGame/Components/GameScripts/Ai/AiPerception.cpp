@@ -20,6 +20,11 @@ AiPerception::~AiPerception() {
 	this->destroy();
 }
 
+void AiPerception::Activate() {
+	this->knowledge = this->GetObject()->GetComponent<AiKnowledge>();
+	ASSERT(this->knowledge != nullptr, "Object with AiPerception also has required component AiKnowledge");
+}
+
 void AiPerception::update() {
 
 }

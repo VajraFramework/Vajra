@@ -4,6 +4,7 @@
 //
 
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
+#include "ExampleGame/Components/GameScripts/Ai/AiPerception.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
 #include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
@@ -108,6 +109,11 @@ void LevelLoader::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 		if (unitNode->GetName() == ENEMY_UNIT_TAG) {
 			EnemyUnit* enemyUnit = unitObj->GetComponent<EnemyUnit>();
 			ASSERT(enemyUnit != nullptr, "Enemy unit with id %d has EnemyUnit component", unitObj->GetId());
+			enemyUnit->Activate();
+
+			AiPerception* aiPerception = unitObj->GetComponent<AiPerception>();
+			ASSERT(aiPerception != nullptr, "Enemy unit with id %d has AiPerception component", unitObj->GetId());
+			aiPerception->Activate();
 
 			AiRoutine* aiRoutine = unitObj->GetComponent<AiRoutine>();
 			ASSERT(aiRoutine != nullptr, "Enemy unit with id %d has AiRoutine component", unitObj->GetId());
@@ -121,7 +127,6 @@ void LevelLoader::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 				aiCommandNode = aiCommandNode->GetNextSiblingByNodeName(AI_COMMAND_TAG);
 			}
 			aiRoutine->SetBehavior(commands);
-			enemyUnit->Activate();
 		}
 
 		unitNode = unitNode->GetNextSiblingByNodeName("");
