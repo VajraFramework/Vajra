@@ -6,6 +6,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 // Forward Declarations:
 class Object;
@@ -20,7 +21,6 @@ public:
 
 	static inline ComponentIdType GetTypeId() { return Renderer::GetTypeId(); }
 
-
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
 
@@ -29,15 +29,20 @@ public:
 
 	inline glm::vec4 GetDiffuseColor () { return this->diffuseColor;  }
 
+	inline unsigned int GetCurrentTextureIndex() { return this->currentTextureIndex; }
+	inline void SetCurrentTextureIndex(unsigned int textureIndex) { this->currentTextureIndex = textureIndex; }
+
 private:
 	void init();
 	void destroy();
 
-	void initPlane(unsigned int width, unsigned int height, std::string shaderName_, std::string pathToTexture = "");
+	void initPlane(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures);
 	inline void setDiffuseColor (glm::vec4 color) { this->diffuseColor  = color; }
 
 	// Utility Functions:
 	void initVbos();
+	inline std::shared_ptr<TextureAsset> getTextureAssetByIndex(unsigned int index);
+	inline unsigned int getNumberOfTextureAssets();
 
 	GLuint vboPositions;
 	GLuint vboTextureCoords;
@@ -49,10 +54,24 @@ private:
 
 	glm::vec4 diffuseColor;
 
-	std::shared_ptr<TextureAsset> textureAsset;
+	unsigned int currentTextureIndex;
+	std::vector< std::shared_ptr<TextureAsset> > listOfTextureAssets;
 
 	// Friended to UiObject so as not to have to expose initPlane(), etc
 	friend class UiSpriteObject;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline Functions:
+
+std::shared_ptr<TextureAsset> SpriteRenderer::getTextureAssetByIndex(unsigned int index) {
+	VERIFY(index < this->listOfTextureAssets.size(), "Texture asset index (%d) is within bounds", index, this->listOfTextureAssets.size());
+	return this->listOfTextureAssets[index];
+}
+
+unsigned int SpriteRenderer::getNumberOfTextureAssets() {
+	return this->listOfTextureAssets.size();
+}
 
 #endif // UI_SPRITERENDERER_H

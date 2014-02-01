@@ -21,7 +21,7 @@ SpriteRenderer::~SpriteRenderer() {
 	this->destroy();
 }
 
-void SpriteRenderer::initPlane(unsigned int width, unsigned int height, std::string shaderName_, std::string pathToTexture /* = "" */) {
+void SpriteRenderer::initPlane(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures) {
 	this->vertices = new glm::vec3[4];
 	this->textureCoords = new glm::vec2[4];
 
@@ -47,8 +47,11 @@ void SpriteRenderer::initPlane(unsigned int width, unsigned int height, std::str
 
 	this->initVbos();
 
-	if (pathToTexture != "") {
-		this->textureAsset = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(pathToTexture);
+	if (pathsToTextures.size() != 0) {
+		for (std::string pathToTexture : pathsToTextures) {
+			std::shared_ptr<TextureAsset> textureAsset = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(pathToTexture);
+			this->listOfTextureAssets.push_back(textureAsset);
+		}
 	}
 
 	// Now that we are renderable, add self to the render lists in the scene graph:
@@ -110,8 +113,8 @@ void SpriteRenderer::Draw() {
                           3, GL_FLOAT, GL_FALSE, 0, 0);
     checkGlError("glVertexAttribPointer");
 
-    if (this->textureAsset) {
-    	glBindTexture(GL_TEXTURE_2D, this->textureAsset->GetGLTextureHandle());
+    if (this->getNumberOfTextureAssets() != 0) {
+    	glBindTexture(GL_TEXTURE_2D, this->getTextureAssetByIndex(this->currentTextureIndex)->GetGLTextureHandle());
     	checkGlError("glBindTexture");
 
 		GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
@@ -142,6 +145,8 @@ void SpriteRenderer::init() {
 	this->vertices = nullptr;
 	this->textureCoords = nullptr;
 	this->diffuseColor = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+
+	this->currentTextureIndex = 0;
 }
 
 void SpriteRenderer::destroy() {
