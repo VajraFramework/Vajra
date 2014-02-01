@@ -1,4 +1,5 @@
 #include "ExampleGame/Components/Grid/GridManager.h"
+#include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
@@ -7,6 +8,7 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
@@ -54,6 +56,7 @@ void ShadyCamera::init() {
 	this->gridManagerRef = nullptr;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
 
 void ShadyCamera::destroy() {
@@ -63,7 +66,7 @@ void ShadyCamera::destroy() {
 }
 
 void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
-	Camera::HandleMessage(messageChunk);		
+	Camera::HandleMessage(messageChunk);
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_PINCH_GESTURE:
 			this->onPinch();
@@ -128,9 +131,26 @@ void ShadyCamera::LevelStartPan() {
 
 }
 
+void ShadyCamera::update() {
+	if (this->gridManagerRef != nullptr) {
+		ObjectIdType selectedId = this->gridManagerRef->GetSelectedUnitId();
+
+		GameObject* selectedObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(selectedId);
+		if (selectedObj != nullptr) {
+			GridNavigator* gNav = selectedObj->GetComponent<GridNavigator>();
+			if (gNav != nullptr) {
+				this->MoveToRoom(gNav->GetCurrentCell());
+			}
+		}
+	}
+}
+
 void ShadyCamera::setGameCameraPosition(float x, float z) {
-	this->gameCamPos = this->gridManagerRef->GetRoomCenter(x, z);
-	this->gameCamPos.y += this->gameCamHeight;
+	glm::vec3 roomCenter = this->gridManagerRef->GetRoomCenter(x, z);
+	if (roomCenter != ZERO_VEC3) {
+		this->gameCamPos = roomCenter;
+		this->gameCamPos.y += this->gameCamHeight;
+	}
 }
 
 void ShadyCamera::onPinch() {

@@ -53,6 +53,7 @@ void Camera::updateMatrices() {
 }
 
 void Camera::HandleMessage(MessageChunk messageChunk) {
+	Component::HandleMessage(messageChunk);
 	// FRAMEWORK->GetLogger()->dbglog("\nCamera got msg of type %d", messageChunk->GetMessageType());
 
 	switch (messageChunk->GetMessageType()) {

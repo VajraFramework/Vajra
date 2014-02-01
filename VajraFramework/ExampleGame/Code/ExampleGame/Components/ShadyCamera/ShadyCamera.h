@@ -57,6 +57,9 @@ public:
 	// Pan the camera along a preset path for a level intro
 	void LevelStartPan();
 
+protected:
+	void update();
+
 private:
 	void init();
 	void destroy();

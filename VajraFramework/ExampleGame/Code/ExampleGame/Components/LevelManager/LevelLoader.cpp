@@ -183,6 +183,7 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	UnitType uType = StringToUnitType(unitNameStr);
 	ObjectIdType id = SINGLETONS->GetGridManager()->GetPlayerUnitOfType(uType);
 	ASSERT(id != OBJECT_ID_INVALID, "Player unit of type %d exists in level", uType);
+	SINGLETONS->GetGridManager()->selectedUnitId = id;
 
 	// Set the camera's position
 	GameObject* target = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
