@@ -12,11 +12,11 @@ class Object;
 class Mesh;
 
 // Not exposing this as a Component that can be added via XML since it is exposed only via the UiELement which is exposed adequately by the .uiscene files
-class UiSpriteRenderer : public Renderer {
+class SpriteRenderer : public Renderer {
 public:
-	UiSpriteRenderer();
-	UiSpriteRenderer(Object* object_);
-	virtual ~UiSpriteRenderer();
+	SpriteRenderer();
+	SpriteRenderer(Object* object_);
+	virtual ~SpriteRenderer();
 
 	static inline ComponentIdType GetTypeId() { return Renderer::GetTypeId(); }
 

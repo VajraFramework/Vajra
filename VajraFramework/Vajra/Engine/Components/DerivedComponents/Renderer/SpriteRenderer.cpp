@@ -1,6 +1,6 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
-#include "Vajra/Engine/Components/DerivedComponents/Renderer/UiSpriteRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
@@ -9,19 +9,19 @@
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
-UiSpriteRenderer::UiSpriteRenderer() : Renderer() {
+SpriteRenderer::SpriteRenderer() : Renderer() {
 	this->init();
 }
 
-UiSpriteRenderer::UiSpriteRenderer(Object* object_) : Renderer(object_) {
+SpriteRenderer::SpriteRenderer(Object* object_) : Renderer(object_) {
 	this->init();
 }
 
-UiSpriteRenderer::~UiSpriteRenderer() {
+SpriteRenderer::~SpriteRenderer() {
 	this->destroy();
 }
 
-void UiSpriteRenderer::initPlane(unsigned int width, unsigned int height, std::string shaderName_, std::string pathToTexture /* = "" */) {
+void SpriteRenderer::initPlane(unsigned int width, unsigned int height, std::string shaderName_, std::string pathToTexture /* = "" */) {
 	this->vertices = new glm::vec3[4];
 	this->textureCoords = new glm::vec2[4];
 
@@ -58,7 +58,7 @@ void UiSpriteRenderer::initPlane(unsigned int width, unsigned int height, std::s
 	gameObject->GetParentSceneGraph()->AddGameObjectToRenderLists(gameObject);
 }
 
-void UiSpriteRenderer::initVbos() {
+void SpriteRenderer::initVbos() {
     if (this->vertices != nullptr) {
 		glGenBuffers(1, &this->vboPositions); checkGlError("glGenBuffers");
 		glBindBuffer(GL_ARRAY_BUFFER, this->vboPositions); checkGlError("glBindBuffer");
@@ -86,10 +86,10 @@ void UiSpriteRenderer::initVbos() {
     FRAMEWORK->GetLogger()->errlog("\nVBOs made successfully");
 }
 
-void UiSpriteRenderer::HandleMessage(MessageChunk /* messageChunk */) {
+void SpriteRenderer::HandleMessage(MessageChunk /* messageChunk */) {
 }
 
-void UiSpriteRenderer::Draw() {
+void SpriteRenderer::Draw() {
 	// Write Material properties to shader
 	if (FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->HasHandle(SHADER_VARIABLE_VARIABLENAME_MaterialDiffuseColor)) {
 		glUniform4f(FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_MaterialDiffuseColor),
@@ -133,7 +133,7 @@ void UiSpriteRenderer::Draw() {
     checkGlError("glDrawElements");
 }
 
-void UiSpriteRenderer::init() {
+void SpriteRenderer::init() {
 	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
 	if (gameObject != nullptr) {
 		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
@@ -144,5 +144,5 @@ void UiSpriteRenderer::init() {
 	this->diffuseColor = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 }
 
-void UiSpriteRenderer::destroy() {
+void SpriteRenderer::destroy() {
 }
