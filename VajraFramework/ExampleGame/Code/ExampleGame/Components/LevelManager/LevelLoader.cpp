@@ -155,6 +155,13 @@ void LevelLoader::loadOtherDataFromXml(XmlNode* otherDataNode) {
 
 		SINGLETONS->GetGridManager()->AddGridZone(zoneObj->GetId());
 
+		// Check for overloaded components
+		XmlNode* compNode = zoneNode->GetFirstChildByNodeName(COMPONENT_TAG);
+		while (compNode != nullptr) {
+			PrefabLoader::LoadComponentFromComponentNodeInPrefab(zoneObj, compNode);
+			compNode = compNode->GetNextSiblingByNodeName(COMPONENT_TAG);
+		}
+
 		zoneNode = zoneNode->GetNextSiblingByNodeName(ZONE_TAG);
 	}
 
@@ -186,9 +193,4 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	ASSERT(cell != nullptr, "Object with id %d is on grid", id);
 
 	cameraComponent->MoveToRoom(cell->x, cell->z);
-
-	// TODO [Hack] Figure out a better way to do this.
-	/*int gX = SINGLETONS->GetGridManager()->gridRooms[0]->westBound;
-	int gZ = SINGLETONS->GetGridManager()->gridRooms[0]->southBound;
-	cameraComponent->MoveToRoom(gX, gZ);*/
 }

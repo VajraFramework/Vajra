@@ -23,15 +23,14 @@ public:
 	unsigned int CollisionCheck(GridCell* startCell, GridCell* destCell);
 
 protected:
-
-private:
-	void init();
-	void destroy();
-
 	int westBound;
 	int eastBound;
 	int southBound;
 	int northBound;
+
+private:
+	void init();
+	void destroy();
 
 	static unsigned int componentTypeId;
 };

@@ -1142,7 +1142,7 @@
 	</static>
 
   <units>
-		<playerUnit id="36796" prefab="Assassin" x="23" z="7" rotation="0">
+		<playerUnit id="36796" prefab="Assassin" x="16" z="7" rotation="0">
       </playerUnit>
 		<enemyUnit id="41536" prefab="SentryEnemy" x="27" z="7" rotation="0">
 			<aiCommand>START_27_7_NORTH</aiCommand>
@@ -1152,7 +1152,13 @@
   </units>
 
   <other>
-      <zone id="37304" prefab="ScreenTransZone" x="20" z="7" width="3" height="4">
+      <zone id="37304" prefab="ScreenTransZone" x="18" z="7" width="3" height="4">
+		<component name="TransitionZone">
+			<property name="SetDestination">
+				<field>22</field>
+				<field>7</field>
+			</property>
+		</component>
       </zone>
   </other>
 
