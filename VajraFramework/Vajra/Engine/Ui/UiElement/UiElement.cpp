@@ -1,4 +1,5 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Ui/UiObject/UiObject.h"
 #include "Vajra/Engine/Ui/UiElement/UiElement.h"
 
@@ -10,13 +11,13 @@ UiElement::~UiElement() {
 	this->destroy();
 }
 
-void UiElement::InitSprite(unsigned int width, unsigned int height, std::string shaderName_, std::string pathToTexture) {
+void UiElement::InitSprite(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures) {
 	this->addChildSpriteObject();
 
 	this->setWidth(width);
 	this->setHeight(height);
 	//
-	this->childSpriteObjectRef->InitSprite(width, height, shaderName_, pathToTexture);
+	this->childSpriteObjectRef->InitSprite(width, height, shaderName_, pathsToTextures);
 }
 
 void UiElement::InitSprite(unsigned int width, unsigned int height, std::string shaderName_, glm::vec4 color) {
@@ -37,6 +38,21 @@ void UiElement::InitTextToDisplay(std::string text, unsigned int width, unsigned
 	this->childFontObjectRef->InitTextToDisplay(text, width, height, pathToFontSpecificationFile);
 
 	this->childFontObjectRef->GetTransform()->Scale(fontSize);
+}
+
+unsigned int UiElement::GetSpriteTextureIndex() {
+	SpriteRenderer* spriteRenderer = this->childSpriteObjectRef->GetSpriteRenderer();
+	if (spriteRenderer != nullptr) {
+		return spriteRenderer->GetCurrentTextureIndex();
+	}
+	return 0xFFFFFFFF;
+}
+
+void UiElement::SetSpriteTextureIndex(unsigned int textureIndex) {
+	SpriteRenderer* spriteRenderer = this->childSpriteObjectRef->GetSpriteRenderer();
+	if (spriteRenderer != nullptr) {
+		spriteRenderer->SetCurrentTextureIndex(textureIndex);
+	}
 }
 
 void UiElement::init() {
@@ -62,3 +78,4 @@ void UiElement::addChildFontObject() {
 	//
 	this->childFontObjectRef = uiFontObject;
 }
+

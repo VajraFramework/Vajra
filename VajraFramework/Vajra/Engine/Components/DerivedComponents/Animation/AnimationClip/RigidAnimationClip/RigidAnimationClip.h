@@ -4,6 +4,10 @@
 #include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/RigidAnimationClipDataAsset/RigidAnimationClipDataAsset.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/AnimationClip.h"
 
+#include "Libraries/glm/glm.hpp"
+#include "Libraries/glm/gtc/quaternion.hpp"
+#include "Libraries/glm/gtx/quaternion.hpp"
+
 #include <memory>
 #include <string>
 
@@ -32,14 +36,18 @@ protected:
 	virtual void reset();
 
 private:
-	void init();
+	void init(Transform* initialTransform);
 	void destroy();
 
 	unsigned int currentKeyFrameIndex;
 	std::shared_ptr<RigidAnimationClipDataAsset> clipDataAsset;
 
+	// Save the original position, orientation, and scale of the game object so that we can apply the animation as an offset over it
+	glm::vec3 initialPosition;
+	glm::quat initialOrientation;
+	glm::vec3 initialScale;
+
 	RigidAnimationKeyFrame* tempKeyFrame;
-	RigidAnimationKeyFrame* tempDeltaKeyFrame;
 };
 
 #endif // RIGID_ANIMATION_CLIP_H
