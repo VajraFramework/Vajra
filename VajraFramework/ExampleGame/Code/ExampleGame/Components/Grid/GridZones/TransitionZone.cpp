@@ -67,5 +67,7 @@ void TransitionZone::onUnitEnteredZone(ObjectIdType id) {
 	GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
 	ASSERT(gNav != nullptr, "Object with id %d has GridNavigator component", id);
 
-	gNav->SetDestination(this->destX, this->destZ);
+	if (CellWithinZone(gNav->GetDestination())) {
+		gNav->SetDestination(this->destX, this->destZ);
+	}
 }

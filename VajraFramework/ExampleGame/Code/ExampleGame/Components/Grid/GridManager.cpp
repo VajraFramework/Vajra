@@ -505,9 +505,9 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 
 	GridNavigator* gNav = obj->GetComponent<GridNavigator>();
 	ASSERT(gNav != nullptr, "Moving object has GridNavigator component");
+	GridCell* startCell = gNav->GetCurrentCell();
 
 	if (destCell->unitId == OBJECT_ID_INVALID) {
-		GridCell* startCell = gNav->GetCurrentCell();
 		if (startCell != nullptr) {
 			startCell->unitId = OBJECT_ID_INVALID;
 		}
@@ -527,6 +527,24 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 		collisionMessageB->SetMessageType(MESSAGE_TYPE_GRID_UNIT_COLLISION);
 		collisionMessageB->messageData.i = destCell->unitId;
 		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageB, id, destCell->unitId);
+	}
+
+	// Check if the unit changed rooms
+	GridRoom* startRoom = GetRoom(startCell);
+	GridRoom* destRoom = GetRoom(destCell);
+
+	if (startRoom != destRoom) {
+		MessageChunk roomExitMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		roomExitMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_EXITED);
+		roomExitMessage->messageData.i = id;
+		roomExitMessage->messageData.fv1 = this->GetRoomCenter(startCell);
+		ENGINE->GetMessageHub()->SendMulticastMessage(roomExitMessage, this->GetObject()->GetId());
+
+		MessageChunk roomEnterMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		roomEnterMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED);
+		roomEnterMessage->messageData.i = id;
+		roomEnterMessage->messageData.fv1 = this->GetRoomCenter(destCell);
+		ENGINE->GetMessageHub()->SendMulticastMessage(roomEnterMessage, this->GetObject()->GetId());
 	}
 }
 

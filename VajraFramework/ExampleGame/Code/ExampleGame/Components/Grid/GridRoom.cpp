@@ -11,3 +11,11 @@ GridRoom::GridRoom(int west, int south, int width, int height) :
 	southBound(south),
 	northBound(south + height - 1)
 { }
+
+glm::vec3 GridRoom::GetCenter() {
+	glm::vec3 center;
+	center.x = (this->westBound + this->eastBound + 1) / 2.0f;
+	center.y = 0.0f;
+	center.z = (this->southBound + this->northBound + 1) / 2.0f;
+	return center;
+}

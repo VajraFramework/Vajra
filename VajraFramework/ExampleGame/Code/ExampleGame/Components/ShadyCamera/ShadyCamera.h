@@ -15,6 +15,7 @@
 
 class GridCell;
 class GridManager;
+class GridRoom;
 
 //[[COMPONENT]]//
 class ShadyCamera : public Camera {
@@ -57,9 +58,6 @@ public:
 	// Pan the camera along a preset path for a level intro
 	void LevelStartPan();
 
-protected:
-	void update();
-
 private:
 	void init();
 	void destroy();
@@ -75,6 +73,7 @@ private:
 	float velocityThreshold;
 	float heightThreshold;
 	void onPinch();
+	void onGridRoomEntered(ObjectIdType id, GridRoom* room);
 	bool tryModeSwitch(float velocity);
 	void setCameraMode(CameraMode newMode);
 
