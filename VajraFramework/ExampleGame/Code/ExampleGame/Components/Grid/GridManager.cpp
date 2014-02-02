@@ -354,10 +354,10 @@ void GridManager::debugTouchUpdate(int touchIndex) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
-		DebugDraw::DrawCube(cell->center, 1.0f);
+		//DebugDraw::DrawCube(cell->center, 1.0f);
 	}
 	glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
-	DebugDraw::DrawCube(gridPos, 0.1f);
+	//DebugDraw::DrawCube(gridPos, 0.1f);
 }
 #endif
 

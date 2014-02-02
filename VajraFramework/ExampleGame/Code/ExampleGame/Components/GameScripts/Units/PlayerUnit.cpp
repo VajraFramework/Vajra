@@ -10,6 +10,10 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 
+
+
+#include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
+
 PlayerUnit::PlayerUnit() : BaseUnit() {
 	this->init();
 }
@@ -30,13 +34,16 @@ void PlayerUnit::init() {
 	this->touchIndicator = PrefabLoader::InstantiateGameObjectFromPrefab(
 								FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "decal.prefab",
 								ENGINE->GetSceneGraph3D());
+	
+	this->touchIndicator->GetTransform()->SetPosition(0.0f, 0.0f, -1.0f);
 }
 
 void PlayerUnit::destroy() {
 }
 
 void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
-	this->touchIndicator->GetTransform()->SetPosition(touchedCell->center);
+	this->touchIndicator->GetTransform()->SetPosition(touchedCell->center + glm::vec3(0.0f, 0.0f, 0.0f));
+	DebugDraw::DrawCube(touchedCell->center, 1.0f);
 	switch(this->inputState) {
 		case InputState::INPUT_STATE_WAIT:
 			this->onSelectedTouch();
