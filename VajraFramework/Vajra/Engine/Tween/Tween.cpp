@@ -210,7 +210,7 @@ void Tween::tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPos
 	rigidAnimation->PlayAnimationClip(tweenClipName);
 }
 
-#define TWEEN_PARABOLA_a 0.03f                  // From x = 4ay^2
+#define TWEEN_PARABOLA_a 0.08f                  // From x = 4ay^2
 #define TWEEN_PARABOLA_NUM_SAMPLES 15
 
 
@@ -266,6 +266,8 @@ void Tween::populateRigidAnimationKeyframesForTweenTransform(std::vector<Animati
 									  maxHeightOfParabola -
 									  (4.0f * TWEEN_PARABOLA_a *
 									  square(parabola_y));
+			// Adjust for when the parabolic path connects points that are at different heights -- like when jumping onto a ledge:
+			positionAlongParabola.y += (finalPosition.y - initialPosition.y) * normalizedSampleNumber;
 
 			glm::quat slerpedOrientation;
 			slerp(slerpedOrientation, initialOrientation, finalOrientation, normalizedSampleNumber);
