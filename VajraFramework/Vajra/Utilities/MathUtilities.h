@@ -56,4 +56,20 @@ bool rayPlaneIntersection(Ray& ray, Plane& plane, float& dist);
 // Vector functions
 void lerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float interp);
 
+inline float square(float number) {
+	return number * number;
+}
+
+inline double square(double number) {
+	return number * number;
+}
+
+inline int square(int number) {
+	return number * number;
+}
+
+inline unsigned int square(unsigned int number) {
+	return number * number;
+}
+
 #endif // MATHUTILITIES_H

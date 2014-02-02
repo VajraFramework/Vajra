@@ -12,6 +12,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Utilities/MathUtilities.h"
 
 #include <cstdio>
 
@@ -25,7 +26,7 @@ Tween::~Tween() {
 	this->destroy();
 }
 
-void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
@@ -33,11 +34,11 @@ void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, 
 		Tween::tweenTransform_internal(gameObject, initialPosition, finalPosition,
 												  currentOrientation, currentOrientation,
 												  currentScale, currentScale,
-												  time, looping, callback);
+												  time, curveType, looping, callback);
 	}
 }
 
-void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
@@ -45,7 +46,7 @@ void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, fl
 		Tween::tweenTransform_internal(gameObject, gameObject->GetTransform()->GetPosition(), finalPosition,
 											  	  currentOrientation, currentOrientation,
 											  	  currentScale, currentScale,
-											  	  time, looping, callback);
+											  	  time, curveType, looping, callback);
 	}
 }
 
@@ -58,7 +59,7 @@ void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat initialOrienta
 		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
 											  	  initialOrientation, finalOrientation,
 											  	  currentScale, currentScale,
-											  	  time, looping, callback);
+											  	  time, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
 	}
 }
 
@@ -71,7 +72,7 @@ void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientati
 		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
 											  	  gameObject->GetTransform()->GetOrientation(), finalOrientation,
 											  	  currentScale, currentScale,
-											  	  time, looping, callback);
+											  	  time, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
 	}
 }
 
@@ -84,7 +85,7 @@ void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::v
 		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
 											  	  currentOrientation, currentOrientation,
 											  	  initialScale, finalScale,
-											  	  time, looping, callback);
+											  	  time, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
 	}
 }
 
@@ -97,21 +98,21 @@ void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float ti
 		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
 											  	  currentOrientation, currentOrientation,
 											  	  gameObject->GetTransform()->GetScale(), finalScale,
-											  	  time, looping, callback);
+											  	  time, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
 	}
 }
 
 void Tween::TweenTransform(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition,
 												      glm::quat initialOrientation, glm::quat finalOrientation,
 												      glm::vec3 initialScale, glm::vec3 finalScale,
-												      float time, bool looping /* = false */,
+												      float time, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */,
 												      void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		this->tweenTransform_internal(gameObject, initialPosition, finalPosition,
 												  initialOrientation, finalOrientation,
 												  initialScale, finalScale,
-												  time, looping, callback);
+												  time, curveType, looping, callback);
 	}
 }
 
@@ -161,7 +162,7 @@ void Tween::updateTweens() {
 void Tween::tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPosition, glm::vec3 finalPosition,
 														glm::quat initialOrientation, glm::quat finalOrientation,
 														glm::vec3 initialScale, glm::vec3 finalScale,
-														float time, bool looping, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+														float time, TweenTranslationCurveType curveType, bool looping, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	if (gameObject == nullptr) {
 		FRAMEWORK->GetLogger()->dbglog("\nTrying to tween null GameObject");
 		return;
@@ -183,23 +184,6 @@ void Tween::tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPos
 		FRAMEWORK->GetLogger()->dbglog("\nTween added RigidAnimation Component to GameObject %d", gameObject->GetId());
 	}
 
-	RigidAnimationKeyFrame* initialKeyFrame = new RigidAnimationKeyFrame();
-	RigidAnimationKeyFrame* finalKeyFrame   = new RigidAnimationKeyFrame();
-	//
-	initialKeyFrame->SetTime(0.0f);
-	initialKeyFrame->SetTranslation(initialPosition);
-	initialKeyFrame->SetRotation(initialOrientation);
-	initialKeyFrame->SetScaling(initialScale);
-	//
-	finalKeyFrame->SetTime(time);
-	finalKeyFrame->SetTranslation(finalPosition);
-	finalKeyFrame->SetRotation(finalOrientation);
-	finalKeyFrame->SetScaling(finalScale);
-
-	std::vector<AnimationKeyFrame*> keyframes;
-	keyframes.push_back(initialKeyFrame);
-	keyframes.push_back(finalKeyFrame);
-
 	std::string tweenClipName = getRandomTweenName();
 	//
 	OnGoingTransformTweenDetails* ongoingTweenDetails = new OnGoingTransformTweenDetails();
@@ -209,13 +193,107 @@ void Tween::tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPos
 	this->ongoingTransformTweens[gameObject->GetId()] = ongoingTweenDetails;
 
 	RigidAnimationClip* newAnimationClip = new RigidAnimationClip(rigidAnimation);
+	std::vector<AnimationKeyFrame*> keyframes;
+	this->populateRigidAnimationKeyframesForTweenTransform(&keyframes,
+							initialPosition, finalPosition,
+							initialOrientation, finalOrientation,
+							initialScale, finalScale,
+							time,
+							curveType);
 	newAnimationClip->InitAnimationClip(tweenClipName, keyframes);
 	newAnimationClip->SetLooping(looping);
 	newAnimationClip->SetIsTween(true);
 
+
 	rigidAnimation->AddAnimationClip(newAnimationClip);
 
 	rigidAnimation->PlayAnimationClip(tweenClipName);
+}
+
+#define TWEEN_PARABOLA_a 0.08f                  // From x = 4ay^2
+#define TWEEN_PARABOLA_NUM_SAMPLES 15
+
+
+void Tween::populateRigidAnimationKeyframesForTweenTransform(std::vector<AnimationKeyFrame*>* keyframes,
+															 glm::vec3& initialPosition, glm::vec3& finalPosition,
+															 glm::quat& initialOrientation, glm::quat& finalOrientation,
+															 glm::vec3& initialScale, glm::vec3& finalScale,
+															 float time,
+															 TweenTranslationCurveType curveType) {
+
+	switch (curveType) {
+	case TWEEN_TRANSLATION_CURVE_TYPE_LINEAR: {
+		RigidAnimationKeyFrame* initialKeyFrame = new RigidAnimationKeyFrame();
+		RigidAnimationKeyFrame* finalKeyFrame   = new RigidAnimationKeyFrame();
+		//
+		initialKeyFrame->SetTime(0.0f);
+		initialKeyFrame->SetTranslation(initialPosition);
+		initialKeyFrame->SetRotation(initialOrientation);
+		initialKeyFrame->SetScaling(initialScale);
+		//
+		finalKeyFrame->SetTime(time);
+		finalKeyFrame->SetTranslation(finalPosition);
+		finalKeyFrame->SetRotation(finalOrientation);
+		finalKeyFrame->SetScaling(finalScale);
+
+		keyframes->push_back(initialKeyFrame);
+		keyframes->push_back(finalKeyFrame);
+
+
+	} break;
+
+	case TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA: {
+		/*
+		 * This assumes that the required parabola is one in the plane that is perpendicular to the XZ plane
+		 */
+		// TODO [Implement] Parabolas in arbitrary planes:
+
+		float parabolaBaseLength = glm::distance(initialPosition, finalPosition);
+
+		for (int sample = 0; sample < TWEEN_PARABOLA_NUM_SAMPLES; ++sample) {
+			float normalizedSampleNumber = ((float)sample / (float)TWEEN_PARABOLA_NUM_SAMPLES);
+
+			RigidAnimationKeyFrame* keyframe = new RigidAnimationKeyFrame();
+			keyframe->SetTime(time * normalizedSampleNumber);
+
+			float maxHeightOfParabola = 4.0f * TWEEN_PARABOLA_a * square(parabolaBaseLength / 2.0f);
+
+			glm::vec3 positionAlongParabola;
+			lerp(positionAlongParabola.x, initialPosition.x, finalPosition.x, normalizedSampleNumber);
+			lerp(positionAlongParabola.z, initialPosition.z, finalPosition.z, normalizedSampleNumber);
+			float parabola_y = (parabolaBaseLength * normalizedSampleNumber) - (parabolaBaseLength / 2.0f);
+			positionAlongParabola.y = initialPosition.y +
+									  maxHeightOfParabola -
+									  (4.0f * TWEEN_PARABOLA_a *
+									  square(parabola_y));
+			// Adjust for when the parabolic path connects points that are at different heights -- like when jumping onto a ledge:
+			positionAlongParabola.y += (finalPosition.y - initialPosition.y) * normalizedSampleNumber;
+
+			glm::quat slerpedOrientation;
+			slerp(slerpedOrientation, initialOrientation, finalOrientation, normalizedSampleNumber);
+
+			glm::vec3 lerpedScaling;
+			lerp(lerpedScaling, initialScale, finalScale, normalizedSampleNumber);
+
+			keyframe->SetTranslation(positionAlongParabola);
+			keyframe->SetRotation(slerpedOrientation);
+			keyframe->SetScaling(lerpedScaling);
+
+			keyframes->push_back(keyframe);
+		}
+		//
+		RigidAnimationKeyFrame* finalKeyFrame   = new RigidAnimationKeyFrame();
+		finalKeyFrame->SetTime(time);
+		finalKeyFrame->SetTranslation(finalPosition);
+		finalKeyFrame->SetRotation(finalOrientation);
+		finalKeyFrame->SetScaling(finalScale);
+		//
+		keyframes->push_back(finalKeyFrame);
+
+	} break;
+
+	default: ASSERT(0, "Recognized curve type: %d", curveType);
+	}
 }
 
 bool Tween::IsTweening(ObjectIdType gameObjectId) {
@@ -252,6 +330,7 @@ std::string getRandomTweenName() {
 
 	return tweenClipName;
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
