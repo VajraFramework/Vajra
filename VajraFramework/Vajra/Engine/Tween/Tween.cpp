@@ -12,6 +12,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Utilities/MathUtilities.h"
 
 #include <cstdio>
 
@@ -209,8 +210,9 @@ void Tween::tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPos
 	rigidAnimation->PlayAnimationClip(tweenClipName);
 }
 
-#define TWEEN_PARABOLA_a 0.1f                  // From y = 4ax^2
-#define TWEEN_PARABOLA_NUM_SAMPLES 10
+#define TWEEN_PARABOLA_a 0.03f                  // From x = 4ay^2
+#define TWEEN_PARABOLA_NUM_SAMPLES 15
+
 
 void Tween::populateRigidAnimationKeyframesForTweenTransform(std::vector<AnimationKeyFrame*>* keyframes,
 															 glm::vec3& initialPosition, glm::vec3& finalPosition,
@@ -254,7 +256,7 @@ void Tween::populateRigidAnimationKeyframesForTweenTransform(std::vector<Animati
 			RigidAnimationKeyFrame* keyframe = new RigidAnimationKeyFrame();
 			keyframe->SetTime(time * normalizedSampleNumber);
 
-			float maxHeightOfParabola = 0.5f * std::sqrt(parabolaBaseLength / 2.0f / TWEEN_PARABOLA_a);
+			float maxHeightOfParabola = 4.0f * TWEEN_PARABOLA_a * square(parabolaBaseLength / 2.0f);
 
 			glm::vec3 positionAlongParabola;
 			lerp(positionAlongParabola.x, initialPosition.x, finalPosition.x, normalizedSampleNumber);
@@ -262,8 +264,8 @@ void Tween::populateRigidAnimationKeyframesForTweenTransform(std::vector<Animati
 			float parabola_y = (parabolaBaseLength * normalizedSampleNumber) - (parabolaBaseLength / 2.0f);
 			positionAlongParabola.y = initialPosition.y +
 									  maxHeightOfParabola -
-									  (0.5f *
-									  std::sqrt(std::abs(parabola_y / TWEEN_PARABOLA_a)));
+									  (4.0f * TWEEN_PARABOLA_a *
+									  square(parabola_y));
 
 			glm::quat slerpedOrientation;
 			slerp(slerpedOrientation, initialOrientation, finalOrientation, normalizedSampleNumber);
@@ -284,7 +286,7 @@ void Tween::populateRigidAnimationKeyframesForTweenTransform(std::vector<Animati
 		finalKeyFrame->SetRotation(finalOrientation);
 		finalKeyFrame->SetScaling(finalScale);
 		//
-		// keyframes->push_back(finalKeyFrame);
+		keyframes->push_back(finalKeyFrame);
 
 	} break;
 
