@@ -223,6 +223,8 @@ void LoadUiSceneFromUiSceneFile(std::string filePath, UiTouchHandlers* touchHand
 			uielementNode = uielementNode->GetNextSiblingByNodeName(UIELEMENT_TAG);
 		}
 	}
+
+	delete parser;
 }
 
 }

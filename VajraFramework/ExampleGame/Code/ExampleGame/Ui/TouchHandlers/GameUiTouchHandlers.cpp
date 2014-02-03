@@ -52,6 +52,8 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	if (uiObject->GetUiObjectName() == "debugMenu") {
 		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "debugMenu.uiscene";
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new DebugMenuTouchHandlers());
+		// Return immediately here because the current scene has been unloaded
+		return;
 	}
 #endif
 	if (uiObject->GetUiObjectName() == "pause") {

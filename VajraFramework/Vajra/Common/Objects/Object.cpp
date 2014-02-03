@@ -28,6 +28,7 @@ void Object::init() {
 }
 
 void Object::destroy() {
+	FRAMEWORK->GetLogger()->dbglog("\nDestroying object of id %d", this->GetId());
 	this->destroyAllChildren();
 	this->removeAllComponents();
 }
