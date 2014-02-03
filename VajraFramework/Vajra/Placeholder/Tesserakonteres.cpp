@@ -236,9 +236,9 @@ namespace Tesserakonteres {
 		}
 
 
-		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");
-
 		ENGINE->GetTween()->TweenToNumber(-20.0f, 20.0f, 20.0f, false, true, "numbertween", tweenNumberCallback);
+
+		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");
 	}
 
 }

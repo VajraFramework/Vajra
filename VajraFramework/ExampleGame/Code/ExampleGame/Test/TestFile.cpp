@@ -108,6 +108,12 @@ int TestFuntion() {
 #endif
 	}
 
+	{
+		/* GameObject* gameObject = */ PrefabLoader::InstantiateGameObjectFromPrefab(
+									   FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "test.prefab",
+									   ENGINE->GetSceneGraph3D());
+	}
+
 	initUiGameObjects();
 
 	return 4;
