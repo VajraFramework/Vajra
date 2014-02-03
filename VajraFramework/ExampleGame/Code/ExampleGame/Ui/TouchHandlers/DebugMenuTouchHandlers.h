@@ -14,7 +14,7 @@ public:
 	virtual void OnTouchUpHandlers  (UiObject* uiObject, Touch touch);
 private:
 	int shadyCamId;
-	float cameraSpeed = 2.0f;
+	float cameraSpeed;
 };
 
 #endif // DEBUGMENU_TOUCH_HANDLERS_H

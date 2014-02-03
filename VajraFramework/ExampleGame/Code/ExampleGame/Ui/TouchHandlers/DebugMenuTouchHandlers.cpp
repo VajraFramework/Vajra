@@ -21,6 +21,8 @@
 #define TEXTURE_INDEX_BUTTON_DOWN 1
 
 DebugMenuTouchHandlers::DebugMenuTouchHandlers() : UiTouchHandlers() {
+	this->cameraSpeed = 2.0f;
+
 	GameObject* debugCam = new GameObject(ENGINE->GetSceneGraph3D());
 	ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(debugCam->GetId());
 	Camera* camComponent = debugCam->AddComponent<Camera>();
