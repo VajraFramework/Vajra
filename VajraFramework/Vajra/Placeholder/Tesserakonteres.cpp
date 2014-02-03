@@ -208,7 +208,7 @@ namespace Tesserakonteres {
 											   currentPosition, finalPosition,
 											   currentOrientation, finalOrientation,
 											   currentScale, finalScale,
-											   1.5f,
+											   1.5f, true,
 											   TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA,
 											   true);
 #endif
