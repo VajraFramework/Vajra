@@ -111,6 +111,6 @@ JNIEXPORT void JNICALL Java_com_vajra_androidwrapper_VajraAndroidWrapper_init(JN
 
 JNIEXPORT void JNICALL Java_com_vajra_androidwrapper_VajraAndroidWrapper_step(JNIEnv * env, jobject obj, float dt)
 {
-    renderFrame(dt);
+    renderFrame();
 }
 

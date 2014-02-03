@@ -5,7 +5,11 @@
 
 #include <chrono>
 
-#define CONST_FPS 30.0
+#if defined(PLATFORM_DESKTOP)
+#define CONST_FPS 60.0f
+#else
+#define CONST_FPS 30.0f
+#endif
 #define CONST_FRAME_DURATION 1.0f / CONST_FPS
 
 class Timer : public Object {

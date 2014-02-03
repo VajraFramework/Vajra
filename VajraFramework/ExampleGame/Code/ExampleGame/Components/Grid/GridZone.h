@@ -20,18 +20,18 @@ public:
 	//[[PROPERTY]]//
 	void SetZoneBounds(int xMin, int zMin, int xMax, int zMax);
 
+	bool IsCellWithinZone(GridCell* cell);
 	unsigned int CollisionCheck(GridCell* startCell, GridCell* destCell);
 
 protected:
-
-private:
-	void init();
-	void destroy();
-
 	int westBound;
 	int eastBound;
 	int southBound;
 	int northBound;
+
+private:
+	void init();
+	void destroy();
 
 	static unsigned int componentTypeId;
 };

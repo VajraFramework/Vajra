@@ -5,6 +5,9 @@
 #include "Vajra/Engine/Ui/UiFontObject/UiFontObject.h"
 #include "Vajra/Engine/Ui/UiSpriteObject/UiSpriteObject.h"
 
+#include <string>
+#include <vector>
+
 // Forward Declarations:
 class SceneGraph;
 class UiFontObject;
@@ -16,7 +19,10 @@ public:
 	UiElement(SceneGraph* sceneGraph);
 	virtual ~UiElement();
 
-	void InitSprite(unsigned int width, unsigned int height, std::string shaderName_, std::string pathToTexture = "");
+	unsigned int GetSpriteTextureIndex();
+	void SetSpriteTextureIndex(unsigned int textureIndex);
+
+	void InitSprite(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures);
 	void InitSprite(unsigned int width, unsigned int height, std::string shaderName_, glm::vec4 color);
 
 	void InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile, float fontSize);

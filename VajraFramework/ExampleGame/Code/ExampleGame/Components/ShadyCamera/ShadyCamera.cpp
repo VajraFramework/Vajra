@@ -1,5 +1,8 @@
 #include "ExampleGame/Components/Grid/GridManager.h"
+#include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/Components/Grid/GridRoom.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
+#include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
@@ -7,6 +10,7 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
@@ -54,6 +58,7 @@ void ShadyCamera::init() {
 	this->gridManagerRef = nullptr;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED, this->GetTypeId(), false);
 }
 
 void ShadyCamera::destroy() {
@@ -63,10 +68,14 @@ void ShadyCamera::destroy() {
 }
 
 void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
-	Camera::HandleMessage(messageChunk);		
+	Camera::HandleMessage(messageChunk);
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_PINCH_GESTURE:
 			this->onPinch();
+			break;
+
+		case MESSAGE_TYPE_GRID_ROOM_ENTERED:
+			this->onGridRoomEntered(messageChunk->messageData.i, SINGLETONS->GetGridManager()->GetRoom(messageChunk->messageData.fv1));
 			break;
 
 		default:
@@ -79,10 +88,9 @@ void ShadyCamera::SetGridManager(GridManager* newManager) {
 }
 
 void ShadyCamera::MoveTo(glm::vec3 newPos) {
-	//glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
-	// TODO [HACK] : Replace with tween code once it's working correctly
-	this->gameObjectRef->GetTransform()->SetPosition(newPos);
-	//ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos, this->camSpeed, ShadyCameraTween::tweenCallback);
+	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
+	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos,
+			this->camSpeed, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, false, ShadyCameraTween::tweenCallback);
 }
 
 void ShadyCamera::MoveTo(float x, float y, float z) {
@@ -129,8 +137,13 @@ void ShadyCamera::LevelStartPan() {
 }
 
 void ShadyCamera::setGameCameraPosition(float x, float z) {
-	this->gameCamPos = this->gridManagerRef->GetRoomCenter(x, z);
-	this->gameCamPos.y += this->gameCamHeight;
+	glm::vec3 roomCenter = this->gridManagerRef->GetRoomCenter(x, z);
+	// If the above function returns ZERO_VEC3, that means that the position is not within any room.
+	// This is not problematic on its own, but we should do nothing in that case.
+	if (roomCenter != ZERO_VEC3) {
+		this->gameCamPos = roomCenter;
+		this->gameCamPos.y += this->gameCamHeight;
+	}
 }
 
 void ShadyCamera::onPinch() {
@@ -160,6 +173,14 @@ void ShadyCamera::onPinch() {
 		else {
 			this->MoveToOverview();
 		}
+	}
+}
+
+void ShadyCamera::onGridRoomEntered(ObjectIdType id, GridRoom* room) {
+	ObjectIdType selectedId = this->gridManagerRef->GetSelectedUnitId();
+	if ((id == selectedId) && (room != nullptr) && (this->camMode == CameraMode_Game)) {
+		glm::vec3 center = room->GetCenter();
+		this->MoveToRoom(center.x, center.z);
 	}
 }
 

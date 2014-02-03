@@ -49,7 +49,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	std::string fontName;
 	float fontSize;
 	std::string textToDisplay;
-	std::string imageName;
+	std::vector<std::string> imageNames;
 	glm::vec4 color;
 	bool clickable;
 	bool visible;
@@ -100,8 +100,11 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	}
 	{
 		XmlNode* imageNode = uielementNode->GetFirstChildByNodeName(IMAGE_TAG);
-		if (imageNode != nullptr) {
-			imageName = imageNode->GetAttributeValueS(NAME_ATTRIBUTE);
+		while (imageNode != nullptr) {
+			std::string imageName = imageNode->GetAttributeValueS(NAME_ATTRIBUTE);
+			imageNames.push_back(imageName);
+
+			imageNode = imageNode->GetNextSiblingByNodeName(IMAGE_TAG);
 		}
 	}
 	{
@@ -126,8 +129,12 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	{
 		uiElement->SetUiObjectName(itemName);
 		//
-		if (imageName != "") {
-			uiElement->InitSprite(widthPixels, heightPixels, "sptshdr", FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + imageName);
+		if (imageNames.size() != 0) {
+			std::vector<std::string> imagePaths;
+			for (std::string imageName : imageNames) {
+				imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + imageName);
+			}
+			uiElement->InitSprite(widthPixels, heightPixels, "sptshdr", imagePaths);
 		} else {
 			uiElement->InitSprite(widthPixels, heightPixels, "spcshdr", color);
 		}
@@ -216,6 +223,8 @@ void LoadUiSceneFromUiSceneFile(std::string filePath, UiTouchHandlers* touchHand
 			uielementNode = uielementNode->GetNextSiblingByNodeName(UIELEMENT_TAG);
 		}
 	}
+
+	delete parser;
 }
 
 }

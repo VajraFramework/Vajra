@@ -56,6 +56,13 @@ void GridNavigator::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
+GridCell* GridNavigator::GetDestination() {
+	if (this->currentPath.size() == 0) {
+		return nullptr;
+	}
+	return this->currentPath.back();
+}
+
 void GridNavigator::SetGridPosition(int x, int z) {
 	GridCell* cell = SINGLETONS->GetGridManager()->GetCell(x, z);
 	if (cell != nullptr) {

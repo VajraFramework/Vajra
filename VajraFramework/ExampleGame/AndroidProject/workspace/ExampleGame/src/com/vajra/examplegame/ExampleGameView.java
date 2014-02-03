@@ -335,7 +335,8 @@ class ExampleGameView extends GLSurfaceView {
     	private static long endTime;
     	private static long dt;
     	
-    	private static final long	RENDERER_FRAME_RATE = 60;
+    	// TODO [Hack] Initialize this by getting the frame rate from Engine::Timer
+    	private static final long	RENDERER_FRAME_RATE = 30;
     	private static final double	RENDERER_SLEEP_TIME = 1000.0 / RENDERER_FRAME_RATE;	// Milliseconds
     }
 }

@@ -103,6 +103,9 @@ after_build:
 	@echo "COPYING RESOURCES TO EXECUTABLE DIRECTORY."
 	rsync -r --delete $(RESOURCESDIR_NAME) $(BINDIR)/.
 	rsync -r --delete $(BINARIES_FOR_DEPLOYMENT_DIR_NAME)/* $(BINDIR)/.
+	dos2unix.exe $(BINDIR)/$(RESOURCESDIR_NAME)/prefabs/*
+	dos2unix.exe $(BINDIR)/$(RESOURCESDIR_NAME)/uiscenes/*
+	dos2unix.exe $(BINDIR)/$(RESOURCESDIR_NAME)/levels/*
 
 -include $(DEPS)
 

@@ -31,10 +31,8 @@ void RigidAnimationKeyFrame::SetScaling(glm::vec3 v) {
 }
 
 void RigidAnimationKeyFrame::ApplyKeyFrameToTransform(Transform* transform) const {
-	transform->Translate(this->translation);
-	// TODO [Implement] Use Rotate() here so that it is relative to the gameObject's orientation
+	transform->SetPosition(this->translation);
 	transform->SetOrientation(this->orientationQuat);
-	// TODO [Implement] Use Scale() here so that it is relative to the gameObject's scale
 	transform->SetScale(this->scaling.x, this->scaling.y, this->scaling.z);
 }
 

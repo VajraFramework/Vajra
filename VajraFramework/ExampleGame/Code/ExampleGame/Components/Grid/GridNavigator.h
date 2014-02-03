@@ -26,6 +26,8 @@ public:
 	inline bool IsTurning()                    { return this->isTurning;              }
 	inline bool IsMoving()                     { return IsTraveling() || IsTurning(); }
 
+	GridCell* GetDestination();
+
 	//[[PROPERTY]]//
 	inline void SetMovementSpeed(float speed);
 	inline void SetCurrentCell(GridCell* cell) { this->currentCell = cell;            }

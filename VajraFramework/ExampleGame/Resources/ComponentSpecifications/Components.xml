@@ -1,6 +1,15 @@
 
 <components>
 	
+	<component name="BakedSkeletalAnimation" includePath="Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h">
+		<property name="AddAnimationClip">
+			<field name="urlOfAnimationClip" datatype="std::string"></field>
+		</property>
+		<property name="PlayAnimationClip">
+			<field name="animationClipName" datatype="std::string"></field>
+		</property>
+	</component>
+	
 	<component name="RigidAnimation" includePath="Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h">
 		<property name="AddAnimationClip">
 			<field name="urlOfAnimationClip" datatype="std::string"></field>
@@ -10,12 +19,21 @@
 		</property>
 	</component>
 	
-	<component name="BakedSkeletalAnimation" includePath="Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h">
-		<property name="AddAnimationClip">
-			<field name="urlOfAnimationClip" datatype="std::string"></field>
+	<component name="Armature" includePath="Vajra/Engine/Components/DerivedComponents/Armature/Armature.h">
+		<property name="InitArmature">
+			<field name="armatureFilePath" datatype="std::string"></field>
 		</property>
-		<property name="PlayAnimationClip">
-			<field name="animationClipName" datatype="std::string"></field>
+	</component>
+	
+	<component name="AudioSource" includePath="Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h">
+		<property name="SetAudioClip">
+			<field name="assetName" datatype="std::string"></field>
+		</property>
+		<property name="SetVolume">
+			<field name="volume" datatype="float"></field>
+		</property>
+		<property name="SetPlaybackSpeed">
+			<field name="speed" datatype="float"></field>
 		</property>
 	</component>
 	
@@ -55,24 +73,6 @@
 		</property>
 	</component>
 	
-	<component name="AudioSource" includePath="Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h">
-		<property name="SetAudioClip">
-			<field name="assetName" datatype="std::string"></field>
-		</property>
-		<property name="SetVolume">
-			<field name="volume" datatype="float"></field>
-		</property>
-		<property name="SetPlaybackSpeed">
-			<field name="speed" datatype="float"></field>
-		</property>
-	</component>
-	
-	<component name="Armature" includePath="Vajra/Engine/Components/DerivedComponents/Armature/Armature.h">
-		<property name="InitArmature">
-			<field name="armatureFilePath" datatype="std::string"></field>
-		</property>
-	</component>
-	
 	<component name="Transform" includePath="Vajra/Engine/Components/DerivedComponents/Transform/Transform.h">
 		<property name="SetPosition">
 			<field name="x" datatype="float"></field>
@@ -80,7 +80,7 @@
 			<field name="z" datatype="float"></field>
 		</property>
 		<property name="SetOrientation">
-			<field name="angleInDegrees" datatype="float"></field>
+			<field name="angleInRadians" datatype="float"></field>
 			<field name="x" datatype="float"></field>
 			<field name="y" datatype="float"></field>
 			<field name="z" datatype="float"></field>
@@ -96,7 +96,7 @@
 			<field name="z" datatype="float"></field>
 		</property>
 		<property name="Rotate">
-			<field name="angleInDegrees" datatype="float"></field>
+			<field name="angleInRadians" datatype="float"></field>
 			<field name="x" datatype="float"></field>
 			<field name="y" datatype="float"></field>
 			<field name="z" datatype="float"></field>
@@ -111,13 +111,10 @@
 		</property>
 	</component>
 	
-	<component name="LevelManager" includePath="ExampleGame/Components/LevelManager/LevelManager.h">
-		<property name="LoadLevelFromFile">
-			<field name="levelFilename" datatype="std::string"></field>
-		</property>
+	<component name="SampleGameScript" includePath="ExampleGame/Components/GameScripts/SampleGameScript.h">
 	</component>
 	
-	<component name="SampleGameScript" includePath="ExampleGame/Components/GameScripts/SampleGameScript.h">
+	<component name="AiKnowledge" includePath="ExampleGame/Components/GameScripts/Ai/AiKnowledge.h">
 	</component>
 	
 	<component name="AiPerception" includePath="ExampleGame/Components/GameScripts/Ai/AiPerception.h">
@@ -126,39 +123,13 @@
 	<component name="AiRoutine" includePath="ExampleGame/Components/GameScripts/Ai/AiRoutine.h">
 	</component>
 	
-	<component name="AiKnowledge" includePath="ExampleGame/Components/GameScripts/Ai/AiKnowledge.h">
-	</component>
-	
 	<component name="EnemyUnit" includePath="ExampleGame/Components/GameScripts/Units/EnemyUnit.h">
 	</component>
 	
 	<component name="PlayerUnit" includePath="ExampleGame/Components/GameScripts/Units/PlayerUnit.h">
 	</component>
 	
-	<component name="ShadyCamera" includePath="ExampleGame/Components/ShadyCamera/ShadyCamera.h">
-		<property name="MoveTo">
-			<field name="x" datatype="float"></field>
-			<field name="y" datatype="float"></field>
-			<field name="z" datatype="float"></field>
-		</property>
-		<property name="MoveToRoom">
-			<field name="x" datatype="float"></field>
-			<field name="z" datatype="float"></field>
-		</property>
-		<property name="MoveToOverview">
-		</property>
-	</component>
-	
 	<component name="GridManager" includePath="ExampleGame/Components/Grid/GridManager.h">
-	</component>
-	
-	<component name="GridZone" includePath="ExampleGame/Components/Grid/GridZone.h">
-		<property name="SetZoneBounds">
-			<field name="xMin" datatype="int"></field>
-			<field name="zMin" datatype="int"></field>
-			<field name="xMax" datatype="int"></field>
-			<field name="zMax" datatype="int"></field>
-		</property>
 	</component>
 	
 	<component name="GridNavigator" includePath="ExampleGame/Components/Grid/GridNavigator.h">
@@ -176,6 +147,42 @@
 		<property name="AddDestination">
 			<field name="x" datatype="int"></field>
 			<field name="z" datatype="int"></field>
+		</property>
+	</component>
+	
+	<component name="GridZone" includePath="ExampleGame/Components/Grid/GridZone.h">
+		<property name="SetZoneBounds">
+			<field name="xMin" datatype="int"></field>
+			<field name="zMin" datatype="int"></field>
+			<field name="xMax" datatype="int"></field>
+			<field name="zMax" datatype="int"></field>
+		</property>
+	</component>
+	
+	<component name="TransitionZone" includePath="ExampleGame/Components/Grid/GridZones/TransitionZone.h">
+		<property name="SetDestination">
+			<field name="x" datatype="int"></field>
+			<field name="z" datatype="int"></field>
+		</property>
+	</component>
+	
+	<component name="LevelManager" includePath="ExampleGame/Components/LevelManager/LevelManager.h">
+		<property name="LoadLevelFromFile">
+			<field name="levelFilename" datatype="std::string"></field>
+		</property>
+	</component>
+	
+	<component name="ShadyCamera" includePath="ExampleGame/Components/ShadyCamera/ShadyCamera.h">
+		<property name="MoveTo">
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="MoveToRoom">
+			<field name="x" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="MoveToOverview">
 		</property>
 	</component>
 </components>
