@@ -1160,6 +1160,15 @@
 			</property>
 		</component>
       </zone>
+
+      <zone id="37305" prefab="ScreenTransZone" x="20" z="7" width="2" height="3">
+		<component name="TransitionZone">
+			<property name="SetDestination">
+				<field>16</field>
+				<field>7</field>
+			</property>
+		</component>
+      </zone>
   </other>
 
 	<camera focus="Assassin">
