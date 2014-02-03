@@ -12,6 +12,7 @@ class ObjectRegistry {
 public:
 	static void AddNewObject(Object* object);
 	static inline Object* GetObjectById(ObjectIdType id);
+	static void RemoveObject(Object* object);
 
 private:
 	// Shouldn't need to instantiate this:

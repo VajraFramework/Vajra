@@ -86,8 +86,11 @@ void MessageHub::drainMessageCache_internal() {
 			receipientId = objectId_it->first;
 
 			Object* receipient = ObjectRegistry::GetObjectById(receipientId);
-			if (receipient != nullptr && receipient->GetId() > OBJECT_ID_INVALID) {
+			if (receipient != nullptr) {
+				ASSERT(receipient->GetId() > OBJECT_ID_INVALID, "Valid object id (%d) should have been %d", receipient->GetId(), receipientId);
 				receipient->HandleMessages();
+			} else {
+				FRAMEWORK->GetLogger()->dbglog("\nWarning: Trying to deliver message to missing object of id %d", receipientId);
 			}
 		}
 		this->currentlyDrainingMessageCacheRef->ClearMessagesForReceipientId(receipientId);

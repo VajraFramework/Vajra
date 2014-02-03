@@ -4,11 +4,13 @@
 #include "Vajra/Engine/Components/DerivedComponents/Animation/Animation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/AnimationClip.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/RigidAnimationClip/RigidAnimationClip.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 RigidAnimationClip::RigidAnimationClip(Animation* parentAnimationComponent_) : AnimationClip(parentAnimationComponent_) {
-	this->init();
+	this->init(parentAnimationComponent_->GetGameObject()->GetTransform());
 }
 
 RigidAnimationClip::~RigidAnimationClip() {
@@ -52,9 +54,6 @@ AnimationKeyFrame* RigidAnimationClip::getCurrentKeyFrameAtInterpolation(float i
 		//
 		this->tempKeyFrame->SetTime(time);
 
-		glm::vec3 prevPosition = this->tempKeyFrame->GetTranslation();
-		// glm::quat prevRotation = this->tempKeyFrame->GetRotation();
-
 		glm::vec3 translation, scaling;
 		glm::quat rotation;
 
@@ -62,7 +61,6 @@ AnimationKeyFrame* RigidAnimationClip::getCurrentKeyFrameAtInterpolation(float i
 		lerp(translation.y,  currentKeyFrame->GetTranslation().y, nextKeyFrame->GetTranslation().y,  interpolation);
 		lerp(translation.z,  currentKeyFrame->GetTranslation().z, nextKeyFrame->GetTranslation().z,  interpolation);
 
-		// glm::quat currentFrameOrientation = currentKeyFrame->GetRotation();
 		slerp(rotation, currentKeyFrame->GetRotation(), nextKeyFrame->GetRotation(), interpolation);
 		// lerp(rotation.x,  currentKeyFrame->GetRotation().x, nextKeyFrame->GetRotation().x,  interpolation);
 		// lerp(rotation.y,  currentKeyFrame->GetRotation().y, nextKeyFrame->GetRotation().y,  interpolation);
@@ -72,39 +70,26 @@ AnimationKeyFrame* RigidAnimationClip::getCurrentKeyFrameAtInterpolation(float i
 		lerp(scaling.y,  currentKeyFrame->GetScaling().y, nextKeyFrame->GetScaling().y,  interpolation);
 		lerp(scaling.z,  currentKeyFrame->GetScaling().z, nextKeyFrame->GetScaling().z,  interpolation);
 
-		this->tempKeyFrame->SetTranslation(translation);
-		this->tempKeyFrame->SetRotation(rotation);
+		this->tempKeyFrame->SetTranslation(translation + this->initialPosition);
+		this->tempKeyFrame->SetRotation(rotation * this->initialOrientation);
 		this->tempKeyFrame->SetScaling(scaling);
 
-		this->tempDeltaKeyFrame->SetTime(time);
-		this->tempDeltaKeyFrame->SetTranslation(this->tempKeyFrame->GetTranslation() - prevPosition);
-		this->tempDeltaKeyFrame->SetRotation(this->tempKeyFrame->GetRotation());
-		this->tempDeltaKeyFrame->SetScaling(this->tempKeyFrame->GetScaling());
-
-		return this->tempDeltaKeyFrame;
+		return this->tempKeyFrame;
 
 	} else {
 		// If we couldn't interpolate to next key frame, return current instead (which may or may not be null)
 		if (currentKeyFrame != nullptr) {
-			glm::vec3 prevPosition;
-			if (this->tempKeyFrame != nullptr) {
-				prevPosition = this->tempKeyFrame->GetTranslation();
-			}
 
-			this->tempKeyFrame->SetTranslation(currentKeyFrame->GetTranslation());
-			this->tempKeyFrame->SetRotation(currentKeyFrame->GetRotation());
+			this->tempKeyFrame->SetTranslation(currentKeyFrame->GetTranslation() + this->initialPosition);
+			this->tempKeyFrame->SetRotation(currentKeyFrame->GetRotation() * this->initialOrientation);
 			this->tempKeyFrame->SetScaling(currentKeyFrame->GetScaling());
 
-			this->tempDeltaKeyFrame->SetTime(currentKeyFrame->GetTime());
-			this->tempDeltaKeyFrame->SetTranslation(this->tempKeyFrame->GetTranslation() - prevPosition);
-			this->tempDeltaKeyFrame->SetRotation(this->tempKeyFrame->GetRotation());
-			this->tempDeltaKeyFrame->SetScaling(this->tempKeyFrame->GetScaling());
-
-			return this->tempDeltaKeyFrame;
+			return this->tempKeyFrame;
 		}
 	}
 
-	return this->tempKeyFrame;
+	ASSERT(0, "Unreachable code");
+	return nullptr;
 }
 
 void RigidAnimationClip::reset() {
@@ -124,10 +109,15 @@ unsigned int RigidAnimationClip::getNumKeyFrames() const {
 	return this->clipDataAsset->GetNumKeyFrames();
 }
 
-void RigidAnimationClip::init() {
+void RigidAnimationClip::init(Transform* initialTransform) {
 	this->currentKeyFrameIndex = 0;
 	this->tempKeyFrame = new RigidAnimationKeyFrame();
-	this->tempDeltaKeyFrame = new RigidAnimationKeyFrame();
+
+	// Save the original position, orientation, and scale of the game object so that we can apply the animation as an offset over it
+	// TODO [Hack] CHange these to Get*World() functions instead:
+	this->initialPosition    = initialTransform->GetPositionWorld();
+	this->initialOrientation = initialTransform->GetOrientation();
+	this->initialScale       = initialTransform->GetScale();
 }
 
 void RigidAnimationClip::destroy() {

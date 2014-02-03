@@ -6,9 +6,9 @@
 std::map<int /* id */, Object*> ObjectRegistry::allObjects;
 
 void ObjectRegistry::AddNewObject(Object* object) {
-	ASSERT(object->GetId() > OBJECT_ID_INVALID,
+	VERIFY(object->GetId() > OBJECT_ID_INVALID,
 		"Object has valid id: %d", object->GetId());
-	ASSERT(ObjectRegistry::GetObjectById(object->GetId()) == nullptr,
+	VERIFY(ObjectRegistry::GetObjectById(object->GetId()) == nullptr,
 		"Object has unique id: %d", object->GetId());
 
 	FRAMEWORK->GetLogger()->dbglog("\nAdding Object with id %d to ObjectRegistry", object->GetId());
@@ -17,10 +17,23 @@ void ObjectRegistry::AddNewObject(Object* object) {
 	ObjectRegistry::allObjects[object->GetId()] = object;
 }
 
+void ObjectRegistry::RemoveObject(Object* object) {
+	VERIFY(object->GetId() > OBJECT_ID_INVALID,
+		"Object has valid id: %d", object->GetId());
+	VERIFY(ObjectRegistry::GetObjectById(object->GetId()) != nullptr,
+		"Object of id %d exists in the object registry", object->GetId());
+
+	FRAMEWORK->GetLogger()->dbglog("\nRemoving Object with id %d from ObjectRegistry", object->GetId());
+
+	// Remove this Object from the map of all Objects:
+	int returnValueOfErasing = ObjectRegistry::allObjects.erase(object->GetId());
+	VERIFY(returnValueOfErasing == 1, "Erasing object from map returned %d, should have returned 1", returnValueOfErasing);
+}
+
 ObjectRegistry::ObjectRegistry() {
-	ASSERT(0, "ObjectRegistry shouldn't be instantiated");
+	VERIFY(0, "ObjectRegistry shouldn't be instantiated");
 }
 
 ObjectRegistry::ObjectRegistry(const ObjectRegistry&) {
-	ASSERT(0, "ObjectRegistry shouldn't be instantiated");
+	VERIFY(0, "ObjectRegistry shouldn't be instantiated");
 }
