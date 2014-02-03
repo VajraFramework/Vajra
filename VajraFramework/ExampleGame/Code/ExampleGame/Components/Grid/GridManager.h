@@ -6,6 +6,7 @@
 #ifndef GRIDMANAGER_H
 #define GRIDMANAGER_H
 
+#include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
 #include "ExampleGame/Components/Grid/GridCell.h"
 #include "ExampleGame/Components/Grid/GridRoom.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
@@ -18,12 +19,9 @@
 
 #include <fstream>
 #include <list>
+#include <map>
 #include <string>
 #include <vector>
-
-#define CELL_SIZE 1.0f
-#define GROUND_Y 0.0f
-extern const glm::vec3 HALF_CELL;
 
 //[[COMPONENT]]//
 class GridManager : public Component, public IGameTouchTarget {
@@ -53,6 +51,7 @@ public:
 	glm::vec3 GetRoomCenter(int x, int z);
 	glm::vec3 GetRoomCenter(GridCell* cell);
 
+	ObjectIdType GetPlayerUnitIdOfType(UnitType uType);
 	inline ObjectIdType GetSelectedUnitId() { return this->selectedUnitId; }
 
 	// @Override
@@ -115,6 +114,7 @@ private:
 	int maxElevation;
 	Plane gridPlane;  // The center of cell (0,0) in world coordinates and it's normal
 
+	std::map<UnitType, ObjectIdType> playerUnits;
 	ObjectIdType selectedUnitId;
 
 	//GameObject* transZones;
