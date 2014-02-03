@@ -20,7 +20,7 @@ public:
 	//[[PROPERTY]]//
 	void SetZoneBounds(int xMin, int zMin, int xMax, int zMax);
 
-	bool CellWithinZone(GridCell* cell);
+	bool IsCellWithinZone(GridCell* cell);
 	unsigned int CollisionCheck(GridCell* startCell, GridCell* destCell);
 
 protected:

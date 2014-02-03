@@ -146,12 +146,15 @@ void LevelLoader::loadOtherDataFromXml(XmlNode* otherDataNode) {
 		int southBound     = zoneNode->GetAttributeValueI(Z_ATTRIBUTE);
 		int zoneWidth      = zoneNode->GetAttributeValueI(WIDTH_ATTRIBUTE);
 		int zoneHeight     = zoneNode->GetAttributeValueI(HEIGHT_ATTRIBUTE);
+		int eastBound      = westBound + zoneWidth - 1;    // This is a cell coordinate, not an absolute position
+		int northBound     = southBound + zoneHeight - 1;  // Likewise here
 
 		GameObject* zoneObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
 
 		GridZone* zoneComp = zoneObj->GetComponent<GridZone>();
 		ASSERT(zoneComp != nullptr, "Object within %s tag has GridZone component", ZONE_TAG);
-		zoneComp->SetZoneBounds(westBound, southBound, westBound + zoneWidth, southBound + zoneHeight);
+
+		zoneComp->SetZoneBounds(westBound, southBound, eastBound, northBound);
 
 		SINGLETONS->GetGridManager()->AddGridZone(zoneObj->GetId());
 
@@ -181,7 +184,7 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 
 	// Find the unit that the camera should focus on
 	UnitType uType = StringToUnitType(unitNameStr);
-	ObjectIdType id = SINGLETONS->GetGridManager()->GetPlayerUnitOfType(uType);
+	ObjectIdType id = SINGLETONS->GetGridManager()->GetPlayerUnitIdOfType(uType);
 	ASSERT(id != OBJECT_ID_INVALID, "Player unit of type %d exists in level", uType);
 	SINGLETONS->GetGridManager()->selectedUnitId = id;
 

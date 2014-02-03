@@ -23,10 +23,6 @@
 #include <string>
 #include <vector>
 
-#define CELL_SIZE 1.0f
-#define GROUND_Y 0.0f
-extern const glm::vec3 HALF_CELL;
-
 //[[COMPONENT]]//
 class GridManager : public Component, public IGameTouchTarget {
 public:
@@ -55,7 +51,7 @@ public:
 	glm::vec3 GetRoomCenter(int x, int z);
 	glm::vec3 GetRoomCenter(GridCell* cell);
 
-	ObjectIdType GetPlayerUnitOfType(UnitType uType);
+	ObjectIdType GetPlayerUnitIdOfType(UnitType uType);
 	inline ObjectIdType GetSelectedUnitId() { return this->selectedUnitId; }
 
 	// @Override

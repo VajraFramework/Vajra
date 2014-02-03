@@ -20,8 +20,8 @@ public:
 	virtual void HandleMessage(MessageChunk messageChunk);
 
 	//[[PROPERTY]]//
-	void SetDestination(int x, int z);
-	void SetDestination(glm::vec3 loc);
+	void SetDestination(int cellX, int cellZ);
+	void SetDestination(glm::vec3 worldPos);
 
 private:
 	void init();

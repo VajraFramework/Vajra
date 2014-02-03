@@ -138,6 +138,8 @@ void ShadyCamera::LevelStartPan() {
 
 void ShadyCamera::setGameCameraPosition(float x, float z) {
 	glm::vec3 roomCenter = this->gridManagerRef->GetRoomCenter(x, z);
+	// If the above function returns ZERO_VEC3, that means that the position is not within any room.
+	// This is not problematic on its own, but we should do nothing in that case.
 	if (roomCenter != ZERO_VEC3) {
 		this->gameCamPos = roomCenter;
 		this->gameCamPos.y += this->gameCamHeight;

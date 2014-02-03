@@ -33,16 +33,16 @@ void TransitionZone::HandleMessage(MessageChunk messageChunk) {
 	}
 }
 
-void TransitionZone::SetDestination(int x, int z) {
-	GridCell* cell = SINGLETONS->GetGridManager()->GetCell(x, z);
+void TransitionZone::SetDestination(int cellX, int cellZ) {
+	GridCell* cell = SINGLETONS->GetGridManager()->GetCell(cellX, cellZ);
 	if (cell != nullptr) {
 		this->destX = cell->x;
 		this->destZ = cell->z;
 	}
 }
 
-void TransitionZone::SetDestination(glm::vec3 loc) {
-	GridCell* cell = SINGLETONS->GetGridManager()->GetCell(loc);
+void TransitionZone::SetDestination(glm::vec3 worldPos) {
+	GridCell* cell = SINGLETONS->GetGridManager()->GetCell(worldPos);
 	if (cell != nullptr) {
 		this->destX = cell->x;
 		this->destZ = cell->z;
@@ -67,7 +67,7 @@ void TransitionZone::onUnitEnteredZone(ObjectIdType id) {
 	GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
 	ASSERT(gNav != nullptr, "Object with id %d has GridNavigator component", id);
 
-	if (CellWithinZone(gNav->GetDestination())) {
+	if (IsCellWithinZone(gNav->GetDestination())) {
 		gNav->SetDestination(this->destX, this->destZ);
 	}
 }

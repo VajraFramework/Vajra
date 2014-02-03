@@ -43,17 +43,17 @@ void GridZone::SetZoneBounds(int xMin, int zMin, int xMax, int zMax) {
 	}
 }
 
-bool GridZone::CellWithinZone(GridCell* cell) {
-	if (cell == nullptr) {
-		return false;
+bool GridZone::IsCellWithinZone(GridCell* cell) {
+	if (cell != nullptr) {
+		return ((cell->x >= this->westBound) && (cell->x <= this->eastBound) && (cell->z >= this->southBound) && (cell->z <= this->northBound));
 	}
 
-	return ((cell->x >= this->westBound) && (cell->x <= this->eastBound) && (cell->z >= this->southBound) && (cell->z <= this->northBound));
+	return false;
 }
 
 unsigned int GridZone::CollisionCheck(GridCell* startCell, GridCell* destCell) {
-	bool startInZone = CellWithinZone(startCell);
-	bool endInZone = CellWithinZone(destCell);
+	bool startInZone = IsCellWithinZone(startCell);
+	bool endInZone = IsCellWithinZone(destCell);
 
 	if (!startInZone && endInZone) {
 		return MESSAGE_TYPE_GRID_ZONE_ENTERED;

@@ -6,6 +6,7 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
+#include "ExampleGame/Components/Grid/GridConstants.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/LevelManager/LevelFileTags.h"
@@ -25,13 +26,6 @@
 #include "Vajra/Utilities/MathUtilities.h"
 
 #include <sstream>
-
-#define ROOM_WIDTH_INDOORS 15
-#define ROOM_HEIGHT_INDOORS 9
-#define ROOM_WIDTH_OUTDOORS 17
-#define ROOM_HEIGHT_OUTDOORS 11
-
-const glm::vec3 HALF_CELL = glm::vec3(CELL_SIZE, GROUND_Y, -CELL_SIZE);
 
 unsigned int GridManager::componentTypeId = COMPONENT_TYPE_ID_GRID_MANAGER;
 
@@ -165,12 +159,12 @@ glm::vec3 GridManager::GetRoomCenter(GridCell* cell) {
 	return ZERO_VEC3;
 }
 
-ObjectIdType GridManager::GetPlayerUnitOfType(UnitType uType) {
+ObjectIdType GridManager::GetPlayerUnitIdOfType(UnitType uType) {
 	auto iter = this->playerUnits.find(uType);
-	if (iter == this->playerUnits.end()) {
-		return OBJECT_ID_INVALID;
+	if (iter != this->playerUnits.end()) {
+		return iter->second;
 	}
-	return iter->second;
+	return OBJECT_ID_INVALID;
 }
 
 void GridManager::OnTouchUpdate(int touchIndex) {
@@ -534,17 +528,21 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 	GridRoom* destRoom = GetRoom(destCell);
 
 	if (startRoom != destRoom) {
-		MessageChunk roomExitMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-		roomExitMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_EXITED);
-		roomExitMessage->messageData.i = id;
-		roomExitMessage->messageData.fv1 = this->GetRoomCenter(startCell);
-		ENGINE->GetMessageHub()->SendMulticastMessage(roomExitMessage, this->GetObject()->GetId());
+		if (startRoom != nullptr) {
+			MessageChunk roomExitMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			roomExitMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_EXITED);
+			roomExitMessage->messageData.i = id;
+			roomExitMessage->messageData.fv1 = this->GetRoomCenter(startCell);
+			ENGINE->GetMessageHub()->SendMulticastMessage(roomExitMessage, this->GetObject()->GetId());
+		}
 
-		MessageChunk roomEnterMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-		roomEnterMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED);
-		roomEnterMessage->messageData.i = id;
-		roomEnterMessage->messageData.fv1 = this->GetRoomCenter(destCell);
-		ENGINE->GetMessageHub()->SendMulticastMessage(roomEnterMessage, this->GetObject()->GetId());
+		if (destRoom != nullptr) {
+			MessageChunk roomEnterMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			roomEnterMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED);
+			roomEnterMessage->messageData.i = id;
+			roomEnterMessage->messageData.fv1 = this->GetRoomCenter(destCell);
+			ENGINE->GetMessageHub()->SendMulticastMessage(roomEnterMessage, this->GetObject()->GetId());
+		}
 	}
 }
 
