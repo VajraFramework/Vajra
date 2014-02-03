@@ -70,9 +70,12 @@ bool setupGraphics(int w, int h) {
 
 bool renderFrame() {
 	double dt = ENGINE->GetTimer()->GetTimeSinceFrameBegin();
+#if !defined(PLATFORM_ANDROID)
+	// Android regulates the frame rate on the java side
 	if (dt < CONST_FRAME_DURATION) {
 		return false;
 	}
+#endif
 
     static float grey = 0.0f;
     glClearColor(0.5f, grey, grey, 1.0f);                    checkGlError("glClearColor");
