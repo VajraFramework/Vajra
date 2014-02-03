@@ -18,6 +18,16 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
+UnitType StringToUnitType(std::string str) {
+	if (str == "Assassin") {
+		return UNIT_TYPE_ASSASSIN;
+	}
+	if (str == "Thief") {
+		return UNIT_TYPE_THIEF;
+	}
+	return UNIT_TYPE_UNKNOWN;
+}
+
 void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading level from level file: %s", levelFilename.c_str());
 
@@ -136,14 +146,24 @@ void LevelLoader::loadOtherDataFromXml(XmlNode* otherDataNode) {
 		int southBound     = zoneNode->GetAttributeValueI(Z_ATTRIBUTE);
 		int zoneWidth      = zoneNode->GetAttributeValueI(WIDTH_ATTRIBUTE);
 		int zoneHeight     = zoneNode->GetAttributeValueI(HEIGHT_ATTRIBUTE);
+		int eastBound      = westBound + zoneWidth - 1;    // This is a cell coordinate, not an absolute position
+		int northBound     = southBound + zoneHeight - 1;  // Likewise here
 
 		GameObject* zoneObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
 
 		GridZone* zoneComp = zoneObj->GetComponent<GridZone>();
 		ASSERT(zoneComp != nullptr, "Object within %s tag has GridZone component", ZONE_TAG);
-		zoneComp->SetZoneBounds(westBound, southBound, westBound + zoneWidth, southBound + zoneHeight);
+
+		zoneComp->SetZoneBounds(westBound, southBound, eastBound, northBound);
 
 		SINGLETONS->GetGridManager()->AddGridZone(zoneObj->GetId());
+
+		// Check for overloaded components
+		XmlNode* compNode = zoneNode->GetFirstChildByNodeName(COMPONENT_TAG);
+		while (compNode != nullptr) {
+			PrefabLoader::LoadComponentFromComponentNodeInPrefab(zoneObj, compNode);
+			compNode = compNode->GetNextSiblingByNodeName(COMPONENT_TAG);
+		}
 
 		zoneNode = zoneNode->GetNextSiblingByNodeName(ZONE_TAG);
 	}
@@ -151,8 +171,9 @@ void LevelLoader::loadOtherDataFromXml(XmlNode* otherDataNode) {
 	// TODO [Implement] Other things such as triggerables
 }
 
-void LevelLoader::loadCameraDataFromXml(XmlNode* /*cameraNode*/) {
+void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	// The level data file will specify which unit the camera should focus on by default
+	std::string unitNameStr = cameraNode->GetAttributeValueS("focus");
 
 	// Create the ShadyCamera; this should possibly be a prefab as well.
 	GameObject* camera = new GameObject(ENGINE->GetSceneGraph3D());
@@ -161,8 +182,19 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* /*cameraNode*/) {
 	ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
 	cameraComponent->SetGridManager(SINGLETONS->GetGridManager());
 
-	// TODO [Hack] Figure out a better way to do this.
-	int gX = SINGLETONS->GetGridManager()->gridRooms[0]->westBound;
-	int gZ = SINGLETONS->GetGridManager()->gridRooms[0]->southBound;
-	cameraComponent->MoveToRoom(gX, gZ);
+	// Find the unit that the camera should focus on
+	UnitType uType = StringToUnitType(unitNameStr);
+	ObjectIdType id = SINGLETONS->GetGridManager()->GetPlayerUnitIdOfType(uType);
+	ASSERT(id != OBJECT_ID_INVALID, "Player unit of type %d exists in level", uType);
+	SINGLETONS->GetGridManager()->selectedUnitId = id;
+
+	// Set the camera's position
+	GameObject* target = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+	GridNavigator* gNav = target->GetComponent<GridNavigator>();
+	ASSERT(gNav != nullptr, "Object with id %d has GridNavigator component", id);
+
+	GridCell* cell = gNav->GetCurrentCell();
+	ASSERT(cell != nullptr, "Object with id %d is on grid", id);
+
+	cameraComponent->MoveToRoom(cell->x, cell->z);
 }

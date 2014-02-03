@@ -11,7 +11,7 @@
 #include "Vajra/Utilities/XmlParser/XmlParser.h"
 #include "Vajra/Utilities/Utilities.h"
 
-void LoadComponentFromComponentNodeInPrefab(GameObject* gameObject, XmlNode* componentNode) {
+void PrefabLoader::LoadComponentFromComponentNodeInPrefab(GameObject* gameObject, XmlNode* componentNode) {
 	std::string componentName = componentNode->GetAttributeValueS(NAME_PROPERTY);
 	Component* component = ComponentMapperInterface::GetInstance()->AddNewComponentToGameObjectByComponentName(gameObject, componentName);
 	ASSERT(component != nullptr, "Added valid component (%s) to game object", componentName.c_str());
@@ -40,7 +40,7 @@ void loadGameObjectFromGameObjectNodeInPrefab(GameObject* gameObject, XmlNode* g
 	// Find and add any components:
 	XmlNode* componentNode = gameobjectNode->GetFirstChildByNodeName(COMPONENT_TAG);
 	while (componentNode != nullptr) {
-		LoadComponentFromComponentNodeInPrefab(gameObject, componentNode);
+		PrefabLoader::LoadComponentFromComponentNodeInPrefab(gameObject, componentNode);
 
 		componentNode = componentNode->GetNextSiblingByNodeName(COMPONENT_TAG);
 	}
