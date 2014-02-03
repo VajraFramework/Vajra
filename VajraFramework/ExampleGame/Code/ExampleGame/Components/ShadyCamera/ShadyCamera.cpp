@@ -146,7 +146,7 @@ void ShadyCamera::onPinch() {
 	this->ZoomBy(zoomAmt);
 
 	// if a mode switch occurs early out
-	if(tryModeSwitch(pinchVel)) {
+	if(false) {
 		this->newPinch = false;
 		return;
 	}

@@ -1,16 +1,12 @@
 #include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 #include "ExampleGame/Components/Grid/GridCell.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
-
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
-
-#include "Vajra/Engine/Prefabs/PrefabLoader.h"
-#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
-#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
-
-
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 
@@ -31,10 +27,14 @@ void PlayerUnit::init() {
 	this->inputState = InputState::INPUT_STATE_WAIT;
 
 	// DECAL TEST
-	this->touchIndicator = PrefabLoader::InstantiateGameObjectFromPrefab(
-								FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "decal.prefab",
-								ENGINE->GetSceneGraph3D());
-	
+	this->touchIndicator = new GameObject(ENGINE->GetSceneGraph3D());
+	SpriteRenderer* spriteRenderer = this->touchIndicator->AddComponent<SpriteRenderer>();
+
+	std::vector<std::string> pathsToTextures;
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_Touch_Bad.png");
+	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures);
+	//
+	this->touchIndicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 	this->touchIndicator->GetTransform()->SetPosition(0.0f, 0.0f, -1.0f);
 }
 

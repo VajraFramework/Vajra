@@ -32,11 +32,12 @@ public:
 	inline unsigned int GetCurrentTextureIndex() { return this->currentTextureIndex; }
 	inline void SetCurrentTextureIndex(unsigned int textureIndex) { this->currentTextureIndex = textureIndex; }
 
+	void initPlane(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures);
+	
 private:
 	void init();
 	void destroy();
 
-	void initPlane(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures);
 	inline void setDiffuseColor (glm::vec4 color) { this->diffuseColor  = color; }
 
 	// Utility Functions:
