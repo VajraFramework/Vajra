@@ -48,9 +48,9 @@ private:
 
 // Inline Functions:
 void RigidAnimation::PlayAnimationClip(std::string animationClipName) { this->playAnimationClip(animationClipName); }
-void RigidAnimation::PlayAnimationClip()   {}
-void RigidAnimation::PauseAnimationClip()  {}
-void RigidAnimation::ResumeAnimationClip() {}
-void RigidAnimation::StopAnimationClip()   {}
+void RigidAnimation::PlayAnimationClip()   { this->playAnimationClip();   }
+void RigidAnimation::PauseAnimationClip()  { this->pauseAnimationClip();  }
+void RigidAnimation::ResumeAnimationClip() { this->resumeAnimationClip(); }
+void RigidAnimation::StopAnimationClip()   { this->stopAnimationClip();   }
 
 #endif // RIGID_ANIMATION_H

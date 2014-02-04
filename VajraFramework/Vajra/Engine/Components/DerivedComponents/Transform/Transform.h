@@ -42,6 +42,7 @@ public:
 	void SetOrientation(glm::quat newOrientation);
 	//[[PROPERTY]]//
 	void SetScale(float x, float y, float z);
+	void SetScale(glm::vec3 newScale);
 	//
 	//[[PROPERTY]]//
 	void Translate(float x, float y, float z);
