@@ -65,6 +65,15 @@ GridCell* GridNavigator::GetDestination() {
 
 void GridNavigator::SetGridPosition(int x, int z) {
 	GridCell* cell = SINGLETONS->GetGridManager()->GetCell(x, z);
+	this->SetGridPosition(cell);
+}
+
+void GridNavigator::SetGridPosition(glm::vec3 loc) {
+	GridCell* cell = SINGLETONS->GetGridManager()->GetCell(loc);
+	this->SetGridPosition(cell);
+}
+
+void GridNavigator::SetGridPosition(GridCell* cell) {
 	if (cell != nullptr) {
 		Transform* myTransform = this->GetObject()->GetComponent<Transform>();
 		myTransform->SetPosition(cell->center);

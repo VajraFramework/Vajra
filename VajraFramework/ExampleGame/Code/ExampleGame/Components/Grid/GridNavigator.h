@@ -34,6 +34,8 @@ public:
 
 	//[[PROPERTY]]//
 	void SetGridPosition(int x, int z);   // Place the object at the indicated cell on the grid.
+	void SetGridPosition(glm::vec3 loc);  // Place the object at the cell at the indicated position
+	void SetGridPosition(GridCell* cell); // Place the object at the center of the indicated cell
 
 	// Each of the following methods return true if a valid path can be found, false otherwise.
 	//[[PROPERTY]]//
