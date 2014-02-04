@@ -52,11 +52,9 @@ void TweenCallbackComponent::handleCallbacksOnAnimationEnd(MessageChunk messageC
 		GameObject* gameObject = (GameObject*)ObjectRegistry::GetObjectById(gameObjectId);
 		ASSERT(gameObject != nullptr, "Found game object on which the tween just ended (id = %d)", gameObjectId);
 		if (!tweenDetails->looping) {
-			// TODO [Implement] Ensure type safety here
-			RigidAnimation* rigidAnimationComponent = (RigidAnimation*)gameObject->GetComponent<RigidAnimation>();
-			ASSERT(rigidAnimationComponent != nullptr, "Found rigid animation component on game object on which the tween just ended (id = %d)", gameObjectId);
-			FRAMEWORK->GetLogger()->dbglog("\nDeleting animation clip (%s) from game object (%d) at the end of tween", tweenDetails->tweenClipName.c_str(), gameObjectId);
-			rigidAnimationComponent->DeleteAnimationClip(tweenDetails->tweenClipName);
+			// Delete from list of ongoing tweens:
+			ENGINE->GetTween()->eraseCompletedTransformTween(tweenDetails, gameObject);
+
 		} else {
 			// Reset to start:
 		}

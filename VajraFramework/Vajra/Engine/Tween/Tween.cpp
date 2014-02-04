@@ -26,7 +26,7 @@ Tween::~Tween() {
 	this->destroy();
 }
 
-void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, bool cancelCurrentTween /* = true */, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
@@ -34,11 +34,11 @@ void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, 
 		Tween::tweenTransform_internal(gameObject, initialPosition, finalPosition,
 												  currentOrientation, currentOrientation,
 												  currentScale, currentScale,
-												  time, curveType, looping, callback);
+												  time, cancelCurrentTween, curveType, looping, callback);
 	}
 }
 
-void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, bool cancelCurrentTween /* = true */, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
@@ -46,11 +46,11 @@ void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, fl
 		Tween::tweenTransform_internal(gameObject, gameObject->GetTransform()->GetPosition(), finalPosition,
 											  	  currentOrientation, currentOrientation,
 											  	  currentScale, currentScale,
-											  	  time, curveType, looping, callback);
+											  	  time, cancelCurrentTween, curveType, looping, callback);
 	}
 }
 
-void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat initialOrientation, glm::quat finalOrientation, float time, bool looping /* = false */,
+void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat initialOrientation, glm::quat finalOrientation, float time, bool cancelCurrentTween /* = true */, bool looping /* = false */,
 		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) /* = 0 */) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
@@ -59,11 +59,11 @@ void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat initialOrienta
 		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
 											  	  initialOrientation, finalOrientation,
 											  	  currentScale, currentScale,
-											  	  time, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
+											  	  time, cancelCurrentTween, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
 	}
 }
 
-void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientation, float time, bool looping /* = false */,
+void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientation, float time, bool cancelCurrentTween /* = true */, bool looping /* = false */,
 		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
@@ -72,11 +72,11 @@ void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientati
 		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
 											  	  gameObject->GetTransform()->GetOrientation(), finalOrientation,
 											  	  currentScale, currentScale,
-											  	  time, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
+											  	  time, cancelCurrentTween, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
 	}
 }
 
-void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::vec3 finalScale, float time, bool looping /* = false */,
+void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::vec3 finalScale, float time, bool cancelCurrentTween /* = true */, bool looping /* = false */,
 		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
@@ -85,11 +85,11 @@ void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::v
 		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
 											  	  currentOrientation, currentOrientation,
 											  	  initialScale, finalScale,
-											  	  time, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
+											  	  time, cancelCurrentTween, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
 	}
 }
 
-void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float time, bool looping /* = false */,
+void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float time, bool cancelCurrentTween /* = true */, bool looping /* = false */,
 		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
@@ -98,21 +98,21 @@ void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float ti
 		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
 											  	  currentOrientation, currentOrientation,
 											  	  gameObject->GetTransform()->GetScale(), finalScale,
-											  	  time, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
+											  	  time, cancelCurrentTween, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
 	}
 }
 
 void Tween::TweenTransform(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition,
 												      glm::quat initialOrientation, glm::quat finalOrientation,
 												      glm::vec3 initialScale, glm::vec3 finalScale,
-												      float time, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */,
+												      float time, bool cancelCurrentTween /* = true */, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */,
 												      void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		this->tweenTransform_internal(gameObject, initialPosition, finalPosition,
 												  initialOrientation, finalOrientation,
 												  initialScale, finalScale,
-												  time, curveType, looping, callback);
+												  time, cancelCurrentTween, curveType, looping, callback);
 	}
 }
 
@@ -162,15 +162,21 @@ void Tween::updateTweens() {
 void Tween::tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPosition, glm::vec3 finalPosition,
 														glm::quat initialOrientation, glm::quat finalOrientation,
 														glm::vec3 initialScale, glm::vec3 finalScale,
-														float time, TweenTranslationCurveType curveType, bool looping, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+														float time, bool cancelCurrentTween, TweenTranslationCurveType curveType, bool looping, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	if (gameObject == nullptr) {
 		FRAMEWORK->GetLogger()->dbglog("\nTrying to tween null GameObject");
 		return;
 	}
 
 	if (this->IsTweening(gameObject->GetId())) {
-		FRAMEWORK->GetLogger()->dbglog("\nWARNING GameObject %d is already tweening, ignoring tween command", gameObject->GetId());
-		return;
+		if (!cancelCurrentTween) {
+			FRAMEWORK->GetLogger()->dbglog("\nWARNING GameObject %d is already tweening, ignoring tween command", gameObject->GetId());
+			return;
+		} else {
+			OnGoingTransformTweenDetails* ongoingTweenDetails = this->getOnGoingTransformTweenDetails(gameObject->GetId());
+			ASSERT(ongoingTweenDetails != nullptr, "Found ongoing tween details");
+			this->eraseCompletedTransformTween(ongoingTweenDetails, gameObject);
+		}
 	}
 
 	// Reset the current transform of the game object to the origin:
@@ -306,6 +312,24 @@ OnGoingTransformTweenDetails* Tween::getOnGoingTransformTweenDetails(ObjectIdTyp
 		return ongoingTweenIt->second;
 	}
 	return nullptr;
+}
+
+void Tween::eraseCompletedTransformTween(OnGoingTransformTweenDetails* tweenDetails, GameObject* gameObject) {
+	for (auto it = this->ongoingTransformTweens.begin(); it != this->ongoingTransformTweens.end(); ++it) {
+		if (it->second == tweenDetails) {
+			this->ongoingTransformTweens.erase(it);
+			break;
+		}
+	}
+	// TODO [Implement] Ensure type safety here
+	RigidAnimation* rigidAnimationComponent = (RigidAnimation*)gameObject->GetComponent<RigidAnimation>();
+	ASSERT(rigidAnimationComponent != nullptr, "Found rigid animation component on game object on which the tween just ended (id = %d)", gameObject->GetId());
+	if (rigidAnimationComponent->IsPlaying()) {
+		FRAMEWORK->GetLogger()->dbglog("\nStopping animation clip (%s) on game object (%d) as it was intercepted by a new tween", tweenDetails->tweenClipName.c_str(), gameObject->GetId());
+		rigidAnimationComponent->StopAnimationClip();
+	}
+	FRAMEWORK->GetLogger()->dbglog("\nDeleting animation clip (%s) from game object (%d) at the end of tween", tweenDetails->tweenClipName.c_str(), gameObject->GetId());
+	rigidAnimationComponent->DeleteAnimationClip(tweenDetails->tweenClipName);
 }
 
 void Tween::init() {

@@ -23,20 +23,20 @@ class Tween : public Object {
 public:
 	~Tween();
 
-	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, TweenTranslationCurveType curveType = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
-	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, TweenTranslationCurveType curveType = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, bool cancelCurrentTween = true, TweenTranslationCurveType curveType = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, bool cancelCurrentTween = true, TweenTranslationCurveType curveType = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 
-	void TweenOrientation(ObjectIdType gameObjectId, glm::quat initialOrientation, glm::quat finalOrientation, float time, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
-	void TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientation, float time, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+	void TweenOrientation(ObjectIdType gameObjectId, glm::quat initialOrientation, glm::quat finalOrientation, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+	void TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientation, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 
-	void TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::vec3 finalScale, float time, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
-	void TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float time, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+	void TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::vec3 finalScale, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+	void TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 
 	void TweenTransform(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition,
 												   glm::quat initialOrientation, glm::quat finalOrientation,
 												   glm::vec3 initialScale, glm::vec3 finalScale,
 												   float time,
-												   TweenTranslationCurveType curveType = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+												   bool cancelCurrentTween = true, TweenTranslationCurveType curveType = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
 												   bool looping = false,
 												   void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 
@@ -59,6 +59,7 @@ private:
 														glm::quat initialOrientation, glm::quat finalOrientation,
 														glm::vec3 initialScale, glm::vec3 finalScale,
 														float time,
+														bool cancelCurrentTween,
 														TweenTranslationCurveType curveType,
 														bool looping, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName));
 	//
@@ -69,6 +70,8 @@ private:
 														  float time,
 														  TweenTranslationCurveType curveType
 														  );
+
+	void eraseCompletedTransformTween(OnGoingTransformTweenDetails* tweenDetails, GameObject* gameObject);
 
 	std::map<ObjectIdType, OnGoingTransformTweenDetails*> ongoingTransformTweens;
 	std::list<OnGoingNumberTweenDetails*> ongoingNumberTweens;
