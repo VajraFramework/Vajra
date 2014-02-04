@@ -118,6 +118,18 @@
 	</component>
 	
 	<component name="AiPerception" includePath="ExampleGame/Components/GameScripts/Ai/AiPerception.h">
+		<property name="SetVisionRange">
+			<field name="range" datatype="float"></field>
+		</property>
+		<property name="SetFieldOfVision">
+			<field name="angle" datatype="float"></field>
+		</property>
+		<property name="SetFieldOfVisionDegrees">
+			<field name="angle" datatype="float"></field>
+		</property>
+		<property name="SetVisionAcuity">
+			<field name="acuity" datatype="float"></field>
+		</property>
 	</component>
 	
 	<component name="AiRoutine" includePath="ExampleGame/Components/GameScripts/Ai/AiRoutine.h">

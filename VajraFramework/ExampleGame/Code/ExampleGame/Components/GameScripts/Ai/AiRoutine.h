@@ -19,6 +19,8 @@ public:
 	AiRoutine(Object* object_);
 	~AiRoutine();
 
+	static inline ComponentIdType GetTypeId() { return AiRoutine::componentTypeId; }
+
 	void SetBehavior(std::vector<std::string>& commands);
 
 	void Follow();

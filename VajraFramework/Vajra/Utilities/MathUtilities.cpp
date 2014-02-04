@@ -84,6 +84,21 @@ void catmullromerp(float& destination, const float p0, const float p1, const flo
 		);
 }
 
+void parabolaerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float parabola_a, const float interp) {
+	float parabolaBaseLength = glm::distance(a, b);
+	float maxHeightOfParabola = 4.0f * parabola_a * square(parabolaBaseLength / 2.0f);
+
+	lerp(destination.x, a.x, b.x, interp);
+	lerp(destination.z, a.z, b.z, interp);
+	float parabola_y = (parabolaBaseLength * interp) - (parabolaBaseLength / 2.0f);
+	destination.y = a.y + maxHeightOfParabola -
+						  (4.0f * parabola_a *
+						  square(parabola_y));
+
+	// Adjust for when the parabolic path connects points that are at different heights -- like when jumping onto a ledge:
+	destination.y += (b.y - a.y) * interp;
+}
+
 bool rayPlaneIntersection(Ray& ray, Plane& plane, float& dist) {
 	if(glm::dot(plane.normal, ray.dir) == 0) {
 		return false;

@@ -328,6 +328,26 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "AiPerception") {
 		AiPerception* component = gameObject->GetComponent<AiPerception>();
 		if (component == nullptr) { return; }
+		if (propertyName == "SetVisionRange") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetVisionRange(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetFieldOfVision") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetFieldOfVision(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetFieldOfVisionDegrees") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetFieldOfVisionDegrees(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetVisionAcuity") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetVisionAcuity(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
 		return;
 	}
 	
