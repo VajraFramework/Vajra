@@ -6,6 +6,7 @@
 #ifndef GRIDZONE_H
 #define GRIDZONE_H
 
+#include "ExampleGame/Components/Grid/GridZones/GridZoneDeclarations.h"
 #include "Vajra/Common/Components/Component.h"
 
 //[[COMPONENT]]//
@@ -24,6 +25,8 @@ public:
 	unsigned int CollisionCheck(GridCell* startCell, GridCell* destCell);
 
 protected:
+	GridZoneType zoneType;
+
 	int westBound;
 	int eastBound;
 	int southBound;
