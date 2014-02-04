@@ -39,13 +39,19 @@ public:
 	//[[PROPERTY]]//
 	bool SetDestination(int x, int z);    // Set destination to the center of the designated cell
 	bool SetDestination(glm::vec3 loc);   // Set destination to the designated world position
+	bool SetDestination(GridCell* cell);  // Set destination to the center of the designated cell
 	//[[PROPERTY]]//
 	bool AddDestination(int x, int z);    // Set new destination without destroying current path
 	bool AddDestination(glm::vec3 loc);   // Set new destination without destroying current path
+	bool AddDestination(GridCell* cell);  // Set destination to the center of the designated cell
 
 	void SetLookTarget(int x, int z);     // Set look target to the center of the designated cell
 	void SetLookTarget(glm::vec3 loc);    // Set look target to the designated world position
 	void SetLookTarget(glm::quat orient); // Set look target to the designated orientation
+
+	bool CanReachDestination(int cellX, int cellZ, int maxDistance = -1);
+	bool CanReachDestination(glm::vec3 worldPos, int maxDistance = -1);
+	bool CanReachDestination(GridCell* cell, int maxDistance = -1);
 
 protected:
 	virtual void update();
