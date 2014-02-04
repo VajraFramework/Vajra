@@ -11,9 +11,11 @@
 
 float allowedMovementInPixels = 10.0f;
 float longPressInSeconds = 0.5f;
+
+static Thief* g_thief;
 namespace ThiefTween {
 	void tweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */) {
-
+		g_thief->onSpecialEnd();
 	}
 }
 Thief::Thief() : PlayerUnit() {
@@ -29,6 +31,7 @@ Thief::~Thief() {
 }
 
 void Thief::init() {
+	g_thief = this;
 	this->unitType = UnitType::UNIT_TYPE_THIEF;
 	this->attackSpeed = 10.0f;
 }
@@ -71,6 +74,6 @@ void Thief::startSpecial() {
 
 void Thief::onSpecialEnd() {
 	PlayerUnit::onSpecialEnd();
-	this->gridNavRef->SetMovementSpeed(this->getMoveSpeed());
+	this->gridNavRef->SetGridPosition(this->targetedCell->center.x, this->targetedCell->center.z);
 
 }
