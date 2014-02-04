@@ -15,6 +15,7 @@
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
 #include "ExampleGame/Components/GameScripts/Units/Assassin.h"
 #include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
+#include "ExampleGame/Components/GameScripts/Units/Thief.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
@@ -107,6 +108,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "EnemyUnit") {
 		EnemyUnit* component = gameObject->GetComponent<EnemyUnit>();
 		if (component == nullptr) { component = gameObject->AddComponent<EnemyUnit>(); }
+		return component;
+	}
+	
+	if (componentName == "Thief") {
+		Thief* component = gameObject->GetComponent<Thief>();
+		if (component == nullptr) { component = gameObject->AddComponent<Thief>(); }
 		return component;
 	}
 	
@@ -338,6 +345,12 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	
 	if (componentName == "EnemyUnit") {
 		EnemyUnit* component = gameObject->GetComponent<EnemyUnit>();
+		if (component == nullptr) { return; }
+		return;
+	}
+	
+	if (componentName == "Thief") {
+		Thief* component = gameObject->GetComponent<Thief>();
 		if (component == nullptr) { return; }
 		return;
 	}

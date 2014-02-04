@@ -32,7 +32,7 @@ void Assassin::destroy() {
 bool Assassin::isSpecialTouch(int touchId) {
 	if(this->getTouchNearUnit()) {
 		Touch touch = ENGINE->GetInput()->GetTouch(touchId);
-		if(touch.timeDown < maxSwipeLengthInSeconds && glm::distance(touch.pos, this->touchStartPos) > swipeDistanceInPixels) {
+		if(touch.timeDown <= maxSwipeLengthInSeconds && glm::distance(touch.pos, this->touchStartPos) > swipeDistanceInPixels) {
 			this->swipeDirectionScreen = this->touchStartPos - touch.pos;
 			this->targetedCell = nullptr;
 			return true;

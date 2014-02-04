@@ -2,13 +2,34 @@
 //  Thief.h
 //  ExampleGame
 //
-//  Created by Alex Hogue on 2/4/14.
-//  Copyright (c) 2014 Vajra. All rights reserved.
-//
 
-#ifndef __ExampleGame__Thief__
-#define __ExampleGame__Thief__
+#ifndef THIEF_UNIT_H
+#define THIEF_UNIT_H
 
-#include <iostream>
+#include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
+class GridCell;
 
-#endif /* defined(__ExampleGame__Thief__) */
+//[[COMPONENT]]//
+class Thief : public PlayerUnit {
+public:
+	Thief();
+	Thief(Object* object_);
+	~Thief();
+
+	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
+
+	virtual bool isSpecialTouch(int /* touchId */);
+	virtual void onSpecialTouch(int /* touchId */);
+
+	virtual void startSpecial();
+	virtual void onSpecialEnd();
+private:
+	void init();
+	void destroy();
+	
+	GridCell* targetedCell;
+
+	float attackSpeed;
+};
+
+#endif //THIEF_UNIT_H

@@ -1,9 +1,76 @@
-//
-//  Thief.cpp
-//  ExampleGame
-//
-//  Created by Alex Hogue on 2/4/14.
-//  Copyright (c) 2014 Vajra. All rights reserved.
-//
+#include "ExampleGame/Components/GameScripts/Units/Thief.h"
+#include "ExampleGame/Components/Grid/GridCell.h"
+#include "ExampleGame/Components/Grid/GridManager.h"
+#include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/GameSingletons/GameSingletons.h"
 
-#include "Thief.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/Tween/Tween.h"
+
+float allowedMovementInPixels = 10.0f;
+float longPressInSeconds = 0.5f;
+namespace ThiefTween {
+	void tweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */) {
+
+	}
+}
+Thief::Thief() : PlayerUnit() {
+	this->init();
+}
+
+Thief::Thief(Object* object_) : PlayerUnit(object_) {
+	this->init();
+}
+
+Thief::~Thief() {
+	this->destroy();
+}
+
+void Thief::init() {
+	this->unitType = UnitType::UNIT_TYPE_THIEF;
+	this->attackSpeed = 10.0f;
+}
+
+void Thief::destroy() {
+}
+
+bool Thief::isSpecialTouch(int touchId) {
+	if(this->getTouchNearUnit()) {
+		Touch touch = ENGINE->GetInput()->GetTouch(touchId);
+
+	
+		//if(touch.timeDown >= longPressInSeconds && glm::distance(touch.pos, this->touchStartPos) <= allowedMovementInPixels) {
+			this->targetedCell = nullptr;
+			return true;
+		//}
+	}
+	return false;
+}
+
+void Thief::onSpecialTouch(int touchId) {
+	Touch touch = ENGINE->GetInput()->GetTouch(touchId);
+	if(touch.phase == TouchPhase::Ended) {
+		this->targetedCell = SINGLETONS->GetGridManager()->TouchPositionToCell(touch.pos);
+		this->startSpecial();
+	}
+}
+
+void Thief::startSpecial() {
+	PlayerUnit::startSpecial();
+	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
+											this->gameObjectRef->GetTransform()->GetPosition(),
+											this->targetedCell->center,
+											1.0f,
+											false,
+											TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA, 
+											false,
+											ThiefTween::tweenCallback);
+}
+
+void Thief::onSpecialEnd() {
+	PlayerUnit::onSpecialEnd();
+	this->gridNavRef->SetMovementSpeed(this->getMoveSpeed());
+
+}
