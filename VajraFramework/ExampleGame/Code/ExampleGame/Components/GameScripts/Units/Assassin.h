@@ -30,6 +30,8 @@ private:
 	glm::vec2 swipeDirectionScreen; // direction of the swipe on the device screen
 
 	GridCell* targetedCell;
+
+	float attackSpeed;
 };
 
 #endif //ASSASSIN_UNIT_H

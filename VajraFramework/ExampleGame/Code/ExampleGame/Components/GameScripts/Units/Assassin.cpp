@@ -22,7 +22,9 @@ Assassin::~Assassin() {
 }
 
 void Assassin::init() {
-	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;}
+	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
+	this->attackSpeed = 10.0f;
+}
 
 void Assassin::destroy() {
 }
@@ -49,12 +51,12 @@ void Assassin::onSpecialTouch(int touchId) {
 
 void Assassin::startSpecial() {
 	PlayerUnit::startSpecial();
-	this->gridNavRef->SetMovementSpeed(10.0f);
+	this->gridNavRef->SetMovementSpeed(this->attackSpeed);
 	this->gridNavRef->SetDestination(this->targetedCell->x, this->targetedCell->z);
 }
 
 void Assassin::onSpecialEnd() {
 	PlayerUnit::onSpecialEnd();
-	this->gridNavRef->SetMovementSpeed(1.0f);
+	this->gridNavRef->SetMovementSpeed(this->getMoveSpeed());
 
 }

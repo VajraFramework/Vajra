@@ -17,6 +17,9 @@ public:
 	PlayerUnit(Object* object_);
 	~PlayerUnit();
 
+	// @Override
+	virtual void HandleMessage(MessageChunk messageChunk);
+
 	void OnTouch(int touchId, GridCell* touchedCell);
 	void OnDeselect();
 
@@ -29,22 +32,27 @@ protected:
 	virtual bool isSpecialTouch(int /* touchId */) = 0; 
 	virtual void onSpecialTouch(int /* touchId */) = 0;
 
-	virtual void startSpecial() { performingSpecial = true; }
-	virtual void onSpecialEnd() { performingSpecial = false; }
+	virtual void startSpecial();
+	virtual void onSpecialEnd();
 
 	InputState inputState;
 
 	glm::vec2 touchStartPos;
+
+	float getMoveSpeed() { return this->moveSpeed; }
 private:
 	void init();
 	void destroy();
 
-	GameObject* gameObjectRef;
 	UnitColorScheme colorScheme;
 	bool touchNearUnit;
 	void setTouchNearUnit(); 
 
 	bool performingSpecial;
+
+	// default values for units
+	float moveSpeed;
+	float turnSpeedDegrees;
 };
 
 #endif //PLAYER_UNIT_H

@@ -3,6 +3,7 @@
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
+#include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
@@ -20,19 +21,45 @@ PlayerUnit::~PlayerUnit() {
 }
 
 void PlayerUnit::init() {
-	this->gameObjectRef = (GameObject*)this->GetObject();
 	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
 	this->inputState = InputState::INPUT_STATE_WAIT;
 	this->touchNearUnit = false;
+	this->performingSpecial = false;
+
+	this->moveSpeed = 2.5f;
+	this->turnSpeedDegrees = 360.0f;
+	this->gridNavRef->SetMovementSpeed(this->moveSpeed);
+	this->gridNavRef->SetTurnSpeedDegrees(this->turnSpeedDegrees);
+
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION, this->GetTypeId(), false);
 }
 
 void PlayerUnit::destroy() {
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+}
+
+void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
+	BaseUnit::HandleMessage(messageChunk);
+	switch(messageChunk->GetMessageType()) {
+		case MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION:
+			if(this->performingSpecial) {
+				onSpecialEnd();
+			}
+			break;
+		default:
+			break;
+	}
 }
 
 void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
+
 	if(ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Began) {
 		this->touchStartPos = ENGINE->GetInput()->GetTouch(touchId).pos;
 		this->setTouchNearUnit();
+	}	
+
+	if(this->performingSpecial) {
+		return;
 	}
 
 	switch(this->inputState) {
@@ -57,6 +84,15 @@ void PlayerUnit::onSelectedTouch() {
 	this->inputState = InputState::INPUT_STATE_NAV;
 }
 
+void PlayerUnit::startSpecial() {
+	this->performingSpecial = true;
+	this->gridNavRef->SetDestination(this->gameObjectRef->GetTransform()->GetPosition());
+}
+
+void PlayerUnit::onSpecialEnd() {
+	this->performingSpecial = false;
+	this->inputState = InputState::INPUT_STATE_NAV;
+}
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	if(this->isSpecialTouch(touchId)) {
 		this->inputState = InputState::INPUT_STATE_SPECIAL;

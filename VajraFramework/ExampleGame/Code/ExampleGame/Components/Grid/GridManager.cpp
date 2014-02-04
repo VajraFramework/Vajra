@@ -82,7 +82,7 @@ void GridManager::destroy() {
 
 void GridManager::HandleMessage(MessageChunk messageChunk) {
 	switch (messageChunk->GetMessageType()) {
-#ifdef DEBUG
+#if 0
 		case MESSAGE_TYPE_FRAME_EVENT:
 			debugDrawGrid();
 			break;

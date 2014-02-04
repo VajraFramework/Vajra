@@ -30,6 +30,8 @@ public:
 
 	//[[PROPERTY]]//
 	inline void SetMovementSpeed(float speed);
+	inline void SetTurnSpeedDegrees(float /* degreesPerSecond */);
+	inline void SetTurnSpeedRadians(float /* radiansPerSecond */);
 	inline void SetCurrentCell(GridCell* cell) { this->currentCell = cell;            }
 
 	//[[PROPERTY]]//
@@ -91,6 +93,14 @@ private:
 //
 void GridNavigator::SetMovementSpeed(float speed) {
 	this->movementSpeed = speed;
+}
+
+void GridNavigator::SetTurnSpeedDegrees(float degreesPerSecond) {
+	this->turningSpeed = degreesPerSecond inRadians;
+}
+
+void GridNavigator::SetTurnSpeedRadians(float radiansPerSecond) {
+	this->turningSpeed = radiansPerSecond;
 }
 
 #endif // GRIDNAVIGATOR_H
