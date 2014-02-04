@@ -126,9 +126,8 @@ GridRoom* GridManager::GetRoom(int x, int z) {
 }
 
 GridRoom* GridManager::GetRoom(glm::vec3 loc) {
-	int gX = (int)((loc.x / CELL_SIZE) + 0.5f);
-	int gZ = (int)((-loc.z / CELL_SIZE) + 0.5f);
-	return GetRoom(gX, gZ);
+	GridCell* cell = GetCell(loc);
+	return GetRoom(cell);
 }
 
 GridRoom* GridManager::GetRoom(GridCell* cell) {
@@ -136,6 +135,31 @@ GridRoom* GridManager::GetRoom(GridCell* cell) {
 		for (unsigned int i = 0; i < this->gridRooms.size(); ++i) {
 			if (this->gridRooms[i]->IsWithinRoom(cell->x, cell->z)) {
 				return this->gridRooms[i];
+			}
+		}
+	}
+	return nullptr;
+}
+
+GridZone* GridManager::GetZone(int x, int z) {
+	GridCell* cell = GetCell(x, z);
+	return GetZone(cell);
+}
+
+GridZone* GridManager::GetZone(glm::vec3 loc) {
+	GridCell* cell = GetCell(loc);
+	return GetZone(cell);
+}
+
+GridZone* GridManager::GetZone(GridCell* cell) {
+	if (cell != nullptr) {
+		// If the cell is in multiple zones, only the first one is returned.
+		for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
+			GameObject* zoneObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
+			GridZone* zone = zoneObj->GetComponent<GridZone>();
+
+			if (zone->IsCellWithinZone(cell)) {
+				return zone;
 			}
 		}
 	}
