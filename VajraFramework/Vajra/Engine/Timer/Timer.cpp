@@ -57,9 +57,7 @@ void Timer::beginFrame() {
 	this->frameNumber++;
 
 	// Raise the onFrame event for all interested subscribers:
-	MessageChunk onFrameMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-	onFrameMessage->SetMessageType(MESSAGE_TYPE_FRAME_EVENT);
-	ENGINE->GetMessageHub()->SendMulticastMessage(onFrameMessage, this->GetId());
+	ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_FRAME_EVENT, this->GetId());
 
 	this->broadcastMultiGranularMessages();
 }
@@ -105,15 +103,11 @@ void Timer::broadcastMultiGranularMessages() {
 	// Frame based messagess
 	// Every 5 frames
 	if(this->frameNumber % 5 == 0){
-		MessageChunk onFifthFrameMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-		onFifthFrameMessage->SetMessageType(MESSAGE_TYPE_FIFTH_FRAME_EVENT);
-		ENGINE->GetMessageHub()->SendMulticastMessage(onFifthFrameMessage, this->GetId());
+		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_FIFTH_FRAME_EVENT, this->GetId());
 
 		// Every 10 frames
 		if(this->frameNumber % 10 == 0){
-			MessageChunk onTenthFrameMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-			onTenthFrameMessage->SetMessageType(MESSAGE_TYPE_TENTH_FRAME_EVENT);
-			ENGINE->GetMessageHub()->SendMulticastMessage(onTenthFrameMessage, this->GetId());
+			ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_TENTH_FRAME_EVENT, this->GetId());
 		}
 	}
 
@@ -125,9 +119,7 @@ void Timer::broadcastMultiGranularMessages() {
 	if(fiveHundredMillisecondCounter_temp >= 0.5)
 	{
 		// Send the message
-		MessageChunk every500MillisecondsMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-		every500MillisecondsMessage->SetMessageType(MESSAGE_TYPE_500_MS_TIME_EVENT);
-		ENGINE->GetMessageHub()->SendMulticastMessage(every500MillisecondsMessage, this->GetId());
+		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_500_MS_TIME_EVENT, this->GetId());
 
 		// Decrement counter
 		fiveHundredMillisecondCounter_temp -= 0.5;
@@ -136,9 +128,7 @@ void Timer::broadcastMultiGranularMessages() {
 		if(fiveSecondCounter_temp >= 5.0)
 		{
 			// Send the message
-			MessageChunk every5SecondsMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-			every5SecondsMessage->SetMessageType(MESSAGE_TYPE_5_S_TIME_EVENT);
-			ENGINE->GetMessageHub()->SendMulticastMessage(every5SecondsMessage, this->GetId());
+			ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_5_S_TIME_EVENT, this->GetId());
 
 			// Decrement counter
 			fiveSecondCounter_temp -= 5.0;
