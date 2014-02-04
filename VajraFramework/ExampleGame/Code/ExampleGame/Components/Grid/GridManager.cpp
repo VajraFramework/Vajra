@@ -288,6 +288,33 @@ void GridManager::TouchedCells(GridCell* startCell, GridCell* goalCell, std::lis
 		}
 	}
 }
+
+bool GridManager::HasLineOfSight(GridCell* sourceCell, GridCell* targetCell) {
+	// Make sure both cells exist
+	if ((sourceCell != nullptr) && (targetCell != nullptr)) {
+		// Check the cells along the path
+		std::list<GridCell*> touchedCells;
+		this->TouchedCells(sourceCell, targetCell, touchedCells);
+
+		for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
+			if ((*iter)->y > sourceCell->y) {
+				return false;
+			}
+			if (!(*iter)->isPassable) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+	return false;
+}
+
+bool GridManager::HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ) {
+	GridCell* sourceCell = this->GetCell(sourceCellX, sourceCellZ);
+	GridCell* targetCell = this->GetCell(targetCellX, targetCellZ);
+	return this->HasLineOfSight(sourceCell, targetCell);
+}
 /*
 void GridManager::ToggleOverview() {
 

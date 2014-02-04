@@ -67,6 +67,9 @@ public:
 	bool Passable(GridCell* startCell, GridCell* goalCell);
 	void TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outTouched);
 
+	bool HasLineOfSight(GridCell* sourceCell, GridCell* targetCell);
+	bool HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ);
+
 	/****************
 	// TODO [Implement]
 	std::list<GridCell> GetNeighbors(GridCell* cel, bool diagonals, bool sameRoom);
