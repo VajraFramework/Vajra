@@ -45,9 +45,9 @@ private:
 
 // Inline Functions:
 void BakedSkeletalAnimation::PlayAnimationClip(std::string animationClipName) { this->playAnimationClip(animationClipName); }
-void BakedSkeletalAnimation::PlayAnimationClip()   {}
-void BakedSkeletalAnimation::PauseAnimationClip()  {}
-void BakedSkeletalAnimation::ResumeAnimationClip() {}
-void BakedSkeletalAnimation::StopAnimationClip()   {}
+void BakedSkeletalAnimation::PlayAnimationClip()   { this->playAnimationClip();   }
+void BakedSkeletalAnimation::PauseAnimationClip()  { this->pauseAnimationClip();  }
+void BakedSkeletalAnimation::ResumeAnimationClip() { this->resumeAnimationClip(); }
+void BakedSkeletalAnimation::StopAnimationClip()   { this->stopAnimationClip();   }
 
 #endif // BAKED_SKELETAL_ANIMATION_H
