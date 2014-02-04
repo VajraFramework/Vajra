@@ -6,9 +6,25 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
+
+#define GOOD_TOUCH 0
+#define BAD_TOUCH  1
+
+static GameObject* s_touchIndicator;
+
+void tweenNumberCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName) {
+	if(tweenClipName == "scale") {
+		s_touchIndicator->GetTransform()->SetScale(currentNumber, currentNumber, currentNumber);
+	} else if(tweenClipName == "pulse") {
+		float scaleValue = sinf(currentNumber);
+
+		s_touchIndicator->GetTransform()->SetScale(scaleValue, scaleValue, scaleValue);
+	}
+}
 
 PlayerUnit::PlayerUnit() : BaseUnit() {
 	this->init();
@@ -28,22 +44,33 @@ void PlayerUnit::init() {
 
 	// DECAL TEST
 	this->touchIndicator = new GameObject(ENGINE->GetSceneGraph3D());
+	s_touchIndicator = this->touchIndicator;
 	SpriteRenderer* spriteRenderer = this->touchIndicator->AddComponent<SpriteRenderer>();
-
+	touchIndicator->SetVisible(false);
 	std::vector<std::string> pathsToTextures;
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_Touch_Good.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_Touch_Bad.png");
-	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures);
+	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 	//
 	this->touchIndicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
-	this->touchIndicator->GetTransform()->SetPosition(0.0f, 0.0f, -1.0f);
 }
 
 void PlayerUnit::destroy() {
 }
 
 void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
-	this->touchIndicator->GetTransform()->SetPosition(touchedCell->center + glm::vec3(0.0f, 0.0f, 0.0f));
-	DebugDraw::DrawCube(touchedCell->center, 1.0f);
+	this->touchIndicator->GetTransform()->SetPosition(touchedCell->center);
+	if(ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Began) {
+		touchIndicator->SetVisible(true);
+		this->currentTouchedCell = NULL;
+		// touch indicator tween up
+		glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
+		ENGINE->GetTween()->TweenToNumber(.3f, 1.0f, .5f, false, true, "scale", tweenNumberCallback);
+	}
+	if(this->currentTouchedCell != touchedCell) {
+		this->currentTouchedCell = touchedCell;
+		this->touchedCellChanged();
+	}
 	switch(this->inputState) {
 		case InputState::INPUT_STATE_WAIT:
 			this->onSelectedTouch();
@@ -73,7 +100,16 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	else {
 		if(ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Ended) {
 			this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
+			ENGINE->GetTween()->TweenToNumber(0.0f inRadians, 180.0f inRadians, 2.0f, true, true, "pulse", tweenNumberCallback);
 		}
 	}
 
+}
+
+void PlayerUnit::touchedCellChanged() {
+	/*if(this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z)) {
+		this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
+	} else {
+		this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(BAD_TOUCH);
+	}*/
 }

@@ -84,7 +84,7 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 	switch (messageChunk->GetMessageType()) {
 #ifdef DEBUG
 		case MESSAGE_TYPE_FRAME_EVENT:
-			debugDrawGrid();
+			//debugDrawGrid();
 			break;
 #endif
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
@@ -552,6 +552,7 @@ void GridManager::removeNavigatorFromGrid(ObjectIdType id, glm::vec3 cellPos) {
 		cell->unitId = OBJECT_ID_INVALID;
 	}
 }
+
 void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
 	for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
 		Object* zoneObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);

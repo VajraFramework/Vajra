@@ -36,6 +36,9 @@ private:
 	void destroy();
 
 	GameObject* touchIndicator;
+	GridCell* currentTouchedCell;
+
+	void touchedCellChanged();
 
 	UnitColorScheme colorScheme;
 };
