@@ -209,6 +209,13 @@ void GridNavigator::followPath() {
 	}
 	else {
 		this->isTraveling = false;
+
+		// Send an event message to the unit
+		ObjectIdType myId = this->GetObject()->GetId();
+		MessageChunk reachedDestinationMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		reachedDestinationMessage->SetMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION);
+		reachedDestinationMessage->messageData.fv1 = trans->GetPositionWorld();
+		ENGINE->GetMessageHub()->SendPointcastMessage(reachedDestinationMessage, myId, myId);
 	}
 }
 
