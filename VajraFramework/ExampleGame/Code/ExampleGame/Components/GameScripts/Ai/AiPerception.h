@@ -21,11 +21,13 @@ public:
 	void Activate();
 
 	//[[PROPERTY]]//
-	inline void SetVisionRange(float range)    { this->visionRange = range; }
+	inline void SetVisionRange(float range);
 	//[[PROPERTY]]//
-	inline void SetFieldOfVision(float angle)  { this->fieldOfVision = angle; }
+	inline void SetFieldOfVision(float angle);
 	//[[PROPERTY]]//
-	inline void SetVisionAcuity(float acuity)  { this->visionAcuity = acuity; }
+	inline void SetFieldOfVisionDegrees(float angle);
+	//[[PROPERTY]]//
+	inline void SetVisionAcuity(float acuity);
 
 protected:
 	virtual void update();
@@ -49,5 +51,10 @@ private:
 
 	static ComponentIdType componentTypeId;
 };
+
+void AiPerception::SetVisionRange(float range)           { this->visionRange = range; }
+void AiPerception::SetFieldOfVision(float angle)         { this->fieldOfVision = angle; }
+void AiPerception::SetFieldOfVisionDegrees(float angle)  { this->fieldOfVision = angle inRadians; }
+void AiPerception::SetVisionAcuity(float acuity)         { this->visionAcuity = acuity; }
 
 #endif // AIPERCEPTION_H
