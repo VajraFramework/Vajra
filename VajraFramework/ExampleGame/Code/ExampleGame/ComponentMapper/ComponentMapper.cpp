@@ -13,8 +13,8 @@
 #include "ExampleGame/Components/GameScripts/Ai/AiKnowledge.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiPerception.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
+#include "ExampleGame/Components/GameScripts/Units/Assassin.h"
 #include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
-#include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
@@ -98,15 +98,15 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
-	if (componentName == "EnemyUnit") {
-		EnemyUnit* component = gameObject->GetComponent<EnemyUnit>();
-		if (component == nullptr) { component = gameObject->AddComponent<EnemyUnit>(); }
+	if (componentName == "Assassin") {
+		Assassin* component = gameObject->GetComponent<Assassin>();
+		if (component == nullptr) { component = gameObject->AddComponent<Assassin>(); }
 		return component;
 	}
 	
-	if (componentName == "PlayerUnit") {
-		PlayerUnit* component = gameObject->GetComponent<PlayerUnit>();
-		if (component == nullptr) { component = gameObject->AddComponent<PlayerUnit>(); }
+	if (componentName == "EnemyUnit") {
+		EnemyUnit* component = gameObject->GetComponent<EnemyUnit>();
+		if (component == nullptr) { component = gameObject->AddComponent<EnemyUnit>(); }
 		return component;
 	}
 	
@@ -330,14 +330,14 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
-	if (componentName == "EnemyUnit") {
-		EnemyUnit* component = gameObject->GetComponent<EnemyUnit>();
+	if (componentName == "Assassin") {
+		Assassin* component = gameObject->GetComponent<Assassin>();
 		if (component == nullptr) { return; }
 		return;
 	}
 	
-	if (componentName == "PlayerUnit") {
-		PlayerUnit* component = gameObject->GetComponent<PlayerUnit>();
+	if (componentName == "EnemyUnit") {
+		EnemyUnit* component = gameObject->GetComponent<EnemyUnit>();
 		if (component == nullptr) { return; }
 		return;
 	}

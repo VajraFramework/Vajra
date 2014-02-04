@@ -1,12 +1,14 @@
-#include <algorithm>
 
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
-#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Utilities/Utilities.h"
+
+#include <algorithm>
 
 #if PLATFORM_DESKTOP
 #include "Vajra/Engine/Timer/Timer.h"
@@ -62,6 +64,7 @@ void Input::updateInput() {
 			it != this->asyncTouches.end(); ++it) {
 		it->prevPos = it->pos;
 		it->phase = TouchPhase::Stationary;
+		it->timeDown += ENGINE->GetTimer()->GetDeltaFrameTime();
 	}
 	//logTouches();
 
@@ -109,6 +112,7 @@ void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
 	t.prevPos = t.pos;
 	t.phase = phase;
 	t.fingerId = this->nextFingerId;
+	t.timeDown = 0.0f;
 	// increase the unique finger id
 	this->nextFingerId = (this->nextFingerId + 1) % MAX_TOUCHES;
 

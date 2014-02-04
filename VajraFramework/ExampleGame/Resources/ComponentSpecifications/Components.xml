@@ -123,10 +123,10 @@
 	<component name="AiRoutine" includePath="ExampleGame/Components/GameScripts/Ai/AiRoutine.h">
 	</component>
 	
-	<component name="EnemyUnit" includePath="ExampleGame/Components/GameScripts/Units/EnemyUnit.h">
+	<component name="Assassin" includePath="ExampleGame/Components/GameScripts/Units/Assassin.h">
 	</component>
 	
-	<component name="PlayerUnit" includePath="ExampleGame/Components/GameScripts/Units/PlayerUnit.h">
+	<component name="EnemyUnit" includePath="ExampleGame/Components/GameScripts/Units/EnemyUnit.h">
 	</component>
 	
 	<component name="GridManager" includePath="ExampleGame/Components/Grid/GridManager.h">
@@ -161,8 +161,8 @@
 	
 	<component name="TransitionZone" includePath="ExampleGame/Components/Grid/GridZones/TransitionZone.h">
 		<property name="SetDestination">
-			<field name="x" datatype="int"></field>
-			<field name="z" datatype="int"></field>
+			<field name="cellX" datatype="int"></field>
+			<field name="cellZ" datatype="int"></field>
 		</property>
 	</component>
 	

@@ -2,13 +2,34 @@
 //  Assassin.h
 //  ExampleGame
 //
-//  Created by Alex Hogue on 2/4/14.
-//  Copyright (c) 2014 Vajra. All rights reserved.
-//
 
-#ifndef __ExampleGame__Assassin__
-#define __ExampleGame__Assassin__
+#ifndef ASSASSIN_UNIT_H
+#define ASSASSIN_UNIT_H
 
-#include <iostream>
+#include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
+class GridCell;
 
-#endif /* defined(__ExampleGame__Assassin__) */
+//[[COMPONENT]]//
+class Assassin : public PlayerUnit {
+public:
+	Assassin();
+	Assassin(Object* object_);
+	~Assassin();
+
+	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
+
+	virtual bool isSpecialTouch(int /* touchId */);
+	virtual void onSpecialTouch(int /* touchId */);
+
+	virtual void startSpecial();
+	virtual void onSpecialEnd();
+private:
+	void init();
+	void destroy();
+	
+	glm::vec2 swipeDirectionScreen; // direction of the swipe on the device screen
+
+	GridCell* targetedCell;
+};
+
+#endif //ASSASSIN_UNIT_H
