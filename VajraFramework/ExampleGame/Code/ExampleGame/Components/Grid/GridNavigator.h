@@ -49,9 +49,9 @@ public:
 	void SetLookTarget(glm::vec3 loc);    // Set look target to the designated world position
 	void SetLookTarget(glm::quat orient); // Set look target to the designated orientation
 
-	bool CanReachDestination(int cellX, int cellZ, int maxDistance = -1);
-	bool CanReachDestination(glm::vec3 worldPos, int maxDistance = -1);
-	bool CanReachDestination(GridCell* cell, int maxDistance = -1);
+	bool CanReachDestination(int cellX, int cellZ, float maxDistance = -1.0f);
+	bool CanReachDestination(glm::vec3 worldPos, float maxDistance = -1.0f);
+	bool CanReachDestination(GridCell* cell, float maxDistance = -1.0f);
 
 protected:
 	virtual void update();

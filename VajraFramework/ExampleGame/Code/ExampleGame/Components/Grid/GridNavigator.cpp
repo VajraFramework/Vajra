@@ -143,17 +143,17 @@ void GridNavigator::SetLookTarget(glm::quat orient) {
 	}
 }
 
-bool GridNavigator::CanReachDestination(int cellX, int cellZ, float maxDistance/*= -1*/) {
+bool GridNavigator::CanReachDestination(int cellX, int cellZ, float maxDistance/*= -1.0f*/) {
 	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(cellX, cellZ);
 	return CanReachDestination(goalCell, maxDistance);
 }
 
-bool GridNavigator::CanReachDestination(glm::vec3 worldPos, float maxDistance/*= -1*/) {
+bool GridNavigator::CanReachDestination(glm::vec3 worldPos, float maxDistance/*= -1.0f*/) {
 	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(worldPos);
 	return CanReachDestination(goalCell, maxDistance);
 }
 
-bool GridNavigator::CanReachDestination(GridCell* cell, float maxDistance/*= -1*/) {
+bool GridNavigator::CanReachDestination(GridCell* cell, float maxDistance/*= -1.0f*/) {
 	std::list<GridCell*> dummyPath;
 	float distance = this->calculatePath(this->currentCell, cell, dummyPath);
 
