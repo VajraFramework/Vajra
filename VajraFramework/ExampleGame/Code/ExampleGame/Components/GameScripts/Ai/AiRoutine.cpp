@@ -7,6 +7,7 @@
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "Libraries/glm/gtx/quaternion.hpp"
+#include "Libraries/glm/gtx/vector_angle.hpp"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Timer/Timer.h"
@@ -81,8 +82,11 @@ void AiRoutine::resumeSchedule() {
 	prevMark.Orientation = trans->GetOrientationWorld();
 	AiMarker newMark = this->markers[this->currentMarker];
 
+	glm::vec3 oldForward = QuaternionForwardVector(prevMark.Orientation);
+	glm::vec3 newForward = QuaternionForwardVector(newMark.Orientation);
+
 	float dist = glm::distance(prevMark.Position, newMark.Position);
-	float angle = glm::angle(glm::inverse(prevMark.Orientation) * newMark.Orientation);
+	float angle = glm::angle(oldForward, newForward);
 	GridNavigator* gNav = this->GetObject()->GetComponent<GridNavigator>();
 	if (dist > ROUNDING_ERROR) {
 		this->currentMarkerType = AI_MARKER_WALK;
