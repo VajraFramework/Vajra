@@ -30,6 +30,8 @@ AiKnowledge::~AiKnowledge() {
 
 void AiKnowledge::LearnAboutObject(ObjectIdType objId, float awareness) {
 	GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(objId);
+
+	ASSERT(gObj != nullptr, "Gather information about the object with id %d", objId);
 	if (gObj != nullptr) {
 		auto iter = this->myKnowledge.find(objId);
 		if (iter == this->myKnowledge.end()) {
@@ -45,26 +47,29 @@ void AiKnowledge::LearnAboutObject(ObjectIdType objId, float awareness) {
 		}
 
 		BaseUnit* unit = gObj->GetComponent<BaseUnit>();
-		if ((awareness >= AI_AWARENESS_THRESHOLD_UNIT_TYPE) && (unit != nullptr)) {
-			if (this->myKnowledge[objId]->Type == UNIT_TYPE_UNKNOWN) {
-				// The player has been sighted!
-				this->myKnowledge[objId]->Type = unit->GetUnitType();
+		ASSERT(unit != nullptr, "GameObject with id %d has BaseUnit component", objId);
+		if (unit != nullptr) {
+			if (awareness >= AI_AWARENESS_THRESHOLD_UNIT_TYPE) {
+				if (this->myKnowledge[objId]->Type == UNIT_TYPE_UNKNOWN) {
+					// The player has been sighted!
+					this->myKnowledge[objId]->Type = unit->GetUnitType();
 
-				MessageChunk sightedPlayerMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-				sightedPlayerMessage->SetMessageType(MESSAGE_TYPE_AI_SIGHTED_PLAYER);
-				sightedPlayerMessage->messageData.i = objId;
-				ENGINE->GetMessageHub()->SendPointcastMessage(sightedPlayerMessage, this->GetObject()->GetId(), objId);
+					MessageChunk sightedPlayerMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+					sightedPlayerMessage->SetMessageType(MESSAGE_TYPE_AI_SIGHTED_PLAYER);
+					sightedPlayerMessage->messageData.i = objId;
+					ENGINE->GetMessageHub()->SendPointcastMessage(sightedPlayerMessage, this->GetObject()->GetId(), objId);
+				}
 			}
-		}
-		else {
-			if (this->myKnowledge[objId]->Type != UNIT_TYPE_UNKNOWN) {
-				// The AI has lost sight of the player
-				this->myKnowledge[objId]->Type = UNIT_TYPE_UNKNOWN;
+			else {
+				if (this->myKnowledge[objId]->Type != UNIT_TYPE_UNKNOWN) {
+					// The AI has lost sight of the player
+					this->myKnowledge[objId]->Type = UNIT_TYPE_UNKNOWN;
 
-				MessageChunk lostSightOfPlayerMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-				lostSightOfPlayerMessage->SetMessageType(MESSAGE_TYPE_AI_LOST_SIGHT_OF_PLAYER);
-				lostSightOfPlayerMessage->messageData.i = objId;
-				ENGINE->GetMessageHub()->SendPointcastMessage(lostSightOfPlayerMessage, this->GetObject()->GetId(), objId);
+					MessageChunk lostSightOfPlayerMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+					lostSightOfPlayerMessage->SetMessageType(MESSAGE_TYPE_AI_LOST_SIGHT_OF_PLAYER);
+					lostSightOfPlayerMessage->messageData.i = objId;
+					ENGINE->GetMessageHub()->SendPointcastMessage(lostSightOfPlayerMessage, this->GetObject()->GetId(), objId);
+				}
 			}
 		}
 	}

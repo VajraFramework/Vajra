@@ -19,7 +19,6 @@ struct UnitInformation {
 	float Awareness;
 	glm::vec3 Location;
 	UnitType Type;
-	// TODO [Implement] Fill this in.
 
 	UnitInformation() {
 		this->Awareness = 0.0f;
