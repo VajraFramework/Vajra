@@ -190,12 +190,12 @@ namespace Tesserakonteres {
 
 			Transform* transform = gameObject->GetTransform();
 			transform->Scale(0.4f);
-			transform->SetPosition(5.0f, 0.0f, -10.0f);
+			transform->SetPosition(5.0f, 0.0f, -8.0f);
 			transform->SetOrientation(PI / 2.0f, YAXIS);
 
 #if 1
 			glm::vec3 currentPosition = transform->GetPosition();
-			glm::vec3 finalPosition   = currentPosition + glm::vec3(4.0f, 2.0f, 1.0f);
+			glm::vec3 finalPosition   = currentPosition + glm::vec3(4.0f, 1.0f, 2.0f);
 
 			// glm::quat currentOrientation = transform->GetOrientation();
 			// glm::quat finalOrientation   = glm::angleAxis(PI / 4.0f, YAXIS);
@@ -207,9 +207,9 @@ namespace Tesserakonteres {
 #if 1
 			ENGINE->GetTween()->TweenPosition(gameObject->GetId(),
 											  currentPosition, finalPosition,
-											  20.0f,
+											  4.0f,
 											  true,
-											  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+											  TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA,
 											  true,
 											  tweenCallback);
 #endif

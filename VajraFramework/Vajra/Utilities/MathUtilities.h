@@ -39,6 +39,7 @@ glm::vec3 QuaternionForwardVector(glm::quat q);
 void lerp(float& destination, const float a, const float b, const float interp);
 void slerp(glm::quat& destination, const glm::quat a, const glm::quat b, float interp);
 void catmullromerp(float& destination, const float p0, const float p1, const float p2, const float p3, const float interp);
+void parabolaerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float parabola_a, const float interp);
 
 // Simple intersection
 struct Ray {

@@ -226,95 +226,6 @@ void Tween::updateNumberTweens(float deltaTime) {
 	}
 }
 
-
-#if 0
-#define TWEEN_PARABOLA_a 0.08f                  // From x = 4ay^2
-#define TWEEN_PARABOLA_NUM_SAMPLES 15
-
-
-void Tween::populateRigidAnimationKeyframesForTweenTransform(std::vector<AnimationKeyFrame*>* keyframes,
-															 glm::vec3& initialPosition, glm::vec3& finalPosition,
-															 glm::quat& initialOrientation, glm::quat& finalOrientation,
-															 glm::vec3& initialScale, glm::vec3& finalScale,
-															 float time,
-															 TweenTranslationCurveType curveType) {
-
-	switch (curveType) {
-	case TWEEN_TRANSLATION_CURVE_TYPE_LINEAR: {
-		RigidAnimationKeyFrame* initialKeyFrame = new RigidAnimationKeyFrame();
-		RigidAnimationKeyFrame* finalKeyFrame   = new RigidAnimationKeyFrame();
-		//
-		initialKeyFrame->SetTime(0.0f);
-		initialKeyFrame->SetTranslation(initialPosition);
-		initialKeyFrame->SetRotation(initialOrientation);
-		initialKeyFrame->SetScaling(initialScale);
-		//
-		finalKeyFrame->SetTime(time);
-		finalKeyFrame->SetTranslation(finalPosition);
-		finalKeyFrame->SetRotation(finalOrientation);
-		finalKeyFrame->SetScaling(finalScale);
-
-		keyframes->push_back(initialKeyFrame);
-		keyframes->push_back(finalKeyFrame);
-
-
-	} break;
-
-	case TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA: {
-		/*
-		 * This assumes that the required parabola is one in the plane that is perpendicular to the XZ plane
-		 */
-		// TODO [Implement] Parabolas in arbitrary planes:
-
-		float parabolaBaseLength = glm::distance(initialPosition, finalPosition);
-
-		for (int sample = 0; sample < TWEEN_PARABOLA_NUM_SAMPLES; ++sample) {
-			float normalizedSampleNumber = ((float)sample / (float)TWEEN_PARABOLA_NUM_SAMPLES);
-
-			RigidAnimationKeyFrame* keyframe = new RigidAnimationKeyFrame();
-			keyframe->SetTime(time * normalizedSampleNumber);
-
-			float maxHeightOfParabola = 4.0f * TWEEN_PARABOLA_a * square(parabolaBaseLength / 2.0f);
-
-			glm::vec3 positionAlongParabola;
-			lerp(positionAlongParabola.x, initialPosition.x, finalPosition.x, normalizedSampleNumber);
-			lerp(positionAlongParabola.z, initialPosition.z, finalPosition.z, normalizedSampleNumber);
-			float parabola_y = (parabolaBaseLength * normalizedSampleNumber) - (parabolaBaseLength / 2.0f);
-			positionAlongParabola.y = initialPosition.y +
-									  maxHeightOfParabola -
-									  (4.0f * TWEEN_PARABOLA_a *
-									  square(parabola_y));
-			// Adjust for when the parabolic path connects points that are at different heights -- like when jumping onto a ledge:
-			positionAlongParabola.y += (finalPosition.y - initialPosition.y) * normalizedSampleNumber;
-
-			glm::quat slerpedOrientation;
-			slerp(slerpedOrientation, initialOrientation, finalOrientation, normalizedSampleNumber);
-
-			glm::vec3 lerpedScaling;
-			lerp(lerpedScaling, initialScale, finalScale, normalizedSampleNumber);
-
-			keyframe->SetTranslation(positionAlongParabola);
-			keyframe->SetRotation(slerpedOrientation);
-			keyframe->SetScaling(lerpedScaling);
-
-			keyframes->push_back(keyframe);
-		}
-		//
-		RigidAnimationKeyFrame* finalKeyFrame   = new RigidAnimationKeyFrame();
-		finalKeyFrame->SetTime(time);
-		finalKeyFrame->SetTranslation(finalPosition);
-		finalKeyFrame->SetRotation(finalOrientation);
-		finalKeyFrame->SetScaling(finalScale);
-		//
-		keyframes->push_back(finalKeyFrame);
-
-	} break;
-
-	default: ASSERT(0, "Recognized curve type: %d", curveType);
-	}
-}
-#endif
-
 bool Tween::IsTweening_transform(ObjectIdType gameObjectId, TransformTweenTarget transformTweenTarget) {
 	switch (transformTweenTarget) {
 	case TRANSFORM_TWEEN_TARGET_POSITION:
@@ -390,6 +301,9 @@ void OnGoingNumberTweenDetails::ResetTween() {
 	this->currentNumber = this->fromNumber;
 }
 
+
+#define TWEEN_PARABOLA_a 0.08f                  // From x = 4ay^2
+
 bool OnGoingTransformTweenDetails::StepTween(float deltaTime) {
 	float curTime = this->currentTime + deltaTime;
 	float interp = curTime / this->totalTime;
@@ -401,7 +315,11 @@ bool OnGoingTransformTweenDetails::StepTween(float deltaTime) {
 
 	switch (this->tweenTarget) {
 	case TRANSFORM_TWEEN_TARGET_POSITION: {
-		lerp(this->current_v, this->from_v, this->to_v, interp);
+		if (this->curveType == TWEEN_TRANSLATION_CURVE_TYPE_LINEAR) {
+			lerp(this->current_v, this->from_v, this->to_v, interp);
+		} else if (this->curveType == TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA) {
+			parabolaerp(this->current_v, this->from_v, this->to_v, TWEEN_PARABOLA_a, interp);
+		}
 		transform->SetPosition(this->current_v);
 	} break;
 
