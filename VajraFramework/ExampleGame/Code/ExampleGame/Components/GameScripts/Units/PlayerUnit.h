@@ -23,6 +23,7 @@ public:
 	void OnTouch(int touchId, GridCell* touchedCell);
 	void OnDeselect();
 
+	inline bool GetPerformingSpecial() { return this->performingSpecial; }
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 protected:
 	void onSelectedTouch();
