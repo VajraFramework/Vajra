@@ -8,7 +8,6 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/Tween/Tween.h"
-#include "Vajra/Engine/Tween/TweenCallbackComponent.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -16,37 +15,90 @@
 
 #include <cstdio>
 
-// Forward Declarations:
-std::string getRandomTweenName();
-
 Tween::Tween() {
+	this->init();
 }
 
 Tween::~Tween() {
 	this->destroy();
 }
 
-void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, bool cancelCurrentTween /* = true */, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
-	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
-	if (gameObject != nullptr) {
-		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
-		glm::vec3 currentScale       = gameObject->GetTransform()->GetScale();
-		Tween::tweenTransform_internal(gameObject, initialPosition, finalPosition,
-												  currentOrientation, currentOrientation,
-												  currentScale, currentScale,
-												  time, cancelCurrentTween, curveType, looping, callback);
+void Tween::createNewTransformTween(ObjectIdType gameObjectId, TransformTweenTarget transformTweenTarget,
+		glm::vec3 from_v, glm::vec3 to_v, float time,
+		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName),
+		bool looping,
+		TweenTranslationCurveType curveType) {
+	OnGoingTransformTweenDetails* newTransformTweenDetails = new OnGoingTransformTweenDetails();
+	newTransformTweenDetails->tweenTarget  = transformTweenTarget;
+	newTransformTweenDetails->from_v       = from_v;
+	newTransformTweenDetails->to_v         = to_v;
+	newTransformTweenDetails->current_v    = from_v;
+	newTransformTweenDetails->callback     = callback;
+	newTransformTweenDetails->looping      = looping;
+	newTransformTweenDetails->gameObjectId = gameObjectId;
+	newTransformTweenDetails->curveType    = curveType;
+	newTransformTweenDetails->totalTime    = time;
+	ASSERT(time != 0, "TimePeriod to tween over is not zero");
+
+	switch (transformTweenTarget) {
+	case TRANSFORM_TWEEN_TARGET_POSITION: { this->ongoingPositionTweens[gameObjectId] = newTransformTweenDetails; } break;
+	case TRANSFORM_TWEEN_TARGET_SCALE:    { this->ongoingScaleTweens[gameObjectId]    = newTransformTweenDetails; } break;
+	default:                              { ASSERT(0, "Unknown TransformTweenTarget %d", transformTweenTarget);   } break;
+	}
+}
+
+void Tween::createNewTransformTween(ObjectIdType gameObjectId, TransformTweenTarget transformTweenTarget,
+		glm::quat from_q, glm::quat to_q, float time,
+		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName),
+		bool looping) {
+	OnGoingTransformTweenDetails* newTransformTweenDetails = new OnGoingTransformTweenDetails();
+	newTransformTweenDetails->tweenTarget  = transformTweenTarget;
+	newTransformTweenDetails->from_q       = from_q;
+	newTransformTweenDetails->to_q         = to_q;
+	newTransformTweenDetails->current_q    = from_q;
+	newTransformTweenDetails->callback     = callback;
+	newTransformTweenDetails->looping      = looping;
+	newTransformTweenDetails->gameObjectId = gameObjectId;
+	newTransformTweenDetails->totalTime    = time;
+	ASSERT(time != 0, "TimePeriod to tween over is not zero");
+
+	switch (transformTweenTarget) {
+	case TRANSFORM_TWEEN_TARGET_ORIENTATION: { this->ongoingOrientationTweens[gameObjectId] = newTransformTweenDetails; } break;
+	default:                                 { ASSERT(0, "Unknown TransformTweenTarget %d", transformTweenTarget);      } break;
 	}
 }
 
 void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, bool cancelCurrentTween /* = true */, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
-		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
-		glm::vec3 currentScale       = gameObject->GetTransform()->GetScale();
-		Tween::tweenTransform_internal(gameObject, gameObject->GetTransform()->GetPosition(), finalPosition,
-											  	  currentOrientation, currentOrientation,
-											  	  currentScale, currentScale,
-											  	  time, cancelCurrentTween, curveType, looping, callback);
+		this->TweenPosition(gameObjectId, gameObject->GetTransform()->GetPosition(), finalPosition, time, cancelCurrentTween, curveType, looping, callback);
+	}
+}
+
+void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, bool cancelCurrentTween /* = true */, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
+	if (gameObject != nullptr) {
+		if (this->IsTweening_transform(gameObjectId, TRANSFORM_TWEEN_TARGET_POSITION)) {
+			if (!cancelCurrentTween) {
+				FRAMEWORK->GetLogger()->dbglog("\nWARNING GameObject %d is already tweening on position, ignoring tween command", gameObject->GetId());
+				return;
+			} else {
+				// Cancel current tween
+				this->cancelOngoingTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_POSITION);
+			}
+		}
+
+		this->createNewTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_POSITION, initialPosition, finalPosition, time, callback, looping, curveType);
+
+	} else {
+		FRAMEWORK->GetLogger()->dbglog("\nTrying to tween null GameObject");
+	}
+}
+
+void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientation, float time, bool cancelCurrentTween /* = true */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) /* = 0 */) {
+	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
+	if (gameObject != nullptr) {
+		this->TweenOrientation(gameObjectId, gameObject->GetTransform()->GetOrientation(), finalOrientation, time, cancelCurrentTween, looping, callback);
 	}
 }
 
@@ -54,25 +106,27 @@ void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat initialOrienta
 		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) /* = 0 */) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
-		glm::vec3 currentPosition    = gameObject->GetTransform()->GetPosition();
-		glm::vec3 currentScale       = gameObject->GetTransform()->GetScale();
-		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
-											  	  initialOrientation, finalOrientation,
-											  	  currentScale, currentScale,
-											  	  time, cancelCurrentTween, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
+		if (this->IsTweening_transform(gameObjectId, TRANSFORM_TWEEN_TARGET_ORIENTATION)) {
+			if (!cancelCurrentTween) {
+				FRAMEWORK->GetLogger()->dbglog("\nWARNING GameObject %d is already tweening on orientation, ignoring tween command", gameObject->GetId());
+				return;
+			} else {
+				// Cancel current tween
+				this->cancelOngoingTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_ORIENTATION);
+			}
+		}
+
+		this->createNewTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_ORIENTATION, initialOrientation, finalOrientation, time, callback, looping);
+
+	} else {
+		FRAMEWORK->GetLogger()->dbglog("\nTrying to tween null GameObject");
 	}
 }
 
-void Tween::TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientation, float time, bool cancelCurrentTween /* = true */, bool looping /* = false */,
-		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float time, bool cancelCurrentTween /* = true */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
-		glm::vec3 currentPosition    = gameObject->GetTransform()->GetPosition();
-		glm::vec3 currentScale       = gameObject->GetTransform()->GetScale();
-		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
-											  	  gameObject->GetTransform()->GetOrientation(), finalOrientation,
-											  	  currentScale, currentScale,
-											  	  time, cancelCurrentTween, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
+		this->TweenScale(gameObjectId, gameObject->GetTransform()->GetScale(), finalScale, time, cancelCurrentTween, looping, callback);
 	}
 }
 
@@ -80,45 +134,41 @@ void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::v
 		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
-		glm::vec3 currentPosition    = gameObject->GetTransform()->GetPosition();
-		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
-		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
-											  	  currentOrientation, currentOrientation,
-											  	  initialScale, finalScale,
-											  	  time, cancelCurrentTween, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
+		if (this->IsTweening_transform(gameObjectId, TRANSFORM_TWEEN_TARGET_SCALE)) {
+			if (!cancelCurrentTween) {
+				FRAMEWORK->GetLogger()->dbglog("\nWARNING GameObject %d is already tweening on scale, ignoring tween command", gameObject->GetId());
+				return;
+			} else {
+				// Cancel current tween
+				this->cancelOngoingTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_SCALE);
+			}
+		}
+
+		this->createNewTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_SCALE, initialScale, finalScale, time, callback, looping);
+
+	} else {
+		FRAMEWORK->GetLogger()->dbglog("\nTrying to tween null GameObject");
 	}
 }
 
-void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float time, bool cancelCurrentTween /* = true */, bool looping /* = false */,
-		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
-	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
-	if (gameObject != nullptr) {
-		glm::vec3 currentPosition    = gameObject->GetTransform()->GetPosition();
-		glm::quat currentOrientation = gameObject->GetTransform()->GetOrientation();
-		Tween::tweenTransform_internal(gameObject, currentPosition, currentPosition,
-											  	  currentOrientation, currentOrientation,
-											  	  gameObject->GetTransform()->GetScale(), finalScale,
-											  	  time, cancelCurrentTween, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, looping, callback);
-	}
-}
-
-void Tween::TweenTransform(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition,
-												      glm::quat initialOrientation, glm::quat finalOrientation,
-												      glm::vec3 initialScale, glm::vec3 finalScale,
-												      float time, bool cancelCurrentTween /* = true */, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */,
-												      void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
-	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
-	if (gameObject != nullptr) {
-		this->tweenTransform_internal(gameObject, initialPosition, finalPosition,
-												  initialOrientation, finalOrientation,
-												  initialScale, finalScale,
-												  time, cancelCurrentTween, curveType, looping, callback);
-	}
-}
-
-void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool looping, bool continuousUpdates, std::string tweenName,
+void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool cancelCurrentTween, bool looping, bool continuousUpdates, std::string tweenName,
 						  void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName)) {
-	OnGoingNumberTweenDetails* newNumberTween = new OnGoingNumberTweenDetails();
+	bool resettingExistingTween = false;
+	OnGoingNumberTweenDetails* newNumberTween = nullptr;
+	if (this->IsTweening_number(tweenName)) {
+		if (cancelCurrentTween) {
+			this->cancelOngoingNumberTween(tweenName);
+			newNumberTween = new OnGoingNumberTweenDetails();
+		} else {
+			// Reset the tween:
+			newNumberTween = this->ongoingNumberTweens[tweenName];
+			newNumberTween->ResetTween();
+			resettingExistingTween = true;
+		}
+	} else {
+		newNumberTween = new OnGoingNumberTweenDetails();
+	}
+	ASSERT(newNumberTween != nullptr, "Number tween not nullptr");
 	newNumberTween->fromNumber                = fromNumber;
 	newNumberTween->currentNumber             = fromNumber;
 	newNumberTween->toNumber                  = toNumber;
@@ -129,212 +179,111 @@ void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bo
 	newNumberTween->looping                   = looping;
 	ASSERT(timePeriod != 0, "TimePeriod to tween over is not zero");
 
-	this->ongoingNumberTweens.push_back(newNumberTween);
+	if (!resettingExistingTween) {
+		this->ongoingNumberTweens[tweenName] = newNumberTween;
+	}
 }
 
 void Tween::updateTweens() {
 	float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
+	this->updateNumberTweens(deltaTime);
+	this->updateTransformTweens(deltaTime);
+}
+
+void Tween::updateTransformTweens(float deltaTime) {
+	this->updateTransformTweens_internal(deltaTime, &this->ongoingPositionTweens);
+	this->updateTransformTweens_internal(deltaTime, &this->ongoingOrientationTweens);
+	this->updateTransformTweens_internal(deltaTime, &this->ongoingScaleTweens);
+}
+
+void Tween::updateTransformTweens_internal(float deltaTime, std::map<ObjectIdType, OnGoingTransformTweenDetails*>* ongoingTweens) {
+	std::vector<ObjectIdType> gameObjectIdsOfCompletedTweens;
+	for (auto it = ongoingTweens->begin(); it != ongoingTweens->end(); ++it) {
+		OnGoingTransformTweenDetails* tweenDetails = it->second;
+
+		if (!tweenDetails->StepTween(deltaTime)) {
+			gameObjectIdsOfCompletedTweens.push_back(tweenDetails->gameObjectId);
+		}
+	}
+	// Erase completed tweens:
+	for (ObjectIdType gameObjectId : gameObjectIdsOfCompletedTweens) {
+		ongoingTweens->erase(gameObjectId);
+	}
+}
+
+void Tween::updateNumberTweens(float deltaTime) {
+	std::vector<std::string> completedTweensToBeRemoved;
 	for (auto it = this->ongoingNumberTweens.begin(); it != this->ongoingNumberTweens.end(); ++it) {
-		OnGoingNumberTweenDetails* tweenDetails = *it;
+		OnGoingNumberTweenDetails* tweenDetails = it->second;
 
-		float newCurrentNumber = tweenDetails->currentNumber + deltaTime * (tweenDetails->toNumber - tweenDetails->fromNumber) / tweenDetails->totalTime;
-		tweenDetails->currentNumber = newCurrentNumber;
-		if (newCurrentNumber > tweenDetails->toNumber || tweenDetails->continuousUpdates) {
-			tweenDetails->callback(tweenDetails->fromNumber, tweenDetails->toNumber, newCurrentNumber, tweenDetails->tweenName);
+		if (!tweenDetails->StepTween(deltaTime)) {
+			completedTweensToBeRemoved.push_back(tweenDetails->tweenName);
 		}
-
-		if (newCurrentNumber > tweenDetails->toNumber) {
-			if (tweenDetails->looping) {
-				tweenDetails->currentNumber = tweenDetails->fromNumber;
-			} else {
-				// Erase completed tweens:
-				std::list<OnGoingNumberTweenDetails*>::iterator nextIt = this->ongoingNumberTweens.erase(it);
-				if (nextIt != this->ongoingNumberTweens.end()) {
-					it = nextIt;
-				} else {
-					break;
-				}
-			}
-		}
+	}
+	// Erase completed tweens:
+	for (std::string tweenName : completedTweensToBeRemoved) {
+		this->ongoingNumberTweens.erase(tweenName);
 	}
 }
 
-void Tween::tweenTransform_internal(GameObject* gameObject, glm::vec3 initialPosition, glm::vec3 finalPosition,
-														glm::quat initialOrientation, glm::quat finalOrientation,
-														glm::vec3 initialScale, glm::vec3 finalScale,
-														float time, bool cancelCurrentTween, TweenTranslationCurveType curveType, bool looping, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
-	if (gameObject == nullptr) {
-		FRAMEWORK->GetLogger()->dbglog("\nTrying to tween null GameObject");
-		return;
+bool Tween::IsTweening_transform(ObjectIdType gameObjectId, TransformTweenTarget transformTweenTarget) {
+	switch (transformTweenTarget) {
+	case TRANSFORM_TWEEN_TARGET_POSITION:
+		return (this->ongoingPositionTweens.find(gameObjectId) != this->ongoingPositionTweens.end());
+	case TRANSFORM_TWEEN_TARGET_ORIENTATION:
+		return (this->ongoingOrientationTweens.find(gameObjectId) != this->ongoingOrientationTweens.end());
+	case TRANSFORM_TWEEN_TARGET_SCALE:
+		return (this->ongoingScaleTweens.find(gameObjectId) != this->ongoingScaleTweens.end());
+	default:
+		ASSERT(0, "Unknown TransformTweenTarget %d", transformTweenTarget);
 	}
-
-	if (this->IsTweening(gameObject->GetId())) {
-		if (!cancelCurrentTween) {
-			FRAMEWORK->GetLogger()->dbglog("\nWARNING GameObject %d is already tweening, ignoring tween command", gameObject->GetId());
-			return;
-		} else {
-			OnGoingTransformTweenDetails* ongoingTweenDetails = this->getOnGoingTransformTweenDetails(gameObject->GetId());
-			ASSERT(ongoingTweenDetails != nullptr, "Found ongoing tween details");
-			this->eraseCompletedTransformTween(ongoingTweenDetails, gameObject);
-		}
-	}
-
-	// Reset the current transform of the game object to the origin:
-	gameObject->GetTransform()->SetPosition(ZERO_VEC3);
-	gameObject->GetTransform()->SetOrientation(IDENTITY_QUATERNION);
-	gameObject->GetTransform()->SetScale(1.0f, 1.0f, 1.0f);
-
-	RigidAnimation* rigidAnimation = gameObject->GetComponent<RigidAnimation>();
-	if (rigidAnimation == nullptr) {
-		rigidAnimation = gameObject->AddComponent<RigidAnimation>();
-		FRAMEWORK->GetLogger()->dbglog("\nTween added RigidAnimation Component to GameObject %d", gameObject->GetId());
-	}
-
-	std::string tweenClipName = getRandomTweenName();
-	//
-	OnGoingTransformTweenDetails* ongoingTweenDetails = new OnGoingTransformTweenDetails();
-	ongoingTweenDetails->tweenClipName = tweenClipName;
-	ongoingTweenDetails->callback = callback;
-	ongoingTweenDetails->looping = looping;
-	this->ongoingTransformTweens[gameObject->GetId()] = ongoingTweenDetails;
-
-	RigidAnimationClip* newAnimationClip = new RigidAnimationClip(rigidAnimation);
-	std::vector<AnimationKeyFrame*> keyframes;
-	this->populateRigidAnimationKeyframesForTweenTransform(&keyframes,
-							initialPosition, finalPosition,
-							initialOrientation, finalOrientation,
-							initialScale, finalScale,
-							time,
-							curveType);
-	newAnimationClip->InitAnimationClip(tweenClipName, keyframes);
-	newAnimationClip->SetLooping(looping);
-	newAnimationClip->SetIsTween(true);
-
-
-	rigidAnimation->AddAnimationClip(newAnimationClip);
-
-	rigidAnimation->PlayAnimationClip(tweenClipName);
+	return false;
 }
 
-#define TWEEN_PARABOLA_a 0.08f                  // From x = 4ay^2
-#define TWEEN_PARABOLA_NUM_SAMPLES 15
+bool Tween::IsTweening_number(std::string tweenName) {
+	return (this->ongoingNumberTweens.find(tweenName) != this->ongoingNumberTweens.end());
+}
 
+void Tween::cancelOngoingTransformTween(ObjectIdType gameObjectId, TransformTweenTarget tweenTarget) {
 
-void Tween::populateRigidAnimationKeyframesForTweenTransform(std::vector<AnimationKeyFrame*>* keyframes,
-															 glm::vec3& initialPosition, glm::vec3& finalPosition,
-															 glm::quat& initialOrientation, glm::quat& finalOrientation,
-															 glm::vec3& initialScale, glm::vec3& finalScale,
-															 float time,
-															 TweenTranslationCurveType curveType) {
-
-	switch (curveType) {
-	case TWEEN_TRANSLATION_CURVE_TYPE_LINEAR: {
-		RigidAnimationKeyFrame* initialKeyFrame = new RigidAnimationKeyFrame();
-		RigidAnimationKeyFrame* finalKeyFrame   = new RigidAnimationKeyFrame();
-		//
-		initialKeyFrame->SetTime(0.0f);
-		initialKeyFrame->SetTranslation(initialPosition);
-		initialKeyFrame->SetRotation(initialOrientation);
-		initialKeyFrame->SetScaling(initialScale);
-		//
-		finalKeyFrame->SetTime(time);
-		finalKeyFrame->SetTranslation(finalPosition);
-		finalKeyFrame->SetRotation(finalOrientation);
-		finalKeyFrame->SetScaling(finalScale);
-
-		keyframes->push_back(initialKeyFrame);
-		keyframes->push_back(finalKeyFrame);
-
-
+	switch (tweenTarget) {
+	case TRANSFORM_TWEEN_TARGET_POSITION: {
+		this->ongoingPositionTweens.erase(gameObjectId);
 	} break;
 
-	case TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA: {
-		/*
-		 * This assumes that the required parabola is one in the plane that is perpendicular to the XZ plane
-		 */
-		// TODO [Implement] Parabolas in arbitrary planes:
-
-		float parabolaBaseLength = glm::distance(initialPosition, finalPosition);
-
-		for (int sample = 0; sample < TWEEN_PARABOLA_NUM_SAMPLES; ++sample) {
-			float normalizedSampleNumber = ((float)sample / (float)TWEEN_PARABOLA_NUM_SAMPLES);
-
-			RigidAnimationKeyFrame* keyframe = new RigidAnimationKeyFrame();
-			keyframe->SetTime(time * normalizedSampleNumber);
-
-			float maxHeightOfParabola = 4.0f * TWEEN_PARABOLA_a * square(parabolaBaseLength / 2.0f);
-
-			glm::vec3 positionAlongParabola;
-			lerp(positionAlongParabola.x, initialPosition.x, finalPosition.x, normalizedSampleNumber);
-			lerp(positionAlongParabola.z, initialPosition.z, finalPosition.z, normalizedSampleNumber);
-			float parabola_y = (parabolaBaseLength * normalizedSampleNumber) - (parabolaBaseLength / 2.0f);
-			positionAlongParabola.y = initialPosition.y +
-									  maxHeightOfParabola -
-									  (4.0f * TWEEN_PARABOLA_a *
-									  square(parabola_y));
-			// Adjust for when the parabolic path connects points that are at different heights -- like when jumping onto a ledge:
-			positionAlongParabola.y += (finalPosition.y - initialPosition.y) * normalizedSampleNumber;
-
-			glm::quat slerpedOrientation;
-			slerp(slerpedOrientation, initialOrientation, finalOrientation, normalizedSampleNumber);
-
-			glm::vec3 lerpedScaling;
-			lerp(lerpedScaling, initialScale, finalScale, normalizedSampleNumber);
-
-			keyframe->SetTranslation(positionAlongParabola);
-			keyframe->SetRotation(slerpedOrientation);
-			keyframe->SetScaling(lerpedScaling);
-
-			keyframes->push_back(keyframe);
-		}
-		//
-		RigidAnimationKeyFrame* finalKeyFrame   = new RigidAnimationKeyFrame();
-		finalKeyFrame->SetTime(time);
-		finalKeyFrame->SetTranslation(finalPosition);
-		finalKeyFrame->SetRotation(finalOrientation);
-		finalKeyFrame->SetScaling(finalScale);
-		//
-		keyframes->push_back(finalKeyFrame);
-
+	case TRANSFORM_TWEEN_TARGET_ORIENTATION: {
+		this->ongoingOrientationTweens.erase(gameObjectId);
 	} break;
 
-	default: ASSERT(0, "Recognized curve type: %d", curveType);
+	case TRANSFORM_TWEEN_TARGET_SCALE: {
+		this->ongoingScaleTweens.erase(gameObjectId);
+	} break;
+
+	default: ASSERT(0, "Unknown TransformTweenTarget %d", tweenTarget);
 	}
 }
 
-bool Tween::IsTweening(ObjectIdType gameObjectId) {
-	return (this->ongoingTransformTweens.find(gameObjectId) != this->ongoingTransformTweens.end());
+void Tween::cancelOngoingNumberTween(std::string tweenName) {
+	this->ongoingNumberTweens.erase(tweenName);
 }
 
-OnGoingTransformTweenDetails* Tween::getOnGoingTransformTweenDetails(ObjectIdType gameObjectId) {
-	auto ongoingTweenIt = this->ongoingTransformTweens.find(gameObjectId);
-	if (ongoingTweenIt != this->ongoingTransformTweens.end()) {
-		return ongoingTweenIt->second;
-	}
-	return nullptr;
+void Tween::CancelPostitionTween(ObjectIdType gameObjectId) {
+	this->cancelOngoingTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_POSITION);
 }
 
-void Tween::eraseCompletedTransformTween(OnGoingTransformTweenDetails* tweenDetails, GameObject* gameObject) {
-	for (auto it = this->ongoingTransformTweens.begin(); it != this->ongoingTransformTweens.end(); ++it) {
-		if (it->second == tweenDetails) {
-			this->ongoingTransformTweens.erase(it);
-			break;
-		}
-	}
-	// TODO [Implement] Ensure type safety here
-	RigidAnimation* rigidAnimationComponent = (RigidAnimation*)gameObject->GetComponent<RigidAnimation>();
-	ASSERT(rigidAnimationComponent != nullptr, "Found rigid animation component on game object on which the tween just ended (id = %d)", gameObject->GetId());
-	if (rigidAnimationComponent->IsPlaying()) {
-		FRAMEWORK->GetLogger()->dbglog("\nStopping animation clip (%s) on game object (%d) as it was intercepted by a new tween", tweenDetails->tweenClipName.c_str(), gameObject->GetId());
-		rigidAnimationComponent->StopAnimationClip();
-	}
-	FRAMEWORK->GetLogger()->dbglog("\nDeleting animation clip (%s) from game object (%d) at the end of tween", tweenDetails->tweenClipName.c_str(), gameObject->GetId());
-	rigidAnimationComponent->DeleteAnimationClip(tweenDetails->tweenClipName);
+void Tween::CancelOrientationTween(ObjectIdType gameObjectId) {
+	this->cancelOngoingTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_ORIENTATION);
+}
+
+void Tween::CancelScaleTween(ObjectIdType gameObjectId) {
+	this->cancelOngoingTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_SCALE);
+}
+
+void Tween::CancelNumberTween(std::string tweenName) {
+	this->cancelOngoingNumberTween(tweenName);
 }
 
 void Tween::init() {
-	this->AddComponent<TweenCallbackComponent>();
-
 }
 
 void Tween::destroy() {
@@ -342,19 +291,84 @@ void Tween::destroy() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-std::string getRandomTweenName() {
-	// Come up with a temporary name for the tween animation:
-	static unsigned long int nonce = 0;
-	nonce++;
-	char buffer[20];
-	sprintf(buffer, "%lu", nonce);
+void OnGoingTransformTweenDetails::ResetTween() {
+	this->current_v = this->from_v;
+	this->current_q = this->from_q;
+	this->currentTime = 0.0f;
+}
 
-	std::string tweenClipName = "tween";
-	tweenClipName = tweenClipName + buffer;
-
-	return tweenClipName;
+void OnGoingNumberTweenDetails::ResetTween() {
+	this->currentNumber = this->fromNumber;
 }
 
 
-////////////////////////////////////////////////////////////////////////////////
+#define TWEEN_PARABOLA_a 0.08f                  // From x = 4ay^2
 
+bool OnGoingTransformTweenDetails::StepTween(float deltaTime) {
+	float curTime = this->currentTime + deltaTime;
+	float interp = curTime / this->totalTime;
+	this->currentTime = curTime;
+
+	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->gameObjectId);
+	ASSERT(gameObject != nullptr, "Found game object (%d) on which to apply tween", this->gameObjectId);
+	Transform* transform = gameObject->GetTransform();
+
+	switch (this->tweenTarget) {
+	case TRANSFORM_TWEEN_TARGET_POSITION: {
+		if (this->curveType == TWEEN_TRANSLATION_CURVE_TYPE_LINEAR) {
+			lerp(this->current_v, this->from_v, this->to_v, interp);
+		} else if (this->curveType == TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA) {
+			parabolaerp(this->current_v, this->from_v, this->to_v, TWEEN_PARABOLA_a, interp);
+		}
+		transform->SetPosition(this->current_v);
+	} break;
+
+	case TRANSFORM_TWEEN_TARGET_ORIENTATION: {
+		slerp(this->current_q, this->from_q, this->to_q, interp);
+		transform->SetOrientation(this->current_q);
+	} break;
+
+	case TRANSFORM_TWEEN_TARGET_SCALE: {
+		lerp(this->current_v, this->from_v, this->to_v, interp);
+		transform->SetScale(this->current_v);
+	} break;
+
+	default: { ASSERT(0, "Unknown TransformTweenTarget %d", this->tweenTarget);   } break;
+	}
+
+	if (curTime >= this->totalTime) {
+		if (this->callback != 0) {
+			this->callback(gameObject->GetId(), this->userDefinedTweenName);
+		}
+		if (this->looping) {
+			this->ResetTween();
+		} else {
+			// Tween got over
+			return false;
+		}
+	}
+	// Tween still in progress
+	return true;
+}
+
+bool OnGoingNumberTweenDetails::StepTween(float deltaTime) {
+	float newNumber = this->currentNumber + deltaTime * (this->toNumber - this->fromNumber) / this->totalTime;
+	this->currentNumber = newNumber;
+	if (newNumber > this->toNumber || this->continuousUpdates) {
+		ASSERT(this->callback != 0, "Callback not 0");
+		this->callback(this->fromNumber, this->toNumber, newNumber, this->tweenName);
+	}
+
+	if (newNumber > this->toNumber) {
+		if (this->looping) {
+			this->ResetTween();
+		} else {
+			// Tween got over
+			return false;
+		}
+	}
+	// Tween still in progress
+	return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////

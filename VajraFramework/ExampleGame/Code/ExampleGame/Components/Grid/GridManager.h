@@ -44,6 +44,9 @@ public:
 	GridRoom* GetRoom(int x, int z);    // Returns the room at the specified coordinates
 	GridRoom* GetRoom(glm::vec3 loc);   // Returns the room at the specified world position
 	GridRoom* GetRoom(GridCell* cell);  // Returns the room at the specified grid cell
+	GridZone* GetZone(int x, int z);    // Returns the first zone the cell at the specified coordinates resides in
+	GridZone* GetZone(glm::vec3 loc);   // Returns the first zone the cell at the specified world position resides in
+	GridZone* GetZone(GridCell* cell);  // Returns the first zone the specified cell resides in
 
 	void GetNeighbors(GridCell* cel, std::list<GridCell*>& outNbrs); // Populates the list with all adjacent cells
 
@@ -63,6 +66,9 @@ public:
 
 	bool Passable(GridCell* startCell, GridCell* goalCell);
 	void TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outTouched);
+
+	bool HasLineOfSight(GridCell* sourceCell, GridCell* targetCell);
+	bool HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ);
 
 	/****************
 	// TODO [Implement]

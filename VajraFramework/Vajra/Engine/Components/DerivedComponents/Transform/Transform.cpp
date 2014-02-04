@@ -121,6 +121,10 @@ void Transform::SetScale(float x, float y, float z) {
 	this->setScale(glm::vec3(x, y, z));
 }
 
+void Transform::SetScale(glm::vec3 newScale) {
+	this->setScale(newScale);
+}
+
 void Transform::Translate(float x, float y, float z) {
 	this->Translate(glm::vec3(x, y, z));
 }

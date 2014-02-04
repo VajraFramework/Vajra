@@ -40,6 +40,10 @@ namespace Tesserakonteres {
 
 	void tweenNumberCallback(float /* fromNumber */, float /* toNumber */, float /* currentNumber */, std::string /* tweenName */) {
 		// FRAMEWORK->GetLogger()->dbglog("\nIn tweenNumberCallback() (%s) with current number %f", tweenName.c_str(), currentNumber);
+		// if (currentNumber > 5.0f) {
+			// ENGINE->GetTween()->CancelNumberTween("numbertween");
+			// ENGINE->GetTween()->CancelPostitionTween(118);
+		// }
 #if 0
 		if (tweenName == "tween_stubby_arrows") {
 			GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(115);
@@ -186,31 +190,28 @@ namespace Tesserakonteres {
 
 			Transform* transform = gameObject->GetTransform();
 			transform->Scale(0.4f);
-			transform->SetPosition(25.0f, 0.0f, -10.0f);
+			transform->SetPosition(5.0f, 0.0f, -8.0f);
 			transform->SetOrientation(PI / 2.0f, YAXIS);
 
+#if 1
 			glm::vec3 currentPosition = transform->GetPosition();
-			glm::vec3 finalPosition   = currentPosition + glm::vec3(4.0f, 2.0f, 1.0f);
+			glm::vec3 finalPosition   = currentPosition + glm::vec3(4.0f, 1.0f, 2.0f);
 
-			glm::quat currentOrientation = transform->GetOrientation();
-			glm::quat finalOrientation   = glm::angleAxis(PI / 4.0f, YAXIS);
+			// glm::quat currentOrientation = transform->GetOrientation();
+			// glm::quat finalOrientation   = glm::angleAxis(PI / 4.0f, YAXIS);
 
-			glm::vec3 currentScale = transform->GetScale();
-			glm::vec3 finalScale   = currentScale;
+			// glm::vec3 currentScale = transform->GetScale();
+			// glm::vec3 finalScale   = currentScale;
+#endif
 
-#if 0
+#if 1
 			ENGINE->GetTween()->TweenPosition(gameObject->GetId(),
 											  currentPosition, finalPosition,
-											  10.0f);
-#endif
-#if 1
-			ENGINE->GetTween()->TweenTransform(gameObject->GetId(),
-											   currentPosition, finalPosition,
-											   currentOrientation, finalOrientation,
-											   currentScale, finalScale,
-											   1.5f, true,
-											   TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA,
-											   true);
+											  4.0f,
+											  true,
+											  TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA,
+											  true,
+											  tweenCallback);
 #endif
 		}
 		{
@@ -236,7 +237,7 @@ namespace Tesserakonteres {
 		}
 
 
-		ENGINE->GetTween()->TweenToNumber(-20.0f, 20.0f, 20.0f, false, true, "numbertween", tweenNumberCallback);
+		ENGINE->GetTween()->TweenToNumber(-20.0f, 20.0f, 20.0f, true, true, true, "numbertween", tweenNumberCallback);
 
 		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");
 	}

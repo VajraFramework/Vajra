@@ -18,6 +18,7 @@ enum UnitType {
 	UNIT_TYPE_CAPTAIN,
 	UNIT_TYPE_UNKNOWN,
 };
+const UnitType FIRST_PLAYER_UNIT_TYPE = UNIT_TYPE_ASSASSIN;
 
 enum InputState {
 	INPUT_STATE_WAIT,

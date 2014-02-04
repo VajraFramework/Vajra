@@ -65,6 +65,7 @@ unsigned int GridZone::CollisionCheck(GridCell* startCell, GridCell* destCell) {
 }
 
 void GridZone::init() {
+	this->zoneType = GRID_ZONE_TYPE_UNKNOWN;
 	this->westBound = -1;
 	this->eastBound = -1;
 	this->southBound = -1;

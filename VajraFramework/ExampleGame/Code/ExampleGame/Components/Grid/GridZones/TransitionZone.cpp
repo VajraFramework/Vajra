@@ -50,6 +50,7 @@ void TransitionZone::SetDestination(glm::vec3 worldPos) {
 }
 
 void TransitionZone::init() {
+	this->zoneType = GRID_ZONE_TYPE_TRANSITION;
 	this->destX = -1;
 	this->destZ = -1;
 
