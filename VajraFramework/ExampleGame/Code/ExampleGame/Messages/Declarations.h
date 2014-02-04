@@ -20,6 +20,9 @@ enum GameMessageType {
 	// Unit Messages
 	MESSAGE_TYPE_UNIT_KILLED,
 
+	// AI Messages
+	MESSAGE_TYPE_AI_SIGHTED_PLAYER,
+	MESSAGE_TYPE_AI_LOST_SIGHT_OF_PLAYER, // derp
 };
 
 #endif // GAMEMESSAGETYPES_H
