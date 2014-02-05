@@ -207,9 +207,7 @@ void ShadyCamera::setCameraMode(CameraMode newMode) {
 	if(newMode != this->camMode) {
 		this->camMode = newMode;
 
-		MessageChunk cameraChange = ENGINE->GetMessageHub()->GetOneFreeMessage();
-		cameraChange->SetMessageType(MESSAGE_TYPE_CAMERA_MODE_CHANGED);
-		ENGINE->GetMessageHub()->SendMulticastMessage(cameraChange, this->gameObjectRef->GetId());
+		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_CAMERA_MODE_CHANGED, this->gameObjectRef->GetId());
 	}
 }
 

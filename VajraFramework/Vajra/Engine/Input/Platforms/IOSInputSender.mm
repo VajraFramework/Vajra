@@ -21,9 +21,11 @@
 	
 	// subscribe to the pinch and long press gesture
 	UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
-	UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
 	[self addGestureRecognizer : pinch];
+#ifdef LONG_PRESS
+	UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
 	[self addGestureRecognizer : press];
+#endif
 	
 	return self;
 }
@@ -49,11 +51,12 @@
 - (void) handlePinch: (UIPinchGestureRecognizer *) uigr{
 	ENGINE->GetInput()->UpdatePinch(uigr.scale, uigr.velocity, (GestureState)uigr.state);
 }
-
+#ifdef LONG_PRESS
 - (void) handleLongPress: (UIPinchGestureRecognizer *)uigr {
 	CGPoint pt = [uigr locationInView:self];
 	ENGINE->GetInput()->UpdateLongPress(pt.x, pt.y, (GestureState)uigr.state);
 }
+#endif
 
 - (void) updateTouches:(NSSet*)touches second:(TouchPhase)phase {
     for(UITouch *touch in touches) {

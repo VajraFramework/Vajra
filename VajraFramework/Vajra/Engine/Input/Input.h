@@ -31,10 +31,10 @@ public:
 	Pinch GetPinch() { return this->framePinch; }
 	void UpdatePinch(float scale, float velocity, GestureState gestureState);
 	bool HasPinchEnded() { return this->framePinch.gestureState >= GestureState::GestureState_End; }
-
+#ifdef LONG_PRESS
 	void UpdateLongPress(float x, float y, GestureState gestureState);
 	LongPress GetLongPress() { return this->frameLongPress; }
-	
+#endif
 	void AddGameTouchTarget(IGameTouchTarget* newTarget);
 private:
 	Input();
@@ -54,10 +54,10 @@ private:
 	
     Pinch framePinch;
     Pinch asyncPinch;
-
+#ifdef LONG_PRESS
     LongPress frameLongPress;
     LongPress asyncLongPress;
-
+#endif
     int nextFingerId;
     
 #if PLATFORM_DESKTOP

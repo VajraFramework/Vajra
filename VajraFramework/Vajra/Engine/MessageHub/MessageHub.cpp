@@ -20,6 +20,18 @@ void MessageHub::init() {
 void MessageHub::destroy() {
 }
 
+void MessageHub::SendPointcastMessage(MessageType messageType, ObjectIdType receiverId, ObjectIdType senderId) {
+	MessageChunk messageChunk = this->GetOneFreeMessage();
+	messageChunk->SetMessageType(messageType);
+	this->SendPointcastMessage(messageChunk, receiverId, senderId);
+}
+
+void MessageHub::SendMulticastMessage(MessageType messageType, ObjectIdType senderId) {
+	MessageChunk messageChunk = this->GetOneFreeMessage();
+	messageChunk->SetMessageType(messageType);
+	this->SendMulticastMessage(messageChunk, senderId);
+}
+
 void MessageHub::SendPointcastMessage(MessageChunk messageChunk, ObjectIdType receiverId, ObjectIdType senderId /* = OBJECT_ID_INVALID */) {
 	messageChunk->setSenderId(senderId);
 
@@ -97,3 +109,4 @@ void MessageHub::drainMessageCache_internal() {
 	}
 	this->currentlyDrainingMessageCacheRef->objectIdsWithPendingMessages.clear();
 }
+

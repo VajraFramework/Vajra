@@ -30,6 +30,8 @@ public:
 
 	//[[PROPERTY]]//
 	inline void SetMovementSpeed(float speed);
+	inline void SetTurnSpeedDegrees(float /* degreesPerSecond */);
+	inline void SetTurnSpeedRadians(float /* radiansPerSecond */);
 	inline void SetCurrentCell(GridCell* cell) { this->currentCell = cell;            }
 
 	//[[PROPERTY]]//
@@ -50,10 +52,15 @@ public:
 	void SetLookTarget(int x, int z);     // Set look target to the center of the designated cell
 	void SetLookTarget(glm::vec3 loc);    // Set look target to the designated world position
 	void SetLookTarget(glm::quat orient); // Set look target to the designated orientation
+	void SetTargetForward(glm::vec3 forward);
 
 	bool CanReachDestination(int cellX, int cellZ, float maxDistance = -1.0f);
 	bool CanReachDestination(glm::vec3 worldPos, float maxDistance = -1.0f);
 	bool CanReachDestination(GridCell* cell, float maxDistance = -1.0f);
+
+	void PauseNavigation();
+	void ResumeNavigation();
+	void StopNavigation();
 
 protected:
 	virtual void update();
@@ -93,6 +100,14 @@ private:
 //
 void GridNavigator::SetMovementSpeed(float speed) {
 	this->movementSpeed = speed;
+}
+
+void GridNavigator::SetTurnSpeedDegrees(float degreesPerSecond) {
+	this->turningSpeed = degreesPerSecond inRadians;
+}
+
+void GridNavigator::SetTurnSpeedRadians(float radiansPerSecond) {
+	this->turningSpeed = radiansPerSecond;
 }
 
 #endif // GRIDNAVIGATOR_H

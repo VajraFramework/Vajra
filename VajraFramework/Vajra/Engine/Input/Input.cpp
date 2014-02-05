@@ -1,12 +1,14 @@
-#include <algorithm>
 
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
-#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Utilities/Utilities.h"
+
+#include <algorithm>
 
 #if PLATFORM_DESKTOP
 #include "Vajra/Engine/Timer/Timer.h"
@@ -62,6 +64,7 @@ void Input::updateInput() {
 			it != this->asyncTouches.end(); ++it) {
 		it->prevPos = it->pos;
 		it->phase = TouchPhase::Stationary;
+		it->timeDown += ENGINE->GetTimer()->GetDeltaFrameTime();
 	}
 	//logTouches();
 
@@ -76,11 +79,10 @@ void Input::updateInput() {
 	}
 	if (this->framePinch.gestureState != GestureState::GestureState_Inactive) {
 		// Raise the pinch gesture event
-		MessageChunk pinchGestureMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-		pinchGestureMessage->SetMessageType(MESSAGE_TYPE_PINCH_GESTURE);
-		ENGINE->GetMessageHub()->SendMulticastMessage(pinchGestureMessage, this->GetId());
+		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_PINCH_GESTURE, this->GetId());
 	}
-
+	
+#ifdef LONG_PRESS
 	this->frameLongPress = this->asyncLongPress;
 	this->asyncLongPress.gestureState = GestureState::GestureState_Inactive;
 
@@ -89,11 +91,10 @@ void Input::updateInput() {
 	}
 	if (this->frameLongPress.gestureState
 			!= GestureState::GestureState_Inactive) {
-		// Raise the pinch gesture event
-		MessageChunk longPressGestureMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-		longPressGestureMessage->SetMessageType(MESSAGE_TYPE_LONG_PRESS_GESTURE);
-		ENGINE->GetMessageHub()->SendMulticastMessage(longPressGestureMessage, this->GetId());
+		// Raise the long press gesture event
+		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LONG_PRESS_GESTURE, this->GetId());
 	}
+#endif
 }
 
 Touch Input::GetTouch(int index) {
@@ -109,6 +110,7 @@ void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
 	t.prevPos = t.pos;
 	t.phase = phase;
 	t.fingerId = this->nextFingerId;
+	t.timeDown = 0.0f;
 	// increase the unique finger id
 	this->nextFingerId = (this->nextFingerId + 1) % MAX_TOUCHES;
 
@@ -144,6 +146,7 @@ void Input::UpdatePinch(float scale, float velocity,
 		this->asyncPinch.gestureState = gestureState;
 }
 
+#ifdef LONG_PRESS
 void Input::UpdateLongPress(float x, float y, GestureState gestureState) {
 	this->asyncLongPress.pos.x = x;
 	this->asyncLongPress.pos.y = y;
@@ -152,6 +155,7 @@ void Input::UpdateLongPress(float x, float y, GestureState gestureState) {
 		this->asyncLongPress.gestureState = gestureState;
 	}
 }
+#endif
 
 void Input::AddGameTouchTarget(IGameTouchTarget* newTarget) {
 	this->gameTouchTargets.push_back(newTarget);
@@ -227,6 +231,7 @@ void Input::updateDesktopInput() {
 			}
 			else {
 				if(this->touchDown) {
+#ifdef LONG_PRESS
 					downTime += (float)ENGINE->GetTimer()->GetDeltaFrameTime();
 					if(downTime >= longPress) {
 						if((startX == this->mouseX) && (startY == this->mouseY)) {
@@ -234,7 +239,8 @@ void Input::updateDesktopInput() {
 							this->UpdateLongPress(this->mouseX, this->mouseY, GestureState::GestureState_Start);
 							this->touchDown = false;
 						}
-					}
+					}	
+#endif
 				}
 			}
 		}
