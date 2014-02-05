@@ -7,6 +7,7 @@
 #include "ExampleGame/Components/GameScripts/Ai/AiPerception.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
 #include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
+#include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
@@ -192,6 +193,9 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	ObjectIdType id = SINGLETONS->GetGridManager()->GetPlayerUnitIdOfType(uType);
 	ASSERT(id != OBJECT_ID_INVALID, "Player unit of type %d exists in level", uType);
 	SINGLETONS->GetGridManager()->selectedUnitId = id;
+	PlayerUnit* pU = ENGINE->GetSceneGraph3D()->GetGameObjectById(id)->GetComponent<PlayerUnit>();
+	// TODO [Implement]: call this when the level starts so the player sees the selection animation
+	pU->onSelectedTouch();
 
 	// Set the camera's position
 	GameObject* target = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);

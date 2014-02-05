@@ -41,6 +41,8 @@ private:
 	void touchedCellChanged();
 
 	UnitColorScheme colorScheme;
+
+	friend class LevelLoader;
 };
 
 #endif //PLAYER_UNIT_H

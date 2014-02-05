@@ -53,24 +53,19 @@ void PlayerUnit::init() {
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 	//
 	this->touchIndicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+	
+	this->currentTouchedCell = NULL;
 }
 
 void PlayerUnit::destroy() {
 }
 
 void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
-	this->touchIndicator->GetTransform()->SetPosition(touchedCell->center);
-	if(ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Began) {
-		touchIndicator->SetVisible(true);
-		this->currentTouchedCell = NULL;
-		// touch indicator tween up
-		glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
-		ENGINE->GetTween()->TweenToNumber(.3f, 1.0f, .5f, false, true, "scale", tweenNumberCallback);
-	}
 	if(this->currentTouchedCell != touchedCell) {
 		this->currentTouchedCell = touchedCell;
 		this->touchedCellChanged();
 	}
+	
 	switch(this->inputState) {
 		case InputState::INPUT_STATE_WAIT:
 			this->onSelectedTouch();
@@ -94,19 +89,37 @@ void PlayerUnit::onSelectedTouch() {
 }
 
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
+	
 	if(this->isSpecialTouch(touchId)) {
 
 	}
 	else {
+		switch(ENGINE->GetInput()->GetTouch(touchId).phase) {
+			case TouchPhase::Began:
+				touchIndicator->GetTransform()->SetPosition(this->currentTouchedCell->center);
+				touchIndicator->SetVisible(true);
+				// touch indicator tween up
+				ENGINE->GetTween()->TweenToNumber(.3f, 1.0f, .3f, true, false, true, "scale", tweenNumberCallback);
+				break;
+			case TouchPhase::Ended:
+				break;
+			case TouchPhase::Cancelled:
+				touchIndicator->SetVisible(false);
+				break;
+			default:
+				break;
+		}
 		if(ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Ended) {
 			this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
-			ENGINE->GetTween()->TweenToNumber(0.0f inRadians, 180.0f inRadians, 2.0f, true, true, "pulse", tweenNumberCallback);
+			//ENGINE->GetTween()->TweenToNumber(0.0f inRadians, 180.0f inRadians, 2.0f, true, true, true, "pulse", tweenNumberCallback);
 		}
 	}
 
 }
 
 void PlayerUnit::touchedCellChanged() {
+	
+	this->touchIndicator->GetTransform()->SetPosition(this->currentTouchedCell->center);
 	/*if(this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z)) {
 		this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	} else {
