@@ -9,8 +9,6 @@
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/Tween/Tween.h"
 
-float allowedMovementInPixels = 10.0f;
-float longPressInSeconds = 0.5f;
 
 static Thief* g_thief;
 namespace ThiefTween {
@@ -33,7 +31,6 @@ Thief::~Thief() {
 void Thief::init() {
 	g_thief = this;
 	this->unitType = UnitType::UNIT_TYPE_THIEF;
-	this->attackSpeed = 10.0f;
 }
 
 void Thief::destroy() {

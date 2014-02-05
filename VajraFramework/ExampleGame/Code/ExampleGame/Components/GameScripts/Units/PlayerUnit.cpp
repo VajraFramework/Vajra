@@ -108,7 +108,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 
 void PlayerUnit::setTouchNearUnit() {
 	glm::vec3 gridPos = SINGLETONS->GetGridManager()->TouchPositionToGridPosition(touchStartPos);
-	if(glm::distance(gridPos, this->gameObjectRef->GetTransform()->GetPosition()) < 1.5f) {
+	if(glm::distance(gridPos, this->gameObjectRef->GetTransform()->GetPosition()) < nearTouchDist) {
 		this->touchNearUnit = true;
 	} else {
 		this->touchNearUnit = false;

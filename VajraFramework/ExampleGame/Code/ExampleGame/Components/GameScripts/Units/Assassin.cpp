@@ -7,8 +7,6 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
 
-float swipeDistanceInPixels = 50.0f;
-float maxSwipeLengthInSeconds = 1.0f;
 Assassin::Assassin() : PlayerUnit() {
 	this->init();
 }
@@ -23,7 +21,6 @@ Assassin::~Assassin() {
 
 void Assassin::init() {
 	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
-	this->attackSpeed = 10.0f;
 }
 
 void Assassin::destroy() {

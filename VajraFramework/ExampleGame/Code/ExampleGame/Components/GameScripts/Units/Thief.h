@@ -29,7 +29,8 @@ private:
 	
 	GridCell* targetedCell;
 
-	float attackSpeed;
+	const float allowedMovementInPixels = 10.0f;
+	const float longPressInSeconds = 0.5f;
 };
 
 #endif //THIEF_UNIT_H

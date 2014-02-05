@@ -54,6 +54,7 @@ private:
 	// default values for units
 	float moveSpeed;
 	float turnSpeedDegrees;
+	const float nearTouchDist = 1.5f;
 };
 
 #endif //PLAYER_UNIT_H
