@@ -32,7 +32,6 @@ Thief::~Thief() {
 }
 
 void Thief::init() {
-	g_thief = this;
 	this->unitType = UnitType::UNIT_TYPE_THIEF;
 }
 

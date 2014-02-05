@@ -10,22 +10,13 @@
 
 class GameObject;
 class GridCell;
-class PlayerUnit;
-
-// used for tweening
-extern PlayerUnit* s_assassin;
-extern PlayerUnit* s_thief;
+class MessageData1S1I1F;
 	
 class PlayerUnit : public BaseUnit {
-
-// default values for player units
-#define ASSASSIN_SUFFIX "_sin"
-#define THIEF_SUFFIX "_thf"
 
 #define MOVE_SPEED 2.5f
 #define TURN_SPEED_DEG 360.0f
 #define NEAR_TOUCH_DIST 1.5f 
-
 
 public:
 	PlayerUnit();
@@ -55,8 +46,6 @@ protected:
 
 	glm::vec2 touchStartPos;
 
-	std::string unitTypeSuffix; // 4 character suffix for player unit tweens
-
 private:
 	void init();
 	void destroy();
@@ -73,7 +62,7 @@ private:
 
 	bool performingSpecial;
 
-	friend void playerUnitNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName);
+	friend void playerUnitNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams);
 	friend class LevelLoader;
 };
 

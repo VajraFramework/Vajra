@@ -2,9 +2,10 @@
 #include "ExampleGame/Components/Grid/GridCell.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
-#include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
@@ -17,19 +18,19 @@
 #define GOOD_TOUCH 0
 #define BAD_TOUCH  1
 
-PlayerUnit* s_assassin = nullptr;
-PlayerUnit* s_thief = nullptr;
-
-void playerUnitNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName) {
-	PlayerUnit* pUnit;
-	std::string unitType = tweenClipName.substr(tweenClipName.length() - 4);
-	tweenClipName.resize(tweenClipName.length() - 4);
-	ASSERT(unitType == ASSASSIN_SUFFIX || unitType == THIEF_SUFFIX, "Tween in player unit does not have a unit suffix");
-	if(unitType == ASSASSIN_SUFFIX) {
-		pUnit = s_assassin;
-	} else if(unitType == THIEF_SUFFIX) {
-		pUnit = s_thief;
+void playerUnitNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
+	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
+	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
+	if(go == nullptr) {
+		return;
 	}
+	
+	PlayerUnit* pUnit = go->GetComponent<PlayerUnit>();
+	ASSERT(pUnit != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
+	if(pUnit == nullptr) {
+		return;
+	}
+	
 	if(tweenClipName == "pulse") {
 		float scaleValue = sinf(currentNumber);
 		pUnit->touchIndicator->GetTransform()->SetScale(scaleValue, scaleValue, scaleValue);
@@ -138,6 +139,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 		this->gridNavRef->StopNavigation();
 
 	} else {
+		MessageData1S1I1F* userParams;
 		switch(ENGINE->GetInput()->GetTouch(touchId).phase) {
 			case TouchPhase::Began:
 				touchIndicator->GetTransform()->SetPosition(this->currentTouchedCell->center);
@@ -146,8 +148,9 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				//ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), glm::vec3(0), glm::vec3(1), .3f);
 				//ENGINE->GetTween()->CancelNumberTween("pulse");
 
-				FRAMEWORK->GetLogger()->dbglog("\nTWEEN START\n");
-				ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, true, true, true, "pulse" + this->unitTypeSuffix, playerUnitNumberTweenCallback);
+				userParams = new MessageData1S1I1F();
+				userParams->i = this->GetObject()->GetId();
+				ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, true, true, true, "pulse", userParams, playerUnitNumberTweenCallback);
 				break;
 			case TouchPhase::Ended:
 				this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
