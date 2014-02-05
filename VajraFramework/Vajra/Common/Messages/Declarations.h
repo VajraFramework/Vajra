@@ -29,6 +29,7 @@ enum EngineMessageType {
 enum MessageDataType {
 	MESSAGEDATA_TYPE_GENERIC_EMPTY_MESSAGE,
 	MESSAGEDATA_TYPE_1S_1I_3FV,				// Generic carrier for 1 string, 1 int, and 3 vec3<float>s
+	MESSAGEDATA_TYPE_1S_1I_1F,				// Generic carrier for 1 string, 1 int, and 1 float
 };
 
 

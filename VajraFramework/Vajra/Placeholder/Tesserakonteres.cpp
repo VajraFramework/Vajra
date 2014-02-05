@@ -1,3 +1,4 @@
+#include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
@@ -38,8 +39,12 @@ namespace Tesserakonteres {
 		FRAMEWORK->GetLogger()->dbglog("\nIn tweenCallback() with %d, %s\n", gameObjectId, tweenClipName.c_str());
 	}
 
-	void tweenNumberCallback(float /* fromNumber */, float /* toNumber */, float /* currentNumber */, std::string /* tweenName */) {
-		// FRAMEWORK->GetLogger()->dbglog("\nIn tweenNumberCallback() (%s) with current number %f", tweenName.c_str(), currentNumber);
+	void tweenNumberCallback(float /* fromNumber */, float /* toNumber */, float /* currentNumber */, std::string /* tweenName */, MessageData1S1I1F* /* userParams */) {
+#if 0
+		if (userParams != nullptr) {
+			FRAMEWORK->GetLogger()->dbglog("\nIn tweenNumberCallback() (%s) with current number %f, and userParam.number %d", tweenName.c_str(), currentNumber, userParams->i);
+		}
+#endif
 		// if (currentNumber > 5.0f) {
 			// ENGINE->GetTween()->CancelNumberTween("numbertween");
 			// ENGINE->GetTween()->CancelPostitionTween(118);
@@ -237,7 +242,9 @@ namespace Tesserakonteres {
 		}
 
 
-		ENGINE->GetTween()->TweenToNumber(-20.0f, 20.0f, 20.0f, true, true, true, "numbertween", tweenNumberCallback);
+		MessageData1S1I1F* userParams = new MessageData1S1I1F();
+		userParams->i = 9001;
+		ENGINE->GetTween()->TweenToNumber(-20.0f, 20.0f, 20.0f, true, true, true, "numbertween", userParams, tweenNumberCallback);
 
 		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");
 	}
