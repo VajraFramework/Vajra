@@ -16,13 +16,15 @@
 
 static GameObject* s_touchIndicator;
 
-void tweenNumberCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName) {
-	if(tweenClipName == "scale") {
-		s_touchIndicator->GetTransform()->SetScale(currentNumber, currentNumber, currentNumber);
-	} else if(tweenClipName == "pulse") {
-		float scaleValue = sinf(currentNumber);
+namespace PlayerUnitTween {
+	void tweenNumberCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName) {
+		if(tweenClipName == "scale") {
+			s_touchIndicator->GetTransform()->SetScale(currentNumber, currentNumber, currentNumber);
+		} else if(tweenClipName == "pulse") {
+			float scaleValue = sinf(currentNumber);
 
-		s_touchIndicator->GetTransform()->SetScale(scaleValue, scaleValue, scaleValue);
+			s_touchIndicator->GetTransform()->SetScale(scaleValue, scaleValue, scaleValue);
+		}
 	}
 }
 
@@ -99,19 +101,19 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				touchIndicator->GetTransform()->SetPosition(this->currentTouchedCell->center);
 				touchIndicator->SetVisible(true);
 				// touch indicator tween up
-				ENGINE->GetTween()->TweenToNumber(.3f, 1.0f, .3f, true, false, true, "scale", tweenNumberCallback);
+				ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), glm::vec3(0), glm::vec3(1), .3f);
+				ENGINE->GetTween()->CancelNumberTween("pulse");
 				break;
 			case TouchPhase::Ended:
+				this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
+				ENGINE->GetTween()->CancelScaleTween(this->touchIndicator->GetId());
+				ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, false, true, true, "pulse", PlayerUnitTween::tweenNumberCallback);
 				break;
 			case TouchPhase::Cancelled:
 				touchIndicator->SetVisible(false);
 				break;
 			default:
 				break;
-		}
-		if(ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Ended) {
-			this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
-			//ENGINE->GetTween()->TweenToNumber(0.0f inRadians, 180.0f inRadians, 2.0f, true, true, true, "pulse", tweenNumberCallback);
 		}
 	}
 

@@ -127,7 +127,9 @@ void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {
 			it->prevPos = it->pos;
 			it->pos.x = curX;
 			it->pos.y = curY;
-			it->phase = phase;
+			if(it->phase != TouchPhase::Began) {
+				it->phase = phase;
+			}
 			break;
 		}
 	}
