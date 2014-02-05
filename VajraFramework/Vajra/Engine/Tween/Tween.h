@@ -13,6 +13,7 @@ struct OnGoingNumberTweenDetails;
 struct OnGoingTransformTweenDetails;
 class AnimationKeyFrame;
 class GameObject;
+class MessageData1S1I1F;
 
 enum TransformTweenTarget {
 	TRANSFORM_TWEEN_TARGET_POSITION,
@@ -40,7 +41,8 @@ public:
 	void TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 
 	void TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool cancelCurrentTween, bool looping, bool continuousUpdates, std::string tweenName,
-					   void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName));
+					   MessageData1S1I1F* userParams,
+					   void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName, MessageData1S1I1F* userParams));
 
 	bool IsTweening_transform(ObjectIdType gameObjectId, TransformTweenTarget transformTweenTarget);
 	bool IsTweening_number(std::string tweenName);
@@ -135,7 +137,9 @@ public:
 	float currentNumber;
 
 	std::string tweenName;
-	void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName);
+	void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName, MessageData1S1I1F* userParams);
+	// TODO [Hack] Switch this to be of base type MessageData when we have dynamic type checking
+	MessageData1S1I1F* userParams;
 
 	bool looping;
 
@@ -150,6 +154,7 @@ private:
 		this->continuousUpdates = false;
 		this->looping = false;
 		this->callback = 0;
+		this->userParams = nullptr;
 	}
 	friend class Tween;
 };
