@@ -1,7 +1,9 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/MathUtilities.h"
+#include "Vajra/Utilities/Utilities.h"
 
+#include "Libraries/glm/gtx/orthonormalize.hpp"
 #include "Libraries/glm/gtx/vector_angle.hpp"
 
 const float PI = 3.14159265358979323846264f;
@@ -18,25 +20,39 @@ const glm::vec4 ZERO_VEC4_POSITION  = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 const glm::vec4 ZERO_VEC4_DIRECTION = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 glm::quat QuaternionFromLookVectors(glm::vec3 requiredForward, glm::vec3 up /* = YAXIS */) {
+	ASSERT(requiredForward != ZERO_VEC3, "QuaternionFromLookVectors: Forward vector can't be zero");
+	ASSERT(up != ZERO_VEC3, "QuaternionFromLookVectors: Up vector can't be zero");
+
 	glm::quat quaternion1 = IDENTITY_QUATERNION;
 	glm::quat quaternion2 = IDENTITY_QUATERNION;
 
 	{
-		glm::vec3 crossProduct = glm::cross(ZAXIS, requiredForward);
-		if (crossProduct != ZERO_VEC3) {
-			crossProduct = glm::normalize(crossProduct);
+		// Determine the rotation to align the forward vector
+		glm::vec3 axis = glm::cross(ZAXIS, requiredForward);
+		float angle;
+		if (axis != ZERO_VEC3) {
+			axis = glm::normalize(axis);
+			angle = glm::angle(ZAXIS, requiredForward);
 		}
 		else {
-			crossProduct = up;
+			axis = YAXIS;
+			angle = PI;
 		}
-		quaternion1 = glm::angleAxis(glm::angle(ZAXIS, requiredForward), crossProduct);
+		quaternion1 = glm::angleAxis(angle, axis);
 	}
-	{
-		if (up != YAXIS) {
-			glm::vec3 crossProduct = glm::cross(YAXIS, up);
-			crossProduct = glm::normalize(crossProduct);
-			quaternion2 = glm::angleAxis(glm::angle(YAXIS, up), crossProduct);
+	if (up != YAXIS) {
+		// Determine the rotation to align the up vector
+		glm::vec3 axis = glm::cross(YAXIS, requiredForward);
+		float angle;
+		if (axis != ZERO_VEC3) {
+			axis = glm::normalize(axis);
+			angle = glm::angle(YAXIS, requiredForward);
 		}
+		else {
+			axis = ZAXIS;
+			angle = PI;
+		}
+		quaternion2 = glm::angleAxis(angle, axis);
 	}
 
 	return quaternion1 * quaternion2;

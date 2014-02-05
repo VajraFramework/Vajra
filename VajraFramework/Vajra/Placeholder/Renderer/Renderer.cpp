@@ -139,8 +139,7 @@ bool renderFrame() {
     {
         // Sending arbit message for testing
         {
-			MessageChunk messageChunk = ENGINE->GetMessageHub()->GetOneFreeMessage();
-			ENGINE->GetMessageHub()->SendPointcastMessage(messageChunk, 110);
+			ENGINE->GetMessageHub()->SendPointcastMessage(MESSAGE_TYPE_UNSPECIFIED, 110);
         }
     }
     {

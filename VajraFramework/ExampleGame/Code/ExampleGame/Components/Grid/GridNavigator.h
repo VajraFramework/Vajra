@@ -36,6 +36,8 @@ public:
 
 	//[[PROPERTY]]//
 	void SetGridPosition(int x, int z);   // Place the object at the indicated cell on the grid.
+	void SetGridPosition(glm::vec3 loc);  // Place the object at the cell at the indicated position
+	void SetGridPosition(GridCell* cell); // Place the object at the center of the indicated cell
 
 	// Each of the following methods return true if a valid path can be found, false otherwise.
 	//[[PROPERTY]]//
@@ -50,10 +52,15 @@ public:
 	void SetLookTarget(int x, int z);     // Set look target to the center of the designated cell
 	void SetLookTarget(glm::vec3 loc);    // Set look target to the designated world position
 	void SetLookTarget(glm::quat orient); // Set look target to the designated orientation
+	void SetTargetForward(glm::vec3 forward);
 
 	bool CanReachDestination(int cellX, int cellZ, float maxDistance = -1.0f);
 	bool CanReachDestination(glm::vec3 worldPos, float maxDistance = -1.0f);
 	bool CanReachDestination(GridCell* cell, float maxDistance = -1.0f);
+
+	void PauseNavigation();
+	void ResumeNavigation();
+	void StopNavigation();
 
 protected:
 	virtual void update();
