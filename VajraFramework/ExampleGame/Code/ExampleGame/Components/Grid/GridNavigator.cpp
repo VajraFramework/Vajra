@@ -133,22 +133,27 @@ void GridNavigator::SetLookTarget(int x, int z) {
 }
 
 void GridNavigator::SetLookTarget(glm::vec3 loc) {
-	glm::vec3 target = glm::normalize(loc - this->getTransform()->GetPositionWorld());
-	float angle = glm::angle(target, this->getTransform()->GetForward());
-
-	if (angle > ROUNDING_ERROR) {
-		this->targetForward = target;
-		this->isTurning = true;
-	}
+	glm::vec3 target = loc - this->getTransform()->GetPositionWorld();
+	target.y = 0.0f;
+	this->SetTargetForward(target);
 }
 
 void GridNavigator::SetLookTarget(glm::quat orient) {
 	glm::vec3 target = QuaternionForwardVector(orient);
-	float angle = glm::angle(target, this->getTransform()->GetForward());
+	target.y = 0.0f;
+	this->SetTargetForward(target);
+}
 
-	if (angle > ROUNDING_ERROR) {
-		this->targetForward = target;
-		this->isTurning = true;
+void GridNavigator::SetTargetForward(glm::vec3 forward) {
+	ASSERT(forward != ZERO_VEC3, "Trying to set forward vector to zero");
+	if (forward != ZERO_VEC3) {
+		forward = glm::normalize(forward);
+		float angle = glm::angle(forward, this->getTransform()->GetForward());
+
+		if (angle > ROUNDING_ERROR) {
+			this->targetForward = forward;
+			this->isTurning = true;
+		}
 	}
 }
 
