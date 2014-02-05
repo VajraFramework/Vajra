@@ -17,7 +17,6 @@
 #define GOOD_TOUCH 0
 #define BAD_TOUCH  1
 
-
 static GameObject* s_touchIndicator;
 
 namespace PlayerUnitTween {
@@ -49,11 +48,6 @@ void PlayerUnit::init() {
 	this->inputState = InputState::INPUT_STATE_WAIT;
 	this->touchNearUnit = false;
 	this->performingSpecial = false;
-
-	this->moveSpeed = 2.5f;
-	this->turnSpeedDegrees = 360.0f;
-	this->gridNavRef->SetMovementSpeed(this->moveSpeed);
-	this->gridNavRef->SetTurnSpeedDegrees(this->turnSpeedDegrees);
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION, this->GetTypeId(), false);
 	// DECAL TEST
@@ -176,7 +170,7 @@ void PlayerUnit::touchedCellChanged() {
 
 void PlayerUnit::setTouchNearUnit() {
 	glm::vec3 gridPos = SINGLETONS->GetGridManager()->TouchPositionToGridPosition(touchStartPos);
-	if(glm::distance(gridPos, this->gameObjectRef->GetTransform()->GetPosition()) < nearTouchDist) {
+	if(glm::distance(gridPos, this->gameObjectRef->GetTransform()->GetPosition()) < NEAR_TOUCH_DIST) {
 		this->touchNearUnit = true;
 	} else {
 		this->touchNearUnit = false;

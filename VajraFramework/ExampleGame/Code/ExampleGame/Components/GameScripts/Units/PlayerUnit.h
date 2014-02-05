@@ -12,6 +12,12 @@ class GameObject;
 class GridCell;
 
 class PlayerUnit : public BaseUnit {
+
+// default values for player units
+#define MOVE_SPEED 2.5f
+#define TURN_SPEED_DEG 360.0f
+#define NEAR_TOUCH_DIST 1.5f 
+
 public:
 	PlayerUnit();
 	PlayerUnit(Object* object_);
@@ -40,7 +46,6 @@ protected:
 
 	glm::vec2 touchStartPos;
 
-	float getMoveSpeed() { return this->moveSpeed; }
 private:
 	void init();
 	void destroy();
@@ -57,10 +62,6 @@ private:
 
 	bool performingSpecial;
 
-	// default values for units
-	float moveSpeed;
-	float turnSpeedDegrees;
-	const float nearTouchDist = 1.5f;
 
 	friend class LevelLoader;
 };

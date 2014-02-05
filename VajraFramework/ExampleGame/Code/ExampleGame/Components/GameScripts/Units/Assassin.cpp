@@ -58,6 +58,6 @@ void Assassin::startSpecial() {
 
 void Assassin::onSpecialEnd() {
 	PlayerUnit::onSpecialEnd();
-	this->gridNavRef->SetMovementSpeed(this->getMoveSpeed());
+	this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
 
 }
