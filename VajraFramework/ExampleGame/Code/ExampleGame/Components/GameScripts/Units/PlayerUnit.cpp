@@ -86,7 +86,6 @@ void PlayerUnit::onSelectedTouch() {
 
 void PlayerUnit::startSpecial() {
 	this->performingSpecial = true;
-	this->gridNavRef->SetDestination(this->gameObjectRef->GetTransform()->GetPosition());
 }
 
 void PlayerUnit::onSpecialEnd() {
@@ -96,6 +95,8 @@ void PlayerUnit::onSpecialEnd() {
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	if(this->isSpecialTouch(touchId)) {
 		this->inputState = InputState::INPUT_STATE_SPECIAL;
+		this->gridNavRef->StopNavigation();
+
 	}
 	else {
 		if(ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Ended) {
