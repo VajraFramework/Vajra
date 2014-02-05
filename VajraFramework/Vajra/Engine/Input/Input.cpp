@@ -203,6 +203,7 @@ void Input::updateDesktopInput() {
 	// Grab the left click state and make it act like a single touch
 	int button = glfwGetMouseButton(GLFW_MOUSE_BUTTON_LEFT);
 
+#ifdef LONG_PRESS
 	if (this->frameLongPress.gestureState != GestureState::GestureState_Inactive
 			&& this->frameLongPress.gestureState
 					!= GestureState::GestureState_End) {
@@ -213,7 +214,9 @@ void Input::updateDesktopInput() {
 			this->UpdateLongPress(this->mouseX, this->mouseY,
 					GestureState::GestureState_Changed);
 		}
-	} else {
+	} else
+#endif
+	{
 		if (this->frameTouches.size() == 0) {
 			if (button == GLFW_PRESS) {
 				this->touchDown = true;

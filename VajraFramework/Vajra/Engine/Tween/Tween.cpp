@@ -152,7 +152,8 @@ void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::v
 }
 
 void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool cancelCurrentTween, bool looping, bool continuousUpdates, std::string tweenName,
-						  void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName)) {
+						  MessageData1S1I1F* userParams,
+						  void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName, MessageData1S1I1F* userParams)) {
 	bool resettingExistingTween = false;
 	OnGoingNumberTweenDetails* newNumberTween = nullptr;
 	if (this->IsTweening_number(tweenName)) {
@@ -174,6 +175,7 @@ void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bo
 	newNumberTween->toNumber                  = toNumber;
 	newNumberTween->totalTime                 = timePeriod;
 	newNumberTween->callback                  = callback;
+	newNumberTween->userParams                = userParams;
 	newNumberTween->continuousUpdates         = continuousUpdates;
 	newNumberTween->tweenName                 = tweenName;
 	newNumberTween->looping                   = looping;
@@ -358,10 +360,10 @@ bool OnGoingNumberTweenDetails::StepTween(float deltaTime) {
 	if (newNumber > this->toNumber || this->continuousUpdates) {
 		ASSERT(this->callback != 0, "Callback not 0");
 		clamp(newNumber, this->fromNumber, this->toNumber);
-		this->callback(this->fromNumber, this->toNumber, newNumber, this->tweenName);
+		this->callback(this->fromNumber, this->toNumber, newNumber, this->tweenName, this->userParams);
 	}
 
-	if (newNumber > this->toNumber) {
+	if (newNumber >= this->toNumber) {
 		if (this->looping) {
 			this->ResetTween();
 		} else {
