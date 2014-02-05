@@ -307,6 +307,7 @@ void OnGoingNumberTweenDetails::ResetTween() {
 bool OnGoingTransformTweenDetails::StepTween(float deltaTime) {
 	float curTime = this->currentTime + deltaTime;
 	float interp = curTime / this->totalTime;
+	clamp(interp, 0.0f, 1.0f);
 	this->currentTime = curTime;
 
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->gameObjectId);
@@ -356,6 +357,7 @@ bool OnGoingNumberTweenDetails::StepTween(float deltaTime) {
 	this->currentNumber = newNumber;
 	if (newNumber > this->toNumber || this->continuousUpdates) {
 		ASSERT(this->callback != 0, "Callback not 0");
+		clamp(newNumber, this->fromNumber, this->toNumber);
 		this->callback(this->fromNumber, this->toNumber, newNumber, this->tweenName);
 	}
 
