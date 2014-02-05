@@ -55,6 +55,10 @@ public:
 	bool CanReachDestination(glm::vec3 worldPos, float maxDistance = -1.0f);
 	bool CanReachDestination(GridCell* cell, float maxDistance = -1.0f);
 
+	void PauseNavigation();
+	void ResumeNavigation();
+	void StopNavigation();
+
 protected:
 	virtual void update();
 

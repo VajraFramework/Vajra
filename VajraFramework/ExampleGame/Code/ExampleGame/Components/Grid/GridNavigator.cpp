@@ -173,6 +173,24 @@ bool GridNavigator::CanReachDestination(GridCell* cell, float maxDistance/*= -1.
 	return ((distance >= 0.0f) && (distance <= maxDistance));
 }
 
+void GridNavigator::PauseNavigation() {
+	this->isTraveling = false;
+	this->isTurning = false;
+}
+
+void GridNavigator::ResumeNavigation() {
+	if (this->currentPath.size() > 0) {
+		this->isTraveling = true;
+	}
+}
+
+void GridNavigator::StopNavigation() {
+	this->isTraveling = false;
+	this->isTurning = false;
+	this->currentPath.clear();
+	this->targetForward = ZERO_VEC3;
+}
+
 void GridNavigator::update() {
 	if (this->isTraveling) {
 		followPath();
