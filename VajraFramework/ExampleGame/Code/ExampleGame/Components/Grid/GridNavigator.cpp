@@ -64,12 +64,12 @@ GridCell* GridNavigator::GetDestination() {
 }
 
 void GridNavigator::SetGridPosition(int x, int z) {
-	GridCell* cell = SINGLETONS->GetGridManager()->GetCell(x, z);
+	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(x, z);
 	this->SetGridPosition(cell);
 }
 
 void GridNavigator::SetGridPosition(glm::vec3 loc) {
-	GridCell* cell = SINGLETONS->GetGridManager()->GetCell(loc);
+	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(loc);
 	this->SetGridPosition(cell);
 }
 
@@ -84,12 +84,12 @@ void GridNavigator::SetGridPosition(GridCell* cell) {
 }
 
 bool GridNavigator::SetDestination(int x, int z) {
-	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(x, z);
+	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(x, z);
 	return SetDestination(goalCell);
 }
 
 bool GridNavigator::SetDestination(glm::vec3 loc) {
-	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(loc);
+	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(loc);
 	return SetDestination(goalCell);
 }
 
@@ -104,12 +104,12 @@ bool GridNavigator::SetDestination(GridCell* cell) {
 }
 
 bool GridNavigator::AddDestination(int x, int z) {
-	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(x, z);
+	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(x, z);
 	return AddDestination(goalCell);
 }
 
 bool GridNavigator::AddDestination(glm::vec3 loc) {
-	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(loc);
+	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(loc);
 	return AddDestination(goalCell);
 }
 
@@ -126,7 +126,7 @@ bool GridNavigator::AddDestination(GridCell* cell) {
 }
 
 void GridNavigator::SetLookTarget(int x, int z) {
-	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(x, z);
+	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(x, z);
 	if (goalCell != nullptr) {
 		SetLookTarget(goalCell->center);
 	}
@@ -158,12 +158,12 @@ void GridNavigator::SetTargetForward(glm::vec3 forward) {
 }
 
 bool GridNavigator::CanReachDestination(int cellX, int cellZ, float maxDistance/*= -1.0f*/) {
-	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(cellX, cellZ);
+	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(cellX, cellZ);
 	return CanReachDestination(goalCell, maxDistance);
 }
 
 bool GridNavigator::CanReachDestination(glm::vec3 worldPos, float maxDistance/*= -1.0f*/) {
-	GridCell* goalCell = SINGLETONS->GetGridManager()->GetCell(worldPos);
+	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(worldPos);
 	return CanReachDestination(goalCell, maxDistance);
 }
 
@@ -231,7 +231,7 @@ void GridNavigator::followPath() {
 	}
 
 	trans->SetPosition(tempLocation);
-	GridCell* newCell = SINGLETONS->GetGridManager()->GetCell(tempLocation);
+	GridCell* newCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(tempLocation);
 	if (newCell != this->currentCell) {
 		this->changeCell(newCell);
 	}
@@ -341,9 +341,9 @@ float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std:
 		closedSet.push_back(current);
 
 		std::list<GridCell*> neighbors;
-		SINGLETONS->GetGridManager()->GetNeighbors(current, neighbors);
+		SINGLETONS->GetGridManager()->GetGrid()->GetNeighborCells(neighbors, current);
 		for (auto iter = neighbors.begin(); iter != neighbors.end(); ++iter) {
-			if (SINGLETONS->GetGridManager()->Passable(current, *iter)) {
+			if (SINGLETONS->GetGridManager()->GetGrid()->Passable(current, *iter)) {
 				float gScoreTentative = gScores[current] + actualTravelCost(current, *iter);
 				float fScoreTentative = gScoreTentative + travelCostEstimate(*iter, goalCell);
 
@@ -387,12 +387,12 @@ void GridNavigator::simplifyPath(std::list<GridCell*>& outPath) {
 	while (nextIter != outPath.end()) {
 		// Trace the direct route to the target cell from opposite corners.
 		std::list<GridCell*> touchedCells;
-		SINGLETONS->GetGridManager()->TouchedCells(*startIter, *nextIter, touchedCells);
+		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(*startIter, *nextIter, touchedCells);
 
 		// Check if any of the cells are blocked.
 		bool isRouteClear = true;
 		for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
-			if (!SINGLETONS->GetGridManager()->Passable(*startIter, *iter)) {
+			if (!SINGLETONS->GetGridManager()->GetGrid()->Passable(*startIter, *iter)) {
 				isRouteClear = false;
 				break;
 			}

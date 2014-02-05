@@ -75,7 +75,7 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 			break;
 
 		case MESSAGE_TYPE_GRID_ROOM_ENTERED:
-			this->onGridRoomEntered(messageChunk->messageData.i, SINGLETONS->GetGridManager()->GetRoom(messageChunk->messageData.fv1));
+			this->onGridRoomEntered(messageChunk->messageData.i, SINGLETONS->GetGridManager()->GetGrid()->GetRoom(messageChunk->messageData.fv1));
 			break;
 
 		default:
@@ -137,7 +137,7 @@ void ShadyCamera::LevelStartPan() {
 }
 
 void ShadyCamera::setGameCameraPosition(float x, float z) {
-	glm::vec3 roomCenter = this->gridManagerRef->GetRoomCenter(x, z);
+	glm::vec3 roomCenter = this->gridManagerRef->GetGrid()->GetRoomCenter(x, z);
 	// If the above function returns ZERO_VEC3, that means that the position is not within any room.
 	// This is not problematic on its own, but we should do nothing in that case.
 	if (roomCenter != ZERO_VEC3) {

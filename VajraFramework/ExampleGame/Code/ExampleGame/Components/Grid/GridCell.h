@@ -12,6 +12,7 @@
 
 class GridCell {
 public:
+	GridCell();
 	GridCell(int x0, int y0, int z0, glm::vec3 origin0, glm::vec3 center0, bool passable0);
 
 	int x; // Grid cell coordinate x

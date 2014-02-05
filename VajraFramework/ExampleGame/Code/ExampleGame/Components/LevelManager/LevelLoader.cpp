@@ -161,7 +161,7 @@ void LevelLoader::loadOtherDataFromXml(XmlNode* otherDataNode) {
 
 		zoneComp->SetZoneBounds(westBound, southBound, eastBound, northBound);
 
-		SINGLETONS->GetGridManager()->AddGridZone(zoneObj->GetId());
+		SINGLETONS->GetGridManager()->GetGrid()->AddGridZone(zoneObj->GetId());
 
 		// Check for overloaded components
 		XmlNode* compNode = zoneNode->GetFirstChildByNodeName(COMPONENT_TAG);

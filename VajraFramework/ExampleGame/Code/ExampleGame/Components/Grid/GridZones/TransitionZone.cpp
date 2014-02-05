@@ -34,7 +34,7 @@ void TransitionZone::HandleMessage(MessageChunk messageChunk) {
 }
 
 void TransitionZone::SetDestination(int cellX, int cellZ) {
-	GridCell* cell = SINGLETONS->GetGridManager()->GetCell(cellX, cellZ);
+	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(cellX, cellZ);
 	if (cell != nullptr) {
 		this->destX = cell->x;
 		this->destZ = cell->z;
@@ -42,7 +42,7 @@ void TransitionZone::SetDestination(int cellX, int cellZ) {
 }
 
 void TransitionZone::SetDestination(glm::vec3 worldPos) {
-	GridCell* cell = SINGLETONS->GetGridManager()->GetCell(worldPos);
+	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(worldPos);
 	if (cell != nullptr) {
 		this->destX = cell->x;
 		this->destZ = cell->z;
