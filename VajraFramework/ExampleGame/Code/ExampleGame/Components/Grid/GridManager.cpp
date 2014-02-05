@@ -55,7 +55,6 @@ void GridManager::init() {
 #endif
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_KILLED, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_LONG_PRESS_GESTURE, this->GetTypeId(), false);
 }
 
 void GridManager::destroy() {
@@ -93,8 +92,6 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_UNIT_KILLED:
 			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
 			break;
-		case MESSAGE_TYPE_LONG_PRESS_GESTURE:
-			this->longPressOnGrid();
 		default:
 			break;
 	}
@@ -198,6 +195,11 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
+		if(cell->unitId != OBJECT_ID_INVALID) {
+			if(cell->unitId != selectedUnitId) {
+				selectUnitInCell(cell);
+			}
+		}	
 		if (this->selectedUnitId != OBJECT_ID_INVALID) {
 			GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
 			PlayerUnit* unit = obj->GetComponent<PlayerUnit>();
@@ -645,7 +647,7 @@ void GridManager::deselectUnit() {
 		}
 	}
 }
-
+#if 0
 void GridManager::longPressOnGrid() {
 	LongPress lp = ENGINE->GetInput()->GetLongPress();
 	GridCell* c = this->TouchPositionToCell(lp.pos);
@@ -656,6 +658,6 @@ void GridManager::longPressOnGrid() {
 		else {
 			selectUnitInCell(c);
 		}
-	}
-		
+	}	
 }
+#endif

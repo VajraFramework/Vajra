@@ -39,12 +39,10 @@ void Thief::destroy() {
 bool Thief::isSpecialTouch(int touchId) {
 	if(this->getTouchNearUnit()) {
 		Touch touch = ENGINE->GetInput()->GetTouch(touchId);
-
-	
-		//if(touch.timeDown >= longPressInSeconds && glm::distance(touch.pos, this->touchStartPos) <= allowedMovementInPixels) {
+		if(touch.timeDown >= longPressInSeconds && glm::distance(touch.pos, this->touchStartPos) <= allowedMovementInPixels) {
 			this->targetedCell = nullptr;
 			return true;
-		//}
+		}
 	}
 	return false;
 }
@@ -53,7 +51,12 @@ void Thief::onSpecialTouch(int touchId) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchId);
 	if(touch.phase == TouchPhase::Ended) {
 		this->targetedCell = SINGLETONS->GetGridManager()->TouchPositionToCell(touch.pos);
-		this->startSpecial();
+		// TODO [HACK] Remove when the thief can gather legal targets
+		if(glm::distance(this->targetedCell->center, this->gameObjectRef->GetTransform()->GetPosition()) > 1.0f) {
+			this->startSpecial();
+		} else {
+			this->onSpecialEnd();
+		}
 	}
 }
 

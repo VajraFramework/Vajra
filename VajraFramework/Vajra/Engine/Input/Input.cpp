@@ -81,7 +81,8 @@ void Input::updateInput() {
 		// Raise the pinch gesture event
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_PINCH_GESTURE, this->GetId());
 	}
-
+	
+#ifdef LONG_PRESS
 	this->frameLongPress = this->asyncLongPress;
 	this->asyncLongPress.gestureState = GestureState::GestureState_Inactive;
 
@@ -93,6 +94,7 @@ void Input::updateInput() {
 		// Raise the long press gesture event
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LONG_PRESS_GESTURE, this->GetId());
 	}
+#endif
 }
 
 Touch Input::GetTouch(int index) {
@@ -142,6 +144,7 @@ void Input::UpdatePinch(float scale, float velocity,
 		this->asyncPinch.gestureState = gestureState;
 }
 
+#ifdef LONG_PRESS
 void Input::UpdateLongPress(float x, float y, GestureState gestureState) {
 	this->asyncLongPress.pos.x = x;
 	this->asyncLongPress.pos.y = y;
@@ -150,6 +153,7 @@ void Input::UpdateLongPress(float x, float y, GestureState gestureState) {
 		this->asyncLongPress.gestureState = gestureState;
 	}
 }
+#endif
 
 void Input::AddGameTouchTarget(IGameTouchTarget* newTarget) {
 	this->gameTouchTargets.push_back(newTarget);
@@ -225,6 +229,7 @@ void Input::updateDesktopInput() {
 			}
 			else {
 				if(this->touchDown) {
+#ifdef LONG_PRESS
 					downTime += (float)ENGINE->GetTimer()->GetDeltaFrameTime();
 					if(downTime >= longPress) {
 						if((startX == this->mouseX) && (startY == this->mouseY)) {
@@ -232,7 +237,8 @@ void Input::updateDesktopInput() {
 							this->UpdateLongPress(this->mouseX, this->mouseY, GestureState::GestureState_Start);
 							this->touchDown = false;
 						}
-					}
+					}	
+#endif
 				}
 			}
 		}
