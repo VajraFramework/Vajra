@@ -55,6 +55,9 @@ void PlayerUnit::init() {
 	this->touchNearUnit = false;
 	this->performingSpecial = false;
 
+	this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
+	this->gridNavRef->SetTurnSpeedDegrees(TURN_SPEED_DEG);
+
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION, this->GetTypeId(), false);
 	// DECAL TEST
 	this->touchIndicator = new GameObject(ENGINE->GetSceneGraph3D());
@@ -80,7 +83,11 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION:
 			if(this->performingSpecial) {
 				onSpecialEnd();
+			}  else {
+				ENGINE->GetTween()->CancelNumberTween("pulse");
+				ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), this->touchIndicator->GetTransform()->GetScale(), glm::vec3(0), 0.3f);
 			}
+
 			break;
 		default:
 			break;
@@ -88,7 +95,8 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 }
 
 void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
-	if(this->currentTouchedCell != touchedCell) {
+	FRAMEWORK->GetLogger()->dbglog("\nTouch phase %d", ENGINE->GetInput()->GetTouch(touchId).phase);
+	if(this->currentTouchedCell != touchedCell || ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Began) {
 		this->currentTouchedCell = touchedCell;
 		this->touchedCellChanged();
 	}
@@ -145,18 +153,22 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				touchIndicator->GetTransform()->SetPosition(this->currentTouchedCell->center);
 				touchIndicator->SetVisible(true);
 				// touch indicator tween up
-				//ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), glm::vec3(0), glm::vec3(1), .3f);
-				//ENGINE->GetTween()->CancelNumberTween("pulse");
+				ENGINE->GetTween()->CancelScaleTween(this->touchIndicator->GetId());
+				ENGINE->GetTween()->CancelNumberTween("pulse");
+				ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), glm::vec3(0), glm::vec3(1), .3f);
 
-				userParams = new MessageData1S1I1F();
-				userParams->i = this->GetObject()->GetId();
-				ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, true, true, true, "pulse", userParams, playerUnitNumberTweenCallback);
 				break;
 			case TouchPhase::Ended:
+				this->currentTouchedCell = nullptr;
 				this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
+				userParams = new MessageData1S1I1F();
+				userParams->i = this->GetObject()->GetId();
+				ENGINE->GetTween()->CancelScaleTween(this->touchIndicator->GetId());
+				ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, true, true, true, "pulse", userParams, playerUnitNumberTweenCallback);
 				//ENGINE->GetTween()->CancelScaleTween(this->touchIndicator->GetId());
 				break;
 			case TouchPhase::Cancelled:
+				this->currentTouchedCell = nullptr;
 				touchIndicator->SetVisible(false);
 				break;
 			default:

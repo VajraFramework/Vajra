@@ -9,7 +9,8 @@ enum TouchPhase
 	Ended,
 	Moved,
 	Stationary,
-	Cancelled
+	Cancelled,
+	Inactive
 };
 
 enum GestureState {
@@ -24,6 +25,7 @@ enum GestureState {
 struct Touch {
 private:
 	int uId;
+	TouchPhase nextFramePhase;
 public:
 	int fingerId;
 	glm::vec2 pos;
