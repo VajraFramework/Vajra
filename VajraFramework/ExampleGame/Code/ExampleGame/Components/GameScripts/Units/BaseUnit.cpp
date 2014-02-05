@@ -31,6 +31,7 @@ void BaseUnit::init() {
 	this->gridNavRef = this->gameObjectRef->GetComponent<GridNavigator>();
 	this->unitState = UnitState::UNIT_STATE_ALIVE;
 	this->unitType = UnitType::UNIT_TYPE_GUARD;
+	this->unitActionState = UnitActionState::UNIT_ACTION_STATE_IDLE;
 }
 
 void BaseUnit::destroy() {

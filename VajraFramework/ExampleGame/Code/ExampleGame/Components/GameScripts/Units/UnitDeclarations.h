@@ -26,6 +26,12 @@ enum InputState {
 	INPUT_STATE_SPECIAL
 };
 
+enum UnitActionState {
+	UNIT_ACTION_STATE_IDLE,
+	UNIT_ACTION_STATE_WALKING,
+	UNIT_ACTION_STATE_DOING_SPECIAL,
+};
+
 struct UnitColorScheme {
 	glm::vec4 baseColor;
 	glm::vec4 uiColor;

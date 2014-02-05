@@ -7,7 +7,6 @@
 #define BASE_UNIT_H
 
 #include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
-
 #include "Vajra/Common/Components/Component.h"
 
 class GridNavigator;
@@ -42,6 +41,7 @@ private:
 	void destroy();
 
 	UnitState unitState;
+	UnitActionState unitActionState;
 
 	static ComponentIdType componentTypeId;
 };
