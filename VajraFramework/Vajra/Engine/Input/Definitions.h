@@ -14,7 +14,7 @@ enum TouchPhase
 
 enum GestureState {
 	GestureState_Inactive,
-	GestureState_Start ,
+	GestureState_Start,
 	GestureState_Changed,
 	GestureState_End,
 	GestureState_Cancelled
@@ -29,7 +29,7 @@ public:
 	glm::vec2 pos;
 	glm::vec2 prevPos;
 	TouchPhase phase;
-
+	float timeDown;
 	friend class Input;
 };
 
