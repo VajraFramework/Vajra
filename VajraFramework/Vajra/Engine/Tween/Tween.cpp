@@ -363,7 +363,7 @@ bool OnGoingNumberTweenDetails::StepTween(float deltaTime) {
 		this->callback(this->fromNumber, this->toNumber, newNumber, this->tweenName, this->userParams);
 	}
 
-	if (newNumber > this->toNumber) {
+	if (newNumber >= this->toNumber) {
 		if (this->looping) {
 			this->ResetTween();
 		} else {
