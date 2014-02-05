@@ -95,7 +95,6 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 }
 
 void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
-	FRAMEWORK->GetLogger()->dbglog("\nTouch phase %d", ENGINE->GetInput()->GetTouch(touchId).phase);
 	if(this->currentTouchedCell != touchedCell || ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Began) {
 		this->currentTouchedCell = touchedCell;
 		this->touchedCellChanged();
