@@ -25,6 +25,8 @@ Assassin::~Assassin() {
 
 void Assassin::init() {
 	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
+	s_assassin = this;
+	this->unitTypeSuffix = ASSASSIN_SUFFIX;
 }
 
 void Assassin::destroy() {

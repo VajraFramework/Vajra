@@ -17,17 +17,22 @@
 #define GOOD_TOUCH 0
 #define BAD_TOUCH  1
 
-static GameObject* s_touchIndicator;
+PlayerUnit* s_assassin = nullptr;
+PlayerUnit* s_thief = nullptr;
 
-namespace PlayerUnitTween {
-	void tweenNumberCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName) {
-		if(tweenClipName == "scale") {
-			s_touchIndicator->GetTransform()->SetScale(currentNumber, currentNumber, currentNumber);
-		} else if(tweenClipName == "pulse") {
-			float scaleValue = sinf(currentNumber);
-
-			s_touchIndicator->GetTransform()->SetScale(scaleValue, scaleValue, scaleValue);
-		}
+void playerUnitNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName) {
+	PlayerUnit* pUnit;
+	std::string unitType = tweenClipName.substr(tweenClipName.length() - 4);
+	tweenClipName.resize(tweenClipName.length() - 4);
+	ASSERT(unitType == ASSASSIN_SUFFIX || unitType == THIEF_SUFFIX, "Tween in player unit does not have a unit suffix");
+	if(unitType == ASSASSIN_SUFFIX) {
+		pUnit = s_assassin;
+	} else if(unitType == THIEF_SUFFIX) {
+		pUnit = s_thief;
+	}
+	if(tweenClipName == "pulse") {
+		float scaleValue = sinf(currentNumber);
+		pUnit->touchIndicator->GetTransform()->SetScale(scaleValue, scaleValue, scaleValue);
 	}
 }
 
@@ -52,7 +57,6 @@ void PlayerUnit::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION, this->GetTypeId(), false);
 	// DECAL TEST
 	this->touchIndicator = new GameObject(ENGINE->GetSceneGraph3D());
-	s_touchIndicator = this->touchIndicator;
 	SpriteRenderer* spriteRenderer = this->touchIndicator->AddComponent<SpriteRenderer>();
 	touchIndicator->SetVisible(false);
 	std::vector<std::string> pathsToTextures;
@@ -61,7 +65,7 @@ void PlayerUnit::init() {
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 	//
 	this->touchIndicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
-	
+
 	this->currentTouchedCell = NULL;
 }
 
@@ -133,20 +137,21 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 		this->inputState = InputState::INPUT_STATE_SPECIAL;
 		this->gridNavRef->StopNavigation();
 
-	}
-	else {
+	} else {
 		switch(ENGINE->GetInput()->GetTouch(touchId).phase) {
 			case TouchPhase::Began:
 				touchIndicator->GetTransform()->SetPosition(this->currentTouchedCell->center);
 				touchIndicator->SetVisible(true);
 				// touch indicator tween up
-				ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), glm::vec3(0), glm::vec3(1), .3f);
-				ENGINE->GetTween()->CancelNumberTween("pulse");
+				//ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), glm::vec3(0), glm::vec3(1), .3f);
+				//ENGINE->GetTween()->CancelNumberTween("pulse");
+
+				FRAMEWORK->GetLogger()->dbglog("\nTWEEN START\n");
+				ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, true, true, true, "pulse" + this->unitTypeSuffix, playerUnitNumberTweenCallback);
 				break;
 			case TouchPhase::Ended:
 				this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
-				ENGINE->GetTween()->CancelScaleTween(this->touchIndicator->GetId());
-				ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, false, true, true, "pulse", PlayerUnitTween::tweenNumberCallback);
+				//ENGINE->GetTween()->CancelScaleTween(this->touchIndicator->GetId());
 				break;
 			case TouchPhase::Cancelled:
 				touchIndicator->SetVisible(false);
@@ -155,7 +160,6 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				break;
 		}
 	}
-
 }
 
 void PlayerUnit::touchedCellChanged() {
