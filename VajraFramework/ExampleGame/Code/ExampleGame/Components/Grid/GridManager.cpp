@@ -567,12 +567,12 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 		// A collision has occurred. Send a message to both units involved.
 		MessageChunk collisionMessageA = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		collisionMessageA->SetMessageType(MESSAGE_TYPE_GRID_UNIT_COLLISION);
-		collisionMessageA->messageData.i = id;
+		collisionMessageA->messageData.iv1.x = id;
 		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageA, destCell->unitId, id);
 
 		MessageChunk collisionMessageB = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		collisionMessageB->SetMessageType(MESSAGE_TYPE_GRID_UNIT_COLLISION);
-		collisionMessageB->messageData.i = destCell->unitId;
+		collisionMessageB->messageData.iv1.x = destCell->unitId;
 		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageB, id, destCell->unitId);
 	}
 
@@ -584,7 +584,7 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 		if (startRoom != nullptr) {
 			MessageChunk roomExitMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 			roomExitMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_EXITED);
-			roomExitMessage->messageData.i = id;
+			roomExitMessage->messageData.iv1.x = id;
 			roomExitMessage->messageData.fv1 = this->GetRoomCenter(startCell);
 			ENGINE->GetMessageHub()->SendMulticastMessage(roomExitMessage, this->GetObject()->GetId());
 		}
@@ -592,7 +592,7 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 		if (destRoom != nullptr) {
 			MessageChunk roomEnterMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 			roomEnterMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED);
-			roomEnterMessage->messageData.i = id;
+			roomEnterMessage->messageData.iv1.x = id;
 			roomEnterMessage->messageData.fv1 = this->GetRoomCenter(destCell);
 			ENGINE->GetMessageHub()->SendMulticastMessage(roomEnterMessage, this->GetObject()->GetId());
 		}
@@ -613,7 +613,7 @@ void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, Grid
 		if (collisionType != MESSAGE_TYPE_UNSPECIFIED) {
 			MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 			collisionMessage->SetMessageType(collisionType);
-			collisionMessage->messageData.i = id;
+			collisionMessage->messageData.iv1.x = id;
 			ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, *iter, id);
 		}
 	}

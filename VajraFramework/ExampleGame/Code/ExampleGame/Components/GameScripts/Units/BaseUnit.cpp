@@ -55,7 +55,7 @@ void BaseUnit::Kill() {
 	GridCell* currentCell = this->gridNavRef->GetCurrentCell();
 	MessageChunk unitKilledMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 	unitKilledMessage->SetMessageType(MESSAGE_TYPE_UNIT_KILLED);
-	unitKilledMessage->messageData.i = this->unitType;
+	unitKilledMessage->messageData.iv1.x = this->unitType;
 	unitKilledMessage->messageData.fv1.x = currentCell->x;
 	unitKilledMessage->messageData.fv1.y = currentCell->y;
 	unitKilledMessage->messageData.fv1.z = currentCell->z;

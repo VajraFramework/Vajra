@@ -28,7 +28,7 @@ void TransitionZone::HandleMessage(MessageChunk messageChunk) {
 	GridZone::HandleMessage(messageChunk);
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_GRID_ZONE_ENTERED:
-			this->onUnitEnteredZone(messageChunk->messageData.i);
+			this->onUnitEnteredZone(messageChunk->messageData.iv1.x);
 			break;
 	}
 }

@@ -75,7 +75,7 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 			break;
 
 		case MESSAGE_TYPE_GRID_ROOM_ENTERED:
-			this->onGridRoomEntered(messageChunk->messageData.i, SINGLETONS->GetGridManager()->GetRoom(messageChunk->messageData.fv1));
+			this->onGridRoomEntered(messageChunk->messageData.iv1.x, SINGLETONS->GetGridManager()->GetRoom(messageChunk->messageData.fv1));
 			break;
 
 		default:
