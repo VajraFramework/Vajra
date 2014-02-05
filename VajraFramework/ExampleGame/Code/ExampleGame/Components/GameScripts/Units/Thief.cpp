@@ -15,6 +15,10 @@ void thiefTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenCli
 		g_thief->onSpecialEnd();
 }
 
+// constants
+#define ALLOWED_FINGER_MOVEMENT_IN_PRESS 10.0f
+#define LONG_PRESS_LENGTH_IN_SECONDS 0.5f
+
 Thief::Thief() : PlayerUnit() {
 	this->init();
 }
@@ -38,7 +42,7 @@ void Thief::destroy() {
 bool Thief::isSpecialTouch(int touchId) {
 	if(this->getTouchNearUnit()) {
 		Touch touch = ENGINE->GetInput()->GetTouch(touchId);
-		if(touch.timeDown >= longPressInSeconds && glm::distance(touch.pos, this->touchStartPos) <= allowedMovementInPixels) {
+		if(touch.timeDown >= LONG_PRESS_LENGTH_IN_SECONDS && glm::distance(touch.pos, this->touchStartPos) <= ALLOWED_FINGER_MOVEMENT_IN_PRESS) {
 			this->targetedCell = nullptr;
 			return true;
 		}

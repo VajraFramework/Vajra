@@ -32,10 +32,6 @@ private:
 	glm::vec2 swipeDirectionScreen; // direction of the swipe on the device screen
 
 	GridCell* targetedCell;
-
-	const float attackSpeed = 10.0f;
-	const float swipeDistanceInPixels = 50.0f;
-	const float maxSwipeLengthInSeconds = 1.0f;
 };
 
 #endif //ASSASSIN_UNIT_H

@@ -31,10 +31,6 @@ private:
 	
 	GridCell* targetedCell;
 
-	const float allowedMovementInPixels = 10.0f;
-	const float longPressInSeconds = 0.5f;
-
-
 	friend void thiefTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
 
 };
