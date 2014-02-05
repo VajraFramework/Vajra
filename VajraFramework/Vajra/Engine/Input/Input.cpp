@@ -76,9 +76,7 @@ void Input::updateInput() {
 	}
 	if (this->framePinch.gestureState != GestureState::GestureState_Inactive) {
 		// Raise the pinch gesture event
-		MessageChunk pinchGestureMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-		pinchGestureMessage->SetMessageType(MESSAGE_TYPE_PINCH_GESTURE);
-		ENGINE->GetMessageHub()->SendMulticastMessage(pinchGestureMessage, this->GetId());
+		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_PINCH_GESTURE, this->GetId());
 	}
 
 	this->frameLongPress = this->asyncLongPress;
@@ -89,10 +87,8 @@ void Input::updateInput() {
 	}
 	if (this->frameLongPress.gestureState
 			!= GestureState::GestureState_Inactive) {
-		// Raise the pinch gesture event
-		MessageChunk longPressGestureMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-		longPressGestureMessage->SetMessageType(MESSAGE_TYPE_LONG_PRESS_GESTURE);
-		ENGINE->GetMessageHub()->SendMulticastMessage(longPressGestureMessage, this->GetId());
+		// Raise the long press gesture event
+		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LONG_PRESS_GESTURE, this->GetId());
 	}
 }
 
