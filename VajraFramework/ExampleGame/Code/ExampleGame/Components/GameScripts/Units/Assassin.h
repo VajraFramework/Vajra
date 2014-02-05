@@ -18,6 +18,8 @@ public:
 
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 
+protected:
+	// @Override 
 	virtual bool isSpecialTouch(int /* touchId */);
 	virtual void onSpecialTouch(int /* touchId */);
 

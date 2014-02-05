@@ -18,6 +18,8 @@ public:
 
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 
+protected:
+	// @Override 
 	virtual bool isSpecialTouch(int /* touchId */);
 	virtual void onSpecialTouch(int /* touchId */);
 
@@ -31,6 +33,10 @@ private:
 
 	const float allowedMovementInPixels = 10.0f;
 	const float longPressInSeconds = 0.5f;
+
+
+	friend void thiefTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
+
 };
 
 #endif //THIEF_UNIT_H

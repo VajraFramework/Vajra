@@ -9,13 +9,12 @@
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/Tween/Tween.h"
 
-
+// Tween callback
 static Thief* g_thief;
-namespace ThiefTween {
-	void tweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */) {
+void thiefTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */) {
 		g_thief->onSpecialEnd();
-	}
 }
+
 Thief::Thief() : PlayerUnit() {
 	this->init();
 }
@@ -69,7 +68,7 @@ void Thief::startSpecial() {
 											false,
 											TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA, 
 											false,
-											ThiefTween::tweenCallback);
+											thiefTweenCallback);
 }
 
 void Thief::onSpecialEnd() {
