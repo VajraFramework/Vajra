@@ -7,12 +7,22 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 
+
 // Tween callback
-static Thief* g_thief;
-void thiefTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */) {
-		g_thief->onSpecialEnd();
+void thiefTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName */) {
+	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
+	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
+	if(go != nullptr) {
+		Thief* pUnit = go->GetComponent<Thief>();
+		ASSERT(pUnit != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
+		if(pUnit != nullptr) {
+			pUnit->onSpecialEnd();
+		}
+	}
+	
 }
 
 // constants

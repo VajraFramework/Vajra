@@ -21,19 +21,15 @@
 void playerUnitNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
 	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
-	if(go == nullptr) {
-		return;
-	}
-	
-	PlayerUnit* pUnit = go->GetComponent<PlayerUnit>();
-	ASSERT(pUnit != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
-	if(pUnit == nullptr) {
-		return;
-	}
-	
-	if(tweenClipName == "pulse") {
-		float scaleValue = sinf(currentNumber);
-		pUnit->touchIndicator->GetTransform()->SetScale(scaleValue, scaleValue, scaleValue);
+	if(go != nullptr) {
+		PlayerUnit* pUnit = go->GetComponent<PlayerUnit>();
+		ASSERT(pUnit != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
+		if(pUnit != nullptr) {
+			if(tweenClipName == "pulse") {
+				float scaleValue = sinf(currentNumber);
+				pUnit->touchIndicator->GetTransform()->SetScale(scaleValue, scaleValue, scaleValue);
+			}
+		}
 	}
 }
 
@@ -87,7 +83,6 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 				ENGINE->GetTween()->CancelNumberTween("pulse");
 				ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), this->touchIndicator->GetTransform()->GetScale(), glm::vec3(0), 0.3f);
 			}
-
 			break;
 		default:
 			break;
@@ -103,6 +98,7 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 	if(ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Began) {
 		this->touchStartPos = ENGINE->GetInput()->GetTouch(touchId).pos;
 		this->setTouchNearUnit();
+		this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	}	
 
 	if(this->performingSpecial) {
@@ -138,12 +134,15 @@ void PlayerUnit::startSpecial() {
 void PlayerUnit::onSpecialEnd() {
 	this->performingSpecial = false;
 	this->inputState = InputState::INPUT_STATE_NAV;
+	touchIndicator->SetVisible(false);
 }
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	
 	if(this->isSpecialTouch(touchId)) {
 		this->inputState = InputState::INPUT_STATE_SPECIAL;
 		this->gridNavRef->StopNavigation();
+		this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(BAD_TOUCH);
+		this->onSpecialTouch(touchId);
 
 	} else {
 		MessageData1S1I1F* userParams;
