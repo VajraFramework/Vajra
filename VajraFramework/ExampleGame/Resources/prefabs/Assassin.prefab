@@ -2,25 +2,19 @@
 	<gameobject>
 		<component name="MeshRenderer">
 			<property name="InitMesh">
-				<field>models/polySurface5.model</field>
+				<field>models/SD_Thief_mesh.model</field>
 			</property>
 		</component>
 
 		<component name="BakedSkeletalAnimation">
 			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#idle</field>
+				<field>animations/SD_Thief_mesh.skeletalanimation#idle</field>
 			</property>
 			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#twitching</field>
+				<field>animations/SD_Thief_mesh.skeletalanimation#walking</field>
 			</property>
 			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#turning</field>
-			</property>
-			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#nodding</field>
-			</property>
-			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#walking</field>
+				<field>animations/SD_Thief_mesh.skeletalanimation#jumping</field>
 			</property>
 			<property name="PlayAnimationClip">
 				<field>walking</field>
