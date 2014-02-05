@@ -62,13 +62,13 @@ void Thief::onSpecialTouch(int touchId) {
 void Thief::startSpecial() {
 	PlayerUnit::startSpecial();
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
-											this->gameObjectRef->GetTransform()->GetPosition(),
-											this->targetedCell->center,
-											1.0f,
-											false,
-											TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA, 
-											false,
-											thiefTweenCallback);
+									  this->gameObjectRef->GetTransform()->GetPosition(),
+									  this->targetedCell->center,
+									  1.0f,
+									  false,
+									  TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA, 
+									  false,
+									  thiefTweenCallback);
 }
 
 void Thief::onSpecialEnd() {
