@@ -33,6 +33,7 @@ public:
 	inline void SetTurnSpeedDegrees(float /* degreesPerSecond */);
 	inline void SetTurnSpeedRadians(float /* radiansPerSecond */);
 	inline void SetCurrentCell(GridCell* cell) { this->currentCell = cell;            }
+	void SetIsTraveling(bool isTraveling_);
 
 	//[[PROPERTY]]//
 	void SetGridPosition(int x, int z);   // Place the object at the indicated cell on the grid.
@@ -111,4 +112,3 @@ void GridNavigator::SetTurnSpeedRadians(float radiansPerSecond) {
 }
 
 #endif // GRIDNAVIGATOR_H
-

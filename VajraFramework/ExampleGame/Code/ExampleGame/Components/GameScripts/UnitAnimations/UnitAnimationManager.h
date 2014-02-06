@@ -9,6 +9,10 @@
  * makes sure that it is appropriate for the unit's current action state
  */
 
+// Forward Declarations:
+class GameObject;
+
+//[[COMPONENT]]//
 class UnitAnimationManager : public Component {
 public:
 	UnitAnimationManager();
@@ -25,6 +29,8 @@ private:
 	void destroy();
 
 	void onUnitActionStateChanged(UnitActionState oldState, UnitActionState newState);
+
+	GameObject* gameObjectRef;
 
 	static ComponentIdType componentTypeId;
 };

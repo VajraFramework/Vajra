@@ -9,15 +9,21 @@
 		<component name="BakedSkeletalAnimation">
 			<property name="AddAnimationClip">
 				<field>animations/SD_Thief_mesh.skeletalanimation#idle</field>
+				<field>0.5f</field>
 			</property>
 			<property name="AddAnimationClip">
 				<field>animations/SD_Thief_mesh.skeletalanimation#walking</field>
+				<field>3.0f</field>
 			</property>
 			<property name="AddAnimationClip">
 				<field>animations/SD_Thief_mesh.skeletalanimation#jumping</field>
+				<field>3.0f</field>
 			</property>
 			<property name="PlayAnimationClip">
-				<field>walking</field>
+				<field>idle</field>
+			</property>
+			<property name="PlayAnimationClip">
+				<field>idle</field>
 			</property>
 		</component>
 
@@ -32,6 +38,10 @@
 		
 		<component name="Assassin">
 		</component>
+
+		<component name="UnitAnimationManager">
+		</component>
+
 	</gameobject>
 </prefab>
 
