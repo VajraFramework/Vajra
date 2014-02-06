@@ -106,9 +106,9 @@ float AiPerception::calculateVisualAwareness(ObjectIdType objId) {
 		}
 
 		// Is there anything blocking line of sight?
-		GridCell* myCell = SINGLETONS->GetGridManager()->GetCell(myPosition);
-		GridCell* otherCell = SINGLETONS->GetGridManager()->GetCell(otherPosition);
-		if (SINGLETONS->GetGridManager()->HasLineOfSight(myCell, otherCell)) {
+		GridCell* myCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(myPosition);
+		GridCell* otherCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(otherPosition);
+		if (SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(myCell, otherCell)) {
 			// I can see it!
 			return this->visionAcuity;
 		}

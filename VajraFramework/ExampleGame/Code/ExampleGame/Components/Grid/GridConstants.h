@@ -12,6 +12,8 @@
 #define GROUND_Y 0.0f
 extern const glm::vec3 HALF_CELL;
 
+#define NUM_ELEVATIONS 3
+
 #define ROOM_WIDTH_INDOORS 15
 #define ROOM_HEIGHT_INDOORS 9
 #define ROOM_WIDTH_OUTDOORS 17
