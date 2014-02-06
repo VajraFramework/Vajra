@@ -49,7 +49,7 @@ void GridManager::init() {
 	this->gridPlane.origin = ZERO_VEC3;
 	this->gridPlane.normal = YAXIS;
 	this->selectedUnitId   = OBJECT_ID_INVALID;
-#ifdef DEBUG
+#ifdef DEBUG_GRID
 	// TODO [Remove] Just use this to draw the grid until we get some actual objects into the level
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 #endif
@@ -81,7 +81,7 @@ void GridManager::destroy() {
 
 void GridManager::HandleMessage(MessageChunk messageChunk) {
 	switch (messageChunk->GetMessageType()) {
-#if 0
+#if DEBUG_GRID
 		case MESSAGE_TYPE_FRAME_EVENT:
 			debugDrawGrid();
 			break;
@@ -189,14 +189,14 @@ ObjectIdType GridManager::GetPlayerUnitIdOfType(UnitType uType) {
 }
 
 void GridManager::OnTouchUpdate(int touchIndex) {
-#ifdef DEBUG
+#ifdef DEBUG_GRID
 	debugTouchUpdate(touchIndex);
 #endif
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
 		if(cell->unitId != OBJECT_ID_INVALID) {
-			if(cell->unitId != selectedUnitId) {
+			if(cell->unitId != selectedUnitId && touch.phase == TouchPhase::Began) {
 				selectUnitInCell(cell);
 			}
 		}	
@@ -371,7 +371,7 @@ bool GridManager::isWithinGrid(glm::vec3 loc) {
 	return isWithinGrid(gX, gZ);
 }
 
-#ifdef DEBUG
+#ifdef DEBUG_GRID
 void GridManager::debugDrawGrid() {
 	glm::vec3 start, end;
 
@@ -605,6 +605,7 @@ void GridManager::removeNavigatorFromGrid(ObjectIdType id, glm::vec3 cellPos) {
 		cell->unitId = OBJECT_ID_INVALID;
 	}
 }
+
 void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
 	for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
 		Object* zoneObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
