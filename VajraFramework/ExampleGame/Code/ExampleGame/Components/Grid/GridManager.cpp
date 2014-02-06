@@ -196,7 +196,7 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
 		if(cell->unitId != OBJECT_ID_INVALID) {
-			if(cell->unitId != selectedUnitId) {
+			if(cell->unitId != selectedUnitId && touch.phase == TouchPhase::Began) {
 				selectUnitInCell(cell);
 			}
 		}	
