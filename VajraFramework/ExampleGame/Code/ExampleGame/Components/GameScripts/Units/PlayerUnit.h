@@ -10,8 +10,14 @@
 
 class GameObject;
 class GridCell;
-
+class MessageData1S1I1F;
+	
 class PlayerUnit : public BaseUnit {
+
+#define MOVE_SPEED 2.5f
+#define TURN_SPEED_DEG 360.0f
+#define NEAR_TOUCH_DIST 1.5f 
+
 public:
 	PlayerUnit();
 	PlayerUnit(Object* object_);
@@ -40,21 +46,24 @@ protected:
 
 	glm::vec2 touchStartPos;
 
-	float getMoveSpeed() { return this->moveSpeed; }
 private:
 	void init();
 	void destroy();
 
+	GameObject* touchIndicator;
+	GridCell* currentTouchedCell;
+
+	void touchedCellChanged();
+
 	UnitColorScheme colorScheme;
+	
 	bool touchNearUnit;
 	void setTouchNearUnit(); 
 
 	bool performingSpecial;
 
-	// default values for units
-	float moveSpeed;
-	float turnSpeedDegrees;
-	const float nearTouchDist = 1.5f;
+	friend void playerUnitNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams);
+	friend class LevelLoader;
 };
 
 #endif //PLAYER_UNIT_H

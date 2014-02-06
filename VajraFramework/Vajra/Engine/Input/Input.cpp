@@ -63,7 +63,7 @@ void Input::updateInput() {
 	for (std::vector<Touch>::iterator it = this->asyncTouches.begin();
 			it != this->asyncTouches.end(); ++it) {
 		it->prevPos = it->pos;
-		it->phase = TouchPhase::Stationary;
+		it->phase = it->nextFramePhase;
 		it->timeDown += ENGINE->GetTimer()->GetDeltaFrameTime();
 	}
 	//logTouches();
@@ -109,6 +109,7 @@ void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
 	t.pos.y = startY;
 	t.prevPos = t.pos;
 	t.phase = phase;
+	t.nextFramePhase = TouchPhase::Stationary;
 	t.fingerId = this->nextFingerId;
 	t.timeDown = 0.0f;
 	// increase the unique finger id
@@ -129,7 +130,11 @@ void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {
 			it->prevPos = it->pos;
 			it->pos.x = curX;
 			it->pos.y = curY;
-			it->phase = phase;
+			if(it->phase != TouchPhase::Began) {
+				it->phase = phase;
+			} else if(phase == TouchPhase::Ended || phase == TouchPhase::Cancelled) {
+				it->nextFramePhase = phase;
+			}
 			break;
 		}
 	}

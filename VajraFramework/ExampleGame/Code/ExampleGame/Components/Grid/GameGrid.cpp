@@ -435,7 +435,7 @@ bool GameGrid::isWithinGrid(glm::vec3 loc) {
 	return isWithinGrid(gX, gZ);
 }
 
-#ifdef DEBUG
+#ifdef DEBUG_GRID
 void GameGrid::debugDrawGrid() {
 	glm::vec3 start, end;
 

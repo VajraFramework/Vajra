@@ -53,15 +53,25 @@ void GridCell::SetFirstOccupantId(ObjectIdType id) {
 void GridCell::SetOccupantIdAtElevation(ObjectIdType id, int elevation) {
 	int index = elevation - this->y;
 
-	if ((index >= 0) && (index < (int)this->unitIds.size())) {
+	if ((index >= 0) && (index < NUM_ELEVATIONS)) {
+		if (id != OBJECT_ID_INVALID) {
+			// Add leading null entries to the list if necessary
+			while (index >= (int)this->unitIds.size()) {
+				this->unitIds.push_back(OBJECT_ID_INVALID);
+			}
+		}
+
+		// Set the occupant ID at that index
 		int i = 0;
 		auto iter = this->unitIds.begin();
 		while (i < index) {
+			++i;
 			++iter;
 		}
 		*iter = id;
 
 		if (id == OBJECT_ID_INVALID) {
+			// Delete any null entries at the tail of the list
 			int count = this->unitIds.size();
 			for (auto iter = this->unitIds.rbegin(); iter != this->unitIds.rend(); ++iter) {
 				if (*iter == OBJECT_ID_INVALID) {
