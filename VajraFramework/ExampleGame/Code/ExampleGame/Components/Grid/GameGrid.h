@@ -56,12 +56,12 @@ public:
 	bool HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ);
 
 	int GetCellGroundLevel(int gridX, int gridZ);
-	bool IsCellPassableAtElevation(int gridX, int gridZ, int elevation);
-	bool IsCellVisibleAtElevation(int gridX, int gridZ, int elevation);
+	bool IsCellPassableAtElevation(int gridX, int gridZ, unsigned int elevation);
+	bool IsCellVisibleAtElevation(int gridX, int gridZ, unsigned int elevation);
 
-	void SetCellGroundLevel(int gridX, int gridZ, int height);
-	void SetCellPassableAtElevation(int gridX, int gridZ, int elevation, bool isPassable);
-	void SetCellVisibleAtElevation(int gridX, int gridZ, int elevation, bool isVisible);
+	void SetCellGroundLevel(int gridX, int gridZ, unsigned int elevation);
+	void SetCellPassableAtElevation(int gridX, int gridZ, unsigned int elevation, bool isPassable);
+	void SetCellVisibleAtElevation(int gridX, int gridZ, unsigned int elevation, bool isVisible);
 
 private:
 	void init(unsigned int spanX, unsigned int spanZ);

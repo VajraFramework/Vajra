@@ -9,6 +9,7 @@
 #include "ExampleGame/Components/Grid/GridRoom.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Utilities/MathUtilities.h"
 
 #ifdef DEBUG
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
@@ -308,37 +309,27 @@ int GameGrid::GetCellGroundLevel(int gridX, int gridZ) {
 	return -1;
 }
 
-bool GameGrid::IsCellPassableAtElevation(int gridX, int gridZ, int elevation) {
-	if ((elevation >= 0) && (elevation < NUM_ELEVATIONS)) {
+bool GameGrid::IsCellPassableAtElevation(int gridX, int gridZ, unsigned int elevation) {
+	if (elevation < NUM_ELEVATIONS) {
 		if (this->isWithinGrid(gridX, gridZ)) {
-			int rowByte = gridZ / 8;
-			int rowBit = gridZ % 8;
-			unsigned char checkByte = this->passableBits[elevation][gridX][rowByte];
-			unsigned char testByte = 0x01;
-			testByte = testByte << rowBit;
-			return ((checkByte & testByte) != 0x00);
+			return IS_BIT_SET_IN_BYTE_ARRAY(gridZ, this->passableBits[elevation][gridX]);
 		}
 	}
 	return false;
 }
 
-bool GameGrid::IsCellVisibleAtElevation(int gridX, int gridZ, int elevation) {
-	if ((elevation >= 0) && (elevation < NUM_ELEVATIONS)) {
+bool GameGrid::IsCellVisibleAtElevation(int gridX, int gridZ, unsigned int elevation) {
+	if (elevation < NUM_ELEVATIONS) {
 		if (this->isWithinGrid(gridX, gridZ)) {
-			int rowByte = gridZ / 8;
-			int rowBit = gridZ % 8;
-			unsigned char checkByte = this->visibleBits[elevation][gridX][rowByte];
-			unsigned char testByte = 0x01;
-			testByte = testByte << rowBit;
-			return ((checkByte & testByte) != 0x00);
+			return IS_BIT_SET_IN_BYTE_ARRAY(gridZ, this->visibleBits[elevation][gridX]);
 		}
 	}
 	return false;
 }
 
-void GameGrid::SetCellGroundLevel(int gridX, int gridZ, int elevation) {
-	ASSERT((elevation >= 0) && (elevation < NUM_ELEVATIONS), "Elevation level %d is outside grid bounds", elevation);
-	if ((elevation >= 0) && (elevation < NUM_ELEVATIONS)) {
+void GameGrid::SetCellGroundLevel(int gridX, int gridZ, unsigned int elevation) {
+	ASSERT(elevation < NUM_ELEVATIONS, "Elevation level %u is outside grid bounds", elevation);
+	if (elevation < NUM_ELEVATIONS) {
 		GridCell* cell = this->GetCell(gridX, gridZ);
 
 		ASSERT(cell != nullptr, "Cell does not exist at position (%d, %d)", gridX, gridZ);
@@ -383,43 +374,31 @@ void GameGrid::SetCellGroundLevel(int gridX, int gridZ, int elevation) {
 	}
 }
 
-void GameGrid::SetCellPassableAtElevation(int gridX, int gridZ, int elevation, bool isPassable) {
-	ASSERT((elevation >= 0) && (elevation < NUM_ELEVATIONS), "Elevation level %d is outside grid bounds", elevation);
-	if ((elevation >= 0) && (elevation < NUM_ELEVATIONS)) {
+void GameGrid::SetCellPassableAtElevation(int gridX, int gridZ, unsigned int elevation, bool isPassable) {
+	ASSERT(elevation < NUM_ELEVATIONS, "Elevation level %u is outside grid bounds", elevation);
+	if (elevation < NUM_ELEVATIONS) {
 		ASSERT(this->isWithinGrid(gridX, gridZ), "Cell does not exist at position (%d, %d)", gridX, gridZ);
 		if (this->isWithinGrid(gridX, gridZ)) {
-			int rowByte = gridZ / 8;
-			int rowBit = gridZ % 8;
-			unsigned char checkByte = this->passableBits[elevation][gridX][rowByte];
-			unsigned char applyByte = 0x01;
-			applyByte = applyByte << rowBit;
 			if (isPassable) {
-				this->passableBits[elevation][gridX][rowByte] = (checkByte | applyByte);
+				SET_BIT_IN_BYTE_ARRAY(gridZ, this->passableBits[elevation][gridX]);
 			}
 			else {
-				applyByte = ~applyByte;
-				this->passableBits[elevation][gridX][rowByte] = (checkByte & applyByte);
+				UNSET_BIT_IN_BYTE_ARRAY(gridZ, this->passableBits[elevation][gridX]);
 			}
 		}
 	}
 }
 
-void GameGrid::SetCellVisibleAtElevation(int gridX, int gridZ, int elevation, bool isVisible) {
-	ASSERT((elevation >= 0) && (elevation < NUM_ELEVATIONS), "Elevation level %d is outside grid bounds", elevation);
-	if ((elevation >= 0) && (elevation < NUM_ELEVATIONS)) {
+void GameGrid::SetCellVisibleAtElevation(int gridX, int gridZ, unsigned int elevation, bool isVisible) {
+	ASSERT(elevation < NUM_ELEVATIONS, "Elevation level %u is outside grid bounds", elevation);
+	if (elevation < NUM_ELEVATIONS) {
 		ASSERT(this->isWithinGrid(gridX, gridZ), "Cell does not exist at position (%d, %d)", gridX, gridZ);
 		if (this->isWithinGrid(gridX, gridZ)) {
-			int rowByte = gridZ / 8;
-			int rowBit = gridZ % 8;
-			unsigned char checkByte = this->visibleBits[elevation][gridX][rowByte];
-			unsigned char applyByte = 0x01;
-			applyByte = applyByte << rowBit;
 			if (isVisible) {
-				this->visibleBits[elevation][gridX][rowByte] = (checkByte | applyByte);
+				SET_BIT_IN_BYTE_ARRAY(gridZ, this->visibleBits[elevation][gridX]);
 			}
 			else {
-				applyByte = ~applyByte;
-				this->visibleBits[elevation][gridX][rowByte] = (checkByte & applyByte);
+				UNSET_BIT_IN_BYTE_ARRAY(gridZ, this->visibleBits[elevation][gridX]);
 			}
 		}
 	}
