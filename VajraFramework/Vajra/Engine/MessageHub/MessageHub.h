@@ -12,6 +12,9 @@ class MessageHub {
 public:
 	~MessageHub();
 
+	void SendPointcastMessage(MessageType messageType, ObjectIdType receiverId, ObjectIdType senderId = OBJECT_ID_INVALID);
+	void SendMulticastMessage(MessageType messageType, ObjectIdType senderId = OBJECT_ID_INVALID);
+
 	void SendPointcastMessage(MessageChunk messageChunk, ObjectIdType receiverId, ObjectIdType senderId = OBJECT_ID_INVALID);
 	void SendMulticastMessage(MessageChunk messageChunk, ObjectIdType senderId = OBJECT_ID_INVALID);
 

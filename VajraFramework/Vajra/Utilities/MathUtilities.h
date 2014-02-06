@@ -12,6 +12,8 @@
 #include "Libraries/glm/gtx/quaternion.hpp"
 #include "Libraries/glm/gtx/transform.hpp"
 
+#include <algorithm>
+
 #define ROUNDING_ERROR 0.0001f
 
 extern const float PI;
@@ -71,6 +73,14 @@ inline int square(int number) {
 
 inline unsigned int square(unsigned int number) {
 	return number * number;
+}
+
+inline void clamp(float& out, float min, float max) {
+	out = std::max(std::min(out, max), min);
+}
+
+inline void clamp(int& out, int min, int max) {
+	out = std::max(std::min(out, max), min);
 }
 
 #endif // MATHUTILITIES_H
