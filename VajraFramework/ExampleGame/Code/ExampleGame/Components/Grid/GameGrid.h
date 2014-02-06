@@ -21,6 +21,8 @@ public:
 	GameGrid(unsigned int spanX, unsigned int spanZ);
 	~GameGrid();
 
+	int GetElevationFromWorldY(float worldY);
+
 	inline unsigned int GetGridWidth()   { return this->gridWidth;  }
 	inline unsigned int GetGridHeight()  { return this->gridHeight; }
 
@@ -53,6 +55,14 @@ public:
 	bool HasLineOfSight(GridCell* sourceCell, GridCell* targetCell);
 	bool HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ);
 
+	int GetCellGroundLevel(int gridX, int gridZ);
+	bool IsCellPassableAtElevation(int gridX, int gridZ, int elevation);
+	bool IsCellVisibleAtElevation(int gridX, int gridZ, int elevation);
+
+	void SetCellGroundLevel(int gridX, int gridZ, int height);
+	void SetCellPassableAtElevation(int gridX, int gridZ, int elevation, bool isPassable);
+	void SetCellVisibleAtElevation(int gridX, int gridZ, int elevation, bool isVisible);
+
 private:
 	void init(unsigned int spanX, unsigned int spanZ);
 	void destroy();
@@ -60,21 +70,21 @@ private:
 	bool isWithinGrid(int cellX, int cellZ);     // Returns true if the specified cell falls within the grid boundaries
 	bool isWithinGrid(glm::vec3 worldPosition);  // Returns true if the vector position falls within a defined cell
 
-#ifdef DEBUG
-	void debugDrawGrid();
-#endif
-
 	unsigned int gridWidth;
 	unsigned int gridHeight;
 
 	GridCell*** gridCells;
-	unsigned char** passableBits;
-	unsigned char** visibleBits;
+	unsigned char*** passableBits;
+	unsigned char*** visibleBits;
 
 	std::vector<GridRoom*> gridRooms;
 	std::list<ObjectIdType> gridZones;
 
 #ifdef DEBUG
+public:
+	void debugDrawGrid();
+
+private:
 	//Color gridColor; // Default debug grid color
 	//Color gridColor4; // Color used for every fourth grid cell
 	//Color gridColor16; // Color used for every sixteenth grid cell
@@ -82,8 +92,6 @@ private:
 	//Color pathColor; // Color used to draw the path
 	bool paintSolid; // If true, cells are painted as solid rather than wireframe
 #endif
-
-	friend class GridManager;
 };
 
 #endif // GAMEGRID_H

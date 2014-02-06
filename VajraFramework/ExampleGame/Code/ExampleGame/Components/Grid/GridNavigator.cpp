@@ -304,6 +304,13 @@ float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std:
 	// Short-circuit if the start and end points are the same.
 	if ((startX == goalX) && (startZ == goalZ)) { return 0.0f; }
 
+	// Short-circuit if the elevations of the two cells are different.
+	float y = this->GetObject()->GetComponent<Transform>()->GetPositionWorld().y;
+	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(y);
+	if (!SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(goalCell->x, goalCell->z, elevation)) {
+		return -1.0f;
+	}
+
 	std::list<GridCell*> closedSet;          // Nodes that have been evaluated
 	std::list<GridCell*> openSet;            // Nodes that are set to be evaluated
 	std::map<GridCell*, GridCell*> cameFrom; // Parent cell along best known path
@@ -343,7 +350,7 @@ float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std:
 		std::list<GridCell*> neighbors;
 		SINGLETONS->GetGridManager()->GetGrid()->GetNeighborCells(neighbors, current);
 		for (auto iter = neighbors.begin(); iter != neighbors.end(); ++iter) {
-			if (SINGLETONS->GetGridManager()->GetGrid()->Passable(current, *iter)) {
+			if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(current->x, current->z, elevation)) {
 				float gScoreTentative = gScores[current] + actualTravelCost(current, *iter);
 				float fScoreTentative = gScoreTentative + travelCostEstimate(*iter, goalCell);
 
@@ -392,7 +399,7 @@ void GridNavigator::simplifyPath(std::list<GridCell*>& outPath) {
 		// Check if any of the cells are blocked.
 		bool isRouteClear = true;
 		for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
-			if (!SINGLETONS->GetGridManager()->GetGrid()->Passable(*startIter, *iter)) {
+			if (!SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation((*iter)->x, (*iter)->z, (*startIter)->y)) {
 				isRouteClear = false;
 				break;
 			}

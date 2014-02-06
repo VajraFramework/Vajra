@@ -49,8 +49,6 @@ public:
 	// TODO [Implement]
 	std::list<GridCell> GetNeighbors(GridCell* cel, bool diagonals, bool sameRoom);
 	std::list<GridCell> GetNeighborsInRange(glm::vec3 pos, int range, bool includeObstructed, bool lineOfSight, bool sameElevation, GRID_DIR dir);
-	bool HasLineOfSight(int startX, int startZ, int endX, int endZ);
-	std::list<GridCell> DirectRoute(int startX, int startZ, int endX, int endZ);
 	void TouchOnGrid(uTouch uT); // Event that fires when a touch input is detected
 	****************/
 

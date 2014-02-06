@@ -43,9 +43,6 @@ GridManager::~GridManager() {
 
 void GridManager::init() {
 	this->grid = nullptr;
-	/*this->gridCells     = nullptr;
-	this->gridWidth     = 0;
-	this->gridHeight    = 0;*/
 	this->maxElevation  = 0;
 	this->gridPlane.origin = ZERO_VEC3;
 	this->gridPlane.normal = YAXIS;
@@ -61,38 +58,18 @@ void GridManager::init() {
 
 void GridManager::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
-/*
-	if (this->gridCells != nullptr) {
-		for (unsigned int i = 0; i < this->gridWidth; ++i) {
-			for (unsigned int j = 0; j < this->gridHeight; ++j) {
-				if (this->gridCells[i][j] != nullptr) {
-					delete this->gridCells[i][j];
-				}
-			}
-			delete [] this->gridCells[i];
-		}
-		delete [] this->gridCells;
-		this->gridCells = nullptr;
-	}
 
-	for (unsigned int i = 0; i < this->gridRooms.size(); ++i) {
-		delete this->gridRooms[i];
-	}
-	this->gridRooms.clear();
-*/
 	delete this->grid;
 	this->grid = nullptr;
 }
 
 void GridManager::HandleMessage(MessageChunk messageChunk) {
 	switch (messageChunk->GetMessageType()) {
-/*
 #ifdef DEBUG
 		case MESSAGE_TYPE_FRAME_EVENT:
-			debugDrawGrid();
+			this->grid->debugDrawGrid();
 			break;
 #endif
-*/
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
 			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
 			break;
@@ -131,7 +108,7 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 
 GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
 	glm::vec3 gridPosition = this->TouchPositionToGridPosition(touchPos);
-	return this->GetGrid()->GetCell(gridPosition);;
+	return this->GetGrid()->GetCell(gridPosition);
 }
 
 glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
@@ -154,23 +131,11 @@ void GridManager::TouchOnGrid(uTouch uT) {
 
 }
 
-std::list<GridCell> GridManager::GetNeighbors(GridCell* cel, bool diagonals, bool sameRoom) {
-
-}
-
 GRID_DIR GridManager::GetVectorDirection(glm::vec3 vec) {
 
 }
 
 std::list<GridCell> GridManager::GetNeighborsInRange(glm::vec3 pos, int range, bool includeObstructed, bool lineOfSight, bool sameElevation, GRID_DIR dir) {
-
-}
-
-bool GridManager::HasLineOfSight(int startX, int startZ, int endX, int endZ) {
-
-}
-
-std::list<GridCell> GridManager::DirectRoute(int startX, int startZ, int endX, int endZ) {
 
 }
 */
@@ -215,9 +180,10 @@ void GridManager::loadCellDataFromXml(XmlNode* cellDataNode) {
 		dataStream.str(elevationNode->GetValue());
 		for (int i = (int)this->grid->GetGridHeight() - 1; i >= 0; --i) {
 			for (unsigned int j = 0; j < this->grid->GetGridWidth(); ++j) {
-				dataStream >> this->grid->GetCell(j, i)->y;
-				this->grid->GetCell(j, i)->origin.y = this->grid->GetCell(j, i)->y;
-				this->grid->GetCell(j, i)->center.y = this->grid->GetCell(j, i)->y;
+				int elevation;
+				dataStream >> elevation;
+
+				this->grid->SetCellGroundLevel(j, i, elevation);
 			}
 		}
 	}
@@ -229,9 +195,12 @@ void GridManager::loadCellDataFromXml(XmlNode* cellDataNode) {
 		dataStream.str(passableNode->GetValue());
 		for (int i = (int)this->grid->GetGridHeight() - 1; i >= 0; --i) {
 			for (unsigned int j = 0; j < this->grid->GetGridWidth(); ++j) {
-				int canPass;
-				dataStream >> canPass;
-				this->grid->GetCell(j, i)->isPassable = (canPass == 1) ? true : false;
+				int passInt;
+				dataStream >> passInt;
+				bool canPass = (passInt == 1);
+
+				GridCell* cell = this->grid->GetCell(j, i);
+				this->grid->SetCellPassableAtElevation(j, i, cell->y, canPass);
 			}
 		}
 	}
@@ -293,9 +262,9 @@ void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {
 	GridNavigator* gNav = obj->GetComponent<GridNavigator>();
 	ASSERT(gNav != nullptr, "Object with id %d has GridNavigator component", id);
 	ASSERT(destCell != nullptr, "Placing object into grid cell (%d, %d)", cellX, cellZ);
-	ASSERT(destCell->unitId == OBJECT_ID_INVALID, "Grid cell (%d, %d) is unoccupied", cellX, cellZ);
+	ASSERT(destCell->GetFirstOccupantId() == OBJECT_ID_INVALID, "Grid cell (%d, %d) is unoccupied", cellX, cellZ);
 
-	destCell->unitId = id;
+	destCell->SetFirstOccupantId(id);
 	gNav->SetCurrentCell(destCell);
 
 	Transform* trans = obj->GetTransform();
@@ -310,11 +279,11 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 	ASSERT(gNav != nullptr, "Moving object has GridNavigator component");
 	GridCell* startCell = gNav->GetCurrentCell();
 
-	if (destCell->unitId == OBJECT_ID_INVALID) {
+	if (destCell->GetFirstOccupantId() == OBJECT_ID_INVALID) {
 		if (startCell != nullptr) {
-			startCell->unitId = OBJECT_ID_INVALID;
+			startCell->SetFirstOccupantId(OBJECT_ID_INVALID);
 		}
-		destCell->unitId = id;
+		destCell->SetFirstOccupantId(id);
 		gNav->SetCurrentCell(destCell);
 		// Determine if the object entered or exited any grid zones.
 		this->checkZoneCollisions(id, startCell, destCell);
@@ -324,12 +293,12 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 		MessageChunk collisionMessageA = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		collisionMessageA->SetMessageType(MESSAGE_TYPE_GRID_UNIT_COLLISION);
 		collisionMessageA->messageData.i = id;
-		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageA, destCell->unitId, id);
+		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageA, destCell->GetFirstOccupantId(), id);
 
 		MessageChunk collisionMessageB = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		collisionMessageB->SetMessageType(MESSAGE_TYPE_GRID_UNIT_COLLISION);
-		collisionMessageB->messageData.i = destCell->unitId;
-		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageB, id, destCell->unitId);
+		collisionMessageB->messageData.i = destCell->GetFirstOccupantId();
+		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageB, id, destCell->GetFirstOccupantId());
 	}
 
 	// Check if the unit changed rooms
@@ -357,8 +326,8 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 
 void GridManager::removeNavigatorFromGrid(ObjectIdType id, glm::vec3 cellPos) {
 	GridCell* cell = this->grid->GetCell(cellPos);
-	if(cell->unitId == id) {
-		cell->unitId = OBJECT_ID_INVALID;
+	if(cell->GetFirstOccupantId() == id) {
+		cell->SetFirstOccupantId(OBJECT_ID_INVALID);
 	}
 }
 void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
@@ -396,13 +365,13 @@ void GridManager::selectUnitInCell(int x, int z) {
 }
 
 void GridManager::selectUnitInCell(GridCell* cell) {
-	if (cell->unitId != OBJECT_ID_INVALID) {
-		GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(cell->unitId);
+	if (cell->GetFirstOccupantId() != OBJECT_ID_INVALID) {
+		GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(cell->GetFirstOccupantId());
 		BaseUnit* bu = obj->GetComponent<BaseUnit>();
 		ASSERT(bu != nullptr, "Selected object has BaseUnit component");
 		if(bu->GetUnitType() < UnitType::UNIT_TYPE_PLAYER_UNITS_COUNT) {
 			this->deselectUnit();
-			this->selectedUnitId = cell->unitId;
+			this->selectedUnitId = cell->GetFirstOccupantId();
 		}
 	}	
 }
@@ -423,8 +392,8 @@ void GridManager::deselectUnit() {
 void GridManager::longPressOnGrid() {
 	LongPress lp = ENGINE->GetInput()->GetLongPress();
 	GridCell* c = this->TouchPositionToCell(lp.pos);
-	if(c->unitId != OBJECT_ID_INVALID) {
-		if(c->unitId == selectedUnitId) {
+	if(c->GetFirstOccupantId() != OBJECT_ID_INVALID) {
+		if(c->GetFirstOccupantId() == selectedUnitId) {
 			
 		}
 		else {
