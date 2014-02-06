@@ -90,6 +90,7 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 }
 
 void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
+	FRAMEWORK->GetLogger()->dbglog("\nonTouch: phase = %d unit = %d state = %d", ENGINE->GetInput()->GetTouch(touchId).phase, this->unitType, this->inputState);
 	if(this->currentTouchedCell != touchedCell || ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Began) {
 		this->currentTouchedCell = touchedCell;
 		this->touchedCellChanged();
@@ -134,6 +135,8 @@ void PlayerUnit::onSpecialEnd() {
 	this->performingSpecial = false;
 	this->inputState = InputState::INPUT_STATE_WAIT;
 	touchIndicator->SetVisible(false);
+	FRAMEWORK->GetLogger()->dbglog("\nspecialEnd state = %d unit = %d", this->inputState, this->unitType);
+	
 }
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	

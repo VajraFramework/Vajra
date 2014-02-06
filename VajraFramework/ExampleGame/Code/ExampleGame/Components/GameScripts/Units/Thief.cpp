@@ -86,6 +86,5 @@ void Thief::startSpecial() {
 
 void Thief::onSpecialEnd() {
 	PlayerUnit::onSpecialEnd();
-	this->gridNavRef->SetGridPosition(this->targetedCell->center.x, this->targetedCell->center.z);
-
+	this->gridNavRef->SetGridPosition(this->targetedCell);
 }
