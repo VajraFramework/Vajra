@@ -95,8 +95,10 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
-		if(cell->unitId != OBJECT_ID_INVALID) {
-			if(cell->unitId != selectedUnitId) {
+		//if(cell->unitId != OBJECT_ID_INVALID) {
+		if(cell->GetFirstOccupantId() != OBJECT_ID_INVALID) {
+			//if(cell->unitId != selectedUnitId) {
+			if(cell->GetFirstOccupantId() != selectedUnitId) {
 				selectUnitInCell(cell);
 			}
 		}	
