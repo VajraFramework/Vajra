@@ -28,6 +28,7 @@
 		58F60D52185133F90036DDDE /* libVajraStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60D51185133F90036DDDE /* libVajraStaticLibrary.a */; };
 		58F60E6318515E990036DDDE /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60E6218515E990036DDDE /* OpenAL.framework */; };
 		B383FD0C187B4B0000999890 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B383FB72187B4AFF00999890 /* .gitignore */; };
+		B3C53CDF18A424E400EA5150 /* tags in Resources */ = {isa = PBXBuildFile; fileRef = B3C53CDE18A424E400EA5150 /* tags */; };
 		B3D340CB18A2A9E80073277F /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3D3407F18A2A9E80073277F /* AndroidWrapper.cpp */; };
 		B3D340CC18A2A9E80073277F /* ComponentMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3D3408218A2A9E80073277F /* ComponentMapper.cpp */; };
 		B3D340CD18A2A9E80073277F /* AiCommandParse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3D3408918A2A9E80073277F /* AiCommandParse.cpp */; };
@@ -345,6 +346,7 @@
 		B383FD08187B4B0000999890 /* OpenGLIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLIncludes.h; sourceTree = "<group>"; };
 		B383FD09187B4B0000999890 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		B383FD0B187B4B0000999890 /* VajraToAndroidJavaInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VajraToAndroidJavaInterface.h; sourceTree = "<group>"; };
+		B3C53CDE18A424E400EA5150 /* tags */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tags; sourceTree = "<group>"; };
 		B3D3407F18A2A9E80073277F /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
 		B3D3408018A2A9E80073277F /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
 		B3D3408218A2A9E80073277F /* ComponentMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComponentMapper.cpp; sourceTree = "<group>"; };
@@ -1829,6 +1831,7 @@
 		BA97C56A18945ECE00942107 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B3C53CDE18A424E400EA5150 /* tags */,
 				BA97CD951896FB9D00942107 /* animations */,
 				BA97CD961896FB9D00942107 /* armatures */,
 				BA97CD971896FB9D00942107 /* audio */,
@@ -2441,6 +2444,7 @@
 				B383FD0C187B4B0000999890 /* .gitignore in Resources */,
 				BA97CF3E18971D9000942107 /* type_mat4x3.inl in Resources */,
 				BA97CF0718971D9000942107 /* func_noise.inl in Resources */,
+				B3C53CDF18A424E400EA5150 /* tags in Resources */,
 				58F246FE1850F5C90066E804 /* InfoPlist.strings in Resources */,
 				BA97CF3918971D9000942107 /* type_mat2x4.inl in Resources */,
 				BA97CF4418971D9000942107 /* type_vec4.inl in Resources */,

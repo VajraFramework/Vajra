@@ -35,13 +35,13 @@ public:
 	SceneGraph* GetParentSceneGraph() { return this->parentSceneGraph; }
 
 	void AddTag(std::string tag);
-	void AddTag(unsigned char tagBit);
+	void AddTag(unsigned int tagBit);
 
 	void RemoveTag(std::string tag);
-	void RemoveTag(unsigned char tagBit);
+	void RemoveTag(unsigned int tagBit);
 
-	void HasTag(std::string tag);
-	void HasTag(unsigned char tagBit);
+	bool HasTag(std::string tag);
+	bool HasTag(unsigned int tagBit);
 private:
 	void init(SceneGraph* sceneGraph);
 	void destroy();
@@ -49,7 +49,7 @@ private:
 	Transform* transform;
 	bool visible;
 
-	unsigned char tags;
+	unsigned int tags; // bitmask
 	SceneGraph* parentSceneGraph;
 };
 

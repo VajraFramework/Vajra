@@ -1,11 +1,12 @@
 #include "Vajra/Common/Components/Component.h"
+#include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
+#include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/Renderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
-#include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
-#include "Vajra/Engine/Components/DerivedComponents/Renderer/Renderer.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
-#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/TagManager/TagManager.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
@@ -77,4 +78,25 @@ std::string GameObject::GetShaderName() {
 		return renderer->GetShaderName();
 	}
 	return "";
+}
+
+void GameObject::AddTag(std::string tag) {
+	this->AddTag(ENGINE->GetTagManager()->stringToBitmask[tag]);	
+}
+void GameObject::AddTag(unsigned int tagBit) {
+	this->tags = this->tags | tagBit;
+}
+
+void GameObject::RemoveTag(std::string tag) {
+	this->RemoveTag(ENGINE->GetTagManager()->stringToBitmask[tag]);
+}
+void GameObject::RemoveTag(unsigned int tagBit) {
+	this->tags = ~tagBit & this->tags;
+}
+
+bool GameObject::HasTag(std::string tag) {
+	return this->HasTag(ENGINE->GetTagManager()->stringToBitmask[tag]);;
+}
+bool GameObject::HasTag(unsigned int tagBit) {
+	return (this->tags & tagBit) > 0;
 }

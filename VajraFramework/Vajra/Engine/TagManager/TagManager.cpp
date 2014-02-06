@@ -19,11 +19,11 @@ void TagManager::LoadTagsFromFile(std::string tagFilePath) {
 
 	std::string tagName;
 
+	unsigned int i = 0;
 	while(!tagsFile.eof()) {
 		tagsFile >> tagName;
-		unsigned char bitMask = 'a';
-		bitMaskToString.insert( std::pair<unsigned char, std::string>(bitMask, tagName));
-		stringToBitMask.insert( std::pair<std::string, unsigned char>(tagName, bitMask));
+		stringToBitmask.insert( std::pair<std::string, unsigned int>(tagName, pow(2, i)));
+		i++;
 	}
 
     FRAMEWORK->GetLogger()->dbglog("\n Finished reading in GameObject tags");

@@ -9,17 +9,18 @@ class TagManager : public Object {
 public:
 	~TagManager();
 
-
 	void LoadTagsFromFile(std::string tagFile);
+
+
 private:
 	TagManager();
 	void init();
 	void destroy();
 
-	std::map<unsigned char, std::string> bitMaskToString;
-	std::map<std::string, unsigned char> stringToBitMask;
+	std::map<std::string, unsigned int> stringToBitmask;
 
 	friend class Engine;
+	friend class GameObject;
 };
 
 #endif // TAGMANAGER_H
