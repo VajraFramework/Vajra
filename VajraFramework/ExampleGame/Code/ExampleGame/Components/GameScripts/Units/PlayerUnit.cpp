@@ -18,6 +18,8 @@
 #define GOOD_TOUCH 0
 #define BAD_TOUCH  1
 
+#define TOUCH_SCALE_TIME .3f
+
 void playerUnitNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
 	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
@@ -81,7 +83,7 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 				onSpecialEnd();
 			}  else {
 				ENGINE->GetTween()->CancelNumberTween("pulse");
-				ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), this->touchIndicator->GetTransform()->GetScale(), glm::vec3(0), 0.3f);
+				ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), this->touchIndicator->GetTransform()->GetScale(), glm::vec3(0), TOUCH_SCALE_TIME);
 			}
 			break;
 		default:
@@ -151,7 +153,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				// touch indicator tween up
 				ENGINE->GetTween()->CancelScaleTween(this->touchIndicator->GetId());
 				ENGINE->GetTween()->CancelNumberTween("pulse");
-				ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), glm::vec3(0), glm::vec3(1), .3f);
+				ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), glm::vec3(0), glm::vec3(1),TOUCH_SCALE_TIME);
 				break;
 			case TouchPhase::Ended:
 				this->currentTouchedCell = nullptr;
