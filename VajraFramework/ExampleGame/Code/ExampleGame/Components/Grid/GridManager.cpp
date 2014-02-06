@@ -49,7 +49,7 @@ void GridManager::init() {
 	this->gridPlane.origin = ZERO_VEC3;
 	this->gridPlane.normal = YAXIS;
 	this->selectedUnitId   = OBJECT_ID_INVALID;
-#ifdef DEBUG
+#ifdef DEBUG_GRID
 	// TODO [Remove] Just use this to draw the grid until we get some actual objects into the level
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 #endif
@@ -81,9 +81,9 @@ void GridManager::destroy() {
 
 void GridManager::HandleMessage(MessageChunk messageChunk) {
 	switch (messageChunk->GetMessageType()) {
-#if 0
+#if DEBUG_GRID
 		case MESSAGE_TYPE_FRAME_EVENT:
-			//debugDrawGrid();
+			debugDrawGrid();
 			break;
 #endif
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
@@ -189,7 +189,7 @@ ObjectIdType GridManager::GetPlayerUnitIdOfType(UnitType uType) {
 }
 
 void GridManager::OnTouchUpdate(int touchIndex) {
-#ifdef DEBUG
+#ifdef DEBUG_GRID
 	debugTouchUpdate(touchIndex);
 #endif
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
@@ -371,7 +371,7 @@ bool GridManager::isWithinGrid(glm::vec3 loc) {
 	return isWithinGrid(gX, gZ);
 }
 
-#ifdef DEBUG
+#ifdef DEBUG_GRID
 void GridManager::debugDrawGrid() {
 	glm::vec3 start, end;
 
@@ -409,10 +409,10 @@ void GridManager::debugTouchUpdate(int touchIndex) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
-		//DebugDraw::DrawCube(cell->center, 1.0f);
+		DebugDraw::DrawCube(cell->center, 1.0f);
 	}
 	glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
-	//DebugDraw::DrawCube(gridPos, 0.1f);
+	DebugDraw::DrawCube(gridPos, 0.1f);
 }
 #endif
 
