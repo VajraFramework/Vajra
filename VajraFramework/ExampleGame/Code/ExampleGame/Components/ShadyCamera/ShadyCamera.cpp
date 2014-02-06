@@ -34,7 +34,7 @@ ShadyCamera::~ShadyCamera() {
 void ShadyCamera::init() {
 	// Set camera properties
 	this->SetFOV(30.0f inRadians);
-	this->camSpeed = 3.0f;
+	this->camSpeed = 15.0f;
 	this->camMode = CameraMode::CameraMode_Game;
 	
 	this->newPinch = false;
@@ -58,7 +58,7 @@ void ShadyCamera::init() {
 	this->gridManagerRef = nullptr;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED, this->GetTypeId(), false);
+	//this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED, this->GetTypeId(), false);
 }
 
 void ShadyCamera::destroy() {
@@ -73,11 +73,11 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_PINCH_GESTURE:
 			this->onPinch();
 			break;
-
+/*
 		case MESSAGE_TYPE_GRID_ROOM_ENTERED:
 			this->onGridRoomEntered(messageChunk->messageData.i, SINGLETONS->GetGridManager()->GetGrid()->GetRoom(messageChunk->messageData.fv1));
 			break;
-
+*/
 		default:
 			break;
 	}
@@ -89,8 +89,9 @@ void ShadyCamera::SetGridManager(GridManager* newManager) {
 
 void ShadyCamera::MoveTo(glm::vec3 newPos) {
 	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
+	float dist = glm::distance(curPos, newPos);
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos,
-			this->camSpeed, true, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, false, ShadyCameraTween::tweenCallback);
+			dist / this->camSpeed, true, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, false, ShadyCameraTween::tweenCallback);
 }
 
 void ShadyCamera::MoveTo(float x, float y, float z) {
@@ -175,7 +176,7 @@ void ShadyCamera::onPinch() {
 		}
 	}
 }
-
+/*
 void ShadyCamera::onGridRoomEntered(ObjectIdType id, GridRoom* room) {
 	ObjectIdType selectedId = this->gridManagerRef->GetSelectedUnitId();
 	if ((id == selectedId) && (room != nullptr) && (this->camMode == CameraMode_Game)) {
@@ -183,7 +184,7 @@ void ShadyCamera::onGridRoomEntered(ObjectIdType id, GridRoom* room) {
 		this->MoveToRoom(center.x, center.z);
 	}
 }
-
+*/
 bool ShadyCamera::tryModeSwitch(float velocity) {
 	float startY = this->camMode == CameraMode::CameraMode_Game ? this->gameCamHeight : this->overviewPos.y;
 	float camY = this->gameObjectRef->GetTransform()->GetPosition().y;

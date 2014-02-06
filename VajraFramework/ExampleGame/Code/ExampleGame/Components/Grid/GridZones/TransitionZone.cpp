@@ -6,6 +6,7 @@
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZones/TransitionZone.h"
+#include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -97,13 +98,21 @@ void TransitionZone::onUnitEnteredZone(ObjectIdType id) {
 	GridRoom* unitRoom = SINGLETONS->GetGridManager()->GetGrid()->GetRoom(unitCell);
 	GridRoom* destRoom1 = SINGLETONS->GetGridManager()->GetGrid()->GetRoom(destCell1);
 
+	GridCell* target;
 	if (unitRoom != destRoom1) {
 		// If the first destination and the unit are not in the same room, send the unit to that destination
-		gNav->SetDestination(this->destCell1);
+		target = this->destCell1;
 	}
 	else {
 		// If the first destination is in the same room, send the unit to the other one instead
 		// (Hopefully they won't be the same room)
-		gNav->SetDestination(this->destCell2);
+		target = this->destCell2;
+	}
+	gNav->SetDestination(target);
+
+	ShadyCamera* shadyCam = ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject()->GetComponent<ShadyCamera>();
+	ASSERT(shadyCam != nullptr, "What happened to the shady cam?");
+	if (shadyCam != nullptr) {
+		shadyCam->MoveToRoom(target);
 	}
 }
