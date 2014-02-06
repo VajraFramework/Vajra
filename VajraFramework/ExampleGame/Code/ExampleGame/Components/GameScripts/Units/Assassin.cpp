@@ -24,8 +24,7 @@ Assassin::~Assassin() {
 }
 
 void Assassin::init() {
-	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
-}
+	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;}
 
 void Assassin::destroy() {
 }
@@ -58,6 +57,6 @@ void Assassin::startSpecial() {
 
 void Assassin::onSpecialEnd() {
 	PlayerUnit::onSpecialEnd();
-	this->gridNavRef->SetMovementSpeed(this->getMoveSpeed());
+	this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
 
 }

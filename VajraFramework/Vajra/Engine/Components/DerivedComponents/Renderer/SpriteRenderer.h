@@ -12,6 +12,14 @@
 class Object;
 class Mesh;
 
+enum PlaneOrigin {
+	Bottom_Left,
+	Bottom_Right,
+	Top_Left,
+	Top_Right,
+	Center
+};
+
 // Not exposing this as a Component that can be added via XML since it is exposed only via the UiELement which is exposed adequately by the .uiscene files
 class SpriteRenderer : public Renderer {
 public:
@@ -32,11 +40,12 @@ public:
 	inline unsigned int GetCurrentTextureIndex() { return this->currentTextureIndex; }
 	inline void SetCurrentTextureIndex(unsigned int textureIndex) { this->currentTextureIndex = textureIndex; }
 
+	void initPlane(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures, PlaneOrigin planeOrigin = Bottom_Left);
+	
 private:
 	void init();
 	void destroy();
 
-	void initPlane(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures);
 	inline void setDiffuseColor (glm::vec4 color) { this->diffuseColor  = color; }
 
 	// Utility Functions:

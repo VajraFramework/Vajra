@@ -21,14 +21,32 @@ SpriteRenderer::~SpriteRenderer() {
 	this->destroy();
 }
 
-void SpriteRenderer::initPlane(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures) {
+void SpriteRenderer::initPlane(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures, PlaneOrigin planeOrigin) {
 	this->vertices = new glm::vec3[4];
 	this->textureCoords = new glm::vec2[4];
+	
+	float halfWidth = (float)width * .5f;
+	float halfHeight = (float)height * .5f;
+	
+	switch(planeOrigin) {
+		case PlaneOrigin::Center:
 
-	this->vertices[0] = glm::vec3(0.0f,  0.0f,           0.0f);
-	this->vertices[1] = glm::vec3(width, 0.0f,           0.0f);
-	this->vertices[2] = glm::vec3(width, -1.0f * height, 0.0f);
-	this->vertices[3] = glm::vec3(0.0f,  -1.0f * height, 0.0f);
+			this->vertices[0] = glm::vec3(-halfWidth,  halfHeight, 0.0f);
+			this->vertices[1] = glm::vec3(halfWidth, halfHeight, 0.0f);
+			this->vertices[2] = glm::vec3(halfWidth, -1.0f * halfHeight, 0.0f);
+			this->vertices[3] = glm::vec3(-halfWidth,  -1.0f * halfHeight, 0.0f);
+			break;
+		case PlaneOrigin::Bottom_Left:
+			this->vertices[0] = glm::vec3(0.0f, 0.0f, 0.0f);
+			this->vertices[1] = glm::vec3(width, 0.0f, 0.0f);
+			this->vertices[2] = glm::vec3(width, -1.0f * height, 0.0f);
+			this->vertices[3] = glm::vec3(0.0f,  -1.0f * height, 0.0f);
+			break;
+		default:
+			ASSERT(0, "Implement support for other origins");
+			break;
+	}
+
 	//
 	this->textureCoords[0] = glm::vec2(0.0f, 1.0f);
 	this->textureCoords[1] = glm::vec2(1.0f, 1.0f);
