@@ -24,6 +24,10 @@ public:
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
 
+protected:
+	// @Override
+	virtual void start();
+
 private:
 	void init();
 	void destroy();

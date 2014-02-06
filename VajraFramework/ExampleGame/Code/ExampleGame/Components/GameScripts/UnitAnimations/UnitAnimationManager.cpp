@@ -65,14 +65,21 @@ void UnitAnimationManager::onUnitActionStateChanged(UnitActionState oldState, Un
 	}
 }
 
+void UnitAnimationManager::start() {
+	BakedSkeletalAnimation* bakedSkeletalAnimation = this->gameObjectRef->GetComponent<BakedSkeletalAnimation>();
+	if (bakedSkeletalAnimation != nullptr) {
+		bakedSkeletalAnimation->PlayAnimationClip(UNIT_ANIMATION_CLIP_NAME_idle);
+	}
+}
+
 void UnitAnimationManager::init() {
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_ACTION_STATE_CHANGED, this->GetTypeId(), true);
+
 	// TODO [Implement] Ensure type safety here
 	this->gameObjectRef = (GameObject*)this->GetObject();
-
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_ACTION_STATE_CHANGED, this->GetTypeId(), true);
 }
 
 void UnitAnimationManager::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
-
