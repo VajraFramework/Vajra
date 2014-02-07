@@ -114,11 +114,11 @@ bool isIPadMini() {
     }
 	
     // ensure width and height are landscape width and height
-    int width = scale * self.view.bounds.size.width;
-    int height = scale * self.view.bounds.size.height;
+    int width_pixels = scale * self.view.bounds.size.width;
+    int height_pixels = scale * self.view.bounds.size.height;
     
-    int max = fmax(width, height);
-    int min = fmin(width, height);
+    int max = fmax(width_pixels, height_pixels);
+    int min = fmin(width_pixels, height_pixels);
 
     // Calculate device DPI
     int dpi;
