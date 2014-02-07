@@ -84,7 +84,7 @@ bool renderFrame() {
     float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(111);
+        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(113);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -97,7 +97,7 @@ bool renderFrame() {
     }
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(112);
+        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(113);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -110,7 +110,7 @@ bool renderFrame() {
     }
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(113);
+        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(114);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
@@ -139,11 +139,11 @@ bool renderFrame() {
     {
         // Sending arbit message for testing
         {
-			ENGINE->GetMessageHub()->SendPointcastMessage(MESSAGE_TYPE_UNSPECIFIED, 110);
+			ENGINE->GetMessageHub()->SendPointcastMessage(MESSAGE_TYPE_UNSPECIFIED, 111);
         }
     }
     {
-    	GameObject* wavybox = ENGINE->GetSceneGraph3D()->GetGameObjectById(113);
+    	GameObject* wavybox = ENGINE->GetSceneGraph3D()->GetGameObjectById(114);
     	// Transform* transform = wavybox->GetTransform();
     	// transform->Rotate(10.0f * deltaTime inRadians, YAXIS);
     	// transform->Translate(0.05f * deltaTime, transform->GetForward());
@@ -207,7 +207,7 @@ bool renderFrame() {
 
 	DebugDraw::DrawPoint(glm::vec3(1.0f, 1.0f, 1.0f));
 
-	GameObject* torus = ENGINE->GetSceneGraph3D()->GetGameObjectById(114);
+	GameObject* torus = ENGINE->GetSceneGraph3D()->GetGameObjectById(115);
 	DebugDraw::DrawArrow(ZERO_VEC3, torus->GetTransform()->GetPosition());
 
 	DebugDraw::DrawCube(torus->GetTransform()->GetPosition(), 1.0f);

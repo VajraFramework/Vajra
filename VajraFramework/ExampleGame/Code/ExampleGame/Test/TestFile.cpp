@@ -18,6 +18,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
+#include "Vajra/Engine/TagManager/TagManager.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -109,9 +110,46 @@ int TestFuntion() {
 	}
 
 	{
-		/* GameObject* gameObject = */ PrefabLoader::InstantiateGameObjectFromPrefab(
-									   FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "test.prefab",
-									   ENGINE->GetSceneGraph3D());
+		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
+							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "test.prefab",
+						   	     	 ENGINE->GetSceneGraph3D());
+
+	}
+	{
+#if 0
+		
+
+		GameObject* gameObject = PrefabLoader::InstantiateGameObjectFromPrefab(
+								 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "test.prefab",
+								 ENGINE->GetSceneGraph3D());
+			
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have unit tag %i", gameObject->HasTag("Unit"));
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have batman tag %i", gameObject->HasTag("Batman"));
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have arispace tag %i", gameObject->HasTag("Airspace"));
+    	FRAMEWORK->GetLogger()->dbglog("\nadding the unit tag");
+		gameObject->AddTag("Unit");
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have unit tag %i", gameObject->HasTag("Unit"));
+		FRAMEWORK->GetLogger()->dbglog("\nadding the airspace, batman and mispelled tag tag");
+		gameObject->AddTag("Airspace");
+		gameObject->AddTag("Batman");
+		gameObject->AddTag("sdfdgsdgad");
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have unit tag %i", gameObject->HasTag("Unit"));
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have batman tag %i", gameObject->HasTag("Batman"));
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have arispace tag %i", gameObject->HasTag("Airspace"));
+		FRAMEWORK->GetLogger()->dbglog("\removing the airspace and unit tag tag");
+		gameObject->RemoveTag("Airspace");
+		gameObject->RemoveTag("Unit");
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have unit tag %i", gameObject->HasTag("Unit"));
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have batman tag %i", gameObject->HasTag("Batman"));
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have arispace tag %i", gameObject->HasTag("Airspace"));
+		
+		FRAMEWORK->GetLogger()->dbglog("\removing the airspace and unit tag again!");
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have unit tag %i", gameObject->HasTag("Unit"));
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have batman tag %i", gameObject->HasTag("Batman"));
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have arispace tag %i", gameObject->HasTag("Airspace"));
+		
+		gameObject->RemoveTag("Airspace");
+#endif
 	}
 
 	initUiGameObjects();

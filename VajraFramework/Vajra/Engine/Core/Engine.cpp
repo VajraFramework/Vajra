@@ -7,6 +7,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/Profiler/Profiler.h"
+#include "Vajra/Engine/TagManager/TagManager.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
@@ -60,6 +61,9 @@ void Engine::init() {
 
 	this->audioManager = new AudioManager();
 	this->audioManager->init();
+
+	this->tagManager = new TagManager();
+	this->tagManager->init();
 
 	this->profiler = new Profiler();
 	this->profiler->init();
@@ -175,4 +179,8 @@ void Engine::destroy() {
 	if (this->profiler != nullptr) {
 		delete this->profiler;
 	}
+	if (this->tagManager != nullptr) {
+		delete this->tagManager;
+	}
+
 }
