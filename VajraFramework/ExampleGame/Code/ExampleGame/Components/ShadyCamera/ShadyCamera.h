@@ -74,7 +74,6 @@ private:
 	float velocityThreshold;
 	float heightThreshold;
 	void onPinch();
-	//void onGridRoomEntered(ObjectIdType id, GridRoom* room);
 	bool tryModeSwitch(float velocity);
 	void setCameraMode(CameraMode newMode);
 

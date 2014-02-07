@@ -58,7 +58,6 @@ void ShadyCamera::init() {
 	this->gridManagerRef = nullptr;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId(), false);
-	//this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED, this->GetTypeId(), false);
 }
 
 void ShadyCamera::destroy() {
@@ -73,11 +72,7 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_PINCH_GESTURE:
 			this->onPinch();
 			break;
-/*
-		case MESSAGE_TYPE_GRID_ROOM_ENTERED:
-			this->onGridRoomEntered(messageChunk->messageData.i, SINGLETONS->GetGridManager()->GetGrid()->GetRoom(messageChunk->messageData.fv1));
-			break;
-*/
+
 		default:
 			break;
 	}
@@ -176,15 +171,7 @@ void ShadyCamera::onPinch() {
 		}
 	}
 }
-/*
-void ShadyCamera::onGridRoomEntered(ObjectIdType id, GridRoom* room) {
-	ObjectIdType selectedId = this->gridManagerRef->GetSelectedUnitId();
-	if ((id == selectedId) && (room != nullptr) && (this->camMode == CameraMode_Game)) {
-		glm::vec3 center = room->GetCenter();
-		this->MoveToRoom(center.x, center.z);
-	}
-}
-*/
+
 bool ShadyCamera::tryModeSwitch(float velocity) {
 	float startY = this->camMode == CameraMode::CameraMode_Game ? this->gameCamHeight : this->overviewPos.y;
 	float camY = this->gameObjectRef->GetTransform()->GetPosition().y;
