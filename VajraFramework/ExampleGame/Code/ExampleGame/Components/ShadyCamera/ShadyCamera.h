@@ -22,7 +22,8 @@ class ShadyCamera : public Camera {
 public:
 	enum CameraMode {
 		CameraMode_Game,
-		CameraMode_Overview
+		CameraMode_Overview,
+		CameraMode_Transition,
 	};
 
 	ShadyCamera();
@@ -73,7 +74,6 @@ private:
 	float velocityThreshold;
 	float heightThreshold;
 	void onPinch();
-	void onGridRoomEntered(ObjectIdType id, GridRoom* room);
 	bool tryModeSwitch(float velocity);
 	void setCameraMode(CameraMode newMode);
 

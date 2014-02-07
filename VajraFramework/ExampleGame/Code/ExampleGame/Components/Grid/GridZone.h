@@ -22,7 +22,6 @@ public:
 	void SetZoneBounds(int xMin, int zMin, int xMax, int zMax);
 
 	bool IsCellWithinZone(GridCell* cell);
-	unsigned int CollisionCheck(GridCell* startCell, GridCell* destCell);
 
 protected:
 	GridZoneType zoneType;

@@ -466,9 +466,19 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "TransitionZone") {
 		TransitionZone* component = gameObject->GetComponent<TransitionZone>();
 		if (component == nullptr) { return; }
-		if (propertyName == "SetDestination") {
+		if (propertyName == "SetFirstDestination") {
 			if ((int)argv.size() < 2) { return; }
-			component->SetDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
+			component->SetFirstDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
+			return;
+		}
+		if (propertyName == "SetSecondDestination") {
+			if ((int)argv.size() < 2) { return; }
+			component->SetSecondDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
+			return;
+		}
+		if (propertyName == "SetDestinations") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetDestinations(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToInt(argv[2]), StringUtilities::ConvertStringToInt(argv[3]));
 			return;
 		}
 		return;

@@ -12,6 +12,7 @@ class MessageHub;
 class Profiler;
 class SceneGraph3D;
 class SceneGraphUi;
+class TagManager;
 class Timer;
 class Tween;
 
@@ -29,6 +30,7 @@ public:
 	inline Profiler*     GetProfiler()     { return this->profiler;     }
 	inline SceneGraph3D* GetSceneGraph3D() { return this->sceneGraph3D; }
 	inline SceneGraphUi* GetSceneGraphUi() { return this->sceneGraphUi; }
+	inline TagManager*   GetTagManager()   { return this->tagManager;   }
 	inline Timer*        GetTimer()        { return this->timer;        }
 	inline Tween*        GetTween()        { return this->tween;        }
 
@@ -57,6 +59,7 @@ private:
 	Profiler*     profiler;
 	SceneGraph3D* sceneGraph3D;
 	SceneGraphUi* sceneGraphUi;
+	TagManager*   tagManager;
 	Timer*        timer;
 	Tween*        tween;
 };

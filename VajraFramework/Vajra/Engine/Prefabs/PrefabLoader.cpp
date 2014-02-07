@@ -35,6 +35,14 @@ void PrefabLoader::LoadComponentFromComponentNodeInPrefab(GameObject* gameObject
 	}
 }
 
+void PrefabLoader::LoadTagFromTagsNodeInPrefab(GameObject* gameObject, XmlNode* tagsNode) {
+	XmlNode* tagNode = tagsNode->GetFirstChildByNodeName(TAG_TAG);
+	while(tagNode != nullptr){
+		gameObject->AddTag(tagNode->GetValue());
+		tagNode = tagNode->GetNextSiblingByNodeName(TAG_TAG);
+	}
+}
+
 void loadGameObjectFromGameObjectNodeInPrefab(GameObject* gameObject, XmlNode* gameobjectNode) {
 
 	// Find and add any components:
@@ -43,6 +51,12 @@ void loadGameObjectFromGameObjectNodeInPrefab(GameObject* gameObject, XmlNode* g
 		PrefabLoader::LoadComponentFromComponentNodeInPrefab(gameObject, componentNode);
 
 		componentNode = componentNode->GetNextSiblingByNodeName(COMPONENT_TAG);
+	}
+
+	// Find the tags
+	XmlNode* tagsNode = gameobjectNode->GetFirstChildByNodeName(TAGS_TAG);
+	if(tagsNode != nullptr){
+		PrefabLoader::LoadTagFromTagsNodeInPrefab(gameObject, tagsNode);
 	}
 
 	// Find and add any child game objects:

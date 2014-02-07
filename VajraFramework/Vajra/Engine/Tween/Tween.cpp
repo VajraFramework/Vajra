@@ -16,7 +16,6 @@
 #include <cstdio>
 
 Tween::Tween() {
-	this->init();
 }
 
 Tween::~Tween() {

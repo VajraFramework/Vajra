@@ -1,5 +1,9 @@
 <prefab>
 	<gameobject>
+		<tags>
+			<tag>Unit</tag>
+			<tag>Airspace</tag>
+		</tags>
 		<component name="MeshRenderer">
 			<property name="InitMesh">
 				<field>models/polySurface5.model</field>
