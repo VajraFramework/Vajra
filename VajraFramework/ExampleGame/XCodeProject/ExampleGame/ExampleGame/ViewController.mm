@@ -79,7 +79,7 @@
 }
 
 #define DPI_IPHONE       163
-#define DPI_IPAD	     132
+#define DPI_IPAD         132
 #define DPI_IPAD_MINI    163
 #define DPI_DEFAULT      160
 
