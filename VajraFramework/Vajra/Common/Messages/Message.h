@@ -1,7 +1,7 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I3FV.h"
+#include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1IV3FV.h"
 #include "Vajra/Common/Messages/Declarations.h"
 #include "Vajra/Common/Messages/MessageData.h"
 #include "Vajra/Utilities/CommonDeclarations.h"
@@ -20,7 +20,7 @@ public:
 	void SetMessageType(MessageType messageType_);
 
 	// TODO [Hack] Consider storing a MessageData type here, but as a ManagedChunk from its own pool
-	MessageData1S1I3FV messageData;
+	MessageData1S1IV3FV messageData;
 
 private:
 	void init(MessageType messageType_);

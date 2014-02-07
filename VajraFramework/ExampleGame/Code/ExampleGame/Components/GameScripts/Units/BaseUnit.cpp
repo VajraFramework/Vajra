@@ -1,4 +1,5 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
+#include "ExampleGame/Components/GameScripts/UnitAnimations/UnitAnimationManager.h"
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Components/Grid/GridCell.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
@@ -31,10 +32,12 @@ void BaseUnit::init() {
 	this->gridNavRef = this->gameObjectRef->GetComponent<GridNavigator>();
 	this->unitState = UnitState::UNIT_STATE_ALIVE;
 	this->unitType = UnitType::UNIT_TYPE_GUARD;
+	this->unitActionState = UnitActionState::UNIT_ACTION_STATE_IDLE;
 }
 
 void BaseUnit::destroy() {
 	this->end();
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
 void BaseUnit::start() {
@@ -47,14 +50,24 @@ void BaseUnit::end() {
 void BaseUnit::update() {
 }
 
+void BaseUnit::SwitchActionState(UnitActionState newState) {
+	UnitActionState oldState = this->unitActionState;
+	this->unitActionState = newState;
+	MessageChunk messageChunk = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	messageChunk->SetMessageType(MESSAGE_TYPE_UNIT_ACTION_STATE_CHANGED);
+	messageChunk->messageData.iv1.x = oldState;
+	messageChunk->messageData.iv1.y = newState;
+	ENGINE->GetMessageHub()->SendPointcastMessage(messageChunk, this->GetObject()->GetId(), this->GetObject()->GetId());
+}
+
 void BaseUnit::Kill() {
 	this->unitState = UnitState::UNIT_STATE_DEAD;
 
-	// broad cast a message about unit death
+	// broadcast a message about unit death
 	GridCell* currentCell = this->gridNavRef->GetCurrentCell();
 	MessageChunk unitKilledMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 	unitKilledMessage->SetMessageType(MESSAGE_TYPE_UNIT_KILLED);
-	unitKilledMessage->messageData.i = this->unitType;
+	unitKilledMessage->messageData.iv1.x = this->unitType;
 	unitKilledMessage->messageData.fv1.x = currentCell->x;
 	unitKilledMessage->messageData.fv1.y = currentCell->y;
 	unitKilledMessage->messageData.fv1.z = currentCell->z;

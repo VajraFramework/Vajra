@@ -13,6 +13,7 @@
 #include "ExampleGame/Components/GameScripts/Ai/AiKnowledge.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiPerception.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
+#include "ExampleGame/Components/GameScripts/UnitAnimations/UnitAnimationManager.h"
 #include "ExampleGame/Components/GameScripts/Units/Assassin.h"
 #include "ExampleGame/Components/GameScripts/Units/Guard.h"
 #include "ExampleGame/Components/GameScripts/Units/Thief.h"
@@ -99,6 +100,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
+	if (componentName == "UnitAnimationManager") {
+		UnitAnimationManager* component = gameObject->GetComponent<UnitAnimationManager>();
+		if (component == nullptr) { component = gameObject->AddComponent<UnitAnimationManager>(); }
+		return component;
+	}
+	
 	if (componentName == "Assassin") {
 		Assassin* component = gameObject->GetComponent<Assassin>();
 		if (component == nullptr) { component = gameObject->AddComponent<Assassin>(); }
@@ -164,8 +171,8 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		BakedSkeletalAnimation* component = gameObject->GetComponent<BakedSkeletalAnimation>();
 		if (component == nullptr) { return; }
 		if (propertyName == "AddAnimationClip") {
-			if ((int)argv.size() < 1) { return; }
-			component->AddAnimationClip(ConvertStringToString(argv[0]));
+			if ((int)argv.size() < 2) { return; }
+			component->AddAnimationClip(ConvertStringToString(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]));
 			return;
 		}
 		if (propertyName == "PlayAnimationClip") {
@@ -353,6 +360,12 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	
 	if (componentName == "AiRoutine") {
 		AiRoutine* component = gameObject->GetComponent<AiRoutine>();
+		if (component == nullptr) { return; }
+		return;
+	}
+	
+	if (componentName == "UnitAnimationManager") {
+		UnitAnimationManager* component = gameObject->GetComponent<UnitAnimationManager>();
 		if (component == nullptr) { return; }
 		return;
 	}

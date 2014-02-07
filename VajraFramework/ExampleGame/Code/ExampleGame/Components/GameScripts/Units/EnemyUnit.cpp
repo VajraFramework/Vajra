@@ -33,11 +33,11 @@ void EnemyUnit::HandleMessage(MessageChunk messageChunk) {
 
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_AI_SIGHTED_PLAYER:
-			this->onSightedPlayerUnit(messageChunk->messageData.i);
+			this->onSightedPlayerUnit(messageChunk->messageData.iv1.x);
 			break;
 
 		case MESSAGE_TYPE_AI_LOST_SIGHT_OF_PLAYER:
-			this->onLostSightOfPlayerUnit(messageChunk->messageData.i);
+			this->onLostSightOfPlayerUnit(messageChunk->messageData.iv1.x);
 			break;
 	}
 }

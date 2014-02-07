@@ -56,7 +56,7 @@ void AiKnowledge::LearnAboutObject(ObjectIdType objId, float awareness) {
 
 					MessageChunk sightedPlayerMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 					sightedPlayerMessage->SetMessageType(MESSAGE_TYPE_AI_SIGHTED_PLAYER);
-					sightedPlayerMessage->messageData.i = objId;
+					sightedPlayerMessage->messageData.iv1.x = objId;
 					ENGINE->GetMessageHub()->SendPointcastMessage(sightedPlayerMessage, this->GetObject()->GetId(), objId);
 				}
 			}
@@ -67,7 +67,7 @@ void AiKnowledge::LearnAboutObject(ObjectIdType objId, float awareness) {
 
 					MessageChunk lostSightOfPlayerMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 					lostSightOfPlayerMessage->SetMessageType(MESSAGE_TYPE_AI_LOST_SIGHT_OF_PLAYER);
-					lostSightOfPlayerMessage->messageData.i = objId;
+					lostSightOfPlayerMessage->messageData.iv1.x = objId;
 					ENGINE->GetMessageHub()->SendPointcastMessage(lostSightOfPlayerMessage, this->GetObject()->GetId(), objId);
 				}
 			}
