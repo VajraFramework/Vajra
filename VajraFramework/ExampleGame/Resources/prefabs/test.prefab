@@ -1,45 +1,19 @@
 <prefab>
 	<gameobject>
-		<component name="MeshRenderer">
-			<property name="InitMesh">
-				<field>models/polySurface5.model</field>
-			</property>
-		</component>
-
-		<component name="BakedSkeletalAnimation">
-			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#idle</field>
-				<field>0.5f</field>
-			</property>
-			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#twitching</field>
-				<field>0.5f</field>
-			</property>
-			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#turning</field>
-				<field>0.5f</field>
-			</property>
-			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#nodding</field>
-				<field>0.5f</field>
-			</property>
-			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#walking</field>
-				<field>0.5f</field>
-			</property>
-			<property name="PlayAnimationClip">
-				<field>walking</field>
+		<component name="ParticleSystemRenderer">
+			<property name="InitParticleSystem">
+				<field>prtshdr</field>
 			</property>
 		</component>
 
 		<component name="Transform">
 			<property name="Scale">
-				<field>0.06</field>
+				<field>1.0</field>
 			</property>
 			<property name="SetPosition">
-				<field>32.0</field>
 				<field>0.0</field>
-				<field>-10.0</field>
+				<field>0.0</field>
+				<field>0.0</field>
 			</property>
 		</component>
 	</gameobject>

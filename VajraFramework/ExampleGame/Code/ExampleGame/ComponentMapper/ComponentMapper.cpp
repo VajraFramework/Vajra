@@ -5,6 +5,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/ParticleSystemRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
@@ -49,6 +50,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "DirectionalLight") {
 		DirectionalLight* component = gameObject->GetComponent<DirectionalLight>();
 		if (component == nullptr) { component = gameObject->AddComponent<DirectionalLight>(); }
+		return component;
+	}
+	
+	if (componentName == "ParticleSystemRenderer") {
+		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
+		if (component == nullptr) { component = gameObject->AddComponent<ParticleSystemRenderer>(); }
 		return component;
 	}
 	
@@ -231,6 +238,17 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetSpecularColor") {
 			if ((int)argv.size() < 4) { return; }
 			component->SetSpecularColor(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "ParticleSystemRenderer") {
+		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
+		if (component == nullptr) { return; }
+		if (propertyName == "InitParticleSystem") {
+			if ((int)argv.size() < 1) { return; }
+			component->InitParticleSystem(ConvertStringToString(argv[0]));
 			return;
 		}
 		return;

@@ -4,7 +4,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 MeshRenderer::MeshRenderer() : Renderer() {
@@ -23,6 +23,7 @@ void MeshRenderer::InitMesh(std::string urlOfMesh) {
 	this->meshAsset = ENGINE->GetAssetLibrary()->GetAsset<MeshAsset>(urlOfMesh);
 	this->SetShaderName(this->meshAsset->GetShaderName());
 
+	// TODO [Implement] Ensure type safety here
 	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
 	ASSERT(gameObject != nullptr, "GameObject not null");
 	Transform* transform = gameObject->GetTransform();

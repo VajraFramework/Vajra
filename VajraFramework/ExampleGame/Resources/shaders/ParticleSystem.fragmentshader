@@ -1,0 +1,17 @@
+#ifplatform Linux | Windows
+#version 120
+#endif
+
+#ifplatform iOS | Android
+precision mediump float;
+#endif
+
+uniform sampler2D myTextureSampler;
+
+void main()
+{
+	gl_FragColor = vec4(texture2D(myTextureSampler, gl_PointCoord.st).rgba);
+}
+
+
+

@@ -58,6 +58,11 @@ bool setupGraphics(int w, int h) {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
+#if PLATFORM_DESKTOP
+    glEnable(GL_POINT_SPRITE);
+    glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+#endif
+
 
 #if PLATFORM_DESKTOP
     // TODO [Implement] Move this to shader specific code so that we can have only some shaders draw in wireframe mode
