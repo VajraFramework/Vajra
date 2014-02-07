@@ -14,9 +14,11 @@ public:
 
 	void SetWidthPixels(unsigned int w)   { this->widthPx = w;   this->computeDeviceResolutionSlab(); }
 	void SetHeightPixels(unsigned int h)  { this->heightPx = h;  this->computeDeviceResolutionSlab(); }
-	
+	void SetDPI(unsigned int d)           { this->dpi = d; }
+
 	inline unsigned int GetWidthPixels()  { return this->widthPx;  }
 	inline unsigned int GetHeightPixels() { return this->heightPx; }
+	inline unsigned int GetDPI()          { return this->dpi;      }
 
 	DeviceResolutionSlab GetDeviceResolutionSlab () { return this->deviceResolutionSlab; }
 
@@ -30,7 +32,8 @@ private:
 
 	unsigned int widthPx;
 	unsigned int heightPx;
-
+	unsigned int dpi;
+	
 	DeviceResolutionSlab deviceResolutionSlab;
 
     friend class Framework;
