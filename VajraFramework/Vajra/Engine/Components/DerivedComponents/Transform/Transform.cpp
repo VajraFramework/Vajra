@@ -88,7 +88,9 @@ glm::vec3& Transform::GetPositionWorld() {
 }
 
 glm::quat& Transform::GetOrientationWorld() {
-	return this->orientationWorld;
+	// TODO [Hack] Fix this please
+	return this->GetOrientation();
+	//return this->orientationWorld;
 }
 
 glm::vec3& Transform::GetScaleWorld() {
