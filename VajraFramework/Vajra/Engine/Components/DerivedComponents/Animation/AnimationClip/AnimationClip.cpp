@@ -1,5 +1,5 @@
 #include "Vajra/Common/Messages/Message.h"
-#include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I3FV.h"
+#include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1IV3FV.h"
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationClipDataAsset.h"
 #include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationKeyFrames/AnimationKeyFrame.h"
@@ -19,7 +19,7 @@ AnimationClip::~AnimationClip() {
 }
 
 void AnimationClip::raiseEvent(MessageChunk messageChunk, int gameObjectId, std::string eventClipName) {
-	messageChunk->messageData.i = gameObjectId;
+	messageChunk->messageData.iv1.x = gameObjectId;
 	messageChunk->messageData.s = eventClipName;
 
 	ObjectIdType parentObjectId = this->parentAnimationComponent->GetGameObject()->GetId();

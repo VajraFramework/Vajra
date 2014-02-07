@@ -22,8 +22,13 @@ BakedSkeletalAnimation::~BakedSkeletalAnimation() {
 }
 
 AnimationClip* BakedSkeletalAnimation::AddAnimationClip(std::string urlOfAnimationClip) {
+	return this->AddAnimationClip(urlOfAnimationClip, 1.0f);
+}
+
+AnimationClip* BakedSkeletalAnimation::AddAnimationClip(std::string urlOfAnimationClip, float playbackSpeed) {
 	BakedSkeletalAnimationClip* newBakedSkeletalAnimationClip = new BakedSkeletalAnimationClip(this);
 	newBakedSkeletalAnimationClip->InitAnimationClip(urlOfAnimationClip);
+	newBakedSkeletalAnimationClip->SetPlaybackSpeed(playbackSpeed);
 
 	return this->AddAnimationClip(newBakedSkeletalAnimationClip);
 }

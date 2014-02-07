@@ -7,9 +7,9 @@
 #define BASE_UNIT_H
 
 #include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
-
 #include "Vajra/Common/Components/Component.h"
 
+// Forward Declarations:
 class GridNavigator;
 class GameObject;
 
@@ -22,6 +22,8 @@ public:
 
 	inline UnitState GetUnitState() { return this->unitState; }
 	inline UnitType GetUnitType() { return this->unitType; }
+
+	void SwitchActionState(UnitActionState newState);
 
 	static inline ComponentIdType GetTypeId()  { return componentTypeId; }
 
@@ -42,6 +44,7 @@ private:
 	void destroy();
 
 	UnitState unitState;
+	UnitActionState unitActionState;
 
 	static ComponentIdType componentTypeId;
 };

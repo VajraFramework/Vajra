@@ -4,6 +4,7 @@
 //
 
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
+#include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
@@ -98,7 +99,7 @@ bool GridNavigator::SetDestination(GridCell* cell) {
 	float dist = this->calculatePath(this->currentCell, cell, newPath);
 	if (dist > 0.0f) {
 		this->currentPath = newPath;
-		this->isTraveling = true;
+		this->SetIsTraveling(true);
 	}
 	return (dist >= 0.0f);
 }
@@ -120,7 +121,7 @@ bool GridNavigator::AddDestination(GridCell* cell) {
 
 	float dist = this->calculatePath(this->currentCell, cell, this->currentPath);
 	if (dist > 0.0f) {
-		this->isTraveling = true;
+		this->SetIsTraveling(true);
 	}
 	return (dist >= 0.0f);
 }
@@ -179,18 +180,18 @@ bool GridNavigator::CanReachDestination(GridCell* cell, float maxDistance/*= -1.
 }
 
 void GridNavigator::PauseNavigation() {
-	this->isTraveling = false;
+	this->SetIsTraveling(false);
 	this->isTurning = false;
 }
 
 void GridNavigator::ResumeNavigation() {
 	if (this->currentPath.size() > 0) {
-		this->isTraveling = true;
+		this->SetIsTraveling(true);
 	}
 }
 
 void GridNavigator::StopNavigation() {
-	this->isTraveling = false;
+	this->SetIsTraveling(false);
 	this->isTurning = false;
 	this->currentPath.clear();
 	this->targetForward = ZERO_VEC3;
@@ -240,7 +241,7 @@ void GridNavigator::followPath() {
 		SetLookTarget(this->currentPath.front()->center);
 	}
 	else {
-		this->isTraveling = false;
+		this->SetIsTraveling(false);
 
 		// Send an event message to the unit
 		ObjectIdType myId = this->GetObject()->GetId();
@@ -420,5 +421,16 @@ void GridNavigator::simplifyPath(std::list<GridCell*>& outPath) {
 	while (simplePath.size() > 0) {
 		outPath.push_back(simplePath.front());
 		simplePath.pop_front();
+	}
+}
+
+void GridNavigator::SetIsTraveling(bool isTraveling_) {
+	if (this->isTraveling != isTraveling_) {
+
+		this->isTraveling = isTraveling_;
+
+		BaseUnit* thisBaseUnit = this->gameObjectRef->GetComponent<BaseUnit>();
+		VERIFY(thisBaseUnit != nullptr, "Grid navigator's parent game object has a BaseUnit component");
+		thisBaseUnit->SwitchActionState(isTraveling_ ? UNIT_ACTION_STATE_WALKING : UNIT_ACTION_STATE_IDLE);
 	}
 }
