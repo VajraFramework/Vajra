@@ -120,6 +120,7 @@
 		B314D92E18A2E0EF0076B9B9 /* XmlNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B314D8C118A2E0EF0076B9B9 /* XmlNode.cpp */; };
 		B314D92F18A2E0EF0076B9B9 /* XmlTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B314D8C318A2E0EF0076B9B9 /* XmlTree.cpp */; };
 		B314D93018A2E0EF0076B9B9 /* XmlParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B314D8C518A2E0EF0076B9B9 /* XmlParser.cpp */; };
+		B314DE9818A4179B0076B9B9 /* TagManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B314DE9618A4179B0076B9B9 /* TagManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -372,6 +373,8 @@
 		B314D8C418A2E0EF0076B9B9 /* XmlTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlTree.h; sourceTree = "<group>"; };
 		B314D8C518A2E0EF0076B9B9 /* XmlParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XmlParser.cpp; sourceTree = "<group>"; };
 		B314D8C618A2E0EF0076B9B9 /* XmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlParser.h; sourceTree = "<group>"; };
+		B314DE9618A4179B0076B9B9 /* TagManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TagManager.cpp; sourceTree = "<group>"; };
+		B314DE9718A4179B0076B9B9 /* TagManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -547,6 +550,7 @@
 		B314D7B418A2E0EF0076B9B9 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				B314DE9518A4179B0076B9B9 /* TagManager */,
 				B314D7B518A2E0EF0076B9B9 /* AssetLibrary */,
 				B314D7DD18A2E0EF0076B9B9 /* AudioManager */,
 				B314D7E218A2E0EF0076B9B9 /* Components */,
@@ -1375,6 +1379,15 @@
 			path = Definitions;
 			sourceTree = "<group>";
 		};
+		B314DE9518A4179B0076B9B9 /* TagManager */ = {
+			isa = PBXGroup;
+			children = (
+				B314DE9618A4179B0076B9B9 /* TagManager.cpp */,
+				B314DE9718A4179B0076B9B9 /* TagManager.h */,
+			);
+			path = TagManager;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1491,6 +1504,7 @@
 				B314D8E318A2E0EF0076B9B9 /* RigidAnimationClip.cpp in Sources */,
 				B314D8F418A2E0EF0076B9B9 /* ITouchTarget.cpp in Sources */,
 				B314D8D318A2E0EF0076B9B9 /* AnimationClipDataAsset.cpp in Sources */,
+				B314DE9818A4179B0076B9B9 /* TagManager.cpp in Sources */,
 				B314D91018A2E0EF0076B9B9 /* IOSFileSystemUtils.mm in Sources */,
 				B314D8D218A2E0EF0076B9B9 /* AssetLibrary.cpp in Sources */,
 				B314D90C18A2E0EF0076B9B9 /* DesktopDeviceProperties.cpp in Sources */,

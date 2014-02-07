@@ -51,19 +51,6 @@ bool GridZone::IsCellWithinZone(GridCell* cell) {
 	return false;
 }
 
-unsigned int GridZone::CollisionCheck(GridCell* startCell, GridCell* destCell) {
-	bool startInZone = IsCellWithinZone(startCell);
-	bool endInZone = IsCellWithinZone(destCell);
-
-	if (!startInZone && endInZone) {
-		return MESSAGE_TYPE_GRID_ZONE_ENTERED;
-	}
-	if (startInZone && !endInZone) {
-		return MESSAGE_TYPE_GRID_ZONE_EXITED;
-	}
-	return MESSAGE_TYPE_UNSPECIFIED;
-}
-
 void GridZone::init() {
 	this->zoneType = GRID_ZONE_TYPE_UNKNOWN;
 	this->westBound = -1;
@@ -71,7 +58,7 @@ void GridZone::init() {
 	this->southBound = -1;
 	this->northBound = -1;
 
-	SINGLETONS->GetGridManager()->AddGridZone(this->GetObject()->GetId());
+	SINGLETONS->GetGridManager()->GetGrid()->AddGridZone(this->GetObject()->GetId());
 }
 
 void GridZone::destroy() {

@@ -16,6 +16,18 @@
 
 #define ROUNDING_ERROR 0.0001f
 
+// Bit operations
+#define BYTE_INDEX(x) (x / 8)
+#define BIT_INDEX(x) (x % 8)
+#define BYTE_WITH_BIT_SET(b) (0x01 << b)
+#define BYTE_WITH_BIT_UNSET(b) (~(0x01 << b))
+#define IS_BIT_SET_IN_BYTE(b,B) ((B & BYTE_WITH_BIT_SET(b)) != 0x00)
+#define IS_BIT_SET_IN_BYTE_ARRAY(x,arr) IS_BIT_SET_IN_BYTE(BIT_INDEX(x), arr[BYTE_INDEX(x)])
+#define SET_BIT_IN_BYTE(b,B) (B = (B | BYTE_WITH_BIT_SET(b)))
+#define UNSET_BIT_IN_BYTE(b,B) (B = (B & BYTE_WITH_BIT_UNSET(b)))
+#define SET_BIT_IN_BYTE_ARRAY(x,arr) (SET_BIT_IN_BYTE(BIT_INDEX(x), arr[BYTE_INDEX(x)]))
+#define UNSET_BIT_IN_BYTE_ARRAY(x,arr) (UNSET_BIT_IN_BYTE(BIT_INDEX(x), arr[BYTE_INDEX(x)]))
+
 extern const float PI;
 #define inRadians * PI / 180.0f
 

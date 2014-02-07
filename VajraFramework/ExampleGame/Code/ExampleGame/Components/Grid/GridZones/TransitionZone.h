@@ -9,6 +9,9 @@
 #include "ExampleGame/Components/Grid/GridZone.h"
 #include "Libraries/glm/glm.hpp"
 
+// Forward declarations
+class GridCell;
+
 //[[COMPONENT]]//
 class TransitionZone : public GridZone {
 public:
@@ -20,8 +23,19 @@ public:
 	virtual void HandleMessage(MessageChunk messageChunk);
 
 	//[[PROPERTY]]//
-	void SetDestination(int cellX, int cellZ);
-	void SetDestination(glm::vec3 worldPos);
+	void SetFirstDestination(int cellX, int cellZ);
+	void SetFirstDestination(glm::vec3 worldPosition);
+	void SetFirstDestination(GridCell* cell);
+
+	//[[PROPERTY]]//
+	void SetSecondDestination(int cellX, int cellZ);
+	void SetSecondDestination(glm::vec3 worldPosition);
+	void SetSecondDestination(GridCell* cell);
+
+	//[[PROPERTY]]//
+	void SetDestinations(int cellX1, int cellZ1, int cellX2, int cellZ2);
+	void SetDestinations(glm::vec3 worldPosition1, glm::vec3 worldPosition2);
+	void SetDestinations(GridCell* cell1, GridCell* cell2);
 
 private:
 	void init();
@@ -29,7 +43,8 @@ private:
 
 	void onUnitEnteredZone(ObjectIdType id);
 
-	int destX, destZ; // Units that enter this zone are sent to these coordinates
+	GridCell* destCell1;  // Initial destination
+	GridCell* destCell2;  // Secondary destination
 };
 
 #endif // TRANSITIONZONE_H
