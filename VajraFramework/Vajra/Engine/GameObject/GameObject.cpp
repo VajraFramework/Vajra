@@ -11,6 +11,7 @@
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 
+#define NO_TAGS 0
 
 GameObject::GameObject(SceneGraph* sceneGraph) {
 	this->init(sceneGraph);
@@ -29,7 +30,7 @@ void GameObject::init(SceneGraph* sceneGraph) {
 	ASSERT(this->transform != 0, "Succeeded in Add and GetComponent of type Transform to GameObject of id: %d", this->GetId());
 
 	this->visible = true;
-	this->tags = 0;
+	this->tags = NO_TAGS;
 
 	FRAMEWORK->GetLogger()->dbglog("\nCreated new GameObject of id: %d", this->GetId());
 }
