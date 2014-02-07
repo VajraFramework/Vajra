@@ -117,13 +117,15 @@ int TestFuntion() {
 	}
 	{
 #if 0
+		
+
 		GameObject* gameObject = PrefabLoader::InstantiateGameObjectFromPrefab(
 								 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "test.prefab",
 								 ENGINE->GetSceneGraph3D());
-	
-		ENGINE->GetTagManager()->LoadTagsFromFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceTagsResourcesPath() + "tags.txt");
-		
+			
     	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have unit tag %i", gameObject->HasTag("Unit"));
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have batman tag %i", gameObject->HasTag("Batman"));
+    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have arispace tag %i", gameObject->HasTag("Airspace"));
     	FRAMEWORK->GetLogger()->dbglog("\nadding the unit tag");
 		gameObject->AddTag("Unit");
     	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have unit tag %i", gameObject->HasTag("Unit"));

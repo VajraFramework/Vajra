@@ -1,10 +1,13 @@
+#include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/TagManager/TagManager.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
 #include <fstream>
 
+#define TAGS_PATH "tags.txt"
+
 TagManager::TagManager() {
-	this->init();
 }
 
 TagManager::~TagManager() {
@@ -30,7 +33,7 @@ void TagManager::LoadTagsFromFile(std::string tagFilePath) {
 }
 
 void TagManager::init() {
-
+	ENGINE->GetTagManager()->LoadTagsFromFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceTagsResourcesPath() + TAGS_PATH);
 }
 
 void TagManager::destroy() {

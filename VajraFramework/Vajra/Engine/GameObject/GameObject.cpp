@@ -29,6 +29,7 @@ void GameObject::init(SceneGraph* sceneGraph) {
 	ASSERT(this->transform != 0, "Succeeded in Add and GetComponent of type Transform to GameObject of id: %d", this->GetId());
 
 	this->visible = true;
+	this->tags = 0;
 
 	FRAMEWORK->GetLogger()->dbglog("\nCreated new GameObject of id: %d", this->GetId());
 }
