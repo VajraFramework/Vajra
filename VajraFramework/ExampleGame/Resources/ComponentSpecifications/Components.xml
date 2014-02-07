@@ -175,9 +175,19 @@
 	</component>
 	
 	<component name="TransitionZone" includePath="ExampleGame/Components/Grid/GridZones/TransitionZone.h">
-		<property name="SetDestination">
+		<property name="SetFirstDestination">
 			<field name="cellX" datatype="int"></field>
 			<field name="cellZ" datatype="int"></field>
+		</property>
+		<property name="SetSecondDestination">
+			<field name="cellX" datatype="int"></field>
+			<field name="cellZ" datatype="int"></field>
+		</property>
+		<property name="SetDestinations">
+			<field name="cellX1" datatype="int"></field>
+			<field name="cellZ1" datatype="int"></field>
+			<field name="cellX2" datatype="int"></field>
+			<field name="cellZ2" datatype="int"></field>
 		</property>
 	</component>
 	

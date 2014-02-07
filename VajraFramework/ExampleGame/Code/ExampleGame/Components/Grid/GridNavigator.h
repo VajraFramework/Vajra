@@ -47,7 +47,7 @@ public:
 	//[[PROPERTY]]//
 	bool AddDestination(int x, int z);    // Set new destination without destroying current path
 	bool AddDestination(glm::vec3 loc);   // Set new destination without destroying current path
-	bool AddDestination(GridCell* cell);  // Set destination to the center of the designated cell
+	bool AddDestination(GridCell* cell);  // Set new destination without destroying current path
 
 	void SetLookTarget(int x, int z);     // Set look target to the center of the designated cell
 	void SetLookTarget(glm::vec3 loc);    // Set look target to the designated world position
