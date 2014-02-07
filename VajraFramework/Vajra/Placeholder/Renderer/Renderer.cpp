@@ -32,10 +32,11 @@
 #include <string>
 #include <vector>
 
-bool setupGraphics(int w, int h) {
+bool setupGraphics(int w, int h, int dpi) {
 
 	FRAMEWORK->GetDeviceProperties()->SetWidthPixels(w);
 	FRAMEWORK->GetDeviceProperties()->SetHeightPixels(h);
+    FRAMEWORK->GetDeviceProperties()->SetDPI(dpi);
 
     FRAMEWORK->GetLogger()->dbglog("setupGraphics(%d, %d)", w, h);
 

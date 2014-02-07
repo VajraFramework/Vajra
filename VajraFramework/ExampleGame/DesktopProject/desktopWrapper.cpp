@@ -85,7 +85,8 @@ int main( void ) {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 	#endif
 
-	setupGraphics(width, height);
+	// TODO [Implement] send the correct DPI
+	setupGraphics(width, height, 0);
 
 	Tesserakonteres::initGameObjectsForScene();
 
