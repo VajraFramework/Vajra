@@ -20,9 +20,17 @@ public:
 
 	static inline unsigned int GetTypeId() { return componentTypeId; }
 
+protected:
+	// @Override
+	virtual void start();
+	virtual void update();
+	virtual void end();
+
 private:
 	void init();
 	void destroy();
+
+	void stepSimulation(float deltaTime);
 
 	glm::vec3* particlePositions;
 	//
