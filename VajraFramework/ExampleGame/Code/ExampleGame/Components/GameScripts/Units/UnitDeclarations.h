@@ -26,6 +26,12 @@ enum InputState {
 	INPUT_STATE_SPECIAL
 };
 
+enum EnemyBrainState {
+	ENEMY_BRAIN_CALM,
+	ENEMY_BRAIN_CAUTIOUS,
+	ENEMY_BRAIN_AGGRESSIVE,
+};
+
 struct UnitColorScheme {
 	glm::vec4 baseColor;
 	glm::vec4 uiColor;
