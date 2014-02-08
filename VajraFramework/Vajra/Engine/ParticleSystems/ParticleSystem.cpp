@@ -11,6 +11,8 @@
 
 unsigned int ParticleSystem::componentTypeId = COMPONENT_TYPE_ID_PARTICLE_SYSTEM;
 
+#define MAXIMUM_TIME_BETWEEN_BATCH_SPAWNS_seconds 0.1f
+
 ParticleSystem::ParticleSystem() : Component() {
 	this->init();
 }
@@ -33,30 +35,38 @@ void ParticleSystem::update() {
 void ParticleSystem::end() {
 }
 
-#define MAXIMUM_TIME_BETWEEN_BATCH_SPAWNS_seconds 0.1f
-
-void ParticleSystem::InitParticleSystem(unsigned int numParticlesPerSecond_, unsigned int maxNumParticles_,
-										float particleInitialVelocity_, float particleFinalVelocity_,
-										float initialParticleSizePixels_, float finalParticleSizePixels_,
-										float particleLifespanInSeconds_,
-										std::string pathToTexture_) {
-
+void ParticleSystem::SetNumberOfParticles(unsigned int numParticlesPerSecond_, unsigned int maxNumParticles_) {
 	this->numParticlesPerSecond = numParticlesPerSecond_;
 	this->maxNumParticles = maxNumParticles_;
+}
+
+void ParticleSystem::SetParticleVelocity(float particleInitialVelocity_, float particleFinalVelocity_) {
 	this->particleInitialVelocity = particleInitialVelocity_;
 	this->particleFinalVelocity = particleFinalVelocity_;
+}
+
+void ParticleSystem::SetParticleSize(float initialParticleSizePixels_, float finalParticleSizePixels_) {
 	this->initialParticleSizePixels = initialParticleSizePixels_;
 	this->finalParticleSizePixels = finalParticleSizePixels_;
+}
+
+void ParticleSystem::SetParticleLifespan(float particleLifespanInSeconds_) {
 	this->particleLifespanInSeconds = particleLifespanInSeconds_;
+}
+
+void ParticleSystem::SetParticleTexture(std::string pathToTexture_) {
 	this->pathToTexture = pathToTexture_;
+}
+
+void ParticleSystem::InitParticleSystem() {
 
 	// Create the pool of particles:
-	unsigned int numParticlesToCreate = maxNumParticles_ + numParticlesPerSecond_;
+	unsigned int numParticlesToCreate = this->maxNumParticles + this->numParticlesPerSecond;
 	for (unsigned int i = 0; i < numParticlesToCreate; ++i) {
 		Particle* particle = new Particle();
-		particle->initialVelocity = particleInitialVelocity_; particle->finalVelocity = particleFinalVelocity_;
-		particle->initialSizePixels = initialParticleSizePixels_; particle->finalSizePixels = finalParticleSizePixels_;
-		particle->totalLifespanInSeconds = particleLifespanInSeconds_;
+		particle->initialVelocity = this->particleInitialVelocity; particle->finalVelocity = this->particleFinalVelocity;
+		particle->initialSizePixels = this->initialParticleSizePixels; particle->finalSizePixels = this->finalParticleSizePixels;
+		particle->totalLifespanInSeconds = this->particleLifespanInSeconds;
 		//
 		particle->reset();
 		//
@@ -178,6 +188,15 @@ void ParticleSystem::init() {
 	this->timeSinceLastBatchSpawn = 10000.0f;
 	this->minimumTimeBetweenBatchSpawns = 0.0f;
 
+	// Assign default values for all properties:
+	this->numParticlesPerSecond = 10.0f;
+	this->maxNumParticles = 50.0f;
+	this->particleInitialVelocity = 0.1f;
+	this->particleFinalVelocity = 0.01f;
+	this->initialParticleSizePixels = 16;
+	this->finalParticleSizePixels = 32;
+	this->particleLifespanInSeconds = 3.0f;
+
 	// TODO [Implement] Figure out if its better to add/remove subscription dynamically on play/pause/remove
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
@@ -185,4 +204,3 @@ void ParticleSystem::init() {
 void ParticleSystem::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
-

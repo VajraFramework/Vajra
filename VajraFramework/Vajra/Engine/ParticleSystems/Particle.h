@@ -11,6 +11,7 @@ public:
 
 	glm::vec3 position;
 	glm::vec3 velocity;
+	glm::vec4 color;
 	float size_in_pixels;
 	float life_remaining_in_seconds;
 	//
@@ -19,6 +20,9 @@ public:
 	//
 	float initialSizePixels;
 	float finalSizePixels;
+	//
+	glm::vec4 initialColor;
+	glm::vec4 finalColor;
 	//
 	float totalLifespanInSeconds;
 

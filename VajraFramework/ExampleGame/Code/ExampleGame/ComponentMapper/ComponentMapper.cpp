@@ -343,9 +343,34 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "ParticleSystem") {
 		ParticleSystem* component = gameObject->GetComponent<ParticleSystem>();
 		if (component == nullptr) { return; }
+		if (propertyName == "SetNumberOfParticles") {
+			if ((int)argv.size() < 2) { return; }
+			component->SetNumberOfParticles(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
+			return;
+		}
+		if (propertyName == "SetParticleVelocity") {
+			if ((int)argv.size() < 2) { return; }
+			component->SetParticleVelocity(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]));
+			return;
+		}
+		if (propertyName == "SetParticleSize") {
+			if ((int)argv.size() < 2) { return; }
+			component->SetParticleSize(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]));
+			return;
+		}
+		if (propertyName == "SetParticleLifespan") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetParticleLifespan(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetParticleTexture") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetParticleTexture(ConvertStringToString(argv[0]));
+			return;
+		}
 		if (propertyName == "InitParticleSystem") {
-			if ((int)argv.size() < 8) { return; }
-			component->InitParticleSystem(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]), StringUtilities::ConvertStringToFloat(argv[4]), StringUtilities::ConvertStringToFloat(argv[5]), StringUtilities::ConvertStringToFloat(argv[6]), ConvertStringToString(argv[7]));
+			if ((int)argv.size() < 0) { return; }
+			component->InitParticleSystem();
 			return;
 		}
 		return;

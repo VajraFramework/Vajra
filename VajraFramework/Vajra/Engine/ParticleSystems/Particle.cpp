@@ -6,6 +6,7 @@
 Particle::Particle() {
 	this->size_in_pixels = DEFAULT_PARTICLE_SIZE_IN_PIXELS;
 	this->life_remaining_in_seconds = DEFAULT_PARTICLE_INITIAL_LIFE_IN_SECONDS;
+	this->color = this->initialColor = this->finalColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void Particle::reset() {

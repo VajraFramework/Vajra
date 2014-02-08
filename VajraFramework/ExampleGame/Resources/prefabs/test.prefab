@@ -2,15 +2,25 @@
 	<gameobject>
 
 		<component name="ParticleSystem">
-			<property name="InitParticleSystem">
+			<property name="SetNumberOfParticles">
 				<field>20</field>
 				<field>50</field>
+			</property>
+			<property name="SetParticleVelocity">
 				<field>0.05</field>
 				<field>0.005</field>
+			</property>
+			<property name="SetParticleSize">
 				<field>40</field>
 				<field>70</field>
+			</property>
+			<property name="SetParticleLifespan">
 				<field>2</field>
+			</property>
+			<property name="SetParticleTexture">
 				<field>pictures/fire_0.png</field>
+			</property>
+			<property name="InitParticleSystem">
 			</property>
 		</component>
 

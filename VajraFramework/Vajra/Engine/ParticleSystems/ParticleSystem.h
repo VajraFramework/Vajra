@@ -23,7 +23,17 @@ public:
 	static inline unsigned int GetTypeId() { return componentTypeId; }
 
 	//[[PROPERTY]]//
-	void InitParticleSystem(unsigned int numParticlesPerSecond, unsigned int maxNumParticles, float particleInitialVelocity, float particleFinalVelocity, float initialParticleSizePixels, float finalParticleSizePixels, float particleLifespanInSeconds, std::string pathToTexture_);
+	void SetNumberOfParticles(unsigned int numParticlesPerSecond_, unsigned int maxNumParticles);
+	//[[PROPERTY]]//
+	void SetParticleVelocity(float particleInitialVelocity, float particleFinalVelocity);
+	//[[PROPERTY]]//
+	void SetParticleSize(float initialParticleSizePixels, float finalParticleSizePixels);
+	//[[PROPERTY]]//
+	void SetParticleLifespan(float particleLifespanInSeconds);
+	//[[PROPERTY]]//
+	void SetParticleTexture(std::string pathToTexture_);
+	//[[PROPERTY]]//
+	void InitParticleSystem();
 
 protected:
 	// @Override
