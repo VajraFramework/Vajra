@@ -45,7 +45,8 @@ private:
 
 	// Functions required to expose the particle attribute vectors for drawing:
 	inline unsigned int getNumParticlesToDraw() { return this->numParticlesToDraw; }
-	inline glm::vec3* getParticlesForDrawing()  { return this->particlePositions;  }
+	inline glm::vec3* getParticlePositionsForDrawing()  { return this->particlePositions;  }
+	inline float* getParticleSizesForDrawing()  { return this->particleSizes;  }
 
 	// Shader attribute vectors for drawing:
 	unsigned int numParticlesToDraw;

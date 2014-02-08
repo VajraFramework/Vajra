@@ -7,6 +7,7 @@ vpMatrix
 #else
 mvpMatrix
 #endif
+pointSize
 __VARIABLES_END__
 
 
@@ -29,7 +30,7 @@ void main()
 #else
 	gl_Position = mvpMatrix * vPosition;
 #endif
-	gl_PointSize = 16.0;
+	gl_PointSize = pointSize;
 }
 __SOURCE_END__
 

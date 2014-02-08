@@ -25,5 +25,7 @@ void Particle::stepSimulation(float deltaTime) {
 	lerp(currentVelocity_scalar, this->initialVelocity, this->finalVelocity, interp);
 	this->velocity = glm::normalize(this->velocity) * currentVelocity_scalar;
 
+	lerp(this->size_in_pixels, this->initialSizePixels, this->finalSizePixels, interp);
+
 	this->position += (this->velocity * deltaTime);
 }

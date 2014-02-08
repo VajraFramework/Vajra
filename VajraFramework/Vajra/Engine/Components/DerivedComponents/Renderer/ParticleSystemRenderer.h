@@ -43,6 +43,7 @@ private:
 	void updateVBOs();
 
 	GLuint vboPositions;
+	GLuint vboPointSizes;
 
 	glm::vec4 diffuseColor;
 

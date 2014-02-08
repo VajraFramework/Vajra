@@ -11,7 +11,6 @@ public:
 
 	glm::vec3 position;
 	glm::vec3 velocity;
-
 	float size_in_pixels;
 	float life_remaining_in_seconds;
 	//
