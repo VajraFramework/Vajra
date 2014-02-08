@@ -253,11 +253,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "ParticleSystemRenderer") {
 		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
 		if (component == nullptr) { return; }
-		if (propertyName == "InitParticleSystem") {
-			if ((int)argv.size() < 1) { return; }
-			component->InitParticleSystem(ConvertStringToString(argv[0]));
-			return;
-		}
 		return;
 	}
 	

@@ -11,6 +11,9 @@ Particle::Particle() {
 void Particle::reset() {
 	// TODO [Implement] Come up with a random velocity
 	this->velocity = YAXIS;
+	this->position = ZERO_VEC3;
+	this->size_in_pixels = this->initialSizePixels;
+	this->life_remaining_in_seconds = this->totalLifespanInSeconds;
 }
 
 void Particle::stepSimulation(float deltaTime) {

@@ -1,6 +1,8 @@
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/ParticleSystems/Particle.h"
 #include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
 #include "Vajra/Engine/Timer/Timer.h"
@@ -31,6 +33,8 @@ void ParticleSystem::update() {
 void ParticleSystem::end() {
 }
 
+#define MAXIMUM_TIME_BETWEEN_BATCH_SPAWNS_seconds 0.25f
+
 void ParticleSystem::InitParticleSystem(unsigned int numParticlesPerSecond_, unsigned int maxNumParticles_,
 										float particleInitialVelocity_, float particleFinalVelocity_,
 										float initialParticleSizePixels_, float finalParticleSizePixels_,
@@ -56,19 +60,65 @@ void ParticleSystem::InitParticleSystem(unsigned int numParticlesPerSecond_, uns
 		//
 		this->deadParticles.push_back(particle);
 	}
+
+	this->minimumTimeBetweenBatchSpawns = MAXIMUM_TIME_BETWEEN_BATCH_SPAWNS_seconds;
+
+	// Init the shader attribute vectors for drawing:
+	this->initShaderAttributeVectors();
 }
 
+void ParticleSystem::initShaderAttributeVectors() {
+	this->numParticlesToDraw = this->maxNumParticles;
+
+	this->particlePositions = new glm::vec3[this->maxNumParticles];
+	this->particleSizes     = new float[this->maxNumParticles];
+
+	for (unsigned int i = 0; i < this->numParticlesToDraw; ++i) {
+		this->particlePositions[i] = glm::vec3(0.0f, 0.0f, 0.0f);
+		this->particleSizes[i]     = 0.0f;
+	}
+
+	ENGINE->GetMessageHub()->SendPointcastMessage(MESSAGE_TYPE_PARTICLE_SYSTEM_INITED, this->GetObject()->GetId(), this->GetObject()->GetId());
+
+	this->updateShaderAttributeVectors();
+}
+
+void ParticleSystem::updateShaderAttributeVectors() {
+	// Copy the updated positions of all the alive particles:
+	unsigned int particleIdx = 0;
+	for (Particle* particle : this->aliveParticles) {
+		this->particlePositions[particleIdx] = particle->position;
+		this->particleSizes[particleIdx]     = particle->size_in_pixels;
+		++particleIdx;
+	}
+
+	// Reset the rest:
+	for (unsigned int i = particleIdx; i < this->maxNumParticles; ++i) {
+		this->particlePositions[i] = glm::vec3(0.0f, 0.0f, 0.0f);
+		this->particleSizes[i]     = 0.0f;
+	}
+
+	ENGINE->GetMessageHub()->SendPointcastMessage(MESSAGE_TYPE_PARTICLE_SYSTEM_UPDATED, this->GetObject()->GetId(), this->GetObject()->GetId());
+}
 
 void ParticleSystem::stepSimulation(float deltaTime) {
 
 	this->spawnParticles(deltaTime);
 	this->stepParticles (deltaTime);
 	this->cleanupDeadParticles();
+
+	this->updateShaderAttributeVectors();
 }
 
 void ParticleSystem::spawnParticles(float deltaTime) {
+	float temp_timeSinceLastBatchSpawn = this->timeSinceLastBatchSpawn + deltaTime;
+	this->timeSinceLastBatchSpawn = temp_timeSinceLastBatchSpawn;
+	if (temp_timeSinceLastBatchSpawn <= this->minimumTimeBetweenBatchSpawns) {
+		return;
+	}
+
 	// Spawn new particles:
-	unsigned int numParticlesToAdd = this->numParticlesPerSecond * deltaTime;
+	unsigned int numParticlesToAdd = ceil(this->numParticlesPerSecond * temp_timeSinceLastBatchSpawn);
 	if (this->deadParticles.size() < numParticlesToAdd) {
 		numParticlesToAdd = this->deadParticles.size();
 	}
@@ -84,6 +134,8 @@ void ParticleSystem::spawnParticles(float deltaTime) {
 		particlesToAdd.pop_front();
 		this->aliveParticles.push_back(particle);
 	}
+
+	this->timeSinceLastBatchSpawn = 0.0f;
 }
 
 void ParticleSystem::stepParticles(float deltaTime) {
@@ -119,6 +171,9 @@ void ParticleSystem::init() {
 		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
 	}
 
+	this->timeSinceLastBatchSpawn = 10000.0f;
+	this->minimumTimeBetweenBatchSpawns = 0.0f;
+
 	// TODO [Implement] Figure out if its better to add/remove subscription dynamically on play/pause/remove
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
@@ -126,3 +181,4 @@ void ParticleSystem::init() {
 void ParticleSystem::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
+

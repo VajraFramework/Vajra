@@ -11,6 +11,7 @@
 // Forward Declarations:
 class Object;
 class Mesh;
+class ParticleSystem;
 
 //[[COMPONENT]]//
 class ParticleSystemRenderer : public Renderer {
@@ -22,8 +23,6 @@ public:
 	static inline ComponentIdType GetTypeId() { return Renderer::GetTypeId(); }
 
 	inline std::string GetShaderName() { return this->shaderName; }
-	//[[PROPERTY]]//
-	void InitParticleSystem(std::string shaderName_);
 
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
@@ -40,14 +39,14 @@ private:
 	inline void setDiffuseColor (glm::vec4 color) { this->diffuseColor  = color; }
 
 	// Utility Functions:
-	void makeVBOs();
+	void initializeRendererStructures();
+	void updateVBOs();
 
 	GLuint vboPositions;
-	//
-	glm::vec3* vertices;
-	unsigned int numVertices;
 
 	glm::vec4 diffuseColor;
+
+	ParticleSystem* particleSystemRef;
 
 	std::string shaderName;
 };

@@ -89,7 +89,7 @@ bool renderFrame() {
     float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
     {
         // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(113);
+        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(112);
         if (quad != nullptr) {
         	Transform* transform = quad->GetTransform();
         	if (transform != nullptr) {
