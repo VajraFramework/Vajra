@@ -1,0 +1,15 @@
+<prefab>
+  <gameobject>
+      <component name="MeshRenderer">
+          <property name="InitMesh">
+              <field>models/SD_LowWall_Straight_1x2.model</field>
+          </property>
+      </component>
+
+      <component name="Transform">
+          <property name="Scale">
+              <field>1.732051</field>
+          </property>
+      </component>
+  </gameobject>
+</prefab>
