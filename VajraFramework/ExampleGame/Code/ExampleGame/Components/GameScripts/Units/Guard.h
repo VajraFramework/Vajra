@@ -19,6 +19,7 @@ public:
 
 protected:
 	virtual void determineBrainState();
+	virtual void setBrainState(EnemyBrainState bState);
 
 	//virtual void idleUpdate();
 	virtual void cautiousUpdate();
@@ -31,8 +32,14 @@ private:
 	void init();
 	void destroy();
 
+	void updateAlertness();
+
 	int numPlayerUnitsSpotted;
 	std::list<ObjectIdType> knownPlayers;
+	float cooldownTimer;
+	float attackTimer;  // Cooldown time between attacks
+	bool isTargetInRange;
+	ObjectIdType targetId;
 };
 
 #endif // GUARD_H

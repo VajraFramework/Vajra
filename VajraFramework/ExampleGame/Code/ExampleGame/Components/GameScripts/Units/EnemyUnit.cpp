@@ -62,6 +62,18 @@ void EnemyUnit::update() {
 	}
 }
 
+void EnemyUnit::setBrainState(EnemyBrainState bState) {
+	switch (this->brainState) {
+		case ENEMY_BRAIN_CALM:
+			this->routine->ResumeSchedule();
+			break;
+
+		default:
+			break;
+	}
+	this->brainState = bState;
+}
+
 void EnemyUnit::idleUpdate() {
 	this->routine->Follow();
 }

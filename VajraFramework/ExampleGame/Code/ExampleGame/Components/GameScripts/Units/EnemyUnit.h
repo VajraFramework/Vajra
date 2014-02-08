@@ -26,6 +26,7 @@ protected:
 	virtual void update();
 
 	virtual void determineBrainState() = 0;
+	virtual void setBrainState(EnemyBrainState bState); // Set any necessary data for brain state
 
 	virtual void idleUpdate();
 	virtual void cautiousUpdate();
