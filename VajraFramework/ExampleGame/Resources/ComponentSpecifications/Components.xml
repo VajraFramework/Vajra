@@ -118,6 +118,18 @@
 		</property>
 	</component>
 	
+	<component name="ParticleSystem" includePath="Vajra/Engine/ParticleSystems/ParticleSystem.h">
+		<property name="InitParticleSystem">
+			<field name="numParticlesPerSecond" datatype="unsigned int"></field>
+			<field name="maxNumParticles" datatype="unsigned int"></field>
+			<field name="particleInitialVelocity" datatype="float"></field>
+			<field name="particleFinalVelocity" datatype="float"></field>
+			<field name="initialParticleSizePixels" datatype="float"></field>
+			<field name="finalParticleSizePixels" datatype="float"></field>
+			<field name="particleLifespanInSeconds" datatype="float"></field>
+		</property>
+	</component>
+	
 	<component name="LevelManager" includePath="ExampleGame/Components/LevelManager/LevelManager.h">
 		<property name="LoadLevelFromFile">
 			<field name="levelFilename" datatype="std::string"></field>

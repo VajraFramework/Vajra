@@ -10,6 +10,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
 #include "ExampleGame/Components/GameScripts/UnitAnimations/UnitAnimationManager.h"
@@ -80,6 +81,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "Transform") {
 		Transform* component = gameObject->GetComponent<Transform>();
 		if (component == nullptr) { component = gameObject->AddComponent<Transform>(); }
+		return component;
+	}
+	
+	if (componentName == "ParticleSystem") {
+		ParticleSystem* component = gameObject->GetComponent<ParticleSystem>();
+		if (component == nullptr) { component = gameObject->AddComponent<ParticleSystem>(); }
 		return component;
 	}
 	
@@ -333,6 +340,17 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "LookAt") {
 			if ((int)argv.size() < 3) { return; }
 			component->LookAt(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "ParticleSystem") {
+		ParticleSystem* component = gameObject->GetComponent<ParticleSystem>();
+		if (component == nullptr) { return; }
+		if (propertyName == "InitParticleSystem") {
+			if ((int)argv.size() < 7) { return; }
+			component->InitParticleSystem(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]), StringUtilities::ConvertStringToFloat(argv[4]), StringUtilities::ConvertStringToFloat(argv[5]), StringUtilities::ConvertStringToFloat(argv[6]));
 			return;
 		}
 		return;

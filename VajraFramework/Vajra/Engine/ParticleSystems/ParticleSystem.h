@@ -6,12 +6,14 @@
 
 #include "Libraries/glm/glm.hpp"
 
+#include <list>
 #include <vector>
 
 // Forward Declarations:
 class Object;
 class Particle;
 
+//[[COMPONENT]]//
 class ParticleSystem : public Component {
 public:
 	ParticleSystem();
@@ -19,6 +21,9 @@ public:
 	~ParticleSystem();
 
 	static inline unsigned int GetTypeId() { return componentTypeId; }
+
+	//[[PROPERTY]]//
+	void InitParticleSystem(unsigned int numParticlesPerSecond, unsigned int maxNumParticles, float particleInitialVelocity, float particleFinalVelocity, float initialParticleSizePixels, float finalParticleSizePixels, float particleLifespanInSeconds);
 
 protected:
 	// @Override
@@ -31,13 +36,26 @@ private:
 	void destroy();
 
 	void stepSimulation(float deltaTime);
+	void spawnParticles(float deltaTime);
+	void stepParticles (float deltaTime);
+	void cleanupDeadParticles();
 
 	glm::vec3* particlePositions;
 	//
-	std::vector<Particle*> aliveParticles;
-	std::vector<Particle*> deadParticles;
+	std::list<Particle*> aliveParticles;
+	std::list<Particle*> deadParticles;
+
+	unsigned int numParticlesPerSecond;
+	unsigned int maxNumParticles;
+	float particleInitialVelocity;
+	float particleFinalVelocity;
+	float initialParticleSizePixels;
+	float finalParticleSizePixels;
+	float particleLifespanInSeconds;
 
 	static unsigned int componentTypeId;
+
+	friend class ParticleSystemRenderer;
 };
 
 #endif // PARTICLE_SYSTEM_H

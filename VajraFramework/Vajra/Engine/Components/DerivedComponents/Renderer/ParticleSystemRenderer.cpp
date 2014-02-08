@@ -62,7 +62,7 @@ void ParticleSystemRenderer::makeVBOs() {
 	this->numVertices = 100;
 	this->vertices = new glm::vec3[this->numVertices];
 	for (unsigned int i = 0; i < this->numVertices; ++i) {
-		this->vertices[i] = glm::vec3((float)i/10.0f, (float)i/10.0f, (float)i/10.0f);
+		this->vertices[i] = glm::vec3((float)i/10.0f, (float)i/10.0f, -1.0f * (float)i/10.0f);
 	}
 	//
 	if (this->vertices != nullptr) {

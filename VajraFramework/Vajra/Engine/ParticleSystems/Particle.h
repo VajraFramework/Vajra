@@ -11,9 +11,21 @@ public:
 
 	glm::vec3 position;
 	glm::vec3 velocity;
-	float size_in_pixels;
+	glm::vec3 sizeInPixels;
 
+	float size_in_pixels;
 	float life_remaining_in_seconds;
+	//
+	float initialVelocity;
+	float finalVelocity;
+	//
+	float initialSizePixels;
+	float finalSizePixels;
+	//
+	float totalLifespanInSeconds;
+
+	void reset();
+	void stepSimulation(float deltaTime);
 
 private:
 };

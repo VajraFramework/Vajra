@@ -1,5 +1,18 @@
 <prefab>
 	<gameobject>
+
+		<component name="ParticleSystem">
+			<property name="InitParticleSystem">
+				<field>10</field>
+				<field>100</field>
+				<field>0.1</field>
+				<field>0.02</field>
+				<field>10</field>
+				<field>15</field>
+				<field>3</field>
+			</property>
+		</component>
+
 		<component name="ParticleSystemRenderer">
 			<property name="InitParticleSystem">
 				<field>prtshdr</field>
