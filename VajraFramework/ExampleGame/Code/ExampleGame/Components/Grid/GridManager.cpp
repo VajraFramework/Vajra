@@ -206,6 +206,23 @@ void GridManager::loadCellDataFromXml(XmlNode* cellDataNode) {
 			}
 		}
 	}
+
+	// Visible cells
+	XmlNode* visibleNode = cellDataNode->GetFirstChildByNodeName(VISIBLE_CELLS_TAG);
+	if (visibleNode != nullptr) {
+		std::stringstream dataStream;
+		dataStream.str(visibleNode->GetValue());
+		for (int i = (int)this->grid->GetGridHeight() - 1; i >= 0; --i) {
+			for (unsigned int j = 0; j < this->grid->GetGridWidth(); ++j) {
+				int passInt;
+				dataStream >> passInt;
+				bool canPass = (passInt == 1);
+
+				GridCell* cell = this->grid->GetCell(j, i);
+				this->grid->SetCellVisibleAtElevation(j, i, cell->y, canPass);
+			}
+		}
+	}
 }
 
 void GridManager::loadRoomDataFromXml(XmlNode* roomDataNode) {
