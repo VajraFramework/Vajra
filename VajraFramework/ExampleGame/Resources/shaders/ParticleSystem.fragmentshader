@@ -13,5 +13,3 @@ void main()
 	gl_FragColor = vec4(texture2D(myTextureSampler, gl_PointCoord.st).rgba);
 }
 
-
-

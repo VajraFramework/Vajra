@@ -3,6 +3,7 @@
 
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/Renderer.h"
+#include "Vajra/Engine/AssetLibrary/Assets/TextureAssets/TextureAsset.h"
 
 #include <memory>
 #include <string>
@@ -46,6 +47,7 @@ private:
 	GLuint vboPointSizes;
 
 	glm::vec4 diffuseColor;
+	std::shared_ptr<TextureAsset> textureAsset;
 
 	ParticleSystem* particleSystemRef;
 

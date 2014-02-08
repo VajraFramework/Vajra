@@ -110,10 +110,11 @@ int TestFuntion() {
 	}
 
 	{
+#if 1
 		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
 							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "test.prefab",
 						   	     	 ENGINE->GetSceneGraph3D());
-
+#endif
 	}
 	{
 #if 0

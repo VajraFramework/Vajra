@@ -49,6 +49,9 @@ bool setupGraphics(int w, int h) {
     glViewport(0, 0, w, h);
     checkGlError("glViewport");
 
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(true);
+
     glEnable(GL_TEXTURE_2D);
     checkGlError("glEnable(GL_TEXTURE_2D)");
     //
@@ -56,7 +59,7 @@ bool setupGraphics(int w, int h) {
     checkGlError("glActiveTexture");
 
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 #if PLATFORM_DESKTOP
     glEnable(GL_POINT_SPRITE);
@@ -83,7 +86,7 @@ bool renderFrame() {
 #endif
 
     static float grey = 0.0f;
-    glClearColor(0.5f, grey, grey, 1.0f);                    checkGlError("glClearColor");
+    glClearColor(0.5f, grey, grey, 0.0f);                    checkGlError("glClearColor");
     glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);    checkGlError("glClear");
 
     float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();

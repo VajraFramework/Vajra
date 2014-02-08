@@ -33,12 +33,13 @@ void ParticleSystem::update() {
 void ParticleSystem::end() {
 }
 
-#define MAXIMUM_TIME_BETWEEN_BATCH_SPAWNS_seconds 0.25f
+#define MAXIMUM_TIME_BETWEEN_BATCH_SPAWNS_seconds 0.1f
 
 void ParticleSystem::InitParticleSystem(unsigned int numParticlesPerSecond_, unsigned int maxNumParticles_,
 										float particleInitialVelocity_, float particleFinalVelocity_,
 										float initialParticleSizePixels_, float finalParticleSizePixels_,
-										float particleLifespanInSeconds_) {
+										float particleLifespanInSeconds_,
+										std::string pathToTexture_) {
 
 	this->numParticlesPerSecond = numParticlesPerSecond_;
 	this->maxNumParticles = maxNumParticles_;
@@ -47,6 +48,7 @@ void ParticleSystem::InitParticleSystem(unsigned int numParticlesPerSecond_, uns
 	this->initialParticleSizePixels = initialParticleSizePixels_;
 	this->finalParticleSizePixels = finalParticleSizePixels_;
 	this->particleLifespanInSeconds = particleLifespanInSeconds_;
+	this->pathToTexture = pathToTexture_;
 
 	// Create the pool of particles:
 	unsigned int numParticlesToCreate = maxNumParticles_ + numParticlesPerSecond_;
@@ -61,6 +63,7 @@ void ParticleSystem::InitParticleSystem(unsigned int numParticlesPerSecond_, uns
 		this->deadParticles.push_back(particle);
 	}
 
+	// TODO [Hack] Figure this out better
 	this->minimumTimeBetweenBatchSpawns = MAXIMUM_TIME_BETWEEN_BATCH_SPAWNS_seconds;
 
 	// Init the shader attribute vectors for drawing:
@@ -87,15 +90,16 @@ void ParticleSystem::updateShaderAttributeVectors() {
 	// Copy the updated positions of all the alive particles:
 	unsigned int particleIdx = 0;
 	for (Particle* particle : this->aliveParticles) {
-		this->particlePositions[particleIdx] = particle->position;
-		this->particleSizes[particleIdx]     = particle->size_in_pixels;
+		// Copy the particles in reverse order for transperancy reasons:
+		this->particlePositions[this->numParticlesToDraw - particleIdx - 1] = particle->position;
+		this->particleSizes[this->numParticlesToDraw - particleIdx - 1]     = particle->size_in_pixels;
 		++particleIdx;
 	}
 
 	// Reset the rest:
 	for (unsigned int i = particleIdx; i < this->maxNumParticles; ++i) {
-		this->particlePositions[i] = glm::vec3(0.0f, 0.0f, 0.0f);
-		this->particleSizes[i]     = 0.0f;
+		this->particlePositions[this->numParticlesToDraw - i - 1] = glm::vec3(0.0f, 0.0f, 0.0f);
+		this->particleSizes[this->numParticlesToDraw - i - 1]     = 0.0f;
 	}
 
 	ENGINE->GetMessageHub()->SendPointcastMessage(MESSAGE_TYPE_PARTICLE_SYSTEM_UPDATED, this->GetObject()->GetId(), this->GetObject()->GetId());

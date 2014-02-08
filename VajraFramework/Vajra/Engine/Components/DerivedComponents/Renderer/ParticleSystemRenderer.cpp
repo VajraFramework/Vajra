@@ -44,6 +44,9 @@ void ParticleSystemRenderer::HandleMessage(MessageChunk messageChunk) {
 }
 
 void ParticleSystemRenderer::Draw() {
+	// TODO [Hack] Figure out if this can be done better. Disabling writing to the depth buffer to prevent particles from occluding each other incorrectly
+	glDepthMask(false);
+
     if (this->vboPositions == 0) {
         FRAMEWORK->GetLogger()->errlog("ERROR: VBOs not made");
         return;
@@ -65,10 +68,14 @@ void ParticleSystemRenderer::Draw() {
                           1, GL_FLOAT, GL_FALSE, 0, 0);
     checkGlError("glVertexAttribPointer");
 
-    // Insert Texture here:
+	glBindTexture(GL_TEXTURE_2D, this->textureAsset->GetGLTextureHandle());
+	checkGlError("glBindTexture");
 
     glDrawArrays(GL_POINTS, 0, this->particleSystemRef->getNumParticlesToDraw());
     checkGlError("glDrawArrays");
+
+	// TODO [Hack] Figure out if this can be done better:
+	glDepthMask(true);
 }
 
 void ParticleSystemRenderer::initializeRendererStructures() {
@@ -93,6 +100,8 @@ void ParticleSystemRenderer::initializeRendererStructures() {
         FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
         return;
     }
+
+	this->textureAsset = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(this->particleSystemRef->getPathToTexture());
 
 	// TODO [Cleanup] Expose this, maybe
 	// Set shader to use:

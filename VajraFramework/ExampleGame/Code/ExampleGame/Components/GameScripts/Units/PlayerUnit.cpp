@@ -149,6 +149,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 		switch(ENGINE->GetInput()->GetTouch(touchId).phase) {
 			case TouchPhase::Began:
 				touchIndicator->GetTransform()->SetPosition(this->currentTouchedCell->center);
+				touchIndicator->GetTransform()->Translate(0.01f, YAXIS);
 				touchIndicator->SetVisible(true);
 				// touch indicator tween up
 				ENGINE->GetTween()->CancelScaleTween(this->touchIndicator->GetId());
@@ -175,6 +176,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 
 void PlayerUnit::touchedCellChanged() {
 	this->touchIndicator->GetTransform()->SetPosition(this->currentTouchedCell->center);
+	this->touchIndicator->GetTransform()->Translate(0.01f, YAXIS);
 	if(this->inputState == InputState::INPUT_STATE_NAV) {
 		if(this->gridNavRef->CanReachDestination(this->currentTouchedCell)) {
 			this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);

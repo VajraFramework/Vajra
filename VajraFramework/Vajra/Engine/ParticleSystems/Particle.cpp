@@ -10,7 +10,8 @@ Particle::Particle() {
 
 void Particle::reset() {
 	// TODO [Implement] Come up with a random velocity
-	this->velocity = YAXIS;
+	this->velocity = glm::vec3(rand()%100 / 100.0f - 0.5f, rand()%100 / 100.0f - 0.5f, rand()%100 / 100.0f - 0.5f);
+
 	this->position = ZERO_VEC3;
 	this->size_in_pixels = this->initialSizePixels;
 	this->life_remaining_in_seconds = this->totalLifespanInSeconds;

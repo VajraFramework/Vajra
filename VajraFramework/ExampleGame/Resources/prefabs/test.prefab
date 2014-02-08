@@ -3,13 +3,14 @@
 
 		<component name="ParticleSystem">
 			<property name="InitParticleSystem">
-				<field>10</field>
-				<field>100</field>
-				<field>0.1</field>
-				<field>0.02</field>
-				<field>5</field>
-				<field>30</field>
-				<field>3</field>
+				<field>20</field>
+				<field>50</field>
+				<field>0.05</field>
+				<field>0.005</field>
+				<field>40</field>
+				<field>70</field>
+				<field>2</field>
+				<field>pictures/fire_0.png</field>
 			</property>
 		</component>
 
@@ -21,12 +22,12 @@
 
 		<component name="Transform">
 			<property name="Scale">
-				<field>1.0</field>
+				<field>10.0</field>
 			</property>
 			<property name="SetPosition">
-				<field>0.0</field>
-				<field>0.0</field>
-				<field>0.0</field>
+				<field>10.0</field>
+				<field>4.0</field>
+				<field>-4.0</field>
 			</property>
 		</component>
 	</gameobject>

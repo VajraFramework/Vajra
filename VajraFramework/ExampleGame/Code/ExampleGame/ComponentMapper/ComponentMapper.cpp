@@ -344,8 +344,8 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		ParticleSystem* component = gameObject->GetComponent<ParticleSystem>();
 		if (component == nullptr) { return; }
 		if (propertyName == "InitParticleSystem") {
-			if ((int)argv.size() < 7) { return; }
-			component->InitParticleSystem(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]), StringUtilities::ConvertStringToFloat(argv[4]), StringUtilities::ConvertStringToFloat(argv[5]), StringUtilities::ConvertStringToFloat(argv[6]));
+			if ((int)argv.size() < 8) { return; }
+			component->InitParticleSystem(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]), StringUtilities::ConvertStringToFloat(argv[4]), StringUtilities::ConvertStringToFloat(argv[5]), StringUtilities::ConvertStringToFloat(argv[6]), ConvertStringToString(argv[7]));
 			return;
 		}
 		return;

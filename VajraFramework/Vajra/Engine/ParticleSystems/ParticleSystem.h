@@ -23,7 +23,7 @@ public:
 	static inline unsigned int GetTypeId() { return componentTypeId; }
 
 	//[[PROPERTY]]//
-	void InitParticleSystem(unsigned int numParticlesPerSecond, unsigned int maxNumParticles, float particleInitialVelocity, float particleFinalVelocity, float initialParticleSizePixels, float finalParticleSizePixels, float particleLifespanInSeconds);
+	void InitParticleSystem(unsigned int numParticlesPerSecond, unsigned int maxNumParticles, float particleInitialVelocity, float particleFinalVelocity, float initialParticleSizePixels, float finalParticleSizePixels, float particleLifespanInSeconds, std::string pathToTexture_);
 
 protected:
 	// @Override
@@ -48,6 +48,8 @@ private:
 	inline glm::vec3* getParticlePositionsForDrawing()  { return this->particlePositions;  }
 	inline float* getParticleSizesForDrawing()  { return this->particleSizes;  }
 
+	std::string getPathToTexture() { return this->pathToTexture; }
+
 	// Shader attribute vectors for drawing:
 	unsigned int numParticlesToDraw;
 	glm::vec3* particlePositions;
@@ -63,6 +65,7 @@ private:
 	float initialParticleSizePixels;
 	float finalParticleSizePixels;
 	float particleLifespanInSeconds;
+	std::string pathToTexture;
 
 	float timeSinceLastBatchSpawn;
 	float minimumTimeBetweenBatchSpawns;
