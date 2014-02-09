@@ -368,6 +368,16 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetParticleTexture(ConvertStringToString(argv[0]));
 			return;
 		}
+		if (propertyName == "SetParticleInitialColor") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetParticleInitialColor(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
+		}
+		if (propertyName == "SetParticleFinalColor") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetParticleFinalColor(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
+		}
 		if (propertyName == "InitParticleSystem") {
 			if ((int)argv.size() < 0) { return; }
 			component->InitParticleSystem();

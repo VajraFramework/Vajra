@@ -33,6 +33,10 @@ public:
 	//[[PROPERTY]]//
 	void SetParticleTexture(std::string pathToTexture_);
 	//[[PROPERTY]]//
+	void SetParticleInitialColor(float r, float g, float b, float a);
+	//[[PROPERTY]]//
+	void SetParticleFinalColor(float r, float g, float b, float a);
+	//[[PROPERTY]]//
 	void InitParticleSystem();
 
 protected:
@@ -57,6 +61,7 @@ private:
 	inline unsigned int getNumParticlesToDraw() { return this->numParticlesToDraw; }
 	inline glm::vec3* getParticlePositionsForDrawing()  { return this->particlePositions;  }
 	inline float* getParticleSizesForDrawing()  { return this->particleSizes;  }
+	inline glm::vec4* getParticleColorsForDrawing()  { return this->particleColors;  }
 
 	std::string getPathToTexture() { return this->pathToTexture; }
 
@@ -64,6 +69,7 @@ private:
 	unsigned int numParticlesToDraw;
 	glm::vec3* particlePositions;
 	float* particleSizes;
+	glm::vec4* particleColors;
 	//
 	std::list<Particle*> aliveParticles;
 	std::list<Particle*> deadParticles;
@@ -76,6 +82,8 @@ private:
 	float finalParticleSizePixels;
 	float particleLifespanInSeconds;
 	std::string pathToTexture;
+	glm::vec4 particleInitialColor;
+	glm::vec4 particleFinalColor;
 
 	float timeSinceLastBatchSpawn;
 	float minimumTimeBetweenBatchSpawns;

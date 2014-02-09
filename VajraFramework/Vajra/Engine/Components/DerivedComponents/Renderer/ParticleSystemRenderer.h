@@ -45,6 +45,7 @@ private:
 
 	GLuint vboPositions;
 	GLuint vboPointSizes;
+	GLuint vboParticleColors;
 
 	glm::vec4 diffuseColor;
 	std::shared_ptr<TextureAsset> textureAsset;

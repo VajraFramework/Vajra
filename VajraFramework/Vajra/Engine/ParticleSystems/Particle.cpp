@@ -16,6 +16,7 @@ void Particle::reset() {
 	this->position = ZERO_VEC3;
 	this->size_in_pixels = this->initialSizePixels;
 	this->life_remaining_in_seconds = this->totalLifespanInSeconds;
+	this->color = this->initialColor;
 }
 
 void Particle::stepSimulation(float deltaTime) {
@@ -28,6 +29,8 @@ void Particle::stepSimulation(float deltaTime) {
 	this->velocity = glm::normalize(this->velocity) * currentVelocity_scalar;
 
 	lerp(this->size_in_pixels, this->initialSizePixels, this->finalSizePixels, interp);
+
+	lerp(this->color, this->initialColor, this->finalColor, interp);
 
 	this->position += (this->velocity * deltaTime);
 }

@@ -8,7 +8,7 @@
 			</property>
 			<property name="SetParticleVelocity">
 				<field>0.05</field>
-				<field>0.005</field>
+				<field>-0.02</field>
 			</property>
 			<property name="SetParticleSize">
 				<field>40</field>
@@ -19,6 +19,18 @@
 			</property>
 			<property name="SetParticleTexture">
 				<field>pictures/fire_0.png</field>
+			</property>
+			<property name="SetParticleInitialColor">
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
+			</property>
+			<property name="SetParticleFinalColor">
+				<field>0.5</field>
+				<field>0.5</field>
+				<field>0.5</field>
+				<field>0.3</field>
 			</property>
 			<property name="InitParticleSystem">
 			</property>

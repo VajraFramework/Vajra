@@ -70,6 +70,7 @@ bool rayPlaneIntersection(Ray& ray, Plane& plane, float& dist);
 
 // Vector functions
 void lerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float interp);
+void lerp(glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, const float interp);
 
 inline float square(float number) {
 	return number * number;

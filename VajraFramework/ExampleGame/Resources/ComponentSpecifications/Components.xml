@@ -134,6 +134,18 @@
 		<property name="SetParticleTexture">
 			<field name="pathToTexture_" datatype="std::string"></field>
 		</property>
+		<property name="SetParticleInitialColor">
+			<field name="r" datatype="float"></field>
+			<field name="g" datatype="float"></field>
+			<field name="b" datatype="float"></field>
+			<field name="a" datatype="float"></field>
+		</property>
+		<property name="SetParticleFinalColor">
+			<field name="r" datatype="float"></field>
+			<field name="g" datatype="float"></field>
+			<field name="b" datatype="float"></field>
+			<field name="a" datatype="float"></field>
+		</property>
 		<property name="InitParticleSystem">
 		</property>
 	</component>

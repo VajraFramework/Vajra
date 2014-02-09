@@ -54,6 +54,7 @@ enum Shader_variable_variablename_id_t {
 	SHADER_VARIABLE_VARIABLENAME_MaterialDiffuseColor_out,
 	SHADER_VARIABLE_VARIABLENAME_MaterialSpecularColor_out,
 	SHADER_VARIABLE_VARIABLENAME_pointSize,
+	SHADER_VARIABLE_VARIABLENAME_particleColor,
 	SHADER_VARIABLE_VARIABLENAME_invalid,
 };
 

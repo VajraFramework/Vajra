@@ -58,6 +58,14 @@ void ParticleSystem::SetParticleTexture(std::string pathToTexture_) {
 	this->pathToTexture = pathToTexture_;
 }
 
+void ParticleSystem::SetParticleInitialColor(float r, float g, float b, float a) {
+	this->particleInitialColor = glm::vec4(r, g, b, a);
+}
+
+void ParticleSystem::SetParticleFinalColor(float r, float g, float b, float a) {
+	this->particleFinalColor = glm::vec4(r, g, b, a);
+}
+
 void ParticleSystem::InitParticleSystem() {
 
 	// Create the pool of particles:
@@ -67,6 +75,7 @@ void ParticleSystem::InitParticleSystem() {
 		particle->initialVelocity = this->particleInitialVelocity; particle->finalVelocity = this->particleFinalVelocity;
 		particle->initialSizePixels = this->initialParticleSizePixels; particle->finalSizePixels = this->finalParticleSizePixels;
 		particle->totalLifespanInSeconds = this->particleLifespanInSeconds;
+		particle->initialColor = this->particleInitialColor; particle->finalColor = this->particleFinalColor;
 		//
 		particle->reset();
 		//
@@ -85,10 +94,12 @@ void ParticleSystem::initShaderAttributeVectors() {
 
 	this->particlePositions = new glm::vec3[this->maxNumParticles];
 	this->particleSizes     = new float[this->maxNumParticles];
+	this->particleColors    = new glm::vec4[this->maxNumParticles];
 
 	for (unsigned int i = 0; i < this->numParticlesToDraw; ++i) {
 		this->particlePositions[i] = glm::vec3(0.0f, 0.0f, 0.0f);
 		this->particleSizes[i]     = 0.0f;
+		this->particleColors[i]    = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	ENGINE->GetMessageHub()->SendPointcastMessage(MESSAGE_TYPE_PARTICLE_SYSTEM_INITED, this->GetObject()->GetId(), this->GetObject()->GetId());
@@ -103,6 +114,7 @@ void ParticleSystem::updateShaderAttributeVectors() {
 		// Copy the particles in reverse order for transperancy reasons:
 		this->particlePositions[this->numParticlesToDraw - particleIdx - 1] = particle->position;
 		this->particleSizes[this->numParticlesToDraw - particleIdx - 1]     = particle->size_in_pixels;
+		this->particleColors[this->numParticlesToDraw - particleIdx - 1]    = particle->color;
 		++particleIdx;
 	}
 
@@ -110,6 +122,7 @@ void ParticleSystem::updateShaderAttributeVectors() {
 	for (unsigned int i = particleIdx; i < this->maxNumParticles; ++i) {
 		this->particlePositions[this->numParticlesToDraw - i - 1] = glm::vec3(0.0f, 0.0f, 0.0f);
 		this->particleSizes[this->numParticlesToDraw - i - 1]     = 0.0f;
+		this->particleColors[this->numParticlesToDraw - i - 1]    = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
 	ENGINE->GetMessageHub()->SendPointcastMessage(MESSAGE_TYPE_PARTICLE_SYSTEM_UPDATED, this->GetObject()->GetId(), this->GetObject()->GetId());
@@ -185,17 +198,23 @@ void ParticleSystem::init() {
 		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
 	}
 
+	this->particlePositions = nullptr;
+	this->particleSizes = nullptr;
+	this->particleColors = nullptr;
+
 	this->timeSinceLastBatchSpawn = 10000.0f;
 	this->minimumTimeBetweenBatchSpawns = 0.0f;
 
 	// Assign default values for all properties:
-	this->numParticlesPerSecond = 10.0f;
-	this->maxNumParticles = 50.0f;
-	this->particleInitialVelocity = 0.1f;
-	this->particleFinalVelocity = 0.01f;
-	this->initialParticleSizePixels = 16;
-	this->finalParticleSizePixels = 32;
-	this->particleLifespanInSeconds = 3.0f;
+	this->numParticlesPerSecond           = 10.0f;
+	this->maxNumParticles                 = 50.0f;
+	this->particleInitialVelocity         = 0.1f;
+	this->particleFinalVelocity           = 0.01f;
+	this->initialParticleSizePixels       = 16;
+	this->finalParticleSizePixels         = 32;
+	this->particleLifespanInSeconds       = 3.0f;
+	this->particleInitialColor            = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	this->particleFinalColor              = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	// TODO [Implement] Figure out if its better to add/remove subscription dynamically on play/pause/remove
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);

@@ -47,26 +47,39 @@ void ParticleSystemRenderer::Draw() {
 	// TODO [Hack] Figure out if this can be done better. Disabling writing to the depth buffer to prevent particles from occluding each other incorrectly
 	glDepthMask(false);
 
-    if (this->vboPositions == 0) {
+    if (this->vboPositions == 0 || this->vboPointSizes == 0 || this->vboParticleColors == 0) {
         FRAMEWORK->GetLogger()->errlog("ERROR: VBOs not made");
         return;
     }
 
     ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
 
+    {
     GLint positionHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vPosition);
     glEnableVertexAttribArray(positionHandle);
     glBindBuffer(GL_ARRAY_BUFFER, this->vboPositions); checkGlError("glBindBuffer");
     glVertexAttribPointer(positionHandle,
                           3, GL_FLOAT, GL_FALSE, 0, 0);
     checkGlError("glVertexAttribPointer");
+    }
 
+    {
     GLint pointsizesHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_pointSize);
     glEnableVertexAttribArray(pointsizesHandle);
     glBindBuffer(GL_ARRAY_BUFFER, this->vboPointSizes); checkGlError("glBindBuffer");
     glVertexAttribPointer(pointsizesHandle,
                           1, GL_FLOAT, GL_FALSE, 0, 0);
     checkGlError("glVertexAttribPointer");
+    }
+
+    {
+    GLint particleColorHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_particleColor);
+    glEnableVertexAttribArray(particleColorHandle);
+    glBindBuffer(GL_ARRAY_BUFFER, this->vboParticleColors); checkGlError("glBindBuffer");
+    glVertexAttribPointer(particleColorHandle,
+                          4, GL_FLOAT, GL_FALSE, 0, 0);
+    checkGlError("glVertexAttribPointer");
+    }
 
 	glBindTexture(GL_TEXTURE_2D, this->textureAsset->GetGLTextureHandle());
 	checkGlError("glBindTexture");
@@ -100,6 +113,16 @@ void ParticleSystemRenderer::initializeRendererStructures() {
         FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
         return;
     }
+	//
+	if (this->particleSystemRef->getParticleColorsForDrawing() != nullptr) {
+		glGenBuffers(1, &this->vboParticleColors); checkGlError("glGenBuffers");
+		glBindBuffer(GL_ARRAY_BUFFER, this->vboParticleColors); checkGlError("glBindBuffer");
+		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * this->particleSystemRef->getNumParticlesToDraw(), this->particleSystemRef->getParticleColorsForDrawing(), GL_STATIC_DRAW); checkGlError("glBufferData");
+    } else {
+        FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
+        return;
+    }
+
 
 	this->textureAsset = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(this->particleSystemRef->getPathToTexture());
 
@@ -120,7 +143,7 @@ void ParticleSystemRenderer::updateVBOs() {
 
 	if (this->particleSystemRef->getParticlePositionsForDrawing() != nullptr) {
 		glBindBuffer(GL_ARRAY_BUFFER, this->vboPositions); checkGlError("glBindBuffer");
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * this->particleSystemRef->getNumParticlesToDraw(), this->particleSystemRef->getParticlePositionsForDrawing()); checkGlError("glBufferData");
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * this->particleSystemRef->getNumParticlesToDraw(), this->particleSystemRef->getParticlePositionsForDrawing()); checkGlError("glBufferSubData");
     } else {
         FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
         return;
@@ -128,7 +151,15 @@ void ParticleSystemRenderer::updateVBOs() {
 	//
 	if (this->particleSystemRef->getParticleSizesForDrawing() != nullptr) {
 		glBindBuffer(GL_ARRAY_BUFFER, this->vboPointSizes); checkGlError("glBindBuffer");
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * this->particleSystemRef->getNumParticlesToDraw(), this->particleSystemRef->getParticleSizesForDrawing()); checkGlError("glBufferData");
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * this->particleSystemRef->getNumParticlesToDraw(), this->particleSystemRef->getParticleSizesForDrawing()); checkGlError("glBufferSubData");
+    } else {
+        FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
+        return;
+    }
+	//
+	if (this->particleSystemRef->getParticleColorsForDrawing() != nullptr) {
+		glBindBuffer(GL_ARRAY_BUFFER, this->vboParticleColors); checkGlError("glBindBuffer");
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec4) * this->particleSystemRef->getNumParticlesToDraw(), this->particleSystemRef->getParticleColorsForDrawing()); checkGlError("glBufferSubData");
     } else {
         FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
         return;
