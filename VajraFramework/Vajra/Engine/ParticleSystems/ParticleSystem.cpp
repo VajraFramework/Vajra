@@ -40,9 +40,9 @@ void ParticleSystem::SetNumberOfParticles(unsigned int numParticlesPerSecond_, u
 	this->maxNumParticles = maxNumParticles_;
 }
 
-void ParticleSystem::SetParticleVelocity(float particleInitialVelocity_, float particleFinalVelocity_) {
-	this->particleInitialVelocity = particleInitialVelocity_;
-	this->particleFinalVelocity = particleFinalVelocity_;
+void ParticleSystem::SetParticleSpeed(float particleInitialSpeed_, float particleFinalSpeed_) {
+	this->particleInitialSpeed = particleInitialSpeed_;
+	this->particleFinalSpeed = particleFinalSpeed_;
 }
 
 void ParticleSystem::SetParticleSize(float initialParticleSizePixels_, float finalParticleSizePixels_) {
@@ -66,18 +66,37 @@ void ParticleSystem::SetParticleFinalColor(float r, float g, float b, float a) {
 	this->particleFinalColor = glm::vec4(r, g, b, a);
 }
 
+void ParticleSystem::SetParticleVelocityDirection(float x, float y, float z) {
+	this->particleVelocityDirection = glm::vec3(x, y, z);
+	ASSERT(this->particleVelocityDirection != ZERO_VEC3, "Particle direction not zero vector");
+}
+
+void ParticleSystem::SetParticleVelocityDirectionRandomness(float randomness) {
+	clamp(randomness, 0.0f, 1.0f);
+	this->particleVelocityDirectionRandomness = randomness;
+}
+
+void ParticleSystem::SetAccelerationAmount(float accelerationAmount_) {
+	this->accelerationAmount = accelerationAmount_;
+}
+
+void ParticleSystem::SetAccelerationDirection(float x, float y, float z) {
+	this->accelerationDirection = glm::vec3(x, y, z);
+	ASSERT(this->accelerationDirection != ZERO_VEC3, "Particle acceleration not zero vector");
+}
+
 void ParticleSystem::InitParticleSystem() {
 
 	// Create the pool of particles:
 	unsigned int numParticlesToCreate = this->maxNumParticles + this->numParticlesPerSecond;
 	for (unsigned int i = 0; i < numParticlesToCreate; ++i) {
 		Particle* particle = new Particle();
-		particle->initialVelocity = this->particleInitialVelocity; particle->finalVelocity = this->particleFinalVelocity;
+		particle->initialSpeed = this->particleInitialSpeed; particle->finalSpeed = this->particleFinalSpeed;
 		particle->initialSizePixels = this->initialParticleSizePixels; particle->finalSizePixels = this->finalParticleSizePixels;
 		particle->totalLifespanInSeconds = this->particleLifespanInSeconds;
 		particle->initialColor = this->particleInitialColor; particle->finalColor = this->particleFinalColor;
 		//
-		particle->reset();
+		particle->reset(this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
 		//
 		this->deadParticles.push_back(particle);
 	}
@@ -157,7 +176,7 @@ void ParticleSystem::spawnParticles(float deltaTime) {
 	}
 	while (!particlesToAdd.empty()) {
 		Particle* particle = particlesToAdd.front();
-		particle->reset();
+		particle->reset(this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
 		particlesToAdd.pop_front();
 		this->aliveParticles.push_back(particle);
 	}
@@ -168,8 +187,7 @@ void ParticleSystem::spawnParticles(float deltaTime) {
 void ParticleSystem::stepParticles(float deltaTime) {
 	// Step all alive particles through the simulation:
 	for (Particle* particle : this->aliveParticles) {
-		particle->stepSimulation(deltaTime);
-		// TODO [Implement] Apply updated particle properties to big arrays
+		particle->stepSimulation(deltaTime, this->accelerationDirection, this->accelerationAmount);
 	}
 }
 
@@ -208,13 +226,17 @@ void ParticleSystem::init() {
 	// Assign default values for all properties:
 	this->numParticlesPerSecond           = 10.0f;
 	this->maxNumParticles                 = 50.0f;
-	this->particleInitialVelocity         = 0.1f;
-	this->particleFinalVelocity           = 0.01f;
+	this->particleInitialSpeed            = 0.1f;
+	this->particleFinalSpeed              = 0.01f;
 	this->initialParticleSizePixels       = 16;
 	this->finalParticleSizePixels         = 32;
 	this->particleLifespanInSeconds       = 3.0f;
 	this->particleInitialColor            = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	this->particleFinalColor              = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	this->particleVelocityDirection       = YAXIS;
+	this->particleVelocityDirectionRandomness       = 1.0f;
+	this->accelerationAmount              = 0.0f;
+	this->accelerationDirection           = -1.0f * YAXIS;
 
 	// TODO [Implement] Figure out if its better to add/remove subscription dynamically on play/pause/remove
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);

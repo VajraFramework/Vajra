@@ -348,9 +348,9 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetNumberOfParticles(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
 			return;
 		}
-		if (propertyName == "SetParticleVelocity") {
+		if (propertyName == "SetParticleSpeed") {
 			if ((int)argv.size() < 2) { return; }
-			component->SetParticleVelocity(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]));
+			component->SetParticleSpeed(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]));
 			return;
 		}
 		if (propertyName == "SetParticleSize") {
@@ -376,6 +376,26 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetParticleFinalColor") {
 			if ((int)argv.size() < 4) { return; }
 			component->SetParticleFinalColor(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
+		}
+		if (propertyName == "SetParticleVelocityDirection") {
+			if ((int)argv.size() < 3) { return; }
+			component->SetParticleVelocityDirection(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
+		}
+		if (propertyName == "SetParticleVelocityDirectionRandomness") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetParticleVelocityDirectionRandomness(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetAccelerationAmount") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetAccelerationAmount(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetAccelerationDirection") {
+			if ((int)argv.size() < 3) { return; }
+			component->SetAccelerationDirection(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
 			return;
 		}
 		if (propertyName == "InitParticleSystem") {

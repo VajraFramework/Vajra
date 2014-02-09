@@ -96,4 +96,6 @@ inline void clamp(int& out, int min, int max) {
 	out = std::max(std::min(out, max), min);
 }
 
+inline float randf() { return ((rand()%100) / 100.0f); }
+
 #endif // MATHUTILITIES_H

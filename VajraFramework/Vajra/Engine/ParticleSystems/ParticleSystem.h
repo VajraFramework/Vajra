@@ -25,7 +25,7 @@ public:
 	//[[PROPERTY]]//
 	void SetNumberOfParticles(unsigned int numParticlesPerSecond_, unsigned int maxNumParticles);
 	//[[PROPERTY]]//
-	void SetParticleVelocity(float particleInitialVelocity, float particleFinalVelocity);
+	void SetParticleSpeed(float particleInitialSpeed, float particleFinalSpeed);
 	//[[PROPERTY]]//
 	void SetParticleSize(float initialParticleSizePixels, float finalParticleSizePixels);
 	//[[PROPERTY]]//
@@ -36,6 +36,14 @@ public:
 	void SetParticleInitialColor(float r, float g, float b, float a);
 	//[[PROPERTY]]//
 	void SetParticleFinalColor(float r, float g, float b, float a);
+	//[[PROPERTY]]//
+	void SetParticleVelocityDirection(float x, float y, float z);
+	//[[PROPERTY]]//
+	void SetParticleVelocityDirectionRandomness(float randomness);
+	//[[PROPERTY]]//
+	void SetAccelerationAmount(float accelerationAmount_);
+	//[[PROPERTY]]//
+	void SetAccelerationDirection(float x, float y, float z);
 	//[[PROPERTY]]//
 	void InitParticleSystem();
 
@@ -76,14 +84,18 @@ private:
 
 	unsigned int numParticlesPerSecond;
 	unsigned int maxNumParticles;
-	float particleInitialVelocity;
-	float particleFinalVelocity;
+	float particleInitialSpeed;
+	float particleFinalSpeed;
 	float initialParticleSizePixels;
 	float finalParticleSizePixels;
 	float particleLifespanInSeconds;
 	std::string pathToTexture;
 	glm::vec4 particleInitialColor;
 	glm::vec4 particleFinalColor;
+	glm::vec3 particleVelocityDirection;
+	float particleVelocityDirectionRandomness;
+	float accelerationAmount;
+	glm::vec3 accelerationDirection;
 
 	float timeSinceLastBatchSpawn;
 	float minimumTimeBetweenBatchSpawns;

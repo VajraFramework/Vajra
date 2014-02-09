@@ -3,42 +3,50 @@
 
 		<component name="ParticleSystem">
 			<property name="SetNumberOfParticles">
-				<field>20</field>
-				<field>100</field>
+				<field>40</field>
+				<field>200</field>
 			</property>
 			<property name="SetParticleSpeed">
-				<field>0.2</field>
-				<field>-0.05</field>
+				<field>0.5</field>
+				<field>0.05</field>
 			</property>
 			<property name="SetParticleVelocityDirection">
+				<field>1.0</field>
 				<field>0.0</field>
 				<field>0.0</field>
-				<field>-1.0</field>
 			</property>
 			<property name="SetParticleVelocityDirectionRandomness">
-				<field>0.1</field>
+				<field>0.05</field>
+			</property>
+			<property name="SetAccelerationDirection">
+				<field>0.0</field>
+				<field>0.0</field>
+				<field>1.0</field>
+			</property>
+			<property name="SetAccelerationAmount">
+				<field>0.5</field>
 			</property>
 			<property name="SetParticleSize">
-				<field>80</field>
+				<field>20</field>
 				<field>10</field>
 			</property>
 			<property name="SetParticleLifespan">
-				<field>3</field>
+				<field>2</field>
 			</property>
 			<property name="SetParticleTexture">
-				<field>pictures/smoke_0.png</field>
+				<field>pictures/water.png</field>
 			</property>
 			<property name="SetParticleInitialColor">
-				<field>0.6</field>
-				<field>0.6</field>
-				<field>0.8</field>
-				<field>0.5</field>
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
 			</property>
 			<property name="SetParticleFinalColor">
-				<field>0.1</field>
-				<field>0.1</field>
-				<field>0.1</field>
-				<field>0.0</field>
+				<field>0.5</field>
+				<field>0.5</field>
+				<field>1.0</field>
+				<field>0.3</field>
 			</property>
 			<property name="InitParticleSystem">
 			</property>
@@ -55,9 +63,9 @@
 				<field>10.0</field>
 			</property>
 			<property name="SetPosition">
-				<field>10.0</field>
+				<field>5.0</field>
 				<field>4.0</field>
-				<field>-4.0</field>
+				<field>-5.0</field>
 			</property>
 		</component>
 	</gameobject>

@@ -15,8 +15,8 @@ public:
 	float size_in_pixels;
 	float life_remaining_in_seconds;
 	//
-	float initialVelocity;
-	float finalVelocity;
+	float initialSpeed;
+	float finalSpeed;
 	//
 	float initialSizePixels;
 	float finalSizePixels;
@@ -26,8 +26,8 @@ public:
 	//
 	float totalLifespanInSeconds;
 
-	void reset();
-	void stepSimulation(float deltaTime);
+	void reset(glm::vec3 direction, float randomness);
+	void stepSimulation(float deltaTime, glm::vec3 accelerationDirection, float accelerationAmount);
 
 private:
 };

@@ -120,9 +120,9 @@
 			<field name="numParticlesPerSecond_" datatype="unsigned int"></field>
 			<field name="maxNumParticles" datatype="unsigned int"></field>
 		</property>
-		<property name="SetParticleVelocity">
-			<field name="particleInitialVelocity" datatype="float"></field>
-			<field name="particleFinalVelocity" datatype="float"></field>
+		<property name="SetParticleSpeed">
+			<field name="particleInitialSpeed" datatype="float"></field>
+			<field name="particleFinalSpeed" datatype="float"></field>
 		</property>
 		<property name="SetParticleSize">
 			<field name="initialParticleSizePixels" datatype="float"></field>
@@ -145,6 +145,22 @@
 			<field name="g" datatype="float"></field>
 			<field name="b" datatype="float"></field>
 			<field name="a" datatype="float"></field>
+		</property>
+		<property name="SetParticleVelocityDirection">
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="SetParticleVelocityDirectionRandomness">
+			<field name="randomness" datatype="float"></field>
+		</property>
+		<property name="SetAccelerationAmount">
+			<field name="accelerationAmount_" datatype="float"></field>
+		</property>
+		<property name="SetAccelerationDirection">
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
 		</property>
 		<property name="InitParticleSystem">
 		</property>
