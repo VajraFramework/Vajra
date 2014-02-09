@@ -45,7 +45,16 @@ public:
 	//[[PROPERTY]]//
 	void SetAccelerationDirection(float x, float y, float z);
 	//[[PROPERTY]]//
+	void SetName(std::string name_);
+	//[[PROPERTY]]//
 	void InitParticleSystem();
+
+	//[[PROPERTY]]//
+	void Play();
+	//[[PROPERTY]]//
+	void Pause();
+	//[[PROPERTY]]//
+	void SetLooping(bool looping);
 
 protected:
 	// @Override
@@ -64,6 +73,8 @@ private:
 	void spawnParticles(float deltaTime);
 	void stepParticles (float deltaTime);
 	void cleanupDeadParticles();
+	//
+	void raiseSpentEvent();
 
 	// Functions required to expose the particle attribute vectors for drawing:
 	inline unsigned int getNumParticlesToDraw() { return this->numParticlesToDraw; }
@@ -82,6 +93,7 @@ private:
 	std::list<Particle*> aliveParticles;
 	std::list<Particle*> deadParticles;
 
+	std::string name;
 	unsigned int numParticlesPerSecond;
 	unsigned int maxNumParticles;
 	float particleInitialSpeed;
@@ -99,6 +111,10 @@ private:
 
 	float timeSinceLastBatchSpawn;
 	float minimumTimeBetweenBatchSpawns;
+
+	bool isInited;
+	bool isPlaying;
+	bool isLooping;
 
 	static unsigned int componentTypeId;
 

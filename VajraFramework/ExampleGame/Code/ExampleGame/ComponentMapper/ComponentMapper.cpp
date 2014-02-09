@@ -398,9 +398,29 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetAccelerationDirection(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
 			return;
 		}
+		if (propertyName == "SetName") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetName(ConvertStringToString(argv[0]));
+			return;
+		}
 		if (propertyName == "InitParticleSystem") {
 			if ((int)argv.size() < 0) { return; }
 			component->InitParticleSystem();
+			return;
+		}
+		if (propertyName == "Play") {
+			if ((int)argv.size() < 0) { return; }
+			component->Play();
+			return;
+		}
+		if (propertyName == "Pause") {
+			if ((int)argv.size() < 0) { return; }
+			component->Pause();
+			return;
+		}
+		if (propertyName == "SetLooping") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetLooping(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		return;

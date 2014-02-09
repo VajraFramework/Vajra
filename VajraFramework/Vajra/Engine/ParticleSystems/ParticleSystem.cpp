@@ -85,6 +85,10 @@ void ParticleSystem::SetAccelerationDirection(float x, float y, float z) {
 	ASSERT(this->accelerationDirection != ZERO_VEC3, "Particle acceleration not zero vector");
 }
 
+void ParticleSystem::SetName(std::string name_) {
+	this->name = name_;
+}
+
 void ParticleSystem::InitParticleSystem() {
 
 	// Create the pool of particles:
@@ -106,6 +110,8 @@ void ParticleSystem::InitParticleSystem() {
 
 	// Init the shader attribute vectors for drawing:
 	this->initShaderAttributeVectors();
+
+	this->isInited = true;
 }
 
 void ParticleSystem::initShaderAttributeVectors() {
@@ -149,11 +155,28 @@ void ParticleSystem::updateShaderAttributeVectors() {
 
 void ParticleSystem::stepSimulation(float deltaTime) {
 
-	this->spawnParticles(deltaTime);
-	this->stepParticles (deltaTime);
-	this->cleanupDeadParticles();
+	ASSERT(this->isInited == true, "ParticleSystem has been inited");
 
-	this->updateShaderAttributeVectors();
+	if (this->isPlaying) {
+		this->spawnParticles(deltaTime);
+		this->stepParticles (deltaTime);
+		if (this->isLooping) {
+			this->cleanupDeadParticles();
+		} else {
+			if (this->aliveParticles.empty()) {
+				this->raiseSpentEvent();
+			}
+		}
+
+		this->updateShaderAttributeVectors();
+	}
+}
+
+void ParticleSystem::raiseSpentEvent() {
+	MessageChunk messageChunk = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	messageChunk->messageData.s = this->name;
+	messageChunk->SetMessageType(MESSAGE_TYPE_PARTICLE_SYSTEM_SPENT);
+	ENGINE->GetMessageHub()->SendPointcastMessage(messageChunk, this->GetObject()->GetId(), this->GetObject()->GetId());
 }
 
 void ParticleSystem::spawnParticles(float deltaTime) {
@@ -238,10 +261,26 @@ void ParticleSystem::init() {
 	this->accelerationAmount              = 0.0f;
 	this->accelerationDirection           = -1.0f * YAXIS;
 
+	this->isInited  = false;
+	this->isPlaying = false;
+	this->isLooping = true;
+
 	// TODO [Implement] Figure out if its better to add/remove subscription dynamically on play/pause/remove
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
 
 void ParticleSystem::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+}
+
+void ParticleSystem::Play() {
+	this->isPlaying = true;
+}
+
+void ParticleSystem::Pause() {
+	this->isPlaying = false;
+}
+
+void ParticleSystem::SetLooping(bool looping) {
+	this->isLooping = looping;
 }

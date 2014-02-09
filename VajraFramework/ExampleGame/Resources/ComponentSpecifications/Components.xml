@@ -162,7 +162,17 @@
 			<field name="y" datatype="float"></field>
 			<field name="z" datatype="float"></field>
 		</property>
+		<property name="SetName">
+			<field name="name_" datatype="std::string"></field>
+		</property>
 		<property name="InitParticleSystem">
+		</property>
+		<property name="Play">
+		</property>
+		<property name="Pause">
+		</property>
+		<property name="SetLooping">
+			<field name="looping" datatype="bool"></field>
 		</property>
 	</component>
 	
