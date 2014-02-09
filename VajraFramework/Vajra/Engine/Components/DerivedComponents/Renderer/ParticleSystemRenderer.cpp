@@ -100,28 +100,28 @@ void ParticleSystemRenderer::initializeRendererStructures() {
 		glGenBuffers(1, &this->vboPositions); checkGlError("glGenBuffers");
 		glBindBuffer(GL_ARRAY_BUFFER, this->vboPositions); checkGlError("glBindBuffer");
 		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * this->particleSystemRef->getNumParticlesToDraw(), this->particleSystemRef->getParticlePositionsForDrawing(), GL_STATIC_DRAW); checkGlError("glBufferData");
-    } else {
-        FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
-        return;
-    }
+	} else {
+		FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
+		return;
+	}
 	//
 	if (this->particleSystemRef->getParticleSizesForDrawing() != nullptr) {
 		glGenBuffers(1, &this->vboPointSizes); checkGlError("glGenBuffers");
 		glBindBuffer(GL_ARRAY_BUFFER, this->vboPointSizes); checkGlError("glBindBuffer");
 		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * this->particleSystemRef->getNumParticlesToDraw(), this->particleSystemRef->getParticleSizesForDrawing(), GL_STATIC_DRAW); checkGlError("glBufferData");
-    } else {
-        FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
-        return;
-    }
+	} else {
+		FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
+		return;
+	}
 	//
 	if (this->particleSystemRef->getParticleColorsForDrawing() != nullptr) {
 		glGenBuffers(1, &this->vboParticleColors); checkGlError("glGenBuffers");
 		glBindBuffer(GL_ARRAY_BUFFER, this->vboParticleColors); checkGlError("glBindBuffer");
 		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * this->particleSystemRef->getNumParticlesToDraw(), this->particleSystemRef->getParticleColorsForDrawing(), GL_STATIC_DRAW); checkGlError("glBufferData");
-    } else {
-        FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
-        return;
-    }
+	} else {
+		FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
+		return;
+	}
 
 
 	this->textureAsset = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(this->particleSystemRef->getPathToTexture());
