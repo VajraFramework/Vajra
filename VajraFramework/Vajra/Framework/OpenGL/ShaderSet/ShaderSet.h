@@ -11,7 +11,7 @@
 
 class ShaderSet {
 public:
-	ShaderSet(std::string inShaderSpecificationName);
+	ShaderSet(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_);
 	~ShaderSet();
 
 	inline GLuint GetShaderProgram() { return this->shaderProgram; }
@@ -19,9 +19,11 @@ public:
 	inline GLint GetHandle(Shader_variable_variablename_id_t variablename_id) { return this->shaderHandles->GetShaderHandle(variablename_id); }
 	inline bool  HasHandle(Shader_variable_variablename_id_t variablename_id) { return this->shaderHandles->HasShaderHandle(variablename_id); }
 
+	inline bool HasTransperancy() { return this->hasTransperancy; }
+	inline bool IsOverlay()       { return this->isOverlay;       }
 
 private:
-	void init(std::string inShaderSpecificationName);
+	void init(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_);
 	void destroy();
 
 	// Utility Functions:
@@ -43,6 +45,9 @@ private:
 	GLuint shaderProgram;
 
 	ShaderHandles* shaderHandles;
+
+	bool hasTransperancy;
+	bool isOverlay;
 };
 
 #endif // SHADERSET_H

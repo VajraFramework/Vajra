@@ -5,10 +5,12 @@
 #include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/ParticleSystemRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
 #include "ExampleGame/Components/GameScripts/UnitAnimations/UnitAnimationManager.h"
@@ -52,6 +54,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
+	if (componentName == "ParticleSystemRenderer") {
+		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
+		if (component == nullptr) { component = gameObject->AddComponent<ParticleSystemRenderer>(); }
+		return component;
+	}
+	
 	if (componentName == "MeshRenderer") {
 		MeshRenderer* component = gameObject->GetComponent<MeshRenderer>();
 		if (component == nullptr) { component = gameObject->AddComponent<MeshRenderer>(); }
@@ -73,6 +81,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "Transform") {
 		Transform* component = gameObject->GetComponent<Transform>();
 		if (component == nullptr) { component = gameObject->AddComponent<Transform>(); }
+		return component;
+	}
+	
+	if (componentName == "ParticleSystem") {
+		ParticleSystem* component = gameObject->GetComponent<ParticleSystem>();
+		if (component == nullptr) { component = gameObject->AddComponent<ParticleSystem>(); }
 		return component;
 	}
 	
@@ -236,6 +250,12 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
+	if (componentName == "ParticleSystemRenderer") {
+		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
+		if (component == nullptr) { return; }
+		return;
+	}
+	
 	if (componentName == "MeshRenderer") {
 		MeshRenderer* component = gameObject->GetComponent<MeshRenderer>();
 		if (component == nullptr) { return; }
@@ -315,6 +335,92 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "LookAt") {
 			if ((int)argv.size() < 3) { return; }
 			component->LookAt(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "ParticleSystem") {
+		ParticleSystem* component = gameObject->GetComponent<ParticleSystem>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetNumberOfParticles") {
+			if ((int)argv.size() < 2) { return; }
+			component->SetNumberOfParticles(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
+			return;
+		}
+		if (propertyName == "SetParticleSpeed") {
+			if ((int)argv.size() < 2) { return; }
+			component->SetParticleSpeed(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]));
+			return;
+		}
+		if (propertyName == "SetParticleSize") {
+			if ((int)argv.size() < 2) { return; }
+			component->SetParticleSize(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]));
+			return;
+		}
+		if (propertyName == "SetParticleLifespan") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetParticleLifespan(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetParticleTexture") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetParticleTexture(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetParticleInitialColor") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetParticleInitialColor(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
+		}
+		if (propertyName == "SetParticleFinalColor") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetParticleFinalColor(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
+		}
+		if (propertyName == "SetParticleVelocityDirection") {
+			if ((int)argv.size() < 3) { return; }
+			component->SetParticleVelocityDirection(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
+		}
+		if (propertyName == "SetParticleVelocityDirectionRandomness") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetParticleVelocityDirectionRandomness(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetAccelerationAmount") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetAccelerationAmount(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetAccelerationDirection") {
+			if ((int)argv.size() < 3) { return; }
+			component->SetAccelerationDirection(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
+		}
+		if (propertyName == "SetName") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetName(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "InitParticleSystem") {
+			if ((int)argv.size() < 0) { return; }
+			component->InitParticleSystem();
+			return;
+		}
+		if (propertyName == "Play") {
+			if ((int)argv.size() < 0) { return; }
+			component->Play();
+			return;
+		}
+		if (propertyName == "Pause") {
+			if ((int)argv.size() < 0) { return; }
+			component->Pause();
+			return;
+		}
+		if (propertyName == "SetLooping") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetLooping(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		return;
