@@ -85,8 +85,10 @@ void ShadyCamera::SetGridManager(GridManager* newManager) {
 void ShadyCamera::MoveTo(glm::vec3 newPos) {
 	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
 	float dist = glm::distance(curPos, newPos);
-	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos,
-			dist / this->camSpeed, true, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, false, ShadyCameraTween::tweenCallback);
+	if (dist > ROUNDING_ERROR) {
+		ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos,
+				dist / this->camSpeed, true, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, false, ShadyCameraTween::tweenCallback);
+	}
 }
 
 void ShadyCamera::MoveTo(float x, float y, float z) {
