@@ -42,19 +42,20 @@ protected:
 	virtual void trySpecial(int /* touchId */) = 0;
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
+	virtual void touchedCellChanged();
 
 	InputState inputState;
 
 	glm::vec2 touchStartPos;
 
+	inline GameObject* GetTouchIndicator() { return this->touchIndicator; }
+	inline GridCell* GetCurrentTouchedCell() { return this->currentTouchedCell; }
 private:
 	void init();
 	void destroy();
 
 	GameObject* touchIndicator;
 	GridCell* currentTouchedCell;
-
-	void touchedCellChanged();
 
 	UnitColorScheme colorScheme;
 	

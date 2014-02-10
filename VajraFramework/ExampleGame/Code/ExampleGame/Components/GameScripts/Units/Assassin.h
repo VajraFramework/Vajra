@@ -26,6 +26,8 @@ protected:
 	virtual void trySpecial(int /* touchId */ );
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
+
+	virtual void touchedCellChanged();
 private:
 	void init();
 	void destroy();

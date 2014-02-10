@@ -5,12 +5,14 @@
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
 
 #define ATTACK_SPEED 10.0f
 #define SWIPE_DIST_IN_PIXELS 50.0f
 #define SWIPE_DURATION_IN_SECONDS 1.0f
+#define DASH_DISTANCE_IN_UNITS 6
 
 Assassin::Assassin() : PlayerUnit() {
 	this->init();
@@ -51,10 +53,7 @@ void Assassin::onSpecialTouch(int touchId) {
 }
 
 void Assassin::trySpecial(int touchId) {
-	Touch touch = ENGINE->GetInput()->GetTouch(touchId);
-	GridCell* touchedCell = SINGLETONS->GetGridManager()->TouchPositionToCell(touch.pos);
-	if(SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(this->gridNavRef->GetCurrentCell(), touchedCell)) {//this->gridNavRef->CanReachDestination(touchedCell)) {
-		this->targetedCell = touchedCell;
+	if(this->targetedCell != nullptr && this->targetedCell != this->gridNavRef->GetCurrentCell()) {
 		this->startSpecial();
 	} else {
 		this->onSpecialEnd();
@@ -72,3 +71,19 @@ void Assassin::onSpecialEnd() {
 	this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
 
 }
+
+void Assassin::touchedCellChanged() {
+	if(this->inputState == InputState::INPUT_STATE_NAV) {
+		PlayerUnit::touchedCellChanged();
+	} else {
+		if(this->gridNavRef->CanReachDestination(this->GetCurrentTouchedCell(), DASH_DISTANCE_IN_UNITS) && SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(this->gridNavRef->GetCurrentCell(), this->GetCurrentTouchedCell())) {//this->gridNavRef->CanReachDestination(touchedCell)) {
+			this->targetedCell = this->GetCurrentTouchedCell();
+		} else {
+			this->targetedCell = this->gridNavRef->GetCurrentCell();
+		}
+		this->GetTouchIndicator()->GetTransform()->SetPosition(this->targetedCell->center);
+		this->GetTouchIndicator()->GetTransform()->Translate(0.01f, YAXIS);
+	}
+	
+}
+
