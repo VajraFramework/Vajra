@@ -39,6 +39,7 @@ protected:
 	virtual bool isSpecialTouch(int /* touchId */) = 0; 
 	virtual void onSpecialTouch(int /* touchId */) = 0;
 
+	virtual void trySpecial(int /* touchId */) = 0;
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
 

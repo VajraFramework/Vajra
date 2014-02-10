@@ -1,4 +1,5 @@
 #include "ExampleGame/Components/GameScripts/Units/Assassin.h"
+#include "ExampleGame/Components/Grid/GameGrid.h"
 #include "ExampleGame/Components/Grid/GridCell.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
@@ -45,8 +46,18 @@ bool Assassin::isSpecialTouch(int touchId) {
 void Assassin::onSpecialTouch(int touchId) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchId);
 	if(touch.phase == TouchPhase::Ended) {
-		this->targetedCell = SINGLETONS->GetGridManager()->TouchPositionToCell(touch.pos);
+		this->trySpecial(touchId);
+	}
+}
+
+void Assassin::trySpecial(int touchId) {
+	Touch touch = ENGINE->GetInput()->GetTouch(touchId);
+	GridCell* touchedCell = SINGLETONS->GetGridManager()->TouchPositionToCell(touch.pos);
+	if(SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(this->gridNavRef->GetCurrentCell(), touchedCell)) {//this->gridNavRef->CanReachDestination(touchedCell)) {
+		this->targetedCell = touchedCell;
 		this->startSpecial();
+	} else {
+		this->onSpecialEnd();
 	}
 }
 
