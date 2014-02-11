@@ -15,9 +15,6 @@
 
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 
-#define GOOD_TOUCH 0
-#define BAD_TOUCH  1
-
 #define TOUCH_SCALE_TIME .3f
 
 void playerUnitNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {

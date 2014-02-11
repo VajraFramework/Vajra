@@ -7,6 +7,9 @@
 #define THIEF_UNIT_H
 
 #include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
+
+#include <list>
+
 class GridCell;
 
 //[[COMPONENT]]//
@@ -26,12 +29,17 @@ protected:
 	virtual void trySpecial(int /* touchId */) {}
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
+
+	virtual void touchedCellChanged();
 private:
 	void init();
 	void destroy();
 	
+	void updateLegalTagets();
+
 	GridCell* targetedCell;
 
+	std::vector<GridCell*> legalTargets;
 	friend void thiefTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
 
 };

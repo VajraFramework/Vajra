@@ -17,6 +17,9 @@ class PlayerUnit : public BaseUnit {
 #define MOVE_SPEED 2.5f
 #define TURN_SPEED_DEG 360.0f
 #define NEAR_TOUCH_DIST 1.5f 
+	
+#define GOOD_TOUCH 0
+#define BAD_TOUCH  1
 
 public:
 	PlayerUnit();
