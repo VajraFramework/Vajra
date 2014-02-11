@@ -43,7 +43,7 @@ public:
 	float GetTrueDistanceBetweenCells(GridCell* startCell, GridCell* goalCell);
 
 	// Populates the list with all adjacent cells and returns the number of adjacent cells
-	void GetNeighborCells(std::list<GridCell*>& outNbrs, GridCell* cell, int range = 1);
+	void GetNeighborCells(std::list<GridCell*>& outNbrs, GridCell* cell, float range = 1.0f);
 
 	void AddGridRoom(int west, int south, int width, int height);
 
