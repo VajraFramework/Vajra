@@ -52,7 +52,7 @@ void Assassin::onSpecialTouch(int touchId) {
 	}
 }
 
-void Assassin::trySpecial(int touchId) {
+void Assassin::trySpecial(int /*touchId*/) {
 	if(this->targetedCell != nullptr && this->targetedCell != this->gridNavRef->GetCurrentCell()) {
 		this->startSpecial();
 	} else {

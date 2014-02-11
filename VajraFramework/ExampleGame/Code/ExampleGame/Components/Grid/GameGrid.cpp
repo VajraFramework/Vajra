@@ -222,8 +222,8 @@ void GameGrid::TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<G
 	else {
 		if (spanX > 0)  { xDirection =  1; }
 		else            { xDirection = -1; }
-		fracX = 0.0f;
 		incrX = (float)xDirection / spanX;
+		fracX = incrX * 0.5f;
 	}
 
 	int zDirection;
@@ -236,30 +236,32 @@ void GameGrid::TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<G
 	else {
 		if (spanZ > 0)  { zDirection =  1; }
 		else            { zDirection = -1; }
-		fracZ = 0.0f;
 		incrZ = (float)zDirection / spanZ;
+		fracZ = incrZ * 0.5f;
 	}
 
 	int xIndex = startCell->x;
 	int zIndex = startCell->z;
 
+	// Add the starting cell
+	outTouched.push_back(startCell);
 	while ((fracX < 1.0f) || (fracZ < 1.0f)) {
-		outTouched.push_back(this->gridCells[xIndex + xDirection][zIndex]);
-		outTouched.push_back(this->gridCells[xIndex][zIndex + zDirection]);
-
-		float diff = (fracZ + incrZ) - (fracX + incrX);
-		const float ERROR_MARGIN = 0.0001f;
+		float diff = fracZ - fracX;
 
 		// Find the next cell
-		if (diff > ERROR_MARGIN) {
+		if (diff > ROUNDING_ERROR) {
+			outTouched.push_back(this->gridCells[xIndex + xDirection][zIndex]);
 			xIndex += xDirection;
 			fracX += incrX;
 		}
-		else if (diff < -ERROR_MARGIN) {
+		else if (diff < -ROUNDING_ERROR) {
+			outTouched.push_back(this->gridCells[xIndex][zIndex + zDirection]);
 			zIndex += zDirection;
 			fracZ += incrZ;
 		}
 		else {
+			outTouched.push_back(this->gridCells[xIndex + xDirection][zIndex]);
+			outTouched.push_back(this->gridCells[xIndex][zIndex + zDirection]);
 			outTouched.push_back(this->gridCells[xIndex + xDirection][zIndex + zDirection]);
 			xIndex += xDirection;
 			zIndex += zDirection;
