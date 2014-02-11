@@ -16,7 +16,15 @@
 				<field>3.0f</field>
 			</property>
 			<property name="AddAnimationClip">
-				<field>animations/SD_Thief_mesh.skeletalanimation#jumping</field>
+				<field>animations/SD_Thief_mesh.skeletalanimation#special_posing</field>
+				<field>3.0f</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Thief_mesh.skeletalanimation#special_action</field>
+				<field>3.0f</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Thief_mesh.skeletalanimation#special_end</field>
 				<field>3.0f</field>
 			</property>
 			<property name="PlayAnimationClip">
