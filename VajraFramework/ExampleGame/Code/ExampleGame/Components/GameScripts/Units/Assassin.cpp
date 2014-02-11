@@ -76,11 +76,22 @@ void Assassin::touchedCellChanged() {
 	if(this->inputState == InputState::INPUT_STATE_NAV) {
 		PlayerUnit::touchedCellChanged();
 	} else {
-		if(this->gridNavRef->CanReachDestination(this->GetCurrentTouchedCell(), DASH_DISTANCE_IN_UNITS) && SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(this->gridNavRef->GetCurrentCell(), this->GetCurrentTouchedCell())) {//this->gridNavRef->CanReachDestination(touchedCell)) {
+		std::list<GridCell*> touchedCells;
+		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->gridNavRef->GetCurrentCell(), this->GetCurrentTouchedCell(), touchedCells);
+		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(this->gridNavRef->GetCurrentCell()->center.y);
+		
+		for( GridCell* c : touchedCells) {
+			if(SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, elevation)) {
+				this->targetedCell = c;
+			} else {
+				break;
+			}
+		}
+		/*if(this->gridNavRef->CanReachDestination(this->GetCurrentTouchedCell(), DASH_DISTANCE_IN_UNITS) && SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(this->gridNavRef->GetCurrentCell(), this->GetCurrentTouchedCell())) {//this->gridNavRef->CanReachDestination(touchedCell)) {
 			this->targetedCell = this->GetCurrentTouchedCell();
 		} else {
 			this->targetedCell = this->gridNavRef->GetCurrentCell();
-		}
+		}*/
 		this->GetTouchIndicator()->GetTransform()->SetPosition(this->targetedCell->center);
 		this->GetTouchIndicator()->GetTransform()->Translate(0.01f, YAXIS);
 	}
