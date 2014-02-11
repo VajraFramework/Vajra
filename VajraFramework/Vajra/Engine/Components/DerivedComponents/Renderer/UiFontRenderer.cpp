@@ -31,12 +31,7 @@ void UiFontRenderer::initTextToDisplay(std::string text, unsigned int /* width *
 	this->makeText();
 	this->initVbos();
 
-	// Now that we are renderable, add self to the render lists in the scene graph:
-	// TODO [Implement] Ensure type safety here
-	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
-	ASSERT(gameObject != nullptr, "GameObject not null");
-	ASSERT(gameObject->GetParentSceneGraph() != nullptr, "GameObject has been added to a scenegraph");
-	gameObject->GetParentSceneGraph()->AddGameObjectToRenderLists(gameObject);
+	Renderer::addToRenderList();
 }
 
 void UiFontRenderer::initVbos() {

@@ -26,7 +26,8 @@ public:
 	inline GameObject* GetRootGameObject() { return this->root; }
 
 	void AddGameObjectToRenderLists(GameObject* gameObject);
-
+	void RemoveGameObjectFromRenderLiset(GameObject* gameObject);
+	
 	Camera* GetMainCamera();
 	void SetMainCameraId(ObjectIdType id);
 

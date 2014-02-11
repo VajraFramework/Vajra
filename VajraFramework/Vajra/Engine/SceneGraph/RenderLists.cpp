@@ -107,6 +107,17 @@ void RenderLists::addGameObjectIdToRenderList(ObjectIdType id, std::string shade
 	FRAMEWORK->GetLogger()->dbglog("\nWARNING: Trying to add game object id %d to render list %s. No such shader render list", id, shaderName.c_str());
 }
 
+void RenderLists::removeGameObjectIdToRenderList(ObjectIdType id, std::string shaderName) {
+	for (RenderList* renderList : this->renderLists) {
+		if (renderList->GetShaderName() == shaderName) {
+			renderList->RemoveGameObjectId(id);
+			return;
+		}
+	}
+	FRAMEWORK->GetLogger()->dbglog("\nWARNING: Trying to remove game object id %d to render list %s. No such shader render list", id, shaderName.c_str());
+}
+
+
 void RenderLists::createRenderLists() {
 	ASSERT_LOG(this->renderLists.size() == 0, "Creating RenderLists for the first time");
 
