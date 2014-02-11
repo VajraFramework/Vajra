@@ -113,18 +113,29 @@ GridCell* GameGrid::GetCell(glm::vec3 loc) {
 	return GetCell(gX, gZ);
 }
 
-void GameGrid::GetNeighborCells(std::list<GridCell*>& outNbrs, GridCell* cell, int /*range= 1*/) {
-	if (this->isWithinGrid(cell->x - 1, cell->z)) {
-		outNbrs.push_back(this->gridCells[cell->x - 1][cell->z]);
-	}
-	if (this->isWithinGrid(cell->x + 1, cell->z)) {
-		outNbrs.push_back(this->gridCells[cell->x + 1][cell->z]);
-	}
-	if (this->isWithinGrid(cell->x, cell->z - 1)) {
-		outNbrs.push_back(this->gridCells[cell->x][cell->z - 1]);
-	}
-	if (this->isWithinGrid(cell->x, cell->z + 1)) {
-		outNbrs.push_back(this->gridCells[cell->x][cell->z + 1]);
+void GameGrid::GetNeighborCells(std::list<GridCell*>& outNbrs, GridCell* cell, float range/*= 1.0f*/) {
+	glm::vec3 startCenter = cell->center;
+
+	for (int i = 1; i <= (int)range; ++i) {
+		for (int j = 0; j <= (int)(range - i); ++j) {
+			glm::vec3 targetCenter = startCenter;
+			targetCenter.x += i;
+			targetCenter.z += j;
+			if (glm::distance(startCenter, targetCenter) < range) {
+				if (this->isWithinGrid(cell->x + i, cell->z + j)) {
+					outNbrs.push_back(this->gridCells[cell->x + i][cell->z + j]);
+				}
+				if (this->isWithinGrid(cell->x - j, cell->z + i)) {
+					outNbrs.push_back(this->gridCells[cell->x - j][cell->z + i]);
+				}
+				if (this->isWithinGrid(cell->x - i, cell->z - j)) {
+					outNbrs.push_back(this->gridCells[cell->x - i][cell->z - j]);
+				}
+				if (this->isWithinGrid(cell->x + j, cell->z - i)) {
+					outNbrs.push_back(this->gridCells[cell->x + j][cell->z - i]);
+				}
+			}
+		}
 	}
 }
 
