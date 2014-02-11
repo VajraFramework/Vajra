@@ -15,6 +15,8 @@
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #endif
 
+#include <cfloat>
+
 GameGrid::GameGrid(unsigned int spanX, unsigned int spanZ) {
 	this->init(spanX, spanZ);
 }
@@ -99,7 +101,11 @@ void GameGrid::destroy() {
 }
 
 int GameGrid::GetElevationFromWorldY(float worldY) {
-	return (int)floor((worldY / 2.0f) + 0.5f);
+	return (int)floor((worldY / ELEVATION_UNIT) + 0.5f);
+}
+
+float GameGrid::ConvertElevationToWorldY(unsigned int elevation) {
+	return elevation * ELEVATION_UNIT;
 }
 
 GridCell* GameGrid::GetCell(int x, int z) {
@@ -113,18 +119,77 @@ GridCell* GameGrid::GetCell(glm::vec3 loc) {
 	return GetCell(gX, gZ);
 }
 
-void GameGrid::GetNeighborCells(std::list<GridCell*>& outNbrs, GridCell* cell, int /*range= 1*/) {
-	if (this->isWithinGrid(cell->x - 1, cell->z)) {
-		outNbrs.push_back(this->gridCells[cell->x - 1][cell->z]);
+int GameGrid::GetCellDistanceBetweenCells(int startCellX, int startCellZ, int goalCellX, int goalCellZ) {
+	GridCell* startCell = GetCell(startCellX, startCellZ);
+	GridCell* goalCell = GetCell(goalCellX, goalCellZ);
+	return GetCellDistanceBetweenCells(startCell, goalCell);
+}
+
+int GameGrid::GetCellDistanceBetweenCells(GridCell* startCell, GridCell* goalCell) {
+	if ((startCell != nullptr) && (goalCell != nullptr)) {
+		int xDiff = abs(startCell->x - goalCell->x);
+		int zDiff = abs(startCell->z - goalCell->z);
+		return xDiff + zDiff;
 	}
-	if (this->isWithinGrid(cell->x + 1, cell->z)) {
-		outNbrs.push_back(this->gridCells[cell->x + 1][cell->z]);
+	// If either cell is null, the distance is undefined
+	return INT_MAX;
+}
+
+float GameGrid::GetGroundDistanceBetweenCells(int startCellX, int startCellZ, int goalCellX, int goalCellZ) {
+	GridCell* startCell = GetCell(startCellX, startCellZ);
+	GridCell* goalCell = GetCell(goalCellX, goalCellZ);
+	return GetGroundDistanceBetweenCells(startCell, goalCell);
+}
+
+float GameGrid::GetGroundDistanceBetweenCells(GridCell* startCell, GridCell* goalCell) {
+	if ((startCell != nullptr) && (goalCell != nullptr)) {
+		glm::vec3 startCenter = startCell->center;
+		glm::vec3 goalCenter = goalCell->center;
+		startCenter.y = 0.0f;
+		goalCenter.y = 0.0f;
+		return glm::distance(startCenter, goalCenter);
 	}
-	if (this->isWithinGrid(cell->x, cell->z - 1)) {
-		outNbrs.push_back(this->gridCells[cell->x][cell->z - 1]);
+	// If either cell is null, the distance is undefined
+	return FLT_MAX;
+}
+
+float GameGrid::GetTrueDistanceBetweenCells(int startCellX, int startCellZ, int goalCellX, int goalCellZ) {
+	GridCell* startCell = GetCell(startCellX, startCellZ);
+	GridCell* goalCell = GetCell(goalCellX, goalCellZ);
+	return GetTrueDistanceBetweenCells(startCell, goalCell);
+}
+
+float GameGrid::GetTrueDistanceBetweenCells(GridCell* startCell, GridCell* goalCell) {
+	if ((startCell != nullptr) && (goalCell != nullptr)) {
+		return glm::distance(startCell->center, goalCell->center);
 	}
-	if (this->isWithinGrid(cell->x, cell->z + 1)) {
-		outNbrs.push_back(this->gridCells[cell->x][cell->z + 1]);
+	// If either cell is null, the distance is undefined
+	return FLT_MAX;
+}
+
+void GameGrid::GetNeighborCells(std::list<GridCell*>& outNbrs, GridCell* cell, float range/*= 1.0f*/) {
+	glm::vec3 startCenter = cell->center;
+
+	for (int i = 1; i <= (int)range; ++i) {
+		for (int j = 0; j <= (int)(range - i); ++j) {
+			glm::vec3 targetCenter = startCenter;
+			targetCenter.x += i;
+			targetCenter.z += j;
+			if (glm::distance(startCenter, targetCenter) <= range) {
+				if (this->isWithinGrid(cell->x + i, cell->z + j)) {
+					outNbrs.push_back(this->gridCells[cell->x + i][cell->z + j]);
+				}
+				if (this->isWithinGrid(cell->x - j, cell->z + i)) {
+					outNbrs.push_back(this->gridCells[cell->x - j][cell->z + i]);
+				}
+				if (this->isWithinGrid(cell->x - i, cell->z - j)) {
+					outNbrs.push_back(this->gridCells[cell->x - i][cell->z - j]);
+				}
+				if (this->isWithinGrid(cell->x + j, cell->z - i)) {
+					outNbrs.push_back(this->gridCells[cell->x + j][cell->z - i]);
+				}
+			}
+		}
 	}
 }
 
@@ -368,8 +433,8 @@ void GameGrid::SetCellGroundLevel(int gridX, int gridZ, unsigned int elevation) 
 				}
 			}
 			cell->y = elevation;
-			cell->origin.y = elevation;
-			cell->center.y = elevation;
+			cell->origin.y = this->ConvertElevationToWorldY(elevation);
+			cell->center.y = this->ConvertElevationToWorldY(elevation);
 		}
 	}
 }
