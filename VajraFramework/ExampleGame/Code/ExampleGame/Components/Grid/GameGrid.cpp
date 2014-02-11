@@ -121,7 +121,7 @@ void GameGrid::GetNeighborCells(std::list<GridCell*>& outNbrs, GridCell* cell, f
 			glm::vec3 targetCenter = startCenter;
 			targetCenter.x += i;
 			targetCenter.z += j;
-			if (glm::distance(startCenter, targetCenter) < range) {
+			if (glm::distance(startCenter, targetCenter) <= range) {
 				if (this->isWithinGrid(cell->x + i, cell->z + j)) {
 					outNbrs.push_back(this->gridCells[cell->x + i][cell->z + j]);
 				}
@@ -288,6 +288,19 @@ bool GameGrid::Passable(GridCell* startCell, GridCell* goalCell) {
 }
 
 bool GameGrid::HasLineOfSight(GridCell* sourceCell, GridCell* targetCell) {
+	if (sourceCell != nullptr) {
+		return this->HasLineOfSight(sourceCell, targetCell, sourceCell->y);
+	}
+	return false;
+}
+
+bool GameGrid::HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ) {
+	GridCell* sourceCell = this->GetCell(sourceCellX, sourceCellZ);
+	GridCell* targetCell = this->GetCell(targetCellX, targetCellZ);
+	return this->HasLineOfSight(sourceCell, targetCell);
+}
+
+bool GameGrid::HasLineOfSight(GridCell* sourceCell, GridCell* targetCell, unsigned int elevation) {
 	// Make sure both cells exist
 	if ((sourceCell != nullptr) && (targetCell != nullptr)) {
 		// Check the cells along the path
@@ -295,10 +308,7 @@ bool GameGrid::HasLineOfSight(GridCell* sourceCell, GridCell* targetCell) {
 		this->TouchedCells(sourceCell, targetCell, touchedCells);
 
 		for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
-			if ((*iter)->y > sourceCell->y) {
-				return false;
-			}
-			if (!this->IsCellVisibleAtElevation(targetCell->x, targetCell->z, sourceCell->y)) {
+			if (!this->IsCellVisibleAtElevation(targetCell->x, targetCell->z, elevation)) {
 				return false;
 			}
 		}
@@ -308,10 +318,10 @@ bool GameGrid::HasLineOfSight(GridCell* sourceCell, GridCell* targetCell) {
 	return false;
 }
 
-bool GameGrid::HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ) {
+bool GameGrid::HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ, unsigned int elevation) {
 	GridCell* sourceCell = this->GetCell(sourceCellX, sourceCellZ);
 	GridCell* targetCell = this->GetCell(targetCellX, targetCellZ);
-	return this->HasLineOfSight(sourceCell, targetCell);
+	return this->HasLineOfSight(sourceCell, targetCell, elevation);
 }
 
 int GameGrid::GetCellGroundLevel(int gridX, int gridZ) {

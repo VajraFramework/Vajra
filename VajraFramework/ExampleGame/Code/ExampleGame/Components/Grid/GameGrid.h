@@ -55,6 +55,9 @@ public:
 	bool HasLineOfSight(GridCell* sourceCell, GridCell* targetCell);
 	bool HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ);
 
+	bool HasLineOfSight(GridCell* sourceCell, GridCell* targetCell, unsigned int elevation);
+	bool HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ, unsigned int elevation);
+
 	int GetCellGroundLevel(int gridX, int gridZ);
 	bool IsCellPassableAtElevation(int gridX, int gridZ, unsigned int elevation);
 	bool IsCellVisibleAtElevation(int gridX, int gridZ, unsigned int elevation);
