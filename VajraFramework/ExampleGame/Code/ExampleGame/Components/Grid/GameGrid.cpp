@@ -121,7 +121,7 @@ void GameGrid::GetNeighborCells(std::list<GridCell*>& outNbrs, GridCell* cell, f
 			glm::vec3 targetCenter = startCenter;
 			targetCenter.x += i;
 			targetCenter.z += j;
-			if (glm::distance(startCenter, targetCenter) < range) {
+			if (glm::distance(startCenter, targetCenter) <= range) {
 				if (this->isWithinGrid(cell->x + i, cell->z + j)) {
 					outNbrs.push_back(this->gridCells[cell->x + i][cell->z + j]);
 				}
