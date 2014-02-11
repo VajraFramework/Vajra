@@ -119,13 +119,17 @@ void Thief::updateLegalTagets() {
 															  JUMP_DISTANCE_IN_UNITS + elevation * JUMP_ELEVATION_MULTIPLIER);
 
 	for ( GridCell* c : cellsInRange) {
-		if(c->y < elevation) { // is the cell below it
-
-		} else if(c->y + 1 == elevation) { // Is the cell on the elevation the thief's elevation
-
-		} else if(c->y == elevation) { // is the cell on the same height
+		if(c->y == elevation) { // is the cell on the same height
 			if(this->gridNavRef->CanReachDestination(c, JUMP_DISTANCE_IN_UNITS) && SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(currentCell, c, elevation) ) {
 				this->legalTargets.push_back(c);
+			}
+		}
+		else if(c->y <= elevation + 1) { // is the cell below it
+			if(SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, c->y)) {
+				float dist = glm::distance(c->origin, currentCell->origin);
+				if(dist <= JUMP_DISTANCE_IN_UNITS + c->y * JUMP_ELEVATION_MULTIPLIER) {
+					this->legalTargets.push_back(c);
+				}
 			}
 		}
 	}
