@@ -5,17 +5,18 @@
 
 #include <string>
 
-#define RESOURCES_FOLDER_NAME_PICTURES   "pictures/"
-#define RESOURCES_FOLDER_NAME_SHADERS    "shaders/"
-#define RESOURCES_FOLDER_NAME_MODELS     "models/"
-#define RESOURCES_FOLDER_NAME_ARMATURES  "armatures/"
-#define RESOURCES_FOLDER_NAME_ANIMATIONS "animations/"
-#define RESOURCES_FOLDER_NAME_AUDIO      "audio/"
-#define RESOURCES_FOLDER_NAME_LOGGING    "logging/"
-#define RESOURCES_FOLDER_NAME_FONTS      "fonts/"
-#define RESOURCES_FOLDER_NAME_UISCENES   "uiscenes/"
-#define RESOURCES_FOLDER_NAME_PREFABS    "prefabs/"
-#define RESOURCES_FOLDER_NAME_TAGS       "tags/"
+#define RESOURCES_FOLDER_NAME_PICTURES            "pictures/"
+#define RESOURCES_FOLDER_NAME_SHADERS             "shaders/"
+#define RESOURCES_FOLDER_NAME_MODELS              "models/"
+#define RESOURCES_FOLDER_NAME_ARMATURES           "armatures/"
+#define RESOURCES_FOLDER_NAME_ANIMATIONS          "animations/"
+#define RESOURCES_FOLDER_NAME_AUDIO               "audio/"
+#define RESOURCES_FOLDER_NAME_LOGGING             "logging/"
+#define RESOURCES_FOLDER_NAME_FONTS               "fonts/"
+#define RESOURCES_FOLDER_NAME_UISCENES            "uiscenes/"
+#define RESOURCES_FOLDER_NAME_PREFABS             "prefabs/"
+#define RESOURCES_FOLDER_NAME_TAGS                "tags/"
+#define RESOURCES_FOLDER_NAME_CONSTANTS           "gameconstants/"
 
 class FileSystemUtils : public Object {
 public:
@@ -32,6 +33,7 @@ public:
     inline const std::string GetDeviceUiScenesResourcesFolderName()  const { return RESOURCES_FOLDER_NAME_UISCENES;   }
     inline const std::string GetDevicePrefabsResourcesFolderName()   const { return RESOURCES_FOLDER_NAME_PREFABS;    }
     inline const std::string GetDevicePrefabsTagsFolderName()        const { return RESOURCES_FOLDER_NAME_TAGS;       }
+    inline const std::string GetDevicePrefabsConstantsFolderName()   const { return RESOURCES_FOLDER_NAME_CONSTANTS;  }
     
     inline const std::string GetDeviceBaseResourcesPath()      const { return this->deviceBaseResourcesPath;          }
     inline const std::string GetDevicePictureResourcesPath()   const { return this->devicePictureResourcesPath;       }
@@ -45,6 +47,7 @@ public:
     inline const std::string GetDeviceUiScenesResourcesPath()  const { return this->deviceUiScenesResourcesPath;      }
     inline const std::string GetDevicePrefabsResourcesPath()   const { return this->devicePrefabsResourcesPath;       }
     inline const std::string GetDeviceTagsResourcesPath()      const { return this->deviceTagsResourcesPath;          }
+    inline const std::string GetDeviceConstantsResourcesPath() const { return this->deviceConstantsResourcesPath;     }
     
 private:
     FileSystemUtils();
@@ -63,6 +66,7 @@ private:
     std::string deviceUiScenesResourcesPath;
     std::string devicePrefabsResourcesPath;
     std::string deviceTagsResourcesPath;
+    std::string deviceConstantsResourcesPath;
     
     friend class Framework;
 };

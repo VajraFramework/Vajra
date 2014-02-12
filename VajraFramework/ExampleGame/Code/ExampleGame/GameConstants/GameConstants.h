@@ -21,7 +21,16 @@ enum GameConstantId_type {
 	GAME_CONSTANT_swipe_dist_in_pixels,
 	GAME_CONSTANT_swipe_duration_in_seconds,
 };
+
+extern std::map<std::string, GameConstantId_type> gameConstantNameToId;
+//
+extern std::map<GameConstantId_type, float>       gameConstants_float;
+extern std::map<GameConstantId_type, int>         gameConstants_int;
+extern std::map<GameConstantId_type, std::string> gameConstants_string;
+extern std::map<GameConstantId_type, bool>        gameConstants_bool;
+
 void InitGameConstants();
+void ReadInGameConstants();
 
 float       GetFloatGameConstant(GameConstantId_type gameConstatnId);
 int         GetIntGameConstant(GameConstantId_type gameConstatnId);

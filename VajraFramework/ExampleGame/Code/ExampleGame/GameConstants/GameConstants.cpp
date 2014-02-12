@@ -1,6 +1,8 @@
 #include "ExampleGame/GameConstants/GameConstants.h"
 #include "Vajra/Utilities/Utilities.h"
 
+std::map<std::string, GameConstantId_type> gameConstantNameToId;
+//
 std::map<GameConstantId_type, float>       gameConstants_float;
 std::map<GameConstantId_type, int>         gameConstants_int;
 std::map<GameConstantId_type, std::string> gameConstants_string;
@@ -8,16 +10,18 @@ std::map<GameConstantId_type, bool>        gameConstants_bool;
 
 void InitGameConstants() {
 
-	gameConstants_float[GAME_CONSTANT_camSpeed] = 15.0f;
-	gameConstants_float[GAME_CONSTANT_door_close_time] = 2.0f;
-	gameConstants_string[GAME_CONSTANT_ghostName] = "annabelle";
-	gameConstants_bool[GAME_CONSTANT_someBoolVariable] = true;
-	gameConstants_int[GAME_CONSTANT_someIntVariable] = 88;
-	gameConstants_float[GAME_CONSTANT_allowed_finger_movement_in_press] = 10.0f;
-	gameConstants_float[GAME_CONSTANT_long_press_length_in_seconds] = 0.5f;
-	gameConstants_float[GAME_CONSTANT_assassin_attack_speed] = 10.0f;
-	gameConstants_float[GAME_CONSTANT_swipe_dist_in_pixels] = 50.0f;
-	gameConstants_float[GAME_CONSTANT_swipe_duration_in_seconds] = 1.0f;
+	gameConstantNameToId["camSpeed"] = GAME_CONSTANT_camSpeed;
+	gameConstantNameToId["door_close_time"] = GAME_CONSTANT_door_close_time;
+	gameConstantNameToId["ghostName"] = GAME_CONSTANT_ghostName;
+	gameConstantNameToId["someBoolVariable"] = GAME_CONSTANT_someBoolVariable;
+	gameConstantNameToId["someIntVariable"] = GAME_CONSTANT_someIntVariable;
+	gameConstantNameToId["allowed_finger_movement_in_press"] = GAME_CONSTANT_allowed_finger_movement_in_press;
+	gameConstantNameToId["long_press_length_in_seconds"] = GAME_CONSTANT_long_press_length_in_seconds;
+	gameConstantNameToId["assassin_attack_speed"] = GAME_CONSTANT_assassin_attack_speed;
+	gameConstantNameToId["swipe_dist_in_pixels"] = GAME_CONSTANT_swipe_dist_in_pixels;
+	gameConstantNameToId["swipe_duration_in_seconds"] = GAME_CONSTANT_swipe_duration_in_seconds;
+
+	ReadInGameConstants();
 }
 
 float GetFloatGameConstant(GameConstantId_type gameConstantId) {

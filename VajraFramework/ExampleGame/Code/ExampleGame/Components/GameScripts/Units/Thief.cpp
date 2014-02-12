@@ -23,7 +23,7 @@ void thiefTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName
 			pUnit->onSpecialEnd();
 		}
 	}
-	
+
 }
 
 Thief::Thief() : PlayerUnit() {
