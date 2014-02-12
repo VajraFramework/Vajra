@@ -129,12 +129,18 @@ void PlayerUnit::onSelectedTouch() {
 
 void PlayerUnit::startSpecial() {
 	this->performingSpecial = true;
+	this->SwitchActionState(UNIT_ACTION_STATE_DOING_SPECIAL);
 }
 
 void PlayerUnit::onSpecialEnd() {
 	this->performingSpecial = false;
 	this->inputState = InputState::INPUT_STATE_WAIT;
+	this->SwitchActionState(UNIT_ACTION_STATE_POST_SPECIAL);
 	touchIndicator->SetVisible(false);
+}
+
+void PlayerUnit::onSpecialCancelled() {
+	PlayerUnit::onSpecialEnd();
 }
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	
@@ -143,6 +149,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 		this->gridNavRef->StopNavigation();
 		this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(BAD_TOUCH);
 		this->onSpecialTouch(touchId);
+		this->SwitchActionState(UNIT_ACTION_STATE_PRE_SPECIAL);
 	} else {
 		switch(ENGINE->GetInput()->GetTouch(touchId).phase) {
 			case TouchPhase::Began:

@@ -263,6 +263,7 @@ void GridNavigator::updateFacing() {
 	}
 
 	float angle = glm::angle(this->targetForward, trans->GetForward());
+
 	glm::vec3 axis = YAXIS;
 	if (angle < PI) {
 		axis = glm::cross(trans->GetForward(), this->targetForward);

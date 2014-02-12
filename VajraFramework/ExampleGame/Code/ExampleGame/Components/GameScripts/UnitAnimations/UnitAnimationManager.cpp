@@ -49,9 +49,17 @@ void UnitAnimationManager::onUnitActionStateChanged(UnitActionState oldState, Un
 		animclipToPlay = UNIT_ANIMATION_CLIP_NAME_walking;
 	} break;
 
+	case UNIT_ACTION_STATE_PRE_SPECIAL: {
+		animclipToPlay = UNIT_ANIMATION_CLIP_NAME_prespecial;
+	} break;
+	
 	case UNIT_ACTION_STATE_DOING_SPECIAL: {
 		animclipToPlay = UNIT_ANIMATION_CLIP_NAME_doingspecial;
 	} break;
+		
+	case UNIT_ACTION_STATE_POST_SPECIAL: {
+		animclipToPlay = UNIT_ANIMATION_CLIP_NAME_postspecial;
+	} break;	
 
 	default: {
 		ASSERT(0, "Valid unit action state %d", newState);
