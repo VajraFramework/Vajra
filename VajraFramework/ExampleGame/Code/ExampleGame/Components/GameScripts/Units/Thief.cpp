@@ -85,7 +85,6 @@ void Thief::onSpecialTouch(int touchId) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchId);
 	if(touch.phase == TouchPhase::Ended) {
 		this->targetedCell = SINGLETONS->GetGridManager()->TouchPositionToCell(touch.pos);
-		// TODO [HACK] Remove when the thief can gather legal targets
 		if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
 			this->startSpecial();
 		} else {
