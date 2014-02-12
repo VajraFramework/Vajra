@@ -61,12 +61,15 @@ public:
 	GridZone* GetZone(glm::vec3 worldPosition);  // Returns the first zone the cell at the specified world position resides in
 	GridZone* GetZone(GridCell* cell);           // Returns the first zone the specified cell resides in
 
-	void TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outTouched);
+	void TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outTouched); 
 
 	bool Passable(GridCell* startCell, GridCell* goalCell);
 
 	bool HasLineOfSight(GridCell* sourceCell, GridCell* targetCell);
 	bool HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ);
+
+	bool HasLineOfSight(GridCell* sourceCell, GridCell* targetCell, unsigned int elevation);
+	bool HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ, unsigned int elevation);
 
 	int GetCellGroundLevel(int gridX, int gridZ);
 	bool IsCellPassableAtElevation(int gridX, int gridZ, unsigned int elevation);

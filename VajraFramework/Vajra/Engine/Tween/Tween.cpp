@@ -353,25 +353,9 @@ bool OnGoingTransformTweenDetails::StepTween(float deltaTime) {
 		return true;
 
 	} else {
-
-		FRAMEWORK->GetLogger()->dbglog("Did not find game object (%d) on which to apply tween, probably because it was deleted. Canceling the tween", this->gameObjectId);
-		switch (this->tweenTarget) {
-		case TRANSFORM_TWEEN_TARGET_POSITION: {
-			ENGINE->GetTween()->CancelPostitionTween(this->gameObjectId);
-		} break;
-
-		case TRANSFORM_TWEEN_TARGET_ORIENTATION: {
-			ENGINE->GetTween()->CancelOrientationTween(this->gameObjectId);
-		} break;
-
-		case TRANSFORM_TWEEN_TARGET_SCALE: {
-			ENGINE->GetTween()->CancelScaleTween(this->gameObjectId);
-		} break;
-
-		default: {
-		} break;
-
-		}
+		
+		// Did not find game object on which to apply tween, probably because it was deleted. Have the tween canceled.
+		return false;
 	}
 
 	return false;

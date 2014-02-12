@@ -114,35 +114,35 @@ int TestFuntion() {
 	}
 
 	{
-#if 1
+#if 0
 		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
 							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "test.prefab",
 						   	     	 ENGINE->GetSceneGraph3D());
 #endif
 	}
 	{
-#if 1
+#if 0
 		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
 							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "fire_0.prefab",
 						   	     	 ENGINE->GetSceneGraph3D());
 #endif
 	}
 	{
-#if 1
+#if 0
 		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
 							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "fire_1.prefab",
 						   	     	 ENGINE->GetSceneGraph3D());
 #endif
 	}
 	{
-#if 1
+#if 0
 		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
 							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "fire_2.prefab",
 						   	     	 ENGINE->GetSceneGraph3D());
 #endif
 	}
 	{
-#if 1
+#if 0
 		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
 							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "fire_3.prefab",
 						   	     	 ENGINE->GetSceneGraph3D());

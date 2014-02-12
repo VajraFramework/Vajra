@@ -72,12 +72,7 @@ void SpriteRenderer::initPlane(unsigned int width, unsigned int height, std::str
 		}
 	}
 
-	// Now that we are renderable, add self to the render lists in the scene graph:
-	// TODO [Implement] Ensure type safety here
-	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
-	ASSERT(gameObject != nullptr, "GameObject not null");
-	ASSERT(gameObject->GetParentSceneGraph() != nullptr, "GameObject has been added to a scenegraph");
-	gameObject->GetParentSceneGraph()->AddGameObjectToRenderLists(gameObject);
+	Renderer::addToRenderList();
 }
 
 void SpriteRenderer::initVbos() {

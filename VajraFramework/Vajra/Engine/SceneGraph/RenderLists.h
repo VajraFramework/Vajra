@@ -25,6 +25,7 @@ private:
 	void destroy();
 
 	void addGameObjectIdToRenderList(ObjectIdType id, std::string shaderName);
+	void removeGameObjectIdToRenderList(ObjectIdType id, std::string shaderName);
 
 	// Utility Functions:
 	void createRenderLists();

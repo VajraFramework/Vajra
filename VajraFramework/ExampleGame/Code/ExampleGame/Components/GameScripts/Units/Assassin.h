@@ -23,8 +23,11 @@ protected:
 	virtual bool isSpecialTouch(int /* touchId */);
 	virtual void onSpecialTouch(int /* touchId */);
 
+	virtual void trySpecial(int /* touchId */ );
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
+
+	virtual void touchedCellChanged(GridCell* prevTouchedCell);
 private:
 	void init();
 	void destroy();
