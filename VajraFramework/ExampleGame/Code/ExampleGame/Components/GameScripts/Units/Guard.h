@@ -6,7 +6,7 @@
 #ifndef GUARD_H
 #define GUARD_H
 
-#include "ExampleGame/Components/GamEScripts/Units/EnemyUnit.h"
+#include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
 
 #include <list>
 
