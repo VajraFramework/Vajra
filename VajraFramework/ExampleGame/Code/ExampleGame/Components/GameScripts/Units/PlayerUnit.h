@@ -47,12 +47,12 @@ protected:
 	virtual void onSpecialEnd();
 	virtual void touchedCellChanged(GridCell* prevTouchedCell);
 
-	void startTouchIndicatorPulse();
-
 	InputState inputState;
 
 	glm::vec2 touchStartPos;
 
+
+	void startTouchIndicatorPulse();
 	void SetTouchIndicatorSprite(int /*index*/ );
 	void SetTouchIndicatorCell(GridCell*);
 	void SetTouchIndicatorVisible(bool /*visibilty*/);

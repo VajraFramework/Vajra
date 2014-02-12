@@ -60,6 +60,7 @@ void Assassin::startSpecial() {
 	PlayerUnit::startSpecial();
 	this->gridNavRef->SetMovementSpeed(GetFloatGameConstant(GAME_CONSTANT_assassin_attack_speed));
 	this->gridNavRef->SetDestination(this->targetedCell->x, this->targetedCell->z);
+	this->startTouchIndicatorPulse();
 }
 
 void Assassin::onSpecialEnd() {

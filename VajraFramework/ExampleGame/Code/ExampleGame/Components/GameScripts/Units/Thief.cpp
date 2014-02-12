@@ -55,7 +55,7 @@ void thiefNumberTweenCallback(float /* fromNumber */, float /* toNumber */, floa
 #define JUMP_ELEVATION_MULTIPLIER 2
 #define TARGET_TWEEN_TIME .25f
 #define TARGET_INDICATOR_OFFSET glm::vec3(0.0f, 0.5f, 0.0f)
-#define TARGET_INDICATOR_SCALE glm::vec3(.9f, .9f, .9f)
+#define TARGET_INDICATOR_SCALE glm::vec3(.8f, .8f, .8f)
 #define TARGET_INDICATOR_SCALE_HOVER glm::vec3 (1.1f, 1.1f, 1.1f)
 
 Thief::Thief() : PlayerUnit() {
