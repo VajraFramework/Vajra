@@ -93,7 +93,7 @@ namespace Tesserakonteres {
 			GameObject* gameObject = new GameObject(ENGINE->GetSceneGraph3D());
 			ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(gameObject->GetId());
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
-			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "SD_Thief_mesh.model");
+			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "SD_Guard_mesh.model");
 			BakedSkeletalAnimation* bakedSkeletalAnimation = gameObject->AddComponent<BakedSkeletalAnimation>();
 			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Thief_mesh.skeletalanimation#idle", 1.0f);
 			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Thief_mesh.skeletalanimation#walking", 1.0f);

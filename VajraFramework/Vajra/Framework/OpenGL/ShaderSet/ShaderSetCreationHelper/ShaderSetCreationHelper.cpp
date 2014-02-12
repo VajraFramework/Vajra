@@ -114,7 +114,7 @@ std::string CleanupShaderSourceForPreprocessorDirectives(std::string shaderSourc
 	std::string line;
 	while (iss.good()) {
 		std::getline(iss, line);
-		if (line.find("#") == std::string::npos) {
+		if (line.find("#") == std::string::npos || line.find("version") != std::string::npos) {
 			if (ifdefs.top()) {
 				cleanedupShaderSource += line + "\n";
 			}

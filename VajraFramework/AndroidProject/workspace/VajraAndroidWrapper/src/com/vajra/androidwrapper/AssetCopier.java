@@ -31,6 +31,7 @@ public class AssetCopier {
 				"pictures",
 				"prefabs",
 				"shaders",
+				"tags",
 				"uiscenes",
 		};
 		for (String path : paths) {

@@ -89,7 +89,35 @@ void LevelLoader::loadStaticDataFromXml(XmlNode* staticNode) {
 		SINGLETONS->GetGridManager()->placeStaticObjectOnGrid(staticObj->GetId(), westBound, southBound, objWidth, objHeight);
 
 		// Position and orient the object.
-		staticObj->GetTransform()->Translate(yPosition, YAXIS);
+		float xOffset, zOffset;
+		//xOffset = (objWidth - 1) / 2.0f;
+		//zOffset = (1 - objHeight) / 2.0f;
+		/*while (rotation < 0.0f) { rotation += 2 * PI; }
+		while (rotation > (2 * PI)) { rotation -= 2 * PI; }
+		if (rotation < (PI * 0.25f)) {
+			*/xOffset = 0.0f;
+			zOffset = 0.0f;
+		/*}
+		else if (rotation < (PI * 0.75f)) {
+			xOffset = objWidth - 1;
+			zOffset = 0.0f;
+		}
+		else if (rotation < (PI * 1.25f)) {
+			xOffset = objWidth - 1;
+			zOffset = 1 - objHeight;
+		}
+		else if (rotation < (PI * 1.75f)) {
+			xOffset = 0.0f;
+			zOffset = 1 - objHeight;
+		}
+		else {
+			xOffset = 0.0f;
+			zOffset = 0.0f;
+		}*/
+
+		staticObj->GetTransform()->Translate(xOffset, yPosition, zOffset);
+		//staticObj->GetTransform()->SetPosition(ZERO_VEC3);
+		//staticObj->GetTransform()->Translate(yPosition, YAXIS);
 		staticObj->GetTransform()->SetOrientation(rotation, YAXIS);
 
 		staticObjNode = staticObjNode->GetNextSiblingByNodeName(STATIC_OBJECT_TAG);

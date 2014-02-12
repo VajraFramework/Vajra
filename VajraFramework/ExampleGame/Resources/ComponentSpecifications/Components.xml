@@ -74,6 +74,9 @@
 		</property>
 	</component>
 	
+	<component name="ParticleSystemRenderer" includePath="Vajra/Engine/Components/DerivedComponents/Renderer/ParticleSystemRenderer.h">
+	</component>
+	
 	<component name="Transform" includePath="Vajra/Engine/Components/DerivedComponents/Transform/Transform.h">
 		<property name="SetPosition">
 			<field name="x" datatype="float"></field>
@@ -109,6 +112,67 @@
 			<field name="point_x" datatype="float"></field>
 			<field name="point_y" datatype="float"></field>
 			<field name="point_z" datatype="float"></field>
+		</property>
+	</component>
+	
+	<component name="ParticleSystem" includePath="Vajra/Engine/ParticleSystems/ParticleSystem.h">
+		<property name="SetNumberOfParticles">
+			<field name="numParticlesPerSecond_" datatype="unsigned int"></field>
+			<field name="maxNumParticles" datatype="unsigned int"></field>
+		</property>
+		<property name="SetParticleSpeed">
+			<field name="particleInitialSpeed" datatype="float"></field>
+			<field name="particleFinalSpeed" datatype="float"></field>
+		</property>
+		<property name="SetParticleSize">
+			<field name="initialParticleSizePixels" datatype="float"></field>
+			<field name="finalParticleSizePixels" datatype="float"></field>
+		</property>
+		<property name="SetParticleLifespan">
+			<field name="particleLifespanInSeconds" datatype="float"></field>
+		</property>
+		<property name="SetParticleTexture">
+			<field name="pathToTexture_" datatype="std::string"></field>
+		</property>
+		<property name="SetParticleInitialColor">
+			<field name="r" datatype="float"></field>
+			<field name="g" datatype="float"></field>
+			<field name="b" datatype="float"></field>
+			<field name="a" datatype="float"></field>
+		</property>
+		<property name="SetParticleFinalColor">
+			<field name="r" datatype="float"></field>
+			<field name="g" datatype="float"></field>
+			<field name="b" datatype="float"></field>
+			<field name="a" datatype="float"></field>
+		</property>
+		<property name="SetParticleVelocityDirection">
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="SetParticleVelocityDirectionRandomness">
+			<field name="randomness" datatype="float"></field>
+		</property>
+		<property name="SetAccelerationAmount">
+			<field name="accelerationAmount_" datatype="float"></field>
+		</property>
+		<property name="SetAccelerationDirection">
+			<field name="x" datatype="float"></field>
+			<field name="y" datatype="float"></field>
+			<field name="z" datatype="float"></field>
+		</property>
+		<property name="SetName">
+			<field name="name_" datatype="std::string"></field>
+		</property>
+		<property name="InitParticleSystem">
+		</property>
+		<property name="Play">
+		</property>
+		<property name="Pause">
+		</property>
+		<property name="SetLooping">
+			<field name="looping" datatype="bool"></field>
 		</property>
 	</component>
 	

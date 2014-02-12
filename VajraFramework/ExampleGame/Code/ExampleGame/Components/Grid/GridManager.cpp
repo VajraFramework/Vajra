@@ -167,7 +167,7 @@ void GridManager::loadGridDataFromXml(XmlNode* gridNode) {
 	}
 
 	// Eventually this needs to be a list from highest to lowest.
-	this->gridPlane.origin = this->grid->GetCell(0, 0)->center;
+	this->gridPlane.origin = ZERO_VEC3;
 }
 
 void GridManager::loadCellDataFromXml(XmlNode* cellDataNode) {
@@ -240,13 +240,14 @@ void GridManager::loadRoomDataFromXml(XmlNode* roomDataNode) {
 }
 
 void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height) {
-	int eastBound = westBound + width - 1;
-	int northBound = southBound + height - 1;
+	//int eastBound = westBound + width - 1;
+	//int northBound = southBound + height - 1;
 
 	// Set the object's position in the world.
 	GameObject* staticObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
-	staticObj->GetTransform()->SetPosition(westBound + (width - 1) / 2.0f, 0.0f, -(southBound + (height - 1) / 2.0f));
-
+	//staticObj->GetTransform()->SetPosition(westBound + (width - 1) / 2.0f, 0.0f, -(southBound + (height - 1) / 2.0f));
+	staticObj->GetTransform()->SetPosition(westBound, 0.0f, -southBound);
+/*
 	// Make sure that the object lies entirely within the grid boundaries.
 	GridCell* swCornerCell = this->grid->GetCell(westBound, southBound);
 	GridCell* neCornerCell = this->grid->GetCell(eastBound, northBound);
@@ -259,7 +260,7 @@ void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int so
 		for (int j = southBound; j <= northBound; ++j) {
 			this->grid->GetCell(i, j)->staticObjs.push_back(id);
 		}
-	}
+	}*/
 }
 
 void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {

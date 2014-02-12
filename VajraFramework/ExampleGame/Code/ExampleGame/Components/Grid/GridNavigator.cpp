@@ -378,12 +378,12 @@ float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std:
 
 float GridNavigator::travelCostEstimate(GridCell* startCell, GridCell* goalCell) {
 	// Just return the vector distance between the two cells
-	return glm::distance(startCell->center, goalCell->center);
+	return SINGLETONS->GetGridManager()->GetGrid()->GetGroundDistanceBetweenCells(startCell, goalCell);
 }
 
 float GridNavigator::actualTravelCost(GridCell* startCell, GridCell* goalCell) {
 	// The travel cost is the vector distance between the two cells
-	return glm::distance(startCell->center, goalCell->center);
+	return SINGLETONS->GetGridManager()->GetGrid()->GetGroundDistanceBetweenCells(startCell, goalCell);
 }
 
 void GridNavigator::simplifyPath(std::list<GridCell*>& outPath) {
