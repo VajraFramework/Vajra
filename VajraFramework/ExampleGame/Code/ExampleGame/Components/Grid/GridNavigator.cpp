@@ -432,6 +432,5 @@ void GridNavigator::SetIsTraveling(bool isTraveling_) {
 
 		BaseUnit* thisBaseUnit = this->gameObjectRef->GetComponent<BaseUnit>();
 		VERIFY(thisBaseUnit != nullptr, "Grid navigator's parent game object has a BaseUnit component");
-		thisBaseUnit->SwitchActionState(isTraveling_ ? UNIT_ACTION_STATE_WALKING : UNIT_ACTION_STATE_IDLE);
 	}
 }

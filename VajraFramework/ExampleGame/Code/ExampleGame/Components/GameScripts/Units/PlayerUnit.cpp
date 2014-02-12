@@ -67,6 +67,9 @@ void PlayerUnit::init() {
 	this->touchIndicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 
 	this->currentTouchedCell = NULL;
+
+
+	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 }
 
 void PlayerUnit::destroy() {
@@ -80,6 +83,7 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 			if(this->performingSpecial) {
 				onSpecialEnd();
 			}  else {
+				this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 				ENGINE->GetTween()->CancelNumberTween("pulse");
 				ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), this->touchIndicator->GetTransform()->GetScale(), glm::vec3(0), TOUCH_SCALE_TIME);
 			}
@@ -164,6 +168,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 			case TouchPhase::Ended:
 				this->currentTouchedCell = nullptr;
 				this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
+				this->SwitchActionState(UNIT_ACTION_STATE_WALKING);
 				this->startTouchIndicatorPulse();
 				break;
 			case TouchPhase::Cancelled:
