@@ -206,6 +206,23 @@ void GridManager::loadCellDataFromXml(XmlNode* cellDataNode) {
 			}
 		}
 	}
+
+	// Visible cells
+	XmlNode* visibleNode = cellDataNode->GetFirstChildByNodeName(VISIBLE_CELLS_TAG);
+	if (visibleNode != nullptr) {
+		std::stringstream dataStream;
+		dataStream.str(visibleNode->GetValue());
+		for (int i = (int)this->grid->GetGridHeight() - 1; i >= 0; --i) {
+			for (unsigned int j = 0; j < this->grid->GetGridWidth(); ++j) {
+				int passInt;
+				dataStream >> passInt;
+				bool canPass = (passInt == 1);
+
+				GridCell* cell = this->grid->GetCell(j, i);
+				this->grid->SetCellVisibleAtElevation(j, i, cell->y, canPass);
+			}
+		}
+	}
 }
 
 void GridManager::loadRoomDataFromXml(XmlNode* roomDataNode) {
@@ -222,14 +239,15 @@ void GridManager::loadRoomDataFromXml(XmlNode* roomDataNode) {
 	}
 }
 
-void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height) {
-	int eastBound = westBound + width - 1;
-	int northBound = southBound + height - 1;
+void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int /*width*/, int /*height*/) {
+	//int eastBound = westBound + width - 1;
+	//int northBound = southBound + height - 1;
 
 	// Set the object's position in the world.
 	GameObject* staticObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
-	staticObj->GetTransform()->SetPosition(westBound + (width - 1) / 2.0f, 0.0f, -(southBound + (height - 1) / 2.0f));
-
+	//staticObj->GetTransform()->SetPosition(westBound + (width - 1) / 2.0f, 0.0f, -(southBound + (height - 1) / 2.0f));
+	staticObj->GetTransform()->SetPosition(westBound, 0.0f, -southBound);
+/*
 	// Make sure that the object lies entirely within the grid boundaries.
 	GridCell* swCornerCell = this->grid->GetCell(westBound, southBound);
 	GridCell* neCornerCell = this->grid->GetCell(eastBound, northBound);
@@ -242,7 +260,7 @@ void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int so
 		for (int j = southBound; j <= northBound; ++j) {
 			this->grid->GetCell(i, j)->staticObjs.push_back(id);
 		}
-	}
+	}*/
 }
 
 void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {

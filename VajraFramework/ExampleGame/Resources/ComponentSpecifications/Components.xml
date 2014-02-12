@@ -68,9 +68,6 @@
 		</property>
 	</component>
 	
-	<component name="ParticleSystemRenderer" includePath="Vajra/Engine/Components/DerivedComponents/Renderer/ParticleSystemRenderer.h">
-	</component>
-	
 	<component name="MeshRenderer" includePath="Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h">
 		<property name="InitMesh">
 			<field name="urlOfMesh" datatype="std::string"></field>
@@ -173,12 +170,6 @@
 		</property>
 		<property name="SetLooping">
 			<field name="looping" datatype="bool"></field>
-		</property>
-	</component>
-	
-	<component name="LevelManager" includePath="ExampleGame/Components/LevelManager/LevelManager.h">
-		<property name="LoadLevelFromFile">
-			<field name="levelFilename" datatype="std::string"></field>
 		</property>
 	</component>
 	

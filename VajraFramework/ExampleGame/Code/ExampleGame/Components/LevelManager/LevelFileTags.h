@@ -10,6 +10,7 @@
 #define CELL_DATA_TAG         "cellData"
 #define CELL_ELEVATIONS_TAG   "cellElevations"
 #define PASSABLE_CELLS_TAG    "passableCells"
+#define VISIBLE_CELLS_TAG     "visibleCells"
 #define ROOM_DATA_TAG         "roomData"
 #define ROOM_TAG              "room"
 //#define ZONE_DATA_TAG         "zoneData"

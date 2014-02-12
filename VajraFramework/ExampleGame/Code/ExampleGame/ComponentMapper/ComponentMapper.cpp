@@ -7,11 +7,11 @@
 #include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/ParticleSystemRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
-#include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiKnowledge.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiPerception.h"
@@ -67,12 +67,6 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
-	if (componentName == "ParticleSystemRenderer") {
-		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
-		if (component == nullptr) { component = gameObject->AddComponent<ParticleSystemRenderer>(); }
-		return component;
-	}
-	
 	if (componentName == "MeshRenderer") {
 		MeshRenderer* component = gameObject->GetComponent<MeshRenderer>();
 		if (component == nullptr) { component = gameObject->AddComponent<MeshRenderer>(); }
@@ -88,12 +82,6 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "ParticleSystem") {
 		ParticleSystem* component = gameObject->GetComponent<ParticleSystem>();
 		if (component == nullptr) { component = gameObject->AddComponent<ParticleSystem>(); }
-		return component;
-	}
-	
-	if (componentName == "LevelManager") {
-		LevelManager* component = gameObject->GetComponent<LevelManager>();
-		if (component == nullptr) { component = gameObject->AddComponent<LevelManager>(); }
 		return component;
 	}
 	
@@ -289,12 +277,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
-	if (componentName == "ParticleSystemRenderer") {
-		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
-		if (component == nullptr) { return; }
-		return;
-	}
-	
 	if (componentName == "MeshRenderer") {
 		MeshRenderer* component = gameObject->GetComponent<MeshRenderer>();
 		if (component == nullptr) { return; }
@@ -428,17 +410,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetLooping") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetLooping(StringUtilities::ConvertStringToBool(argv[0]));
-			return;
-		}
-		return;
-	}
-	
-	if (componentName == "LevelManager") {
-		LevelManager* component = gameObject->GetComponent<LevelManager>();
-		if (component == nullptr) { return; }
-		if (propertyName == "LoadLevelFromFile") {
-			if ((int)argv.size() < 1) { return; }
-			component->LoadLevelFromFile(ConvertStringToString(argv[0]));
 			return;
 		}
 		return;

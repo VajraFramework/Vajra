@@ -213,6 +213,7 @@ void ParseLookCommand(std::vector<std::string>& args, std::vector<AiMarker>& mar
 	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(xLook, zLook);
 	VERIFY(cell != nullptr, "Got valid grid cell for location (%d, %d)", xLook, zLook);
 	glm::vec3 lookPos = cell->center;
+	VERIFY(lookPos != marker.Position, "Valid Ai command, lookPos != marker position");
 	glm::vec3 forward = glm::normalize(lookPos - marker.Position);
 
 	marker.Orientation = QuaternionFromLookVectors(forward);
