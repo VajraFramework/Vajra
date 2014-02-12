@@ -1,49 +1,65 @@
 <prefab>
 	<gameobject>
-		<tags>
-			<tag>Unit</tag>
-			<tag>Airspace</tag>
-		</tags>
-		<component name="MeshRenderer">
-			<property name="InitMesh">
-				<field>models/polySurface5.model</field>
+
+		<component name="ParticleSystem">
+			<property name="SetNumberOfParticles">
+				<field>20</field>
+				<field>100</field>
+			</property>
+			<property name="SetParticleSpeed">
+				<field>0.2</field>
+				<field>-0.05</field>
+			</property>
+			<property name="SetParticleVelocityDirection">
+				<field>0.0</field>
+				<field>0.0</field>
+				<field>-1.0</field>
+			</property>
+			<property name="SetParticleVelocityDirectionRandomness">
+				<field>0.1</field>
+			</property>
+			<property name="SetParticleSize">
+				<field>80</field>
+				<field>10</field>
+			</property>
+			<property name="SetParticleLifespan">
+				<field>3</field>
+			</property>
+			<property name="SetParticleTexture">
+				<field>pictures/smoke_0.png</field>
+			</property>
+			<property name="SetParticleInitialColor">
+				<field>0.6</field>
+				<field>0.6</field>
+				<field>0.8</field>
+				<field>0.5</field>
+			</property>
+			<property name="SetParticleFinalColor">
+				<field>0.1</field>
+				<field>0.1</field>
+				<field>0.1</field>
+				<field>0.0</field>
+			</property>
+			<property name="InitParticleSystem">
+			</property>
+			<property name="Play">
 			</property>
 		</component>
 
-		<component name="BakedSkeletalAnimation">
-			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#idle</field>
-				<field>0.5f</field>
-			</property>
-			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#twitching</field>
-				<field>0.5f</field>
-			</property>
-			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#turning</field>
-				<field>0.5f</field>
-			</property>
-			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#nodding</field>
-				<field>0.5f</field>
-			</property>
-			<property name="AddAnimationClip">
-				<field>animations/SD_Imposter_mesh.skeletalanimation#walking</field>
-				<field>0.5f</field>
-			</property>
-			<property name="PlayAnimationClip">
-				<field>walking</field>
+		<component name="ParticleSystemRenderer">
+			<property name="InitParticleSystem">
+				<field>prtshdr</field>
 			</property>
 		</component>
 
 		<component name="Transform">
 			<property name="Scale">
-				<field>0.06</field>
+				<field>10.0</field>
 			</property>
 			<property name="SetPosition">
-				<field>32.0</field>
-				<field>0.0</field>
-				<field>-10.0</field>
+				<field>10.0</field>
+				<field>4.0</field>
+				<field>-4.0</field>
 			</property>
 		</component>
 	</gameobject>

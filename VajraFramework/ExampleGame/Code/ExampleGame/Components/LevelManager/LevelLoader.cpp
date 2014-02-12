@@ -77,6 +77,7 @@ void LevelLoader::loadStaticDataFromXml(XmlNode* staticNode) {
 	while (staticObjNode != nullptr) {
 		std::string prefab = staticObjNode->GetAttributeValueS(PREFAB_ATTRIBUTE);
 		int westBound      = staticObjNode->GetAttributeValueI(X_ATTRIBUTE);
+		float yPosition    = staticObjNode->GetAttributeValueF(Y_ATTRIBUTE);
 		int southBound     = staticObjNode->GetAttributeValueI(Z_ATTRIBUTE);
 		int objWidth       = staticObjNode->GetAttributeValueI(WIDTH_ATTRIBUTE);
 		int objHeight      = staticObjNode->GetAttributeValueI(HEIGHT_ATTRIBUTE);
@@ -87,7 +88,8 @@ void LevelLoader::loadStaticDataFromXml(XmlNode* staticNode) {
 		// Add the object to the grid
 		SINGLETONS->GetGridManager()->placeStaticObjectOnGrid(staticObj->GetId(), westBound, southBound, objWidth, objHeight);
 
-		// Orient the object.
+		// Position and orient the object.
+		staticObj->GetTransform()->Translate(yPosition, YAXIS);
 		staticObj->GetTransform()->SetOrientation(rotation, YAXIS);
 
 		staticObjNode = staticObjNode->GetNextSiblingByNodeName(STATIC_OBJECT_TAG);

@@ -1,0 +1,1167 @@
+<level levelName="SD_TestScene">
+  <grid>
+      <cellData width="40" height="15">
+			<cellElevations>
+              5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+              5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 5 5 5 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 5 5 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 5 5 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 5 5 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 5 5 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 5 5 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 5 5 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 5 5 5 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 5 5 5 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 5 5 5 
+              0 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 2 5 5 5 5 5 5 5 5 5 5 
+              0 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 0 
+              0 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 0 
+			</cellElevations>
+
+			<passableCells>
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 0 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 0 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 0 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 0 0 0 
+              1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+              1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+			</passableCells>
+      </cellData>
+
+      <roomData>
+          <room x="20" z="1" width="18" height="12">
+          </room>
+          <room x="1" z="1" width="18" height="12">
+          </room>
+      </roomData>
+  </grid>
+
+  <static>
+		<staticObject id="167308" prefab="HighWall_3Way" x="20" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="173654" prefab="HighWall_3Way" x="20" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173988" prefab="HighWall_Backface" x="38" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167052" prefab="HighWall_Backface" x="6" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167122" prefab="HighWall_Backface" x="13" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="165954" prefab="HighWall_Backface" x="10" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166902" prefab="HighWall_Backface" x="17" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166130" prefab="HighWall_Backface" x="11" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171592" prefab="HighWall_Backface" x="8" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173090" prefab="HighWall_Backface" x="34" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170262" prefab="HighWall_Backface" x="24" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173022" prefab="HighWall_Backface" x="14" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174190" prefab="HighWall_Backface" x="22" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167070" prefab="HighWall_Backface" x="3" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171036" prefab="HighWall_Backface" x="19" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174114" prefab="HighWall_Backface" x="16" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174140" prefab="HighWall_Backface" x="15" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167200" prefab="HighWall_Backface" x="27" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168194" prefab="HighWall_Backface" x="9" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172660" prefab="HighWall_Backface" x="28" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166724" prefab="HighWall_Backface" x="37" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169882" prefab="HighWall_Backface" x="29" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173346" prefab="HighWall_Backface" x="31" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169688" prefab="HighWall_Backface" x="21" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169114" prefab="HighWall_Backface" x="26" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171234" prefab="HighWall_Backface" x="12" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175112" prefab="HighWall_Backface" x="33" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174642" prefab="HighWall_Backface" x="4" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172534" prefab="HighWall_Backface" x="2" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171630" prefab="HighWall_Backface" x="5" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166606" prefab="HighWall_Backface" x="25" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171088" prefab="HighWall_Backface" x="36" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173664" prefab="HighWall_Backface" x="7" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173828" prefab="HighWall_Backface" x="35" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174414" prefab="HighWall_Backface" x="30" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169622" prefab="HighWall_Backface" x="23" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166200" prefab="HighWall_Backface" x="32" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170266" prefab="HighWall_Backface" x="18" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167778" prefab="HighWall_Corner" x="1" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169202" prefab="HighWall_Corner" x="1" z="14" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="169936" prefab="HighWall_Corner" x="39" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="173782" prefab="HighWall_Corner" x="39" z="0" width="1" height="1" rotation="270">
+      </staticObject>
+		<staticObject id="174890" prefab="HighWall_End" x="20" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174024" prefab="HighWall_End" x="20" z="5" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="173340" prefab="HighWall_Straight" x="39" z="13" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="171130" prefab="HighWall_Straight" x="2" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172694" prefab="HighWall_Straight" x="20" z="13" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="172354" prefab="HighWall_Straight" x="39" z="3" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="169658" prefab="HighWall_Straight" x="1" z="7" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="165940" prefab="HighWall_Straight" x="1" z="4" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="172050" prefab="HighWall_Straight" x="1" z="5" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="167204" prefab="HighWall_Straight" x="16" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166686" prefab="HighWall_Straight" x="18" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174330" prefab="HighWall_Straight" x="27" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166822" prefab="HighWall_Straight" x="39" z="5" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="173218" prefab="HighWall_Straight" x="17" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169454" prefab="HighWall_Straight" x="1" z="6" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="174152" prefab="HighWall_Straight" x="1" z="3" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="167256" prefab="HighWall_Straight" x="4" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166528" prefab="HighWall_Straight" x="10" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167992" prefab="HighWall_Straight" x="19" z="3" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="169004" prefab="HighWall_Straight" x="1" z="2" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="171336" prefab="HighWall_Straight" x="39" z="11" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="175174" prefab="HighWall_Straight" x="1" z="10" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="173224" prefab="HighWall_Straight" x="25" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174460" prefab="HighWall_Straight" x="13" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172104" prefab="HighWall_Straight" x="38" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173680" prefab="HighWall_Straight" x="1" z="12" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="166236" prefab="HighWall_Straight" x="33" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169780" prefab="HighWall_Straight" x="22" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175484" prefab="HighWall_Straight" x="39" z="6" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="174072" prefab="HighWall_Straight" x="39" z="12" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="175006" prefab="HighWall_Straight" x="15" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173610" prefab="HighWall_Straight" x="39" z="8" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="175418" prefab="HighWall_Straight" x="26" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170938" prefab="HighWall_Straight" x="28" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169684" prefab="HighWall_Straight" x="31" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169562" prefab="HighWall_Straight" x="8" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166728" prefab="HighWall_Straight" x="39" z="7" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="168924" prefab="HighWall_Straight" x="29" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167922" prefab="HighWall_Straight" x="32" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167192" prefab="HighWall_Straight" x="19" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174712" prefab="HighWall_Straight" x="39" z="1" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="169868" prefab="HighWall_Straight" x="20" z="11" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="174326" prefab="HighWall_Straight" x="23" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168188" prefab="HighWall_Straight" x="14" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172614" prefab="HighWall_Straight" x="34" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175192" prefab="HighWall_Straight" x="1" z="8" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="171030" prefab="HighWall_Straight" x="5" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170430" prefab="HighWall_Straight" x="1" z="9" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="174118" prefab="HighWall_Straight" x="1" z="11" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="167982" prefab="HighWall_Straight" x="39" z="4" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="169288" prefab="HighWall_Straight" x="19" z="2" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="169886" prefab="HighWall_Straight" x="21" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169526" prefab="HighWall_Straight" x="7" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166208" prefab="HighWall_Straight" x="37" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170322" prefab="HighWall_Straight" x="36" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174628" prefab="HighWall_Straight" x="20" z="10" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="170558" prefab="HighWall_Straight" x="19" z="4" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="170206" prefab="HighWall_Straight" x="30" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171756" prefab="HighWall_Straight" x="9" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172846" prefab="HighWall_Straight" x="0" z="1" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="168424" prefab="HighWall_Straight" x="39" z="10" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="173886" prefab="HighWall_Straight" x="24" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169296" prefab="HighWall_Straight" x="35" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173642" prefab="HighWall_Straight" x="11" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166958" prefab="HighWall_Straight" x="3" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166720" prefab="HighWall_Straight" x="39" z="9" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="172598" prefab="HighWall_Straight" x="12" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168260" prefab="HighWall_Straight" x="6" z="14" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171054" prefab="LowWall_End" x="30" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168946" prefab="LowWall_End" x="30" z="5" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="174256" prefab="LowWall_Straight" x="30" z="12" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="168178" prefab="LowWall_Straight" x="30" z="1" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="167818" prefab="LowWall_Straight" x="30" z="13" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="167774" prefab="LowWall_Straight" x="30" z="11" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="166232" prefab="LowWall_Straight" x="30" z="3" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="170510" prefab="LowWall_Straight" x="30" z="2" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="165928" prefab="GrassFloor_A" x="14" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174624" prefab="GrassFloor_A" x="7" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172032" prefab="GrassFloor_A" x="17" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169264" prefab="GrassFloor_A" x="5" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169940" prefab="GrassFloor_A" x="13" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170924" prefab="GrassFloor_A" x="27" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173992" prefab="GrassFloor_A" x="21" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172096" prefab="GrassFloor_A" x="25" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175082" prefab="GrassFloor_A" x="35" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173584" prefab="GrassFloor_A" x="6" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167548" prefab="GrassFloor_A" x="34" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175534" prefab="GrassFloor_A" x="5" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174690" prefab="GrassFloor_A" x="22" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166394" prefab="GrassFloor_A" x="34" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174746" prefab="GrassFloor_A" x="5" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171506" prefab="GrassFloor_A" x="35" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167956" prefab="GrassFloor_A" x="5" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173684" prefab="GrassFloor_A" x="7" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173814" prefab="GrassFloor_A" x="13" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170920" prefab="GrassFloor_A" x="27" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173786" prefab="GrassFloor_A" x="7" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167284" prefab="GrassFloor_A" x="25" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170404" prefab="GrassFloor_A" x="2" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172036" prefab="GrassFloor_A" x="15" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173916" prefab="GrassFloor_A" x="17" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171966" prefab="GrassFloor_A" x="11" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169610" prefab="GrassFloor_A" x="14" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170460" prefab="GrassFloor_A" x="2" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175696" prefab="GrassFloor_A" x="9" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169458" prefab="GrassFloor_A" x="31" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172816" prefab="GrassFloor_A" x="22" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170730" prefab="GrassFloor_A" x="26" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169168" prefab="GrassFloor_A" x="26" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168326" prefab="GrassFloor_A" x="16" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166080" prefab="GrassFloor_A" x="36" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170902" prefab="GrassFloor_A" x="5" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174364" prefab="GrassFloor_A" x="16" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175544" prefab="GrassFloor_A" x="33" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168070" prefab="GrassFloor_A" x="7" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168568" prefab="GrassFloor_A" x="11" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174238" prefab="GrassFloor_A" x="2" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171842" prefab="GrassFloor_A" x="10" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171094" prefab="GrassFloor_A" x="3" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167892" prefab="GrassFloor_A" x="17" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168774" prefab="GrassFloor_A" x="24" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167356" prefab="GrassFloor_A" x="7" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173848" prefab="GrassFloor_A" x="31" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175392" prefab="GrassFloor_A" x="8" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172152" prefab="GrassFloor_A" x="3" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172998" prefab="GrassFloor_A" x="32" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167728" prefab="GrassFloor_A" x="16" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172016" prefab="GrassFloor_A" x="17" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169148" prefab="GrassFloor_A" x="2" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="165944" prefab="GrassFloor_A" x="26" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170684" prefab="GrassFloor_A" x="21" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167656" prefab="GrassFloor_A" x="31" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174212" prefab="GrassFloor_A" x="33" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171814" prefab="GrassFloor_A" x="21" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168220" prefab="GrassFloor_A" x="25" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174752" prefab="GrassFloor_A" x="10" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167148" prefab="GrassFloor_A" x="16" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173212" prefab="GrassFloor_A" x="23" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166482" prefab="GrassFloor_A" x="34" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175308" prefab="GrassFloor_A" x="22" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167304" prefab="GrassFloor_A" x="6" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169626" prefab="GrassFloor_A" x="36" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171618" prefab="GrassFloor_A" x="36" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174122" prefab="GrassFloor_A" x="2" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168320" prefab="GrassFloor_A" x="34" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172796" prefab="GrassFloor_A" x="36" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174418" prefab="GrassFloor_A" x="8" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172162" prefab="GrassFloor_A" x="26" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175304" prefab="GrassFloor_A" x="11" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173360" prefab="GrassFloor_A" x="9" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175108" prefab="GrassFloor_A" x="10" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166812" prefab="GrassFloor_A" x="15" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174400" prefab="GrassFloor_A" x="26" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166866" prefab="GrassFloor_A" x="4" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173138" prefab="GrassFloor_A" x="9" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173650" prefab="GrassFloor_A" x="22" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174520" prefab="GrassFloor_A" x="12" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167350" prefab="GrassFloor_A" x="10" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173334" prefab="GrassFloor_A" x="32" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169246" prefab="GrassFloor_A" x="8" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167196" prefab="GrassFloor_A" x="6" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171914" prefab="GrassFloor_A" x="32" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170390" prefab="GrassFloor_A" x="12" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167674" prefab="GrassFloor_A" x="16" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175144" prefab="GrassFloor_A" x="10" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170408" prefab="GrassFloor_A" x="34" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175218" prefab="GrassFloor_A" x="12" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171578" prefab="GrassFloor_A" x="14" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174740" prefab="GrassFloor_A" x="4" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173622" prefab="GrassFloor_A" x="6" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170854" prefab="GrassFloor_A" x="33" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="165936" prefab="GrassFloor_A" x="3" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172476" prefab="GrassFloor_A" x="36" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170082" prefab="GrassFloor_A" x="21" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170220" prefab="GrassFloor_A" x="35" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172010" prefab="GrassFloor_A" x="14" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166540" prefab="GrassFloor_A" x="32" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171766" prefab="GrassFloor_A" x="13" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173724" prefab="GrassFloor_A" x="6" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170140" prefab="GrassFloor_A" x="27" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170734" prefab="GrassFloor_A" x="32" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173264" prefab="GrassFloor_A" x="13" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174876" prefab="GrassFloor_A" x="31" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172620" prefab="GrassFloor_A" x="23" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171374" prefab="GrassFloor_A" x="12" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168350" prefab="GrassFloor_A" x="6" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173972" prefab="GrassFloor_A" x="11" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170506" prefab="GrassFloor_A" x="15" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166116" prefab="GrassFloor_A" x="23" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166322" prefab="GrassFloor_A" x="22" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171544" prefab="GrassFloor_A" x="31" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168268" prefab="GrassFloor_A" x="23" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172720" prefab="GrassFloor_A" x="4" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167024" prefab="GrassFloor_A" x="34" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175362" prefab="GrassFloor_A" x="10" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171350" prefab="GrassFloor_A" x="8" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170442" prefab="GrassFloor_A" x="27" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168512" prefab="GrassFloor_A" x="8" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171302" prefab="GrassFloor_A" x="2" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171148" prefab="GrassFloor_A" x="13" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166988" prefab="GrassFloor_A" x="6" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172948" prefab="GrassFloor_A" x="4" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171062" prefab="GrassFloor_A" x="9" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170002" prefab="GrassFloor_A" x="23" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174824" prefab="GrassFloor_A" x="3" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171480" prefab="GrassFloor_A" x="33" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166156" prefab="GrassFloor_A" x="16" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172672" prefab="GrassFloor_A" x="12" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166378" prefab="GrassFloor_A" x="36" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166384" prefab="GrassFloor_A" x="4" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169292" prefab="GrassFloor_A" x="3" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167866" prefab="GrassFloor_A" x="6" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168108" prefab="GrassFloor_A" x="8" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171342" prefab="GrassFloor_A" x="32" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174580" prefab="GrassFloor_A" x="5" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173690" prefab="GrassFloor_A" x="10" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173172" prefab="GrassFloor_A" x="32" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166706" prefab="GrassFloor_A" x="13" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169310" prefab="GrassFloor_A" x="36" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173908" prefab="GrassFloor_A" x="17" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169762" prefab="GrassFloor_A" x="13" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172504" prefab="GrassFloor_A" x="6" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170342" prefab="GrassFloor_A" x="5" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174600" prefab="GrassFloor_A" x="27" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175068" prefab="GrassFloor_A" x="13" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175716" prefab="GrassFloor_A" x="33" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175702" prefab="GrassFloor_A" x="15" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173728" prefab="GrassFloor_A" x="15" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175250" prefab="GrassFloor_A" x="9" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169588" prefab="GrassFloor_A" x="27" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167252" prefab="GrassFloor_A" x="15" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166972" prefab="GrassFloor_A" x="25" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168550" prefab="GrassFloor_A" x="31" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167806" prefab="GrassFloor_A" x="25" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174056" prefab="GrassFloor_A" x="26" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="165968" prefab="GrassFloor_A" x="4" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167426" prefab="GrassFloor_A" x="27" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173716" prefab="GrassFloor_A" x="32" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172764" prefab="GrassFloor_A" x="5" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174426" prefab="GrassFloor_A" x="36" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166222" prefab="GrassFloor_A" x="3" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174862" prefab="GrassFloor_A" x="14" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174968" prefab="GrassFloor_A" x="8" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173956" prefab="GrassFloor_A" x="4" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170882" prefab="GrassFloor_A" x="33" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169218" prefab="GrassFloor_A" x="24" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172666" prefab="GrassFloor_A" x="24" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172334" prefab="GrassFloor_A" x="9" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173580" prefab="GrassFloor_A" x="12" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174200" prefab="GrassFloor_A" x="11" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169074" prefab="GrassFloor_A" x="22" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166062" prefab="GrassFloor_A" x="33" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167602" prefab="GrassFloor_A" x="5" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171646" prefab="GrassFloor_A" x="6" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166020" prefab="GrassFloor_A" x="8" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166370" prefab="GrassFloor_A" x="24" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173422" prefab="GrassFloor_A" x="9" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170224" prefab="GrassFloor_A" x="12" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170282" prefab="GrassFloor_A" x="13" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169028" prefab="GrassFloor_A" x="25" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167270" prefab="GrassFloor_A" x="34" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175026" prefab="GrassFloor_A" x="24" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169838" prefab="GrassFloor_A" x="12" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169998" prefab="GrassFloor_A" x="21" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167074" prefab="GrassFloor_A" x="4" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="165948" prefab="GrassFloor_A" x="21" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169810" prefab="GrassFloor_A" x="24" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169410" prefab="GrassFloor_A" x="2" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174148" prefab="GrassFloor_A" x="35" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174126" prefab="GrassFloor_A" x="7" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171838" prefab="GrassFloor_A" x="2" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172072" prefab="GrassFloor_A" x="11" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170238" prefab="GrassFloor_A" x="22" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169000" prefab="GrassFloor_A" x="35" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169728" prefab="GrassFloor_A" x="27" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172300" prefab="GrassFloor_A" x="3" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175264" prefab="GrassFloor_A" x="9" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173638" prefab="GrassFloor_A" x="15" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174930" prefab="GrassFloor_A" x="35" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173646" prefab="GrassFloor_A" x="12" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171982" prefab="GrassFloor_A" x="36" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169902" prefab="GrassFloor_A" x="10" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175666" prefab="GrassFloor_A" x="23" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="165962" prefab="GrassFloor_A" x="4" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173560" prefab="GrassFloor_A" x="8" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172746" prefab="GrassFloor_A" x="35" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169152" prefab="GrassFloor_A" x="10" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173658" prefab="GrassFloor_A" x="11" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174204" prefab="GrassFloor_A" x="25" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171706" prefab="GrassFloor_A" x="21" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168854" prefab="GrassFloor_A" x="14" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175242" prefab="GrassFloor_A" x="13" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173576" prefab="GrassFloor_A" x="34" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169678" prefab="GrassFloor_A" x="10" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171864" prefab="GrassFloor_A" x="16" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174480" prefab="GrassFloor_A" x="35" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166170" prefab="GrassFloor_A" x="11" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168706" prefab="GrassFloor_A" x="11" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170944" prefab="GrassFloor_A" x="35" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174410" prefab="GrassFloor_A" x="14" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166582" prefab="GrassFloor_A" x="2" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168538" prefab="GrassFloor_A" x="17" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172768" prefab="GrassFloor_A" x="17" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175344" prefab="GrassFloor_A" x="9" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172454" prefab="GrassFloor_A" x="3" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175426" prefab="GrassFloor_A" x="4" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170572" prefab="GrassFloor_A" x="7" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173940" prefab="GrassFloor_A" x="31" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167278" prefab="GrassFloor_A" x="22" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166916" prefab="GrassFloor_A" x="7" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168304" prefab="GrassFloor_A" x="23" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173464" prefab="GrassFloor_A" x="17" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170762" prefab="GrassFloor_A" x="23" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175214" prefab="GrassFloor_A" x="21" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170438" prefab="GrassFloor_A" x="31" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170234" prefab="GrassFloor_A" x="11" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174244" prefab="GrassFloor_A" x="26" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166374" prefab="GrassFloor_A" x="16" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167782" prefab="GrassFloor_A" x="7" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174708" prefab="GrassFloor_A" x="5" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175158" prefab="GrassFloor_A" x="9" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167188" prefab="GrassFloor_A" x="24" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174106" prefab="GrassFloor_A" x="14" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166818" prefab="GrassFloor_A" x="25" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169506" prefab="GrassFloor_A" x="36" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168858" prefab="GrassFloor_A" x="8" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166058" prefab="GrassFloor_A" x="34" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175642" prefab="GrassFloor_A" x="24" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166496" prefab="GrassFloor_A" x="14" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169132" prefab="GrassFloor_A" x="12" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168138" prefab="GrassFloor_A" x="7" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174082" prefab="GrassFloor_A" x="34" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171322" prefab="GrassFloor_A" x="35" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167888" prefab="GrassFloor_A" x="24" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169806" prefab="GrassFloor_A" x="26" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168172" prefab="GrassFloor_A" x="33" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168964" prefab="GrassFloor_A" x="3" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173720" prefab="GrassFloor_A" x="15" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171800" prefab="GrassFloor_A" x="2" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168492" prefab="GrassFloor_A" x="24" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172444" prefab="GrassFloor_A" x="14" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171100" prefab="GrassFloor_A" x="3" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174052" prefab="StoneFloor_A" x="25" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172134" prefab="StoneFloor_A" x="28" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168920" prefab="StoneFloor_A" x="1" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166898" prefab="StoneFloor_A" x="20" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171204" prefab="StoneFloor_A" x="32" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172462" prefab="StoneFloor_A" x="30" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173122" prefab="StoneFloor_A" x="18" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172624" prefab="StoneFloor_A" x="37" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171050" prefab="StoneFloor_A" x="25" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174220" prefab="StoneFloor_A" x="30" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171740" prefab="StoneFloor_A" x="2" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168730" prefab="StoneFloor_A" x="28" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171910" prefab="StoneFloor_A" x="20" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174194" prefab="StoneFloor_A" x="20" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173774" prefab="StoneFloor_A" x="30" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166112" prefab="StoneFloor_A" x="23" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166068" prefab="StoneFloor_A" x="13" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168112" prefab="StoneFloor_A" x="7" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171870" prefab="StoneFloor_A" x="30" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173168" prefab="StoneFloor_A" x="15" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173522" prefab="StoneFloor_A" x="28" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174156" prefab="StoneFloor_A" x="20" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175130" prefab="StoneFloor_A" x="20" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167524" prefab="StoneFloor_A" x="18" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172138" prefab="StoneFloor_A" x="21" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173382" prefab="StoneFloor_A" x="20" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170836" prefab="StoneFloor_A" x="28" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170078" prefab="StoneFloor_A" x="20" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174144" prefab="StoneFloor_A" x="1" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167724" prefab="StoneFloor_A" x="19" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166084" prefab="StoneFloor_A" x="18" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171346" prefab="StoneFloor_A" x="9" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171786" prefab="StoneFloor_A" x="15" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167158" prefab="StoneFloor_A" x="6" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170190" prefab="StoneFloor_A" x="33" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174726" prefab="StoneFloor_A" x="30" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171134" prefab="StoneFloor_A" x="19" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175488" prefab="StoneFloor_A" x="37" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172426" prefab="StoneFloor_A" x="20" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169558" prefab="StoneFloor_A" x="1" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167288" prefab="StoneFloor_A" x="20" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166870" prefab="StoneFloor_A" x="1" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166536" prefab="StoneFloor_A" x="1" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166906" prefab="StoneFloor_A" x="37" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173034" prefab="StoneFloor_A" x="6" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166532" prefab="StoneFloor_A" x="30" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170772" prefab="StoneFloor_A" x="10" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167638" prefab="StoneFloor_A" x="26" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168818" prefab="StoneFloor_A" x="37" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169962" prefab="StoneFloor_A" x="28" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175376" prefab="StoneFloor_A" x="12" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171602" prefab="StoneFloor_A" x="30" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174950" prefab="StoneFloor_A" x="16" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166600" prefab="StoneFloor_A" x="17" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168484" prefab="StoneFloor_A" x="8" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171238" prefab="StoneFloor_A" x="22" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168970" prefab="StoneFloor_A" x="1" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168102" prefab="StoneFloor_A" x="27" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172340" prefab="StoneFloor_A" x="15" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167066" prefab="StoneFloor_A" x="28" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172290" prefab="StoneFloor_A" x="18" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172156" prefab="StoneFloor_A" x="16" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166832" prefab="StoneFloor_A" x="7" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170426" prefab="StoneFloor_A" x="33" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172518" prefab="StoneFloor_A" x="26" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171918" prefab="StoneFloor_A" x="32" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="165958" prefab="StoneFloor_A" x="11" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172064" prefab="StoneFloor_A" x="24" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173310" prefab="StoneFloor_A" x="29" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170978" prefab="StoneFloor_A" x="17" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166464" prefab="StoneFloor_A" x="5" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170800" prefab="StoneFloor_A" x="18" z="4" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170174" prefab="StoneFloor_A" x="37" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174704" prefab="StoneFloor_A" x="18" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172812" prefab="StoneFloor_A" x="17" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166596" prefab="StoneFloor_A" x="27" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168488" prefab="StoneFloor_A" x="1" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174806" prefab="StoneFloor_A" x="37" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167400" prefab="StoneFloor_A" x="35" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169434" prefab="StoneFloor_A" x="29" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169250" prefab="StoneFloor_A" x="33" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174466" prefab="StoneFloor_A" x="18" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168686" prefab="StoneFloor_A" x="28" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173030" prefab="StoneFloor_A" x="30" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173834" prefab="StoneFloor_A" x="31" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172304" prefab="StoneFloor_A" x="21" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174686" prefab="StoneFloor_A" x="12" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173400" prefab="StoneFloor_A" x="30" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167934" prefab="StoneFloor_A" x="25" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175570" prefab="StoneFloor_A" x="3" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173142" prefab="StoneFloor_A" x="17" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166214" prefab="StoneFloor_A" x="31" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166316" prefab="StoneFloor_A" x="24" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168046" prefab="StoneFloor_A" x="19" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173454" prefab="StoneFloor_A" x="32" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167230" prefab="StoneFloor_A" x="28" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167404" prefab="StoneFloor_A" x="10" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174830" prefab="StoneFloor_A" x="37" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173912" prefab="StoneFloor_A" x="28" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169844" prefab="StoneFloor_A" x="31" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172402" prefab="StoneFloor_A" x="15" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170658" prefab="StoneFloor_A" x="37" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167334" prefab="StoneFloor_A" x="29" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167498" prefab="StoneFloor_A" x="1" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172556" prefab="StoneFloor_A" x="27" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174216" prefab="StoneFloor_A" x="23" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166108" prefab="StoneFloor_A" x="18" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169378" prefab="StoneFloor_A" x="1" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171058" prefab="StoneFloor_A" x="23" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169038" prefab="StoneFloor_A" x="16" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169480" prefab="StoneFloor_A" x="36" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168930" prefab="StoneFloor_A" x="22" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168644" prefab="StoneFloor_A" x="8" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173386" prefab="StoneFloor_A" x="37" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167930" prefab="StoneFloor_A" x="2" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175126" prefab="StoneFloor_A" x="1" z="3" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169616" prefab="StoneFloor_A" x="9" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169066" prefab="StoneFloor_A" x="22" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175656" prefab="StoneFloor_A" x="20" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175508" prefab="StoneFloor_A" x="3" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167630" prefab="StoneFloor_A" x="13" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172286" prefab="StoneFloor_A" x="22" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166400" prefab="StoneFloor_A" x="27" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170464" prefab="StoneFloor_A" x="5" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173324" prefab="StoneFloor_A" x="37" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175196" prefab="StoneFloor_A" x="26" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171770" prefab="StoneFloor_A" x="30" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166690" prefab="StoneFloor_A" x="18" z="9" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175438" prefab="StoneFloor_A" x="18" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170286" prefab="StoneFloor_A" x="19" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166788" prefab="StoneFloor_A" x="11" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168726" prefab="StoneFloor_A" x="29" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173026" prefab="StoneFloor_A" x="25" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="165932" prefab="StoneFloor_A" x="28" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174778" prefab="StoneFloor_A" x="14" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169438" prefab="StoneFloor_A" x="33" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171702" prefab="StoneFloor_A" x="1" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174110" prefab="StoneFloor_A" x="30" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173996" prefab="StoneFloor_A" x="32" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169758" prefab="StoneFloor_A" x="16" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174404" prefab="StoneFloor_A" x="18" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="173618" prefab="StoneFloor_A" x="23" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166404" prefab="StoneFloor_A" x="30" z="5" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167562" prefab="StoneFloor_A" x="20" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175048" prefab="StoneFloor_A" x="31" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170822" prefab="StoneFloor_A" x="20" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="172120" prefab="StoneFloor_A" x="21" z="7" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175636" prefab="StoneFloor_A" x="28" z="10" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171446" prefab="StoneFloor_A" x="28" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170326" prefab="StoneFloor_A" x="1" z="11" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="175052" prefab="StoneFloor_A" x="36" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="166282" prefab="StoneFloor_A" x="34" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171422" prefab="StoneFloor_A" x="37" z="2" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="168280" prefab="StoneFloor_A" x="26" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="167476" prefab="StoneFloor_A" x="21" z="6" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174524" prefab="StoneFloor_A" x="18" z="8" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170678" prefab="StoneFloor_A" x="14" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170534" prefab="StoneFloor_A" x="35" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="169232" prefab="StoneFloor_A" x="34" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="174924" prefab="StoneFloor_A" x="4" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="171244" prefab="StoneFloor_A" x="37" z="1" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="170622" prefab="StoneFloor_A" x="4" z="12" width="1" height="1" rotation="0">
+      </staticObject>
+	</static>
+
+  <units>
+		<playerUnit id="167430" prefab="Assassin" x="3" z="7" rotation="0">
+      </playerUnit>
+		<enemyUnit id="172180" prefab="SentryEnemy" x="27" z="7" rotation="0">
+			<aiCommand>
+              START_27_7_NORTH
+          </aiCommand>
+			<aiCommand>
+              LOOK_NORTHWEST
+          </aiCommand>
+			<aiCommand>
+              LOOK_SOUTHWEST
+          </aiCommand>
+      </enemyUnit>
+  </units>
+
+  <other>
+      <zone id="167938" prefab="ScreenTransZone" x="20" z="7" width="3" height="4">
+      </zone>
+  </other>
+
+	<camera focus="Assassin">
+	</camera>
+</level>
