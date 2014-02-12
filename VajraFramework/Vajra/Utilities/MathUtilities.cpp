@@ -20,42 +20,59 @@ const glm::vec4 ZERO_VEC4_POSITION  = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 const glm::vec4 ZERO_VEC4_DIRECTION = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 glm::quat QuaternionFromLookVectors(glm::vec3 requiredForward, glm::vec3 up /* = YAXIS */) {
-	ASSERT(requiredForward != ZERO_VEC3, "QuaternionFromLookVectors: Forward vector can't be zero");
-	ASSERT(up != ZERO_VEC3, "QuaternionFromLookVectors: Up vector can't be zero");
+	VERIFY(requiredForward != ZERO_VEC3, "QuaternionFromLookVectors: Forward vector can't be zero");
+	VERIFY(up != ZERO_VEC3, "QuaternionFromLookVectors: Up vector can't be zero");
 
-	glm::quat quaternion1 = IDENTITY_QUATERNION;
-	glm::quat quaternion2 = IDENTITY_QUATERNION;
+	glm::vec3 quatForward = glm::normalize(requiredForward);
+	glm::vec3 quatUp = glm::orthonormalize(up, quatForward);
+	glm::vec3 quatRight = glm::normalize(glm::cross(quatUp, quatForward));
 
-	{
-		// Determine the rotation to align the forward vector
-		glm::vec3 axis = glm::cross(ZAXIS, requiredForward);
-		float angle;
-		if (axis != ZERO_VEC3) {
-			axis = glm::normalize(axis);
-			angle = glm::angle(ZAXIS, requiredForward);
-		}
-		else {
-			axis = YAXIS;
-			angle = PI;
-		}
-		quaternion1 = glm::angleAxis(angle, axis);
+	float m00 = quatRight.x;
+	float m01 = quatRight.y;
+	float m02 = quatRight.z;
+	float m10 = quatUp.x;
+	float m11 = quatUp.y;
+	float m12 = quatUp.z;
+	float m20 = quatForward.x;
+	float m21 = quatForward.y;
+	float m22 = quatForward.z;
+
+	glm::quat finalQuat;
+	float num8 = (m00 + m11) + m22;
+	if (num8 > 0.0f) {
+		float num = sqrt(num8 + 1.0f);
+		finalQuat.w = num * 0.5f;
+		num = 0.5f / num;
+		finalQuat.x = (m12 - m21) * num;
+		finalQuat.y = (m20 - m02) * num;
+		finalQuat.z = (m01 - m10) * num;
+		return finalQuat;
 	}
-	if (up != YAXIS) {
-		// Determine the rotation to align the up vector
-		glm::vec3 axis = glm::cross(YAXIS, requiredForward);
-		float angle;
-		if (axis != ZERO_VEC3) {
-			axis = glm::normalize(axis);
-			angle = glm::angle(YAXIS, requiredForward);
-		}
-		else {
-			axis = ZAXIS;
-			angle = PI;
-		}
-		quaternion2 = glm::angleAxis(angle, axis);
+	if ((m00 >= m11) && (m00 >= m22)) {
+		float num7 = sqrt(((1.0f + m00) - m11) - m22);
+		float num4 = 0.5f / num7;
+		finalQuat.x = 0.5f * num7;
+		finalQuat.y = (m01 + m10) * num4;
+		finalQuat.z = (m02 + m20) * num4;
+		finalQuat.w = (m12 - m21) * num4;
+		return finalQuat;
 	}
-
-	return quaternion1 * quaternion2;
+	if (m11 > m22) {
+		float num6 = sqrt(((1.0f + m11) - m00) - m22);
+		float num3 = 0.5f / num6;
+		finalQuat.x = (m10 + m01) * num3;
+		finalQuat.y = 0.5f * num6;
+		finalQuat.z = (m21 + m12) * num3;
+		finalQuat.w = (m20 - m02) * num3;
+		return finalQuat;
+	}
+	float num5 = sqrt(((1.0f + m22) - m00) - m11);
+	float num2 = 0.5f / num5;
+	finalQuat.x = (m20 + m02) * num2;
+	finalQuat.y = (m21 + m12) * num2;
+	finalQuat.z = 0.5f * num5;
+	finalQuat.w = (m01 - m10) * num2;
+	return finalQuat;
 }
 
 glm::vec3 QuaternionRightVector(glm::quat q) {
@@ -77,7 +94,7 @@ glm::vec3 QuaternionUpVector(glm::quat q) {
 glm::vec3 QuaternionForwardVector(glm::quat q) {
 	glm::vec3 v;
 	v.x = 2.0f * (q.x * q.z + q.w * q.y);
-	v.y = 2.0f * (q.y * q.x - q.w * q.x);
+	v.y = 2.0f * (q.y * q.z - q.w * q.x);
 	v.z = 1.0f - 2.0f * (q.x * q.x + q.y * q.y);
 	return glm::normalize(v);
 }

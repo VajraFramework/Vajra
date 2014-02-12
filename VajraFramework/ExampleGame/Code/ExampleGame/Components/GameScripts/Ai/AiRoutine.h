@@ -24,6 +24,7 @@ public:
 	void SetBehavior(std::vector<std::string>& commands);
 
 	void Follow();
+	void ResumeSchedule();
 
 private:
 	void init();
@@ -36,7 +37,6 @@ private:
 	};
 
 	void nextMarker();
-	void resumeSchedule();
 
 	std::vector<std::string> taskStrings;
 	std::vector<AiMarker> markers;

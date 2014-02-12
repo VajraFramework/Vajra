@@ -56,8 +56,8 @@ void AddDirectionToCellCoordinates(int& x, int& z, DirectionType dir, int distan
 			z -= distance;
 			break;
 		case DIR_NORTHWEST:
-			x += distance;
-			z -= distance;
+			x -= distance;
+			z += distance;
 			break;
 		default:
 			break;
