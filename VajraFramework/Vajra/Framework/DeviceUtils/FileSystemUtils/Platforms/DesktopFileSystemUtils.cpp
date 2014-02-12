@@ -11,7 +11,7 @@ FileSystemUtils::~FileSystemUtils() {
 }
 
 void FileSystemUtils::init() {
-	this->deviceBaseResourcesPath = "./Resources/";
+	this->deviceBaseResourcesPath = "./GameResources/";
 	this->devicePictureResourcesPath    = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_PICTURES;
 	this->deviceShaderResourcesPath     = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_SHADERS;
 	this->deviceModelResourcesPath      = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_MODELS;

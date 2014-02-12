@@ -47,7 +47,7 @@ OBJDIR = $(BUILDDIR)/obj
 DEPSDIR = $(BUILDDIR)/deps
 BINDIR = $(BUILDDIR)/bin
 EXECUTABLE = $(BINDIR)/executable.exe
-RESOURCESDIR_NAME = ./Resources
+RESOURCESDIR_NAME = ./GameResources
 
 OBJECTS += $(addprefix $(OBJDIR)/,\
 				$(patsubst %.cpp,%.o,\

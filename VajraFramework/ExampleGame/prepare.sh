@@ -76,8 +76,8 @@ then
 	JAR_FILE_PATH="../AndroidProject/Built/jars/vajraandroidwrapper.jar";
 	JAR_FILE_DESTINATION="AndroidProject/workspace/ExampleGame/libs/";
 	#
-	RESOURCES_PATH="./Resources/";
-	ASSETS_PATH="./AndroidProject/workspace/ExampleGame/assets/Resources/";
+	RESOURCES_PATH="./GameResources/";
+	ASSETS_PATH="./AndroidProject/workspace/ExampleGame/assets/GameResources/";
 	#
 	mkdir -p $LIBRARIES_DESTINATION_ARMEABI_PATH;
 	mkdir -p $LIBRARIES_DESTINATION_ARMEABIV7A_PATH;

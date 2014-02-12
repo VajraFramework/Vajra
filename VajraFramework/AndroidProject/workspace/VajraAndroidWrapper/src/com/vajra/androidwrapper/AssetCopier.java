@@ -13,18 +13,19 @@ import android.util.Log;
 public class AssetCopier {
 
 	public static String GetDeviceResourcesBasePath(Context context) {
-		String deviceResourcesPath = context.getExternalFilesDir(null).getAbsolutePath() + "/Resources/";
+		String deviceResourcesPath = context.getExternalFilesDir(null).getAbsolutePath() + "/GameResources/";
 		return deviceResourcesPath;
 	}
 
 	public static void CopyAssetsToSDCard(Context context) {
 		// TODO [Implement] Automate the generation of this list
-		String basePath = "Resources/";
+		String basePath = "GameResources/";
 		String[] paths = {
 				"animations",
 				"armatures",
 				"audio",
 				"fonts",
+				"gameconstants",
 				"levels",
 				"logging",
 				"models",
