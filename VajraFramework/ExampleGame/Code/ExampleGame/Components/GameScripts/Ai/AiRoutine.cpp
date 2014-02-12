@@ -35,7 +35,7 @@ void AiRoutine::SetBehavior(std::vector<std::string>& commands) {
 
 	this->waitTimer = 0.0f;
 	this->currentMarker = 0;
-	this->resumeSchedule();
+	this->ResumeSchedule();
 }
 
 void AiRoutine::Follow() {
@@ -70,10 +70,10 @@ void AiRoutine::destroy() {
 void AiRoutine::nextMarker() {
 	this->currentMarker = (this->currentMarker + 1) % this->markers.size();
 
-	resumeSchedule();
+	this->ResumeSchedule();
 }
 
-void AiRoutine::resumeSchedule() {
+void AiRoutine::ResumeSchedule() {
 	Transform* trans = this->GetObject()->GetComponent<Transform>();
 
 	AiMarker prevMark;

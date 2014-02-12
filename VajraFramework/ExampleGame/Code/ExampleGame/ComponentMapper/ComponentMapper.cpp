@@ -9,6 +9,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/ParticleSystemRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
@@ -17,7 +18,7 @@
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
 #include "ExampleGame/Components/GameScripts/UnitAnimations/UnitAnimationManager.h"
 #include "ExampleGame/Components/GameScripts/Units/Assassin.h"
-#include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
+#include "ExampleGame/Components/GameScripts/Units/Guard.h"
 #include "ExampleGame/Components/GameScripts/Units/Thief.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
@@ -72,12 +73,6 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
-	if (componentName == "ParticleSystemRenderer") {
-		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
-		if (component == nullptr) { component = gameObject->AddComponent<ParticleSystemRenderer>(); }
-		return component;
-	}
-	
 	if (componentName == "Transform") {
 		Transform* component = gameObject->GetComponent<Transform>();
 		if (component == nullptr) { component = gameObject->AddComponent<Transform>(); }
@@ -126,9 +121,9 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
-	if (componentName == "EnemyUnit") {
-		EnemyUnit* component = gameObject->GetComponent<EnemyUnit>();
-		if (component == nullptr) { component = gameObject->AddComponent<EnemyUnit>(); }
+	if (componentName == "Guard") {
+		Guard* component = gameObject->GetComponent<Guard>();
+		if (component == nullptr) { component = gameObject->AddComponent<Guard>(); }
 		return component;
 	}
 	
@@ -290,12 +285,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->InitMesh(ConvertStringToString(argv[0]));
 			return;
 		}
-		return;
-	}
-	
-	if (componentName == "ParticleSystemRenderer") {
-		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
-		if (component == nullptr) { return; }
 		return;
 	}
 	
@@ -482,8 +471,8 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
-	if (componentName == "EnemyUnit") {
-		EnemyUnit* component = gameObject->GetComponent<EnemyUnit>();
+	if (componentName == "Guard") {
+		Guard* component = gameObject->GetComponent<Guard>();
 		if (component == nullptr) { return; }
 		return;
 	}

@@ -287,8 +287,8 @@ void GameGrid::TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<G
 	else {
 		if (spanX > 0)  { xDirection =  1; }
 		else            { xDirection = -1; }
-		fracX = 0.0f;
 		incrX = (float)xDirection / spanX;
+		fracX = incrX * 0.5f;
 	}
 
 	int zDirection;
@@ -301,30 +301,32 @@ void GameGrid::TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<G
 	else {
 		if (spanZ > 0)  { zDirection =  1; }
 		else            { zDirection = -1; }
-		fracZ = 0.0f;
 		incrZ = (float)zDirection / spanZ;
+		fracZ = incrZ * 0.5f;
 	}
 
 	int xIndex = startCell->x;
 	int zIndex = startCell->z;
 
+	// Add the starting cell
+	outTouched.push_back(startCell);
 	while ((fracX < 1.0f) || (fracZ < 1.0f)) {
-		outTouched.push_back(this->gridCells[xIndex + xDirection][zIndex]);
-		outTouched.push_back(this->gridCells[xIndex][zIndex + zDirection]);
-
-		float diff = (fracZ + incrZ) - (fracX + incrX);
-		const float ERROR_MARGIN = 0.0001f;
+		float diff = fracZ - fracX;
 
 		// Find the next cell
-		if (diff > ERROR_MARGIN) {
+		if (diff > ROUNDING_ERROR) {
+			outTouched.push_back(this->gridCells[xIndex + xDirection][zIndex]);
 			xIndex += xDirection;
 			fracX += incrX;
 		}
-		else if (diff < -ERROR_MARGIN) {
+		else if (diff < -ROUNDING_ERROR) {
+			outTouched.push_back(this->gridCells[xIndex][zIndex + zDirection]);
 			zIndex += zDirection;
 			fracZ += incrZ;
 		}
 		else {
+			outTouched.push_back(this->gridCells[xIndex + xDirection][zIndex]);
+			outTouched.push_back(this->gridCells[xIndex][zIndex + zDirection]);
 			outTouched.push_back(this->gridCells[xIndex + xDirection][zIndex + zDirection]);
 			xIndex += xDirection;
 			zIndex += zDirection;
@@ -340,6 +342,19 @@ bool GameGrid::Passable(GridCell* startCell, GridCell* goalCell) {
 }
 
 bool GameGrid::HasLineOfSight(GridCell* sourceCell, GridCell* targetCell) {
+	if (sourceCell != nullptr) {
+		return this->HasLineOfSight(sourceCell, targetCell, sourceCell->y);
+	}
+	return false;
+}
+
+bool GameGrid::HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ) {
+	GridCell* sourceCell = this->GetCell(sourceCellX, sourceCellZ);
+	GridCell* targetCell = this->GetCell(targetCellX, targetCellZ);
+	return this->HasLineOfSight(sourceCell, targetCell);
+}
+
+bool GameGrid::HasLineOfSight(GridCell* sourceCell, GridCell* targetCell, unsigned int elevation) {
 	// Make sure both cells exist
 	if ((sourceCell != nullptr) && (targetCell != nullptr)) {
 		// Check the cells along the path
@@ -347,10 +362,7 @@ bool GameGrid::HasLineOfSight(GridCell* sourceCell, GridCell* targetCell) {
 		this->TouchedCells(sourceCell, targetCell, touchedCells);
 
 		for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
-			if ((*iter)->y > sourceCell->y) {
-				return false;
-			}
-			if (!this->IsCellVisibleAtElevation(targetCell->x, targetCell->z, sourceCell->y)) {
+			if (!this->IsCellVisibleAtElevation(targetCell->x, targetCell->z, elevation)) {
 				return false;
 			}
 		}
@@ -360,10 +372,10 @@ bool GameGrid::HasLineOfSight(GridCell* sourceCell, GridCell* targetCell) {
 	return false;
 }
 
-bool GameGrid::HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ) {
+bool GameGrid::HasLineOfSight(int sourceCellX, int sourceCellZ, int targetCellX, int targetCellZ, unsigned int elevation) {
 	GridCell* sourceCell = this->GetCell(sourceCellX, sourceCellZ);
 	GridCell* targetCell = this->GetCell(targetCellX, targetCellZ);
-	return this->HasLineOfSight(sourceCell, targetCell);
+	return this->HasLineOfSight(sourceCell, targetCell, elevation);
 }
 
 int GameGrid::GetCellGroundLevel(int gridX, int gridZ) {

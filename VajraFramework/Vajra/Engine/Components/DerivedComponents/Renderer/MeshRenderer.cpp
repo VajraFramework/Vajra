@@ -38,9 +38,7 @@ void MeshRenderer::InitMesh(std::string urlOfMesh) {
 		armature->InitArmature(this->meshAsset->GetArmatureFilePath());
 	}
 
-	// Now that we are renderable, add self to the render lists in the scene graph:
-	ASSERT(gameObject->GetParentSceneGraph() != nullptr, "GameObject has been added to a scenegraph");
-	gameObject->GetParentSceneGraph()->AddGameObjectToRenderLists(gameObject);
+	Renderer::addToRenderList();
 }
 
 void MeshRenderer::HandleMessage(MessageChunk /* messageChunk */) {

@@ -20,6 +20,21 @@ Renderer::~Renderer() {
 	this->destroy();
 }
 
+void Renderer::addToRenderList() {
+	GameObject* gameObject = (GameObject*)this->GetObject();
+	ASSERT(gameObject != nullptr, "GameObject not null");
+	ASSERT(gameObject->GetParentSceneGraph() != nullptr, "GameObject has been added to a scenegraph");
+	gameObject->GetParentSceneGraph()->AddGameObjectToRenderLists(gameObject);
+}
+
+void Renderer::removeFromRenderList() {
+	GameObject* gameObject = (GameObject*)this->GetObject();
+	ASSERT(gameObject != nullptr, "GameObject not null");
+	ASSERT(gameObject->GetParentSceneGraph() != nullptr, "GameObject has been added to a scenegraph");
+	gameObject->GetParentSceneGraph()->RemoveGameObjectFromRenderLiset(gameObject);
+
+}
+
 void Renderer::init() {
 	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
 	if (gameObject != nullptr) {
@@ -28,4 +43,6 @@ void Renderer::init() {
 }
 
 void Renderer::destroy() {
+	this->removeFromRenderList();
 }
+

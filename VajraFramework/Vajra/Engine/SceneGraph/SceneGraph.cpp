@@ -35,6 +35,11 @@ void SceneGraph::AddGameObjectToRenderLists(GameObject* gameObject) {
 	this->renderLists->addGameObjectIdToRenderList(gameObject->GetId(), shaderName);
 }
 
+void SceneGraph::RemoveGameObjectFromRenderLiset(GameObject* gameObject) {
+	std::string shaderName = gameObject->GetShaderName();
+	ASSERT_LOG(shaderName != "", "Removing GameObject with id %d to render list %s", gameObject->GetId(), shaderName.c_str());
+	this->renderLists->removeGameObjectIdToRenderList(gameObject->GetId(), shaderName);
+}
 // TODO [Cleanup] Cache the mainCamera, maybe
 Camera* SceneGraph::GetMainCamera() {
 	GameObject *camera = this->GetGameObjectById(this->mainCameraId);

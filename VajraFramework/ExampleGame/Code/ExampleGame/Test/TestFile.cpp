@@ -5,6 +5,7 @@
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
+#include "ExampleGame/GameConstants/GameConstants.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Test/TestFile.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
@@ -27,6 +28,9 @@
 void initUiGameObjects();
 
 int TestFuntion() {
+	// Intialize the game constants:
+	InitGameConstants();
+
 	// Instantiate a ComponentMapper so that its singleton get stored:
 	/* ComponentMapper* componentMapper = */ new ComponentMapper();
 

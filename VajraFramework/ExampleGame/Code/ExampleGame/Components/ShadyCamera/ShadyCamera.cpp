@@ -2,6 +2,7 @@
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridRoom.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
+#include "ExampleGame/GameConstants/GameConstants.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
@@ -34,7 +35,7 @@ ShadyCamera::~ShadyCamera() {
 void ShadyCamera::init() {
 	// Set camera properties
 	this->SetFOV(30.0f inRadians);
-	this->camSpeed = 15.0f;
+	this->camSpeed = GetFloatGameConstant(GAME_CONSTANT_camSpeed);
 	this->camMode = CameraMode::CameraMode_Game;
 	
 	this->newPinch = false;

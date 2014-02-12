@@ -8,7 +8,6 @@
 
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 
-class GameObject;
 class GridCell;
 class MessageData1S1I1F;
 	
@@ -17,6 +16,10 @@ class PlayerUnit : public BaseUnit {
 #define MOVE_SPEED 2.5f
 #define TURN_SPEED_DEG 360.0f
 #define NEAR_TOUCH_DIST 1.5f 
+	
+#define GOOD_TOUCH 0
+#define BAD_TOUCH  1
+#define THIEF_SPECIAL 2
 
 public:
 	PlayerUnit();
@@ -39,21 +42,29 @@ protected:
 	virtual bool isSpecialTouch(int /* touchId */) = 0; 
 	virtual void onSpecialTouch(int /* touchId */) = 0;
 
+	virtual void trySpecial(int /* touchId */) = 0;
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
+	virtual void touchedCellChanged(GridCell* prevTouchedCell);
 
 	InputState inputState;
 
 	glm::vec2 touchStartPos;
 
+
+	void startTouchIndicatorPulse();
+	void SetTouchIndicatorSprite(int /*index*/ );
+	void SetTouchIndicatorCell(GridCell*);
+	void SetTouchIndicatorVisible(bool /*visibilty*/);
+
+	//inline GameObject* GetTouchIndicator() { return this->touchIndicator; }
+	inline GridCell* GetCurrentTouchedCell() { return this->currentTouchedCell; }
 private:
 	void init();
 	void destroy();
 
 	GameObject* touchIndicator;
 	GridCell* currentTouchedCell;
-
-	void touchedCellChanged();
 
 	UnitColorScheme colorScheme;
 	

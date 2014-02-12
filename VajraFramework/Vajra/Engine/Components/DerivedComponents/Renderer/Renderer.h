@@ -27,7 +27,9 @@ public:
 
 	inline std::string GetShaderName() { return this->shaderName; }
 	inline void SetShaderName(std::string shaderName_) { this->shaderName = shaderName_; }
-
+protected:
+	void addToRenderList();
+	void removeFromRenderList();
 private:
 	void init();
 	void destroy();

@@ -95,11 +95,11 @@ namespace Tesserakonteres {
 			MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
 			meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "SD_Guard_mesh.model");
 			BakedSkeletalAnimation* bakedSkeletalAnimation = gameObject->AddComponent<BakedSkeletalAnimation>();
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Thief_mesh.skeletalanimation#idle", 1.0f);
-			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Thief_mesh.skeletalanimation#walking", 1.0f);
-			// bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Thief_mesh.skeletalanimation#jumping", 1.0f);
-			// bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Guard_mesh.skeletalanimation#nodding", 1.0f);
-			std::string animclipToPlay = "idle";
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Guard_mesh.skeletalanimation#idle", 1.0f);
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Guard_mesh.skeletalanimation#walking", 1.0f);
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Guard_mesh.skeletalanimation#guard", 1.0f);
+			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Guard_mesh.skeletalanimation#special", 1.0f);
+			std::string animclipToPlay = "walking";
 			AnimationClip* animationClip = bakedSkeletalAnimation->GetAnimationClip(animclipToPlay.c_str());
 			animationClip->SetLooping(true);
 			animationClip->SetPlaybackSpeed(0.1f);

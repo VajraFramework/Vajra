@@ -11,11 +11,6 @@
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 
-enum EnemyStates {
-	ENEMY_STATE_IDLE,
-};
-
-//[[COMPONENT]]//
 class EnemyUnit : public BaseUnit {
 public:
 	EnemyUnit();
@@ -24,20 +19,33 @@ public:
 
 	void Activate();
 
+	// @Override
+	virtual void HandleMessage(MessageChunk messageChunk);
+
 protected:
 	virtual void update();
 
+	virtual void determineBrainState() = 0;
+	virtual void setBrainState(EnemyBrainState bState); // Set any necessary data for brain state
+
 	virtual void idleUpdate();
+	virtual void cautiousUpdate();
+	virtual void aggressiveUpdate();
+
+	virtual void onSightedPlayerUnit(ObjectIdType /*id*/) { };
+	virtual void onLostSightOfPlayerUnit(ObjectIdType /*id*/) { };
+
+	AiRoutine* routine;
+	float alertness;
+	EnemyBrainState brainState;
 
 private:
 	void init();
 	void destroy();
 
 	AiKnowledge* knowledge;
-	AiRoutine* routine;
-	GridNavigator* navigator;
+	//GridNavigator* navigator;
 
-	float alertness;
 	bool isActive;
 };
 
