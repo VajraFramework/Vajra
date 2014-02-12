@@ -21,6 +21,12 @@ void InitGameConstants() {
 	gameConstantNameToId["swipe_dist_in_pixels"] = GAME_CONSTANT_swipe_dist_in_pixels;
 	gameConstantNameToId["swipe_duration_in_seconds"] = GAME_CONSTANT_swipe_duration_in_seconds;
 	gameConstantNameToId["dash_distance_in_units"] = GAME_CONSTANT_dash_distance_in_units;
+	gameConstantNameToId["jump_distance_in_units"] = GAME_CONSTANT_jump_distance_in_units;
+	gameConstantNameToId["jump_elevation_multiplier"] = GAME_CONSTANT_jump_elevation_multiplier;
+	gameConstantNameToId["target_tween_time"] = GAME_CONSTANT_target_tween_time;
+	gameConstantNameToId["target_indicator_offset"] = GAME_CONSTANT_target_indicator_offset;
+	gameConstantNameToId["target_indicator_scale"] = GAME_CONSTANT_target_indicator_scale;
+	gameConstantNameToId["target_indicator_scale_hover"] = GAME_CONSTANT_target_indicator_scale_hover;
 
 	ReadInGameConstants();
 }

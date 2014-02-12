@@ -48,16 +48,6 @@ void thiefNumberTweenCallback(float /* fromNumber */, float /* toNumber */, floa
 	}*/
 }
 
-// constants
-#define ALLOWED_FINGER_MOVEMENT_IN_PRESS 10.0f
-#define LONG_PRESS_LENGTH_IN_SECONDS 0.5f
-#define JUMP_DISTANCE_IN_UNITS 2
-#define JUMP_ELEVATION_MULTIPLIER 2
-#define TARGET_TWEEN_TIME .25f
-#define TARGET_INDICATOR_OFFSET glm::vec3(0.0f, 0.5f, 0.0f)
-#define TARGET_INDICATOR_SCALE glm::vec3(.8f, .8f, .8f)
-#define TARGET_INDICATOR_SCALE_HOVER glm::vec3 (1.1f, 1.1f, 1.1f)
-
 Thief::Thief() : PlayerUnit() {
 	this->init();
 }
@@ -139,10 +129,14 @@ void Thief::touchedCellChanged(GridCell* prevTouchedCell) {
 		PlayerUnit::touchedCellChanged(prevTouchedCell);
 	} else {
 		if(this->targetIndicators[prevTouchedCell]) {
-			ENGINE->GetTween()->TweenScale(this->targetIndicators[prevTouchedCell]->GetId(), TARGET_INDICATOR_SCALE_HOVER, TARGET_INDICATOR_SCALE, TARGET_TWEEN_TIME);
+			ENGINE->GetTween()->TweenScale(this->targetIndicators[prevTouchedCell]->GetId(), glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale_hover)), 
+																							 glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)), 
+																							 GetFloatGameConstant(GAME_CONSTANT_target_tween_time));
 		}
 		if(this->targetIndicators[this->GetCurrentTouchedCell()]) {
-			ENGINE->GetTween()->TweenScale(this->targetIndicators[this->GetCurrentTouchedCell()]->GetId(), TARGET_INDICATOR_SCALE, TARGET_INDICATOR_SCALE_HOVER, TARGET_TWEEN_TIME);
+			ENGINE->GetTween()->TweenScale(this->targetIndicators[this->GetCurrentTouchedCell()]->GetId(),  glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)),
+																											glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale_hover)), 
+																											GetFloatGameConstant(GAME_CONSTANT_target_tween_time));
 		}
 		if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
 			this->SetTouchIndicatorSprite(GOOD_TOUCH);
@@ -160,18 +154,19 @@ void Thief::updateLegalTagets() {
 	
 	std::list<GridCell*> cellsInRange;
 	SINGLETONS->GetGridManager()->GetGrid()->GetNeighborCells(cellsInRange, this->gridNavRef->GetCurrentCell(), 
-															  JUMP_DISTANCE_IN_UNITS + elevation * JUMP_ELEVATION_MULTIPLIER);
+															  GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units) 
+															  + elevation * GetFloatGameConstant(GAME_CONSTANT_jump_elevation_multiplier));
 
 	for ( GridCell* c : cellsInRange) {
 		if(c->y == elevation) { // is the cell on the same height
-			if(this->gridNavRef->CanReachDestination(c, JUMP_DISTANCE_IN_UNITS) && SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(currentCell, c, elevation) ) {
+			if(this->gridNavRef->CanReachDestination(c, GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units)) && SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(currentCell, c, elevation) ) {
 				this->legalTargets.push_back(c);
 			}
 		}
 		else if(c->y <= elevation + 1) { // is the cell below it
 			if(SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, c->y)) {
 				float dist = glm::distance(c->origin, currentCell->origin);
-				if(dist <= JUMP_DISTANCE_IN_UNITS + c->y * JUMP_ELEVATION_MULTIPLIER) {
+				if(dist <= GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units) + c->y * GetFloatGameConstant(GAME_CONSTANT_jump_elevation_multiplier)) {
 					this->legalTargets.push_back(c);
 				}
 			}
@@ -186,7 +181,7 @@ void Thief::tweenInTargets() {
 	for(auto contents : this->targetIndicators ) {
 		if(contents.second != nullptr) {
 			pos = contents.second->GetTransform()->GetPosition();
-			ENGINE->GetTween()->TweenPosition(contents.second->GetId(), pos, pos + TARGET_INDICATOR_OFFSET, TARGET_TWEEN_TIME);
+			ENGINE->GetTween()->TweenPosition(contents.second->GetId(), pos, pos + glm::vec3(0.0f, GetFloatGameConstant(GAME_CONSTANT_target_indicator_offset), 0.0f), GetFloatGameConstant(GAME_CONSTANT_target_tween_time));
 		}
 	}
 }
@@ -196,7 +191,7 @@ void Thief::tweenOutTargets() {
 	for(auto contents : this->targetIndicators ) {
 		if(contents.second != nullptr) {
 			pos = contents.second->GetTransform()->GetPosition();
-			ENGINE->GetTween()->TweenScale(contents.second->GetId(), TARGET_INDICATOR_SCALE, glm::vec3(0), TARGET_TWEEN_TIME);
+			ENGINE->GetTween()->TweenScale(contents.second->GetId(), glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)), glm::vec3(0), GetFloatGameConstant(GAME_CONSTANT_target_tween_time));
 		}
 	}
 }
@@ -209,7 +204,7 @@ void Thief::createTargets() {
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_01.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 		indicator->GetTransform()->SetPosition(c->center);
-		indicator->GetTransform()->SetScale(TARGET_INDICATOR_SCALE);
+		indicator->GetTransform()->SetScale( glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)));
 		indicator->GetTransform()->Translate(0.0f, YAXIS);
 		indicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 		this->targetIndicators[c] = indicator;
