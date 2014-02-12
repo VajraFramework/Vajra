@@ -146,3 +146,10 @@ void lerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const fl
 	lerp(destination.y, a.y, b.y, interp);
 	lerp(destination.z, a.z, b.z, interp);
 }
+
+void lerp(glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, const float interp) {
+	lerp(destination.x, a.x, b.x, interp);
+	lerp(destination.y, a.y, b.y, interp);
+	lerp(destination.z, a.z, b.z, interp);
+	lerp(destination.w, a.w, b.w, interp);
+}

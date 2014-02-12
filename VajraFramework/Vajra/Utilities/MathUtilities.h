@@ -70,6 +70,7 @@ bool rayPlaneIntersection(Ray& ray, Plane& plane, float& dist);
 
 // Vector functions
 void lerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float interp);
+void lerp(glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, const float interp);
 
 inline float square(float number) {
 	return number * number;
@@ -94,5 +95,7 @@ inline void clamp(float& out, float min, float max) {
 inline void clamp(int& out, int min, int max) {
 	out = std::max(std::min(out, max), min);
 }
+
+inline float randf() { return ((rand()%100) / 100.0f); }
 
 #endif // MATHUTILITIES_H

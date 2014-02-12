@@ -12,6 +12,7 @@
 
 @implementation IOSInputSender
 
+float scale;
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame: frame];
 	// resize the view on rotate
@@ -22,6 +23,12 @@
 	// subscribe to the pinch and long press gesture
 	UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
 	[self addGestureRecognizer : pinch];
+
+	// store the scale for multiplying touch positions
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+    	scale = [[UIScreen mainScreen] scale];
+    }
+
 #ifdef LONG_PRESS
 	UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
 	[self addGestureRecognizer : press];
@@ -32,7 +39,7 @@
 - (void) touchesBegan:(NSSet *) touches withEvent:(UIEvent *) event {
 	for (UITouch *touch in touches) {
 		CGPoint pt = [touch locationInView:self];
-		ENGINE->GetInput()->AddTouch((long)(id)touch, pt.x, pt.y);
+		ENGINE->GetInput()->AddTouch((long)(id)touch, pt.x * scale, pt.y * scale);
     }
 }
 
@@ -54,14 +61,14 @@
 #ifdef LONG_PRESS
 - (void) handleLongPress: (UIPinchGestureRecognizer *)uigr {
 	CGPoint pt = [uigr locationInView:self];
-	ENGINE->GetInput()->UpdateLongPress(pt.x, pt.y, (GestureState)uigr.state);
+	ENGINE->GetInput()->UpdateLongPress(pt.x * scale, pt.y * scale, (GestureState)uigr.state);
 }
 #endif
 
 - (void) updateTouches:(NSSet*)touches second:(TouchPhase)phase {
     for(UITouch *touch in touches) {
 		CGPoint pt = [touch locationInView:self];
-		ENGINE->GetInput()->UpdateTouch((long)(id)touch, pt.x, pt.y, phase);
+		ENGINE->GetInput()->UpdateTouch((long)(id)touch, pt.x * scale, pt.y * scale, phase);
     }
 }
 @end

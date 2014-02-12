@@ -16,7 +16,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // temp
-bool setupGraphics(int w, int h);
+bool setupGraphics(int w, int h, int dpi);
 
 // Returns false if not enough time has passed since the last frame and no work was done, true otherwise
 bool renderFrame();

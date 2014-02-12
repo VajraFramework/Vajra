@@ -25,9 +25,9 @@ void OpenGLWrapper::PrintGLVersion() {
 #endif // PLATFORM_IOS
 }
 
-void OpenGLWrapper::CreateShaderSet(std::string shaderName, std::string shaderSpecificationName) {
+void OpenGLWrapper::CreateShaderSet(std::string shaderName, std::string shaderSpecificationName, bool hasTransperancy, bool isOverlay) {
 
-    ShaderSet* shaderSet = new ShaderSet(shaderSpecificationName);
+    ShaderSet* shaderSet = new ShaderSet(shaderSpecificationName, hasTransperancy, isOverlay);
 
     VERIFY(this->shaderSets.find(shaderName) == this->shaderSets.end(), "Not duplicate shader set");
     this->shaderSets[shaderName] = shaderSet;
@@ -46,9 +46,31 @@ void OpenGLWrapper::SetCurrentShaderSet(std::string shaderName) {
 }
 
 void OpenGLWrapper::GetAllAvailableShaderNames(std::vector<std::string>& out_shaderNames) {
+	// Return these in the loosely sorted order of opaque first, transperant next, ui last:
+
+	// Consider only the shader sets that are completely opaque and are not an overlay:
 	for (auto shaderSet_it = this->shaderSets.begin(); shaderSet_it != this->shaderSets.end(); ++shaderSet_it) {
-		out_shaderNames.push_back(shaderSet_it->first);
+		ShaderSet* shaderSet = shaderSet_it->second;
+		if (!shaderSet->HasTransperancy() && !shaderSet->IsOverlay()) {
+			out_shaderNames.push_back(shaderSet_it->first);
+		}
 	}
+	// Consider only the shader sets that have transperancy and are not an overlay:
+	for (auto shaderSet_it = this->shaderSets.begin(); shaderSet_it != this->shaderSets.end(); ++shaderSet_it) {
+		ShaderSet* shaderSet = shaderSet_it->second;
+		if (shaderSet->HasTransperancy() && !shaderSet->IsOverlay()) {
+			out_shaderNames.push_back(shaderSet_it->first);
+		}
+	}
+	// Consider only the shader sets that are overlays:
+	for (auto shaderSet_it = this->shaderSets.begin(); shaderSet_it != this->shaderSets.end(); ++shaderSet_it) {
+		ShaderSet* shaderSet = shaderSet_it->second;
+		if (shaderSet->IsOverlay()) {
+			out_shaderNames.push_back(shaderSet_it->first);
+		}
+	}
+
+	ASSERT(out_shaderNames.size() == this->shaderSets.size(), "Did not miss any shader names");
 }
 
 void OpenGLWrapper::init() {
@@ -60,13 +82,14 @@ void OpenGLWrapper::init() {
 
     ShaderSetCreationHelper::LoadPreprocessorVariables();
 
-	this->CreateShaderSet("simshdr", "SimplestShader.shaderspec");
-	this->CreateShaderSet("txrshdr", "TextureShader.shaderspec");
-	this->CreateShaderSet("clrshdr", "ColorShader.shaderspec");
-	this->CreateShaderSet("bncshdr", "BoneColorShader.shaderspec");
-	this->CreateShaderSet("bntshdr", "BoneTextureShader.shaderspec");
-	this->CreateShaderSet("sptshdr", "SpriteTextureShader.shaderspec");
-	this->CreateShaderSet("spcshdr", "SpriteColorShader.shaderspec");
+	this->CreateShaderSet("simshdr", "SimplestShader.shaderspec", false, false);
+	this->CreateShaderSet("txrshdr", "TextureShader.shaderspec", false, false);
+	this->CreateShaderSet("clrshdr", "ColorShader.shaderspec", true, false);
+	this->CreateShaderSet("bncshdr", "BoneColorShader.shaderspec", false, false);
+	this->CreateShaderSet("bntshdr", "BoneTextureShader.shaderspec", false, false);
+	this->CreateShaderSet("sptshdr", "SpriteTextureShader.shaderspec", true, true);
+	this->CreateShaderSet("spcshdr", "SpriteColorShader.shaderspec", false, false);
+	this->CreateShaderSet("prtshdr", "ParticleSystem.shaderspec", true, false);
 
 }
 

@@ -167,7 +167,7 @@ void GridManager::loadGridDataFromXml(XmlNode* gridNode) {
 	}
 
 	// Eventually this needs to be a list from highest to lowest.
-	this->gridPlane.origin = this->grid->GetCell(0, 0)->center;
+	this->gridPlane.origin = ZERO_VEC3;
 }
 
 void GridManager::loadCellDataFromXml(XmlNode* cellDataNode) {

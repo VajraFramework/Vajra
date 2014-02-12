@@ -5,6 +5,7 @@
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
+#include "ExampleGame/GameConstants/GameConstants.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Test/TestFile.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
@@ -27,6 +28,9 @@
 void initUiGameObjects();
 
 int TestFuntion() {
+	// Intialize the game constants:
+	InitGameConstants();
+
 	// Instantiate a ComponentMapper so that its singleton get stored:
 	/* ComponentMapper* componentMapper = */ new ComponentMapper();
 
@@ -110,10 +114,39 @@ int TestFuntion() {
 	}
 
 	{
+#if 1
 		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
 							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "test.prefab",
 						   	     	 ENGINE->GetSceneGraph3D());
-
+#endif
+	}
+	{
+#if 1
+		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
+							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "fire_0.prefab",
+						   	     	 ENGINE->GetSceneGraph3D());
+#endif
+	}
+	{
+#if 1
+		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
+							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "fire_1.prefab",
+						   	     	 ENGINE->GetSceneGraph3D());
+#endif
+	}
+	{
+#if 1
+		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
+							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "fire_2.prefab",
+						   	     	 ENGINE->GetSceneGraph3D());
+#endif
+	}
+	{
+#if 1
+		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
+							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "fire_3.prefab",
+						   	     	 ENGINE->GetSceneGraph3D());
+#endif
 	}
 	{
 #if 0

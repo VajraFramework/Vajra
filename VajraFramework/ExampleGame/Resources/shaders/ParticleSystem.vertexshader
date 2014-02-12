@@ -1,0 +1,41 @@
+__VARIABLES__
+vPosition
+
+#ifdef SKEW_GEOMETRY
+modelMatrix
+vpMatrix
+#else
+mvpMatrix
+#endif
+
+pointSize
+
+particleColor
+lightIntensity
+__VARIABLES_END__
+
+
+__SOURCE__
+
+#ifdef SKEW_GEOMETRY
+vec4 zSkew = vec4(0.0, 0.0, -.5, 0.0);
+vec4 ySkew = vec4(0.0, 0.5, 0.0, 0.0);
+#else
+vec4 zSkew = vec4(0.0, 0.0, 0.0, 0.0);
+vec4 ySkew = vec4(0.0, 0.0, 0.0, 0.0);
+#endif
+
+void main()
+{
+#ifdef SKEW_GEOMETRY
+	gl_Position = modelMatrix * vPosition;
+	float yAmt = gl_Position.y;
+	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
+#else
+	gl_Position = mvpMatrix * vPosition;
+#endif
+	gl_PointSize = pointSize;
+	lightIntensity = particleColor;
+}
+__SOURCE_END__
+

@@ -102,8 +102,8 @@ JNIEXPORT void JNICALL Java_com_vajra_androidwrapper_VajraAndroidWrapper_init(JN
     // loadAsset("simple_vshader");
     testCallIntoJava();
 
-
-    setupGraphics(width, height);
+    // TODO [Implement] send the correct DPI
+    setupGraphics(width, height, 0);
 
 
     Tesserakonteres::initGameObjectsForScene();
