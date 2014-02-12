@@ -239,7 +239,7 @@ void GridManager::loadRoomDataFromXml(XmlNode* roomDataNode) {
 	}
 }
 
-void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height) {
+void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int /*width*/, int /*height*/) {
 	//int eastBound = westBound + width - 1;
 	//int northBound = southBound + height - 1;
 

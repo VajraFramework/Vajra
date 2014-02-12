@@ -31,7 +31,7 @@ void thiefTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName
 	
 }
 
-void thiefNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
+void thiefNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* /*userParams*/) {
 	/*GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
 	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
 	if(go != nullptr) {

@@ -169,7 +169,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	}
 }
 
-void PlayerUnit::touchedCellChanged(GridCell* prevTouchedCell) {
+void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
 	this->SetTouchIndicatorCell(this->currentTouchedCell);
 	if(this->inputState == InputState::INPUT_STATE_NAV) {
 		if(this->gridNavRef->CanReachDestination(this->currentTouchedCell)) {
