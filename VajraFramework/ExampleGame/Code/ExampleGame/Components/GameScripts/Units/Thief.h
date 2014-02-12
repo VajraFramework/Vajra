@@ -30,17 +30,26 @@ protected:
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
 
-	virtual void touchedCellChanged();
+	virtual void touchedCellChanged(GridCell* prevTouchedCell);
 private:
 	void init();
 	void destroy();
 	
 	void updateLegalTagets();
 
+	void tweenInTargets();
+	void tweenOutTargets();
+
+	void createTargets();
+	void deleteTargets();
+
 	GridCell* targetedCell;
 
 	std::vector<GridCell*> legalTargets;
+	std::vector<GameObject*> targetIndicators;
 	friend void thiefTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
+	friend void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams);
+	
 
 };
 

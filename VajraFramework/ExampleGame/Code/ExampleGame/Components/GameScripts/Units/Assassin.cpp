@@ -72,9 +72,9 @@ void Assassin::onSpecialEnd() {
 
 }
 
-void Assassin::touchedCellChanged() {
+void Assassin::touchedCellChanged(GridCell* prevTouchedCell) {
 	if(this->inputState == InputState::INPUT_STATE_NAV) {
-		PlayerUnit::touchedCellChanged();
+		PlayerUnit::touchedCellChanged(prevTouchedCell);
 	} else {
 		std::list<GridCell*> touchedCells;
 		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->gridNavRef->GetCurrentCell(), this->GetCurrentTouchedCell(), touchedCells);

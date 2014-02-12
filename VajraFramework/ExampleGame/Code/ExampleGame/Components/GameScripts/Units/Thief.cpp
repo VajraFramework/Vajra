@@ -12,9 +12,10 @@
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
 
-// Tween callback
+// Tween callbacks
 void thiefTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName */) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
@@ -28,12 +29,30 @@ void thiefTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName
 	
 }
 
+void thiefNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
+	/*GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
+	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
+	if(go != nullptr) {
+		Thief* thief = go->GetComponent<Thief>();
+		ASSERT(thief != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
+		if(thief != nullptr) {
+			if(tweenClipName == "targetsIn") {
+				for(GameObject* go : thief->targetIndicators ) {
+
+				}
+				
+			}
+		}
+	}*/
+}
+
 // constants
 #define ALLOWED_FINGER_MOVEMENT_IN_PRESS 10.0f
 #define LONG_PRESS_LENGTH_IN_SECONDS 0.5f
 #define JUMP_DISTANCE_IN_UNITS 2
 #define JUMP_ELEVATION_MULTIPLIER 2
-
+#define TARGET_TWEEN_TIME .25f
+#define TARGET_INDICATOR_OFFSET glm::vec3(0.0f, 0.5f, 0.0f)
 Thief::Thief() : PlayerUnit() {
 	this->init();
 }
@@ -70,6 +89,7 @@ void Thief::onSpecialTouch(int touchId) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchId);
 	if(touch.phase == TouchPhase::Ended) {
 		this->targetedCell = SINGLETONS->GetGridManager()->TouchPositionToCell(touch.pos);
+		this->deleteTargets();
 		// TODO [HACK] Remove when the thief can gather legal targets
 		if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
 			this->startSpecial();
@@ -98,8 +118,8 @@ void Thief::onSpecialEnd() {
 	this->gridNavRef->SetGridPosition(this->targetedCell);
 }
 
-void Thief::touchedCellChanged() {
-	PlayerUnit::touchedCellChanged();
+void Thief::touchedCellChanged(GridCell* prevTouchedCell) {
+	PlayerUnit::touchedCellChanged(prevTouchedCell);
 	if(this->inputState == InputState::INPUT_STATE_SPECIAL) {
 		if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
 			this->GetTouchIndicator()->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
@@ -111,6 +131,7 @@ void Thief::touchedCellChanged() {
 
 void Thief::updateLegalTagets() {
 	this->legalTargets.clear();
+	this->deleteTargets();
 	GridCell* currentCell = this->gridNavRef->GetCurrentCell();
 	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(currentCell->center.y);
 	
@@ -133,4 +154,37 @@ void Thief::updateLegalTagets() {
 			}
 		}
 	}
+	this->createTargets();
+	this->tweenInTargets();
+}
+
+void Thief::tweenInTargets() {
+	glm::vec3 pos;
+	for(GameObject* go : this->targetIndicators ) {
+		pos = go->GetTransform()->GetPosition();
+		ENGINE->GetTween()->TweenPosition(go->GetId(), pos, pos + TARGET_INDICATOR_OFFSET, TARGET_TWEEN_TIME);
+	}
+}
+
+void Thief::createTargets() {
+	for( GridCell* c : this->legalTargets ) {
+		GameObject* indicator = new GameObject(ENGINE->GetSceneGraph3D());
+		SpriteRenderer* spriteRenderer = indicator->AddComponent<SpriteRenderer>();
+		std::vector<std::string> pathsToTextures;
+		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_01.png");
+		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
+		indicator->GetTransform()->SetPosition(c->center);
+		indicator->GetTransform()->SetScale(glm::vec3(.9f, .9f, 1.0f));
+		indicator->GetTransform()->Translate(0.0f, YAXIS);
+		indicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+		this->targetIndicators.push_back(indicator);
+	}
+}
+
+void Thief::deleteTargets() {
+	for( GameObject* go : this->targetIndicators ) {
+		delete go;
+	}
+	this->targetIndicators.clear();
+
 }

@@ -27,7 +27,7 @@ protected:
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
 
-	virtual void touchedCellChanged();
+	virtual void touchedCellChanged(GridCell* prevTouchedCell);
 private:
 	void init();
 	void destroy();

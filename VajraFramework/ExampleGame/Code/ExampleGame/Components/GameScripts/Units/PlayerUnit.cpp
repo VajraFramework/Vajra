@@ -58,8 +58,8 @@ void PlayerUnit::init() {
 	this->touchIndicator = new GameObject(ENGINE->GetSceneGraph3D());
 	SpriteRenderer* spriteRenderer = this->touchIndicator->AddComponent<SpriteRenderer>();
 	std::vector<std::string> pathsToTextures;
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_Touch_Good.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_Touch_Bad.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Indicator_01.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Fail_01.png");
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 
 	touchIndicator->SetVisible(false);
@@ -90,8 +90,9 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 
 void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 	if(this->currentTouchedCell != touchedCell || ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Began) {
+		GridCell* prevTouchedCell = this->currentTouchedCell;
 		this->currentTouchedCell = touchedCell;
-		this->touchedCellChanged();
+		this->touchedCellChanged(prevTouchedCell);
 	}
 	
 	if(ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Began) {
@@ -171,7 +172,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	}
 }
 
-void PlayerUnit::touchedCellChanged() {
+void PlayerUnit::touchedCellChanged(GridCell* prevTouchedCell) {
 	this->touchIndicator->GetTransform()->SetPosition(this->currentTouchedCell->center);
 	this->touchIndicator->GetTransform()->Translate(0.01f * (this->currentTouchedCell->y * 2.0f), YAXIS);
 	if(this->inputState == InputState::INPUT_STATE_NAV) {

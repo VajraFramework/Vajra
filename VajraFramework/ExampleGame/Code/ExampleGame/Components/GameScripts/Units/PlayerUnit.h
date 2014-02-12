@@ -45,7 +45,7 @@ protected:
 	virtual void trySpecial(int /* touchId */) = 0;
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
-	virtual void touchedCellChanged();
+	virtual void touchedCellChanged(GridCell* prevTouchedCell);
 
 	InputState inputState;
 
