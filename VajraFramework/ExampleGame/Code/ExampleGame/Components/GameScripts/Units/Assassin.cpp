@@ -84,9 +84,6 @@ void Assassin::touchedCellChanged(GridCell* prevTouchedCell) {
 			}
 			cellIndex++;
 		}
-		this->GetTouchIndicator()->GetTransform()->SetPosition(this->targetedCell->center);
-		this->GetTouchIndicator()->GetTransform()->Translate(0.01f, YAXIS);
+		this->SetTouchIndicatorCell(this->targetedCell);
 	}
-	
 }
-

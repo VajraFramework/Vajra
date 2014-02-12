@@ -60,6 +60,7 @@ void PlayerUnit::init() {
 	std::vector<std::string> pathsToTextures;
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Indicator_01.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Fail_01.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_01.png");
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 
 	touchIndicator->SetVisible(false);
@@ -143,7 +144,6 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 		this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(BAD_TOUCH);
 		this->onSpecialTouch(touchId);
 	} else {
-		MessageData1S1I1F* userParams;
 		switch(ENGINE->GetInput()->GetTouch(touchId).phase) {
 			case TouchPhase::Began:
 				touchIndicator->GetTransform()->SetPosition(this->currentTouchedCell->center);
@@ -157,10 +157,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 			case TouchPhase::Ended:
 				this->currentTouchedCell = nullptr;
 				this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
-				userParams = new MessageData1S1I1F();
-				userParams->i = this->GetObject()->GetId();
-				ENGINE->GetTween()->CancelScaleTween(this->touchIndicator->GetId());
-				ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, true, true, true, "pulse", userParams, playerUnitNumberTweenCallback);
+				this->startTouchIndicatorPulse();
 				break;
 			case TouchPhase::Cancelled:
 				this->currentTouchedCell = nullptr;
@@ -173,8 +170,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 }
 
 void PlayerUnit::touchedCellChanged(GridCell* prevTouchedCell) {
-	this->touchIndicator->GetTransform()->SetPosition(this->currentTouchedCell->center);
-	this->touchIndicator->GetTransform()->Translate(0.01f * (this->currentTouchedCell->y * 2.0f), YAXIS);
+	this->SetTouchIndicatorCell(this->currentTouchedCell);
 	if(this->inputState == InputState::INPUT_STATE_NAV) {
 		if(this->gridNavRef->CanReachDestination(this->currentTouchedCell)) {
 			this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
@@ -191,4 +187,25 @@ void PlayerUnit::setTouchNearUnit() {
 	} else {
 		this->touchNearUnit = false;
 	}
+}
+
+void PlayerUnit::startTouchIndicatorPulse() {
+	MessageData1S1I1F* userParams = new MessageData1S1I1F();
+	userParams->i = this->GetObject()->GetId();
+	ENGINE->GetTween()->CancelScaleTween(this->touchIndicator->GetId());
+	ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, true, true, true, "pulse", userParams, playerUnitNumberTweenCallback);	
+}
+
+
+void PlayerUnit::SetTouchIndicatorSprite(int index) {
+	this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(index);
+}
+
+void PlayerUnit::SetTouchIndicatorCell(GridCell* c) {
+	this->touchIndicator->GetTransform()->SetPosition(c->center);
+	this->touchIndicator->GetTransform()->Translate(0.01f + (c->y * 2.0f), YAXIS);
+}
+
+void PlayerUnit::SetTouchIndicatorVisible(bool visibility) {
+	this->touchIndicator->SetVisible(visibility); 
 }

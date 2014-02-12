@@ -83,6 +83,7 @@ bool Thief::isSpecialTouch(int touchId) {
 		Touch touch = ENGINE->GetInput()->GetTouch(touchId);
 		if(touch.timeDown >= GetFloatGameConstant(GAME_CONSTANT_long_press_length_in_seconds) && glm::distance(touch.pos, this->touchStartPos) <= GetFloatGameConstant(GAME_CONSTANT_allowed_finger_movement_in_press)) {
 			this->targetedCell = nullptr;
+			this->SetTouchIndicatorVisible(false);
 			this->updateLegalTagets();
 			return true;
 		}
@@ -94,7 +95,6 @@ void Thief::onSpecialTouch(int touchId) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchId);
 	if(touch.phase == TouchPhase::Ended) {
 		this->targetedCell = SINGLETONS->GetGridManager()->TouchPositionToCell(touch.pos);
-		this->deleteTargets();
 		// TODO [HACK] Remove when the thief can gather legal targets
 		if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
 			this->startSpecial();
@@ -102,11 +102,22 @@ void Thief::onSpecialTouch(int touchId) {
 			this->targetedCell = this->gridNavRef->GetCurrentCell();
 			this->onSpecialEnd();
 		}
+		this->tweenOutTargets();
 	}
 }
 
 void Thief::startSpecial() {
 	PlayerUnit::startSpecial();
+	// Remove the indicator at the selected position
+	GameObject* selectedTargetIndicator = this->targetIndicators[this->targetedCell];
+	this->targetIndicators.erase(this->targetedCell);
+	delete selectedTargetIndicator;
+
+	this->SetTouchIndicatorCell(this->targetedCell);
+	this->startTouchIndicatorPulse();
+	this->SetTouchIndicatorSprite(THIEF_SPECIAL);
+	this->SetTouchIndicatorVisible(true);
+	
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
 									  this->gameObjectRef->GetTransform()->GetPosition(),
 									  this->targetedCell->center,
@@ -124,8 +135,9 @@ void Thief::onSpecialEnd() {
 }
 
 void Thief::touchedCellChanged(GridCell* prevTouchedCell) {
-	PlayerUnit::touchedCellChanged(prevTouchedCell);
-	if(this->inputState == InputState::INPUT_STATE_SPECIAL) {
+	if(this->inputState == InputState::INPUT_STATE_NAV) {
+		PlayerUnit::touchedCellChanged(prevTouchedCell);
+	} else {
 		if(this->targetIndicators[prevTouchedCell]) {
 			ENGINE->GetTween()->TweenScale(this->targetIndicators[prevTouchedCell]->GetId(), TARGET_INDICATOR_SCALE_HOVER, TARGET_INDICATOR_SCALE, TARGET_TWEEN_TIME);
 		}
@@ -133,9 +145,9 @@ void Thief::touchedCellChanged(GridCell* prevTouchedCell) {
 			ENGINE->GetTween()->TweenScale(this->targetIndicators[this->GetCurrentTouchedCell()]->GetId(), TARGET_INDICATOR_SCALE, TARGET_INDICATOR_SCALE_HOVER, TARGET_TWEEN_TIME);
 		}
 		if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
-			this->GetTouchIndicator()->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
+			this->SetTouchIndicatorSprite(GOOD_TOUCH);
 		} else {
-			this->GetTouchIndicator()->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(BAD_TOUCH);
+			this->SetTouchIndicatorSprite(BAD_TOUCH);
 		}
 	}
 }
@@ -172,8 +184,20 @@ void Thief::updateLegalTagets() {
 void Thief::tweenInTargets() {
 	glm::vec3 pos;
 	for(auto contents : this->targetIndicators ) {
-		pos = contents.second->GetTransform()->GetPosition();
-		ENGINE->GetTween()->TweenPosition(contents.second->GetId(), pos, pos + TARGET_INDICATOR_OFFSET, TARGET_TWEEN_TIME);
+		if(contents.second != nullptr) {
+			pos = contents.second->GetTransform()->GetPosition();
+			ENGINE->GetTween()->TweenPosition(contents.second->GetId(), pos, pos + TARGET_INDICATOR_OFFSET, TARGET_TWEEN_TIME);
+		}
+	}
+}
+
+void Thief::tweenOutTargets() {
+	glm::vec3 pos;
+	for(auto contents : this->targetIndicators ) {
+		if(contents.second != nullptr) {
+			pos = contents.second->GetTransform()->GetPosition();
+			ENGINE->GetTween()->TweenScale(contents.second->GetId(), TARGET_INDICATOR_SCALE, glm::vec3(0), TARGET_TWEEN_TIME);
+		}
 	}
 }
 
