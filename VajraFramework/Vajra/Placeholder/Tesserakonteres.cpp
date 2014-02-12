@@ -99,7 +99,7 @@ namespace Tesserakonteres {
 			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Guard_mesh.skeletalanimation#walking", 1.0f);
 			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Guard_mesh.skeletalanimation#guard", 1.0f);
 			bakedSkeletalAnimation->AddAnimationClip(FRAMEWORK->GetFileSystemUtils()->GetDeviceAnimationResourcesFolderName() + "SD_Guard_mesh.skeletalanimation#special", 1.0f);
-			std::string animclipToPlay = "special";
+			std::string animclipToPlay = "walking";
 			AnimationClip* animationClip = bakedSkeletalAnimation->GetAnimationClip(animclipToPlay.c_str());
 			animationClip->SetLooping(true);
 			animationClip->SetPlaybackSpeed(0.1f);
