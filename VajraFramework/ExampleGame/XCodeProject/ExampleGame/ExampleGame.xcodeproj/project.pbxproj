@@ -28,20 +28,6 @@
 		58F60D52185133F90036DDDE /* libVajraStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60D51185133F90036DDDE /* libVajraStaticLibrary.a */; };
 		58F60E6318515E990036DDDE /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60E6218515E990036DDDE /* OpenAL.framework */; };
 		B383FD0C187B4B0000999890 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B383FB72187B4AFF00999890 /* .gitignore */; };
-		B39E681918AC1C0F00E8F86F /* animations in Resources */ = {isa = PBXBuildFile; fileRef = B39E680B18AC1C0F00E8F86F /* animations */; };
-		B39E681A18AC1C0F00E8F86F /* armatures in Resources */ = {isa = PBXBuildFile; fileRef = B39E680C18AC1C0F00E8F86F /* armatures */; };
-		B39E681B18AC1C0F00E8F86F /* audio in Resources */ = {isa = PBXBuildFile; fileRef = B39E680D18AC1C0F00E8F86F /* audio */; };
-		B39E681C18AC1C0F00E8F86F /* ComponentSpecifications in Resources */ = {isa = PBXBuildFile; fileRef = B39E680E18AC1C0F00E8F86F /* ComponentSpecifications */; };
-		B39E681D18AC1C0F00E8F86F /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B39E680F18AC1C0F00E8F86F /* fonts */; };
-		B39E681E18AC1C0F00E8F86F /* gameconstants in Resources */ = {isa = PBXBuildFile; fileRef = B39E681018AC1C0F00E8F86F /* gameconstants */; };
-		B39E681F18AC1C0F00E8F86F /* levels in Resources */ = {isa = PBXBuildFile; fileRef = B39E681118AC1C0F00E8F86F /* levels */; };
-		B39E682018AC1C0F00E8F86F /* logging in Resources */ = {isa = PBXBuildFile; fileRef = B39E681218AC1C0F00E8F86F /* logging */; };
-		B39E682118AC1C0F00E8F86F /* models in Resources */ = {isa = PBXBuildFile; fileRef = B39E681318AC1C0F00E8F86F /* models */; };
-		B39E682218AC1C0F00E8F86F /* pictures in Resources */ = {isa = PBXBuildFile; fileRef = B39E681418AC1C0F00E8F86F /* pictures */; };
-		B39E682318AC1C0F00E8F86F /* prefabs in Resources */ = {isa = PBXBuildFile; fileRef = B39E681518AC1C0F00E8F86F /* prefabs */; };
-		B39E682418AC1C0F00E8F86F /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = B39E681618AC1C0F00E8F86F /* shaders */; };
-		B39E682518AC1C0F00E8F86F /* tags in Resources */ = {isa = PBXBuildFile; fileRef = B39E681718AC1C0F00E8F86F /* tags */; };
-		B39E682618AC1C0F00E8F86F /* uiscenes in Resources */ = {isa = PBXBuildFile; fileRef = B39E681818AC1C0F00E8F86F /* uiscenes */; };
 		B39E688418AC1C3500E8F86F /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39E682C18AC1C3500E8F86F /* AndroidWrapper.cpp */; };
 		B39E688518AC1C3500E8F86F /* ComponentMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39E682F18AC1C3500E8F86F /* ComponentMapper.cpp */; };
 		B39E688618AC1C3500E8F86F /* AiCommandParse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39E683618AC1C3500E8F86F /* AiCommandParse.cpp */; };
@@ -75,6 +61,20 @@
 		B39E68A218AC1C3500E8F86F /* GameUiTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39E687E18AC1C3500E8F86F /* GameUiTouchHandlers.cpp */; };
 		B39E68A318AC1C3500E8F86F /* MainMenuTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39E688018AC1C3500E8F86F /* MainMenuTouchHandlers.cpp */; };
 		B39E68A418AC1C3500E8F86F /* TestUiSceneTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39E688218AC1C3500E8F86F /* TestUiSceneTouchHandlers.cpp */; };
+		B39E6E9A18AC373E00E8F86F /* animations in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E8C18AC373E00E8F86F /* animations */; };
+		B39E6E9B18AC373E00E8F86F /* armatures in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E8D18AC373E00E8F86F /* armatures */; };
+		B39E6E9C18AC373E00E8F86F /* audio in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E8E18AC373E00E8F86F /* audio */; };
+		B39E6E9D18AC373E00E8F86F /* ComponentSpecifications in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E8F18AC373E00E8F86F /* ComponentSpecifications */; };
+		B39E6E9E18AC373E00E8F86F /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E9018AC373E00E8F86F /* fonts */; };
+		B39E6E9F18AC373E00E8F86F /* gameconstants in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E9118AC373E00E8F86F /* gameconstants */; };
+		B39E6EA018AC373E00E8F86F /* levels in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E9218AC373E00E8F86F /* levels */; };
+		B39E6EA118AC373E00E8F86F /* logging in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E9318AC373E00E8F86F /* logging */; };
+		B39E6EA218AC373E00E8F86F /* models in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E9418AC373E00E8F86F /* models */; };
+		B39E6EA318AC373E00E8F86F /* pictures in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E9518AC373E00E8F86F /* pictures */; };
+		B39E6EA418AC373E00E8F86F /* prefabs in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E9618AC373E00E8F86F /* prefabs */; };
+		B39E6EA518AC373E00E8F86F /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E9718AC373E00E8F86F /* shaders */; };
+		B39E6EA618AC373E00E8F86F /* tags in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E9818AC373E00E8F86F /* tags */; };
+		B39E6EA718AC373E00E8F86F /* uiscenes in Resources */ = {isa = PBXBuildFile; fileRef = B39E6E9918AC373E00E8F86F /* uiscenes */; };
 		BA97CF0118971D9000942107 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDAF18971D8F00942107 /* CMakeLists.txt */; };
 		BA97CF0218971D9000942107 /* func_common.inl in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDB818971D8F00942107 /* func_common.inl */; };
 		BA97CF0318971D9000942107 /* func_exponential.inl in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDBA18971D8F00942107 /* func_exponential.inl */; };
@@ -352,20 +352,6 @@
 		B383FD08187B4B0000999890 /* OpenGLIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLIncludes.h; sourceTree = "<group>"; };
 		B383FD09187B4B0000999890 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		B383FD0B187B4B0000999890 /* VajraToAndroidJavaInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VajraToAndroidJavaInterface.h; sourceTree = "<group>"; };
-		B39E680B18AC1C0F00E8F86F /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = animations; sourceTree = "<group>"; };
-		B39E680C18AC1C0F00E8F86F /* armatures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = armatures; sourceTree = "<group>"; };
-		B39E680D18AC1C0F00E8F86F /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audio; sourceTree = "<group>"; };
-		B39E680E18AC1C0F00E8F86F /* ComponentSpecifications */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ComponentSpecifications; sourceTree = "<group>"; };
-		B39E680F18AC1C0F00E8F86F /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
-		B39E681018AC1C0F00E8F86F /* gameconstants */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gameconstants; sourceTree = "<group>"; };
-		B39E681118AC1C0F00E8F86F /* levels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = levels; sourceTree = "<group>"; };
-		B39E681218AC1C0F00E8F86F /* logging */ = {isa = PBXFileReference; lastKnownFileType = folder; path = logging; sourceTree = "<group>"; };
-		B39E681318AC1C0F00E8F86F /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
-		B39E681418AC1C0F00E8F86F /* pictures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures; sourceTree = "<group>"; };
-		B39E681518AC1C0F00E8F86F /* prefabs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = prefabs; sourceTree = "<group>"; };
-		B39E681618AC1C0F00E8F86F /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
-		B39E681718AC1C0F00E8F86F /* tags */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tags; sourceTree = "<group>"; };
-		B39E681818AC1C0F00E8F86F /* uiscenes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = uiscenes; sourceTree = "<group>"; };
 		B39E682C18AC1C3500E8F86F /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
 		B39E682D18AC1C3500E8F86F /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
 		B39E682F18AC1C3500E8F86F /* ComponentMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComponentMapper.cpp; sourceTree = "<group>"; };
@@ -437,6 +423,20 @@
 		B39E688118AC1C3500E8F86F /* MainMenuTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuTouchHandlers.h; sourceTree = "<group>"; };
 		B39E688218AC1C3500E8F86F /* TestUiSceneTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestUiSceneTouchHandlers.cpp; sourceTree = "<group>"; };
 		B39E688318AC1C3500E8F86F /* TestUiSceneTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUiSceneTouchHandlers.h; sourceTree = "<group>"; };
+		B39E6E8C18AC373E00E8F86F /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = animations; sourceTree = "<group>"; };
+		B39E6E8D18AC373E00E8F86F /* armatures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = armatures; sourceTree = "<group>"; };
+		B39E6E8E18AC373E00E8F86F /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audio; sourceTree = "<group>"; };
+		B39E6E8F18AC373E00E8F86F /* ComponentSpecifications */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ComponentSpecifications; sourceTree = "<group>"; };
+		B39E6E9018AC373E00E8F86F /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		B39E6E9118AC373E00E8F86F /* gameconstants */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gameconstants; sourceTree = "<group>"; };
+		B39E6E9218AC373E00E8F86F /* levels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = levels; sourceTree = "<group>"; };
+		B39E6E9318AC373E00E8F86F /* logging */ = {isa = PBXFileReference; lastKnownFileType = folder; path = logging; sourceTree = "<group>"; };
+		B39E6E9418AC373E00E8F86F /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
+		B39E6E9518AC373E00E8F86F /* pictures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures; sourceTree = "<group>"; };
+		B39E6E9618AC373E00E8F86F /* prefabs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = prefabs; sourceTree = "<group>"; };
+		B39E6E9718AC373E00E8F86F /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
+		B39E6E9818AC373E00E8F86F /* tags */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tags; sourceTree = "<group>"; };
+		B39E6E9918AC373E00E8F86F /* uiscenes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = uiscenes; sourceTree = "<group>"; };
 		BA97CDAF18971D8F00942107 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		BA97CDB018971D8F00942107 /* common.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = common.hpp; sourceTree = "<group>"; };
 		BA97CDB218971D8F00942107 /* _detail.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _detail.hpp; sourceTree = "<group>"; };
@@ -841,8 +841,8 @@
 		58F246F91850F5C90066E804 /* ExampleGame */ = {
 			isa = PBXGroup;
 			children = (
+				B39E6C5718AC372900E8F86F /* GameResources */,
 				B39E682918AC1C3500E8F86F /* Code */,
-				BA97C56A18945ECE00942107 /* Resources */,
 				58F247021850F5C90066E804 /* AppDelegate.h */,
 				58F247031850F5C90066E804 /* AppDelegate.mm */,
 				58F247051850F5C90066E804 /* Main_iPhone.storyboard */,
@@ -1871,26 +1871,26 @@
 			path = TouchHandlers;
 			sourceTree = "<group>";
 		};
-		BA97C56A18945ECE00942107 /* Resources */ = {
+		B39E6C5718AC372900E8F86F /* GameResources */ = {
 			isa = PBXGroup;
 			children = (
-				B39E680B18AC1C0F00E8F86F /* animations */,
-				B39E680C18AC1C0F00E8F86F /* armatures */,
-				B39E680D18AC1C0F00E8F86F /* audio */,
-				B39E680E18AC1C0F00E8F86F /* ComponentSpecifications */,
-				B39E680F18AC1C0F00E8F86F /* fonts */,
-				B39E681018AC1C0F00E8F86F /* gameconstants */,
-				B39E681118AC1C0F00E8F86F /* levels */,
-				B39E681218AC1C0F00E8F86F /* logging */,
-				B39E681318AC1C0F00E8F86F /* models */,
-				B39E681418AC1C0F00E8F86F /* pictures */,
-				B39E681518AC1C0F00E8F86F /* prefabs */,
-				B39E681618AC1C0F00E8F86F /* shaders */,
-				B39E681718AC1C0F00E8F86F /* tags */,
-				B39E681818AC1C0F00E8F86F /* uiscenes */,
+				B39E6E8C18AC373E00E8F86F /* animations */,
+				B39E6E8D18AC373E00E8F86F /* armatures */,
+				B39E6E8E18AC373E00E8F86F /* audio */,
+				B39E6E8F18AC373E00E8F86F /* ComponentSpecifications */,
+				B39E6E9018AC373E00E8F86F /* fonts */,
+				B39E6E9118AC373E00E8F86F /* gameconstants */,
+				B39E6E9218AC373E00E8F86F /* levels */,
+				B39E6E9318AC373E00E8F86F /* logging */,
+				B39E6E9418AC373E00E8F86F /* models */,
+				B39E6E9518AC373E00E8F86F /* pictures */,
+				B39E6E9618AC373E00E8F86F /* prefabs */,
+				B39E6E9718AC373E00E8F86F /* shaders */,
+				B39E6E9818AC373E00E8F86F /* tags */,
+				B39E6E9918AC373E00E8F86F /* uiscenes */,
 			);
-			name = Resources;
-			path = ../../../Resources;
+			name = GameResources;
+			path = ../../../GameResources;
 			sourceTree = "<group>";
 		};
 		BA97CDAD18971D8F00942107 /* Libraries */ = {
@@ -2384,7 +2384,7 @@
 				BA97CF7018971D9000942107 /* normal.inl in Resources */,
 				BA97CF3B18971D9000942107 /* type_mat3x3.inl in Resources */,
 				BA97CF6218971D9000942107 /* inertia.inl in Resources */,
-				B39E681C18AC1C0F00E8F86F /* ComponentSpecifications in Resources */,
+				B39E6E9D18AC373E00E8F86F /* ComponentSpecifications in Resources */,
 				BA97CF5618971D9000942107 /* color_space_YCoCg.inl in Resources */,
 				BA97CF0518971D9000942107 /* func_integer.inl in Resources */,
 				BA97CF7618971D9000942107 /* polar_coordinates.inl in Resources */,
@@ -2394,7 +2394,7 @@
 				58F247071850F5C90066E804 /* Main_iPhone.storyboard in Resources */,
 				BA97CF2818971D9000942107 /* func_packing.inl in Resources */,
 				BA97CF5118971D9000942107 /* ulp.inl in Resources */,
-				B39E681D18AC1C0F00E8F86F /* fonts in Resources */,
+				B39E6E9E18AC373E00E8F86F /* fonts in Resources */,
 				BA97CF3818971D9000942107 /* type_mat2x3.inl in Resources */,
 				BA97CF5818971D9000942107 /* component_wise.inl in Resources */,
 				BA97CF6718971D9000942107 /* log_base.inl in Resources */,
@@ -2406,18 +2406,18 @@
 				BA97CF2718971D9000942107 /* func_noise.inl in Resources */,
 				BA97CF5C18971D9000942107 /* extented_min_max.inl in Resources */,
 				BA97CF1618971D9000942107 /* type_mat2x4.inl in Resources */,
-				B39E681918AC1C0F00E8F86F /* animations in Resources */,
+				B39E6E9A18AC373E00E8F86F /* animations in Resources */,
 				BA97CF3018971D9000942107 /* intrinsic_matrix.inl in Resources */,
 				BA97CF7518971D9000942107 /* perpendicular.inl in Resources */,
 				BA97CF0F18971D9000942107 /* intrinsic_trigonometric.inl in Resources */,
 				BA97CF2C18971D9000942107 /* intrinsic_common.inl in Resources */,
 				BA97CF7B18971D9000942107 /* rotate_vector.inl in Resources */,
 				BA97CF2418971D9000942107 /* func_geometric.inl in Resources */,
-				B39E682618AC1C0F00E8F86F /* uiscenes in Resources */,
+				B39E6EA718AC373E00E8F86F /* uiscenes in Resources */,
 				BA97CF5018971D9000942107 /* type_ptr.inl in Resources */,
 				BA97CF6918971D9000942107 /* matrix_interpolation.inl in Resources */,
 				BA97CF7418971D9000942107 /* orthonormalize.inl in Resources */,
-				B39E681B18AC1C0F00E8F86F /* audio in Resources */,
+				B39E6E9C18AC373E00E8F86F /* audio in Resources */,
 				BA97CF2018971D9000942107 /* type_vec3.inl in Resources */,
 				BA97CF7118971D9000942107 /* normalize_dot.inl in Resources */,
 				BA97CF2318971D9000942107 /* func_exponential.inl in Resources */,
@@ -2460,14 +2460,14 @@
 				BA97CF4018971D9000942107 /* type_vec.inl in Resources */,
 				BA97CF4718971D9000942107 /* matrix_access.inl in Resources */,
 				BA97CF4E18971D9000942107 /* reciprocal.inl in Resources */,
-				B39E681E18AC1C0F00E8F86F /* gameconstants in Resources */,
+				B39E6E9F18AC373E00E8F86F /* gameconstants in Resources */,
 				BA97CF4618971D9000942107 /* epsilon.inl in Resources */,
 				BA97CF5318971D9000942107 /* bit.inl in Resources */,
-				B39E682418AC1C0F00E8F86F /* shaders in Resources */,
+				B39E6EA518AC373E00E8F86F /* shaders in Resources */,
 				BA97CF2118971D9000942107 /* type_vec4.inl in Resources */,
 				BA97CF1518971D9000942107 /* type_mat2x3.inl in Resources */,
 				BA97CF1318971D9000942107 /* type_mat.inl in Resources */,
-				B39E682318AC1C0F00E8F86F /* prefabs in Resources */,
+				B39E6EA418AC373E00E8F86F /* prefabs in Resources */,
 				BA97CF4A18971D9000942107 /* noise.inl in Resources */,
 				BA97CF3218971D9000942107 /* intrinsic_vector_relational.inl in Resources */,
 				BA97CF6B18971D9000942107 /* matrix_operation.inl in Resources */,
@@ -2476,7 +2476,7 @@
 				BA97CF0A18971D9000942107 /* func_vector_relational.inl in Resources */,
 				BA97CF1918971D9000942107 /* type_mat3x4.inl in Resources */,
 				BA97CF1D18971D9000942107 /* type_vec.inl in Resources */,
-				B39E682018AC1C0F00E8F86F /* logging in Resources */,
+				B39E6EA118AC373E00E8F86F /* logging in Resources */,
 				BA97CF3D18971D9000942107 /* type_mat4x2.inl in Resources */,
 				BA97CF8618971D9000942107 /* vec1.inl in Resources */,
 				BA97CF4B18971D9000942107 /* packing.inl in Resources */,
@@ -2488,10 +2488,10 @@
 				BA97CF6518971D9000942107 /* intersect.inl in Resources */,
 				B383FD0C187B4B0000999890 /* .gitignore in Resources */,
 				BA97CF3E18971D9000942107 /* type_mat4x3.inl in Resources */,
-				B39E682218AC1C0F00E8F86F /* pictures in Resources */,
-				B39E682518AC1C0F00E8F86F /* tags in Resources */,
-				B39E682118AC1C0F00E8F86F /* models in Resources */,
-				B39E681F18AC1C0F00E8F86F /* levels in Resources */,
+				B39E6EA318AC373E00E8F86F /* pictures in Resources */,
+				B39E6EA618AC373E00E8F86F /* tags in Resources */,
+				B39E6EA218AC373E00E8F86F /* models in Resources */,
+				B39E6EA018AC373E00E8F86F /* levels in Resources */,
 				BA97CF0718971D9000942107 /* func_noise.inl in Resources */,
 				58F246FE1850F5C90066E804 /* InfoPlist.strings in Resources */,
 				BA97CF3918971D9000942107 /* type_mat2x4.inl in Resources */,
@@ -2505,7 +2505,7 @@
 				BA97CF6018971D9000942107 /* gradient_paint.inl in Resources */,
 				BA97CF7318971D9000942107 /* optimum_pow.inl in Resources */,
 				BA97CF0318971D9000942107 /* func_exponential.inl in Resources */,
-				B39E681A18AC1C0F00E8F86F /* armatures in Resources */,
+				B39E6E9B18AC373E00E8F86F /* armatures in Resources */,
 				BA97CF8018971D9000942107 /* spline.inl in Resources */,
 				BA97CF4118971D9000942107 /* type_vec1.inl in Resources */,
 				BA97CF6418971D9000942107 /* integer.inl in Resources */,
