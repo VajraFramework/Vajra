@@ -77,7 +77,7 @@ void Assassin::touchedCellChanged(GridCell* prevTouchedCell) {
 		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(this->gridNavRef->GetCurrentCell()->center.y);
 		int cellIndex = 0;
 		for( GridCell* c : touchedCells) {
-			if(cellIndex <= DASH_DISTANCE_IN_UNITS && SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, elevation)) {
+			if(cellIndex <= GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units) && SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, elevation)) {
 				this->targetedCell = c;
 			} else {
 				break;

@@ -55,6 +55,9 @@ void thiefNumberTweenCallback(float /* fromNumber */, float /* toNumber */, floa
 #define JUMP_ELEVATION_MULTIPLIER 2
 #define TARGET_TWEEN_TIME .25f
 #define TARGET_INDICATOR_OFFSET glm::vec3(0.0f, 0.5f, 0.0f)
+#define TARGET_INDICATOR_SCALE glm::vec3(.9f, .9f, .9f)
+#define TARGET_INDICATOR_SCALE_HOVER glm::vec3 (1.1f, 1.1f, 1.1f)
+
 Thief::Thief() : PlayerUnit() {
 	this->init();
 }
@@ -123,6 +126,12 @@ void Thief::onSpecialEnd() {
 void Thief::touchedCellChanged(GridCell* prevTouchedCell) {
 	PlayerUnit::touchedCellChanged(prevTouchedCell);
 	if(this->inputState == InputState::INPUT_STATE_SPECIAL) {
+		if(this->targetIndicators[prevTouchedCell]) {
+			ENGINE->GetTween()->TweenScale(this->targetIndicators[prevTouchedCell]->GetId(), TARGET_INDICATOR_SCALE_HOVER, TARGET_INDICATOR_SCALE, TARGET_TWEEN_TIME);
+		}
+		if(this->targetIndicators[this->GetCurrentTouchedCell()]) {
+			ENGINE->GetTween()->TweenScale(this->targetIndicators[this->GetCurrentTouchedCell()]->GetId(), TARGET_INDICATOR_SCALE, TARGET_INDICATOR_SCALE_HOVER, TARGET_TWEEN_TIME);
+		}
 		if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
 			this->GetTouchIndicator()->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 		} else {
@@ -162,9 +171,9 @@ void Thief::updateLegalTagets() {
 
 void Thief::tweenInTargets() {
 	glm::vec3 pos;
-	for(GameObject* go : this->targetIndicators ) {
-		pos = go->GetTransform()->GetPosition();
-		ENGINE->GetTween()->TweenPosition(go->GetId(), pos, pos + TARGET_INDICATOR_OFFSET, TARGET_TWEEN_TIME);
+	for(auto contents : this->targetIndicators ) {
+		pos = contents.second->GetTransform()->GetPosition();
+		ENGINE->GetTween()->TweenPosition(contents.second->GetId(), pos, pos + TARGET_INDICATOR_OFFSET, TARGET_TWEEN_TIME);
 	}
 }
 
@@ -176,16 +185,16 @@ void Thief::createTargets() {
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_01.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 		indicator->GetTransform()->SetPosition(c->center);
-		indicator->GetTransform()->SetScale(glm::vec3(.9f, .9f, 1.0f));
+		indicator->GetTransform()->SetScale(TARGET_INDICATOR_SCALE);
 		indicator->GetTransform()->Translate(0.0f, YAXIS);
 		indicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
-		this->targetIndicators.push_back(indicator);
+		this->targetIndicators[c] = indicator;
 	}
 }
 
 void Thief::deleteTargets() {
-	for( GameObject* go : this->targetIndicators ) {
-		delete go;
+	for(auto contents : this->targetIndicators ) {
+		delete contents.second;
 	}
 	this->targetIndicators.clear();
-
+}

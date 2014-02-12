@@ -20,6 +20,7 @@ void InitGameConstants() {
 	gameConstantNameToId["assassin_attack_speed"] = GAME_CONSTANT_assassin_attack_speed;
 	gameConstantNameToId["swipe_dist_in_pixels"] = GAME_CONSTANT_swipe_dist_in_pixels;
 	gameConstantNameToId["swipe_duration_in_seconds"] = GAME_CONSTANT_swipe_duration_in_seconds;
+	gameConstantNameToId["dash_distance_in_units"] = GAME_CONSTANT_dash_distance_in_units;
 
 	ReadInGameConstants();
 }

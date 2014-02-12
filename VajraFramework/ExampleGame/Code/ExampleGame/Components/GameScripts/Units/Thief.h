@@ -9,6 +9,7 @@
 #include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 
 #include <list>
+#include <map>
 
 class GridCell;
 
@@ -46,7 +47,7 @@ private:
 	GridCell* targetedCell;
 
 	std::vector<GridCell*> legalTargets;
-	std::vector<GameObject*> targetIndicators;
+	std::map<GridCell* /*cell*/, GameObject*> targetIndicators;
 	friend void thiefTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
 	friend void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams);
 	

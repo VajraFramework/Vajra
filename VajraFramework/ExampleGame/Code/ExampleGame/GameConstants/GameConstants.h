@@ -20,6 +20,7 @@ enum GameConstantId_type {
 	GAME_CONSTANT_assassin_attack_speed,
 	GAME_CONSTANT_swipe_dist_in_pixels,
 	GAME_CONSTANT_swipe_duration_in_seconds,
+	GAME_CONSTANT_dash_distance_in_units,
 };
 
 extern std::map<std::string, GameConstantId_type> gameConstantNameToId;
