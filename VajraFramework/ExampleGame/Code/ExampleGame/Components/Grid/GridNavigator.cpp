@@ -430,7 +430,5 @@ void GridNavigator::SetIsTraveling(bool isTraveling_) {
 
 		this->isTraveling = isTraveling_;
 
-		BaseUnit* thisBaseUnit = this->gameObjectRef->GetComponent<BaseUnit>();
-		VERIFY(thisBaseUnit != nullptr, "Grid navigator's parent game object has a BaseUnit component");
 	}
 }

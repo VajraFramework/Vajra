@@ -1,6 +1,7 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/GameScripts/UnitAnimations/Definitions.h"
 #include "ExampleGame/Components/GameScripts/UnitAnimations/UnitAnimationManager.h"
+#include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
@@ -31,8 +32,20 @@ void UnitAnimationManager::HandleMessage(MessageChunk messageChunk) {
 		this->onUnitActionStateChanged((UnitActionState)messageChunk->messageData.iv1.x, (UnitActionState)messageChunk->messageData.iv1.y);
 		break;
 
+	case MESSAGE_TYPE_ANIMATION_ENDED_EVENT:
+		this->onAnimationEndMessage(messageChunk);
+		break;
+
 	default:
 		break;
+	}
+}
+
+void UnitAnimationManager::onAnimationEndMessage(MessageChunk messageChunk) {
+	if (messageChunk->messageData.s == UNIT_ANIMATION_CLIP_NAME_postspecial) {
+		BaseUnit* thisBaseUnit = this->GetObject()->GetComponent<BaseUnit>();
+		VERIFY(thisBaseUnit != nullptr, "UnitAnimationManager's parent game object has a BaseUnit component");
+		thisBaseUnit->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 	}
 }
 
@@ -83,6 +96,7 @@ void UnitAnimationManager::start() {
 void UnitAnimationManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_ACTION_STATE_CHANGED, this->GetTypeId(), true);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_ANIMATION_ENDED_EVENT, this->GetTypeId(), true);
 
 	// TODO [Implement] Ensure type safety here
 	this->gameObjectRef = (GameObject*)this->GetObject();

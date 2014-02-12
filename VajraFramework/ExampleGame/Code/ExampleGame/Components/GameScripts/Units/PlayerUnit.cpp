@@ -88,6 +88,8 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 				ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), this->touchIndicator->GetTransform()->GetScale(), glm::vec3(0), TOUCH_SCALE_TIME);
 			}
 			break;
+
+
 		default:
 			break;
 	}
@@ -146,6 +148,7 @@ void PlayerUnit::onSpecialEnd() {
 void PlayerUnit::onSpecialCancelled() {
 	PlayerUnit::onSpecialEnd();
 }
+
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	
 	if(this->isSpecialTouch(touchId)) {

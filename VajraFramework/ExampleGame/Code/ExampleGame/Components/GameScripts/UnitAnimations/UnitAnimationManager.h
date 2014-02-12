@@ -33,6 +33,7 @@ private:
 	void destroy();
 
 	void onUnitActionStateChanged(UnitActionState oldState, UnitActionState newState);
+	void onAnimationEndMessage(MessageChunk messsageChunk);
 
 	GameObject* gameObjectRef;
 
