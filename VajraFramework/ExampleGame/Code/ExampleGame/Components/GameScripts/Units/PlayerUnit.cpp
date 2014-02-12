@@ -171,8 +171,10 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 			case TouchPhase::Ended:
 				this->currentTouchedCell = nullptr;
 				this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
-				this->SwitchActionState(UNIT_ACTION_STATE_WALKING);
-				this->startTouchIndicatorPulse();
+				if(touchedCell != this->gridNavRef->GetCurrentCell()) {
+					this->SwitchActionState(UNIT_ACTION_STATE_WALKING);
+					this->startTouchIndicatorPulse();
+				}
 				break;
 			case TouchPhase::Cancelled:
 				this->currentTouchedCell = nullptr;
