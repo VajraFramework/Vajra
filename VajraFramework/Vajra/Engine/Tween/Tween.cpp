@@ -312,45 +312,69 @@ bool OnGoingTransformTweenDetails::StepTween(float deltaTime) {
 	this->currentTime = curTime;
 
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->gameObjectId);
-	ASSERT(gameObject != nullptr, "Found game object (%d) on which to apply tween", this->gameObjectId);
-	Transform* transform = gameObject->GetTransform();
+	if (gameObject != nullptr) {
+		Transform* transform = gameObject->GetTransform();
 
-	switch (this->tweenTarget) {
-	case TRANSFORM_TWEEN_TARGET_POSITION: {
-		if (this->curveType == TWEEN_TRANSLATION_CURVE_TYPE_LINEAR) {
+		switch (this->tweenTarget) {
+		case TRANSFORM_TWEEN_TARGET_POSITION: {
+			if (this->curveType == TWEEN_TRANSLATION_CURVE_TYPE_LINEAR) {
+				lerp(this->current_v, this->from_v, this->to_v, interp);
+			} else if (this->curveType == TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA) {
+				parabolaerp(this->current_v, this->from_v, this->to_v, TWEEN_PARABOLA_a, interp);
+			}
+			transform->SetPosition(this->current_v);
+		} break;
+
+		case TRANSFORM_TWEEN_TARGET_ORIENTATION: {
+			slerp(this->current_q, this->from_q, this->to_q, interp);
+			transform->SetOrientation(this->current_q);
+		} break;
+
+		case TRANSFORM_TWEEN_TARGET_SCALE: {
 			lerp(this->current_v, this->from_v, this->to_v, interp);
-		} else if (this->curveType == TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA) {
-			parabolaerp(this->current_v, this->from_v, this->to_v, TWEEN_PARABOLA_a, interp);
+			transform->SetScale(this->current_v);
+		} break;
+
+		default: { ASSERT(0, "Unknown TransformTweenTarget %d", this->tweenTarget);   } break;
 		}
-		transform->SetPosition(this->current_v);
-	} break;
 
-	case TRANSFORM_TWEEN_TARGET_ORIENTATION: {
-		slerp(this->current_q, this->from_q, this->to_q, interp);
-		transform->SetOrientation(this->current_q);
-	} break;
+		if (curTime >= this->totalTime) {
+			if (this->callback != 0) {
+				this->callback(gameObject->GetId(), this->userDefinedTweenName);
+			}
+			if (this->looping) {
+				this->ResetTween();
+			} else {
+				// Tween got over
+				return false;
+			}
+		}
+		// Tween still in progress
+		return true;
 
-	case TRANSFORM_TWEEN_TARGET_SCALE: {
-		lerp(this->current_v, this->from_v, this->to_v, interp);
-		transform->SetScale(this->current_v);
-	} break;
+	} else {
 
-	default: { ASSERT(0, "Unknown TransformTweenTarget %d", this->tweenTarget);   } break;
+		FRAMEWORK->GetLogger()->dbglog("Did not find game object (%d) on which to apply tween, probably because it was deleted. Canceling the tween", this->gameObjectId);
+		switch (this->tweenTarget) {
+		case TRANSFORM_TWEEN_TARGET_POSITION: {
+			ENGINE->GetTween()->CancelPostitionTween(this->gameObjectId);
+		} break;
+
+		case TRANSFORM_TWEEN_TARGET_ORIENTATION: {
+			ENGINE->GetTween()->CancelOrientationTween(this->gameObjectId);
+		} break;
+
+		case TRANSFORM_TWEEN_TARGET_SCALE: {
+			ENGINE->GetTween()->CancelScaleTween(this->gameObjectId);
+		} break;
+
+		default: {
+		} break;
+
+		}
 	}
 
-	if (curTime >= this->totalTime) {
-		if (this->callback != 0) {
-			this->callback(gameObject->GetId(), this->userDefinedTweenName);
-		}
-		if (this->looping) {
-			this->ResetTween();
-		} else {
-			// Tween got over
-			return false;
-		}
-	}
-	// Tween still in progress
-	return true;
+	return false;
 }
 
 bool OnGoingNumberTweenDetails::StepTween(float deltaTime) {
