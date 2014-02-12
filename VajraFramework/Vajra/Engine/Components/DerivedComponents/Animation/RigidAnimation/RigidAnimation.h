@@ -24,6 +24,7 @@ public:
 	void HandleMessage(MessageChunk messageChunk);
 
 	//[[PROPERTY]]//
+	AnimationClip* AddAnimationClip(std::string urlOfAnimationClip, float playbackSpeed, bool looping);
 	virtual AnimationClip* AddAnimationClip(std::string urlOfAnimationClip);
 	virtual AnimationClip* AddAnimationClip(AnimationClip* animationClip);
 

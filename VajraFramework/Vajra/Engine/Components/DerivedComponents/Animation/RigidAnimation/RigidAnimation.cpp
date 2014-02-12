@@ -23,8 +23,14 @@ RigidAnimation::~RigidAnimation() {
 }
 
 AnimationClip* RigidAnimation::AddAnimationClip(std::string urlOfAnimationClip) {
+	return this->AddAnimationClip(urlOfAnimationClip, 1.0f, true);
+}
+
+AnimationClip* RigidAnimation::AddAnimationClip(std::string urlOfAnimationClip, float playbackSpeed, bool looping) {
 	RigidAnimationClip* newRigidAnimationClip = new RigidAnimationClip(this);
 	newRigidAnimationClip->InitAnimationClip(urlOfAnimationClip);
+	newRigidAnimationClip->SetPlaybackSpeed(playbackSpeed);
+	newRigidAnimationClip->SetLooping(looping);
 
 	return this->AddAnimationClip(newRigidAnimationClip);
 }
