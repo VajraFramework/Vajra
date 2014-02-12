@@ -15,6 +15,8 @@
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #endif
 
+#include <cfloat>
+
 GameGrid::GameGrid(unsigned int spanX, unsigned int spanZ) {
 	this->init(spanX, spanZ);
 }
@@ -99,7 +101,11 @@ void GameGrid::destroy() {
 }
 
 int GameGrid::GetElevationFromWorldY(float worldY) {
-	return (int)floor((worldY / 2.0f) + 0.5f);
+	return (int)floor((worldY / ELEVATION_UNIT) + 0.5f);
+}
+
+float GameGrid::ConvertElevationToWorldY(unsigned int elevation) {
+	return elevation * ELEVATION_UNIT;
 }
 
 GridCell* GameGrid::GetCell(int x, int z) {
@@ -111,6 +117,54 @@ GridCell* GameGrid::GetCell(glm::vec3 loc) {
 	int gX = (int)((loc.x / CELL_SIZE) + 0.5f);
 	int gZ = (int)((-loc.z / CELL_SIZE) + 0.5f);
 	return GetCell(gX, gZ);
+}
+
+int GameGrid::GetCellDistanceBetweenCells(int startCellX, int startCellZ, int goalCellX, int goalCellZ) {
+	GridCell* startCell = GetCell(startCellX, startCellZ);
+	GridCell* goalCell = GetCell(goalCellX, goalCellZ);
+	return GetCellDistanceBetweenCells(startCell, goalCell);
+}
+
+int GameGrid::GetCellDistanceBetweenCells(GridCell* startCell, GridCell* goalCell) {
+	if ((startCell != nullptr) && (goalCell != nullptr)) {
+		int xDiff = abs(startCell->x - goalCell->x);
+		int zDiff = abs(startCell->z - goalCell->z);
+		return xDiff + zDiff;
+	}
+	// If either cell is null, the distance is undefined
+	return INT_MAX;
+}
+
+float GameGrid::GetGroundDistanceBetweenCells(int startCellX, int startCellZ, int goalCellX, int goalCellZ) {
+	GridCell* startCell = GetCell(startCellX, startCellZ);
+	GridCell* goalCell = GetCell(goalCellX, goalCellZ);
+	return GetGroundDistanceBetweenCells(startCell, goalCell);
+}
+
+float GameGrid::GetGroundDistanceBetweenCells(GridCell* startCell, GridCell* goalCell) {
+	if ((startCell != nullptr) && (goalCell != nullptr)) {
+		glm::vec3 startCenter = startCell->center;
+		glm::vec3 goalCenter = goalCell->center;
+		startCenter.y = 0.0f;
+		goalCenter.y = 0.0f;
+		return glm::distance(startCenter, goalCenter);
+	}
+	// If either cell is null, the distance is undefined
+	return FLT_MAX;
+}
+
+float GameGrid::GetTrueDistanceBetweenCells(int startCellX, int startCellZ, int goalCellX, int goalCellZ) {
+	GridCell* startCell = GetCell(startCellX, startCellZ);
+	GridCell* goalCell = GetCell(goalCellX, goalCellZ);
+	return GetTrueDistanceBetweenCells(startCell, goalCell);
+}
+
+float GameGrid::GetTrueDistanceBetweenCells(GridCell* startCell, GridCell* goalCell) {
+	if ((startCell != nullptr) && (goalCell != nullptr)) {
+		return glm::distance(startCell->center, goalCell->center);
+	}
+	// If either cell is null, the distance is undefined
+	return FLT_MAX;
 }
 
 void GameGrid::GetNeighborCells(std::list<GridCell*>& outNbrs, GridCell* cell, float range/*= 1.0f*/) {
@@ -391,8 +445,8 @@ void GameGrid::SetCellGroundLevel(int gridX, int gridZ, unsigned int elevation) 
 				}
 			}
 			cell->y = elevation;
-			cell->origin.y = elevation;
-			cell->center.y = elevation;
+			cell->origin.y = this->ConvertElevationToWorldY(elevation);
+			cell->center.y = this->ConvertElevationToWorldY(elevation);
 		}
 	}
 }

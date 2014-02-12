@@ -4,6 +4,7 @@
 #include "ExampleGame/Components/Grid/GridConstants.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/GameConstants/GameConstants.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 
@@ -26,6 +27,7 @@ void thiefTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName
 			pUnit->onSpecialEnd();
 		}
 	}
+
 	
 }
 
@@ -76,7 +78,7 @@ void Thief::destroy() {
 bool Thief::isSpecialTouch(int touchId) {
 	if(this->getTouchNearUnit()) {
 		Touch touch = ENGINE->GetInput()->GetTouch(touchId);
-		if(touch.timeDown >= LONG_PRESS_LENGTH_IN_SECONDS && glm::distance(touch.pos, this->touchStartPos) <= ALLOWED_FINGER_MOVEMENT_IN_PRESS) {
+		if(touch.timeDown >= GetFloatGameConstant(GAME_CONSTANT_long_press_length_in_seconds) && glm::distance(touch.pos, this->touchStartPos) <= GetFloatGameConstant(GAME_CONSTANT_allowed_finger_movement_in_press)) {
 			this->targetedCell = nullptr;
 			this->updateLegalTagets();
 			return true;
@@ -187,4 +189,3 @@ void Thief::deleteTargets() {
 	}
 	this->targetIndicators.clear();
 
-}

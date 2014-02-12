@@ -22,12 +22,25 @@ public:
 	~GameGrid();
 
 	int GetElevationFromWorldY(float worldY);
+	float ConvertElevationToWorldY(unsigned int elevation);
 
 	inline unsigned int GetGridWidth()   { return this->gridWidth;  }
 	inline unsigned int GetGridHeight()  { return this->gridHeight; }
 
 	GridCell* GetCell(int gridX, int gridZ);     // Returns the cell at the specified coordinates
 	GridCell* GetCell(glm::vec3 worldPosition);  // Returns the cell at the specified world position
+
+	// Returns number of cell "hops" to get from start to goal
+	int GetCellDistanceBetweenCells(int startCellX, int startCellZ, int goalCellX, int goalCellZ);
+	int GetCellDistanceBetweenCells(GridCell* startCell, GridCell* goalCell);
+
+	// Returns distance along the ground plane from start to goal
+	float GetGroundDistanceBetweenCells(int startCellX, int startCellZ, int goalCellX, int goalCellZ);
+	float GetGroundDistanceBetweenCells(GridCell* startCell, GridCell* goalCell);
+
+	// Returns 3-D distance from start to goal
+	float GetTrueDistanceBetweenCells(int startCellX, int startCellZ, int goalCellX, int goalCellZ);
+	float GetTrueDistanceBetweenCells(GridCell* startCell, GridCell* goalCell);
 
 	// Populates the list with all adjacent cells and returns the number of adjacent cells
 	void GetNeighborCells(std::list<GridCell*>& outNbrs, GridCell* cell, float range = 1.0f);
