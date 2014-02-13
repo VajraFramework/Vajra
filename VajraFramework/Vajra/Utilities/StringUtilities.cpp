@@ -4,6 +4,11 @@
 #include <locale>
 
 int StringUtilities::ConvertStringToInt(std::string s) {
+	// Sometimes people write numbers as "10.0f"
+	std::size_t position_f = s.find('f');
+	if (position_f != std::string::npos) {
+		s = s.erase(position_f, 1);
+	}
 	std::istringstream iss(s);
 	int result;
 	iss >> result;
@@ -11,6 +16,11 @@ int StringUtilities::ConvertStringToInt(std::string s) {
 }
 
 float StringUtilities::ConvertStringToFloat(std::string s) {
+	// Sometimes people write numbers as "10.0f"
+	std::size_t position_f = s.find('f');
+	if (position_f != std::string::npos) {
+		s = s.erase(position_f, 1);
+	}
 	std::istringstream iss(s);
 	float result;
 	iss >> result;

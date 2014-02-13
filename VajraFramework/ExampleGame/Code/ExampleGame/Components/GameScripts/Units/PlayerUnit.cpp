@@ -67,6 +67,9 @@ void PlayerUnit::init() {
 	this->touchIndicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 
 	this->currentTouchedCell = NULL;
+
+
+	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 }
 
 void PlayerUnit::destroy() {
@@ -80,10 +83,13 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 			if(this->performingSpecial) {
 				onSpecialEnd();
 			}  else {
+				this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 				ENGINE->GetTween()->CancelNumberTween("pulse");
 				ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), this->touchIndicator->GetTransform()->GetScale(), glm::vec3(0), TOUCH_SCALE_TIME);
 			}
 			break;
+
+
 		default:
 			break;
 	}
@@ -129,13 +135,20 @@ void PlayerUnit::onSelectedTouch() {
 
 void PlayerUnit::startSpecial() {
 	this->performingSpecial = true;
+	this->SwitchActionState(UNIT_ACTION_STATE_DOING_SPECIAL);
 }
 
 void PlayerUnit::onSpecialEnd() {
 	this->performingSpecial = false;
 	this->inputState = InputState::INPUT_STATE_WAIT;
+	this->SwitchActionState(UNIT_ACTION_STATE_POST_SPECIAL);
 	touchIndicator->SetVisible(false);
 }
+
+void PlayerUnit::onSpecialCancelled() {
+	PlayerUnit::onSpecialEnd();
+}
+
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	
 	if(this->isSpecialTouch(touchId)) {
@@ -143,6 +156,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 		this->gridNavRef->StopNavigation();
 		this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(BAD_TOUCH);
 		this->onSpecialTouch(touchId);
+		this->SwitchActionState(UNIT_ACTION_STATE_PRE_SPECIAL);
 	} else {
 		switch(ENGINE->GetInput()->GetTouch(touchId).phase) {
 			case TouchPhase::Began:
@@ -157,7 +171,10 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 			case TouchPhase::Ended:
 				this->currentTouchedCell = nullptr;
 				this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
-				this->startTouchIndicatorPulse();
+				if(touchedCell != this->gridNavRef->GetCurrentCell()) {
+					this->SwitchActionState(UNIT_ACTION_STATE_WALKING);
+					this->startTouchIndicatorPulse();
+				}
 				break;
 			case TouchPhase::Cancelled:
 				this->currentTouchedCell = nullptr;
