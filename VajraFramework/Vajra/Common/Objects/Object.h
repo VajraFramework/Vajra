@@ -25,6 +25,8 @@ public:
 	inline int GetParentId() { return this->parentId; }
 	inline std::string GetName() { return this->name; }
 
+	void SetName(std::string name_);
+
 	inline const std::list<ObjectIdType>& GetChildren() { return this->children; }
 
 	void AddChild(ObjectIdType childId);

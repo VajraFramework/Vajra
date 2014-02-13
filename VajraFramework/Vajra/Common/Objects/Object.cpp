@@ -18,6 +18,12 @@ Object::~Object() {
 	this->destroy();
 }
 
+void Object::SetName(std::string name_) {
+	VERIFY(this->name == "", "Name of Object not already set (%s)");
+	this->name = name_;
+	ObjectRegistry::AddNewObjectByName(this);
+}
+
 void Object::init() {
 	this->id = this->getNextFreeId();
 	ObjectRegistry::AddNewObject(this);
@@ -33,6 +39,9 @@ void Object::destroy() {
 	this->removeAllComponents();
 
 	ObjectRegistry::RemoveObject(this);
+	if (this->name != "") {
+		ObjectRegistry::RemoveObjectByName(this);
+	}
 }
 
 void Object::HandleMessages() {

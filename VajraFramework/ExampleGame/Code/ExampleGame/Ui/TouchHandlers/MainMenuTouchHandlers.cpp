@@ -19,7 +19,7 @@
 #define MISSION_MENU "missionMenu"
 
 void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /* touch */) {
-	if (uiObject->GetUiObjectName() == "play") {
+	if (uiObject->GetName() == "play") {
 		// Do something
 
 	} else {
@@ -30,7 +30,7 @@ void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /* tou
 }
 
 void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch /* touch */) {
-	if (uiObject->GetUiObjectName() == "play") {
+	if (uiObject->GetName() == "play") {
 		// Do something
 
 	} else {
@@ -41,7 +41,7 @@ void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch /* tou
 }
 
 void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch */) {
-	if (uiObject->GetUiObjectName() == "play") {
+	if (uiObject->GetName() == "play") {
 		// Load the test level
 		SINGLETONS->GetLevelManager()->LoadLevelFromFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + "levels/SD_TestScene.lvl");
 		GameObject* testZone = new GameObject(ENGINE->GetSceneGraph3D());
@@ -55,13 +55,13 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch
 		UiSceneLoader::UnloadCurrentUiScene();
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new GameUiTouchHandlers());
 
-	} else if(uiObject->GetUiObjectName() == "options") {
+	} else if(uiObject->GetName() == "options") {
 		UiObject* startMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[START_MENU]);
 		UiObject* optionsMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[OPTIONS_MENU]);
 		startMenu->SetVisible(false);
 		optionsMenu->SetVisible(true);
 		
-	} else if(uiObject->GetUiObjectName() == "back") {
+	} else if(uiObject->GetName() == "back") {
 		UiObject* startMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[START_MENU]);
 		UiObject* optionsMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[OPTIONS_MENU]);
 		startMenu->SetVisible(true);

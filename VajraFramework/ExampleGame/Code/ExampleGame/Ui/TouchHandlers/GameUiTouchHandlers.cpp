@@ -2,6 +2,7 @@
 #include "ExampleGame/Messages/Declarations.h"
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
+#include "Vajra/Common/Objects/ObjectRegistry.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
@@ -21,8 +22,9 @@
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
-#include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/Ui/UiElement/UiElement.h"
+#include "ExampleGame/GameSingletons/GameSingletons.h"
 
 #define IN_GAME_MENU "inGame"
 #define PAUSE_MENU "pauseMenu"
@@ -40,8 +42,15 @@ void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_SELECTED_UNIT_CHANGED:
 			if(messageChunk->messageData.iv1.y == UNIT_TYPE_ASSASSIN) {
 				printf("ASSASSIN!");
+				// TODO [Implement] Ensure type safety here
+				UiElement* changeUnitIcon = (UiElement*)ObjectRegistry::GetObjectByName("changeUnit");
+				changeUnitIcon->SetSpriteTextureIndex(0);
+
 			} else if(messageChunk->messageData.iv1.y == UNIT_TYPE_THIEF) {
 				printf("THIEF!");
+				// TODO [Implement] Ensure type safety here
+				UiElement* changeUnitIcon = (UiElement*)ObjectRegistry::GetObjectByName("changeUnit");
+				changeUnitIcon->SetSpriteTextureIndex(0);
 			}
 		default:
 			break;
@@ -49,7 +58,7 @@ void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
 }
 
 void GameUiTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /* touch */) {
-	if (uiObject->GetUiObjectName() == "play") {
+	if (uiObject->GetName() == "play") {
 		// Do something
 
 	} else {
@@ -61,7 +70,7 @@ void GameUiTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /* touch
 
 void GameUiTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch /* touch */) {
 
-	if (uiObject->GetUiObjectName() == "play") {
+	if (uiObject->GetName() == "play") {
 		// Do something
 
 	} else {
@@ -73,7 +82,7 @@ void GameUiTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch /* touch
 
 void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch */) {
 #ifdef DEBUG 
-	if (uiObject->GetUiObjectName() == "debugMenu") {
+	if (uiObject->GetName() == "debugMenu") {
 		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "debugMenu.uiscene";
 		//
 		UiSceneLoader::UnloadCurrentUiScene();
@@ -82,13 +91,13 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		return;
 	}
 #endif
-	if (uiObject->GetUiObjectName() == "pause") {
+	if (uiObject->GetName() == "pause") {
 		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(!pauseMenu->IsVisible());
-	} else if (uiObject->GetUiObjectName() == "resume") {
+	} else if (uiObject->GetName() == "resume") {
 		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(false);
-	} else if (uiObject->GetUiObjectName() == "mission") {
+	} else if (uiObject->GetName() == "mission_from_pause") {
 		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(false);
 
@@ -99,7 +108,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		UiSceneLoader::UnloadCurrentUiScene();
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
 
-	} else if(uiObject->GetUiObjectName() == "changeUnit") {
+	} else if(uiObject->GetName() == "changeUnit") {
 		SINGLETONS->GetGridManager()->SwitchSelectedUnit();
 
 	} 
