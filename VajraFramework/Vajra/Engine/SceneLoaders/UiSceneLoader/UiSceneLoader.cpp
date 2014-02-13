@@ -74,10 +74,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 
 		XmlNode* zorderNode = dimensionsNode->GetFirstChildByNodeName(ZORDER_TAG);
 		ASSERT(zorderNode != nullptr, "Got valid xmlNode from dimensions node for zorder");
-		// TODO [Implement]
 		zorder = StringUtilities::ConvertStringToInt(zorderNode->GetValue());
-		// TODO [Cleanup] Temp, using variable
-		FRAMEWORK->GetLogger()->dbglog("\nzorder (temp, using variable): %d", zorder);
 
 		convertPixelsFromTargetSizeToDeviceSize(posXPixels,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
 		convertPixelsFromTargetSizeToDeviceSize(posYPixels,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
@@ -161,6 +158,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 		uiElement->SetVisible(visible);
 		//
 		uiElement->SetPosition(posXPixels, posYPixels);
+		uiElement->SetZOrder(zorder);
 	}
 
 	XmlNode* childNode = uielementNode->GetFirstChildByNodeName(UIELEMENT_TAG);

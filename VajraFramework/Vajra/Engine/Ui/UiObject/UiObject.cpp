@@ -18,6 +18,12 @@ void UiObject::SetPosition(unsigned int x, unsigned int y) {
 	this->GetTransform()->SetPosition(x, -1.0f * y, 0.0f);
 }
 
+void UiObject::SetZOrder(int zorder_) {
+	glm::vec3 position = this->GetTransform()->GetPosition();
+	this->GetTransform()->SetPosition(position.x, position.y, zorder_);
+	this->zorder = zorder_;
+}
+
 bool UiObject::IsPointWithin(float x, float y) {
 	glm::vec3 position = this->GetTransform()->GetPositionWorld();
 	glm::vec3 scale    = this->GetTransform()->GetScaleWorld();
