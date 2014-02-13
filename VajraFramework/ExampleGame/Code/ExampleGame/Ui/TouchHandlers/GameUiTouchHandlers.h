@@ -5,6 +5,7 @@
 
 class GameUiTouchHandlers : public UiTouchHandlers {
 public:
+	GameUiTouchHandlers();
 	// @Override
 	virtual void OnTouchDownHandlers(UiObject* uiObject, Touch touch);
 	virtual void OnTouchMoveHandlers(UiObject* uiObject, Touch touch);

@@ -3,6 +3,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
+#include "Vajra/Engine/Ui/UiCallbackComponent/UiCallbackComponent.h"
 #include "Vajra/Engine/Ui/UiObject/UiObject.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -26,6 +27,11 @@
 
 #define ASSASSIN_ICON_PATH "SD_GUI_Dagger_02.png"
 #define THIEF_ICON_PATH "SD_GUI_Cloak_02.png"
+
+GameUiTouchHandlers::GameUiTouchHandlers() : UiTouchHandlers() {
+	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_FRAME_EVENT);
+}
+
 void GameUiTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /* touch */) {
 	if (uiObject->GetUiObjectName() == "play") {
 		// Do something

@@ -124,6 +124,7 @@
 		B39E680818AC1BFC00E8F86F /* XmlNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39E679718AC1BFC00E8F86F /* XmlNode.cpp */; };
 		B39E680918AC1BFC00E8F86F /* XmlTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39E679918AC1BFC00E8F86F /* XmlTree.cpp */; };
 		B39E680A18AC1BFC00E8F86F /* XmlParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39E679B18AC1BFC00E8F86F /* XmlParser.cpp */; };
+		B39E6EAC18AC60A500E8F86F /* UiCallbackComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39E6EAA18AC60A500E8F86F /* UiCallbackComponent.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -384,6 +385,8 @@
 		B39E679A18AC1BFC00E8F86F /* XmlTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlTree.h; sourceTree = "<group>"; };
 		B39E679B18AC1BFC00E8F86F /* XmlParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XmlParser.cpp; sourceTree = "<group>"; };
 		B39E679C18AC1BFC00E8F86F /* XmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlParser.h; sourceTree = "<group>"; };
+		B39E6EAA18AC60A500E8F86F /* UiCallbackComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UiCallbackComponent.cpp; sourceTree = "<group>"; };
+		B39E6EAB18AC60A500E8F86F /* UiCallbackComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UiCallbackComponent.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1052,6 +1055,7 @@
 		B39E672418AC1BFC00E8F86F /* Ui */ = {
 			isa = PBXGroup;
 			children = (
+				B39E6EA918AC608C00E8F86F /* UiCallbackComponent */,
 				B39E672518AC1BFC00E8F86F /* UiElement */,
 				B39E672818AC1BFC00E8F86F /* UiFontObject */,
 				B39E672B18AC1BFC00E8F86F /* UiObject */,
@@ -1411,6 +1415,15 @@
 			path = Definitions;
 			sourceTree = "<group>";
 		};
+		B39E6EA918AC608C00E8F86F /* UiCallbackComponent */ = {
+			isa = PBXGroup;
+			children = (
+				B39E6EAA18AC60A500E8F86F /* UiCallbackComponent.cpp */,
+				B39E6EAB18AC60A500E8F86F /* UiCallbackComponent.h */,
+			);
+			path = UiCallbackComponent;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1604,6 +1617,7 @@
 				B39E67A318AC1BFC00E8F86F /* ObjectRegistry.cpp in Sources */,
 				B39E680618AC1BFC00E8F86F /* VajraToAndroidJavaInterface.cpp in Sources */,
 				B39E67CC18AC1BFC00E8F86F /* AndroidInputSender.cpp in Sources */,
+				B39E6EAC18AC60A500E8F86F /* UiCallbackComponent.cpp in Sources */,
 				B39E67BB18AC1BFC00E8F86F /* RigidAnimation.cpp in Sources */,
 				B39E67E518AC1BFC00E8F86F /* AndroidDeviceProperties.cpp in Sources */,
 				B39E67CD18AC1BFC00E8F86F /* IOSInputSender.mm in Sources */,
