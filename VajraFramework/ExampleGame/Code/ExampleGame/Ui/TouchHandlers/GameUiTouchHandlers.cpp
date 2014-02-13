@@ -24,6 +24,8 @@
 #define PAUSE_MENU "pauseMenu"
 #define POST_GAME_MENU "postGame"
 
+#define ASSASSIN_ICON_PATH "SD_GUI_Dagger_02.png"
+#define THIEF_ICON_PATH "SD_GUI_Cloak_02.png"
 void GameUiTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /* touch */) {
 	if (uiObject->GetUiObjectName() == "play") {
 		// Do something
@@ -72,6 +74,6 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
 	} else if(uiObject->GetUiObjectName() == "changeUnit") {
 		SINGLETONS->GetGridManager()->SwitchSelectedUnit();
-		
+
 	} 
 }

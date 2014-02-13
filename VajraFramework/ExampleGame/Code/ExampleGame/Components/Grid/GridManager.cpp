@@ -409,6 +409,7 @@ void GridManager::selectUnitInCell(GridCell* cell) {
 			MessageChunk unitChangedMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 			unitChangedMessage->SetMessageType(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
 			unitChangedMessage->messageData.iv1.x = cell->x;
+			unitChangedMessage->messageData.iv1.y = bu->GetUnitType();
 			unitChangedMessage->messageData.iv1.z = cell->z;
 			ENGINE->GetMessageHub()->SendMulticastMessage(unitChangedMessage, this->GetObject()->GetId());
 		}
