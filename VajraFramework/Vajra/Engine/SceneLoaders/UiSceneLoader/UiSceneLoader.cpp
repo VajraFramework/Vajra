@@ -178,9 +178,12 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 void LoadUiSceneFromUiSceneFile(std::string filePath, UiTouchHandlers* touchHandlers) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading ui scene from uiscene file %s", filePath.c_str());
 
-	// remove the preivous ui scene
-	ENGINE->GetSceneGraphUi()->UnloadCurrentScene();
-
+	{
+		SceneGraphUi* sceneGraphUi = ENGINE->GetSceneGraphUi();
+		GameObject* rootGameObject = sceneGraphUi->GetRootGameObject();
+		const std::list<ObjectIdType> children = rootGameObject->GetChildren();
+		VERIFY(children.size() == 1, "The current ui scene should have nothing in it except for the UiTouchHandlers's eventForwarder. Did you forget to call UnloadCurrentUiScene() before calling LoadUiScene...()?");
+	}
 	
 	//Todo [HACK] remove this when cameras don't get destroy by unload scene
 	GameObject* camera = new GameObject(ENGINE->GetSceneGraphUi());
@@ -227,4 +230,10 @@ void LoadUiSceneFromUiSceneFile(std::string filePath, UiTouchHandlers* touchHand
 	delete parser;
 }
 
+void UnloadCurrentUiScene() {
+	// remove the previous ui scene
+	ENGINE->GetSceneGraphUi()->UnloadCurrentScene();
 }
+
+}
+

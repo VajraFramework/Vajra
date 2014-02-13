@@ -162,7 +162,7 @@ std::list<ObjectIdType>::iterator Object::findChildById(ObjectIdType childId) {
 
 
 void Object::destroyAllChildren() {
-	while (this->children.begin() != this->children.end()) {
+	while (!this->children.empty()) {
 		ObjectIdType childId = this->children.front();
 		Object* child = ObjectRegistry::GetObjectById(childId);
 		if (child != 0) {

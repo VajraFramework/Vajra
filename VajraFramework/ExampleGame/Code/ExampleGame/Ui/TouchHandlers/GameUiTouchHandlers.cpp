@@ -59,6 +59,8 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 #ifdef DEBUG 
 	if (uiObject->GetUiObjectName() == "debugMenu") {
 		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "debugMenu.uiscene";
+		//
+		UiSceneLoader::UnloadCurrentUiScene();
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new DebugMenuTouchHandlers());
 		// Return immediately here because the current scene has been unloaded
 		return;
@@ -77,7 +79,10 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		//ENGINE->GetSceneGraph3D()->UnloadCurrentScene();
 
 		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
+		//
+		UiSceneLoader::UnloadCurrentUiScene();
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
+
 	} else if(uiObject->GetUiObjectName() == "changeUnit") {
 		SINGLETONS->GetGridManager()->SwitchSelectedUnit();
 
