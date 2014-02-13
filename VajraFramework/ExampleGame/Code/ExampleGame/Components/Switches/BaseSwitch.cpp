@@ -8,7 +8,8 @@
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
-#include "Vajra/Engine/Timer/Timer.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/Tween/Tween.h"
 
 SwitchType ConvertStringToSwitchType(std::string str) {
 	if      (str == "Once") {
@@ -31,6 +32,19 @@ SwitchType ConvertStringToSwitchType(std::string str) {
 
 ComponentIdType BaseSwitch::componentTypeId = COMPONENT_TYPE_ID_BASE_SWITCH;
 
+void baseSwitchNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* userParams) {
+	GameObject* caller = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
+
+	// Make sure the switch is still around
+	if (caller != nullptr) {
+		BaseSwitch* switchComp = caller->GetComponent<BaseSwitch>();
+		ASSERT(switchComp != nullptr, "BaseSwitch Tween called by object %d without BaseSwitch component", userParams->i);
+		if (switchComp != nullptr) {
+			switchComp->setActiveState(userParams->f > 0.0f);
+		}
+	}
+}
+
 BaseSwitch::BaseSwitch() : Component() {
 	this->init();
 }
@@ -46,27 +60,19 @@ BaseSwitch::~BaseSwitch() {
 void BaseSwitch::init() {
 	this->type         = SWITCH_TYPE_CONTINUOUS;
 	this->isActive     = false;
-	this->isLocked     = false;
 	this->resetTime    = 0.0f;
-	this->resetCounter = 0.0f;
-
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
 
 void BaseSwitch::destroy() {
-	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+
 }
 
 void BaseSwitch::SetSwitchType(std::string typeStr) {
 	this->type = ConvertStringToSwitchType(typeStr);
 }
 
-void BaseSwitch::HandleMessage(MessageChunk messageChunk) {
-	switch (messageChunk->GetMessageType()) {
-		case MESSAGE_TYPE_FRAME_EVENT:
-			this->update();
-			break;
-	}
+void BaseSwitch::SetResetTime(float t) {
+	this->resetTime = t;
 }
 
 void BaseSwitch::AddSubscriber(ObjectIdType subscriberId) {
@@ -89,58 +95,54 @@ void BaseSwitch::RemoveSubscriber(ObjectIdType subscriberId) {
 	}
 }
 
-void BaseSwitch::update() {
-	bool condition = this->isConditionMet();
-	float dt = ENGINE->GetTimer()->GetDeltaFrameTime();
+void BaseSwitch::setConditionState(bool state) {
+	std::string tweenName = "SwitchTimeout";
+	tweenName += this->GetObject()->GetId();
+	MessageData1S1I1F* userParams;
 
-	if (!this->isActive) {
-		// Turn the switch on if its condition has been met and its state is not locked
-		if (!this->isLocked && condition) {
-			this->setActiveState(true);
-		}
+	switch (this->type) {
+		case SWITCH_TYPE_ONCE:                // Once turned on, stays on permanently
+			if (state) {
+				this->setActiveState(true);
+			}
+			break;
+
+		case SWITCH_TYPE_TOGGLE:              // Changes state each time switch condition is met
+			if (state) {
+				this->setActiveState(!this->isActive);
+			}
+			break;
+
+		case SWITCH_TYPE_CONTINUOUS:          // Remains on for as long as condition is met
+			this->setActiveState(state);
+			break;
+
+		case SWITCH_TYPE_RESET_ON_ACTIVATE:   // Remains on for a set period of time, then turns off
+			if (state && !this->isActive) {
+				this->setActiveState(true);
+				userParams = new MessageData1S1I1F();
+				userParams->i = this->GetObject()->GetId();
+				userParams->f = -1.0f;
+				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, this->resetTime, false, false, false, tweenName, userParams, baseSwitchNumberTweenCallback);
+			}
+			break;
+
+		case SWITCH_TYPE_RESET_ON_DEACTIVATE: // Once turned on, turns off again after a period of time with the condition not being met
+			if (state) {
+				this->setActiveState(true);
+				ENGINE->GetTween()->CancelNumberTween(tweenName);
+			}
+			else if (this->isActive) {
+				userParams = new MessageData1S1I1F();
+				userParams->i = this->GetObject()->GetId();
+				userParams->f = -1.0f;
+				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, this->resetTime, false, false, false, tweenName, userParams, baseSwitchNumberTweenCallback);
+			}
+			break;
+
+		default:
+			break;
 	}
-	else {
-		// If the switch is active, then its behavior depends on its type
-		switch (this->type) {
-			case SWITCH_TYPE_TOGGLE:              // Changes state each time switch condition is met
-				if (!this->isLocked && condition) {
-					this->setActiveState(false);
-				}
-				break;
-
-			case SWITCH_TYPE_CONTINUOUS:          // Remains on for as long as condition is met
-				if (!condition) {
-					this->setActiveState(false);
-				}
-				break;
-
-			case SWITCH_TYPE_RESET_ON_ACTIVATE:   // Remains on for a set period of time, then turns off
-				this->resetCounter += dt;
-				if (this->resetCounter >= this->resetTime) {
-					this->setActiveState(false);
-					this->resetCounter = 0.0f;
-				}
-				break;
-
-			case SWITCH_TYPE_RESET_ON_DEACTIVATE: // Once turned on, turns off again after a period of time with the condition not being met
-				if (condition) {
-					this->resetCounter = 0.0f;
-				}
-				else {
-					this->resetCounter += dt;
-					if (this->resetCounter >= this->resetTime) {
-						this->setActiveState(false);
-						this->resetCounter = 0.0f;
-					}
-				}
-				break;
-
-			default: // SWITCH_TYPE_ONCE
-				break;
-		}
-	}
-
-	this->isLocked = condition; // The switch remains locked for as long as the condition remains true
 }
 
 void BaseSwitch::setActiveState(bool state) {

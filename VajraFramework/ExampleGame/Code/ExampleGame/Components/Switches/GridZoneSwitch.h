@@ -22,6 +22,8 @@ public:
 	//[[PROPERTY]]//
 	virtual void SetSwitchType(std::string typeStr);
 	//[[PROPERTY]]//
+	virtual void SetResetTime(float t);
+	//[[PROPERTY]]//
 	inline void SetRequiredOccupants(unsigned int num);
 
 	// @Override

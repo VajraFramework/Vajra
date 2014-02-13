@@ -605,6 +605,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetSwitchType(ConvertStringToString(argv[0]));
 			return;
 		}
+		if (propertyName == "SetResetTime") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetResetTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
 		if (propertyName == "SetRequiredOccupants") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetRequiredOccupants(StringUtilities::ConvertStringToInt(argv[0]));

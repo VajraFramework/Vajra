@@ -34,6 +34,10 @@ void GridZoneSwitch::SetSwitchType(std::string typeStr) {
 	BaseSwitch::SetSwitchType(typeStr);
 }
 
+void GridZoneSwitch::SetResetTime(float t) {
+	BaseSwitch::SetResetTime(t);
+}
+
 void GridZoneSwitch::HandleMessage(MessageChunk messageChunk) {
 	BaseSwitch::HandleMessage(messageChunk);
 
@@ -61,6 +65,10 @@ void GridZoneSwitch::onUnitEnteredZone(ObjectIdType id) {
 	if (it == this->occupants.end()) {
 		if (this->countObjectAsOccupant(id)) {
 			this->occupants.push_back(id);
+
+			if (this->occupants.size() >= this->requiredOccupants) {
+				this->setConditionState(true);
+			}
 		}
 	}
 	else {
@@ -72,5 +80,9 @@ void GridZoneSwitch::onUnitExitedZone(ObjectIdType id) {
 	auto it = std::find(this->occupants.begin(), this->occupants.end(), id);
 	if (it != this->occupants.end()) {
 		this->occupants.erase(it);
+
+		if (this->occupants.size() < this->requiredOccupants) {
+			this->setConditionState(false);
+		}
 	}
 }
