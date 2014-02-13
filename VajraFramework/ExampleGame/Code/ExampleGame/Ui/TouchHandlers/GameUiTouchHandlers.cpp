@@ -3,14 +3,15 @@
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
 #include "Vajra/Common/Objects/ObjectRegistry.h"
-#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
+#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/Ui/UiCallbackComponent/UiCallbackComponent.h"
 #include "Vajra/Engine/Ui/UiObject/UiObject.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Utilities/Utilities.h"
 
 
 #if DEBUG
@@ -35,8 +36,26 @@
 #define ASSASSIN_ICON_INDEX 0
 #define THIEF_ICON_INDEX 1
 
+void onTutorialTweenInComplete(ObjectIdType gameObjectId, std::string tweenClipName) {
+	printf("CLIP NAME %s", tweenClipName.c_str());
 
+	UiObject* tutorialMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(gameObjectId);
+	ASSERT(tutorialMenu != nullptr, "Tutorial menu object is null in onTutorialTweenInComplete");
+	if(tutorialMenu != nullptr) {
+		tutorialMenu->SetClickable(true);
+	}
 
+}
+void onTutorialTweenOutComplete(ObjectIdType gameObjectId, std::string tweenClipName) {
+	printf("CLIP NAME %s", tweenClipName.c_str());
+	
+	UiObject* tutorialMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(gameObjectId);
+	ASSERT(tutorialMenu != nullptr, "Tutorial menu object is null in onTutorialTweenOutComplete");
+	if(tutorialMenu != nullptr) {
+		tutorialMenu->SetClickable(false);
+	}
+	
+}
 GameUiTouchHandlers::GameUiTouchHandlers() : UiTouchHandlers() {
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
 }
@@ -58,14 +77,16 @@ void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
 		default:
 			break;
 	}
-	GameObject* tut = (GameObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TURORIAL_MENU]);
+	UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TURORIAL_MENU]);
+	tut->SetClickable(false);
 	ENGINE->GetTween()->TweenPosition(tut->GetId(),
 									  tut->GetTransform()->GetPosition(),
-									  glm::vec3(tut->GetTransform()->GetPosition().x, -64.0f, tut->GetTransform()->GetPosition().z),
+									  glm::vec3(tut->GetTransform()->GetPosition().x, 0.0f, tut->GetTransform()->GetPosition().z),
 									  1.0f,
 									  false,
 									  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
-									  false);
+									  false,
+									  onTutorialTweenInComplete);
 
 }
 
@@ -123,5 +144,17 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	} else if(uiObject->GetName() == "changeUnit") {
 		SINGLETONS->GetGridManager()->SwitchSelectedUnit();
 
-	} 
+	} else if(uiObject->GetName() == "closeTutorial") {
+		UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TURORIAL_MENU]);
+		tut->SetClickable(false);
+		ENGINE->GetTween()->TweenPosition(tut->GetId(),
+										  tut->GetTransform()->GetPosition(),
+										  glm::vec3(tut->GetTransform()->GetPosition().x, -768.0f, tut->GetTransform()->GetPosition().z),
+										  1.0f,
+										  false,
+										  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+										  false,
+										  onTutorialTweenInComplete);
+
+	}
 }
