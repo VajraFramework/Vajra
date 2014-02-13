@@ -59,10 +59,11 @@ void ShadyCamera::init() {
 	this->gridManagerRef = nullptr;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SELECTED_UNIT_CHANGED, this->GetTypeId(), false);
 }
 
 void ShadyCamera::destroy() {
-	this->removeSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId());
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 	this->gameObjectRef = nullptr;
 	this->gridManagerRef = nullptr;
 }
@@ -73,7 +74,9 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_PINCH_GESTURE:
 			this->onPinch();
 			break;
-
+		case MESSAGE_TYPE_SELECTED_UNIT_CHANGED:
+			this->MoveToRoom(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
+			break;
 		default:
 			break;
 	}
@@ -202,3 +205,6 @@ void ShadyCamera::setCameraMode(CameraMode newMode) {
 	}
 }
 
+void ShadyCamera::onUnitChanged() {
+	//this->MoveToRoom();
+}

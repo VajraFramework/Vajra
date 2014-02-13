@@ -76,6 +76,7 @@ private:
 	void onPinch();
 	bool tryModeSwitch(float velocity);
 	void setCameraMode(CameraMode newMode);
+	void onUnitChanged();
 
 	float camSpeed;
 	float gameCamHeight;

@@ -70,5 +70,8 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 
 		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
+	} else if(uiObject->GetUiObjectName() == "changeUnit") {
+		SINGLETONS->GetGridManager()->SwitchSelectedUnit();
+		
 	} 
 }

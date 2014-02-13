@@ -1,3 +1,4 @@
+
 //
 //  GridManager.cpp
 //  Created by Matt Kaufmann on 12/10/13.
@@ -123,6 +124,17 @@ glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
 		gridPosition = screenRay.origin + screenRay.dir * dist;
 	}
 	return gridPosition;
+}
+
+void GridManager::SwitchSelectedUnit() {
+	UnitType uType = UNIT_TYPE_ASSASSIN;
+	if(this->playerUnits[UNIT_TYPE_ASSASSIN] == this->selectedUnitId ) {
+		uType = UNIT_TYPE_THIEF;
+	} 
+	if(this->playerUnits[uType] != OBJECT_ID_INVALID) {
+		GridCell* gc = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->playerUnits[uType])->GetComponent<GridNavigator>()->GetCurrentCell();
+		this->selectUnitInCell(gc);
+	}
 }
 /*
 void GridManager::ToggleOverview() {
@@ -393,6 +405,12 @@ void GridManager::selectUnitInCell(GridCell* cell) {
 		if(bu->GetUnitType() < UnitType::UNIT_TYPE_PLAYER_UNITS_COUNT) {
 			this->deselectUnit();
 			this->selectedUnitId = cell->GetFirstOccupantId();
+
+			MessageChunk unitChangedMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			unitChangedMessage->SetMessageType(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
+			unitChangedMessage->messageData.iv1.x = cell->x;
+			unitChangedMessage->messageData.iv1.z = cell->z;
+			ENGINE->GetMessageHub()->SendMulticastMessage(unitChangedMessage, this->GetObject()->GetId());
 		}
 	}	
 }
