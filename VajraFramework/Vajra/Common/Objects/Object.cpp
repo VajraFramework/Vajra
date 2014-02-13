@@ -18,6 +18,12 @@ Object::~Object() {
 	this->destroy();
 }
 
+void Object::SetName(std::string name_) {
+	VERIFY(this->name == "", "Name of Object not already set (%s)");
+	this->name = name_;
+	ObjectRegistry::AddNewObjectByName(this);
+}
+
 void Object::init() {
 	this->id = this->getNextFreeId();
 	ObjectRegistry::AddNewObject(this);
@@ -33,6 +39,9 @@ void Object::destroy() {
 	this->removeAllComponents();
 
 	ObjectRegistry::RemoveObject(this);
+	if (this->name != "") {
+		ObjectRegistry::RemoveObjectByName(this);
+	}
 }
 
 void Object::HandleMessages() {
@@ -162,7 +171,7 @@ std::list<ObjectIdType>::iterator Object::findChildById(ObjectIdType childId) {
 
 
 void Object::destroyAllChildren() {
-	while (this->children.begin() != this->children.end()) {
+	while (!this->children.empty()) {
 		ObjectIdType childId = this->children.front();
 		Object* child = ObjectRegistry::GetObjectById(childId);
 		if (child != 0) {

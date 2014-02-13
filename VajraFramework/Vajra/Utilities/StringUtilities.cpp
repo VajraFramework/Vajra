@@ -1,9 +1,17 @@
 #include "Vajra/Utilities/StringUtilities.h"
 
+
 #include <algorithm>
+#include <cstdlib>
+#include <cstdio>
 #include <locale>
 
 int StringUtilities::ConvertStringToInt(std::string s) {
+	// Sometimes people write numbers as "10.0f"
+	std::size_t position_f = s.find('f');
+	if (position_f != std::string::npos) {
+		s = s.erase(position_f, 1);
+	}
 	std::istringstream iss(s);
 	int result;
 	iss >> result;
@@ -11,6 +19,11 @@ int StringUtilities::ConvertStringToInt(std::string s) {
 }
 
 float StringUtilities::ConvertStringToFloat(std::string s) {
+	// Sometimes people write numbers as "10.0f"
+	std::size_t position_f = s.find('f');
+	if (position_f != std::string::npos) {
+		s = s.erase(position_f, 1);
+	}
 	std::istringstream iss(s);
 	float result;
 	iss >> result;
@@ -22,6 +35,13 @@ bool StringUtilities::ConvertStringToBool(std::string s) {
 		return false;
 	}
 	return true;
+}
+
+std::string StringUtilities::ConvertIntToString(int number) {
+	char buffer[20];
+	sprintf(buffer, "%d", number);
+	std::string resultString = buffer;
+	return resultString;
 }
 
 std::vector<std::string> StringUtilities::SplitStringIntoTokensOnDelimiter(std::string& s, char delimiter, bool removeWhiteSpace /* = false */) {

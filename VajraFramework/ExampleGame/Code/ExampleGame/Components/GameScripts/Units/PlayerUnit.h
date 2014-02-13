@@ -14,7 +14,7 @@ class MessageData1S1I1F;
 class PlayerUnit : public BaseUnit {
 
 #define MOVE_SPEED 2.5f
-#define TURN_SPEED_DEG 360.0f
+#define TURN_SPEED_DEG 1000.0f
 #define NEAR_TOUCH_DIST 1.5f 
 	
 #define GOOD_TOUCH 0
@@ -45,6 +45,7 @@ protected:
 	virtual void trySpecial(int /* touchId */) = 0;
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
+	virtual void onSpecialCancelled();
 	virtual void touchedCellChanged(GridCell* prevTouchedCell);
 
 	InputState inputState;

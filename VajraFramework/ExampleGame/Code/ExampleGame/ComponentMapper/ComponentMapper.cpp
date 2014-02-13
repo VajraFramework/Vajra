@@ -192,8 +192,8 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		BakedSkeletalAnimation* component = gameObject->GetComponent<BakedSkeletalAnimation>();
 		if (component == nullptr) { return; }
 		if (propertyName == "AddAnimationClip") {
-			if ((int)argv.size() < 2) { return; }
-			component->AddAnimationClip(ConvertStringToString(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]));
+			if ((int)argv.size() < 3) { return; }
+			component->AddAnimationClip(ConvertStringToString(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToBool(argv[2]));
 			return;
 		}
 		if (propertyName == "PlayAnimationClip") {
@@ -208,8 +208,8 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		RigidAnimation* component = gameObject->GetComponent<RigidAnimation>();
 		if (component == nullptr) { return; }
 		if (propertyName == "AddAnimationClip") {
-			if ((int)argv.size() < 1) { return; }
-			component->AddAnimationClip(ConvertStringToString(argv[0]));
+			if ((int)argv.size() < 3) { return; }
+			component->AddAnimationClip(ConvertStringToString(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToBool(argv[2]));
 			return;
 		}
 		if (propertyName == "PlayAnimationClip") {
@@ -586,7 +586,7 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		}
 		if (propertyName == "MoveToRoom") {
 			if ((int)argv.size() < 2) { return; }
-			component->MoveToRoom(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]));
+			component->MoveToRoom(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
 			return;
 		}
 		if (propertyName == "MoveToOverview") {

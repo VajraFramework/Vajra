@@ -7,6 +7,7 @@
 class UiTouchHandlers;
 
 namespace UiSceneLoader {
+	void UnloadCurrentUiScene();
 	void LoadUiSceneFromUiSceneFile(std::string filePath, UiTouchHandlers* touchHandlers);
 };
 

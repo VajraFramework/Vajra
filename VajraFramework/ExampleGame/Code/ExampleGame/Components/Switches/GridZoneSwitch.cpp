@@ -63,7 +63,7 @@ bool GridZoneSwitch::doesObjectCountAsOccupant(ObjectIdType /*id*/) {
 void GridZoneSwitch::onUnitEnteredZone(ObjectIdType id) {
 	auto it = std::find(this->occupants.begin(), this->occupants.end(), id);
 	if (it == this->occupants.end()) {
-		if (this->countObjectAsOccupant(id)) {
+		if (this->doesObjectCountAsOccupant(id)) {
 			this->occupants.push_back(id);
 
 			if (this->occupants.size() >= this->requiredOccupants) {
