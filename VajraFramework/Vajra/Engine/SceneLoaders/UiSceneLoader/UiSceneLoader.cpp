@@ -127,7 +127,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 		}
 	}
 	{
-		uiElement->SetUiObjectName(itemName);
+		uiElement->SetName(itemName);
 		//
 		if (imageNames.size() != 0) {
 			std::vector<std::string> imagePaths;
