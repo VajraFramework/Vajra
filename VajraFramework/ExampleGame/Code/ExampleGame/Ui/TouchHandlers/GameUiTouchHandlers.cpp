@@ -41,13 +41,11 @@ void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
 	switch(messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_SELECTED_UNIT_CHANGED:
 			if(messageChunk->messageData.iv1.y == UNIT_TYPE_ASSASSIN) {
-				printf("ASSASSIN!");
 				// TODO [Implement] Ensure type safety here
 				UiElement* changeUnitIcon = (UiElement*)ObjectRegistry::GetObjectByName("changeUnit");
 				changeUnitIcon->SetSpriteTextureIndex(ASSASSIN_ICON_INDEX);
 
 			} else if(messageChunk->messageData.iv1.y == UNIT_TYPE_THIEF) {
-				printf("THIEF!");
 				// TODO [Implement] Ensure type safety here
 				UiElement* changeUnitIcon = (UiElement*)ObjectRegistry::GetObjectByName("changeUnit");
 				changeUnitIcon->SetSpriteTextureIndex(THIEF_ICON_INDEX);
