@@ -30,8 +30,8 @@
 #define PAUSE_MENU "pauseMenu"
 #define POST_GAME_MENU "postGame"
 
-#define ASSASSIN_ICON_PATH "SD_GUI_Dagger_02.png"
-#define THIEF_ICON_PATH "SD_GUI_Cloak_02.png"
+#define ASSASSIN_ICON_INDEX 0
+#define THIEF_ICON_INDEX 1
 
 GameUiTouchHandlers::GameUiTouchHandlers() : UiTouchHandlers() {
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
@@ -44,13 +44,13 @@ void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
 				printf("ASSASSIN!");
 				// TODO [Implement] Ensure type safety here
 				UiElement* changeUnitIcon = (UiElement*)ObjectRegistry::GetObjectByName("changeUnit");
-				changeUnitIcon->SetSpriteTextureIndex(0);
+				changeUnitIcon->SetSpriteTextureIndex(ASSASSIN_ICON_INDEX);
 
 			} else if(messageChunk->messageData.iv1.y == UNIT_TYPE_THIEF) {
 				printf("THIEF!");
 				// TODO [Implement] Ensure type safety here
 				UiElement* changeUnitIcon = (UiElement*)ObjectRegistry::GetObjectByName("changeUnit");
-				changeUnitIcon->SetSpriteTextureIndex(0);
+				changeUnitIcon->SetSpriteTextureIndex(THIEF_ICON_INDEX);
 			}
 		default:
 			break;

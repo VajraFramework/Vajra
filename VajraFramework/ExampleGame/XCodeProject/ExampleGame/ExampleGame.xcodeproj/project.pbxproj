@@ -7,21 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		58462B0A18AD15190091271F /* animations in Resources */ = {isa = PBXBuildFile; fileRef = 58462AFC18AD15190091271F /* animations */; };
-		58462B0B18AD15190091271F /* armatures in Resources */ = {isa = PBXBuildFile; fileRef = 58462AFD18AD15190091271F /* armatures */; };
-		58462B0C18AD15190091271F /* audio in Resources */ = {isa = PBXBuildFile; fileRef = 58462AFE18AD15190091271F /* audio */; };
-		58462B0D18AD15190091271F /* ComponentSpecifications in Resources */ = {isa = PBXBuildFile; fileRef = 58462AFF18AD15190091271F /* ComponentSpecifications */; };
-		58462B0E18AD15190091271F /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 58462B0018AD15190091271F /* fonts */; };
-		58462B0F18AD15190091271F /* gameconstants in Resources */ = {isa = PBXBuildFile; fileRef = 58462B0118AD15190091271F /* gameconstants */; };
-		58462B1018AD15190091271F /* levels in Resources */ = {isa = PBXBuildFile; fileRef = 58462B0218AD15190091271F /* levels */; };
-		58462B1118AD15190091271F /* logging in Resources */ = {isa = PBXBuildFile; fileRef = 58462B0318AD15190091271F /* logging */; };
-		58462B1218AD15190091271F /* models in Resources */ = {isa = PBXBuildFile; fileRef = 58462B0418AD15190091271F /* models */; };
-		58462B1318AD15190091271F /* pictures in Resources */ = {isa = PBXBuildFile; fileRef = 58462B0518AD15190091271F /* pictures */; };
-		58462B1418AD15190091271F /* pictures_ios_READONLY in Resources */ = {isa = PBXBuildFile; fileRef = 58462B0618AD15190091271F /* pictures_ios_READONLY */; };
-		58462B1518AD15190091271F /* prefabs in Resources */ = {isa = PBXBuildFile; fileRef = 58462B0718AD15190091271F /* prefabs */; };
-		58462B1618AD15190091271F /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 58462B0818AD15190091271F /* shaders */; };
-		58462B1718AD15190091271F /* tags in Resources */ = {isa = PBXBuildFile; fileRef = 58462B0918AD15190091271F /* tags */; };
-		58462B1918AD18690091271F /* fonts_ios_READONLY in Resources */ = {isa = PBXBuildFile; fileRef = 58462B1818AD18690091271F /* fonts_ios_READONLY */; };
 		58F246F01850F5C90066E804 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F246EF1850F5C90066E804 /* Foundation.framework */; };
 		58F246F21850F5C90066E804 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F246F11850F5C90066E804 /* CoreGraphics.framework */; };
 		58F246F41850F5C90066E804 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F246F31850F5C90066E804 /* UIKit.framework */; };
@@ -76,6 +61,22 @@
 		B39E70D318AD345E00E8F86F /* GameUiTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39E70AF18AD345E00E8F86F /* GameUiTouchHandlers.cpp */; };
 		B39E70D418AD345E00E8F86F /* MainMenuTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39E70B118AD345E00E8F86F /* MainMenuTouchHandlers.cpp */; };
 		B39E70D518AD345E00E8F86F /* TestUiSceneTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B39E70B318AD345E00E8F86F /* TestUiSceneTouchHandlers.cpp */; };
+		B39E70E618AD389B00E8F86F /* animations in Resources */ = {isa = PBXBuildFile; fileRef = B39E70D618AD389B00E8F86F /* animations */; };
+		B39E70E718AD389B00E8F86F /* armatures in Resources */ = {isa = PBXBuildFile; fileRef = B39E70D718AD389B00E8F86F /* armatures */; };
+		B39E70E818AD389B00E8F86F /* audio in Resources */ = {isa = PBXBuildFile; fileRef = B39E70D818AD389B00E8F86F /* audio */; };
+		B39E70E918AD389B00E8F86F /* ComponentSpecifications in Resources */ = {isa = PBXBuildFile; fileRef = B39E70D918AD389B00E8F86F /* ComponentSpecifications */; };
+		B39E70EA18AD389B00E8F86F /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B39E70DA18AD389B00E8F86F /* fonts */; };
+		B39E70EB18AD389B00E8F86F /* fonts_ios_READONLY in Resources */ = {isa = PBXBuildFile; fileRef = B39E70DB18AD389B00E8F86F /* fonts_ios_READONLY */; };
+		B39E70EC18AD389B00E8F86F /* gameconstants in Resources */ = {isa = PBXBuildFile; fileRef = B39E70DC18AD389B00E8F86F /* gameconstants */; };
+		B39E70ED18AD389B00E8F86F /* levels in Resources */ = {isa = PBXBuildFile; fileRef = B39E70DD18AD389B00E8F86F /* levels */; };
+		B39E70EE18AD389B00E8F86F /* logging in Resources */ = {isa = PBXBuildFile; fileRef = B39E70DE18AD389B00E8F86F /* logging */; };
+		B39E70EF18AD389B00E8F86F /* models in Resources */ = {isa = PBXBuildFile; fileRef = B39E70DF18AD389B00E8F86F /* models */; };
+		B39E70F018AD389B00E8F86F /* pictures in Resources */ = {isa = PBXBuildFile; fileRef = B39E70E018AD389B00E8F86F /* pictures */; };
+		B39E70F118AD389B00E8F86F /* pictures_ios_READONLY in Resources */ = {isa = PBXBuildFile; fileRef = B39E70E118AD389B00E8F86F /* pictures_ios_READONLY */; };
+		B39E70F218AD389B00E8F86F /* prefabs in Resources */ = {isa = PBXBuildFile; fileRef = B39E70E218AD389B00E8F86F /* prefabs */; };
+		B39E70F318AD389B00E8F86F /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = B39E70E318AD389B00E8F86F /* shaders */; };
+		B39E70F418AD389B00E8F86F /* tags in Resources */ = {isa = PBXBuildFile; fileRef = B39E70E418AD389B00E8F86F /* tags */; };
+		B39E70F518AD389B00E8F86F /* uiscenes in Resources */ = {isa = PBXBuildFile; fileRef = B39E70E518AD389B00E8F86F /* uiscenes */; };
 		BA97CF0118971D9000942107 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDAF18971D8F00942107 /* CMakeLists.txt */; };
 		BA97CF0218971D9000942107 /* func_common.inl in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDB818971D8F00942107 /* func_common.inl */; };
 		BA97CF0318971D9000942107 /* func_exponential.inl in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDBA18971D8F00942107 /* func_exponential.inl */; };
@@ -226,21 +227,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		58462AFC18AD15190091271F /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = animations; sourceTree = "<group>"; };
-		58462AFD18AD15190091271F /* armatures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = armatures; sourceTree = "<group>"; };
-		58462AFE18AD15190091271F /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audio; sourceTree = "<group>"; };
-		58462AFF18AD15190091271F /* ComponentSpecifications */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ComponentSpecifications; sourceTree = "<group>"; };
-		58462B0018AD15190091271F /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
-		58462B0118AD15190091271F /* gameconstants */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gameconstants; sourceTree = "<group>"; };
-		58462B0218AD15190091271F /* levels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = levels; sourceTree = "<group>"; };
-		58462B0318AD15190091271F /* logging */ = {isa = PBXFileReference; lastKnownFileType = folder; path = logging; sourceTree = "<group>"; };
-		58462B0418AD15190091271F /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
-		58462B0518AD15190091271F /* pictures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures; sourceTree = "<group>"; };
-		58462B0618AD15190091271F /* pictures_ios_READONLY */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures_ios_READONLY; sourceTree = "<group>"; };
-		58462B0718AD15190091271F /* prefabs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = prefabs; sourceTree = "<group>"; };
-		58462B0818AD15190091271F /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
-		58462B0918AD15190091271F /* tags */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tags; sourceTree = "<group>"; };
-		58462B1818AD18690091271F /* fonts_ios_READONLY */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts_ios_READONLY; sourceTree = "<group>"; };
 		58F246EC1850F5C90066E804 /* ExampleGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F246EF1850F5C90066E804 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		58F246F11850F5C90066E804 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -439,6 +425,22 @@
 		B39E70B218AD345E00E8F86F /* MainMenuTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuTouchHandlers.h; sourceTree = "<group>"; };
 		B39E70B318AD345E00E8F86F /* TestUiSceneTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestUiSceneTouchHandlers.cpp; sourceTree = "<group>"; };
 		B39E70B418AD345E00E8F86F /* TestUiSceneTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUiSceneTouchHandlers.h; sourceTree = "<group>"; };
+		B39E70D618AD389B00E8F86F /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = animations; sourceTree = "<group>"; };
+		B39E70D718AD389B00E8F86F /* armatures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = armatures; sourceTree = "<group>"; };
+		B39E70D818AD389B00E8F86F /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audio; sourceTree = "<group>"; };
+		B39E70D918AD389B00E8F86F /* ComponentSpecifications */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ComponentSpecifications; sourceTree = "<group>"; };
+		B39E70DA18AD389B00E8F86F /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		B39E70DB18AD389B00E8F86F /* fonts_ios_READONLY */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts_ios_READONLY; sourceTree = "<group>"; };
+		B39E70DC18AD389B00E8F86F /* gameconstants */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gameconstants; sourceTree = "<group>"; };
+		B39E70DD18AD389B00E8F86F /* levels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = levels; sourceTree = "<group>"; };
+		B39E70DE18AD389B00E8F86F /* logging */ = {isa = PBXFileReference; lastKnownFileType = folder; path = logging; sourceTree = "<group>"; };
+		B39E70DF18AD389B00E8F86F /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
+		B39E70E018AD389B00E8F86F /* pictures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures; sourceTree = "<group>"; };
+		B39E70E118AD389B00E8F86F /* pictures_ios_READONLY */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures_ios_READONLY; sourceTree = "<group>"; };
+		B39E70E218AD389B00E8F86F /* prefabs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = prefabs; sourceTree = "<group>"; };
+		B39E70E318AD389B00E8F86F /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
+		B39E70E418AD389B00E8F86F /* tags */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tags; sourceTree = "<group>"; };
+		B39E70E518AD389B00E8F86F /* uiscenes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = uiscenes; sourceTree = "<group>"; };
 		BA97CDAF18971D8F00942107 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		BA97CDB018971D8F00942107 /* common.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = common.hpp; sourceTree = "<group>"; };
 		BA97CDB218971D8F00942107 /* _detail.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _detail.hpp; sourceTree = "<group>"; };
@@ -1645,21 +1647,22 @@
 		B39E6C5718AC372900E8F86F /* GameResources */ = {
 			isa = PBXGroup;
 			children = (
-				58462B1818AD18690091271F /* fonts_ios_READONLY */,
-				58462AFC18AD15190091271F /* animations */,
-				58462AFD18AD15190091271F /* armatures */,
-				58462AFE18AD15190091271F /* audio */,
-				58462AFF18AD15190091271F /* ComponentSpecifications */,
-				58462B0018AD15190091271F /* fonts */,
-				58462B0118AD15190091271F /* gameconstants */,
-				58462B0218AD15190091271F /* levels */,
-				58462B0318AD15190091271F /* logging */,
-				58462B0418AD15190091271F /* models */,
-				58462B0518AD15190091271F /* pictures */,
-				58462B0618AD15190091271F /* pictures_ios_READONLY */,
-				58462B0718AD15190091271F /* prefabs */,
-				58462B0818AD15190091271F /* shaders */,
-				58462B0918AD15190091271F /* tags */,
+				B39E70D618AD389B00E8F86F /* animations */,
+				B39E70D718AD389B00E8F86F /* armatures */,
+				B39E70D818AD389B00E8F86F /* audio */,
+				B39E70D918AD389B00E8F86F /* ComponentSpecifications */,
+				B39E70DA18AD389B00E8F86F /* fonts */,
+				B39E70DB18AD389B00E8F86F /* fonts_ios_READONLY */,
+				B39E70DC18AD389B00E8F86F /* gameconstants */,
+				B39E70DD18AD389B00E8F86F /* levels */,
+				B39E70DE18AD389B00E8F86F /* logging */,
+				B39E70DF18AD389B00E8F86F /* models */,
+				B39E70E018AD389B00E8F86F /* pictures */,
+				B39E70E118AD389B00E8F86F /* pictures_ios_READONLY */,
+				B39E70E218AD389B00E8F86F /* prefabs */,
+				B39E70E318AD389B00E8F86F /* shaders */,
+				B39E70E418AD389B00E8F86F /* tags */,
+				B39E70E518AD389B00E8F86F /* uiscenes */,
 			);
 			name = GameResources;
 			path = ../../../GameResources;
@@ -2387,7 +2390,7 @@
 				BA97CF7018971D9000942107 /* normal.inl in Resources */,
 				BA97CF3B18971D9000942107 /* type_mat3x3.inl in Resources */,
 				BA97CF6218971D9000942107 /* inertia.inl in Resources */,
-				58462B0D18AD15190091271F /* ComponentSpecifications in Resources */,
+				B39E70E918AD389B00E8F86F /* ComponentSpecifications in Resources */,
 				BA97CF5618971D9000942107 /* color_space_YCoCg.inl in Resources */,
 				BA97CF0518971D9000942107 /* func_integer.inl in Resources */,
 				BA97CF7618971D9000942107 /* polar_coordinates.inl in Resources */,
@@ -2397,7 +2400,8 @@
 				58F247071850F5C90066E804 /* Main_iPhone.storyboard in Resources */,
 				BA97CF2818971D9000942107 /* func_packing.inl in Resources */,
 				BA97CF5118971D9000942107 /* ulp.inl in Resources */,
-				58462B0E18AD15190091271F /* fonts in Resources */,
+				B39E70F118AD389B00E8F86F /* pictures_ios_READONLY in Resources */,
+				B39E70EA18AD389B00E8F86F /* fonts in Resources */,
 				BA97CF3818971D9000942107 /* type_mat2x3.inl in Resources */,
 				BA97CF5818971D9000942107 /* component_wise.inl in Resources */,
 				BA97CF6718971D9000942107 /* log_base.inl in Resources */,
@@ -2405,12 +2409,12 @@
 				BA97CF8518971D9000942107 /* unsigned_int.inl in Resources */,
 				BA97CF7C18971D9000942107 /* scalar_relational.inl in Resources */,
 				BA97CF4318971D9000942107 /* type_vec3.inl in Resources */,
-				58462B1918AD18690091271F /* fonts_ios_READONLY in Resources */,
 				BA97CF2F18971D9000942107 /* intrinsic_integer.inl in Resources */,
 				BA97CF2718971D9000942107 /* func_noise.inl in Resources */,
 				BA97CF5C18971D9000942107 /* extented_min_max.inl in Resources */,
 				BA97CF1618971D9000942107 /* type_mat2x4.inl in Resources */,
-				58462B0A18AD15190091271F /* animations in Resources */,
+				B39E70E618AD389B00E8F86F /* animations in Resources */,
+				B39E70EC18AD389B00E8F86F /* gameconstants in Resources */,
 				BA97CF3018971D9000942107 /* intrinsic_matrix.inl in Resources */,
 				BA97CF7518971D9000942107 /* perpendicular.inl in Resources */,
 				BA97CF0F18971D9000942107 /* intrinsic_trigonometric.inl in Resources */,
@@ -2420,9 +2424,8 @@
 				BA97CF5018971D9000942107 /* type_ptr.inl in Resources */,
 				BA97CF6918971D9000942107 /* matrix_interpolation.inl in Resources */,
 				BA97CF7418971D9000942107 /* orthonormalize.inl in Resources */,
-				58462B0C18AD15190091271F /* audio in Resources */,
+				B39E70E818AD389B00E8F86F /* audio in Resources */,
 				BA97CF2018971D9000942107 /* type_vec3.inl in Resources */,
-				58462B1418AD15190091271F /* pictures_ios_READONLY in Resources */,
 				BA97CF7118971D9000942107 /* normalize_dot.inl in Resources */,
 				BA97CF2318971D9000942107 /* func_exponential.inl in Resources */,
 				BA97CF1718971D9000942107 /* type_mat3x2.inl in Resources */,
@@ -2448,10 +2451,10 @@
 				BA97CF4818971D9000942107 /* matrix_inverse.inl in Resources */,
 				BA97CF5418971D9000942107 /* closest_point.inl in Resources */,
 				BA97CF6E18971D9000942107 /* multiple.inl in Resources */,
+				B39E70F218AD389B00E8F86F /* prefabs in Resources */,
 				BA97CF3418971D9000942107 /* type_gentype.inl in Resources */,
 				BA97CF3318971D9000942107 /* precision.inl in Resources */,
 				BA97CF0E18971D9000942107 /* intrinsic_matrix.inl in Resources */,
-				58462B1518AD15190091271F /* prefabs in Resources */,
 				BA97CF3618971D9000942107 /* type_mat.inl in Resources */,
 				BA97CF7F18971D9000942107 /* simd_vec4.inl in Resources */,
 				BA97CF2E18971D9000942107 /* intrinsic_geometric.inl in Resources */,
@@ -2464,11 +2467,12 @@
 				BA97CF5218971D9000942107 /* associated_min_max.inl in Resources */,
 				BA97CF4018971D9000942107 /* type_vec.inl in Resources */,
 				BA97CF4718971D9000942107 /* matrix_access.inl in Resources */,
+				B39E70ED18AD389B00E8F86F /* levels in Resources */,
 				BA97CF4E18971D9000942107 /* reciprocal.inl in Resources */,
-				58462B0F18AD15190091271F /* gameconstants in Resources */,
 				BA97CF4618971D9000942107 /* epsilon.inl in Resources */,
 				BA97CF5318971D9000942107 /* bit.inl in Resources */,
 				BA97CF2118971D9000942107 /* type_vec4.inl in Resources */,
+				B39E70F518AD389B00E8F86F /* uiscenes in Resources */,
 				BA97CF1518971D9000942107 /* type_mat2x3.inl in Resources */,
 				BA97CF1318971D9000942107 /* type_mat.inl in Resources */,
 				BA97CF4A18971D9000942107 /* noise.inl in Resources */,
@@ -2476,10 +2480,10 @@
 				BA97CF6B18971D9000942107 /* matrix_operation.inl in Resources */,
 				BA97CF1418971D9000942107 /* type_mat2x2.inl in Resources */,
 				BA97CF8718971D9000942107 /* vector_angle.inl in Resources */,
+				B39E70EE18AD389B00E8F86F /* logging in Resources */,
 				BA97CF0A18971D9000942107 /* func_vector_relational.inl in Resources */,
 				BA97CF1918971D9000942107 /* type_mat3x4.inl in Resources */,
 				BA97CF1D18971D9000942107 /* type_vec.inl in Resources */,
-				58462B1118AD15190091271F /* logging in Resources */,
 				BA97CF3D18971D9000942107 /* type_mat4x2.inl in Resources */,
 				BA97CF8618971D9000942107 /* vec1.inl in Resources */,
 				BA97CF4B18971D9000942107 /* packing.inl in Resources */,
@@ -2491,29 +2495,28 @@
 				BA97CF6518971D9000942107 /* intersect.inl in Resources */,
 				B383FD0C187B4B0000999890 /* .gitignore in Resources */,
 				BA97CF3E18971D9000942107 /* type_mat4x3.inl in Resources */,
-				58462B1318AD15190091271F /* pictures in Resources */,
-				58462B1218AD15190091271F /* models in Resources */,
-				58462B1018AD15190091271F /* levels in Resources */,
 				BA97CF0718971D9000942107 /* func_noise.inl in Resources */,
 				58F246FE1850F5C90066E804 /* InfoPlist.strings in Resources */,
+				B39E70F418AD389B00E8F86F /* tags in Resources */,
 				BA97CF3918971D9000942107 /* type_mat2x4.inl in Resources */,
 				BA97CF4418971D9000942107 /* type_vec4.inl in Resources */,
 				BA97CF5D18971D9000942107 /* fast_exponential.inl in Resources */,
 				BA97CF6618971D9000942107 /* io.inl in Resources */,
 				BA97CF2218971D9000942107 /* func_common.inl in Resources */,
 				BA97CF4C18971D9000942107 /* quaternion.inl in Resources */,
+				B39E70F018AD389B00E8F86F /* pictures in Resources */,
 				BA97CF5E18971D9000942107 /* fast_square_root.inl in Resources */,
-				58462B1718AD15190091271F /* tags in Resources */,
 				BA97CF8418971D9000942107 /* transform2.inl in Resources */,
 				BA97CF6018971D9000942107 /* gradient_paint.inl in Resources */,
 				BA97CF7318971D9000942107 /* optimum_pow.inl in Resources */,
 				BA97CF0318971D9000942107 /* func_exponential.inl in Resources */,
-				58462B0B18AD15190091271F /* armatures in Resources */,
+				B39E70E718AD389B00E8F86F /* armatures in Resources */,
 				BA97CF8018971D9000942107 /* spline.inl in Resources */,
 				BA97CF4118971D9000942107 /* type_vec1.inl in Resources */,
 				BA97CF6418971D9000942107 /* integer.inl in Resources */,
 				BA97CF1818971D9000942107 /* type_mat3x3.inl in Resources */,
-				58462B1618AD15190091271F /* shaders in Resources */,
+				B39E70EB18AD389B00E8F86F /* fonts_ios_READONLY in Resources */,
+				B39E70F318AD389B00E8F86F /* shaders in Resources */,
 				BA97CF6A18971D9000942107 /* matrix_major_storage.inl in Resources */,
 				BA97CF0618971D9000942107 /* func_matrix.inl in Resources */,
 				BA97CF0B18971D9000942107 /* intrinsic_common.inl in Resources */,
@@ -2529,6 +2532,7 @@
 				BA97CF5A18971D9000942107 /* euler_angles.inl in Resources */,
 				BA97CF1B18971D9000942107 /* type_mat4x3.inl in Resources */,
 				BA97CF3718971D9000942107 /* type_mat2x2.inl in Resources */,
+				B39E70EF18AD389B00E8F86F /* models in Resources */,
 				BA97CF7818971D9000942107 /* quaternion.inl in Resources */,
 				BA97CF7E18971D9000942107 /* simd_quat.inl in Resources */,
 				BA97CF8218971D9000942107 /* string_cast.inl in Resources */,
