@@ -63,6 +63,12 @@ then
 	echo -e "Copying library files from $LIBRARIES_BASE_PATH to $LIBRARIES_DESTINATION_IPHONESIMULATOR_PATH";
 	cp $LIBRARIES_BASE_PATH/* $LIBRARIES_DESTINATION_IPHONESIMULATOR_PATH/.
 
+	RESOURCES_PATH="./GameResources/";
+	rsync -r --delete $RESOURCES_PATH/pictures/* $RESOURCES_PATH/pictures_ios_READONLY/.
+	rsync -r --delete $RESOURCES_PATH/fonts/* $RESOURCES_PATH/fonts_ios_READONLY/.
+	sips -f vertical $RESOURCES_PATH/pictures_ios_READONLY/*
+	sips -f vertical $RESOURCES_PATH/fonts_ios_READONLY/*
+
 elif [ $1 == "android" ]
 then
 	LIBRARIES_BASE_PATH="../AndroidProject/Built/libs/";
