@@ -9,7 +9,6 @@
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/ParticleSystemRenderer.h"
-#include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
@@ -26,6 +25,7 @@
 #include "ExampleGame/Components/Grid/GridZones/TransitionZone.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
+#include "ExampleGame/Components/Switches/GridZoneSwitch.h"
 
 
 Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObject* gameObject, std::string componentName) {
@@ -70,6 +70,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "MeshRenderer") {
 		MeshRenderer* component = gameObject->GetComponent<MeshRenderer>();
 		if (component == nullptr) { component = gameObject->AddComponent<MeshRenderer>(); }
+		return component;
+	}
+	
+	if (componentName == "ParticleSystemRenderer") {
+		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
+		if (component == nullptr) { component = gameObject->AddComponent<ParticleSystemRenderer>(); }
 		return component;
 	}
 	
@@ -166,6 +172,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "ShadyCamera") {
 		ShadyCamera* component = gameObject->GetComponent<ShadyCamera>();
 		if (component == nullptr) { component = gameObject->AddComponent<ShadyCamera>(); }
+		return component;
+	}
+	
+	if (componentName == "GridZoneSwitch") {
+		GridZoneSwitch* component = gameObject->GetComponent<GridZoneSwitch>();
+		if (component == nullptr) { component = gameObject->AddComponent<GridZoneSwitch>(); }
 		return component;
 	}
 
@@ -285,6 +297,12 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->InitMesh(ConvertStringToString(argv[0]));
 			return;
 		}
+		return;
+	}
+	
+	if (componentName == "ParticleSystemRenderer") {
+		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
+		if (component == nullptr) { return; }
 		return;
 	}
 	
@@ -574,6 +592,22 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "MoveToOverview") {
 			if ((int)argv.size() < 0) { return; }
 			component->MoveToOverview();
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "GridZoneSwitch") {
+		GridZoneSwitch* component = gameObject->GetComponent<GridZoneSwitch>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetSwitchType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetSwitchType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetRequiredOccupants") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetRequiredOccupants(StringUtilities::ConvertStringToInt(argv[0]));
 			return;
 		}
 		return;
