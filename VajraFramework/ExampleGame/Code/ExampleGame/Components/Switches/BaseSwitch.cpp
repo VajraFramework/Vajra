@@ -29,7 +29,7 @@ SwitchType ConvertStringToSwitchType(std::string str) {
 	return SWITCH_TYPE_INVALID;
 }
 
-ComponentIdType BaseSwitch::componentTypeId = COMPONENT_TYPE_ID_AI_PERCEPTION;//COMPONENT_TYPE_ID_BASE_SWITCH;
+ComponentIdType BaseSwitch::componentTypeId = COMPONENT_TYPE_ID_BASE_SWITCH;
 
 BaseSwitch::BaseSwitch() : Component() {
 	this->init();
