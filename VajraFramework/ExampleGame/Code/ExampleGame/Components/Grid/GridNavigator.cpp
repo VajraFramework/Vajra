@@ -263,6 +263,7 @@ void GridNavigator::updateFacing() {
 	}
 
 	float angle = glm::angle(this->targetForward, trans->GetForward());
+
 	glm::vec3 axis = YAXIS;
 	if (angle < PI) {
 		axis = glm::cross(trans->GetForward(), this->targetForward);
@@ -429,8 +430,5 @@ void GridNavigator::SetIsTraveling(bool isTraveling_) {
 
 		this->isTraveling = isTraveling_;
 
-		BaseUnit* thisBaseUnit = this->gameObjectRef->GetComponent<BaseUnit>();
-		VERIFY(thisBaseUnit != nullptr, "Grid navigator's parent game object has a BaseUnit component");
-		thisBaseUnit->SwitchActionState(isTraveling_ ? UNIT_ACTION_STATE_WALKING : UNIT_ACTION_STATE_IDLE);
 	}
 }
