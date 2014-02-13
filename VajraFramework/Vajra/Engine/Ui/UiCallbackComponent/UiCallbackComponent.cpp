@@ -18,7 +18,6 @@ UiCallbackComponent::~UiCallbackComponent() {
 }
 
 void UiCallbackComponent::HandleMessage(MessageChunk messageChunk) {
-	printf("I GOT A MESSAGE!");
 	this->touchHandlers->HandleMessageCallback(messageChunk);
 }
 

@@ -1,3 +1,5 @@
+#include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
+#include "ExampleGame/Messages/Declarations.h"
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
@@ -7,6 +9,7 @@
 #include "Vajra/Engine/Ui/UiObject/UiObject.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
+
 
 #if DEBUG
 #include "ExampleGame/Ui/TouchHandlers/DebugMenuTouchHandlers.h"
@@ -29,7 +32,20 @@
 #define THIEF_ICON_PATH "SD_GUI_Cloak_02.png"
 
 GameUiTouchHandlers::GameUiTouchHandlers() : UiTouchHandlers() {
-	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_FRAME_EVENT);
+	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
+}
+
+void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
+	switch(messageChunk->GetMessageType()) {
+		case MESSAGE_TYPE_SELECTED_UNIT_CHANGED:
+			if(messageChunk->messageData.iv1.y == UNIT_TYPE_ASSASSIN) {
+				printf("ASSASSIN!");
+			} else if(messageChunk->messageData.iv1.y == UNIT_TYPE_THIEF) {
+				printf("THIEF!");
+			}
+		default:
+			break;
+	}
 }
 
 void GameUiTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /* touch */) {
