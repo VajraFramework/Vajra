@@ -13,7 +13,7 @@
 class LevelLoader {
 public:
 	static void LoadLevelFromFile(std::string levelFilename);
-
+	static void LoadLevelsWithTutorials(std::vector<std::string>* /*levelsWithTutorials*/);
 private:
 	static void loadStaticDataFromXml(XmlNode* staticNode);
 	static void loadUnitDataFromXml  (XmlNode* unitBaseNode);

@@ -3,11 +3,10 @@
 //  Created by Matt Kaufmann on 01/10/14.
 //
 
+#include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
-#include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
-
 #include <fstream>
 
 ComponentIdType LevelManager::componentTypeId = COMPONENT_TYPE_ID_LEVEL_MANAGER;
@@ -44,6 +43,9 @@ void LevelManager::init() {
 	this->currentLevelName = "";
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
+
+	// load the list of levels with a tutorial
+	LevelLoader::LoadLevelsWithTutorials(&levelsWithTutorials);
 }
 
 void LevelManager::destroy() {

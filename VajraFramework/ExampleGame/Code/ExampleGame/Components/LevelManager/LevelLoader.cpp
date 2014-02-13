@@ -20,6 +20,8 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
+#define tutorialXmlPath "tutorials/tutorials.xml"
+
 UnitType StringToUnitType(std::string str) {
 	if (str == "Assassin") {
 		return UNIT_TYPE_ASSASSIN;
@@ -71,6 +73,27 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 
 	delete parser;
 }
+
+void LevelLoader::LoadLevelsWithTutorials(std::vector<std::string>* levelsWithTutorials) {
+	FRAMEWORK->GetLogger()->dbglog("\nLoading tutorials from file: %s", tutorialXmlPath);
+
+	XmlParser* parser = new XmlParser();
+	parser->ParseXmlFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + tutorialXmlPath);
+
+	XmlTree* xmlTree = parser->GetXmlTree();
+	ASSERT(xmlTree != nullptr, "Got valid xmlTree from parser for level file %s", tutorialXmlPath);
+	
+	XmlNode* rootTutorialsNode = xmlTree->GetRootNode();
+	ASSERT(rootTutorialsNode != nullptr, "Got valid level node from xml tree for level file %s", tutorialXmlPath);
+
+	for(XmlNode* tutorialNode : rootTutorialsNode->GetChildren()) {
+		FRAMEWORK->GetLogger()->dbglog("\n Loaded tutorial data for level: %s", tutorialNode->GetAttributeValueS("name").c_str());
+		levelsWithTutorials->push_back(tutorialNode->GetAttributeValueS("name"));
+	}
+	delete parser;
+
+}
+
 
 void LevelLoader::loadStaticDataFromXml(XmlNode* staticNode) {
 	XmlNode* staticObjNode = staticNode->GetFirstChildByNodeName(STATIC_OBJECT_TAG);
