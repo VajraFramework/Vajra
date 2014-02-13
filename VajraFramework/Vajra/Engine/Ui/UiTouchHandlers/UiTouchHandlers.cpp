@@ -12,13 +12,6 @@ UiTouchHandlers::UiTouchHandlers() {
 	this->eventForwarder = new GameObject(ENGINE->GetSceneGraphUi());
 	UiCallbackComponent* uCC = this->eventForwarder->AddComponent<UiCallbackComponent>();
 	uCC->SetUiTouchHandlers(this);
-
-	Object* object = ObjectRegistry::GetObjectById(this->eventForwarder->GetId());
-	if (object != nullptr) {
-		FRAMEWORK->GetLogger()->dbglog("found object of id %d", object->GetId());
-	} else {
-		FRAMEWORK->GetLogger()->dbglog("didn't find object of id %d", this->eventForwarder->GetId());
-	}
 }
 
 UiTouchHandlers::~UiTouchHandlers() {
