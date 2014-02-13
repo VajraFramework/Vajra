@@ -36,6 +36,8 @@ void Triggerable::destroy() {
 }
 
 void Triggerable::HandleMessage(MessageChunk messageChunk) {
+	Component::HandleMessage(messageChunk);
+
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_SWITCH_ACTIVATED:
 			this->onSwitchToggled(true);
@@ -53,10 +55,10 @@ void Triggerable::SubscribeToSwitchObject(ObjectIdType switchId) {
 	auto it = std::find(this->subscriptions.begin(), this->subscriptions.end(), switchId);
 	if (it == this->subscriptions.end()) {
 		GameObject* switchObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(switchId);
-		ASSERT(switchObj != nullptr, "No object exists with id %d", switchId);
+		ASSERT(switchObj != nullptr, "Object exists with id %d", switchId);
 		if (switchObj != nullptr) {
 			BaseSwitch* switchComp = switchObj->GetComponent<BaseSwitch>();
-			ASSERT(switchComp != nullptr, "Object with id %d has no BaseSwitch component", switchId);
+			ASSERT(switchComp != nullptr, "Object with id %d has BaseSwitch component", switchId);
 			if (switchComp != nullptr) {
 				switchComp->AddSubscriber(this->GetObject()->GetId());
 				this->subscriptions.push_back(switchId);
@@ -72,10 +74,10 @@ void Triggerable::UnsubscribeToSwitchObject(ObjectIdType switchId) {
 	auto it = std::find(this->subscriptions.begin(), this->subscriptions.end(), switchId);
 	if (it != this->subscriptions.end()) {
 		GameObject* switchObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(switchId);
-		ASSERT(switchObj != nullptr, "No object exists with id %d", switchId);
+		ASSERT(switchObj != nullptr, "Object exists with id %d", switchId);
 		if (switchObj != nullptr) {
 			BaseSwitch* switchComp = switchObj->GetComponent<BaseSwitch>();
-			ASSERT(switchComp != nullptr, "Object with id %d has no BaseSwitch component", switchId);
+			ASSERT(switchComp != nullptr, "Object with id %d has BaseSwitch component", switchId);
 			if (switchComp != nullptr) {
 				switchComp->RemoveSubscriber(this->GetObject()->GetId());
 				this->subscriptions.erase(it);

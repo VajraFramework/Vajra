@@ -33,7 +33,7 @@ protected:
 	// @Override
 	virtual bool isConditionMet();
 
-	virtual bool countObjectAsOccupant(ObjectIdType id);  // This method can be used to filter out specific objects
+	virtual bool doesObjectCountAsOccupant(ObjectIdType id);  // This method can be used to filter out specific objects
 
 private:
 	void init();

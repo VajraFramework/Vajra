@@ -56,7 +56,7 @@ bool GridZoneSwitch::isConditionMet() {
 	return this->occupants.size() >= this->requiredOccupants;
 }
 
-bool GridZoneSwitch::countObjectAsOccupant(ObjectIdType /*id*/) {
+bool GridZoneSwitch::doesObjectCountAsOccupant(ObjectIdType /*id*/) {
 	return true;
 }
 

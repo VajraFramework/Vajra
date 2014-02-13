@@ -38,7 +38,7 @@ void baseSwitchNumberTweenCallback(float /* fromNumber */, float /* toNumber */,
 	// Make sure the switch is still around
 	if (caller != nullptr) {
 		BaseSwitch* switchComp = caller->GetComponent<BaseSwitch>();
-		ASSERT(switchComp != nullptr, "BaseSwitch Tween called by object %d without BaseSwitch component", userParams->i);
+		ASSERT(switchComp != nullptr, "baseSwitchNumberTweenCallback: Object %d has BaseSwitch component", userParams->i);
 		if (switchComp != nullptr) {
 			switchComp->setActiveState(userParams->f > 0.0f);
 		}
@@ -73,6 +73,10 @@ void BaseSwitch::SetSwitchType(std::string typeStr) {
 
 void BaseSwitch::SetResetTime(float t) {
 	this->resetTime = t;
+}
+
+void BaseSwitch::HandleMessage(MessageChunk messageChunk) {
+	Component::HandleMessage(messageChunk);
 }
 
 void BaseSwitch::AddSubscriber(ObjectIdType subscriberId) {

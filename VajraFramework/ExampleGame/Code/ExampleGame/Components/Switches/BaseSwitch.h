@@ -36,6 +36,9 @@ public:
 
 	virtual void SetResetTime(float t);
 
+	// @Override
+	virtual void HandleMessage(MessageChunk messageChunk);
+
 	void AddSubscriber(ObjectIdType subscriberId);
 	void RemoveSubscriber(ObjectIdType subscriberId);
 
