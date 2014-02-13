@@ -1,0 +1,171 @@
+<uiscene widthPixels="1024" heightPixels="768">
+
+	<uielement name="tutorialScreen" clickable="true">
+		<dimensions>
+			<position x="0" y="768"></position>
+			<size widthPixels="1024" heightPixels="768"></size>
+			<zorder>-5</zorder>
+		</dimensions>
+		<uielement name="closeTutorial" clickable="true">
+			<dimensions>
+				<position x="128" y="128"></position>
+				<size widthPixels="64" heightPixels="64"></size>
+				<zorder>2</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				X
+			</text>
+			<color r="0.7" g="0.0" b="0.0" a="1.0"></color>
+		</uielement>
+		<uielement name="tutorailImage" clickable="true">
+			<dimensions>
+				<position x="282" y="282"></position>
+				<size widthPixels="510" heightPixels="510"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<color r="0.0" g="0.9" b="0.0" a="1.0"></color>
+		</uielement>
+	</uielement>
+
+	<uielement name="debugMenu" clickable="true">
+		<dimensions>
+			<position x="992" y="736"></position>
+			<size widthPixels="32" heightPixels="32"></size>
+			<zorder>0</zorder>
+		</dimensions>
+		<color r="0.2" g="1.0" b="0.3" a="0.5"></color>
+	</uielement>
+
+	<uielement name="inGame" clickable="false">
+	<dimensions>
+		<position x="0" y="0"></position>
+		<size widthPixels="1024" heightPixels="10"></size>
+		<zorder>0</zorder>
+		<color r="0.5" g="0.0" b="0.6" a="1.0"></color>
+	</dimensions>
+
+		<uielement name="pause" clickable="true">
+			<dimensions>
+				<position x="4" y="4"></position>
+				<size widthPixels="64" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				| |
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+		<uielement name="changeUnit" clickable="true">
+			<dimensions>
+				<position x="4" y="700"></position>
+				<size widthPixels="64" heightPixels="64"></size>
+				<zorder>-1</zorder>
+			</dimensions>
+			<image name="SD_GUI_Dagger_02.png"> </image>
+			<image name="SD_GUI_Cloak_02.png"> </image>
+			<color r="0.7" g="0.0" b="0.0" a="1.0"></color>
+		</uielement>
+
+	</uielement>
+
+	<uielement name="pauseMenu" clickable="false" visible="false">
+	<dimensions>
+		<position x="128" y="128"></position>
+		<size widthPixels="768" heightPixels="16"></size>
+		<zorder>0</zorder>
+		<color r="0.0" g="0.9" b="0.0" a="1.0"></color>
+	</dimensions>
+
+		<uielement name="resume" clickable="true" visible="true">
+			<dimensions>
+				<position x="256" y="100"></position>
+				<size widthPixels="256" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Resume
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+		<uielement name="restart_pause" clickable="true" visible="true">
+			<dimensions>
+				<position x="256" y="200"></position>
+				<size widthPixels="256" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Restart
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+		<uielement name="mission_from_pause" clickable="true" visible="true">
+			<dimensions>
+				<position x="256" y="300"></position>
+				<size widthPixels="256" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Menu
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+	</uielement>
+
+	<uielement name="postGame" clickable="false" visible="false">
+	<dimensions>
+		<position x="700" y="128"></position>
+		<size widthPixels="768" heightPixels="16"></size>
+		<zorder>0</zorder>
+		<color r="0.0" g="0.9" b="0.0" a="1.0"></color>
+	</dimensions>
+
+		<uielement name="continue" clickable="true" visible="true">
+			<dimensions>
+				<position x="256" y="100"></position>
+				<size widthPixels="256" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Resume
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+		<uielement name="restart_post" clickable="true" visible="true">
+			<dimensions>
+				<position x="256" y="200"></position>
+				<size widthPixels="256" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Restart
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+
+		<uielement name="mission_post" clickable="true" visible="true">
+			<dimensions>
+				<position x="256" y="300"></position>
+				<size widthPixels="256" heightPixels="64"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				Menu
+			</text>
+			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+		</uielement>
+	</uielement>
+
+</uiscene>
+

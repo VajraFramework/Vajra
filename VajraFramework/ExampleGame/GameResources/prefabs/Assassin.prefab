@@ -1,0 +1,56 @@
+<prefab>
+	<gameobject>
+		<component name="MeshRenderer">
+			<property name="InitMesh">
+				<field>models/SD_Assassin_mesh.model</field>
+			</property>
+		</component>
+
+		<component name="BakedSkeletalAnimation">
+			<property name="AddAnimationClip">
+				<field>animations/SD_Assassin_mesh.skeletalanimation#idle</field>
+				<field>0.25</field>
+				<field>true</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Assassin_mesh.skeletalanimation#walking</field>
+				<field>2.0</field>
+				<field>true</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Assassin_mesh.skeletalanimation#special_posing</field>
+				<field>0.25f</field>
+				<field>false</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Assassin_mesh.skeletalanimation#special_action</field>
+				<field>0.25f</field>
+				<field>false</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Assassin_mesh.skeletalanimation#special_end</field>
+				<field>0.25f</field>
+				<field>false</field>
+			</property>
+			<property name="PlayAnimationClip">
+				<field>idle</field>
+			</property>
+		</component>
+
+		<component name="Transform">
+			<property name="Scale">
+				<field>0.06</field>
+			</property>
+		</component>
+		
+		<component name="GridNavigator">
+		</component>
+		
+		<component name="Assassin">
+		</component>
+
+		<component name="UnitAnimationManager">
+		</component>
+	</gameobject>
+</prefab>
+
