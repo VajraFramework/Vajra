@@ -3,6 +3,7 @@
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
 #include "Vajra/Common/Objects/ObjectRegistry.h"
+#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
@@ -29,9 +30,12 @@
 #define IN_GAME_MENU "inGame"
 #define PAUSE_MENU "pauseMenu"
 #define POST_GAME_MENU "postGame"
+#define TURORIAL_MENU "tutorialScreen"
 
 #define ASSASSIN_ICON_INDEX 0
 #define THIEF_ICON_INDEX 1
+
+
 
 GameUiTouchHandlers::GameUiTouchHandlers() : UiTouchHandlers() {
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
@@ -50,9 +54,19 @@ void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
 				UiElement* changeUnitIcon = (UiElement*)ObjectRegistry::GetObjectByName("changeUnit");
 				changeUnitIcon->SetSpriteTextureIndex(THIEF_ICON_INDEX);
 			}
+			break;
 		default:
 			break;
 	}
+	GameObject* tut = (GameObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TURORIAL_MENU]);
+	ENGINE->GetTween()->TweenPosition(tut->GetId(),
+									  tut->GetTransform()->GetPosition(),
+									  glm::vec3(tut->GetTransform()->GetPosition().x, -64.0f, tut->GetTransform()->GetPosition().z),
+									  1.0f,
+									  false,
+									  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+									  false);
+
 }
 
 void GameUiTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /* touch */) {
