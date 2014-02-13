@@ -5,14 +5,22 @@
 
 #include <string>
 
+#if !defined(PLATFORM_IOS)
 #define RESOURCES_FOLDER_NAME_PICTURES            "pictures/"
+#else
+#define RESOURCES_FOLDER_NAME_PICTURES            "pictures_ios_READONLY/"
+#endif
 #define RESOURCES_FOLDER_NAME_SHADERS             "shaders/"
 #define RESOURCES_FOLDER_NAME_MODELS              "models/"
 #define RESOURCES_FOLDER_NAME_ARMATURES           "armatures/"
 #define RESOURCES_FOLDER_NAME_ANIMATIONS          "animations/"
 #define RESOURCES_FOLDER_NAME_AUDIO               "audio/"
 #define RESOURCES_FOLDER_NAME_LOGGING             "logging/"
+#if !defined(PLATFORM_IOS)
 #define RESOURCES_FOLDER_NAME_FONTS               "fonts/"
+#else
+#define RESOURCES_FOLDER_NAME_FONTS               "fonts_ios_READONLY/"
+#endif
 #define RESOURCES_FOLDER_NAME_UISCENES            "uiscenes/"
 #define RESOURCES_FOLDER_NAME_PREFABS             "prefabs/"
 #define RESOURCES_FOLDER_NAME_TAGS                "tags/"

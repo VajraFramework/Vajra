@@ -59,10 +59,11 @@ void ShadyCamera::init() {
 	this->gridManagerRef = nullptr;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SELECTED_UNIT_CHANGED, this->GetTypeId(), false);
 }
 
 void ShadyCamera::destroy() {
-	this->removeSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId());
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 	this->gameObjectRef = nullptr;
 	this->gridManagerRef = nullptr;
 }
@@ -73,7 +74,9 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_PINCH_GESTURE:
 			this->onPinch();
 			break;
-
+		case MESSAGE_TYPE_SELECTED_UNIT_CHANGED:
+			this->MoveToRoom(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
+			break;
 		default:
 			break;
 	}
@@ -117,7 +120,7 @@ void ShadyCamera::MoveToCurrentRoom() {
 	this->MoveTo(this->gameCamPos);
 }
 
-void ShadyCamera::MoveToRoom(float x, float z) {
+void ShadyCamera::MoveToRoom(int x, int z) {
 	this->setGameCameraPosition(x, z);
 	this->MoveToCurrentRoom();
 }
@@ -135,7 +138,7 @@ void ShadyCamera::LevelStartPan() {
 
 }
 
-void ShadyCamera::setGameCameraPosition(float x, float z) {
+void ShadyCamera::setGameCameraPosition(int x, int z) {
 	glm::vec3 roomCenter = this->gridManagerRef->GetGrid()->GetRoomCenter(x, z);
 	// If the above function returns ZERO_VEC3, that means that the position is not within any room.
 	// This is not problematic on its own, but we should do nothing in that case.
@@ -202,3 +205,6 @@ void ShadyCamera::setCameraMode(CameraMode newMode) {
 	}
 }
 
+void ShadyCamera::onUnitChanged() {
+	//this->MoveToRoom();
+}

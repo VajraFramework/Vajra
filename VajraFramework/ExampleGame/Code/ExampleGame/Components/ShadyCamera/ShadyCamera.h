@@ -50,7 +50,7 @@ public:
 	void MoveToCurrentRoom(); // move to current room
 	// Sets current room and then moves to it
 	//[[PROPERTY]]//
-	void MoveToRoom(float x, float z); // location in current room
+	void MoveToRoom(int x, int z); // location in current room
 	void MoveToRoom(GridCell* cell); // cell is a cell in the current room
 
 	//[[PROPERTY]]//
@@ -68,7 +68,7 @@ private:
 
 	CameraMode camMode;
 	// Find and store the current position for the game camera
-	void setGameCameraPosition(float x, float z);
+	void setGameCameraPosition(int x, int z);
 
 	bool newPinch;
 	float velocityThreshold;
@@ -76,6 +76,7 @@ private:
 	void onPinch();
 	bool tryModeSwitch(float velocity);
 	void setCameraMode(CameraMode newMode);
+	void onUnitChanged();
 
 	float camSpeed;
 	float gameCamHeight;

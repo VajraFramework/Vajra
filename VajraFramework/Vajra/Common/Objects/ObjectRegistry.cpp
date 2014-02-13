@@ -4,6 +4,7 @@
 #include "Vajra/Utilities/Utilities.h"
 
 std::map<int /* id */, Object*> ObjectRegistry::allObjects;
+std::map<std::string /* name */, Object*> ObjectRegistry::allObjectsByName;
 
 void ObjectRegistry::AddNewObject(Object* object) {
 	VERIFY(object->GetId() > OBJECT_ID_INVALID,
@@ -27,6 +28,31 @@ void ObjectRegistry::RemoveObject(Object* object) {
 
 	// Remove this Object from the map of all Objects:
 	int returnValueOfErasing = ObjectRegistry::allObjects.erase(object->GetId());
+	VERIFY(returnValueOfErasing == 1, "Erasing object from map returned %d, should have returned 1", returnValueOfErasing);
+}
+
+void ObjectRegistry::AddNewObjectByName(Object* object) {
+	VERIFY(object->GetName() != "",
+		"Object has valid name");
+	VERIFY(ObjectRegistry::GetObjectByName(object->GetName()) == nullptr,
+		"Object has unique name: %s", object->GetName().c_str());
+
+	FRAMEWORK->GetLogger()->dbglog("\nAdding Object with name %s to ObjectRegistry", object->GetName().c_str());
+
+	// Add this Object to the map of all Objects:
+	ObjectRegistry::allObjectsByName[object->GetName()] = object;
+}
+
+void ObjectRegistry::RemoveObjectByName(Object* object) {
+	VERIFY(object->GetName() != "",
+		"Object has valid name");
+	VERIFY(ObjectRegistry::GetObjectByName(object->GetName()) != nullptr,
+		"Object of name %s exists in the object registry", object->GetName().c_str());
+
+	FRAMEWORK->GetLogger()->dbglog("\nRemoving Object with name %s from ObjectRegistry", object->GetName().c_str());
+
+	// Remove this Object from the map of all Objects:
+	int returnValueOfErasing = ObjectRegistry::allObjectsByName.erase(object->GetName());
 	VERIFY(returnValueOfErasing == 1, "Erasing object from map returned %d, should have returned 1", returnValueOfErasing);
 }
 

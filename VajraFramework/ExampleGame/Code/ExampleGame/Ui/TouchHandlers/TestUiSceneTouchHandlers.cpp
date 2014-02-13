@@ -5,9 +5,9 @@
 
 
 void TestUiSceneTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch touch) {
-	FRAMEWORK->GetLogger()->dbglog("\nGot touch down: name (%s): %f, %f", uiObject->GetUiObjectName().c_str(), touch.pos.x, touch.pos.y);
+	FRAMEWORK->GetLogger()->dbglog("\nGot touch down: name (%s): %f, %f", uiObject->GetName().c_str(), touch.pos.x, touch.pos.y);
 
-	if (uiObject->GetUiObjectName() == "testButton") {
+	if (uiObject->GetName() == "testButton") {
 		// Do something
 
 	} else {
@@ -18,9 +18,9 @@ void TestUiSceneTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch tou
 }
 
 void TestUiSceneTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch) {
-	FRAMEWORK->GetLogger()->dbglog("\nGot touch move: name (%s): %f, %f", uiObject->GetUiObjectName().c_str(), touch.pos.x, touch.pos.y);
+	FRAMEWORK->GetLogger()->dbglog("\nGot touch move: name (%s): %f, %f", uiObject->GetName().c_str(), touch.pos.x, touch.pos.y);
 
-	if (uiObject->GetUiObjectName() == "testButton") {
+	if (uiObject->GetName() == "testButton") {
 		// Do something
 
 	} else {
@@ -31,9 +31,9 @@ void TestUiSceneTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch tou
 }
 
 void TestUiSceneTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
-	FRAMEWORK->GetLogger()->dbglog("\nGot touch up  : name (%s): %f, %f", uiObject->GetUiObjectName().c_str(), touch.pos.x, touch.pos.y);
+	FRAMEWORK->GetLogger()->dbglog("\nGot touch up  : name (%s): %f, %f", uiObject->GetName().c_str(), touch.pos.x, touch.pos.y);
 
-	if (uiObject->GetUiObjectName() == "testButton") {
+	if (uiObject->GetName() == "testButton") {
 		// Do something
 
 	} else {

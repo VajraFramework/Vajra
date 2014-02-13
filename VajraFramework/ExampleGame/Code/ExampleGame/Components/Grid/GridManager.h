@@ -37,7 +37,7 @@ public:
 
 	ObjectIdType GetPlayerUnitIdOfType(UnitType uType);
 	inline ObjectIdType GetSelectedUnitId() { return this->selectedUnitId; }
-
+	void SwitchSelectedUnit();
 	// @Override
 	virtual bool TestTouchStart(Touch /* touch */) { return true; }
 	virtual void OnTouchUpdate(int touchIndex);

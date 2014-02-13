@@ -37,19 +37,19 @@ DebugMenuTouchHandlers::DebugMenuTouchHandlers() : UiTouchHandlers() {
 }
 
 void DebugMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /*touch*/ ) {
-	if (uiObject->GetUiObjectName() == "touchPad") {
+	if (uiObject->GetName() == "touchPad") {
 		// Do something
 
-	} else if (uiObject->GetUiObjectName() == "up") {
+	} else if (uiObject->GetName() == "up") {
 		// TODO [Implement] Ensure type safety here
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_DOWN);
-	} else if (uiObject->GetUiObjectName() == "down") {
+	} else if (uiObject->GetName() == "down") {
 		// TODO [Implement] Ensure type safety here
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_DOWN);
-	} else if (uiObject->GetUiObjectName() == "left") {
+	} else if (uiObject->GetName() == "left") {
 		// TODO [Implement] Ensure type safety here
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_DOWN);
-	} else if (uiObject->GetUiObjectName() == "right") {
+	} else if (uiObject->GetName() == "right") {
 		// TODO [Implement] Ensure type safety here
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_DOWN);
 	} else {
@@ -59,7 +59,7 @@ void DebugMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /*tou
 }
 
 void DebugMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch ) {
-	if (uiObject->GetUiObjectName() == "touchPad") {
+	if (uiObject->GetName() == "touchPad") {
 		// Do something
 		glm::vec2 moveDir = touch.pos - touch.prevPos;
 		GameObject* debugCam = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject();
@@ -78,24 +78,26 @@ void DebugMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch
 void DebugMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch */) {
 	GameObject* debugCam = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject();
 	Transform* trans = debugCam->GetTransform();
-	if (uiObject->GetUiObjectName() == "up") {
+	if (uiObject->GetName() == "up") {
 		trans->Translate(this->cameraSpeed, trans->GetForward());
 		// TODO [Implement] Ensure type safety here
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_UP);
-	} else if (uiObject->GetUiObjectName() == "down") {
+	} else if (uiObject->GetName() == "down") {
 		trans->Translate(-this->cameraSpeed, trans->GetForward());
 		// TODO [Implement] Ensure type safety here
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_UP);
-	} else if (uiObject->GetUiObjectName() == "left") {
+	} else if (uiObject->GetName() == "left") {
 		trans->Translate(this->cameraSpeed, trans->GetLeft());
 		// TODO [Implement] Ensure type safety here
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_UP);
-	} else if (uiObject->GetUiObjectName() == "right") {
+	} else if (uiObject->GetName() == "right") {
 		trans->Translate(-this->cameraSpeed, trans->GetLeft());
 		// TODO [Implement] Ensure type safety here
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_UP);
-	} else if (uiObject->GetUiObjectName() == "back") {
+	} else if (uiObject->GetName() == "back") {
 		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
+		//
+		UiSceneLoader::UnloadCurrentUiScene();
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new GameUiTouchHandlers());
 
 
