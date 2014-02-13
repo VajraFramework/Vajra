@@ -1,6 +1,9 @@
 #include "Vajra/Utilities/StringUtilities.h"
 
+
 #include <algorithm>
+#include <cstdlib>
+#include <cstdio>
 #include <locale>
 
 int StringUtilities::ConvertStringToInt(std::string s) {
@@ -22,6 +25,13 @@ bool StringUtilities::ConvertStringToBool(std::string s) {
 		return false;
 	}
 	return true;
+}
+
+std::string StringUtilities::ConvertIntToString(int number) {
+	char buffer[20];
+	sprintf(buffer, "%d", number);
+	std::string resultString = buffer;
+	return resultString;
 }
 
 std::vector<std::string> StringUtilities::SplitStringIntoTokensOnDelimiter(std::string& s, char delimiter, bool removeWhiteSpace /* = false */) {
