@@ -13,9 +13,6 @@ public:
 	UiObject(SceneGraph* sceneGraph);
 	virtual ~UiObject();
 
-	std::string GetUiObjectName() { return this->uiObjectName; }
-	void SetUiObjectName(std::string name_) { this->uiObjectName = name_; }
-
 	unsigned int GetWidth()            { return this->width;           }
 	unsigned int GetHeight()           { return this->height;          }
 	//
@@ -41,8 +38,6 @@ private:
 
 	void registerWithTouchHandlers();
 	void unregisterWithTouchHandlers();
-
-	std::string uiObjectName;
 
 	unsigned int width, height;
 	bool clickable;
