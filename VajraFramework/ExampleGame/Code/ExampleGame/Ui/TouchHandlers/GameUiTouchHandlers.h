@@ -10,6 +10,7 @@ public:
 	bool hasFired;
 	MessageType msgType;
 	glm::vec3 vector3Data;
+	std::vector<std::string> imageNames;
 };
 
 class GameUiTouchHandlers : public UiTouchHandlers {

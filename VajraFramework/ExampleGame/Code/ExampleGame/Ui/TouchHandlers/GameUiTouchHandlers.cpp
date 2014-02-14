@@ -193,8 +193,8 @@ void GameUiTouchHandlers::setupTutorial(std::string levelName) {
 
 	XmlNode* tutorialNode = nullptr;
 	for(XmlNode* node : rootTutorialsNode->GetChildren()) {
-		FRAMEWORK->GetLogger()->dbglog("\n Loaded tutorial data for level: %s", node->GetAttributeValueS("name").c_str());
-		if(levelName == node->GetAttributeValueS("name")) {
+		FRAMEWORK->GetLogger()->dbglog("\n Loaded tutorial data for level: %s", node->GetAttributeValueS(NAME_ATTRIBUTE).c_str());
+		if(levelName == node->GetAttributeValueS(NAME_ATTRIBUTE)) {
 			tutorialNode = node;
 			break;
 		}
@@ -207,7 +207,7 @@ void GameUiTouchHandlers::setupTutorial(std::string levelName) {
 		while(messageNode != nullptr) {
 			ASSERT(messageNode != nullptr, "Tutorial node does not have a message node");
 			TutorialData tData;
-			MessageType tutorialMessageType = stringToMessageType(messageNode->GetAttributeValueS("name"));
+			MessageType tutorialMessageType = stringToMessageType(messageNode->GetAttributeValueS(NAME_ATTRIBUTE));
 			this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(tutorialMessageType);
 			tData.msgType = tutorialMessageType;
 			
@@ -226,6 +226,14 @@ void GameUiTouchHandlers::setupTutorial(std::string levelName) {
 				default:
 					break;
 
+			}
+			
+			// Load in the images
+			XmlNode* imageNode = messageNode->GetFirstChildByNodeName(IMAGE_TAG);
+			while(imageNode != nullptr) {
+				std::string imageName = imageNode->GetAttributeValueS(NAME_ATTRIBUTE);
+				tData.imageNames.push_back(imageName);
+				imageNode = imageNode->GetNextSiblingByNodeName(IMAGE_TAG);
 			}
 			
 			tData.hasFired = false;
@@ -259,12 +267,31 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 	
 		this->tutorials[index].hasFired = true; // we do not want the tutorial opening twice
 		
+		// Grab
 		UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TURORIAL_MENU]);
 		tut->SetClickable(false);
+		
+
+		// Load the textures for the tutorial
+		UiElement* tutorialElement = new UiElement(ENGINE->GetSceneGraphUi());
+		if (this->tutorials[index].imageNames.size() != 0) {
+			std::vector<std::string> imagePaths;
+			for (std::string imageName : this->tutorials[index].imageNames) {
+				imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + imageName);
+			}
+			tutorialElement->InitSprite(600.0f, 600.0f, "sptshdr", imagePaths);
+		}
+		tutorialElement->SetVisible(true);
+		tut->SetZOrder(120);
+		tut->AddChild(tutorialElement->GetId()); //->SetParent(tut->GetId());
+		
+	
+
+		// tween in the tutorial
 		ENGINE->GetTween()->TweenPosition(tut->GetId(),
 										  tut->GetTransform()->GetPosition(),
 										  glm::vec3(tut->GetTransform()->GetPosition().x, 0.0f, tut->GetTransform()->GetPosition().z),
-										  1.0f,
+										  10.0f,
 										  false,
 										  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
 										  false,
