@@ -1,6 +1,6 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
-#include "ExampleGame/Components/GameScripts/UnitAnimations/Definitions.h"
-#include "ExampleGame/Components/GameScripts/UnitAnimations/UnitAnimationManager.h"
+#include "ExampleGame/Components/GameScripts/UnitCustomizers/Definitions.h"
+#include "ExampleGame/Components/GameScripts/UnitCustomizers/UnitAnimationManager.h"
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"

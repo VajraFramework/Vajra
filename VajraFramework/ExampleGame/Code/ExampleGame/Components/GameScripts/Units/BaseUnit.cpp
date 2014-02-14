@@ -1,5 +1,5 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
-#include "ExampleGame/Components/GameScripts/UnitAnimations/UnitAnimationManager.h"
+#include "ExampleGame/Components/GameScripts/UnitCustomizers/UnitAnimationManager.h"
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Components/Grid/GridCell.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
