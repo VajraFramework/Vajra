@@ -22,6 +22,10 @@ public:
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
 
+	// @Override
+	//[[PROPERTY]]//
+	virtual void SetZoneBounds(int xMin, int zMin, int xMax, int zMax);
+
 	//[[PROPERTY]]//
 	void SetFirstDestination(int cellX, int cellZ);
 	void SetFirstDestination(glm::vec3 worldPosition);

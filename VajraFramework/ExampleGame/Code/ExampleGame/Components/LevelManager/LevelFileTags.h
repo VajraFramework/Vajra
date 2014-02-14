@@ -21,7 +21,7 @@
 #define ENEMY_UNIT_TAG        "enemyUnit"
 #define AI_COMMAND_TAG        "aiCommand"
 #define OTHER_TAG             "other"
-#define ZONE_TAG              "zone"
+#define DYNAMIC_OBJECT_TAG    "dynamicObject"
 #define CAMERA_TAG            "camera"
 #define COMPONENT_TAG         "component"
 #define LINKS_TAG             "links"

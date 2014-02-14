@@ -13,6 +13,8 @@
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
+#include "ExampleGame/Components/Switches/BaseSwitch.h"
+#include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -189,35 +191,22 @@ void LevelLoader::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 }
 
 void LevelLoader::loadOtherDataFromXml(XmlNode* otherDataNode) {
-	XmlNode* zoneNode = otherDataNode->GetFirstChildByNodeName(ZONE_TAG);
-	while (zoneNode != nullptr) {
-		int zoneXmlId      = zoneNode->GetAttributeValueI(ID_ATTRIBUTE);
-		std::string prefab = zoneNode->GetAttributeValueS(PREFAB_ATTRIBUTE);
-		int westBound      = zoneNode->GetAttributeValueI(X_ATTRIBUTE);
-		int southBound     = zoneNode->GetAttributeValueI(Z_ATTRIBUTE);
-		int zoneWidth      = zoneNode->GetAttributeValueI(WIDTH_ATTRIBUTE);
-		int zoneHeight     = zoneNode->GetAttributeValueI(HEIGHT_ATTRIBUTE);
-		int eastBound      = westBound + zoneWidth - 1;    // This is a cell coordinate, not an absolute position
-		int northBound     = southBound + zoneHeight - 1;  // Likewise here
+	XmlNode* dynamicObjNode = otherDataNode->GetFirstChildByNodeName(DYNAMIC_OBJECT_TAG);
+	while (dynamicObjNode != nullptr) {
+		int objXmlId       = dynamicObjNode->GetAttributeValueI(ID_ATTRIBUTE);
+		std::string prefab = dynamicObjNode->GetAttributeValueS(PREFAB_ATTRIBUTE);
 
-		GameObject* zoneObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
-		idsFromXml[zoneXmlId] = zoneObj->GetId();
-
-		GridZone* zoneComp = zoneObj->GetComponent<GridZone>();
-		ASSERT(zoneComp != nullptr, "Object within %s tag has GridZone component", ZONE_TAG);
-
-		zoneComp->SetZoneBounds(westBound, southBound, eastBound, northBound);
-
-		SINGLETONS->GetGridManager()->GetGrid()->AddGridZone(zoneObj->GetId());
+		GameObject* dynamicObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
+		idsFromXml[objXmlId] = dynamicObj->GetId();
 
 		// Check for overloaded components
-		XmlNode* compNode = zoneNode->GetFirstChildByNodeName(COMPONENT_TAG);
+		XmlNode* compNode = dynamicObjNode->GetFirstChildByNodeName(COMPONENT_TAG);
 		while (compNode != nullptr) {
-			PrefabLoader::LoadComponentFromComponentNodeInPrefab(zoneObj, compNode);
+			PrefabLoader::LoadComponentFromComponentNodeInPrefab(dynamicObj, compNode);
 			compNode = compNode->GetNextSiblingByNodeName(COMPONENT_TAG);
 		}
 
-		zoneNode = zoneNode->GetNextSiblingByNodeName(ZONE_TAG);
+		dynamicObjNode = dynamicObjNode->GetNextSiblingByNodeName(DYNAMIC_OBJECT_TAG);
 	}
 
 	// TODO [Implement] Other things such as triggerables

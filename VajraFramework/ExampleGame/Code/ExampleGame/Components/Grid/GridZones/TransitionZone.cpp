@@ -33,6 +33,10 @@ void TransitionZone::HandleMessage(MessageChunk messageChunk) {
 	}
 }
 
+void TransitionZone::SetZoneBounds(int xMin, int zMin, int xMax, int zMax) {
+	GridZone::SetZoneBounds(xMin, zMin, xMax, zMax);
+}
+
 void TransitionZone::SetFirstDestination(int cellX, int cellZ) {
 	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(cellX, cellZ);
 	this->SetFirstDestination(cell);

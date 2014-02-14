@@ -547,6 +547,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "TransitionZone") {
 		TransitionZone* component = gameObject->GetComponent<TransitionZone>();
 		if (component == nullptr) { return; }
+		if (propertyName == "SetZoneBounds") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetZoneBounds(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToInt(argv[2]), StringUtilities::ConvertStringToInt(argv[3]));
+			return;
+		}
 		if (propertyName == "SetFirstDestination") {
 			if ((int)argv.size() < 2) { return; }
 			component->SetFirstDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
