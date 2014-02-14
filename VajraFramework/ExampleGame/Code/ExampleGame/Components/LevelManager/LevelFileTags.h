@@ -24,8 +24,12 @@
 #define ZONE_TAG              "zone"
 #define CAMERA_TAG            "camera"
 #define COMPONENT_TAG         "component"
+#define LINKS_TAG             "links"
+#define TRIGGER_LINK_TAG      "triggerLink"
+#define SWITCH_TAG            "switch"
 
 #define LEVEL_NAME_ATTRIBUTE  "levelName"
+#define ID_ATTRIBUTE          "id"
 #define X_ATTRIBUTE           "x"
 #define Y_ATTRIBUTE           "y"
 #define Z_ATTRIBUTE           "z"
