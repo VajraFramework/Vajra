@@ -1,0 +1,33 @@
+#ifplatform iOS | Android
+precision mediump float;
+#endif
+
+varying vec2 uvCoords_out;
+uniform sampler2D myTextureSampler;
+
+#ifdef PER_PIXEL_LIGHTING
+varying vec4 vNormal_out;
+varying vec4 DLight0Direction_out;
+varying vec4 DLight0AmbientColor_out;
+varying vec4 DLight0DiffuseColor_out;
+varying vec4 DLight0SpecularColor_out;
+#else
+varying vec4 lightIntensity;
+#endif
+
+void main()
+{
+#ifdef PER_PIXEL_LIGHTING
+	float cosTheta = clamp( dot( vNormal_out, DLight0Direction_out ), 0.0, 1.0 );
+	vec4 lightIntensity = DLight0DiffuseColor_out * cosTheta;
+
+	// Fake the ambient lighting:
+	lightIntensity = lightIntensity + DLight0AmbientColor_out;
+
+	// Temp using variables:
+	lightIntensity = lightIntensity + DLight0SpecularColor_out;
+#endif
+
+	gl_FragColor = vec4(texture2D(myTextureSampler, uvCoords_out).rgba) * lightIntensity;
+}
+

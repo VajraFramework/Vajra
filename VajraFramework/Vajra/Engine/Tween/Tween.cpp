@@ -1,3 +1,4 @@
+#include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/AssetLibrary/Assets/AnimationAssets/AnimationKeyFrames/RAKeyFrame/RAKeyFrame.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/AnimationClip/AnimationClip.h"
@@ -380,6 +381,12 @@ bool OnGoingNumberTweenDetails::StepTween(float deltaTime) {
 	}
 	// Tween still in progress
 	return true;
+}
+
+OnGoingNumberTweenDetails::~OnGoingNumberTweenDetails() {
+	if (this->userParams != nullptr) {
+		delete this->userParams;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
