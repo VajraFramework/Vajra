@@ -6,23 +6,25 @@
 #include <vector>
 
 // Forward Declarations:
+class Camera;
+class DirectionalLight;
 class RenderList;
 
 class RenderLists {
 public:
 	~RenderLists();
 
-	void Begin();
-	void Next();
-
-	bool PrepareCurrentRenderList();
-
-	void RenderGameObjectsInCurrentList();
+	void Draw(Camera* camera, DirectionalLight* directionalLight = nullptr);
 
 private:
 	RenderLists();
 	void init();
 	void destroy();
+
+	void Begin();
+	void Next();
+	bool PrepareCurrentRenderList();
+	void RenderGameObjectsInCurrentList();
 
 	void addGameObjectIdToRenderList(ObjectIdType id, std::string shaderName);
 	void removeGameObjectIdToRenderList(ObjectIdType id, std::string shaderName);

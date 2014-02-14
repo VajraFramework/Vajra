@@ -97,7 +97,7 @@ void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
 	
 	if(this->isTutorialLevel) {
 		// for each tutorial screen in this level see if it should occur
-		for(int i = 0; i < this->tutorials.size(); ++i) {
+		for(unsigned int i = 0; i < this->tutorials.size(); ++i) {
 			if(!this->tutorials[i].hasFired) {
 				this->tryTutorial(i, messageChunk);
 			}

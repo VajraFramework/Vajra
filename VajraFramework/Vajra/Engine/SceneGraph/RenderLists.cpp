@@ -1,4 +1,6 @@
 #include "Vajra/Common/Objects/Declarations.h"
+#include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
+#include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/RenderLists.h"
@@ -61,6 +63,32 @@ RenderLists::RenderLists() {
 
 RenderLists::~RenderLists() {
 	this->destroy();
+}
+
+void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight /* = nullptr */) {
+
+	/*
+	 * We draw the scene in render-list-iterations
+	 * GameObjects which use the same shader program are grouped in the same render list
+	 */
+
+	this->Begin();
+	while (this->PrepareCurrentRenderList()) {
+
+		if (camera != nullptr) {
+			// TODO [Cleanup] Change mainCamera->cameraComponent->WriteLookAt() to use messages sent to mainCamera instead, maybe
+			camera->WriteLookAt();
+		}
+		if (directionalLight != nullptr) {
+			// TODO [Cleanup] Change mainDirectionalLight->directionalLightComponent->WriteLightStuff() to use messages sent to mainDirectionalLight instead, maybe
+			directionalLight->WriteLightPropertiesToShader();
+		}
+
+		// Render all the renderable game objects in the current render list:
+		this->RenderGameObjectsInCurrentList();
+
+		this->Next();
+	}
 }
 
 void RenderLists::Begin() {
