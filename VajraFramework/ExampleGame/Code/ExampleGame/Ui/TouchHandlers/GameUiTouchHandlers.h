@@ -27,6 +27,9 @@ public:
 	// @Override
 	virtual void HandleMessageCallback(MessageChunk messageChunk);
 private:
+	//void onLevelStart();
+	//void onLevelEnd();
+
 	void setupTutorial(std::string levelName);
 	void tryTutorial(int index, MessageChunk messageChunk);
 	std::vector<TutorialData> tutorials;
