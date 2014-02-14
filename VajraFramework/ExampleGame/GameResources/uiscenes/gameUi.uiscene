@@ -3,7 +3,7 @@
 	<uielement name="tutorialScreen" clickable="true">
 		<dimensions>
 			<position x="0" y="768"></position>
-			<size widthPixels="1024" heightPixels="768"></size>
+			<size widthPixels="1" heightPixels="1"></size>
 			<zorder>-5</zorder>
 		</dimensions>
 		<uielement name="closeTutorial" clickable="true">
@@ -26,7 +26,7 @@
 			</dimensions>
 			<text>
 				<font type="calibiri.fontspec" size="64.0"></font>
-				>
+				-}
 			</text>
 			<color r="0.0" g="1.0" b="0.0" a="1.0"></color>
 		</uielement>

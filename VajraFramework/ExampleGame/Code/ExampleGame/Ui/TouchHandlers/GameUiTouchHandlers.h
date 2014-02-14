@@ -13,9 +13,12 @@ public:
 	std::vector<std::string> imageNames;
 };
 
+class UiElement;
+
 class GameUiTouchHandlers : public UiTouchHandlers {
 public:
 	GameUiTouchHandlers();
+	~GameUiTouchHandlers();
 	// @Override
 	virtual void OnTouchDownHandlers(UiObject* uiObject, Touch touch);
 	virtual void OnTouchMoveHandlers(UiObject* uiObject, Touch touch);
@@ -28,6 +31,9 @@ private:
 	void tryTutorial(int index, MessageChunk messageChunk);
 	std::vector<TutorialData> tutorials;
 	bool isTutorialLevel;
+	void nextTutorialImage();
+	int currentTutorialIndex;
+	UiElement* dynamicTutorialElement;
 };
 
 #endif // GAMEUI_TOUCH_HANDLERS_H
