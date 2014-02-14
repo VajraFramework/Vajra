@@ -1,4 +1,5 @@
 #include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
+#include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
@@ -57,6 +58,7 @@ void onTutorialTweenOutComplete(ObjectIdType gameObjectId, std::string tweenClip
 	
 }
 GameUiTouchHandlers::GameUiTouchHandlers() : UiTouchHandlers() {
+	this->isTutorialLevel = false;
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_CREATED_TUTORIAL);
 }
@@ -75,19 +77,21 @@ void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
 				changeUnitIcon->SetSpriteTextureIndex(THIEF_ICON_INDEX);
 			}
 			break;
+		case MESSAGE_TYPE_CREATED_TUTORIAL:
+			this->setupTutorial(messageChunk->messageData.s);
+			break;
 		default:
 			break;
 	}
-	UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TURORIAL_MENU]);
-	tut->SetClickable(false);
-	ENGINE->GetTween()->TweenPosition(tut->GetId(),
-									  tut->GetTransform()->GetPosition(),
-									  glm::vec3(tut->GetTransform()->GetPosition().x, 0.0f, tut->GetTransform()->GetPosition().z),
-									  1.0f,
-									  false,
-									  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
-									  false,
-									  onTutorialTweenInComplete);
+	
+	if(this->isTutorialLevel) {
+		// for each tutorial screen in this level see if it should occur
+		for(int i = 0; i < this->tutorials.size(); ++i) {
+			if(!this->tutorials[i].hasFired) {
+				this->tryTutorial(i, messageChunk);
+			}
+		}
+	}
 
 }
 
@@ -158,4 +162,111 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 										  onTutorialTweenInComplete);
 
 	}
+}
+
+
+
+MessageType stringToMessageType(std::string msgString) {
+	if(msgString == "MESSAGE_TYPE_GRID_ROOM_ENTERED") {
+		return MESSAGE_TYPE_GRID_ROOM_ENTERED;
+	} else if (msgString == "MESSAGE_TYPE_GRID_ZONE_ENTERED") {
+		return MESSAGE_TYPE_GRID_ZONE_ENTERED;
+	}
+	ASSERT(true, "stringToMessageType has reached the end without returning a message. Did you add a case for %s?", msgString.c_str());
+	return 0;
+}
+
+void GameUiTouchHandlers::setupTutorial(std::string levelName) {
+	// remove the old tutorial data
+	this->tutorials.clear();
+	
+	FRAMEWORK->GetLogger()->dbglog("\nLoading tutorials from file: %s", tutorialXmlPath);
+
+	XmlParser* parser = new XmlParser();
+	parser->ParseXmlFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + tutorialXmlPath);
+
+	XmlTree* xmlTree = parser->GetXmlTree();
+	ASSERT(xmlTree != nullptr, "Got valid xmlTree from parser for level file %s", tutorialXmlPath);
+	
+	XmlNode* rootTutorialsNode = xmlTree->GetRootNode();
+	ASSERT(rootTutorialsNode != nullptr, "Got valid tutoral node from xml tree for tutorial file %s", tutorialXmlPath);
+
+	XmlNode* tutorialNode = nullptr;
+	for(XmlNode* node : rootTutorialsNode->GetChildren()) {
+		FRAMEWORK->GetLogger()->dbglog("\n Loaded tutorial data for level: %s", node->GetAttributeValueS("name").c_str());
+		if(levelName == node->GetAttributeValueS("name")) {
+			tutorialNode = node;
+			break;
+		}
+	}
+	ASSERT(tutorialNode != nullptr, "Tutorial node of level passed via 'MakeTutorial' does not have a tutorial in the xml");
+	if(tutorialNode != nullptr) {
+		this->isTutorialLevel = true;
+		// load in the tutorial
+		XmlNode* messageNode = tutorialNode->GetFirstChildByNodeName("message");
+		while(messageNode != nullptr) {
+			ASSERT(messageNode != nullptr, "Tutorial node does not have a message node");
+			TutorialData tData;
+			MessageType tutorialMessageType = stringToMessageType(messageNode->GetAttributeValueS("name"));
+			this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(tutorialMessageType);
+			tData.msgType = tutorialMessageType;
+			
+			// Load in data needed for this specific tutorial
+			XmlNode* cell;
+			switch(tutorialMessageType) {
+				case MESSAGE_TYPE_GRID_CELL_CHANGED:
+					cell = messageNode->GetFirstChildByNodeName("cell");
+					tData.vector3Data = glm::vec3(cell->GetAttributeValueI("x"), 0.0f, cell->GetAttributeValueI("z"));
+					break;
+				case MESSAGE_TYPE_GRID_ROOM_ENTERED:
+					cell = messageNode->GetFirstChildByNodeName("cell");
+					tData.vector3Data = SINGLETONS->GetGridManager()->GetGrid()->GetRoomCenter(cell->GetAttributeValueI("x"),
+									    cell->GetAttributeValueI("z"));
+					break;
+				default:
+					break;
+
+			}
+			
+			tData.hasFired = false;
+			this->tutorials.push_back(tData);
+			
+			messageNode = messageNode->GetNextSiblingByNodeName("message");
+												 
+		}
+		//XmlNode* image = tutorialNode->GetFirstChildByNodeName("image");
+		//ASSERT(image != nullptr, "Tutorial node does not have an image node");
+		
+	}
+	delete parser;
+}
+
+void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
+	switch(this->tutorials[index].msgType) {
+		case MESSAGE_TYPE_GRID_ZONE_ENTERED:
+			if(this->tutorials[index].vector3Data != messageChunk->messageData.fv1) {
+				//return;
+			}
+			break;
+		case MESSAGE_TYPE_GRID_ROOM_ENTERED:
+			if(this->tutorials[index].vector3Data != messageChunk->messageData.fv1) {
+				return;
+			}
+			break;
+		default:
+			break;
+	}
+	
+		this->tutorials[index].hasFired = true; // we do not want the tutorial opening twice
+		
+		UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TURORIAL_MENU]);
+		tut->SetClickable(false);
+		ENGINE->GetTween()->TweenPosition(tut->GetId(),
+										  tut->GetTransform()->GetPosition(),
+										  glm::vec3(tut->GetTransform()->GetPosition().x, 0.0f, tut->GetTransform()->GetPosition().z),
+										  1.0f,
+										  false,
+										  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+										  false,
+										  onTutorialTweenInComplete);
 }
