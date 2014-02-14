@@ -13,7 +13,8 @@
 #include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
-#include "ExampleGame/Components/GameScripts/UnitAnimations/UnitAnimationManager.h"
+#include "ExampleGame/Components/GameScripts/UnitCustomizers/UnitShadow.h"
+#include "ExampleGame/Components/GameScripts/UnitCustomizers/UnitAnimationManager.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiPerception.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiKnowledge.h"
@@ -21,6 +22,7 @@
 #include "ExampleGame/Components/GameScripts/Units/Assassin.h"
 #include "ExampleGame/Components/GameScripts/Units/Guard.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
+#include "ExampleGame/Components/Switches/GridZoneSwitch.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
@@ -102,6 +104,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
+	if (componentName == "UnitShadow") {
+		UnitShadow* component = gameObject->GetComponent<UnitShadow>();
+		if (component == nullptr) { component = gameObject->AddComponent<UnitShadow>(); }
+		return component;
+	}
+	
 	if (componentName == "UnitAnimationManager") {
 		UnitAnimationManager* component = gameObject->GetComponent<UnitAnimationManager>();
 		if (component == nullptr) { component = gameObject->AddComponent<UnitAnimationManager>(); }
@@ -147,6 +155,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "ShadyCamera") {
 		ShadyCamera* component = gameObject->GetComponent<ShadyCamera>();
 		if (component == nullptr) { component = gameObject->AddComponent<ShadyCamera>(); }
+		return component;
+	}
+	
+	if (componentName == "GridZoneSwitch") {
+		GridZoneSwitch* component = gameObject->GetComponent<GridZoneSwitch>();
+		if (component == nullptr) { component = gameObject->AddComponent<GridZoneSwitch>(); }
 		return component;
 	}
 	
@@ -443,6 +457,12 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
+	if (componentName == "UnitShadow") {
+		UnitShadow* component = gameObject->GetComponent<UnitShadow>();
+		if (component == nullptr) { return; }
+		return;
+	}
+	
 	if (componentName == "UnitAnimationManager") {
 		UnitAnimationManager* component = gameObject->GetComponent<UnitAnimationManager>();
 		if (component == nullptr) { return; }
@@ -515,12 +535,33 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		}
 		if (propertyName == "MoveToRoom") {
 			if ((int)argv.size() < 2) { return; }
-			component->MoveToRoom(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]));
+			component->MoveToRoom(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
 			return;
 		}
 		if (propertyName == "MoveToOverview") {
 			if ((int)argv.size() < 0) { return; }
 			component->MoveToOverview();
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "GridZoneSwitch") {
+		GridZoneSwitch* component = gameObject->GetComponent<GridZoneSwitch>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetSwitchType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetSwitchType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetResetTime") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetResetTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetRequiredOccupants") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetRequiredOccupants(StringUtilities::ConvertStringToInt(argv[0]));
 			return;
 		}
 		return;

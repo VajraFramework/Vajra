@@ -1,0 +1,40 @@
+attribute vec4 vPosition
+attribute vec4 vNormal
+attribute vec2 uvCoords_in
+
+attribute vec4 boneIndices
+attribute vec4 boneWeights
+
+uniform mat4 mvpMatrix
+uniform mat4 modelMatrix
+uniform mat4 vpMatrix
+uniform mat4 modelInverseTransposeMatrix
+varying vec4 vNormal_out
+varying vec2 uvCoords_out
+varying vec4 lightIntensity
+
+uniform mat4 boneTransforms[20]
+uniform mat4 otherBoneTransforms[20]
+uniform vec2 interp
+
+uniform vec4 DLight0Direction
+uniform vec4 DLight0AmbientColor
+uniform vec4 DLight0DiffuseColor
+uniform vec4 DLight0SpecularColor
+
+varying vec4 DLight0Direction_out
+varying vec4 DLight0AmbientColor_out
+varying vec4 DLight0DiffuseColor_out
+varying vec4 DLight0SpecularColor_out
+
+uniform vec4 MaterialAmbientColor
+uniform vec4 MaterialDiffuseColor
+uniform vec4 MaterialSpecularColor
+
+varying vec4 MaterialAmbientColor_out
+varying vec4 MaterialDiffuseColor_out
+varying vec4 MaterialSpecularColor_out
+
+attribute float pointSize
+attribute vec4 particleColor
+

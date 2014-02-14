@@ -1,0 +1,37 @@
+#ifplatform iOS | Android
+precision mediump float;
+#endif
+
+#ifdef PER_PIXEL_LIGHTING
+varying vec4 vNormal_out;
+
+varying vec4 DLight0Direction_out;
+varying vec4 DLight0AmbientColor_out;
+varying vec4 DLight0DiffuseColor_out;
+varying vec4 DLight0SpecularColor_out;
+
+varying vec4 MaterialAmbientColor_out;
+varying vec4 MaterialDiffuseColor_out;
+varying vec4 MaterialSpecularColor_out;
+#else
+varying vec4 lightIntensity;
+#endif
+
+void main()
+{
+#ifdef PER_PIXEL_LIGHTING
+	float cosTheta = clamp( dot( vNormal_out, DLight0Direction_out ), 0.0, 1.0 );
+	vec4 lightIntensity = MaterialDiffuseColor_out * DLight0DiffuseColor_out * cosTheta;
+
+	// Fake the ambient lighting:
+	lightIntensity = lightIntensity + DLight0AmbientColor_out;
+
+	// Temp using variables:
+	lightIntensity = lightIntensity + DLight0SpecularColor_out;
+
+	// Temp using variables:
+	lightIntensity = lightIntensity + 0.01 * MaterialAmbientColor_out + 0.01 * MaterialSpecularColor_out;
+#endif
+	gl_FragColor = lightIntensity;
+}
+

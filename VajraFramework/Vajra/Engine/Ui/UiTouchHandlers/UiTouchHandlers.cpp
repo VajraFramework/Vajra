@@ -18,6 +18,6 @@ UiTouchHandlers::~UiTouchHandlers() {
 	delete eventForwarder;
 }
 
-void UiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
+void UiTouchHandlers::HandleMessageCallback(MessageChunk /*messageChunk*/) {
 	
 }

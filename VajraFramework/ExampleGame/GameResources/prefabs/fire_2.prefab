@@ -1,0 +1,67 @@
+<prefab>
+	<gameobject>
+
+		<component name="ParticleSystem">
+			<property name="SetNumberOfParticles">
+				<field>10</field>
+				<field>40</field>
+			</property>
+			<property name="SetParticleSpeed">
+				<field>0.4</field>
+				<field>-0.03</field>
+			</property>
+			<property name="SetParticleVelocityDirection">
+				<field>0.0</field>
+				<field>0.0</field>
+				<field>1.0</field>
+			</property>
+			<property name="SetParticleVelocityDirectionRandomness">
+				<field>0.2</field>
+			</property>
+			<property name="SetParticleSize">
+				<field>30</field>
+				<field>10</field>
+			</property>
+			<property name="SetParticleLifespan">
+				<field>2</field>
+			</property>
+			<property name="SetParticleTexture">
+				<field>pictures/star.png</field>
+			</property>
+			<property name="SetParticleInitialColor">
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
+			</property>
+			<property name="SetParticleFinalColor">
+				<field>1.0</field>
+				<field>0.0</field>
+				<field>0.0</field>
+				<field>0.1</field>
+			</property>
+			<property name="InitParticleSystem">
+			</property>
+			<property name="Play">
+			</property>
+		</component>
+
+		<component name="ParticleSystemRenderer">
+			<property name="InitParticleSystem">
+				<field>prtshdr</field>
+			</property>
+		</component>
+
+		<component name="Transform">
+			<property name="Scale">
+				<field>10.0</field>
+			</property>
+			<property name="SetPosition">
+				<field>12.0</field>
+				<field>4.0</field>
+				<field>-6.0</field>
+			</property>
+		</component>
+	</gameobject>
+</prefab>
+

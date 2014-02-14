@@ -129,6 +129,9 @@ private:
 
 struct OnGoingNumberTweenDetails {
 public:
+
+	~OnGoingNumberTweenDetails();
+
 	float totalTime;
 
 	float fromNumber;
@@ -156,6 +159,8 @@ private:
 		this->callback = 0;
 		this->userParams = nullptr;
 	}
+
+
 	friend class Tween;
 };
 

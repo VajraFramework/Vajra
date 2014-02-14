@@ -1,0 +1,11 @@
+#ifplatform iOS | Android
+precision mediump float;
+#endif
+
+varying vec4 lightIntensity;
+
+void main()
+{
+	gl_FragColor = lightIntensity;
+}
+
