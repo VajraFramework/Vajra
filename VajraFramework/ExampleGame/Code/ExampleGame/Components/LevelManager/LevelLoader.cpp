@@ -3,24 +3,25 @@
 //  Created by Matt Kaufmann on 01/24/14.
 //
 
+#include "ExampleGame/Messages/Declarations.h"
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiPerception.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
 #include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
 #include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
-#include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
-#define tutorialXmlPath "tutorials/tutorials.xml"
 
 UnitType StringToUnitType(std::string str) {
 	if (str == "Assassin") {
@@ -84,13 +85,21 @@ void LevelLoader::LoadLevelsWithTutorials(std::vector<std::string>* levelsWithTu
 	ASSERT(xmlTree != nullptr, "Got valid xmlTree from parser for level file %s", tutorialXmlPath);
 	
 	XmlNode* rootTutorialsNode = xmlTree->GetRootNode();
-	ASSERT(rootTutorialsNode != nullptr, "Got valid level node from xml tree for level file %s", tutorialXmlPath);
+	ASSERT(rootTutorialsNode != nullptr, "Got valid tutoral node from xml tree for tutorial file %s", tutorialXmlPath);
 
 	for(XmlNode* tutorialNode : rootTutorialsNode->GetChildren()) {
 		FRAMEWORK->GetLogger()->dbglog("\n Loaded tutorial data for level: %s", tutorialNode->GetAttributeValueS("name").c_str());
 		levelsWithTutorials->push_back(tutorialNode->GetAttributeValueS("name"));
 	}
 	delete parser;
+
+}
+
+void LevelLoader::LoadTutorialData(std::string levelName) {
+	MessageChunk createTutorialMesssage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	createTutorialMesssage->SetMessageType(MESSAGE_TYPE_CREATED_TUTORIAL);
+	createTutorialMesssage->messageData.s = levelName;
+	ENGINE->GetMessageHub()->SendMulticastMessage(createTutorialMesssage);
 
 }
 

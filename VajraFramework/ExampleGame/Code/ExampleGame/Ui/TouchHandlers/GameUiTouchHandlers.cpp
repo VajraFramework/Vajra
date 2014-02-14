@@ -58,6 +58,7 @@ void onTutorialTweenOutComplete(ObjectIdType gameObjectId, std::string tweenClip
 }
 GameUiTouchHandlers::GameUiTouchHandlers() : UiTouchHandlers() {
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
+	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_CREATED_TUTORIAL);
 }
 
 void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {

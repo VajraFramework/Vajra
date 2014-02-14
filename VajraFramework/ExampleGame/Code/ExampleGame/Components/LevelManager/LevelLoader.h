@@ -10,16 +10,18 @@
 
 #include <string>
 
+#define tutorialXmlPath "tutorials/tutorials.xml"
+
 class LevelLoader {
 public:
 	static void LoadLevelFromFile(std::string levelFilename);
 	static void LoadLevelsWithTutorials(std::vector<std::string>* /*levelsWithTutorials*/);
+	static void LoadTutorialData(std::string levelName);
 private:
 	static void loadStaticDataFromXml(XmlNode* staticNode);
 	static void loadUnitDataFromXml  (XmlNode* unitBaseNode);
 	static void loadOtherDataFromXml (XmlNode* otherDataNode);
 	static void loadCameraDataFromXml(XmlNode* cameraNode);
-
 };
 
 #endif // LEVELLOADER_H

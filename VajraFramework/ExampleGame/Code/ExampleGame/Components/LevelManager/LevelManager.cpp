@@ -33,7 +33,7 @@ void LevelManager::HandleMessage(MessageChunk messageChunk) {
 
 void LevelManager::LoadLevelFromFile(std::string levelFilename) {
 	LevelLoader::LoadLevelFromFile(levelFilename);
-
+	LevelLoader::LoadTutorialData(this->levelsWithTutorials[0]);
 	this->isPaused = false;
 }
 
@@ -45,7 +45,7 @@ void LevelManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 
 	// load the list of levels with a tutorial
-	LevelLoader::LoadLevelsWithTutorials(&levelsWithTutorials);
+	LevelLoader::LoadLevelsWithTutorials(&this->levelsWithTutorials);
 }
 
 void LevelManager::destroy() {
