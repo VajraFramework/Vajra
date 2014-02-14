@@ -171,6 +171,8 @@ MessageType stringToMessageType(std::string msgString) {
 		return MESSAGE_TYPE_GRID_ROOM_ENTERED;
 	} else if (msgString == "MESSAGE_TYPE_GRID_ZONE_ENTERED") {
 		return MESSAGE_TYPE_GRID_ZONE_ENTERED;
+	} else if(msgString == "MESSAGE_TYPE_SELECTED_UNIT_CHANGED") {
+		return MESSAGE_TYPE_SELECTED_UNIT_CHANGED;
 	}
 	ASSERT(true, "stringToMessageType has reached the end without returning a message. Did you add a case for %s?", msgString.c_str());
 	return 0;
@@ -283,15 +285,15 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 		}
 		tutorialElement->SetVisible(true);
 		tut->SetZOrder(120);
-		tut->AddChild(tutorialElement->GetId()); //->SetParent(tut->GetId());
+		//tut->AddChild(tutorialElement->GetId()); //->SetParent(tut->GetId());
 		
 	
 
 		// tween in the tutorial
 		ENGINE->GetTween()->TweenPosition(tut->GetId(),
 										  tut->GetTransform()->GetPosition(),
-										  glm::vec3(tut->GetTransform()->GetPosition().x, 0.0f, tut->GetTransform()->GetPosition().z),
-										  10.0f,
+										  glm::vec3(tut->GetTransform()->GetPosition().x, -300.0f, tut->GetTransform()->GetPosition().z),
+										  1.0f,
 										  false,
 										  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
 										  false,

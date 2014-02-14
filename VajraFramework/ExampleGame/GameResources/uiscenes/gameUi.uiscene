@@ -18,6 +18,18 @@
 			</text>
 			<color r="0.7" g="0.0" b="0.0" a="1.0"></color>
 		</uielement>
+		<uielement name="nextTutorial" clickable="true">
+			<dimensions>
+				<position x="512" y="128"></position>
+				<size widthPixels="64" heightPixels="64"></size>
+				<zorder>2</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				>
+			</text>
+			<color r="0.0" g="1.0" b="0.0" a="1.0"></color>
+		</uielement>
 		<uielement name="tutorailImage" clickable="true">
 			<dimensions>
 				<position x="282" y="282"></position>
