@@ -259,6 +259,8 @@ void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int so
 	GameObject* staticObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 	staticObj->GetTransform()->SetPosition(centerX, 0.0f, -centerZ);
 /*
+ * TODO [Implement] Add this back in once we add culling of static geometry
+ *
 	// Make sure that the object lies entirely within the grid boundaries.
 	int eastBound = westBound + width - 1;
 	int northBound = southBound + height - 1;
