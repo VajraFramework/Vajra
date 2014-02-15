@@ -10,7 +10,7 @@
 
 		<uielement name="play" clickable="true">
 			<dimensions>
-				<position x="512" y="300"></position>
+				<position xwrto="CENTER" ywrto="CENTER" x="-160" y="-80"></position>
 				<size widthPixels="320" heightPixels="160"></size>
 				<zorder>1</zorder>
 			</dimensions>
@@ -23,7 +23,7 @@
 
 		<uielement name="options" clickable="true">
 			<dimensions>
-				<position x="512" y="500"></position>
+				<position xwrto="CENTER" x="-160" y="500"></position>
 				<size widthPixels="320" heightPixels="160"></size>
 				<zorder>-1</zorder>
 			</dimensions>

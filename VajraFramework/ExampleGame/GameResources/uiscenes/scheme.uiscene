@@ -2,7 +2,7 @@
 
 	<uielement name="NAME" clickable="TRUE||FALSE">
 		<dimensions>
-			<position x="X" y="Y"></position>
+			<position xwrto="LEFT|RIGHT|CENTER" ywrto="TOP|BOTTOM|CENTER" x="X" y="Y"></position>
 			<size widthPixels="WIDTH_PIXELS" heightPixels="HEIGHT_PIXELS"></size>
 			<zorder>ZORDER</zorder>
 		</dimensions>
