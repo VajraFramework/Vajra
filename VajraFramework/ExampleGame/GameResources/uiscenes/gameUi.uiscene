@@ -4,7 +4,7 @@
 		<dimensions>
 			<position x="0" y="768"></position>
 			<size widthPixels="1024" heightPixels="768"></size>
-			<zorder>100</zorder>
+			<zorder>1</zorder>
 		</dimensions>
 		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
 		<uielement name="closeTutorial" clickable="true">
@@ -16,7 +16,7 @@
 			<text>
 				<font type="calibiri.fontspec" size="64.0"></font>
 				X
-				</text>
+			</text>
 			<color r="0.7" g="0.0" b="0.0" a="1.0"></color>
 		</uielement>
 		<uielement name="nextTutorial" clickable="true">
@@ -30,14 +30,6 @@
 				-}
 			</text>
 			<color r="0.0" g="1.0" b="0.0" a="1.0"></color>
-		</uielement>
-		<uielement name="tutorailImage" clickable="true">
-			<dimensions>
-				<position x="282" y="282"></position>
-				<size widthPixels="510" heightPixels="510"></size>
-				<zorder>1</zorder>
-			</dimensions>
-			<color r="0.0" g="0.9" b="0.0" a="1.0"></color>
 		</uielement>
 	</uielement>
 

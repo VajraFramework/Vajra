@@ -41,15 +41,16 @@
 #define ASSASSIN_ICON_INDEX 0
 #define THIEF_ICON_INDEX 1
 
-void onTutorialTweenInComplete(ObjectIdType gameObjectId, std::string tweenClipName) {
-UiObject* tutorialMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(gameObjectId);
+void onTutorialTweenInComplete(ObjectIdType gameObjectId, std::string /* tweenClipName */) {
+	UiObject* tutorialMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(gameObjectId);
 	ASSERT(tutorialMenu != nullptr, "Tutorial menu object is null in onTutorialTweenInComplete");
 	if(tutorialMenu != nullptr) {
 		tutorialMenu->SetClickable(true);
 	}
 
 }
-void onTutorialTweenOutComplete(ObjectIdType gameObjectId, std::string tweenClipName) {
+
+void onTutorialTweenOutComplete(ObjectIdType gameObjectId, std::string /* tweenClipName */) {
 	UiObject* tutorialMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(gameObjectId);
 	ASSERT(tutorialMenu != nullptr, "Tutorial menu object is null in onTutorialTweenOutComplete");
 	if(tutorialMenu != nullptr) {
@@ -61,6 +62,7 @@ void onTutorialTweenOutComplete(ObjectIdType gameObjectId, std::string tweenClip
 		delete dynamicTutorial;
 	}
 }
+
 GameUiTouchHandlers::GameUiTouchHandlers() : UiTouchHandlers() {
 	this->isTutorialLevel = false;
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
@@ -292,13 +294,15 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 
 	// Load the textures for the tutorial
 	this->dynamicTutorialElement = new UiElement(ENGINE->GetSceneGraphUi());
+	tut->AddChild(this->dynamicTutorialElement->GetId());
 	this->dynamicTutorialElement->SetName(DYNAMIC_TUTORIAL_ELEMENT);
+	this->dynamicTutorialElement->GetTransform()->SetPosition(282.0f, -282.0f, this->dynamicTutorialElement->GetTransform()->GetPosition().z);
 	if (this->tutorials[index].imageNames.size() != 0) {
 		std::vector<std::string> imagePaths;
 		for (std::string imageName : this->tutorials[index].imageNames) {
 			imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + imageName);
 		}
-		this->dynamicTutorialElement->InitSprite(200, 200, "sptshdr", imagePaths);
+		this->dynamicTutorialElement->InitSprite(510, 510, "sptshdr", imagePaths, false);
 
 		UiElement* exitBtn = (UiElement*)ObjectRegistry::GetObjectByName(TUTORIAL_EXIT_BTN);
 		UiElement* nextBtn = (UiElement*)ObjectRegistry::GetObjectByName(TUTORIAL_NEXT_BTN);
@@ -311,15 +315,12 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 			nextBtn->SetVisible(true);
 		}
 	}
-	
 	this->dynamicTutorialElement->SetVisible(true);
-	//tut->SetZOrder(120);
-	//tut->AddChild(this->dynamicTutorialElement->GetId()); //->SetParent(tut->GetId());
 	
 	// tween in the tutorial
 	ENGINE->GetTween()->TweenPosition(tut->GetId(),
 									  tut->GetTransform()->GetPosition(),
-									  glm::vec3(tut->GetTransform()->GetPosition().x, -300.0f, tut->GetTransform()->GetPosition().z),
+									  glm::vec3(tut->GetTransform()->GetPosition().x, 0.0f, tut->GetTransform()->GetPosition().z),
 									  1.0f,
 									  false,
 									  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
@@ -328,7 +329,7 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 }
 
 void GameUiTouchHandlers::nextTutorialImage() {
-	int textureIndex = this->dynamicTutorialElement->GetSpriteTextureIndex();
+	unsigned int textureIndex = this->dynamicTutorialElement->GetSpriteTextureIndex();
 	textureIndex++;
 	ASSERT(textureIndex < this->tutorials[this->currentTutorialIndex].imageNames.size(), "nextTutorialImage() has been called when the tutorial is out of images to show. ");
 	this->dynamicTutorialElement->SetSpriteTextureIndex(textureIndex);

@@ -46,6 +46,7 @@ void UiObject::SetVisible(bool visible_) {
 	}
 	GameObject::SetVisible(visible_);
 }
+
 void UiObject::SetClickable(bool clickable_) {
 	if(clickable_ && !this->clickable && this->IsVisible()) {
 		this->registerWithTouchHandlers();

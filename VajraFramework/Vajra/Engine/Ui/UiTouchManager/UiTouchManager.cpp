@@ -1,3 +1,4 @@
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
@@ -38,13 +39,22 @@ void UiTouchManager::UnRegisterTouchableUiElement(ObjectIdType id) {
 
 bool UiTouchManager::TestTouchCapture(Touch touch) {
 
-	// Check if any registered clickable UiObjects got touched:
+	UiObject* temp_currentlyReceivingUiObject = nullptr;
+	/*
+	 * Check if any registered clickable UiObjects got touched:
+	 * However, multiple over-lapping ui objects might have gotten touched,
+	 * Deliver the touch to the ui object with the highest z
+	 */
 	for (ObjectIdType uiObjectId : this->registeredUiObjects) {
 		// TODO [Implement] Ensure type safety here
 		UiObject* uiObject = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(uiObjectId);
 		if (uiObject->IsPointWithin(touch.pos.x, touch.pos.y)) {
-			this->currentlyRecievingUiObjectId = uiObjectId;
-			break;
+			if (temp_currentlyReceivingUiObject == nullptr ||
+				temp_currentlyReceivingUiObject->GetTransform()->GetPosition().z < uiObject->GetTransform()->GetPosition().z) {
+
+				temp_currentlyReceivingUiObject = uiObject;
+				this->currentlyRecievingUiObjectId = uiObjectId;
+			}
 		}
 	}
 
