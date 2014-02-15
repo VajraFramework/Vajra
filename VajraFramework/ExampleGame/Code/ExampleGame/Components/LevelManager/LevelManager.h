@@ -9,9 +9,12 @@
 //#include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 
 #include "Vajra/Common/Components/Component.h"
+#include "Vajra/Utilities/XmlParser/XmlParser.h"
 //#include "Vajra/Engine/Ui/UiElement/UiElement.h"
 
 #include <string>
+
+#include <vector>
 
 //[[COMPONENT]]//
 class LevelManager : public Component {
@@ -45,6 +48,9 @@ private:
 	//ShadyCamera* shadyCam;
 	bool isPaused;
 	std::string currentLevelName;
+
+	// Tutorials
+	std::vector<std::string> levelsWithTutorials;
 
 	//UiElement* levelTutorial;
 

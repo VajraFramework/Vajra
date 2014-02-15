@@ -32,6 +32,7 @@ public:
 
 	inline glm::vec4 GetDiffuseColor () { return this->diffuseColor;  }
 
+	inline void SetHasTransperancy(bool hasTransperancy_);
 
 private:
 	void init();
@@ -63,5 +64,13 @@ private:
 	// Friended to UiObject so as not to have to expose initPlane(), etc
 	friend class UiFontObject;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline functions:
+
+void UiFontRenderer::SetHasTransperancy(bool hasTransperancy_) {
+	Renderer::setHasTransperancy(hasTransperancy_);
+}
 
 #endif // UI_RENDERER_H

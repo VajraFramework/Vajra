@@ -37,36 +37,17 @@ void SceneGraph3D::update() {
 
 void SceneGraph3D::draw() {
 
-	ASSERT(this->mainCameraId != OBJECT_ID_INVALID, "mainCamera set");
 	GameObject* mainCamera = this->GetGameObjectById(this->mainCameraId);
-	ASSERT(this->mainDirectionalLightId != OBJECT_ID_INVALID, "mainDirectionalLight set");
+	VERIFY(mainCamera != nullptr, "mainCamera set");
 	GameObject* mainDirectionalLight = this->GetGameObjectById(this->mainDirectionalLightId);
+	VERIFY(mainDirectionalLight != nullptr, "mainDirectionalLight set");
 
-	/*
-	 * We draw the scene in render-list-iterations
-	 * GameObjects which use the same shader program are grouped in the same render list
-	 */
+	Camera* cameraComponent = mainCamera->GetComponent<Camera>();
+	VERIFY(cameraComponent != nullptr, "mainCamera has Camera component");
+	DirectionalLight* directionalLightComponent = mainDirectionalLight->GetComponent<DirectionalLight>();
+	VERIFY(directionalLightComponent != nullptr, "mainDirectionalLight has DirectionalLight component");
 
-	this->renderLists->Begin();
-	while (this->renderLists->PrepareCurrentRenderList()) {
-
-		// TODO [Cleanup] Change mainCamera->cameraComponent->WriteLookAt() to use messages sent to mainCamera instead, maybe
-		if (mainCamera != nullptr) {
-			Camera* cameraComponent = mainCamera->GetComponent<Camera>();
-			cameraComponent->WriteLookAt();
-		}
-		//
-		// TODO [Cleanup] Change mainDirectionalLight->directionalLightComponent->WriteLightStuff() to use messages sent to mainDirectionalLight instead, maybe
-		if (mainDirectionalLight != nullptr) {
-			DirectionalLight* directionalLightComponent = mainDirectionalLight->GetComponent<DirectionalLight>();
-			directionalLightComponent->WriteLightPropertiesToShader();
-		}
-
-		// Render all the renderable game objects in the current render list:
-		this->renderLists->RenderGameObjectsInCurrentList();
-
-		this->renderLists->Next();
-	}
+	this->renderLists->Draw(cameraComponent, directionalLightComponent);
 }
 
 void SceneGraph3D::init() {

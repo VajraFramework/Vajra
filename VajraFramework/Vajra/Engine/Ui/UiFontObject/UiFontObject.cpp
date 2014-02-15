@@ -14,6 +14,7 @@ void UiFontObject::InitTextToDisplay(std::string text, unsigned int width, unsig
 	ASSERT(this->GetComponent<Renderer>() == nullptr, "UiObject doesn't already have a Renderer on it");
 	UiFontRenderer* uiRenderer = this->AddComponent<UiFontRenderer>();
 	uiRenderer->initTextToDisplay(text, width, height, pathToFontSpecificationFile);
+	uiRenderer->SetHasTransperancy(true);
 	//
 	this->setWidth(width);
 	this->setHeight(height);
