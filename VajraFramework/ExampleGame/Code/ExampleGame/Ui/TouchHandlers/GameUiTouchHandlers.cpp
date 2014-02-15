@@ -34,7 +34,7 @@
 #define IN_GAME_MENU "inGame"
 #define PAUSE_MENU "pauseMenu"
 #define POST_GAME_MENU "postGame"
-#define TURORIAL_MENU "tutorialScreen"
+#define TUTORIAL_MENU "tutorialScreen"
 
 #define TUTORIAL_EXIT_BTN "closeTutorial"
 #define TUTORIAL_NEXT_BTN "nextTutorial"
@@ -156,19 +156,16 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	} else if (uiObject->GetName() == "mission_from_pause") {
 		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(false);
-
-		//ENGINE->GetSceneGraph3D()->UnloadCurrentScene();
-
+	
 		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
-		//
+
 		UiSceneLoader::UnloadCurrentUiScene();
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
 
 	} else if(uiObject->GetName() == "changeUnit") {
 		SINGLETONS->GetGridManager()->SwitchSelectedUnit();
-
 	} else if(uiObject->GetName() == TUTORIAL_EXIT_BTN) {
-		UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TURORIAL_MENU]);
+		UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TUTORIAL_MENU]);
 		tut->SetClickable(false);
 		ENGINE->GetTween()->TweenPosition(tut->GetId(),
 										  tut->GetTransform()->GetPosition(),
@@ -260,12 +257,8 @@ void GameUiTouchHandlers::setupTutorial(std::string levelName) {
 			tData.hasFired = false;
 			this->tutorials.push_back(tData);
 			
-			messageNode = messageNode->GetNextSiblingByNodeName(MESSAGE_TAG);
-												 
+			messageNode = messageNode->GetNextSiblingByNodeName(MESSAGE_TAG);										 
 		}
-		//XmlNode* image = tutorialNode->GetFirstChildByNodeName("image");
-		//ASSERT(image != nullptr, "Tutorial node does not have an image node");
-		
 	}
 	delete parser;
 }
@@ -290,7 +283,7 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 	this->tutorials[index].hasFired = true; // we do not want the tutorial opening twice
 	
 	// Grab
-	UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TURORIAL_MENU]);
+	UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TUTORIAL_MENU]);
 	tut->SetClickable(false);
 	
 
