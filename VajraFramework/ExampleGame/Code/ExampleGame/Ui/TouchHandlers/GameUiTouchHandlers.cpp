@@ -44,7 +44,7 @@
 
 void onTutorialTweenInComplete(ObjectIdType gameObjectId, std::string /* tweenClipName */) {
 	UiObject* tutorialMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(gameObjectId);
-	ASSERT(tutorialMenu != nullptr, "Tutorial menu object is null in onTutorialTweenInComplete");
+	ASSERT(tutorialMenu != nullptr, "Tutorial menu object is not-null in onTutorialTweenInComplete");
 	if(tutorialMenu != nullptr) {
 		tutorialMenu->SetClickable(true);
 	}
@@ -53,7 +53,7 @@ void onTutorialTweenInComplete(ObjectIdType gameObjectId, std::string /* tweenCl
 
 void onTutorialTweenOutComplete(ObjectIdType gameObjectId, std::string /* tweenClipName */) {
 	UiObject* tutorialMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(gameObjectId);
-	ASSERT(tutorialMenu != nullptr, "Tutorial menu object is null in onTutorialTweenOutComplete");
+	ASSERT(tutorialMenu != nullptr, "Tutorial menu object is not-null in onTutorialTweenOutComplete");
 	if(tutorialMenu != nullptr) {
 		tutorialMenu->SetClickable(false);
 	}
