@@ -1,4 +1,5 @@
 #include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
+#include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
@@ -60,6 +61,7 @@ void onTutorialTweenOutComplete(ObjectIdType gameObjectId, std::string /* tweenC
 	Object* dynamicTutorial = ObjectRegistry::GetObjectByName(DYNAMIC_TUTORIAL_ELEMENT);
 	if(dynamicTutorial != nullptr) {
 		delete dynamicTutorial;
+		dynamicTutorial = nullptr;
 	}
 }
 
@@ -222,7 +224,7 @@ void GameUiTouchHandlers::setupTutorial(std::string levelName) {
 	if(tutorialNode != nullptr) {
 		this->isTutorialLevel = true;
 		// load in the tutorial
-		XmlNode* messageNode = tutorialNode->GetFirstChildByNodeName("message");
+		XmlNode* messageNode = tutorialNode->GetFirstChildByNodeName(MESSAGE_TAG);
 		while(messageNode != nullptr) {
 			ASSERT(messageNode != nullptr, "Tutorial node does not have a message node");
 			TutorialData tData;
@@ -234,13 +236,13 @@ void GameUiTouchHandlers::setupTutorial(std::string levelName) {
 			XmlNode* cell;
 			switch(tutorialMessageType) {
 				case MESSAGE_TYPE_GRID_CELL_CHANGED:
-					cell = messageNode->GetFirstChildByNodeName("cell");
-					tData.vector3Data = glm::vec3(cell->GetAttributeValueI("x"), 0.0f, cell->GetAttributeValueI("z"));
+					cell = messageNode->GetFirstChildByNodeName(CELL_DATA_TAG);
+					tData.vector3Data = glm::vec3(cell->GetAttributeValueI(X_ATTRIBUTE), 0.0f, cell->GetAttributeValueI(Z_ATTRIBUTE));
 					break;
 				case MESSAGE_TYPE_GRID_ROOM_ENTERED:
-					cell = messageNode->GetFirstChildByNodeName("cell");
-					tData.vector3Data = SINGLETONS->GetGridManager()->GetGrid()->GetRoomCenter(cell->GetAttributeValueI("x"),
-									    cell->GetAttributeValueI("z"));
+					cell = messageNode->GetFirstChildByNodeName(CELL_DATA_TAG);
+					tData.vector3Data = SINGLETONS->GetGridManager()->GetGrid()->GetRoomCenter(cell->GetAttributeValueI(X_ATTRIBUTE),
+									    cell->GetAttributeValueI(Z_ATTRIBUTE));
 					break;
 				default:
 					break;
@@ -258,7 +260,7 @@ void GameUiTouchHandlers::setupTutorial(std::string levelName) {
 			tData.hasFired = false;
 			this->tutorials.push_back(tData);
 			
-			messageNode = messageNode->GetNextSiblingByNodeName("message");
+			messageNode = messageNode->GetNextSiblingByNodeName(MESSAGE_TAG);
 												 
 		}
 		//XmlNode* image = tutorialNode->GetFirstChildByNodeName("image");

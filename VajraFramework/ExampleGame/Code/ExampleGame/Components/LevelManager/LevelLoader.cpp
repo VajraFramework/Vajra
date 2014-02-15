@@ -3,7 +3,6 @@
 //  Created by Matt Kaufmann on 01/24/14.
 //
 
-#include "ExampleGame/Messages/Declarations.h"
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiPerception.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
@@ -15,11 +14,13 @@
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
+#include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/SceneLoaders/UiSceneLoader/ParserTags.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
 
@@ -92,8 +93,8 @@ void LevelLoader::LoadTutorialLevelNames(std::vector<std::string>* levelsWithTut
 	ASSERT(rootTutorialsNode != nullptr, "Got valid tutoral node from xml tree for tutorial file %s", tutorialXmlPath);
 
 	for(XmlNode* tutorialNode : rootTutorialsNode->GetChildren()) {
-		FRAMEWORK->GetLogger()->dbglog("\n Loaded tutorial data for level: %s", tutorialNode->GetAttributeValueS("name").c_str());
-		levelsWithTutorials->push_back(tutorialNode->GetAttributeValueS("name"));
+		FRAMEWORK->GetLogger()->dbglog("\n Loaded tutorial data for level: %s", tutorialNode->GetAttributeValueS(NAME_ATTRIBUTE).c_str());
+		levelsWithTutorials->push_back(tutorialNode->GetAttributeValueS(NAME_ATTRIBUTE));
 	}
 	delete parser;
 
