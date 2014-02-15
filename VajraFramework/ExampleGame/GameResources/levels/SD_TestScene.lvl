@@ -246,8 +246,14 @@
   </units>
 
   <other>
-      <zone id="56728" prefab="ScreenTransZone" x="18" z="5" width="3" height="4">
+      <dynamicObject id="56728" prefab="ScreenTransZone">
           <component name="TransitionZone">
+              <property name="SetZoneBounds">
+                  <field>18</field>
+                  <field>5</field>
+                  <field>20</field>
+                  <field>8</field>
+              </property>
               <property name="SetFirstDestination">
                   <field>17</field>
                   <field>7</field>
@@ -257,7 +263,7 @@
                   <field>7</field>
               </property>
           </component>
-      </zone>
+      </dynamicObject>
   </other>
 
 	<camera focus="Assassin">
