@@ -39,8 +39,10 @@ void LevelManager::HandleMessage(MessageChunk messageChunk) {
 }
 
 void LevelManager::LoadLevelFromFile(std::string levelFilename) {
-	LevelLoader::LoadLevelFromFile(levelFilename);
-	LevelLoader::LoadTutorialData(this->levelsWithTutorials[0]);
+	this->currentLevelName = LevelLoader::LoadLevelFromFile(levelFilename);
+	if(std::find(this->levelsWithTutorials.begin(), this->levelsWithTutorials.end(), this->currentLevelName) != this->levelsWithTutorials.end()) {
+		LevelLoader::LoadTutorialData(this->currentLevelName);
+	}
 	//this->isPaused = true;
 }
 
@@ -54,7 +56,7 @@ void LevelManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNPAUSE, this->GetTypeId(), false);
 
 	// load the list of levels with a tutorial
-	LevelLoader::LoadLevelsWithTutorials(&this->levelsWithTutorials);
+	LevelLoader::LoadTutorialLevelNames(&this->levelsWithTutorials);
 }
 
 void LevelManager::destroy() {

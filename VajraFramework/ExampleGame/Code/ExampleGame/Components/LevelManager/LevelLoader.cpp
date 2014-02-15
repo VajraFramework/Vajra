@@ -33,7 +33,7 @@ UnitType StringToUnitType(std::string str) {
 	return UNIT_TYPE_UNKNOWN;
 }
 
-void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
+std::string LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading level from level file: %s", levelFilename.c_str());
 
 	XmlParser* parser = new XmlParser();
@@ -48,6 +48,8 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	XmlNode* levelNode = xmlTree->GetRootNode();
 	ASSERT(levelNode != nullptr && levelNode->GetName() == LEVEL_TAG, "Got valid level node from xml tree for level file %s", levelFilename.c_str());
 
+	std::string levelName = levelNode->GetAttributeValueS(LEVEL_NAME_ATTRIBUTE);
+	
 	XmlNode* gridNode = levelNode->GetFirstChildByNodeName(GRID_TAG);
 	ASSERT(gridNode != nullptr, "Level definition contains <%s> node", GRID_TAG);
 	SINGLETONS->GetGridManager()->loadGridDataFromXml(gridNode);
@@ -73,9 +75,11 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	loadCameraDataFromXml(cameraNode);
 
 	delete parser;
+
+	return levelName;
 }
 
-void LevelLoader::LoadLevelsWithTutorials(std::vector<std::string>* levelsWithTutorials) {
+void LevelLoader::LoadTutorialLevelNames(std::vector<std::string>* levelsWithTutorials) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading tutorials from file: %s", tutorialXmlPath);
 
 	XmlParser* parser = new XmlParser();
