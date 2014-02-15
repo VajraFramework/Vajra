@@ -3,9 +3,10 @@
 	<uielement name="tutorialScreen" clickable="true">
 		<dimensions>
 			<position x="0" y="768"></position>
-			<size widthPixels="1" heightPixels="1"></size>
-			<zorder>-5</zorder>
+			<size widthPixels="1024" heightPixels="768"></size>
+			<zorder>100</zorder>
 		</dimensions>
+		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
 		<uielement name="closeTutorial" clickable="true">
 			<dimensions>
 				<position x="128" y="128"></position>
@@ -15,7 +16,7 @@
 			<text>
 				<font type="calibiri.fontspec" size="64.0"></font>
 				X
-			</text>
+				</text>
 			<color r="0.7" g="0.0" b="0.0" a="1.0"></color>
 		</uielement>
 		<uielement name="nextTutorial" clickable="true">
@@ -76,8 +77,8 @@
 				<size widthPixels="64" heightPixels="64"></size>
 				<zorder>-1</zorder>
 			</dimensions>
-			<image name="SD_GUI_Dagger_02.png"> </image>
-			<image name="SD_GUI_Cloak_02.png"> </image>
+			<image name="SD_GUI_Dagger_02.png" hasTransperancy="true"> </image>
+			<image name="SD_GUI_Cloak_02.png" hasTransperancy="true"> </image>
 			<color r="0.7" g="0.0" b="0.0" a="1.0"></color>
 		</uielement>
 

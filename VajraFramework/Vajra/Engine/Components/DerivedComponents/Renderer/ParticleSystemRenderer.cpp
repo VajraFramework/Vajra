@@ -171,6 +171,7 @@ void ParticleSystemRenderer::init() {
 
 	this->diffuseColor = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 	this->particleSystemRef = nullptr;
+	this->SetHasTransperancy(true);
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PARTICLE_SYSTEM_INITED, this->GetTypeId(), true);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PARTICLE_SYSTEM_UPDATED, this->GetTypeId(), true);

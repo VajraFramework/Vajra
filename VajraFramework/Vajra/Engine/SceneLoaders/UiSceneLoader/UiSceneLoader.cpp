@@ -53,6 +53,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	glm::vec4 color;
 	bool clickable;
 	bool visible;
+	bool imageHasTransperancy = false;
 
 	{
 		itemName = uielementNode->GetAttributeValueS(NAME_ATTRIBUTE);
@@ -101,6 +102,10 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 			std::string imageName = imageNode->GetAttributeValueS(NAME_ATTRIBUTE);
 			imageNames.push_back(imageName);
 
+			if (imageNode->HasAttribute(HASTRANSPERANCY_ATTRIBUTE)) {
+				imageHasTransperancy |= imageNode->GetAttributeValueB(HASTRANSPERANCY_ATTRIBUTE);
+			}
+
 			imageNode = imageNode->GetNextSiblingByNodeName(IMAGE_TAG);
 		}
 	}
@@ -131,7 +136,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 			for (std::string imageName : imageNames) {
 				imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + imageName);
 			}
-			uiElement->InitSprite(widthPixels, heightPixels, "sptshdr", imagePaths);
+			uiElement->InitSprite(widthPixels, heightPixels, "sptshdr", imagePaths, imageHasTransperancy);
 		} else {
 			uiElement->InitSprite(widthPixels, heightPixels, "spcshdr", color);
 		}

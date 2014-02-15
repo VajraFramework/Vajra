@@ -17,7 +17,7 @@ private:
 	virtual ~UiSpriteObject();
 
 	// TODO [Cleanup] Make this private and friended to UiElement
-	void InitSprite(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures);
+	void InitSprite(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures, bool hasTransperancy);
 	// TODO [Cleanup] Make this private and friended to UiElement
 	void InitSprite(unsigned int width, unsigned int height, std::string shaderName_, glm::vec4 color);
 

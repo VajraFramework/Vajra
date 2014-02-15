@@ -24,6 +24,7 @@
 #define HEIGHTPIXELS_ATTRIBUTE "heightPixels"
 #define CLICKABLE_ATTRIBUTE "clickable"
 #define VISIBLE_ATTRIBUTE "visible"
+#define HASTRANSPERANCY_ATTRIBUTE "hasTransperancy"
 
 
 #endif // PARSER_TAGS_H

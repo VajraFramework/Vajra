@@ -1,6 +1,7 @@
 #include "Vajra/Common/Objects/Declarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/RenderLists.h"
@@ -8,13 +9,28 @@
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 
 #include <algorithm>
+#include <functional>
+
+////////////////////////////////////////////////////////////////////////////////
+
+static glm::vec3 g_cameraPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+
+bool CompareTrGos(TrGo t1, TrGo t2) {
+	float t1_distanceFromCamera = glm::distance(g_cameraPosition, t1.gameobject->GetTransform()->GetPosition());
+	float t2_distanceFromCamera = glm::distance(g_cameraPosition, t2.gameobject->GetTransform()->GetPosition());
+	return (t1_distanceFromCamera < t2_distanceFromCamera);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 class RenderList {
 public:
 	RenderList(std::string shaderName_);
-	void Draw();
+
+	void Prepare();
+	void Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out);
+
+	void Draw_one_gameobject(GameObject* gameObject);
 
 	inline std::string GetShaderName() { return this->shaderName; }
 	void AddGameObjectId(ObjectIdType id);
@@ -46,14 +62,36 @@ void RenderList::RemoveGameObjectId(ObjectIdType id) {
 	}
 }
 
-void RenderList::Draw() {
+
+void RenderList::Prepare() {
+	FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet(this->GetShaderName());
+}
+
+void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out) {
 	for (ObjectIdType id : this->gameObjectIds) {
 		GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 		if (gameObject != nullptr) {
-			gameObject->Draw();
+			if (!gameObject->HasTransperancy()) {
+				this->Draw_one_gameobject(gameObject);
+
+			} else {
+
+				TrGo trgo;
+				trgo.gameobject = gameObject;
+				trgo.renderlist = this;
+				heap_gameobjectsWithTransperancy_out->push(trgo);
+
+			}
 		}
 	}
 }
+
+void RenderList::Draw_one_gameobject(GameObject* gameObject) {
+	gameObject->Draw();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -65,12 +103,19 @@ RenderLists::~RenderLists() {
 	this->destroy();
 }
 
+
 void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight /* = nullptr */) {
 
 	/*
 	 * We draw the scene in render-list-iterations
 	 * GameObjects which use the same shader program are grouped in the same render list
+	 * However, transperancy doesn't like to play along.
 	 */
+
+	HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration heap_gameobjectsWithTransperancy_out(CompareTrGos);
+	if (camera != nullptr) {
+		g_cameraPosition = ((GameObject*)camera->GetObject())->GetTransform()->GetPosition();
+	}
 
 	this->Begin();
 	while (this->PrepareCurrentRenderList()) {
@@ -85,9 +130,31 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight /* = n
 		}
 
 		// Render all the renderable game objects in the current render list:
-		this->RenderGameObjectsInCurrentList();
+		this->RenderGameObjectsInCurrentList(&heap_gameobjectsWithTransperancy_out);
 
 		this->Next();
+	}
+
+
+	/*
+	 * Now, render all the transperant game objects in the order of decreasing distance from the camera
+	 */
+
+	while (!heap_gameobjectsWithTransperancy_out.empty()) {
+		TrGo trgo = heap_gameobjectsWithTransperancy_out.top();
+
+		trgo.renderlist->Prepare();
+
+		if (camera != nullptr) {
+			camera->WriteLookAt();
+		}
+		if (directionalLight != nullptr) {
+			directionalLight->WriteLightPropertiesToShader();
+		}
+
+		trgo.renderlist->Draw_one_gameobject(trgo.gameobject);
+
+		heap_gameobjectsWithTransperancy_out.pop();
 	}
 }
 
@@ -101,15 +168,15 @@ void RenderLists::Next() {
 
 bool RenderLists::PrepareCurrentRenderList() {
 	if (this->currentRenderListIdx < this->renderLists.size()) {
-		FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet(this->renderLists[this->currentRenderListIdx]->GetShaderName());
+		this->renderLists[this->currentRenderListIdx]->Prepare();
 		return true;
 	}
 	return false;
 }
 
-void RenderLists::RenderGameObjectsInCurrentList() {
+void RenderLists::RenderGameObjectsInCurrentList(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out) {
 	ASSERT(this->currentRenderListIdx < this->renderLists.size(), "\nCurrent render list idx is valid");
-	this->renderLists[this->currentRenderListIdx]->Draw();
+	this->renderLists[this->currentRenderListIdx]->Draw(heap_gameobjectsWithTransperancy_out);
 }
 
 void RenderLists::init() {

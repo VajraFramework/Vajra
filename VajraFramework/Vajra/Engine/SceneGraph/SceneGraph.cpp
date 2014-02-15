@@ -65,6 +65,7 @@ void SceneGraph::UnloadCurrentScene() {
 void SceneGraph::init() {
 	this->root = nullptr;
 	this->renderLists = new RenderLists();
+	this->isPaused = false;
 }
 
 void SceneGraph::Initialize() {

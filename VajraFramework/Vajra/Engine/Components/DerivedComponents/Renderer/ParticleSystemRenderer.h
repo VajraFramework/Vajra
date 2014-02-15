@@ -33,6 +33,8 @@ public:
 
 	inline glm::vec4 GetDiffuseColor () { return this->diffuseColor;  }
 
+	inline void SetHasTransperancy(bool hasTransperancy_);
+
 private:
 	void init();
 	void destroy();
@@ -54,5 +56,13 @@ private:
 
 	std::string shaderName;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Inline Functions:
+
+void ParticleSystemRenderer::SetHasTransperancy(bool hasTransperancy_) {
+	Renderer::setHasTransperancy(hasTransperancy_);
+}
 
 #endif // PARTICLESYSTEMRENDERER_H

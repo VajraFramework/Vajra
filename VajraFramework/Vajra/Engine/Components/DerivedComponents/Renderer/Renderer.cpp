@@ -40,6 +40,8 @@ void Renderer::init() {
 	if (gameObject != nullptr) {
 		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
 	}
+
+	this->hasTransperancy = false;
 }
 
 void Renderer::destroy() {

@@ -11,13 +11,13 @@ UiElement::~UiElement() {
 	this->destroy();
 }
 
-void UiElement::InitSprite(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures) {
+void UiElement::InitSprite(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures, bool hasTransperancy) {
 	this->addChildSpriteObject();
 
 	this->setWidth(width);
 	this->setHeight(height);
 	//
-	this->childSpriteObjectRef->InitSprite(width, height, shaderName_, pathsToTextures);
+	this->childSpriteObjectRef->InitSprite(width, height, shaderName_, pathsToTextures, hasTransperancy);
 }
 
 void UiElement::InitSprite(unsigned int width, unsigned int height, std::string shaderName_, glm::vec4 color) {

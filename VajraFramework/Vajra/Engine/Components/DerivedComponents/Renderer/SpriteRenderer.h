@@ -41,6 +41,8 @@ public:
 	inline void SetCurrentTextureIndex(unsigned int textureIndex) { this->currentTextureIndex = textureIndex; }
 
 	void initPlane(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures, PlaneOrigin planeOrigin = Bottom_Left);
+
+	inline void SetHasTransperancy(bool hasTransperancy_);
 	
 private:
 	void init();
@@ -81,6 +83,10 @@ std::shared_ptr<TextureAsset> SpriteRenderer::getTextureAssetByIndex(unsigned in
 
 unsigned int SpriteRenderer::getNumberOfTextureAssets() {
 	return this->listOfTextureAssets.size();
+}
+
+void SpriteRenderer::SetHasTransperancy(bool hasTransperancy_) {
+	Renderer::setHasTransperancy(hasTransperancy_);
 }
 
 #endif // UI_SPRITERENDERER_H
