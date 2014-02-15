@@ -251,16 +251,20 @@ void GridManager::loadRoomDataFromXml(XmlNode* roomDataNode) {
 	}
 }
 
-void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int /*width*/, int /*height*/) {
-	//int eastBound = westBound + width - 1;
-	//int northBound = southBound + height - 1;
+void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height) {
+	float centerX = westBound + (width - 1) / 2.0f;
+	float centerZ = southBound + (height - 1) / 2.0f;
 
 	// Set the object's position in the world.
 	GameObject* staticObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
-	//staticObj->GetTransform()->SetPosition(westBound + (width - 1) / 2.0f, 0.0f, -(southBound + (height - 1) / 2.0f));
-	staticObj->GetTransform()->SetPosition(westBound, 0.0f, -southBound);
+	staticObj->GetTransform()->SetPosition(centerX, 0.0f, -centerZ);
 /*
+ * TODO [Implement] Add this back in once we add culling of static geometry
+ *
 	// Make sure that the object lies entirely within the grid boundaries.
+	int eastBound = westBound + width - 1;
+	int northBound = southBound + height - 1;
+
 	GridCell* swCornerCell = this->grid->GetCell(westBound, southBound);
 	GridCell* neCornerCell = this->grid->GetCell(eastBound, northBound);
 	ASSERT((swCornerCell != nullptr) && (neCornerCell != nullptr),
@@ -272,7 +276,8 @@ void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int so
 		for (int j = southBound; j <= northBound; ++j) {
 			this->grid->GetCell(i, j)->staticObjs.push_back(id);
 		}
-	}*/
+	}
+*/
 }
 
 void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {

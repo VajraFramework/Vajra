@@ -19,7 +19,7 @@ public:
 	static inline ComponentIdType GetTypeId() { return componentTypeId; };
 
 	//[[PROPERTY]]//
-	void SetZoneBounds(int xMin, int zMin, int xMax, int zMax);
+	virtual void SetZoneBounds(int xMin, int zMin, int xMax, int zMax);
 
 	bool IsCellWithinZone(GridCell* cell);
 

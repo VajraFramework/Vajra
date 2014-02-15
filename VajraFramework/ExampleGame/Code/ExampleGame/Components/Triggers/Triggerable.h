@@ -24,9 +24,9 @@ public:
 	void UnsubscribeToSwitchObject(ObjectIdType switchId);
 
 protected:
-	virtual void onSwitchToggled(bool switchState) = 0;
-	virtual void onSwitchActivated() = 0;
-	virtual void onSwitchDeactivated() = 0;
+	virtual void onSwitchToggled(bool /*switchState*/) { }
+	virtual void onSwitchActivated() { }
+	virtual void onSwitchDeactivated() { }
 
 private:
 	void init();

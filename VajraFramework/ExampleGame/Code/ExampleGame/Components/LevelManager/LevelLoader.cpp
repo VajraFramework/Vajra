@@ -13,6 +13,8 @@
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
+#include "ExampleGame/Components/Switches/BaseSwitch.h"
+#include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
@@ -23,6 +25,7 @@
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/ParserTags.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
+std::map<int, ObjectIdType> LevelLoader::idsFromXml;
 
 UnitType StringToUnitType(std::string str) {
 	if (str == "Assassin") {
@@ -52,7 +55,7 @@ std::string LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	std::string levelName = levelNode->GetAttributeValueS(LEVEL_NAME_ATTRIBUTE);
 	
 	XmlNode* gridNode = levelNode->GetFirstChildByNodeName(GRID_TAG);
-	ASSERT(gridNode != nullptr, "Level definition contains <%s> node", GRID_TAG);
+	VERIFY(gridNode != nullptr, "Level definition contains <%s> node", GRID_TAG);
 	SINGLETONS->GetGridManager()->loadGridDataFromXml(gridNode);
 
 	XmlNode* staticNode = levelNode->GetFirstChildByNodeName(STATIC_TAG);
@@ -62,7 +65,7 @@ std::string LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	}
 
 	XmlNode* unitBaseNode = levelNode->GetFirstChildByNodeName(UNITS_TAG);
-	ASSERT(unitBaseNode != nullptr, "Level definition contains <%s> node", UNITS_TAG);
+	VERIFY(unitBaseNode != nullptr, "Level definition contains <%s> node", UNITS_TAG);
 	loadUnitDataFromXml(unitBaseNode);
 
 	XmlNode* otherDataNode = levelNode->GetFirstChildByNodeName(OTHER_TAG);
@@ -71,12 +74,20 @@ std::string LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 		loadOtherDataFromXml(otherDataNode);
 	}
 
+	XmlNode* linkBaseNode = levelNode->GetFirstChildByNodeName(LINKS_TAG);
+	// The level doesn't need to have a LINKS_TAG node
+	if (linkBaseNode != nullptr) {
+		loadLinkDataFromXml(linkBaseNode);
+	}
+
 	XmlNode* cameraNode = levelNode->GetFirstChildByNodeName(CAMERA_TAG);
-	ASSERT(cameraNode != nullptr, "Level definition contains <%s> node", CAMERA_TAG);
+	VERIFY(cameraNode != nullptr, "Level definition contains <%s> node", CAMERA_TAG);
 	loadCameraDataFromXml(cameraNode);
 
 	delete parser;
 
+	idsFromXml.clear();
+	
 	return levelName;
 }
 
@@ -112,6 +123,7 @@ void LevelLoader::LoadTutorialData(std::string levelName) {
 void LevelLoader::loadStaticDataFromXml(XmlNode* staticNode) {
 	XmlNode* staticObjNode = staticNode->GetFirstChildByNodeName(STATIC_OBJECT_TAG);
 	while (staticObjNode != nullptr) {
+		int objXmlId       = staticObjNode->GetAttributeValueI(ID_ATTRIBUTE);
 		std::string prefab = staticObjNode->GetAttributeValueS(PREFAB_ATTRIBUTE);
 		int westBound      = staticObjNode->GetAttributeValueI(X_ATTRIBUTE);
 		float yPosition    = staticObjNode->GetAttributeValueF(Y_ATTRIBUTE);
@@ -121,40 +133,12 @@ void LevelLoader::loadStaticDataFromXml(XmlNode* staticNode) {
 		float rotation     = staticObjNode->GetAttributeValueF(ROTATION_ATTRIBUTE) inRadians;
 
 		GameObject* staticObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
+		idsFromXml[objXmlId] = staticObj->GetId();
 
 		// Add the object to the grid
 		SINGLETONS->GetGridManager()->placeStaticObjectOnGrid(staticObj->GetId(), westBound, southBound, objWidth, objHeight);
 
-		// Position and orient the object.
-		float xOffset, zOffset;
-		//xOffset = (objWidth - 1) / 2.0f;
-		//zOffset = (1 - objHeight) / 2.0f;
-		/*while (rotation < 0.0f) { rotation += 2 * PI; }
-		while (rotation > (2 * PI)) { rotation -= 2 * PI; }
-		if (rotation < (PI * 0.25f)) {
-			*/xOffset = 0.0f;
-			zOffset = 0.0f;
-		/*}
-		else if (rotation < (PI * 0.75f)) {
-			xOffset = objWidth - 1;
-			zOffset = 0.0f;
-		}
-		else if (rotation < (PI * 1.25f)) {
-			xOffset = objWidth - 1;
-			zOffset = 1 - objHeight;
-		}
-		else if (rotation < (PI * 1.75f)) {
-			xOffset = 0.0f;
-			zOffset = 1 - objHeight;
-		}
-		else {
-			xOffset = 0.0f;
-			zOffset = 0.0f;
-		}*/
-
-		staticObj->GetTransform()->Translate(xOffset, yPosition, zOffset);
-		//staticObj->GetTransform()->SetPosition(ZERO_VEC3);
-		//staticObj->GetTransform()->Translate(yPosition, YAXIS);
+		staticObj->GetTransform()->Translate(yPosition, YAXIS);
 		staticObj->GetTransform()->SetOrientation(rotation, YAXIS);
 
 		staticObjNode = staticObjNode->GetNextSiblingByNodeName(STATIC_OBJECT_TAG);
@@ -165,8 +149,10 @@ void LevelLoader::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 	// Start with player units
 	XmlNode* unitNode = unitBaseNode->GetFirstChildByNodeName("");
 	while (unitNode != nullptr) {
+		int unitXmlId          = unitNode->GetAttributeValueI(ID_ATTRIBUTE);
 		std::string unitPrefab = unitNode->GetAttributeValueS(PREFAB_ATTRIBUTE);
 		GameObject* unitObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + unitPrefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
+		idsFromXml[unitXmlId] = unitObj->GetId();
 
 		// Units require a GridNavigator component
 		GridNavigator* gNav = unitObj->GetComponent<GridNavigator>();
@@ -212,33 +198,22 @@ void LevelLoader::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 }
 
 void LevelLoader::loadOtherDataFromXml(XmlNode* otherDataNode) {
-	XmlNode* zoneNode = otherDataNode->GetFirstChildByNodeName(ZONE_TAG);
-	while (zoneNode != nullptr) {
-		std::string prefab = zoneNode->GetAttributeValueS(PREFAB_ATTRIBUTE);
-		int westBound      = zoneNode->GetAttributeValueI(X_ATTRIBUTE);
-		int southBound     = zoneNode->GetAttributeValueI(Z_ATTRIBUTE);
-		int zoneWidth      = zoneNode->GetAttributeValueI(WIDTH_ATTRIBUTE);
-		int zoneHeight     = zoneNode->GetAttributeValueI(HEIGHT_ATTRIBUTE);
-		int eastBound      = westBound + zoneWidth - 1;    // This is a cell coordinate, not an absolute position
-		int northBound     = southBound + zoneHeight - 1;  // Likewise here
+	XmlNode* dynamicObjNode = otherDataNode->GetFirstChildByNodeName(DYNAMIC_OBJECT_TAG);
+	while (dynamicObjNode != nullptr) {
+		int objXmlId       = dynamicObjNode->GetAttributeValueI(ID_ATTRIBUTE);
+		std::string prefab = dynamicObjNode->GetAttributeValueS(PREFAB_ATTRIBUTE);
 
-		GameObject* zoneObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
-
-		GridZone* zoneComp = zoneObj->GetComponent<GridZone>();
-		ASSERT(zoneComp != nullptr, "Object within %s tag has GridZone component", ZONE_TAG);
-
-		zoneComp->SetZoneBounds(westBound, southBound, eastBound, northBound);
-
-		SINGLETONS->GetGridManager()->GetGrid()->AddGridZone(zoneObj->GetId());
+		GameObject* dynamicObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
+		idsFromXml[objXmlId] = dynamicObj->GetId();
 
 		// Check for overloaded components
-		XmlNode* compNode = zoneNode->GetFirstChildByNodeName(COMPONENT_TAG);
+		XmlNode* compNode = dynamicObjNode->GetFirstChildByNodeName(COMPONENT_TAG);
 		while (compNode != nullptr) {
-			PrefabLoader::LoadComponentFromComponentNodeInPrefab(zoneObj, compNode);
+			PrefabLoader::LoadComponentFromComponentNodeInPrefab(dynamicObj, compNode);
 			compNode = compNode->GetNextSiblingByNodeName(COMPONENT_TAG);
 		}
 
-		zoneNode = zoneNode->GetNextSiblingByNodeName(ZONE_TAG);
+		dynamicObjNode = dynamicObjNode->GetNextSiblingByNodeName(DYNAMIC_OBJECT_TAG);
 	}
 
 	// TODO [Implement] Other things such as triggerables
@@ -273,4 +248,29 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	ASSERT(cell != nullptr, "Object with id %d is on grid", id);
 
 	cameraComponent->MoveToRoom(cell->x, cell->z);
+}
+
+void LevelLoader::loadLinkDataFromXml  (XmlNode* linkBaseNode) {
+	XmlNode* triggerLinkNode = linkBaseNode->GetFirstChildByNodeName(TRIGGER_LINK_TAG);
+	while (triggerLinkNode != nullptr) {
+		int triggerXmlId = triggerLinkNode->GetAttributeValueI(ID_ATTRIBUTE);
+		ObjectIdType triggerId = idsFromXml[triggerXmlId];
+		GameObject* triggerObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(triggerId);
+		ASSERT(triggerObj != nullptr, "Trigger object with id %d exists in level", triggerId);
+		if (triggerObj != nullptr) {
+			Triggerable* triggerComp = triggerObj->GetComponent<Triggerable>();
+			ASSERT(triggerComp != nullptr, "Object with id %d has Triggerable component", triggerId);
+			if (triggerComp != nullptr) {
+				XmlNode* switchNode = triggerLinkNode->GetFirstChildByNodeName(SWITCH_TAG);
+				while (switchNode != nullptr) {
+					ObjectIdType switchId = switchNode->GetAttributeValueI(ID_ATTRIBUTE);
+					triggerComp->SubscribeToSwitchObject(switchId);
+
+					switchNode = switchNode->GetNextSiblingByNodeName(SWITCH_TAG);
+				}
+			}
+		}
+
+		triggerLinkNode = triggerLinkNode->GetNextSiblingByNodeName(TRIGGER_LINK_TAG);
+	}
 }
