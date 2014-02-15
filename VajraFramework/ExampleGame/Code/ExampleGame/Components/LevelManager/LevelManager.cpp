@@ -25,6 +25,7 @@ LevelManager::~LevelManager() {
 }
 
 void LevelManager::HandleMessage(MessageChunk messageChunk) {
+	Component::HandleMessage(messageChunk);
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_FRAME_EVENT:
 			this->update();

@@ -191,7 +191,7 @@ MessageType stringToMessageType(std::string msgString) {
 		return MESSAGE_TYPE_SELECTED_UNIT_CHANGED;
 	}
 	ASSERT(true, "stringToMessageType has reached the end without returning a message. Did you add a case for %s?", msgString.c_str());
-	return 0;
+	return MESSAGE_TYPE_UNSPECIFIED;
 }
 
 void GameUiTouchHandlers::setupTutorial(std::string levelName) {
