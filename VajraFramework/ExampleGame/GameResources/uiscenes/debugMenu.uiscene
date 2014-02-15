@@ -37,8 +37,8 @@
 				<size widthPixels="64" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
-			<image name="in.png"></image>
-			<image name="in_down.png"></image>
+			<image name="in.png" hasTransperancy="true"></image>
+			<image name="in_down.png" hasTransperancy="true"></image>
 			<color r="0.5" g="0.5" b="0.5" a="1.0"></color>
 		</uielement>
 		<uielement name="down" clickable="true">
@@ -47,8 +47,8 @@
 				<size widthPixels="64" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
-			<image name="out.png"></image>
-			<image name="out_down.png"></image>
+			<image name="out.png" hasTransperancy="true"></image>
+			<image name="out_down.png" hasTransperancy="true"></image>
 			<color r="0.5" g="0.5" b="0.5" a="1.0"></color>
 		</uielement>
 		<uielement name="left" clickable="true">
@@ -57,8 +57,8 @@
 				<size widthPixels="64" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
-			<image name="left.png"></image>
-			<image name="left_down.png"></image>
+			<image name="left.png" hasTransperancy="true"></image>
+			<image name="left_down.png" hasTransperancy="true"></image>
 			<color r="0.5" g="0.5" b="0.5" a="1.0"></color>
 		</uielement>
 		<uielement name="right" clickable="true">
@@ -67,8 +67,8 @@
 				<size widthPixels="64" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
-			<image name="right.png"></image>
-			<image name="right_down.png"></image>
+			<image name="right.png" hasTransperancy="true"></image>
+			<image name="right_down.png" hasTransperancy="true"></image>
 			<color r="0.5" g="0.5" b="0.5" a="1.0"></color>
 		</uielement>
 	</uielement>

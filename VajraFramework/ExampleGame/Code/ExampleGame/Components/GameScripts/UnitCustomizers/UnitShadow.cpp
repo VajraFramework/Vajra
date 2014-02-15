@@ -39,7 +39,12 @@ void UnitShadow::start() {
 	this->gameObjectRef->AddChild(this->littleShadow->GetId());
 	glm::vec3 parentScale = this->gameObjectRef->GetTransform()->GetScale();
 	this->littleShadow->GetTransform()->Scale(1.0f / parentScale.x, 1.0f / parentScale.y, 1.0f / parentScale.z);
-	this->littleShadow->GetTransform()->Translate(0.1f, YAXIS);
+	{
+		// TODO [Hack] Do this better. The shadows of different units have zfighting issues if they have the same y (and z fighting w.r.to transperancy is worse than regular z fighting
+		static float y_offset_to_avoid_zfighting = 0.0f;
+		y_offset_to_avoid_zfighting += 0.1f;
+		this->littleShadow->GetTransform()->Translate(0.3f + y_offset_to_avoid_zfighting, YAXIS);
+	}
 	this->littleShadow->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 }
 

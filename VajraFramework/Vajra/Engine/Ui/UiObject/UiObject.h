@@ -15,6 +15,7 @@ public:
 
 	unsigned int GetWidth()            { return this->width;           }
 	unsigned int GetHeight()           { return this->height;          }
+	int          GetZOrder()           { return this->zorder;          }
 	//
 	virtual void SetVisible(bool visible_);
 	bool IsClickable()                 { return this->clickable;       }
@@ -27,6 +28,7 @@ public:
 	bool IsPointWithin(float x, float y);
 
 	void SetPosition(unsigned int x, unsigned int y);
+	void SetZOrder(int zorder_);
 
 protected:
 	void setWidth(unsigned int w)      { this->width = w;              }
@@ -40,6 +42,8 @@ private:
 	void unregisterWithTouchHandlers();
 
 	unsigned int width, height;
+	int zorder;
+
 	bool clickable;
 
 	UiTouchHandlers* touchHandlers;

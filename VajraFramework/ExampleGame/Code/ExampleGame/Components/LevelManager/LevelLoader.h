@@ -12,10 +12,13 @@
 #include <map>
 #include <string>
 
+#define tutorialXmlPath "tutorials/tutorials.xml"
+
 class LevelLoader {
 public:
-	static void LoadLevelFromFile(std::string levelFilename);
-
+	static std::string LoadLevelFromFile(std::string levelFilename);
+	static void LoadTutorialLevelNames(std::vector<std::string>* /*levelsWithTutorials*/);
+	static void LoadTutorialData(std::string levelName);
 private:
 	static void loadStaticDataFromXml(XmlNode* staticNode);
 	static void loadUnitDataFromXml  (XmlNode* unitBaseNode);

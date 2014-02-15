@@ -32,6 +32,8 @@ public:
 	bool IsVisible() { return this->visible; }
 	virtual void SetVisible(bool visible_);
 
+	bool HasTransperancy();
+
 	SceneGraph* GetParentSceneGraph() { return this->parentSceneGraph; }
 
 	void AddTag(std::string tag);

@@ -31,6 +31,10 @@ public:
 	Camera* GetMainCamera();
 	void SetMainCameraId(ObjectIdType id);
 
+	inline bool IsPaused() { return this->isPaused;  }
+	inline void Pause()    { this->isPaused = true;  }
+	inline void Resume()   { this->isPaused = false; }
+
 	virtual void update() = 0;
 	virtual void draw() = 0;
 
@@ -43,6 +47,8 @@ protected:
 	ObjectIdType mainCameraId;
 
 	RenderLists* renderLists;
+
+	bool isPaused;
 
 	virtual void init();
 	virtual void destroy();

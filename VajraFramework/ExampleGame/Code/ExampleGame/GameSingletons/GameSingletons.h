@@ -22,7 +22,6 @@ public:
 	inline LevelManager* GetLevelManager() { return this->levelManagerComp; }
 	inline Object* GetGridManagerObject()  { return this->gridManagerObj;   }
 	inline GridManager* GetGridManager()   { return this->gridManagerComp;  }
-
 private:
 	void init();
 	void destroy();

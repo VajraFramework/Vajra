@@ -4,8 +4,9 @@
 		<dimensions>
 			<position x="0" y="768"></position>
 			<size widthPixels="1024" heightPixels="768"></size>
-			<zorder>-5</zorder>
+			<zorder>1</zorder>
 		</dimensions>
+		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
 		<uielement name="closeTutorial" clickable="true">
 			<dimensions>
 				<position x="128" y="128"></position>
@@ -18,13 +19,17 @@
 			</text>
 			<color r="0.7" g="0.0" b="0.0" a="1.0"></color>
 		</uielement>
-		<uielement name="tutorailImage" clickable="true">
+		<uielement name="nextTutorial" clickable="true">
 			<dimensions>
-				<position x="282" y="282"></position>
-				<size widthPixels="510" heightPixels="510"></size>
-				<zorder>1</zorder>
+				<position x="512" y="128"></position>
+				<size widthPixels="64" heightPixels="64"></size>
+				<zorder>2</zorder>
 			</dimensions>
-			<color r="0.0" g="0.9" b="0.0" a="1.0"></color>
+			<text>
+				<font type="calibiri.fontspec" size="64.0"></font>
+				-}
+			</text>
+			<color r="0.0" g="1.0" b="0.0" a="1.0"></color>
 		</uielement>
 	</uielement>
 
@@ -64,8 +69,8 @@
 				<size widthPixels="64" heightPixels="64"></size>
 				<zorder>-1</zorder>
 			</dimensions>
-			<image name="SD_GUI_Dagger_02.png"> </image>
-			<image name="SD_GUI_Cloak_02.png"> </image>
+			<image name="SD_GUI_Dagger_02.png" hasTransperancy="true"> </image>
+			<image name="SD_GUI_Cloak_02.png" hasTransperancy="true"> </image>
 			<color r="0.7" g="0.0" b="0.0" a="1.0"></color>
 		</uielement>
 

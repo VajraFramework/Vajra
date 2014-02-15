@@ -27,9 +27,15 @@ public:
 
 	inline std::string GetShaderName() { return this->shaderName; }
 	inline void SetShaderName(std::string shaderName_) { this->shaderName = shaderName_; }
+
+	inline bool HasTransperancy()                         { return this->hasTransperancy;             }
+
 protected:
 	void addToRenderList();
 	void removeFromRenderList();
+
+	inline void setHasTransperancy(bool hasTransperancy_) { this->hasTransperancy = hasTransperancy_; }
+
 private:
 	void init();
 	void destroy();
@@ -37,6 +43,7 @@ private:
 	static unsigned int componentTypeId;
 
 	std::string shaderName;
+	bool hasTransperancy;
 };
 
 #endif // RENDERER_H

@@ -9,17 +9,20 @@
 #include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
 #include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
-#include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Components/Switches/BaseSwitch.h"
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
+#include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/SceneLoaders/UiSceneLoader/ParserTags.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
 std::map<int, ObjectIdType> LevelLoader::idsFromXml;
@@ -34,7 +37,7 @@ UnitType StringToUnitType(std::string str) {
 	return UNIT_TYPE_UNKNOWN;
 }
 
-void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
+std::string LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading level from level file: %s", levelFilename.c_str());
 
 	XmlParser* parser = new XmlParser();
@@ -49,6 +52,8 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	XmlNode* levelNode = xmlTree->GetRootNode();
 	ASSERT(levelNode != nullptr && levelNode->GetName() == LEVEL_TAG, "Got valid level node from xml tree for level file %s", levelFilename.c_str());
 
+	std::string levelName = levelNode->GetAttributeValueS(LEVEL_NAME_ATTRIBUTE);
+	
 	XmlNode* gridNode = levelNode->GetFirstChildByNodeName(GRID_TAG);
 	VERIFY(gridNode != nullptr, "Level definition contains <%s> node", GRID_TAG);
 	SINGLETONS->GetGridManager()->loadGridDataFromXml(gridNode);
@@ -82,7 +87,38 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	delete parser;
 
 	idsFromXml.clear();
+	
+	return levelName;
 }
+
+void LevelLoader::LoadTutorialLevelNames(std::vector<std::string>* levelsWithTutorials) {
+	FRAMEWORK->GetLogger()->dbglog("\nLoading tutorials from file: %s", tutorialXmlPath);
+
+	XmlParser* parser = new XmlParser();
+	parser->ParseXmlFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + tutorialXmlPath);
+
+	XmlTree* xmlTree = parser->GetXmlTree();
+	ASSERT(xmlTree != nullptr, "Got valid xmlTree from parser for level file %s", tutorialXmlPath);
+	
+	XmlNode* rootTutorialsNode = xmlTree->GetRootNode();
+	ASSERT(rootTutorialsNode != nullptr, "Got valid tutoral node from xml tree for tutorial file %s", tutorialXmlPath);
+
+	for(XmlNode* tutorialNode : rootTutorialsNode->GetChildren()) {
+		FRAMEWORK->GetLogger()->dbglog("\n Loaded tutorial data for level: %s", tutorialNode->GetAttributeValueS(NAME_ATTRIBUTE).c_str());
+		levelsWithTutorials->push_back(tutorialNode->GetAttributeValueS(NAME_ATTRIBUTE));
+	}
+	delete parser;
+
+}
+
+void LevelLoader::LoadTutorialData(std::string levelName) {
+	MessageChunk createTutorialMesssage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	createTutorialMesssage->SetMessageType(MESSAGE_TYPE_CREATED_TUTORIAL);
+	createTutorialMesssage->messageData.s = levelName;
+	ENGINE->GetMessageHub()->SendMulticastMessage(createTutorialMesssage);
+
+}
+
 
 void LevelLoader::loadStaticDataFromXml(XmlNode* staticNode) {
 	XmlNode* staticObjNode = staticNode->GetFirstChildByNodeName(STATIC_OBJECT_TAG);

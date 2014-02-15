@@ -53,6 +53,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	glm::vec4 color;
 	bool clickable;
 	bool visible;
+	bool imageHasTransperancy = false;
 
 	{
 		itemName = uielementNode->GetAttributeValueS(NAME_ATTRIBUTE);
@@ -74,10 +75,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 
 		XmlNode* zorderNode = dimensionsNode->GetFirstChildByNodeName(ZORDER_TAG);
 		ASSERT(zorderNode != nullptr, "Got valid xmlNode from dimensions node for zorder");
-		// TODO [Implement]
 		zorder = StringUtilities::ConvertStringToInt(zorderNode->GetValue());
-		// TODO [Cleanup] Temp, using variable
-		FRAMEWORK->GetLogger()->dbglog("\nzorder (temp, using variable): %d", zorder);
 
 		convertPixelsFromTargetSizeToDeviceSize(posXPixels,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
 		convertPixelsFromTargetSizeToDeviceSize(posYPixels,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
@@ -103,6 +101,10 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 		while (imageNode != nullptr) {
 			std::string imageName = imageNode->GetAttributeValueS(NAME_ATTRIBUTE);
 			imageNames.push_back(imageName);
+
+			if (imageNode->HasAttribute(HASTRANSPERANCY_ATTRIBUTE)) {
+				imageHasTransperancy |= imageNode->GetAttributeValueB(HASTRANSPERANCY_ATTRIBUTE);
+			}
 
 			imageNode = imageNode->GetNextSiblingByNodeName(IMAGE_TAG);
 		}
@@ -134,7 +136,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 			for (std::string imageName : imageNames) {
 				imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + imageName);
 			}
-			uiElement->InitSprite(widthPixels, heightPixels, "sptshdr", imagePaths);
+			uiElement->InitSprite(widthPixels, heightPixels, "sptshdr", imagePaths, imageHasTransperancy);
 		} else {
 			uiElement->InitSprite(widthPixels, heightPixels, "spcshdr", color);
 		}
@@ -161,6 +163,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 		uiElement->SetVisible(visible);
 		//
 		uiElement->SetPosition(posXPixels, posYPixels);
+		uiElement->SetZOrder(zorder);
 	}
 
 	XmlNode* childNode = uielementNode->GetFirstChildByNodeName(UIELEMENT_TAG);

@@ -102,3 +102,11 @@ bool GameObject::HasTag(std::string tag) {
 bool GameObject::HasTag(unsigned int tagBit) {
 	return (this->tags & tagBit) > 0;
 }
+
+bool GameObject::HasTransperancy() {
+	Renderer* renderer = this->GetComponent<Renderer>();
+	if (renderer != nullptr) {
+		return renderer->HasTransperancy();
+	}
+	return false;
+}
