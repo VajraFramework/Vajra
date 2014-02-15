@@ -265,11 +265,15 @@ void GameUiTouchHandlers::setupTutorial(std::string levelName) {
 
 void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 	switch(this->tutorials[index].msgType) {
+		// TODO [Implement] this message type when it's needed
+		/*
 		case MESSAGE_TYPE_GRID_ZONE_ENTERED:
+			
 			if(this->tutorials[index].vector3Data != messageChunk->messageData.fv1) {
 				//return;
 			}
 			break;
+		*/
 		case MESSAGE_TYPE_GRID_ROOM_ENTERED:
 			if(this->tutorials[index].vector3Data != messageChunk->messageData.fv1) {
 				return;
