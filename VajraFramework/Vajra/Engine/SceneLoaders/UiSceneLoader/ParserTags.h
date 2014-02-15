@@ -20,6 +20,8 @@
 #define G_ATTRIBUTE  "g"
 #define B_ATTRIBUTE  "b"
 #define A_ATTRIBUTE  "a"
+#define X_WRTO_ATTRIBUTE  "xwrto"
+#define Y_WRTO_ATTRIBUTE  "ywrto"
 #define WIDTHPIXELS_ATTRIBUTE  "widthPixels"
 #define HEIGHTPIXELS_ATTRIBUTE "heightPixels"
 #define CLICKABLE_ATTRIBUTE "clickable"
