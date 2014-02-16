@@ -54,6 +54,8 @@ void GridManager::init() {
 #endif
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_KILLED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_START, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_END, this->GetTypeId(), false);
 }
 
 void GridManager::destroy() {
@@ -61,6 +63,14 @@ void GridManager::destroy() {
 
 	delete this->grid;
 	this->grid = nullptr;
+}
+
+void GridManager::onLevelStart() {
+
+}
+
+void GridManager::onLevelEnd() {
+	this->playerUnits.clear();	
 }
 
 void GridManager::HandleMessage(MessageChunk messageChunk) {
@@ -75,6 +85,12 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 			break;
 		case MESSAGE_TYPE_UNIT_KILLED:
 			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
+			break;
+		case MESSAGE_TYPE_LEVEL_START:
+			this->onLevelStart();
+			break;
+		case MESSAGE_TYPE_LEVEL_END:
+			this->onLevelEnd();
 			break;
 		default:
 			break;

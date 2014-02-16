@@ -8,6 +8,7 @@
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 
 #include "Vajra/Engine/Core/Engine.h"
@@ -49,12 +50,14 @@ void LevelManager::LoadLevel(int levelNumber) {
 	if(levelNumber < this->levelData.size()) {
 		this->currentLevelIndex = levelNumber;
 		this->LoadLevelFromData(levelData[levelNumber]);
+		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_START);
 	}
 }
 
 void LevelManager::UnloadLevel() {
 	// Unload the previous scene and all other items in the SceneGraph3D
 	ENGINE->GetSceneGraph3D()->UnloadCurrentScene();
+	ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_END);
 }
 void LevelManager::LoadLevelFromData(LevelData levelData) {
 	LevelLoader::LoadLevelFromFile(levelData.path);

@@ -19,7 +19,8 @@ class PlayerUnit : public BaseUnit {
 	
 #define GOOD_TOUCH 0
 #define BAD_TOUCH  1
-#define THIEF_SPECIAL 2
+#define ASSASSIN_SPECIAL 2
+#define THIEF_SPECIAL 3
 
 public:
 	PlayerUnit();

@@ -35,6 +35,7 @@ bool Assassin::isSpecialTouch(int touchId) {
 		if(touch.timeDown <= GetFloatGameConstant(GAME_CONSTANT_swipe_duration_in_seconds) && glm::distance(touch.pos, this->touchStartPos) > GetFloatGameConstant(GAME_CONSTANT_swipe_dist_in_pixels)) {
 			this->swipeDirectionScreen = this->touchStartPos - touch.pos;
 			this->targetedCell = nullptr;
+			this->SetTouchIndicatorSprite(ASSASSIN_SPECIAL);
 			return true;
 		}
 	}

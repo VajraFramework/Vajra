@@ -60,7 +60,9 @@ void PlayerUnit::init() {
 	std::vector<std::string> pathsToTextures;
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Indicator_01.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Fail_01.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_Arrow_04.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_cyan.png");
+	
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 
 	touchIndicator->SetVisible(false);
@@ -154,7 +156,6 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	if(this->isSpecialTouch(touchId)) {
 		this->inputState = InputState::INPUT_STATE_SPECIAL;
 		this->gridNavRef->StopNavigation();
-		this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(BAD_TOUCH);
 		this->onSpecialTouch(touchId);
 		this->SwitchActionState(UNIT_ACTION_STATE_PRE_SPECIAL);
 	} else {
