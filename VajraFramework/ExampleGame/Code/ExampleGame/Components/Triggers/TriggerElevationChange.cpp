@@ -114,6 +114,10 @@ void TriggerElevationChange::SubscribeToMySwitch() {
 	Triggerable::SubscribeToMySwitch();
 }
 
+void TriggerElevationChange::SubscribeToParentSwitch() {
+	Triggerable::SubscribeToParentSwitch();
+}
+
 void TriggerElevationChange::onSwitchToggled(bool /*switchState*/) {
 	this->startTransition(!this->isRaised);
 }
@@ -167,9 +171,6 @@ void TriggerElevationChange::startTransition(bool raised) {
 				}
 			}
 		}
-
-		std::string tweenName = "ElevationChange";
-		tweenName += this->GetObject()->GetId();
 
 		glm::vec3 finalPosition = this->GetObject()->GetComponent<Transform>()->GetPosition();
 		if (raised) {
