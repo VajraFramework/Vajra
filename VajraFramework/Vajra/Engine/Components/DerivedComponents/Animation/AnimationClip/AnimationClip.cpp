@@ -56,7 +56,7 @@ void AnimationClip::Resume() {
 void AnimationClip::Stop() {
 	this->isPlaying = false;
 	this->reset();
-	if (this->getNumKeyFrames() > 0) {
+	if (this->isLooping && this->getNumKeyFrames() > 0) {
 		this->setCurrentKeyFrameIndex(0);
 	}
 	// FRAMEWORK->GetLogger()->dbglog("\nStopping AnimationClip %s", this->clipName.c_str());
