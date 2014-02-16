@@ -18,6 +18,8 @@ public:
 
 	static inline ComponentIdType GetTypeId() { return componentTypeId; };
 
+	void GetZoneBounds(int& west, int& east, int& south, int& north);
+
 	//[[PROPERTY]]//
 	virtual void SetZoneBounds(int xMin, int zMin, int xMax, int zMax);
 

@@ -160,7 +160,7 @@ void BaseSwitch::setActiveState(bool state) {
 			MessageChunk switchMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 			switchMessage->SetMessageType(msgType);
 			switchMessage->messageData.iv1.x = myId;
-			ENGINE->GetMessageHub()->SendPointcastMessage(switchMessage, this->GetObject()->GetId(), myId);
+			ENGINE->GetMessageHub()->SendPointcastMessage(switchMessage, *iter, myId);
 		}
 
 		this->isActive = state;

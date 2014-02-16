@@ -264,7 +264,7 @@ void LevelLoader::loadLinkDataFromXml  (XmlNode* linkBaseNode) {
 				XmlNode* switchNode = triggerLinkNode->GetFirstChildByNodeName(SWITCH_TAG);
 				while (switchNode != nullptr) {
 					ObjectIdType switchId = switchNode->GetAttributeValueI(ID_ATTRIBUTE);
-					triggerComp->SubscribeToSwitchObject(switchId);
+					triggerComp->SubscribeToSwitchObject(idsFromXml[switchId]);
 
 					switchNode = switchNode->GetNextSiblingByNodeName(SWITCH_TAG);
 				}

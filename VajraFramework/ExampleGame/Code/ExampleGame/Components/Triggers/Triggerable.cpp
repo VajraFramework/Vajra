@@ -74,11 +74,9 @@ void Triggerable::HandleMessage(MessageChunk messageChunk) {
 	}
 }
 
-#ifdef DEBUG
-void Triggerable::SubscribeToSwitchObject() {
+void Triggerable::SubscribeToMySwitch() {
 	this->SubscribeToSwitchObject(this->GetObject()->GetId());
 }
-#endif
 
 void Triggerable::SubscribeToSwitchObject(ObjectIdType switchId) {
 	auto it = std::find(this->subscriptions.begin(), this->subscriptions.end(), switchId);
