@@ -216,6 +216,9 @@ void GridNavigator::followPath() {
 	int count = this->currentPath.size();
 	while ((distToTravel > 0.0f) && (count > 0)) {
 		glm::vec3 targetLocation = this->currentPath.front()->center;
+		// Prevent movement along y-axis.
+		targetLocation.y = tempLocation.y;
+
 		float distToTarget = glm::distance(tempLocation, targetLocation);
 
 		if (distToTravel >= distToTarget) {
