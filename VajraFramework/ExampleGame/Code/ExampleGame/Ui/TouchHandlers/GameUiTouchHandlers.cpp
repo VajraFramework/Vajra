@@ -144,39 +144,42 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		return;
 	}
 #endif
+	
+	// HUD
 	if (uiObject->GetName() == "pause") {
 		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(!pauseMenu->IsVisible());
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_PAUSE);
-
-	} else if (uiObject->GetName() == "resume") {
+		
+	} else if(uiObject->GetName() == "changeUnit") {
+		SINGLETONS->GetGridManager()->SwitchSelectedUnit();
+	}
+	
+	// PAUSE MENU
+	if (uiObject->GetName() == "resume") {
 		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(false);
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_UNPAUSE);
+	} else if (uiObject->GetName() == "restart_pause") {
+		SINGLETONS->GetLevelManager()->ReloadCurrentLevel();
+		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
+		pauseMenu->SetVisible(!pauseMenu->IsVisible());
 	} else if (uiObject->GetName() == "mission_from_pause") {
 		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(false);
-
+		
 		SINGLETONS->GetLevelManager()->UnloadLevel();
-
+		
 		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
 		UiSceneLoader::UnloadCurrentUiScene();
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
-
-	} else if(uiObject->GetName() == "changeUnit") {
-		SINGLETONS->GetGridManager()->SwitchSelectedUnit();
-	} else if(uiObject->GetName() == TUTORIAL_EXIT_BTN) {
-		UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TUTORIAL_MENU]);
-		tut->SetClickable(false);
-		ENGINE->GetTween()->TweenPosition(tut->GetId(),
-										  tut->GetTransform()->GetPosition(),
-										  glm::vec3(tut->GetTransform()->GetPosition().x, -768.0f, tut->GetTransform()->GetPosition().z),
-										  1.0f,
-										  false,
-										  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
-										  false,
-										  onTutorialTweenOutComplete);
-	} else if(uiObject->GetName() == TUTORIAL_NEXT_BTN) {
+		
+	}
+	
+	// END MENU
+	
+	// TUTORIAL
+	if(uiObject->GetName() == TUTORIAL_NEXT_BTN) {
 		this->nextTutorialImage();
 	}
 }

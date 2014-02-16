@@ -50,13 +50,6 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch
 
 		// Load the test level
 		SINGLETONS->GetLevelManager()->LoadLevel(0);
-		GameObject* testZone = new GameObject(ENGINE->GetSceneGraph3D());
-		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testZone->GetId());
-		GridZone* zone = testZone->AddComponent<GridZone>();
-		zone->SetZoneBounds(3, 0, 5, 5);
-
-
-
 	} else if(uiObject->GetName() == "options") {
 		UiObject* startMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[START_MENU]);
 		UiObject* optionsMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[OPTIONS_MENU]);

@@ -106,6 +106,10 @@ ObjectIdType GridManager::GetPlayerUnitIdOfType(UnitType uType) {
 }
 
 void GridManager::OnTouchUpdate(int touchIndex) {
+	// Todo [HACK] temp fix for game crashing one scene unload, remove once the message hub purges itself when the scene is unloaded
+	if(SINGLETONS->GetLevelManager()->IsPaused()) {
+		return;
+	}
 #ifdef DEBUG_GRID
 	debugTouchUpdate(touchIndex);
 #endif

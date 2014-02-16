@@ -38,27 +38,47 @@ void LevelManager::HandleMessage(MessageChunk messageChunk) {
 			this->isPaused = true;
 			break;
 		case MESSAGE_TYPE_UNPAUSE:
-			this->isPaused = false;
+			this->isPaused = false;		
+		case MESSAGE_TYPE_LEVEL_END:
+			if(this->levelToLoad != -1) {
+				ENGINE->GetMessageHub()->SendPointcastMessage(MESSAGE_TYPE_LOAD_LEVEL, this->GetObject()->GetId());
+			}
+			break;
+		case MESSAGE_TYPE_LOAD_LEVEL:
+				this->loadLevel_internal();
+			break;
+		default:
 			break;
 	}
 }
 
 void LevelManager::LoadLevel(int levelNumber) {
+	this->levelToLoad = levelNumber;
 	this->UnloadLevel();
-
-	ASSERT(levelNumber < this->levelData.size(), "level number is less than the number of levels");
-	if(levelNumber < this->levelData.size()) {
-		this->currentLevelIndex = levelNumber;
-		this->LoadLevelFromData(levelData[levelNumber]);
-		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_START);
-	}
 }
 
 void LevelManager::UnloadLevel() {
 	// Unload the previous scene and all other items in the SceneGraph3D
 	ENGINE->GetSceneGraph3D()->UnloadCurrentScene();
+	this->isPaused = true;
 	ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_END);
 }
+
+void LevelManager::ReloadCurrentLevel() {
+	this->LoadLevel(this->currentLevelIndex);
+}
+
+void LevelManager::loadLevel_internal() {
+	ASSERT(this->levelToLoad < this->levelData.size(), "level number is less than the number of levels");
+	if(this->levelToLoad < this->levelData.size()) {
+		this->currentLevelIndex = this->levelToLoad;
+		this->LoadLevelFromData(levelData[this->levelToLoad]);
+		this->isPaused = false;
+		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_START);
+	}
+	this->levelToLoad = -1;
+}
+
 void LevelManager::LoadLevelFromData(LevelData levelData) {
 	LevelLoader::LoadLevelFromFile(levelData.path);
 	if(levelData.hasTutorial) {
@@ -73,6 +93,10 @@ void LevelManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PAUSE, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNPAUSE, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_END, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_LOAD_LEVEL, this->GetTypeId(), false);
+
+	this->levelToLoad = -1;
 
 	// load the list of levels with a tutorial
 	LevelLoader::LoadLevelData(&this->levelData);
