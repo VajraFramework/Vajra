@@ -33,10 +33,8 @@ public:
 
 	virtual void HandleMessage(MessageChunk messageChunk);
 
-#ifdef DEBUG
 	//[[PROPERTY]]//
-	virtual void SubscribeToSwitchObject();  // Debug-only method, Trigger subscribes to itself
-#endif
+	virtual void SubscribeToMySwitch();  // Subscribe to the switch on the same object, can be used in XML prefabs
 	void SubscribeToSwitchObject(ObjectIdType switchId);   // This must be called before this component can trigger
 	void UnsubscribeToSwitchObject(ObjectIdType switchId);
 

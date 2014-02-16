@@ -93,6 +93,68 @@ void TriggerElevationChange::SetTriggerType(std::string typeStr) {
 }
 
 void TriggerElevationChange::SetRaisedState(bool raised) {
+	this->isRaised = raised;
+}
+
+void TriggerElevationChange::HandleMessage(MessageChunk messageChunk) {
+	Triggerable::HandleMessage(messageChunk);
+
+	switch (messageChunk->GetMessageType()) {
+		case MESSAGE_TYPE_GRID_ZONE_ENTERED:
+			this->onUnitEnteredZone(messageChunk->messageData.iv1.x);
+			break;
+
+		case MESSAGE_TYPE_GRID_ZONE_EXITED:
+			this->onUnitExitedZone(messageChunk->messageData.iv1.x);
+			break;
+	}
+}
+
+void TriggerElevationChange::SubscribeToMySwitch() {
+	Triggerable::SubscribeToMySwitch();
+}
+
+void TriggerElevationChange::onSwitchToggled(bool /*switchState*/) {
+	this->startTransition(!this->isRaised);
+}
+
+void TriggerElevationChange::onSwitchActivated() {
+
+}
+
+void TriggerElevationChange::onSwitchDeactivated() {
+
+}
+
+void TriggerElevationChange::onUnitEnteredZone(ObjectIdType id) {
+	auto it = std::find(this->unitsInZone.begin(), this->unitsInZone.end(), id);
+	if (it == this->unitsInZone.end()) {
+		GameObject* unitObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+		ASSERT(unitObj != nullptr, "Object exists with id %d", id);
+		if (unitObj != nullptr) {
+			this->unitsInZone.push_back(id);
+		}
+	}
+	else {
+		FRAMEWORK->GetLogger()->dbglog("Unit with id %d is already in zone %d", id, this->GetObject()->GetId());
+	}
+}
+
+void TriggerElevationChange::onUnitExitedZone(ObjectIdType id) {
+	auto it = std::find(this->unitsInZone.begin(), this->unitsInZone.end(), id);
+	if (it != this->unitsInZone.end()) {
+		GameObject* unitObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+		ASSERT(unitObj != nullptr, "Object exists with id %d", id);
+		if (unitObj != nullptr) {
+			this->unitsInZone.erase(it);
+		}
+	}
+	else {
+		FRAMEWORK->GetLogger()->dbglog("Warning: Unit with id %d left zone %d without being in it", id, this->GetObject()->GetId());
+	}
+}
+
+void TriggerElevationChange::startTransition(bool raised) {
 	if (raised != this->isRaised) {
 		// Child all units in zone to this object before tweening.
 		for (auto iter = this->unitsInZone.begin(); iter != this->unitsInZone.end(); ++iter) {
@@ -134,89 +196,5 @@ void TriggerElevationChange::SetRaisedState(bool raised) {
 			false,
 			elevationChangeTweenCallback
 		);
-/*
-		int west, east, south, north;
-		// Get the grid zone component on this object.
-		GridZone* zone = this->GetObject()->GetComponent<GridZone>();
-		ASSERT(zone != nullptr, "Object %d with TriggerElevationChange component also has GridZone component", this->GetObject()->GetId());
-
-		zone->GetZoneBounds(west, east, south, north);
-
-		GameGrid* grid = SINGLETONS->GetGridManager()->GetGrid();
-		int diff;
-		if (raised) {
-			diff = this->elevationChange;
-		}
-		else {
-			diff = -this->elevationChange;
-		}
-		for (int x = west; x <= east; ++x) {
-			for (int z = south; z <= north; ++z) {
-				grid->ChangeCellGroundLevel(x, z, diff);
-			}
-		}
-
-		this->isRaised = raised;
-*/
-	}
-}
-
-void TriggerElevationChange::HandleMessage(MessageChunk messageChunk) {
-	Triggerable::HandleMessage(messageChunk);
-
-	switch (messageChunk->GetMessageType()) {
-		case MESSAGE_TYPE_GRID_ZONE_ENTERED:
-			this->onUnitEnteredZone(messageChunk->messageData.iv1.x);
-			break;
-
-		case MESSAGE_TYPE_GRID_ZONE_EXITED:
-			this->onUnitExitedZone(messageChunk->messageData.iv1.x);
-			break;
-	}
-}
-
-#ifdef DEBUG
-void TriggerElevationChange::SubscribeToSwitchObject() {
-	Triggerable::SubscribeToSwitchObject();
-}
-#endif
-
-void TriggerElevationChange::onSwitchToggled(bool /*switchState*/) {
-	this->SetRaisedState(!this->isRaised);
-}
-
-void TriggerElevationChange::onSwitchActivated() {
-
-}
-
-void TriggerElevationChange::onSwitchDeactivated() {
-
-}
-
-void TriggerElevationChange::onUnitEnteredZone(ObjectIdType id) {
-	auto it = std::find(this->unitsInZone.begin(), this->unitsInZone.end(), id);
-	if (it == this->unitsInZone.end()) {
-		GameObject* unitObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
-		ASSERT(unitObj != nullptr, "Object exists with id %d", id);
-		if (unitObj != nullptr) {
-			this->unitsInZone.push_back(id);
-		}
-	}
-	else {
-		FRAMEWORK->GetLogger()->dbglog("Duplicate subscription to switch: %d by triggerable: %d", id, this->GetObject()->GetId());
-	}
-}
-
-void TriggerElevationChange::onUnitExitedZone(ObjectIdType id) {
-	auto it = std::find(this->unitsInZone.begin(), this->unitsInZone.end(), id);
-	if (it != this->unitsInZone.end()) {
-		GameObject* unitObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
-		ASSERT(unitObj != nullptr, "Object exists with id %d", id);
-		if (unitObj != nullptr) {
-			this->unitsInZone.erase(it);
-		}
-	}
-	else {
-		FRAMEWORK->GetLogger()->dbglog("Warning: Trying to unsubscribe for unfound subscription to switch: %d by triggerable: %d", id, this->GetObject()->GetId());
 	}
 }

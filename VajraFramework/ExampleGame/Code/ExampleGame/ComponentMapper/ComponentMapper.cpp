@@ -653,9 +653,9 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "Triggerable") {
 		Triggerable* component = gameObject->GetComponent<Triggerable>();
 		if (component == nullptr) { return; }
-		if (propertyName == "SubscribeToSwitchObject") {
+		if (propertyName == "SubscribeToMySwitch") {
 			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToSwitchObject();
+			component->SubscribeToMySwitch();
 			return;
 		}
 		return;
@@ -684,9 +684,9 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetRaisedState(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
-		if (propertyName == "SubscribeToSwitchObject") {
+		if (propertyName == "SubscribeToMySwitch") {
 			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToSwitchObject();
+			component->SubscribeToMySwitch();
 			return;
 		}
 		return;

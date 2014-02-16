@@ -27,14 +27,12 @@ public:
 	//[[PROPERTY]]//
 	inline void SetTransitTime(float seconds);
 	//[[PROPERTY]]//
-	void SetRaisedState(bool raised);
+	void SetRaisedState(bool raised);  // Only call this function from XML to set the initial state.
 
 	virtual void HandleMessage(MessageChunk messageChunk);
 
-#ifdef DEBUG
 	//[[PROPERTY]]//
-	virtual void SubscribeToSwitchObject();  // Debug-only method, Trigger subscribes to itself
-#endif
+	virtual void SubscribeToMySwitch();  // Subscribe to the switch on the same object, can be used in XML prefabs
 
 protected:
 	virtual void onSwitchToggled(bool /*switchState*/);
@@ -47,6 +45,8 @@ protected:
 private:
 	void init();
 	void destroy();
+
+	void startTransition(bool raised);
 
 	int elevationChange;  // The amount of elevation change when this trigger activates
 	float transitTime;
