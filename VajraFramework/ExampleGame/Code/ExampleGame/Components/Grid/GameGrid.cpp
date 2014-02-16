@@ -404,12 +404,23 @@ bool GameGrid::IsCellVisibleAtElevation(int gridX, int gridZ, unsigned int eleva
 	return false;
 }
 
+void GameGrid::ChangeCellGroundLevel(int gridX, int gridZ, int elevationDiff) {
+	if (elevationDiff != 0) {
+		GridCell* cell = this->GetCell(gridX, gridZ);
+
+		ASSERT(cell != nullptr, "Cell exists at position (%d, %d)", gridX, gridZ);
+		if (cell != nullptr) {
+			this->SetCellGroundLevel(gridX, gridZ, cell->y + elevationDiff);
+		}
+	}
+}
+
 void GameGrid::SetCellGroundLevel(int gridX, int gridZ, unsigned int elevation) {
-	ASSERT(elevation < NUM_ELEVATIONS, "Elevation level %u is outside grid bounds", elevation);
+	ASSERT(elevation < NUM_ELEVATIONS, "Elevation level %u is within grid bounds", elevation);
 	if (elevation < NUM_ELEVATIONS) {
 		GridCell* cell = this->GetCell(gridX, gridZ);
 
-		ASSERT(cell != nullptr, "Cell does not exist at position (%d, %d)", gridX, gridZ);
+		ASSERT(cell != nullptr, "Cell exists at position (%d, %d)", gridX, gridZ);
 		if (cell != nullptr) {
 			int diff = elevation - cell->y;
 			if (diff > 0) {
@@ -452,9 +463,9 @@ void GameGrid::SetCellGroundLevel(int gridX, int gridZ, unsigned int elevation) 
 }
 
 void GameGrid::SetCellPassableAtElevation(int gridX, int gridZ, unsigned int elevation, bool isPassable) {
-	ASSERT(elevation < NUM_ELEVATIONS, "Elevation level %u is outside grid bounds", elevation);
+	ASSERT(elevation < NUM_ELEVATIONS, "Elevation level %u is within grid bounds", elevation);
 	if (elevation < NUM_ELEVATIONS) {
-		ASSERT(this->isWithinGrid(gridX, gridZ), "Cell does not exist at position (%d, %d)", gridX, gridZ);
+		ASSERT(this->isWithinGrid(gridX, gridZ), "Cell exists at position (%d, %d)", gridX, gridZ);
 		if (this->isWithinGrid(gridX, gridZ)) {
 			if (isPassable) {
 				SET_BIT_IN_BYTE_ARRAY(gridZ, this->passableBits[elevation][gridX]);
@@ -467,9 +478,9 @@ void GameGrid::SetCellPassableAtElevation(int gridX, int gridZ, unsigned int ele
 }
 
 void GameGrid::SetCellVisibleAtElevation(int gridX, int gridZ, unsigned int elevation, bool isVisible) {
-	ASSERT(elevation < NUM_ELEVATIONS, "Elevation level %u is outside grid bounds", elevation);
+	ASSERT(elevation < NUM_ELEVATIONS, "Elevation level %u is within grid bounds", elevation);
 	if (elevation < NUM_ELEVATIONS) {
-		ASSERT(this->isWithinGrid(gridX, gridZ), "Cell does not exist at position (%d, %d)", gridX, gridZ);
+		ASSERT(this->isWithinGrid(gridX, gridZ), "Cell exists at position (%d, %d)", gridX, gridZ);
 		if (this->isWithinGrid(gridX, gridZ)) {
 			if (isVisible) {
 				SET_BIT_IN_BYTE_ARRAY(gridZ, this->visibleBits[elevation][gridX]);
