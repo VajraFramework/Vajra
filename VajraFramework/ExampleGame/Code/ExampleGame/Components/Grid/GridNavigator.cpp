@@ -197,6 +197,15 @@ void GridNavigator::StopNavigation() {
 	this->targetForward = ZERO_VEC3;
 }
 
+void GridNavigator::ReturnToCellCenter() {
+	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->GetObject()->GetComponent<Transform>()->GetPositionWorld());
+	if (cell != nullptr) {
+		this->currentPath.clear();
+		this->currentPath.push_back(cell);
+		this->SetIsTraveling(true);
+	}
+}
+
 void GridNavigator::update() {
 	if (this->isTraveling) {
 		followPath();
@@ -211,7 +220,8 @@ void GridNavigator::followPath() {
 	float distToTravel = this->movementSpeed * dt;
 	Transform* trans = getTransform(); // Store the reference locally to save on function calls.
 
-	glm::vec3 tempLocation = trans->GetPosition();
+	glm::vec3 worldPosition = trans->GetPositionWorld();
+	glm::vec3 tempLocation = worldPosition;
 
 	int count = this->currentPath.size();
 	while ((distToTravel > 0.0f) && (count > 0)) {
@@ -234,7 +244,7 @@ void GridNavigator::followPath() {
 		}
 	}
 
-	trans->SetPosition(tempLocation);
+	trans->Translate(tempLocation - worldPosition);
 	GridCell* newCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(tempLocation);
 	if (newCell != this->currentCell) {
 		this->changeCell(newCell);

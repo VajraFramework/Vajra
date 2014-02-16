@@ -440,7 +440,31 @@
               </property>
           </component>
       </dynamicObject>
+      <dynamicObject id="10263" prefab="TestElevator_3x3">
+		  <component name="Transform">
+		      <property name="Translate">
+			      <field>19</field>
+				  <field>0</field>
+				  <field>-13</field>
+			  </property>
+		  </component>
+          <component name="GridZone">
+              <property name="SetZoneBounds">
+                  <field>19</field>
+                  <field>13</field>
+                  <field>21</field>
+                  <field>15</field>
+              </property>
+          </component>
+      </dynamicObject>
   </other>
+
+  <links>
+      <triggerLink id="10263">
+          <switch id="10263">
+          </switch>
+      </triggerLink>
+  </links>
 
 	<camera focus="Assassin">
 	</camera>
