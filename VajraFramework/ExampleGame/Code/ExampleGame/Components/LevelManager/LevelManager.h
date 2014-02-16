@@ -16,6 +16,21 @@
 
 #include <vector>
 
+enum LevelType {
+	Infiltration,
+	Theft,
+	Assassination,
+	NO_TYPE
+};
+
+struct LevelData {
+public:
+	std::string path;
+	std::string description;
+	LevelType type;
+	bool hasTutorial;
+};
+
 //[[COMPONENT]]//
 class LevelManager : public Component {
 public:
@@ -27,14 +42,17 @@ public:
 
 	inline std::string GetCurrentLevelName() { return this->currentLevelName; }
 
-	//[[PROPERTY]]//
-	void LoadLevelFromFile(std::string levelFilename);
+	void LoadLevel(int /*levelNumber*/);
+	
 	//void LoadLevelFromAsset(std::string assetName); // Once we've got the loading process worked out, switch to using an asset
 
 private:
 	void init();
 	void destroy();
 	void update();
+
+
+	void LoadLevelFromData(LevelData /*levelData*/);
 
 	/*****************
 	bool playerHasWonLevel();
@@ -49,8 +67,7 @@ private:
 	bool isPaused;
 	std::string currentLevelName;
 
-	// Tutorials
-	std::vector<std::string> levelsWithTutorials;
+	std::vector<LevelData> levelData;
 
 	//UiElement* levelTutorial;
 

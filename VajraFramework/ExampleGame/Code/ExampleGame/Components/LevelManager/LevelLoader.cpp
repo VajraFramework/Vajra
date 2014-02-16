@@ -41,7 +41,7 @@ std::string LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading level from level file: %s", levelFilename.c_str());
 
 	XmlParser* parser = new XmlParser();
-	parser->ParseXmlFile(levelFilename);
+	parser->ParseXmlFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + "levels/" + levelFilename);
 
 #ifdef DEBUG
 	parser->Print();
@@ -91,6 +91,48 @@ std::string LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	return levelName;
 }
 
+LevelType LevelLoader::stringToLevelType(std::string type) {
+	if(type == "Infiltration") {
+		return LevelType::Infiltration;
+	}
+	else if(type == "Theft") {
+		return LevelType::Theft;
+	}
+	else if(type == "Assassination") {
+		return LevelType::Assassination;
+	}
+	ASSERT(0, "%s is a valid level type", type.c_str());
+	return LevelType::NO_TYPE;
+}
+void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData) {
+	// Load the tutorials
+	std::vector<std::string> levelsWithTutorials;
+	LevelLoader::LoadTutorialLevelNames(&levelsWithTutorials);
+
+	FRAMEWORK->GetLogger()->dbglog("\nLoading levelData from file: %s", levelListXmlPath);
+
+	XmlParser* parser = new XmlParser();
+	parser->ParseXmlFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + levelListXmlPath);
+
+	XmlTree* xmlTree = parser->GetXmlTree();
+	ASSERT(xmlTree != nullptr, "Got valid xmlTree from parser for level file %s", levelListXmlPath);
+	
+	XmlNode* rootLevelListNode = xmlTree->GetRootNode();
+	ASSERT(rootLevelListNode != nullptr, "Got valid tutoral node from xml tree for tutorial file %s", levelListXmlPath);
+
+
+	for(XmlNode* missionNode : rootLevelListNode->GetChildren()) {
+		FRAMEWORK->GetLogger()->dbglog("\n Loaded mission data for game");
+		for(XmlNode* levelDataNode : missionNode->GetChildren()) {
+			LevelData data;
+			data.path = levelDataNode->GetAttributeValueS("path");
+			data.type = LevelLoader::stringToLevelType(levelDataNode->GetAttributeValueS("type"));
+			data.hasTutorial = std::find(levelsWithTutorials.begin(), levelsWithTutorials.end(), data.path) != levelsWithTutorials.end();
+			levelData->push_back(data);
+		}
+	}
+	delete parser;
+}
 void LevelLoader::LoadTutorialLevelNames(std::vector<std::string>* levelsWithTutorials) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading tutorials from file: %s", tutorialXmlPath);
 
