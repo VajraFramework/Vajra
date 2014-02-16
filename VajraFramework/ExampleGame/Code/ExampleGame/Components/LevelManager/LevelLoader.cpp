@@ -17,6 +17,7 @@
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -37,7 +38,7 @@ UnitType StringToUnitType(std::string str) {
 	return UNIT_TYPE_UNKNOWN;
 }
 
-std::string LevelLoader::LoadLevelFromFile(std::string levelFilename) {
+void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading level from level file: %s", levelFilename.c_str());
 
 	XmlParser* parser = new XmlParser();
@@ -51,8 +52,6 @@ std::string LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	ASSERT(xmlTree != nullptr, "Got valid xmlTree from parser for level file %s", levelFilename.c_str());
 	XmlNode* levelNode = xmlTree->GetRootNode();
 	ASSERT(levelNode != nullptr && levelNode->GetName() == LEVEL_TAG, "Got valid level node from xml tree for level file %s", levelFilename.c_str());
-
-	std::string levelName = levelNode->GetAttributeValueS(LEVEL_NAME_ATTRIBUTE);
 	
 	XmlNode* gridNode = levelNode->GetFirstChildByNodeName(GRID_TAG);
 	VERIFY(gridNode != nullptr, "Level definition contains <%s> node", GRID_TAG);
@@ -88,7 +87,16 @@ std::string LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 
 	idsFromXml.clear();
 	
-	return levelName;
+	GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
+	ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
+	DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
+	dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
+	dlight->GetTransform()->LookAt(0.5f, 10.0f, 0.5f);
+	ENGINE->GetSceneGraph3D()->SetMainDirectionalLightId(dlight->GetId());
+	//
+	dlightComponent->SetAmbientColor(0.15f, 0.15f, 0.3f, 1.0f);
+	dlightComponent->SetDiffuseColor(0.5f, 0.5f, 0.55f, 1.0f);
+			
 }
 
 LevelType LevelLoader::stringToLevelType(std::string type) {
@@ -125,9 +133,10 @@ void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData) {
 		FRAMEWORK->GetLogger()->dbglog("\n Loaded mission data for game");
 		for(XmlNode* levelDataNode : missionNode->GetChildren()) {
 			LevelData data;
-			data.path = levelDataNode->GetAttributeValueS("path");
-			data.type = LevelLoader::stringToLevelType(levelDataNode->GetAttributeValueS("type"));
-			data.hasTutorial = std::find(levelsWithTutorials.begin(), levelsWithTutorials.end(), data.path) != levelsWithTutorials.end();
+			data.name = levelDataNode->GetAttributeValueS(NAME_PROPERTY);
+			data.path = levelDataNode->GetAttributeValueS(PATH_PROPERTY);
+			data.type = LevelLoader::stringToLevelType(levelDataNode->GetAttributeValueS(TYPE_PROPERTY));
+			data.hasTutorial = std::find(levelsWithTutorials.begin(), levelsWithTutorials.end(), data.name) != levelsWithTutorials.end();
 			levelData->push_back(data);
 		}
 	}

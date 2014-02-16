@@ -25,6 +25,7 @@ enum LevelType {
 
 struct LevelData {
 public:
+	std::string name;
 	std::string path;
 	std::string description;
 	LevelType type;
@@ -40,8 +41,9 @@ public:
 
 	void HandleMessage(MessageChunk messageChunk);
 
-	inline std::string GetCurrentLevelName() { return this->currentLevelName; }
+	inline std::string GetCurrentLevelName() { return this->levelData[this->currentLevelIndex].name; }
 
+	void UnloadLevel();
 	void LoadLevel(int /*levelNumber*/);
 	
 	//void LoadLevelFromAsset(std::string assetName); // Once we've got the loading process worked out, switch to using an asset
@@ -53,7 +55,6 @@ private:
 
 
 	void LoadLevelFromData(LevelData /*levelData*/);
-
 	/*****************
 	bool playerHasWonLevel();
 	bool playerHasLostLevel();
@@ -65,7 +66,7 @@ private:
 
 	//ShadyCamera* shadyCam;
 	bool isPaused;
-	std::string currentLevelName;
+	int currentLevelIndex;
 
 	std::vector<LevelData> levelData;
 

@@ -19,7 +19,7 @@
 
 void playerUnitNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
-	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
+	//ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
 	if(go != nullptr) {
 		PlayerUnit* pUnit = go->GetComponent<PlayerUnit>();
 		ASSERT(pUnit != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");

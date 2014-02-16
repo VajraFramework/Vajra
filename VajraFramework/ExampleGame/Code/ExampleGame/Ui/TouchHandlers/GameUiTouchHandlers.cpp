@@ -156,9 +156,10 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	} else if (uiObject->GetName() == "mission_from_pause") {
 		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(false);
-	
-		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
 
+		SINGLETONS->GetLevelManager()->UnloadLevel();
+
+		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
 		UiSceneLoader::UnloadCurrentUiScene();
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
 

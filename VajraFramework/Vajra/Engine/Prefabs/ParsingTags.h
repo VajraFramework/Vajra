@@ -9,5 +9,7 @@
 #define PROPERTY_TAG "property"
 #define FIELD_TAG "field"
 #define NAME_PROPERTY "name"
+#define TYPE_PROPERTY "type"
+#define PATH_PROPERTY "path"
 
 #endif // PARSING_TAGS_H

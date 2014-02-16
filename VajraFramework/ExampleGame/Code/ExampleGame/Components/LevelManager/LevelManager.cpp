@@ -8,6 +8,9 @@
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+
+#include "Vajra/Engine/Core/Engine.h"
 #include <fstream>
 
 ComponentIdType LevelManager::componentTypeId = COMPONENT_TYPE_ID_LEVEL_MANAGER;
@@ -40,22 +43,29 @@ void LevelManager::HandleMessage(MessageChunk messageChunk) {
 }
 
 void LevelManager::LoadLevel(int levelNumber) {
+	this->UnloadLevel();
+
 	ASSERT(levelNumber < this->levelData.size(), "level number is less than the number of levels");
 	if(levelNumber < this->levelData.size()) {
+		this->currentLevelIndex = levelNumber;
 		this->LoadLevelFromData(levelData[levelNumber]);
 	}
 }
+
+void LevelManager::UnloadLevel() {
+	// Unload the previous scene and all other items in the SceneGraph3D
+	ENGINE->GetSceneGraph3D()->UnloadCurrentScene();
+}
 void LevelManager::LoadLevelFromData(LevelData levelData) {
-	this->currentLevelName = LevelLoader::LoadLevelFromFile(levelData.path);
+	LevelLoader::LoadLevelFromFile(levelData.path);
 	if(levelData.hasTutorial) {
-		LevelLoader::LoadTutorialData(this->currentLevelName);
+		LevelLoader::LoadTutorialData(levelData.name);
 	}
 }
 
 void LevelManager::init() {
 	//this->shadyCam = nullptr;
 	this->isPaused = false;
-	this->currentLevelName = "";
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PAUSE, this->GetTypeId(), false);

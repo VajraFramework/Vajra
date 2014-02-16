@@ -156,7 +156,7 @@ bool renderFrame() {
     	// Transform* transform = wavybox->GetTransform();
     	// transform->Rotate(10.0f * deltaTime inRadians, YAXIS);
     	// transform->Translate(0.05f * deltaTime, transform->GetForward());
-    	/* Armature* armature = */ wavybox->GetComponent<Armature>();
+    	/* Armature* armature =  wavybox->GetComponent<Armature>();*/
 
 
 #if 0
@@ -214,6 +214,7 @@ bool renderFrame() {
     }
 #endif
 
+#if 0
 	DebugDraw::DrawPoint(glm::vec3(1.0f, 1.0f, 1.0f));
 
 	GameObject* torus = ENGINE->GetSceneGraph3D()->GetGameObjectById(115);
@@ -221,7 +222,7 @@ bool renderFrame() {
 
 	DebugDraw::DrawCube(torus->GetTransform()->GetPosition(), 1.0f);
 
-
+#endif
     ENGINE->DoFrame();
 
     // printFrameTimeStats();

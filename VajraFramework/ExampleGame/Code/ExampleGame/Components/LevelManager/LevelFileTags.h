@@ -38,6 +38,11 @@
 #define PREFAB_ATTRIBUTE      "prefab"
 #define ROTATION_ATTRIBUTE    "rotation"
 #define MESSAGE_TAG           "message"
+
+#define NAME_PROPERTY "name"
+#define TYPE_PROPERTY "type"
+#define PATH_PROPERTY "path"
+
 // Unit type tags
 #define PLAYER_ASSASSIN_TAG "PLAYER_ASSASSIN"
 #define PLAYER_THIEF_TAG    "PLAYER_THIEF"

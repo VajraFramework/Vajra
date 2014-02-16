@@ -49,7 +49,7 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new GameUiTouchHandlers());
 
 		// Load the test level
-		SINGLETONS->GetLevelManager()->LoadLevel(1);
+		SINGLETONS->GetLevelManager()->LoadLevel(0);
 		GameObject* testZone = new GameObject(ENGINE->GetSceneGraph3D());
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testZone->GetId());
 		GridZone* zone = testZone->AddComponent<GridZone>();

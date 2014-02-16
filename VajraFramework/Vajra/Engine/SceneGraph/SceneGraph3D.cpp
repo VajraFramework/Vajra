@@ -38,8 +38,14 @@ void SceneGraph3D::update() {
 void SceneGraph3D::draw() {
 
 	GameObject* mainCamera = this->GetGameObjectById(this->mainCameraId);
-	VERIFY(mainCamera != nullptr, "mainCamera set");
+	//VERIFY(mainCamera != nullptr, "mainCamera set");
+	if(mainCamera == nullptr) {
+		return;
+	}
 	GameObject* mainDirectionalLight = this->GetGameObjectById(this->mainDirectionalLightId);
+	if(mainDirectionalLight == nullptr) {
+		return;
+	}
 	VERIFY(mainDirectionalLight != nullptr, "mainDirectionalLight set");
 
 	Camera* cameraComponent = mainCamera->GetComponent<Camera>();
