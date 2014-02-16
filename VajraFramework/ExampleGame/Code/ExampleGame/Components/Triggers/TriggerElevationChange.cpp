@@ -118,14 +118,6 @@ void TriggerElevationChange::onSwitchToggled(bool /*switchState*/) {
 	this->startTransition(!this->isRaised);
 }
 
-void TriggerElevationChange::onSwitchActivated() {
-
-}
-
-void TriggerElevationChange::onSwitchDeactivated() {
-
-}
-
 void TriggerElevationChange::onUnitEnteredZone(ObjectIdType id) {
 	auto it = std::find(this->unitsInZone.begin(), this->unitsInZone.end(), id);
 	if (it == this->unitsInZone.end()) {

@@ -36,8 +36,6 @@ public:
 
 protected:
 	virtual void onSwitchToggled(bool /*switchState*/);
-	virtual void onSwitchActivated();
-	virtual void onSwitchDeactivated();
 
 	void onUnitEnteredZone(ObjectIdType id);
 	void onUnitExitedZone(ObjectIdType id);
