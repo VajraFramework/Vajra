@@ -54,8 +54,8 @@ void GridManager::init() {
 #endif
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_KILLED, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_START, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_END, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_LOADED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_UNLOADED, this->GetTypeId(), false);
 }
 
 void GridManager::destroy() {
@@ -86,10 +86,10 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_UNIT_KILLED:
 			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
 			break;
-		case MESSAGE_TYPE_LEVEL_START:
+		case MESSAGE_TYPE_LEVEL_LOADED:
 			this->onLevelStart();
 			break;
-		case MESSAGE_TYPE_LEVEL_END:
+		case MESSAGE_TYPE_LEVEL_UNLOADED:
 			this->onLevelEnd();
 			break;
 		default:

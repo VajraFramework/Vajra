@@ -136,6 +136,7 @@ void Thief::touchedCellChanged(GridCell* prevTouchedCell) {
 			ENGINE->GetTween()->TweenScale(this->targetIndicators[this->GetCurrentTouchedCell()]->GetId(),  glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)),
 																											glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale_hover)), 
 																											GetFloatGameConstant(GAME_CONSTANT_target_tween_time));
+			this->gridNavRef->SetLookTarget(this->GetCurrentTouchedCell()->center);
 		}
 		if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
 			this->SetTouchIndicatorSprite(GOOD_TOUCH);

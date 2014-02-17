@@ -39,7 +39,7 @@ void LevelManager::HandleMessage(MessageChunk messageChunk) {
 			break;
 		case MESSAGE_TYPE_UNPAUSE:
 			this->isPaused = false;		
-		case MESSAGE_TYPE_LEVEL_END:
+		case MESSAGE_TYPE_LEVEL_UNLOADED:
 			if(this->levelToLoad != -1) {
 				ENGINE->GetMessageHub()->SendPointcastMessage(MESSAGE_TYPE_LOAD_LEVEL, this->GetObject()->GetId());
 			}
@@ -61,7 +61,7 @@ void LevelManager::UnloadLevel() {
 	// Unload the previous scene and all other items in the SceneGraph3D
 	ENGINE->GetSceneGraph3D()->UnloadCurrentScene();
 	this->isPaused = true;
-	ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_END);
+	ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_UNLOADED);
 }
 
 void LevelManager::ReloadCurrentLevel() {
@@ -82,7 +82,7 @@ void LevelManager::loadLevel_internal() {
 		this->currentLevelIndex = this->levelToLoad;
 		this->LoadLevelFromData(levelData[this->levelToLoad]);
 		this->isPaused = false;
-		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_START);
+		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_LOADED);
 	}
 	this->levelToLoad = -1;
 }
@@ -101,7 +101,7 @@ void LevelManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PAUSE, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNPAUSE, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_END, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_UNLOADED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_LOAD_LEVEL, this->GetTypeId(), false);
 
 	this->levelToLoad = -1;

@@ -4,6 +4,7 @@
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Libraries/glm/gtx/vector_angle.hpp"
 #include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
@@ -196,6 +197,26 @@ void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
 			this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(BAD_TOUCH);
 		}
 	}
+}
+
+void PlayerUnit::TouchIndicatorLookAt(GridCell* target) {
+	Transform* trans = this->touchIndicator->GetComponent<Transform>();
+	glm::vec3 direction = target->center - this->gridNavRef->GetCurrentCell()->center;
+	direction = glm::normalize(direction);
+	float angle = acos(glm::dot(direction, ZAXIS));
+	
+	if(direction.x < 0) {
+		angle = -angle;
+	}
+
+	if(isnan(angle)) {
+		return;
+	}
+
+	// Since the plane is normally facing the the -ZAXIS we have to do this
+	trans->SetOrientation(0, YAXIS);
+	this->touchIndicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+	trans->Rotate(angle, YAXIS);
 }
 
 void PlayerUnit::setTouchNearUnit() {

@@ -36,6 +36,7 @@ bool Assassin::isSpecialTouch(int touchId) {
 			this->swipeDirectionScreen = this->touchStartPos - touch.pos;
 			this->targetedCell = nullptr;
 			this->SetTouchIndicatorSprite(ASSASSIN_SPECIAL);
+			this->aimSpecial();
 			return true;
 		}
 	}
@@ -74,18 +75,28 @@ void Assassin::touchedCellChanged(GridCell* prevTouchedCell) {
 	if(this->inputState == InputState::INPUT_STATE_NAV) {
 		PlayerUnit::touchedCellChanged(prevTouchedCell);
 	} else {
-		std::list<GridCell*> touchedCells;
-		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->gridNavRef->GetCurrentCell(), this->GetCurrentTouchedCell(), touchedCells);
-		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(this->gridNavRef->GetCurrentCell()->center.y);
-		int cellIndex = 0;
-		for( GridCell* c : touchedCells) {
-			if(cellIndex <= GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units) && SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, elevation)) {
-				this->targetedCell = c;
-			} else {
-				break;
-			}
-			cellIndex++;
+		this->aimSpecial();
+	}
+}
+
+void Assassin::aimSpecial(){
+	std::list<GridCell*> touchedCells;
+	SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->gridNavRef->GetCurrentCell(), this->GetCurrentTouchedCell(), touchedCells);
+	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(this->gridNavRef->GetCurrentCell()->center.y);
+	int cellIndex = 0;
+	for( GridCell* c : touchedCells) {
+		if(cellIndex <= GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units) && SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, elevation)) {
+			this->targetedCell = c;
+		} else {
+			break;
 		}
+		cellIndex++;
+	}
+	if(this->targetedCell != this->gridNavRef->GetCurrentCell()) {
+		this->gridNavRef->SetLookTarget(this->targetedCell->center);
 		this->SetTouchIndicatorCell(this->targetedCell);
+		this->TouchIndicatorLookAt(this->targetedCell);
+	} else {
+
 	}
 }

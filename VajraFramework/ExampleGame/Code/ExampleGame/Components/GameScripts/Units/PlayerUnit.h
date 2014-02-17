@@ -10,7 +10,7 @@
 
 class GridCell;
 class MessageData1S1I1F;
-	
+
 class PlayerUnit : public BaseUnit {
 
 #define MOVE_SPEED 2.5f
@@ -57,7 +57,10 @@ protected:
 	void startTouchIndicatorPulse();
 	void SetTouchIndicatorSprite(int /*index*/ );
 	void SetTouchIndicatorCell(GridCell*);
+	void TouchIndicatorLookAt(GridCell* /*target*/);
 	void SetTouchIndicatorVisible(bool /*visibilty*/);
+
+	
 
 	//inline GameObject* GetTouchIndicator() { return this->touchIndicator; }
 	inline GridCell* GetCurrentTouchedCell() { return this->currentTouchedCell; }
