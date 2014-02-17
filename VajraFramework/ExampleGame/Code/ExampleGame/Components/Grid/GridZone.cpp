@@ -24,6 +24,13 @@ GridZone::~GridZone() {
 	this->destroy();
 }
 
+void GridZone::GetZoneBounds(int& west, int& east, int& south, int& north) {
+	west  = this->westBound;
+	east  = this->eastBound;
+	south = this->southBound;
+	north = this->northBound;
+}
+
 void GridZone::SetZoneBounds(int xMin, int zMin, int xMax, int zMax) {
 	if (xMin <= xMax) {
 		this->westBound = xMin;

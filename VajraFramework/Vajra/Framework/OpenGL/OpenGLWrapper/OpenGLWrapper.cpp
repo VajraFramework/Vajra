@@ -89,6 +89,8 @@ void OpenGLWrapper::init() {
 	this->CreateShaderSet("bntshdr", "BoneTextureShader.shaderspec", false, false);
 	this->CreateShaderSet("sptshdr", "SpriteTextureShader.shaderspec", true, true);
 	this->CreateShaderSet("spcshdr", "SpriteColorShader.shaderspec", false, false);
+	this->CreateShaderSet("ustshdr", "UiSpriteTextureShader.shaderspec", true, true);
+	this->CreateShaderSet("uscshdr", "UiSpriteColorShader.shaderspec", false, false);
 	this->CreateShaderSet("prtshdr", "ParticleSystem.shaderspec", true, false);
 
 }

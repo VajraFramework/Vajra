@@ -1,0 +1,34 @@
+<prefab>
+	<gameobject>
+		<component name="Transform">
+		</component>
+		
+		<component name="GridZone">
+		</component>
+
+		<component name="GridZoneSwitch">
+			<property name="SetSwitchType">
+				<field>Toggle</field>
+			</property>
+			<property name="SetRequiredOccupants">
+				<field>1</field>
+			</property>
+		</component>
+		
+		<component name="TriggerElevationChange">
+			<property name="SetElevationDiff">
+				<field>1</field>
+			</property>
+			<property name="SetTransitTime">
+				<field>1.0</field>
+			</property>
+		</component>
+		
+      <component name="MeshRenderer">
+          <property name="InitMesh">
+              <field>models/SD_Floor_Stone_3x3_01.model</field>
+          </property>
+      </component>
+	</gameobject>
+</prefab>
+

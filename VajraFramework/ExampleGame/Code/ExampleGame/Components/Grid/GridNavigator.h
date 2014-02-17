@@ -63,6 +63,8 @@ public:
 	void ResumeNavigation();
 	void StopNavigation();
 
+	void ReturnToCellCenter();  // Use this method if you want to stop a unit's movement but have it end at the center of a cell.
+
 protected:
 	virtual void update();
 

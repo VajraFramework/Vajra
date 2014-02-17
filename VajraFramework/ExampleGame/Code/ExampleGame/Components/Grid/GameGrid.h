@@ -75,6 +75,7 @@ public:
 	bool IsCellPassableAtElevation(int gridX, int gridZ, unsigned int elevation);
 	bool IsCellVisibleAtElevation(int gridX, int gridZ, unsigned int elevation);
 
+	void ChangeCellGroundLevel(int gridX, int gridZ, int elevationDiff);
 	void SetCellGroundLevel(int gridX, int gridZ, unsigned int elevation);
 	void SetCellPassableAtElevation(int gridX, int gridZ, unsigned int elevation, bool isPassable);
 	void SetCellVisibleAtElevation(int gridX, int gridZ, unsigned int elevation, bool isVisible);

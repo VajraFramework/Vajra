@@ -41,6 +41,59 @@ static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int t
 	out_pixels = out_pixelsf;
 }
 
+static void processDimensionsNode(XmlNode* dimensionsNode, int& posXPixels_out, int& posYPixels_out, int& widthPixels_out, int& heightPixels_out, int& zorder_out) {
+	// Process position:
+	XmlNode* positionNode = dimensionsNode->GetFirstChildByNodeName(POSITION_TAG);
+	ASSERT(positionNode != nullptr, "Got valid xmlNode from dimensions node for position");
+	//
+	posXPixels_out = positionNode->GetAttributeValueF(X_ATTRIBUTE);
+	posYPixels_out = positionNode->GetAttributeValueF(Y_ATTRIBUTE);
+
+	// Process size:
+	XmlNode* sizeNode = dimensionsNode->GetFirstChildByNodeName(SIZE_TAG);
+	ASSERT(sizeNode != nullptr, "Got valid xmlNode from dimensions node for size");
+	//
+	widthPixels_out  = sizeNode->GetAttributeValueF(WIDTHPIXELS_ATTRIBUTE );
+	heightPixels_out = sizeNode->GetAttributeValueF(HEIGHTPIXELS_ATTRIBUTE);
+
+	// Process zorder:
+	XmlNode* zorderNode = dimensionsNode->GetFirstChildByNodeName(ZORDER_TAG);
+	ASSERT(zorderNode != nullptr, "Got valid xmlNode from dimensions node for zorder");
+	//
+	zorder_out = StringUtilities::ConvertStringToInt(zorderNode->GetValue());
+
+	convertPixelsFromTargetSizeToDeviceSize(posXPixels_out,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+	convertPixelsFromTargetSizeToDeviceSize(posYPixels_out,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+	convertPixelsFromTargetSizeToDeviceSize(widthPixels_out,  INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+	convertPixelsFromTargetSizeToDeviceSize(heightPixels_out, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+
+	// Process relative positioning tags, if any:
+	if (positionNode->HasAttribute(X_WRTO_ATTRIBUTE)) {
+		std::string x_wrto = positionNode->GetAttributeValueS(X_WRTO_ATTRIBUTE);
+		if (x_wrto == "LEFT") {
+			// Nothing to do
+		} else if (x_wrto == "RIGHT") {
+			posXPixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() - posXPixels_out - widthPixels_out;
+		} else if (x_wrto == "CENTER") {
+			posXPixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() / 2.0f + posXPixels_out;
+		} else {
+			ASSERT(0, "Valid x wrto field: %s", x_wrto.c_str());
+		}
+	}
+	if (positionNode->HasAttribute(Y_WRTO_ATTRIBUTE)) {
+		std::string y_wrto = positionNode->GetAttributeValueS(Y_WRTO_ATTRIBUTE);
+		if (y_wrto == "TOP") {
+			// Nothing to do
+		} else if (y_wrto == "BOTTOM") {
+			posYPixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() - posYPixels_out - heightPixels_out;
+		} else if (y_wrto == "CENTER") {
+			posYPixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() / 2.0f + posYPixels_out;
+		} else {
+			ASSERT(0, "Valid y wrto field: %s", y_wrto.c_str());
+		}
+	}
+}
+
 static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTouchHandlers* touchHandlers) {
 	std::string itemName;
 	int posXPixels, posYPixels;
@@ -63,24 +116,10 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	{
 		XmlNode* dimensionsNode = uielementNode->GetFirstChildByNodeName(DIMENSIONS_TAG);
 		ASSERT(dimensionsNode != nullptr, "Got valid xmlNode from uielement node for dimensions");
-		XmlNode* positionNode = dimensionsNode->GetFirstChildByNodeName(POSITION_TAG);
-		ASSERT(positionNode != nullptr, "Got valid xmlNode from dimensions node for position");
-		XmlNode* sizeNode = dimensionsNode->GetFirstChildByNodeName(SIZE_TAG);
-		ASSERT(sizeNode != nullptr, "Got valid xmlNode from dimensions node for size");
 		//
-		posXPixels = positionNode->GetAttributeValueF(X_ATTRIBUTE);
-		posYPixels = positionNode->GetAttributeValueF(Y_ATTRIBUTE);
-		widthPixels  = sizeNode->GetAttributeValueF(WIDTHPIXELS_ATTRIBUTE );
-		heightPixels = sizeNode->GetAttributeValueF(HEIGHTPIXELS_ATTRIBUTE);
+		processDimensionsNode(dimensionsNode, posXPixels, posYPixels, widthPixels, heightPixels, zorder);
+		//
 
-		XmlNode* zorderNode = dimensionsNode->GetFirstChildByNodeName(ZORDER_TAG);
-		ASSERT(zorderNode != nullptr, "Got valid xmlNode from dimensions node for zorder");
-		zorder = StringUtilities::ConvertStringToInt(zorderNode->GetValue());
-
-		convertPixelsFromTargetSizeToDeviceSize(posXPixels,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
-		convertPixelsFromTargetSizeToDeviceSize(posYPixels,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
-		convertPixelsFromTargetSizeToDeviceSize(widthPixels,  INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
-		convertPixelsFromTargetSizeToDeviceSize(heightPixels, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
 	}
 	{
 		XmlNode* textNode = uielementNode->GetFirstChildByNodeName(TEXT_TAG);
@@ -136,9 +175,9 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 			for (std::string imageName : imageNames) {
 				imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + imageName);
 			}
-			uiElement->InitSprite(widthPixels, heightPixels, "sptshdr", imagePaths, imageHasTransperancy);
+			uiElement->InitSprite(widthPixels, heightPixels, "ustshdr", imagePaths, imageHasTransperancy);
 		} else {
-			uiElement->InitSprite(widthPixels, heightPixels, "spcshdr", color);
+			uiElement->InitSprite(widthPixels, heightPixels, "uscshdr", color);
 		}
 		//
 		if (textToDisplay != "") {
