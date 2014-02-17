@@ -14,6 +14,7 @@
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Components/Switches/BaseSwitch.h"
+#include "ExampleGame/Components/Switches/MultiplexSwitch.h"
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
@@ -259,12 +260,22 @@ void LevelLoader::loadLinkDataFromXml  (XmlNode* linkBaseNode) {
 		ASSERT(triggerObj != nullptr, "Trigger object with id %d exists in level", triggerId);
 		if (triggerObj != nullptr) {
 			Triggerable* triggerComp = triggerObj->GetComponent<Triggerable>();
-			ASSERT(triggerComp != nullptr, "Object with id %d has Triggerable component", triggerId);
+			MultiplexSwitch* multiplexComp = triggerObj->GetComponent<MultiplexSwitch>();
+			ASSERT((triggerComp != nullptr) || (multiplexComp != nullptr), "Object with id %d has Triggerable component", triggerId);
 			if (triggerComp != nullptr) {
 				XmlNode* switchNode = triggerLinkNode->GetFirstChildByNodeName(SWITCH_TAG);
 				while (switchNode != nullptr) {
 					ObjectIdType switchId = switchNode->GetAttributeValueI(ID_ATTRIBUTE);
 					triggerComp->SubscribeToSwitchObject(idsFromXml[switchId]);
+
+					switchNode = switchNode->GetNextSiblingByNodeName(SWITCH_TAG);
+				}
+			}
+			if (multiplexComp != nullptr) {
+				XmlNode* switchNode = triggerLinkNode->GetFirstChildByNodeName(SWITCH_TAG);
+				while (switchNode != nullptr) {
+					ObjectIdType switchId = switchNode->GetAttributeValueI(ID_ATTRIBUTE);
+					multiplexComp->SubscribeToSwitchObject(idsFromXml[switchId]);
 
 					switchNode = switchNode->GetNextSiblingByNodeName(SWITCH_TAG);
 				}
