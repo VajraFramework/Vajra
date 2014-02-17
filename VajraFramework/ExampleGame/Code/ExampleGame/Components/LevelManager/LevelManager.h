@@ -44,9 +44,9 @@ public:
 	inline std::string GetCurrentLevelName() { return this->levelData[this->currentLevelIndex].name; }
 
 	void UnloadLevel();
+	bool TryLoadNextLevel();
 	void ReloadCurrentLevel();
 	void LoadLevel(int /*levelNumber*/);
-	
 	//void LoadLevelFromAsset(std::string assetName); // Once we've got the loading process worked out, switch to using an asset
 
 	inline bool IsPaused() { return this->isPaused; }

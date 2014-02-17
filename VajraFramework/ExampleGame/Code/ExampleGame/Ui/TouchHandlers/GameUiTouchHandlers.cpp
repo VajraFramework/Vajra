@@ -145,46 +145,67 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	}
 #endif
 	
+	// PAUSE MENU
+	UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
+	if(pauseMenu->IsVisible()) {
+		if (uiObject->GetName() == "resume") {
+			pauseMenu->SetVisible(false);
+			ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_UNPAUSE);
+		} else if (uiObject->GetName() == "restart_pause") {
+			SINGLETONS->GetLevelManager()->ReloadCurrentLevel();
+			pauseMenu->SetVisible(!pauseMenu->IsVisible());
+		} else if (uiObject->GetName() == "mission_from_pause") {
+			pauseMenu->SetVisible(false);
+			this->returnToMissionSelect();
+		}
+	}
+	
 	// HUD
 	if (uiObject->GetName() == "pause") {
-		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(!pauseMenu->IsVisible());
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_PAUSE);
+		//UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
+		//postMenu->SetVisible(true);
 		
 	} else if(uiObject->GetName() == "changeUnit") {
 		SINGLETONS->GetGridManager()->SwitchSelectedUnit();
 	}
 	
-	// PAUSE MENU
-	if (uiObject->GetName() == "resume") {
-		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
-		pauseMenu->SetVisible(false);
-		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_UNPAUSE);
-	} else if (uiObject->GetName() == "restart_pause") {
-		SINGLETONS->GetLevelManager()->ReloadCurrentLevel();
-		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
-		pauseMenu->SetVisible(!pauseMenu->IsVisible());
-	} else if (uiObject->GetName() == "mission_from_pause") {
-		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
-		pauseMenu->SetVisible(false);
-		
-		SINGLETONS->GetLevelManager()->UnloadLevel();
-		
-		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
-		UiSceneLoader::UnloadCurrentUiScene();
-		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
-		
-	}
-	
 	// END MENU
-	
+	UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
+	if(postMenu->IsVisible()) {
+		if (uiObject->GetName() == "continue") {
+			if(SINGLETONS->GetLevelManager()->TryLoadNextLevel()) {
+				postMenu->SetVisible(false);
+
+			} else {
+				postMenu->SetVisible(false);
+				this->returnToMissionSelect();
+
+			}
+		} else if (uiObject->GetName() == "restart_post") {
+			SINGLETONS->GetLevelManager()->ReloadCurrentLevel();
+			postMenu->SetVisible(false);
+		} else if (uiObject->GetName() == "mission_post") {
+			postMenu->SetVisible(false);
+			this->returnToMissionSelect();
+			
+		}
+	}	
+
 	// TUTORIAL
 	if(uiObject->GetName() == TUTORIAL_NEXT_BTN) {
 		this->nextTutorialImage();
 	}
 }
 
-
+void GameUiTouchHandlers::returnToMissionSelect() {
+	SINGLETONS->GetLevelManager()->UnloadLevel();	
+	std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
+	UiSceneLoader::UnloadCurrentUiScene();
+	UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
+	
+}
 
 MessageType stringToMessageType(std::string msgString) {
 	if(msgString == "MESSAGE_TYPE_GRID_ROOM_ENTERED") {
