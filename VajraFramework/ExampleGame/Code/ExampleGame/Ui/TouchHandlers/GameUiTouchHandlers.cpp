@@ -301,7 +301,7 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 		for (std::string imageName : this->tutorials[index].imageNames) {
 			imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + imageName);
 		}
-		this->dynamicTutorialElement->InitSprite(510, 510, "sptshdr", imagePaths, false);
+		this->dynamicTutorialElement->InitSprite(510, 510, "ustshdr", imagePaths, false);
 
 		UiElement* exitBtn = (UiElement*)ObjectRegistry::GetObjectByName(TUTORIAL_EXIT_BTN);
 		UiElement* nextBtn = (UiElement*)ObjectRegistry::GetObjectByName(TUTORIAL_NEXT_BTN);

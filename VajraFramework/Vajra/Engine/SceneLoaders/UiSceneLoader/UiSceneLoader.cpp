@@ -175,9 +175,9 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 			for (std::string imageName : imageNames) {
 				imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + imageName);
 			}
-			uiElement->InitSprite(widthPixels, heightPixels, "sptshdr", imagePaths, imageHasTransperancy);
+			uiElement->InitSprite(widthPixels, heightPixels, "ustshdr", imagePaths, imageHasTransperancy);
 		} else {
-			uiElement->InitSprite(widthPixels, heightPixels, "spcshdr", color);
+			uiElement->InitSprite(widthPixels, heightPixels, "uscshdr", color);
 		}
 		//
 		if (textToDisplay != "") {
