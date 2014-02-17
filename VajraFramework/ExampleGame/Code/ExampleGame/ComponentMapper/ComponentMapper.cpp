@@ -626,11 +626,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "LevelManager") {
 		LevelManager* component = gameObject->GetComponent<LevelManager>();
 		if (component == nullptr) { return; }
-		if (propertyName == "LoadLevelFromFile") {
-			if ((int)argv.size() < 1) { return; }
-			component->LoadLevelFromFile(ConvertStringToString(argv[0]));
-			return;
-		}
 		return;
 	}
 	

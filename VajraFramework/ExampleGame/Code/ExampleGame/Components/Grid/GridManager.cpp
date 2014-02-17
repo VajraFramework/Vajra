@@ -54,11 +54,26 @@ void GridManager::init() {
 #endif
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_KILLED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_LOADED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_UNLOADED, this->GetTypeId(), false);
 }
 
 void GridManager::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 
+	if(this->grid != nullptr) {
+		delete this->grid;
+		this->grid = nullptr;
+	}
+}
+
+void GridManager::onLevelLoaded() {
+
+}
+
+void GridManager::onLevelUnloaded() {
+	this->playerUnits.clear();	
+	
 	delete this->grid;
 	this->grid = nullptr;
 }
@@ -76,6 +91,12 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_UNIT_KILLED:
 			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
 			break;
+		case MESSAGE_TYPE_LEVEL_LOADED:
+			this->onLevelLoaded();
+			break;
+		case MESSAGE_TYPE_LEVEL_UNLOADED:
+			this->onLevelUnloaded();
+			break;
 		default:
 			break;
 	}
@@ -90,6 +111,10 @@ ObjectIdType GridManager::GetPlayerUnitIdOfType(UnitType uType) {
 }
 
 void GridManager::OnTouchUpdate(int touchIndex) {
+	// Todo [HACK] temp fix for game crashing one scene unload, remove once the message hub purges itself when the scene is unloaded
+	if(SINGLETONS->GetLevelManager()->IsPaused()) {
+		return;
+	}
 #ifdef DEBUG_GRID
 	debugTouchUpdate(touchIndex);
 #endif

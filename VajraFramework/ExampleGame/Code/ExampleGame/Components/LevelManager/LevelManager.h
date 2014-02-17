@@ -16,6 +16,22 @@
 
 #include <vector>
 
+enum LevelType {
+	Infiltration,
+	Theft,
+	Assassination,
+	NO_TYPE
+};
+
+struct LevelData {
+public:
+	std::string name;
+	std::string path;
+	std::string description;
+	LevelType type;
+	bool hasTutorial;
+};
+
 //[[COMPONENT]]//
 class LevelManager : public Component {
 public:
@@ -25,17 +41,22 @@ public:
 
 	void HandleMessage(MessageChunk messageChunk);
 
-	inline std::string GetCurrentLevelName() { return this->currentLevelName; }
+	inline std::string GetCurrentLevelName() { return this->levelData[this->currentLevelIndex].name; }
 
-	//[[PROPERTY]]//
-	void LoadLevelFromFile(std::string levelFilename);
+	void UnloadLevel();
+	bool TryLoadNextLevel();
+	void ReloadCurrentLevel();
+	void LoadLevel(int /*levelNumber*/);
 	//void LoadLevelFromAsset(std::string assetName); // Once we've got the loading process worked out, switch to using an asset
 
+	inline bool IsPaused() { return this->isPaused; }
 private:
 	void init();
 	void destroy();
 	void update();
 
+	void loadLevel_internal();
+	void LoadLevelFromData(LevelData /*levelData*/);
 	/*****************
 	bool playerHasWonLevel();
 	bool playerHasLostLevel();
@@ -47,10 +68,10 @@ private:
 
 	//ShadyCamera* shadyCam;
 	bool isPaused;
-	std::string currentLevelName;
+	int currentLevelIndex;
+	int levelToLoad;
 
-	// Tutorials
-	std::vector<std::string> levelsWithTutorials;
+	std::vector<LevelData> levelData;
 
 	//UiElement* levelTutorial;
 

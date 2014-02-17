@@ -27,6 +27,7 @@ public:
 	// @Override
 	virtual void HandleMessageCallback(MessageChunk messageChunk);
 private:
+	void returnToMissionSelect();
 
 	void setupTutorial(std::string levelName);
 	void tryTutorial(int index, MessageChunk messageChunk);

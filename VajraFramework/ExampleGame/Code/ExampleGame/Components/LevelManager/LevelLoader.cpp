@@ -18,6 +18,7 @@
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -38,11 +39,11 @@ UnitType StringToUnitType(std::string str) {
 	return UNIT_TYPE_UNKNOWN;
 }
 
-std::string LevelLoader::LoadLevelFromFile(std::string levelFilename) {
+void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading level from level file: %s", levelFilename.c_str());
 
 	XmlParser* parser = new XmlParser();
-	parser->ParseXmlFile(levelFilename);
+	parser->ParseXmlFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + "levels/" + levelFilename);
 
 #ifdef DEBUG
 	parser->Print();
@@ -52,8 +53,6 @@ std::string LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	ASSERT(xmlTree != nullptr, "Got valid xmlTree from parser for level file %s", levelFilename.c_str());
 	XmlNode* levelNode = xmlTree->GetRootNode();
 	ASSERT(levelNode != nullptr && levelNode->GetName() == LEVEL_TAG, "Got valid level node from xml tree for level file %s", levelFilename.c_str());
-
-	std::string levelName = levelNode->GetAttributeValueS(LEVEL_NAME_ATTRIBUTE);
 	
 	XmlNode* gridNode = levelNode->GetFirstChildByNodeName(GRID_TAG);
 	VERIFY(gridNode != nullptr, "Level definition contains <%s> node", GRID_TAG);
@@ -89,9 +88,61 @@ std::string LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 
 	idsFromXml.clear();
 	
-	return levelName;
+	GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
+	ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
+	DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
+	dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
+	dlight->GetTransform()->LookAt(0.5f, 10.0f, 0.5f);
+	ENGINE->GetSceneGraph3D()->SetMainDirectionalLightId(dlight->GetId());
+	//
+	dlightComponent->SetAmbientColor(0.1f, 0.1f, 0.6f, 1.0f);
+	dlightComponent->SetDiffuseColor(0.3f, 0.3f, 0.55f, 1.0f);
+			
 }
 
+LevelType LevelLoader::stringToLevelType(std::string type) {
+	if(type == "Infiltration") {
+		return LevelType::Infiltration;
+	}
+	else if(type == "Theft") {
+		return LevelType::Theft;
+	}
+	else if(type == "Assassination") {
+		return LevelType::Assassination;
+	}
+	ASSERT(0, "%s is a valid level type", type.c_str());
+	return LevelType::NO_TYPE;
+}
+void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData) {
+	// Load the tutorials
+	std::vector<std::string> levelsWithTutorials;
+	LevelLoader::LoadTutorialLevelNames(&levelsWithTutorials);
+
+	FRAMEWORK->GetLogger()->dbglog("\nLoading levelData from file: %s", levelListXmlPath);
+
+	XmlParser* parser = new XmlParser();
+	parser->ParseXmlFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + levelListXmlPath);
+
+	XmlTree* xmlTree = parser->GetXmlTree();
+	ASSERT(xmlTree != nullptr, "Got valid xmlTree from parser for level file %s", levelListXmlPath);
+	
+	XmlNode* rootLevelListNode = xmlTree->GetRootNode();
+	ASSERT(rootLevelListNode != nullptr, "Got valid tutoral node from xml tree for tutorial file %s", levelListXmlPath);
+
+
+	for(XmlNode* missionNode : rootLevelListNode->GetChildren()) {
+		FRAMEWORK->GetLogger()->dbglog("\n Loaded mission data for game");
+		for(XmlNode* levelDataNode : missionNode->GetChildren()) {
+			LevelData data;
+			data.name = levelDataNode->GetAttributeValueS(NAME_PROPERTY);
+			data.path = levelDataNode->GetAttributeValueS(PATH_PROPERTY);
+			data.type = LevelLoader::stringToLevelType(levelDataNode->GetAttributeValueS(TYPE_PROPERTY));
+			data.hasTutorial = std::find(levelsWithTutorials.begin(), levelsWithTutorials.end(), data.name) != levelsWithTutorials.end();
+			levelData->push_back(data);
+		}
+	}
+	delete parser;
+}
 void LevelLoader::LoadTutorialLevelNames(std::vector<std::string>* levelsWithTutorials) {
 	FRAMEWORK->GetLogger()->dbglog("\nLoading tutorials from file: %s", tutorialXmlPath);
 

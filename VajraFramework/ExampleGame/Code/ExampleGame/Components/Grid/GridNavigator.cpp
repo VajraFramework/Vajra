@@ -146,7 +146,7 @@ void GridNavigator::SetLookTarget(glm::quat orient) {
 }
 
 void GridNavigator::SetTargetForward(glm::vec3 forward) {
-	ASSERT(forward != ZERO_VEC3, "Trying to set forward vector to zero");
+	FRAMEWORK->GetLogger()->dbglog("Trying to set forward vector to zero");
 	if (forward != ZERO_VEC3) {
 		forward = glm::normalize(forward);
 		float angle = glm::angle(forward, this->getTransform()->GetForward());

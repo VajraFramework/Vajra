@@ -32,8 +32,10 @@ private:
 	void init();
 	void destroy();
 	
+	void aimSpecial();
 	glm::vec2 swipeDirectionScreen; // direction of the swipe on the device screen
 
+	GameObject* arrowTail;
 	GridCell* targetedCell;
 };
 

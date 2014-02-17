@@ -144,43 +144,80 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		return;
 	}
 #endif
+	
+	// PAUSE MENU
+	UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
+	if(pauseMenu->IsVisible()) {
+		if (uiObject->GetName() == "resume") {
+			pauseMenu->SetVisible(false);
+			ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_UNPAUSE);
+		} else if (uiObject->GetName() == "restart_pause") {
+			SINGLETONS->GetLevelManager()->ReloadCurrentLevel();
+			pauseMenu->SetVisible(!pauseMenu->IsVisible());
+		} else if (uiObject->GetName() == "mission_from_pause") {
+			pauseMenu->SetVisible(false);
+			this->returnToMissionSelect();
+		}
+	}
+	
+	// HUD
 	if (uiObject->GetName() == "pause") {
-		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 		pauseMenu->SetVisible(!pauseMenu->IsVisible());
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_PAUSE);
-
-	} else if (uiObject->GetName() == "resume") {
-		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
-		pauseMenu->SetVisible(false);
-		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_UNPAUSE);
-	} else if (uiObject->GetName() == "mission_from_pause") {
-		UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
-		pauseMenu->SetVisible(false);
-	
-		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
-
-		UiSceneLoader::UnloadCurrentUiScene();
-		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
-
+		//UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
+		//postMenu->SetVisible(true);
+		
 	} else if(uiObject->GetName() == "changeUnit") {
 		SINGLETONS->GetGridManager()->SwitchSelectedUnit();
+	}
+	
+	// END MENU
+	UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
+	if(postMenu->IsVisible()) {
+		if (uiObject->GetName() == "continue") {
+			if(SINGLETONS->GetLevelManager()->TryLoadNextLevel()) {
+				postMenu->SetVisible(false);
+
+			} else {
+				postMenu->SetVisible(false);
+				this->returnToMissionSelect();
+
+			}
+		} else if (uiObject->GetName() == "restart_post") {
+			SINGLETONS->GetLevelManager()->ReloadCurrentLevel();
+			postMenu->SetVisible(false);
+		} else if (uiObject->GetName() == "mission_post") {
+			postMenu->SetVisible(false);
+			this->returnToMissionSelect();
+			
+		}
+	}	
+
+	// TUTORIAL
+	if(uiObject->GetName() == TUTORIAL_NEXT_BTN) {
+		this->nextTutorialImage();
 	} else if(uiObject->GetName() == TUTORIAL_EXIT_BTN) {
+		// tween in the tutorial
 		UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TUTORIAL_MENU]);
-		tut->SetClickable(false);
+	
 		ENGINE->GetTween()->TweenPosition(tut->GetId(),
 										  tut->GetTransform()->GetPosition(),
-										  glm::vec3(tut->GetTransform()->GetPosition().x, -768.0f, tut->GetTransform()->GetPosition().z),
+										  glm::vec3(tut->GetTransform()->GetPosition().x, 768.0f, tut->GetTransform()->GetPosition().z),
 										  1.0f,
 										  false,
 										  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
 										  false,
 										  onTutorialTweenOutComplete);
-	} else if(uiObject->GetName() == TUTORIAL_NEXT_BTN) {
-		this->nextTutorialImage();
 	}
 }
 
-
+void GameUiTouchHandlers::returnToMissionSelect() {
+	SINGLETONS->GetLevelManager()->UnloadLevel();	
+	std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
+	UiSceneLoader::UnloadCurrentUiScene();
+	UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
+	
+}
 
 MessageType stringToMessageType(std::string msgString) {
 	if(msgString == "MESSAGE_TYPE_GRID_ROOM_ENTERED") {
@@ -301,7 +338,7 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 		for (std::string imageName : this->tutorials[index].imageNames) {
 			imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + imageName);
 		}
-		this->dynamicTutorialElement->InitSprite(510, 510, "sptshdr", imagePaths, false);
+		this->dynamicTutorialElement->InitSprite(510, 510, "ustshdr", imagePaths, false);
 
 		UiElement* exitBtn = (UiElement*)ObjectRegistry::GetObjectByName(TUTORIAL_EXIT_BTN);
 		UiElement* nextBtn = (UiElement*)ObjectRegistry::GetObjectByName(TUTORIAL_NEXT_BTN);
