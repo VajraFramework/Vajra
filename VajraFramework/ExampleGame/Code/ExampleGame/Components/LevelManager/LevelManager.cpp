@@ -69,7 +69,7 @@ void LevelManager::ReloadCurrentLevel() {
 }
 
 bool LevelManager::TryLoadNextLevel() {
-	if(this->currentLevelIndex + 1 < this->levelData.size()) {
+	if(this->currentLevelIndex + 1 < (int)this->levelData.size()) {
 		this->LoadLevel(this->currentLevelIndex + 1);
 		return true;
 	}
@@ -77,8 +77,8 @@ bool LevelManager::TryLoadNextLevel() {
 }
 
 void LevelManager::loadLevel_internal() {
-	ASSERT(this->levelToLoad < this->levelData.size(), "level number is less than the number of levels");
-	if(this->levelToLoad < this->levelData.size()) {
+	ASSERT(this->levelToLoad < (int)this->levelData.size(), "level number is less than the number of levels");
+	if(this->levelToLoad < (int)this->levelData.size()) {
 		this->currentLevelIndex = this->levelToLoad;
 		this->LoadLevelFromData(levelData[this->levelToLoad]);
 		this->isPaused = false;
