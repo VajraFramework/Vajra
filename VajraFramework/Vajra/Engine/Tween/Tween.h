@@ -47,6 +47,9 @@ public:
 	bool IsTweening_transform(ObjectIdType gameObjectId, TransformTweenTarget transformTweenTarget);
 	bool IsTweening_number(std::string tweenName);
 
+	OnGoingTransformTweenDetails* GetOnGoingTransformTweenDetails(ObjectIdType gameObjectId, TransformTweenTarget tweenTarget);
+	OnGoingNumberTweenDetails*    GetOnGoingNumberTweenDetails(std::string tweenName);
+
 	void CancelPostitionTween(ObjectIdType gameObjectId);
 	void CancelOrientationTween(ObjectIdType gameObjectId);
 	void CancelScaleTween(ObjectIdType gameObjectId);
@@ -115,10 +118,10 @@ public:
 
 	bool looping;
 
+private:
 	bool StepTween(float deltaTime);
 	void ResetTween();
 
-private:
 	OnGoingTransformTweenDetails() {
 		this->currentTime = 0.0f;
 		this->looping = false;
@@ -148,10 +151,10 @@ public:
 
 	bool continuousUpdates;
 
+private:
 	bool StepTween(float deltaTime);
 	void ResetTween();
 
-private:
 	OnGoingNumberTweenDetails() {
 		this->totalTime = this->fromNumber = this->toNumber = this->currentNumber = 0.0f;
 		this->continuousUpdates = false;

@@ -389,4 +389,40 @@ OnGoingNumberTweenDetails::~OnGoingNumberTweenDetails() {
 	}
 }
 
+OnGoingTransformTweenDetails* Tween::GetOnGoingTransformTweenDetails(ObjectIdType gameObjectId, TransformTweenTarget tweenTarget) {
+		OnGoingTransformTweenDetails* returnResult = nullptr;
+
+		switch (tweenTarget) {
+		case TRANSFORM_TWEEN_TARGET_POSITION: {
+			if (this->ongoingPositionTweens.find(gameObjectId) != this->ongoingPositionTweens.end()) {
+				returnResult = this->ongoingPositionTweens[gameObjectId];
+			}
+		} break;
+
+		case TRANSFORM_TWEEN_TARGET_ORIENTATION: {
+			if (this->ongoingOrientationTweens.find(gameObjectId) != this->ongoingOrientationTweens.end()) {
+				returnResult = this->ongoingOrientationTweens[gameObjectId];
+			}
+		} break;
+
+		case TRANSFORM_TWEEN_TARGET_SCALE: {
+			if (this->ongoingScaleTweens.find(gameObjectId) != this->ongoingScaleTweens.end()) {
+				returnResult = this->ongoingScaleTweens[gameObjectId];
+			}
+		} break;
+
+		default: { ASSERT(0, "Unknown TransformTweenTarget %d", tweenTarget);   } break;
+		}
+
+		return returnResult;
+}
+
+OnGoingNumberTweenDetails* Tween::GetOnGoingNumberTweenDetails(std::string tweenName) {
+		OnGoingNumberTweenDetails* returnResult = nullptr;
+		if (this->ongoingNumberTweens.find(tweenName) != this->ongoingNumberTweens.end()) {
+			returnResult = this->ongoingNumberTweens[tweenName];
+		}
+		return returnResult;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
