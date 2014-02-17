@@ -112,31 +112,14 @@ void Assassin::aimSpecial(){
 		this->gridNavRef->SetLookTarget(this->targetedCell->center);
 		this->SetTouchIndicatorCell(this->targetedCell);
 		this->TouchIndicatorLookAt(this->targetedCell);
-		
 		float dist = glm::distance(this->gridNavRef->GetCurrentCell()->center, this->targetedCell->center) - .5f;
 		this->arrowTail->GetTransform()->SetScale(1.0f, dist, 1.0f);
 
 		Transform* trans = this->arrowTail->GetComponent<Transform>();
-		glm::vec3 direction = this->targetedCell->center - this->gridNavRef->GetCurrentCell()->center;
-		direction = glm::normalize(direction);
-		float angle = acos(glm::dot(direction, ZAXIS));
-		
-		if(direction.x < 0) {
-			angle = -angle;
-		}
-
-		if(isnan(angle)) {
-			return;
-		}
-
-		// Since the plane is normally facing the the -ZAXIS we have to do this
-		trans->SetOrientation(0, YAXIS);
-		this->arrowTail->GetTransform()->Rotate(90.0f inRadians, XAXIS);
-		trans->Rotate(angle, YAXIS);
-
+		this->GridPlaneLookAt(this->arrowTail, this->targetedCell);
 
 		trans->SetPosition(this->gridNavRef->GetCurrentCell()->center + glm::vec3(0.0f, .1f, 0.0f));
-		this->arrowTail->GetTransform()->Translate(dist * .5f , trans->GetUp());
+		trans->Translate(dist * .5f , trans->GetUp());
 	} else {
 	}
 }

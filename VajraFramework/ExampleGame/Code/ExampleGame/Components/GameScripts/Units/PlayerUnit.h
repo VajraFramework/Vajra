@@ -58,6 +58,7 @@ protected:
 	void SetTouchIndicatorSprite(int /*index*/ );
 	void SetTouchIndicatorCell(GridCell*);
 	void TouchIndicatorLookAt(GridCell* /*target*/);
+	void GridPlaneLookAt(GameObject* /*plane*/, GridCell* /*target*/);
 	void SetTouchIndicatorVisible(bool /*visibilty*/);
 
 	

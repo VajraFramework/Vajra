@@ -200,7 +200,11 @@ void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
 }
 
 void PlayerUnit::TouchIndicatorLookAt(GridCell* target) {
-	Transform* trans = this->touchIndicator->GetComponent<Transform>();
+	this->GridPlaneLookAt(this->touchIndicator, target);
+}
+
+void PlayerUnit::GridPlaneLookAt(GameObject* plane, GridCell* target) {
+	Transform* trans = plane->GetComponent<Transform>();
 	glm::vec3 direction = target->center - this->gridNavRef->GetCurrentCell()->center;
 	direction = glm::normalize(direction);
 	float angle = acos(glm::dot(direction, ZAXIS));
@@ -215,10 +219,9 @@ void PlayerUnit::TouchIndicatorLookAt(GridCell* target) {
 
 	// Since the plane is normally facing the the -ZAXIS we have to do this
 	trans->SetOrientation(0, YAXIS);
-	this->touchIndicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+	trans->Rotate(90.0f inRadians, XAXIS);
 	trans->Rotate(angle, YAXIS);
 }
-
 void PlayerUnit::setTouchNearUnit() {
 	glm::vec3 gridPos = SINGLETONS->GetGridManager()->TouchPositionToGridPosition(touchStartPos);
 	if(glm::distance(gridPos, this->gameObjectRef->GetTransform()->GetPosition()) < NEAR_TOUCH_DIST) {
