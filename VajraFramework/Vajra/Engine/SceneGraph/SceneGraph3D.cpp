@@ -38,9 +38,15 @@ void SceneGraph3D::update() {
 void SceneGraph3D::draw() {
 
 	GameObject* mainCamera = this->GetGameObjectById(this->mainCameraId);
-	VERIFY(mainCamera != nullptr, "mainCamera set");
+	if(mainCamera == nullptr) {
+		FRAMEWORK->GetLogger()->dbglog("Warning: There is no camera in the SceneGraph3D");
+		return;
+	}
 	GameObject* mainDirectionalLight = this->GetGameObjectById(this->mainDirectionalLightId);
-	VERIFY(mainDirectionalLight != nullptr, "mainDirectionalLight set");
+	if(mainDirectionalLight == nullptr) {
+		FRAMEWORK->GetLogger()->dbglog("Warning: There is no light in the SceneGraph3D");
+		return;
+	}
 
 	Camera* cameraComponent = mainCamera->GetComponent<Camera>();
 	VERIFY(cameraComponent != nullptr, "mainCamera has Camera component");

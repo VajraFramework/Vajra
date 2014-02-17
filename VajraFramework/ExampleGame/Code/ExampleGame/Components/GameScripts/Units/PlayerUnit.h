@@ -10,7 +10,7 @@
 
 class GridCell;
 class MessageData1S1I1F;
-	
+
 class PlayerUnit : public BaseUnit {
 
 #define MOVE_SPEED 2.5f
@@ -19,7 +19,8 @@ class PlayerUnit : public BaseUnit {
 	
 #define GOOD_TOUCH 0
 #define BAD_TOUCH  1
-#define THIEF_SPECIAL 2
+#define ASSASSIN_SPECIAL 2
+#define THIEF_SPECIAL 3
 
 public:
 	PlayerUnit();
@@ -56,7 +57,11 @@ protected:
 	void startTouchIndicatorPulse();
 	void SetTouchIndicatorSprite(int /*index*/ );
 	void SetTouchIndicatorCell(GridCell*);
+	void TouchIndicatorLookAt(GridCell* /*target*/);
+	void GridPlaneLookAt(GameObject* /*plane*/, GridCell* /*target*/);
 	void SetTouchIndicatorVisible(bool /*visibilty*/);
+
+	
 
 	//inline GameObject* GetTouchIndicator() { return this->touchIndicator; }
 	inline GridCell* GetCurrentTouchedCell() { return this->currentTouchedCell; }

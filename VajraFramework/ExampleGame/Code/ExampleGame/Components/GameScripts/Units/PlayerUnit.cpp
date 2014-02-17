@@ -4,6 +4,7 @@
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Libraries/glm/gtx/vector_angle.hpp"
 #include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
@@ -19,7 +20,7 @@
 
 void playerUnitNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
-	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
+	//ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
 	if(go != nullptr) {
 		PlayerUnit* pUnit = go->GetComponent<PlayerUnit>();
 		ASSERT(pUnit != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
@@ -60,7 +61,9 @@ void PlayerUnit::init() {
 	std::vector<std::string> pathsToTextures;
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Indicator_01.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Fail_01.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_01.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_Arrow_04.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_cyan.png");
+	
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 
 	touchIndicator->SetVisible(false);
@@ -73,6 +76,9 @@ void PlayerUnit::init() {
 }
 
 void PlayerUnit::destroy() {
+	if(this->touchIndicator != nullptr) {
+		delete this->touchIndicator;
+	}
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
@@ -154,7 +160,6 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	if(this->isSpecialTouch(touchId)) {
 		this->inputState = InputState::INPUT_STATE_SPECIAL;
 		this->gridNavRef->StopNavigation();
-		this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(BAD_TOUCH);
 		this->onSpecialTouch(touchId);
 		this->SwitchActionState(UNIT_ACTION_STATE_PRE_SPECIAL);
 	} else {
@@ -197,6 +202,29 @@ void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
 	}
 }
 
+void PlayerUnit::TouchIndicatorLookAt(GridCell* target) {
+	this->GridPlaneLookAt(this->touchIndicator, target);
+}
+
+void PlayerUnit::GridPlaneLookAt(GameObject* plane, GridCell* target) {
+	Transform* trans = plane->GetComponent<Transform>();
+	glm::vec3 direction = target->center - this->gridNavRef->GetCurrentCell()->center;
+	direction = glm::normalize(direction);
+	float angle = acos(glm::dot(direction, ZAXIS));
+	
+	if(direction.x < 0) {
+		angle = -angle;
+	}
+
+	if(isnan(angle)) {
+		return;
+	}
+
+	// Since the plane is normally facing the the -ZAXIS we have to do this
+	trans->SetOrientation(0, YAXIS);
+	trans->Rotate(90.0f inRadians, XAXIS);
+	trans->Rotate(angle, YAXIS);
+}
 void PlayerUnit::setTouchNearUnit() {
 	glm::vec3 gridPos = SINGLETONS->GetGridManager()->TouchPositionToGridPosition(touchStartPos);
 	if(glm::distance(gridPos, this->gameObjectRef->GetTransform()->GetPosition()) < NEAR_TOUCH_DIST) {

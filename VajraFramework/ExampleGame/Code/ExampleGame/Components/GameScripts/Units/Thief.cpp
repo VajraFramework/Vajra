@@ -65,7 +65,7 @@ void Thief::init() {
 }
 
 void Thief::destroy() {
-
+	this->deleteTargets();
 }
 
 bool Thief::isSpecialTouch(int touchId) {
@@ -136,6 +136,7 @@ void Thief::touchedCellChanged(GridCell* prevTouchedCell) {
 			ENGINE->GetTween()->TweenScale(this->targetIndicators[this->GetCurrentTouchedCell()]->GetId(),  glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)),
 																											glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale_hover)), 
 																											GetFloatGameConstant(GAME_CONSTANT_target_tween_time));
+			this->gridNavRef->SetLookTarget(this->GetCurrentTouchedCell()->center);
 		}
 		if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
 			this->SetTouchIndicatorSprite(GOOD_TOUCH);
@@ -200,7 +201,7 @@ void Thief::createTargets() {
 		GameObject* indicator = new GameObject(ENGINE->GetSceneGraph3D());
 		SpriteRenderer* spriteRenderer = indicator->AddComponent<SpriteRenderer>();
 		std::vector<std::string> pathsToTextures;
-		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_01.png");
+		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_cyan.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 		indicator->GetTransform()->SetPosition(c->center);
 		indicator->GetTransform()->SetScale( glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)));
@@ -212,7 +213,9 @@ void Thief::createTargets() {
 
 void Thief::deleteTargets() {
 	for(auto contents : this->targetIndicators ) {
-		delete contents.second;
+		if(contents.second != nullptr) {
+			delete contents.second;
+		}
 	}
 	this->targetIndicators.clear();
 }
