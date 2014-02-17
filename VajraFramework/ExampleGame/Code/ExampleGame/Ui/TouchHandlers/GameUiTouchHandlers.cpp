@@ -196,6 +196,18 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	// TUTORIAL
 	if(uiObject->GetName() == TUTORIAL_NEXT_BTN) {
 		this->nextTutorialImage();
+	} else if(uiObject->GetName() == TUTORIAL_EXIT_BTN) {
+		// tween in the tutorial
+		UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TUTORIAL_MENU]);
+	
+		ENGINE->GetTween()->TweenPosition(tut->GetId(),
+										  tut->GetTransform()->GetPosition(),
+										  glm::vec3(tut->GetTransform()->GetPosition().x, 768.0f, tut->GetTransform()->GetPosition().z),
+										  1.0f,
+										  false,
+										  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+										  false,
+										  onTutorialTweenOutComplete);
 	}
 }
 
