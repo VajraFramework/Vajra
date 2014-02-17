@@ -78,6 +78,10 @@ void Triggerable::SubscribeToMySwitch() {
 	this->SubscribeToSwitchObject(this->GetObject()->GetId());
 }
 
+void Triggerable::SubscribeToParentSwitch() {
+	this->SubscribeToSwitchObject(this->GetObject()->GetParentId());
+}
+
 void Triggerable::SubscribeToSwitchObject(ObjectIdType switchId) {
 	auto it = std::find(this->subscriptions.begin(), this->subscriptions.end(), switchId);
 	if (it == this->subscriptions.end()) {

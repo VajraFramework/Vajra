@@ -34,7 +34,9 @@ public:
 	virtual void HandleMessage(MessageChunk messageChunk);
 
 	//[[PROPERTY]]//
-	virtual void SubscribeToMySwitch();  // Subscribe to the switch on the same object, can be used in XML prefabs
+	virtual void SubscribeToMySwitch();      // Subscribe to the switch on the same object, can be used in XML prefabs
+	//[[PROPERTY]]//
+	virtual void SubscribeToParentSwitch();  // Subscribe to the switch on the parent object, can be used in XML prefabs
 	void SubscribeToSwitchObject(ObjectIdType switchId);   // This must be called before this component can trigger
 	void UnsubscribeToSwitchObject(ObjectIdType switchId);
 
