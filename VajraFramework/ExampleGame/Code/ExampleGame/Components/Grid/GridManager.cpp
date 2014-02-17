@@ -62,8 +62,8 @@ void GridManager::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 
 	if(this->grid != nullptr) {
-		//delete this->grid;
-		//this->grid = nullptr;
+		delete this->grid;
+		this->grid = nullptr;
 	}
 }
 

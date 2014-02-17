@@ -86,11 +86,19 @@ void GameGrid::destroy() {
 				delete this->gridCells[i][j];
 			}
 			delete this->gridCells[i];
-			delete this->passableBits[i];
-			delete this->visibleBits[i];
 		}
 		delete this->gridCells;
 		this->gridCells = nullptr;
+
+		// Free the memory used for the bitmasks
+		for (unsigned int i = 0; i < NUM_ELEVATIONS; ++i) {
+			for (unsigned int j = 0; j < this->gridWidth; ++j) {
+				delete this->passableBits[i][j];
+				delete this->visibleBits[i][j];
+			}
+			delete this->passableBits[i];
+			delete this->visibleBits[i];
+		}
 		delete this->passableBits;
 		this->passableBits = nullptr;
 		delete this->visibleBits;
