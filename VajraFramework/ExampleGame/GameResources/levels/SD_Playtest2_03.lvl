@@ -54,7 +54,7 @@
               1 1 1 1 1 1 1 0 0 0 0 1 1 1 0 0 0 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 
               1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 
               1 1 1 1 1 1 0 0 0 0 0 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 
-              1 1 1 1 1 1 0 0 0 0 0 1 1 1 0 0 0 0 1 1 1 1 1 1 0 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
               1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 
               1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 1 1 0 0 0 1 0 1 1 1 1 
               1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 1 1 0 0 0 1 1 1 1 1 1 
@@ -448,16 +448,8 @@
 				  <field>-13</field>
 			  </property>
 		  </component>
-          <component name="GridZone">
-              <property name="SetZoneBounds">
-                  <field>19</field>
-                  <field>13</field>
-                  <field>21</field>
-                  <field>15</field>
-              </property>
-          </component>
       </dynamicObject>
-	  <dynamicObject id="10264" prefab="PressurePlate">
+	  <dynamicObject id="10264" prefab="Lever">
 			<component name="Transform">
 				<property name="Translate">
 					<field>19</field>
@@ -467,10 +459,35 @@
 			</component>
 			<component name="GridZone">
 				<property name="SetZoneBounds">
-					<field>19</field>
-					<field>9</field>
-					<field>19</field>
-					<field>9</field>
+					<field>0</field>
+					<field>0</field>
+					<field>0</field>
+					<field>0</field>
+				</property>
+			</component>
+	  </dynamicObject>
+	  <dynamicObject id="10265" prefab="TriggerGate">
+			<component name="Transform">
+				<property name="Translate">
+					<field>22</field>
+					<field>0</field>
+					<field>-11</field>
+				</property>
+				
+				<property name="RotateByDegrees">
+					<field>90.0</field>
+					<field>0.0</field>
+					<field>1.0</field>
+					<field>0.0</field>
+				</property>
+			</component>
+	  </dynamicObject>
+	  <dynamicObject id="10266" prefab="TriggerGate">
+			<component name="Transform">
+				<property name="Translate">
+					<field>12</field>
+					<field>0</field>
+					<field>-14</field>
 				</property>
 			</component>
 	  </dynamicObject>
@@ -481,6 +498,14 @@
           <switch id="10264">
           </switch>
       </triggerLink>
+	  <triggerLink id="10265">
+			<switch id="10264">
+			</switch>
+	  </triggerLink>
+	  <triggerLink id="10266">
+			<switch id="10264">
+			</switch>
+	  </triggerLink>
   </links>
 
 	<camera focus="Assassin">
