@@ -49,7 +49,7 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch
 		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new GameUiTouchHandlers());
 
 		// Load the test level
-		SINGLETONS->GetLevelManager()->LoadLevel(1);
+		SINGLETONS->GetLevelManager()->LoadLevel(0);
 	} else if(uiObject->GetName() == "options") {
 		UiObject* startMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[START_MENU]);
 		UiObject* optionsMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[OPTIONS_MENU]);
