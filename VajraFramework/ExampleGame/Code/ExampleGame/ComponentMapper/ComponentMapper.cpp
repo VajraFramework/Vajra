@@ -27,6 +27,9 @@
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Components/Switches/GridZoneSwitch.h"
+#include "ExampleGame/Components/Triggers/Triggerable.h"
+#include "ExampleGame/Components/Triggers/TriggerElevationChange.h"
+#include "ExampleGame/Components/Triggers/TriggerTransformation.h"
 
 
 Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObject* gameObject, std::string componentName) {
@@ -185,6 +188,24 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "GridZoneSwitch") {
 		GridZoneSwitch* component = gameObject->GetComponent<GridZoneSwitch>();
 		if (component == nullptr) { component = gameObject->AddComponent<GridZoneSwitch>(); }
+		return component;
+	}
+	
+	if (componentName == "Triggerable") {
+		Triggerable* component = gameObject->GetComponent<Triggerable>();
+		if (component == nullptr) { component = gameObject->AddComponent<Triggerable>(); }
+		return component;
+	}
+	
+	if (componentName == "TriggerElevationChange") {
+		TriggerElevationChange* component = gameObject->GetComponent<TriggerElevationChange>();
+		if (component == nullptr) { component = gameObject->AddComponent<TriggerElevationChange>(); }
+		return component;
+	}
+	
+	if (componentName == "TriggerTransformation") {
+		TriggerTransformation* component = gameObject->GetComponent<TriggerTransformation>();
+		if (component == nullptr) { component = gameObject->AddComponent<TriggerTransformation>(); }
 		return component;
 	}
 
@@ -626,6 +647,109 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetRequiredOccupants") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetRequiredOccupants(StringUtilities::ConvertStringToInt(argv[0]));
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "Triggerable") {
+		Triggerable* component = gameObject->GetComponent<Triggerable>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SubscribeToMySwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToMySwitch();
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "TriggerElevationChange") {
+		TriggerElevationChange* component = gameObject->GetComponent<TriggerElevationChange>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetElevationDiff") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetElevationDiff(StringUtilities::ConvertStringToInt(argv[0]));
+			return;
+		}
+		if (propertyName == "SetTransitTime") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTransitTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetRaisedState") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetRaisedState(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SubscribeToMySwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToMySwitch();
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "TriggerTransformation") {
+		TriggerTransformation* component = gameObject->GetComponent<TriggerTransformation>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetTranslation") {
+			if ((int)argv.size() < 3) { return; }
+			component->SetTranslation(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
+		}
+		if (propertyName == "SetRotationDegrees") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetRotationDegrees(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
+		}
+		if (propertyName == "SetRotationRadians") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetRotationRadians(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
+		}
+		if (propertyName == "SetScaling") {
+			if ((int)argv.size() < 3) { return; }
+			component->SetScaling(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
+		}
+		if (propertyName == "SetTransitTime") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTransitTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetTransformedState") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTransformedState(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SubscribeToMySwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToMySwitch();
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
 			return;
 		}
 		return;
