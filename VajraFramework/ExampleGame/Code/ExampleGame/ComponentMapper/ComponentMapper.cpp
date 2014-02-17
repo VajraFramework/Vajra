@@ -26,7 +26,6 @@
 #include "ExampleGame/Components/Grid/GridZones/TransitionZone.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
-#include "ExampleGame/Components/Switches/GoalZoneSwitch.h"
 #include "ExampleGame/Components/Switches/GridZoneSwitch.h"
 
 
@@ -180,12 +179,6 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "ShadyCamera") {
 		ShadyCamera* component = gameObject->GetComponent<ShadyCamera>();
 		if (component == nullptr) { component = gameObject->AddComponent<ShadyCamera>(); }
-		return component;
-	}
-	
-	if (componentName == "GoalZoneSwitch") {
-		GoalZoneSwitch* component = gameObject->GetComponent<GoalZoneSwitch>();
-		if (component == nullptr) { component = gameObject->AddComponent<GoalZoneSwitch>(); }
 		return component;
 	}
 	
@@ -614,12 +607,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->MoveToOverview();
 			return;
 		}
-		return;
-	}
-	
-	if (componentName == "GoalZoneSwitch") {
-		GoalZoneSwitch* component = gameObject->GetComponent<GoalZoneSwitch>();
-		if (component == nullptr) { return; }
 		return;
 	}
 	

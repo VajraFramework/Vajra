@@ -61,16 +61,21 @@ void GridManager::init() {
 void GridManager::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 
+	if(this->grid != nullptr) {
+		//delete this->grid;
+		//this->grid = nullptr;
+	}
+}
+
+void GridManager::onLevelLoaded() {
+
+}
+
+void GridManager::onLevelUnloaded() {
+	this->playerUnits.clear();	
+	
 	delete this->grid;
 	this->grid = nullptr;
-}
-
-void GridManager::onLevelStart() {
-
-}
-
-void GridManager::onLevelEnd() {
-	this->playerUnits.clear();	
 }
 
 void GridManager::HandleMessage(MessageChunk messageChunk) {
@@ -87,10 +92,10 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
 			break;
 		case MESSAGE_TYPE_LEVEL_LOADED:
-			this->onLevelStart();
+			this->onLevelLoaded();
 			break;
 		case MESSAGE_TYPE_LEVEL_UNLOADED:
-			this->onLevelEnd();
+			this->onLevelUnloaded();
 			break;
 		default:
 			break;

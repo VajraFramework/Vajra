@@ -58,8 +58,8 @@ private:
 	void init();
 	void destroy();
 
-	void onLevelStart();
-	void onLevelEnd();
+	void onLevelLoaded();
+	void onLevelUnloaded();
 	
 #ifdef DEBUG
 	void debugTouchUpdate(int touchIndex);

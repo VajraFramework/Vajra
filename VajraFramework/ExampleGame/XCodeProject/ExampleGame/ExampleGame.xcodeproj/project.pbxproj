@@ -82,7 +82,6 @@
 		B3B80DA118B0235D00D8B311 /* GameUiTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3B80D7818B0235D00D8B311 /* GameUiTouchHandlers.cpp */; };
 		B3B80DA218B0235D00D8B311 /* MainMenuTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3B80D7A18B0235D00D8B311 /* MainMenuTouchHandlers.cpp */; };
 		B3B80DA318B0235D00D8B311 /* TestUiSceneTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3B80D7C18B0235D00D8B311 /* TestUiSceneTouchHandlers.cpp */; };
-		B3B80DA618B02E9000D8B311 /* GoalZoneSwitch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3B80DA418B02E9000D8B311 /* GoalZoneSwitch.cpp */; };
 		BA97CF0118971D9000942107 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDAF18971D8F00942107 /* CMakeLists.txt */; };
 		BA97CF0218971D9000942107 /* func_common.inl in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDB818971D8F00942107 /* func_common.inl */; };
 		BA97CF0318971D9000942107 /* func_exponential.inl in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDBA18971D8F00942107 /* func_exponential.inl */; };
@@ -456,8 +455,6 @@
 		B3B80D7B18B0235D00D8B311 /* MainMenuTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuTouchHandlers.h; sourceTree = "<group>"; };
 		B3B80D7C18B0235D00D8B311 /* TestUiSceneTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestUiSceneTouchHandlers.cpp; sourceTree = "<group>"; };
 		B3B80D7D18B0235D00D8B311 /* TestUiSceneTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUiSceneTouchHandlers.h; sourceTree = "<group>"; };
-		B3B80DA418B02E9000D8B311 /* GoalZoneSwitch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GoalZoneSwitch.cpp; sourceTree = "<group>"; };
-		B3B80DA518B02E9000D8B311 /* GoalZoneSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoalZoneSwitch.h; sourceTree = "<group>"; };
 		BA97CDAF18971D8F00942107 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		BA97CDB018971D8F00942107 /* common.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = common.hpp; sourceTree = "<group>"; };
 		BA97CDB218971D8F00942107 /* _detail.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _detail.hpp; sourceTree = "<group>"; };
@@ -1869,8 +1866,6 @@
 				B3B80D6218B0235D00D8B311 /* BaseSwitch.h */,
 				B3B80D6318B0235D00D8B311 /* GridZoneSwitch.cpp */,
 				B3B80D6418B0235D00D8B311 /* GridZoneSwitch.h */,
-				B3B80DA418B02E9000D8B311 /* GoalZoneSwitch.cpp */,
-				B3B80DA518B02E9000D8B311 /* GoalZoneSwitch.h */,
 			);
 			path = Switches;
 			sourceTree = "<group>";
@@ -2639,7 +2634,6 @@
 				B3B80DA018B0235D00D8B311 /* DebugMenuTouchHandlers.cpp in Sources */,
 				B3B80D9D18B0235D00D8B311 /* GameConstants_additional.cpp in Sources */,
 				B3B80D9018B0235D00D8B311 /* GridConstants.cpp in Sources */,
-				B3B80DA618B02E9000D8B311 /* GoalZoneSwitch.cpp in Sources */,
 				B3B80D8318B0235D00D8B311 /* AiPerception.cpp in Sources */,
 				B3B80D8218B0235D00D8B311 /* AiKnowledge.cpp in Sources */,
 				B3B80DA318B0235D00D8B311 /* TestUiSceneTouchHandlers.cpp in Sources */,

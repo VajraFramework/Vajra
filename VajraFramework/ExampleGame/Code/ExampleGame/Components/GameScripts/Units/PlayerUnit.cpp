@@ -76,6 +76,9 @@ void PlayerUnit::init() {
 }
 
 void PlayerUnit::destroy() {
+	if(this->touchIndicator != nullptr) {
+		delete this->touchIndicator;
+	}
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 

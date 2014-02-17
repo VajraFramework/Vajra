@@ -65,7 +65,7 @@ void Thief::init() {
 }
 
 void Thief::destroy() {
-
+	this->deleteTargets();
 }
 
 bool Thief::isSpecialTouch(int touchId) {
@@ -213,7 +213,9 @@ void Thief::createTargets() {
 
 void Thief::deleteTargets() {
 	for(auto contents : this->targetIndicators ) {
-		delete contents.second;
+		if(contents.second != nullptr) {
+			delete contents.second;
+		}
 	}
 	this->targetIndicators.clear();
 }

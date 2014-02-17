@@ -41,6 +41,11 @@ void Assassin::init() {
 }
 
 void Assassin::destroy() {
+	if(this->arrowTail != nullptr) {
+		delete arrowTail;
+		arrowTail = nullptr;
+	}
+
 }
 
 bool Assassin::isSpecialTouch(int touchId) {
