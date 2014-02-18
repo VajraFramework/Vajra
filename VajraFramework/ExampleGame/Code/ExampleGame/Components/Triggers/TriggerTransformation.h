@@ -53,12 +53,24 @@ private:
 
 	void startTransformation(bool transformed);
 
+	void startTranslation(bool transformed);
+	void startRotation(bool transformed);
+	void startScaling(bool transformed);
+
 	glm::vec3 translation;
 	glm::quat rotation;
 	glm::vec3 scaling;
 
 	float transitTime;
 	bool isTransformed;
+
+	bool isTranslating;
+	bool isRotating;
+	bool isScaling;
+
+	friend void translationTriggerTweenCallback(ObjectIdType gameObjectId, std::string tweenClipName);
+	friend void rotationTriggerTweenCallback(ObjectIdType gameObjectId, std::string tweenClipName);
+	friend void scalingTriggerTweenCallback(ObjectIdType gameObjectId, std::string tweenClipName);
 };
 
 void TriggerTransformation::SetTransitTime(float seconds)         { this->transitTime = seconds;       }

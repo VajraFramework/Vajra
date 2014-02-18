@@ -6,8 +6,45 @@
 #include "ExampleGame/Components/Triggers/TriggerTransformation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Utilities/MathUtilities.h"
+
+void translationTriggerTweenCallback(ObjectIdType gameObjectId, std::string /*tweenClipName*/) {
+	// Make sure the trigger is still around
+	GameObject* caller = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
+	if (caller != nullptr) {
+		TriggerTransformation* triggerComp = caller->GetComponent<TriggerTransformation>();
+		ASSERT(triggerComp != nullptr, "translationTriggerTweenCallback: Object %d has TriggerTransformation component", gameObjectId);
+		if (triggerComp != nullptr) {
+			triggerComp->isTranslating = false;
+		}
+	}
+}
+
+void rotationTriggerTweenCallback(ObjectIdType gameObjectId, std::string /*tweenClipName*/) {
+	// Make sure the trigger is still around
+	GameObject* caller = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
+	if (caller != nullptr) {
+		TriggerTransformation* triggerComp = caller->GetComponent<TriggerTransformation>();
+		ASSERT(triggerComp != nullptr, "rotationTriggerTweenCallback: Object %d has TriggerTransformation component", gameObjectId);
+		if (triggerComp != nullptr) {
+			triggerComp->isRotating = false;
+		}
+	}
+}
+
+void scalingTriggerTweenCallback(ObjectIdType gameObjectId, std::string /*tweenClipName*/) {
+	// Make sure the trigger is still around
+	GameObject* caller = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
+	if (caller != nullptr) {
+		TriggerTransformation* triggerComp = caller->GetComponent<TriggerTransformation>();
+		ASSERT(triggerComp != nullptr, "scalingTriggerTweenCallback: Object %d has TriggerTransformation component", gameObjectId);
+		if (triggerComp != nullptr) {
+			triggerComp->isScaling = false;
+		}
+	}
+}
 
 TriggerTransformation::TriggerTransformation() : Triggerable() {
 	this->init();
@@ -27,6 +64,9 @@ void TriggerTransformation::init() {
 	this->scaling       = glm::vec3(1.0f, 1.0f, 1.0f);
 	this->transitTime   = 1.0f;
 	this->isTransformed = false;
+	this->isTranslating = false;
+	this->isRotating    = false;
+	this->isScaling     = false;
 }
 
 void TriggerTransformation::destroy() {
@@ -91,62 +131,82 @@ void TriggerTransformation::onSwitchToggled(bool /*switchState*/) {
 
 void TriggerTransformation::startTransformation(bool transformed) {
 	if (transformed != this->isTransformed) {
-		ObjectIdType myId = this->GetObject()->GetId();
-		Transform* trans = this->GetObject()->GetComponent<Transform>();
+		this->startTranslation(transformed);
+		this->startRotation(transformed);
+		this->startScaling(transformed);
 
-		if (glm::length(this->translation) > ROUNDING_ERROR) {
-			glm::vec3 finalPosition = trans->GetPosition();
-			if (transformed) {
-				finalPosition += this->translation;
-			}
-			else {
-				finalPosition -= this->translation;
-			}
-			ENGINE->GetTween()->TweenPosition(
-				myId,
-				finalPosition,
-				this->transitTime,
-				true,
-				TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
-				false,
-				nullptr
-			);
-		}
-
-		glm::quat finalOrientation = trans->GetOrientation();
-		if (transformed) {
-			finalOrientation = finalOrientation * this->rotation;
-		}
-		else {
-			finalOrientation = finalOrientation * glm::inverse(this->rotation);
-		}
-		ENGINE->GetTween()->TweenOrientation(
-			myId,
-			finalOrientation,
-			this->transitTime,
-			true,
-			//TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
-			false,
-			nullptr
-		);
-
-		glm::vec3 finalScale = trans->GetScale();
-		if (transformed) {
-			finalScale = finalScale * this->scaling;
-		}
-		else {
-			finalScale = finalScale / this->scaling;
-		}
-		ENGINE->GetTween()->TweenScale(
-			myId,
-			finalScale,
-			this->transitTime,
-			true,
-			//TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
-			false,
-			nullptr
-		);
-
-		this->isTransformed = transformed;
+		triggerComp->isTransformed = transformed;
 	}
+}
+
+void TriggerTransformation::startTranslation(bool transformed) {
+	ObjectIdType myId = this->GetObject()->GetId();
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+
+	glm::vec3 finalPosition = trans->GetPosition();
+	if (glm::length(this->translation) > ROUNDING_ERROR) {
+		if (transformed) {
+			finalPosition += this->translation;
+		}
+		else {
+			finalPosition -= this->translation;
+		}
+		ENGINE->GetTween()->TweenPosition(
+			myId,
+			finalPosition,
+			this->transitTime,
+			true,
+			TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+			false,
+			translationTriggerTweenCallback
+		);
+		this->isTranslating = true;
+	}
+}
+
+void TriggerTransformation::startRotation(bool transformed) {
+	ObjectIdType myId = this->GetObject()->GetId();
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+
+	glm::quat finalOrientation = trans->GetOrientation();
+
+	if (transformed) {
+		finalOrientation = finalOrientation * this->rotation;
+	}
+	else {
+		finalOrientation = finalOrientation * glm::inverse(this->rotation);
+	}
+	ENGINE->GetTween()->TweenOrientation(
+		myId,
+		finalOrientation,
+		this->transitTime,
+		true,
+		//TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+		false,
+		rotationTriggerTweenCallback
+	);
+	this->isRotating = true;
+}
+
+void TriggerTransformation::startScaling(bool transformed) {
+	ObjectIdType myId = this->GetObject()->GetId();
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+
+	glm::vec3 finalScale = trans->GetScale();
+	if (transformed) {
+		finalScale = finalScale * this->scaling;
+	}
+	else {
+		finalScale = finalScale / this->scaling;
+	}
+	ENGINE->GetTween()->TweenScale(
+		myId,
+		finalScale,
+		this->transitTime,
+		true,
+		//TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+		false,
+		scalingTriggerTweenCallback
+	);
+	this->isScaling = true;
 }
