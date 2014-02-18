@@ -9,6 +9,7 @@
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 
@@ -33,36 +34,85 @@ void TransitionZone::HandleMessage(MessageChunk messageChunk) {
 	}
 }
 
+void TransitionZone::GetFirstDestinationCoordinates(int& cellX, int& cellZ) {
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+
+	int centerX, centerZ;
+	SINGLETONS->GetGridManager()->GetGrid()->GetCoordinates(centerX, centerZ, trans->GetPositionWorld());
+
+	glm::vec3 forward = trans->GetForward();
+
+	// Determine the rough orientation of the object.
+	if (abs(forward.z) >= abs(forward.x)) {
+		if (forward.z >= 0.0f) {
+			cellX = centerX + this->destX1;
+			cellZ = centerZ + this->destZ1;
+		}
+		else {
+			cellX = centerX - this->destX1;
+			cellZ = centerZ - this->destZ1;
+		}
+	}
+	else {
+		if (forward.x >= 0.0f) {
+			cellX = centerX - this->destZ1;
+			cellZ = centerZ + this->destX1;
+		}
+		else {
+			cellX = centerX + this->destZ1;
+			cellZ = centerZ - this->destX1;
+		}
+	}
+}
+
+void TransitionZone::GetSecondDestinationCoordinates(int& cellX, int& cellZ) {
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+
+	int centerX, centerZ;
+	SINGLETONS->GetGridManager()->GetGrid()->GetCoordinates(centerX, centerZ, trans->GetPositionWorld());
+
+	glm::vec3 forward = trans->GetForward();
+
+	// Determine the rough orientation of the object.
+	if (abs(forward.z) >= abs(forward.x)) {
+		if (forward.z >= 0.0f) {
+			cellX = centerX + this->destX2;
+			cellZ = centerZ + this->destZ2;
+		}
+		else {
+			cellX = centerX - this->destX2;
+			cellZ = centerZ - this->destZ2;
+		}
+	}
+	else {
+		if (forward.x >= 0.0f) {
+			cellX = centerX - this->destZ2;
+			cellZ = centerZ + this->destX2;
+		}
+		else {
+			cellX = centerX + this->destZ2;
+			cellZ = centerZ - this->destX2;
+		}
+	}
+}
+
+void TransitionZone::GetBothDestinationCoordinates(int& cellX1, int& cellZ1, int& cellX2, int& cellZ2) {
+	this->GetFirstDestinationCoordinates(cellX1, cellZ1);
+	this->GetSecondDestinationCoordinates(cellX2, cellZ2);
+}
+
 void TransitionZone::SetZoneBounds(int xMin, int zMin, int xMax, int zMax) {
 	GridZone::SetZoneBounds(xMin, zMin, xMax, zMax);
 }
 
 void TransitionZone::SetFirstDestination(int cellX, int cellZ) {
-	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(cellX, cellZ);
-	this->SetFirstDestination(cell);
-}
-
-void TransitionZone::SetFirstDestination(glm::vec3 worldPosition) {
-	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(worldPosition);
-	this->SetFirstDestination(cell);
-}
-
-void TransitionZone::SetFirstDestination(GridCell* cell) {
-	this->destCell1 = cell;
+	this->destX1 = cellX;
+	this->destZ1 = cellZ;
 }
 
 void TransitionZone::SetSecondDestination(int cellX, int cellZ) {
-	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(cellX, cellZ);
-	this->SetSecondDestination(cell);
-}
-
-void TransitionZone::SetSecondDestination(glm::vec3 worldPosition) {
-	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(worldPosition);
-	this->SetSecondDestination(cell);
-}
-
-void TransitionZone::SetSecondDestination(GridCell* cell) {
-	this->destCell2 = cell;
+	this->destX2 = cellX;
+	this->destZ2 = cellZ;
 }
 
 void TransitionZone::SetDestinations(int cellX1, int cellZ1, int cellX2, int cellZ2) {
@@ -70,19 +120,11 @@ void TransitionZone::SetDestinations(int cellX1, int cellZ1, int cellX2, int cel
 	this->SetSecondDestination(cellX2, cellZ2);
 }
 
-void TransitionZone::SetDestinations(glm::vec3 worldPosition1, glm::vec3 worldPosition2) {
-	this->SetFirstDestination(worldPosition1);
-	this->SetSecondDestination(worldPosition2);
-}
-
-void TransitionZone::SetDestinations(GridCell* cell1, GridCell* cell2) {
-	this->SetFirstDestination(cell1);
-	this->SetSecondDestination(cell2);
-}
-
 void TransitionZone::init() {
-	this->destCell1 = nullptr;
-	this->destCell2 = nullptr;
+	this->destX1 = 0;
+	this->destZ1 = 0;
+	this->destX2 = 0;
+	this->destZ2 = 0;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED, this->GetTypeId(), false);
 }
@@ -100,17 +142,22 @@ void TransitionZone::onUnitEnteredZone(ObjectIdType id) {
 
 	GridCell* unitCell = gNav->GetCurrentCell();
 	GridRoom* unitRoom = SINGLETONS->GetGridManager()->GetGrid()->GetRoom(unitCell);
+
+	int destCellX1, destCellZ1, destCellX2, destCellZ2;
+	this->GetBothDestinationCoordinates(destCellX1, destCellZ1, destCellX2, destCellZ2);
+	GridCell* destCell1 = SINGLETONS->GetGridManager()->GetGrid()->GetCell(destCellX1, destCellZ1);
+	GridCell* destCell2 = SINGLETONS->GetGridManager()->GetGrid()->GetCell(destCellX2, destCellZ2);
 	GridRoom* destRoom1 = SINGLETONS->GetGridManager()->GetGrid()->GetRoom(destCell1);
 
 	GridCell* target;
 	if (unitRoom != destRoom1) {
 		// If the first destination and the unit are not in the same room, send the unit to that destination
-		target = this->destCell1;
+		target = destCell1;
 	}
 	else {
 		// If the first destination is in the same room, send the unit to the other one instead
 		// (Hopefully they won't be the same room)
-		target = this->destCell2;
+		target = destCell2;
 	}
 	gNav->SetDestination(target);
 

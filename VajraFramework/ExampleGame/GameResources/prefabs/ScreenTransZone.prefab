@@ -7,6 +7,21 @@
 		</component>
 
 		<component name="TransitionZone">
+              <property name="SetZoneBounds">
+                  <field>-1</field>
+                  <field>-1</field>
+                  <field>1</field>
+                  <field>1</field>
+              </property>
+			  
+				<property name="SetFirstDestination">
+					<field>-2</field>
+					<field>0</field>
+				</property>
+				<property name="SetSecondDestination">
+					<field>2</field>
+					<field>0</field>
+				</property>
 		</component>
 	</gameobject>
 </prefab>
