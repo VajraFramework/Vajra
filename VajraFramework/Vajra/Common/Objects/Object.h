@@ -37,6 +37,10 @@ public:
 	void SubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId, bool onLocalObject);
 	void UnsubscribeToMessageType(MessageType messageType, ComponentIdType subscriberComponentId);
 
+	void Pause();
+	void Resume();
+	inline bool IsPaused() { return this->isPaused;  }
+
 	// Get a Component attached to this Object by typename
 	TEMPLATED_RETURNTYPE_IF_IS_BASE_OF(T, T*, Component)
 		GetComponent();
@@ -83,6 +87,8 @@ private:
 	ObjectIdType parentId;
 
 	std::vector<std::vector<ComponentIdType>> subscribersForMessageType;
+
+	bool isPaused;
 
 friend class SceneGraph;
 };
