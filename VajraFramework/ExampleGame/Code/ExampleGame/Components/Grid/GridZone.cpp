@@ -42,24 +42,24 @@ void GridZone::GetZoneBounds(int& west, int& east, int& south, int& north) {
 			north = centerZ + this->northBound;
 		}
 		else {
-			west  = centerX + this->eastBound;
-			east  = centerX + this->westBound;
-			south = centerZ + this->northBound;
-			north = centerZ + this->southBound;
+			west  = centerX - this->eastBound;
+			east  = centerX - this->westBound;
+			south = centerZ - this->northBound;
+			north = centerZ - this->southBound;
 		}
 	}
 	else {
 		if (forward.x >= 0.0f) {
-			west  = centerX + this->northBound;
-			east  = centerX + this->southBound;
+			west  = centerX - this->northBound;
+			east  = centerX - this->southBound;
 			south = centerZ + this->westBound;
 			north = centerZ + this->eastBound;
 		}
 		else {
 			west  = centerX + this->southBound;
 			east  = centerX + this->northBound;
-			south = centerZ + this->eastBound;
-			north = centerZ + this->westBound;
+			south = centerZ - this->eastBound;
+			north = centerZ - this->westBound;
 		}
 	}
 }
