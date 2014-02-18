@@ -175,6 +175,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	
 	// END MENU
 	UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
+	ASSERT(postMenu != nullptr, "postMenu still around");
 	if(postMenu->IsVisible()) {
 		if (uiObject->GetName() == "continue") {
 			if(SINGLETONS->GetLevelManager()->TryLoadNextLevel()) {
