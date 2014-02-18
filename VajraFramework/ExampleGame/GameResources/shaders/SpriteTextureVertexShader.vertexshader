@@ -17,7 +17,7 @@ __VARIABLES_END__
 __SOURCE__
 
 #ifdef SKEW_GEOMETRY
-vec4 zSkew = vec4(0.0, 0.0, -.5, 0.0);
+vec4 zSkew = vec4(0.0, 0.0, -0.5, 0.0);
 vec4 ySkew = vec4(0.0, -0.5, 0.0, 0.0);
 #else
 vec4 zSkew = vec4(0.0, 0.0, 0.0, 0.0);

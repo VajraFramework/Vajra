@@ -47,7 +47,7 @@ PlayerUnit::~PlayerUnit() {
 
 void PlayerUnit::init() {
 	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
-	this->inputState = InputState::INPUT_STATE_WAIT;
+	this->inputState = InputState::INPUT_STATE_NONE;
 	this->touchNearUnit = false;
 	this->performingSpecial = false;
 
@@ -88,14 +88,12 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION:
 			if(this->performingSpecial) {
 				onSpecialEnd();
-			}  else {
+			}  else if(this->inputState == InputState::INPUT_STATE_WAIT || this->inputState == InputState::INPUT_STATE_NONE) {
 				this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 				ENGINE->GetTween()->CancelNumberTween("pulse");
 				ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), this->touchIndicator->GetTransform()->GetScale(), glm::vec3(0), TOUCH_SCALE_TIME);
 			}
 			break;
-
-
 		default:
 			break;
 	}
@@ -119,8 +117,9 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 	}
 
 	switch(this->inputState) {
-		case InputState::INPUT_STATE_WAIT:
+		case InputState::INPUT_STATE_NONE:
 			this->onSelectedTouch();
+		case InputState::INPUT_STATE_WAIT:
 		case InputState::INPUT_STATE_NAV:
 			this->onNavTouch(touchId, touchedCell);
 			break;
@@ -133,10 +132,10 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 }
 
 void PlayerUnit::OnDeselect() {
-	this->inputState = InputState::INPUT_STATE_WAIT;
+	this->inputState = InputState::INPUT_STATE_NONE;
 }
 void PlayerUnit::onSelectedTouch() {
-	this->inputState = InputState::INPUT_STATE_NAV;
+	this->inputState = InputState::INPUT_STATE_WAIT;
 }
 
 void PlayerUnit::startSpecial() {
@@ -146,7 +145,7 @@ void PlayerUnit::startSpecial() {
 
 void PlayerUnit::onSpecialEnd() {
 	this->performingSpecial = false;
-	this->inputState = InputState::INPUT_STATE_WAIT;
+	this->inputState = InputState::INPUT_STATE_NONE;
 	this->SwitchActionState(UNIT_ACTION_STATE_POST_SPECIAL);
 	touchIndicator->SetVisible(false);
 }
@@ -165,9 +164,9 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	} else {
 		switch(ENGINE->GetInput()->GetTouch(touchId).phase) {
 			case TouchPhase::Began:
+				this->inputState = InputState::INPUT_STATE_NAV;
 				touchIndicator->GetTransform()->SetPosition(this->currentTouchedCell->center);
 				touchIndicator->GetTransform()->Translate(0.01f, YAXIS);
-				touchIndicator->SetVisible(true);
 				// touch indicator tween up
 				ENGINE->GetTween()->CancelScaleTween(this->touchIndicator->GetId());
 				ENGINE->GetTween()->CancelNumberTween("pulse");
@@ -175,13 +174,18 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				break;
 			case TouchPhase::Ended:
 				this->currentTouchedCell = nullptr;
-				this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
-				if(touchedCell != this->gridNavRef->GetCurrentCell()) {
+				this->inputState = InputState::INPUT_STATE_WAIT;
+				if(this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z) && touchedCell != this->gridNavRef->GetCurrentCell()) {
 					this->SwitchActionState(UNIT_ACTION_STATE_WALKING);
 					this->startTouchIndicatorPulse();
 				}
+				if(touchedCell == this->gridNavRef->GetCurrentCell()) {
+					ENGINE->GetTween()->CancelNumberTween("pulse");
+					ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), this->touchIndicator->GetTransform()->GetScale(), glm::vec3(0), TOUCH_SCALE_TIME);
+				}
 				break;
 			case TouchPhase::Cancelled:
+				this->inputState = InputState::INPUT_STATE_WAIT;
 				this->currentTouchedCell = nullptr;
 				touchIndicator->SetVisible(false);
 				break;
@@ -193,12 +197,23 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 
 void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
 	this->SetTouchIndicatorCell(this->currentTouchedCell);
-	if(this->inputState == InputState::INPUT_STATE_NAV) {
+	if(this->inputState == InputState::INPUT_STATE_NAV || this->inputState == InputState::INPUT_STATE_WAIT) {
 		if(this->gridNavRef->CanReachDestination(this->currentTouchedCell)) {
 			this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 		} else {
 			this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(BAD_TOUCH);
 		}
+		// Toggle the touch indicator visibility 
+		bool standable;
+		for(int i = 0; i < NUM_ELEVATIONS; ++i) {
+			standable = SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(this->currentTouchedCell->x,
+																						   this->currentTouchedCell->z,
+																						   i);
+			if(standable) {
+				break;
+			}
+		}
+		this->touchIndicator->SetVisible(standable);
 	}
 }
 
@@ -248,7 +263,7 @@ void PlayerUnit::SetTouchIndicatorSprite(int index) {
 
 void PlayerUnit::SetTouchIndicatorCell(GridCell* c) {
 	this->touchIndicator->GetTransform()->SetPosition(c->center);
-	this->touchIndicator->GetTransform()->Translate(0.01f + (c->y * 2.0f), YAXIS);
+	this->touchIndicator->GetTransform()->Translate(0.01f + (c->y * 0.05), YAXIS);
 }
 
 void PlayerUnit::SetTouchIndicatorVisible(bool visibility) {
