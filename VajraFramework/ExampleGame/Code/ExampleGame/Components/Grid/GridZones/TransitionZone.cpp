@@ -130,7 +130,7 @@ void TransitionZone::init() {
 }
 
 void TransitionZone::destroy() {
-
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
 void TransitionZone::onUnitEnteredZone(ObjectIdType id) {

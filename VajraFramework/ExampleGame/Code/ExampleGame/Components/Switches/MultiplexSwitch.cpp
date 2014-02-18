@@ -30,7 +30,7 @@ void MultiplexSwitch::init() {
 }
 
 void MultiplexSwitch::destroy() {
-
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
 void MultiplexSwitch::SetSwitchType(std::string typeStr) {

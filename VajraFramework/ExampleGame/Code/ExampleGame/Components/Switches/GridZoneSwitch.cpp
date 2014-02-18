@@ -27,6 +27,8 @@ void GridZoneSwitch::init() {
 }
 
 void GridZoneSwitch::destroy() {
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+
 	this->occupants.clear();
 }
 

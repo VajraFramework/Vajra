@@ -61,7 +61,7 @@ void TriggerElevationChange::init() {
 }
 
 void TriggerElevationChange::destroy() {
-
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
 void TriggerElevationChange::SetTriggerType(std::string typeStr) {
