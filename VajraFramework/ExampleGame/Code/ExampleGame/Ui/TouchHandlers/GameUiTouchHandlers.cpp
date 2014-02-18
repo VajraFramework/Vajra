@@ -144,7 +144,6 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		return;
 	}
 #endif
-	
 	// PAUSE MENU
 	UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 	if(pauseMenu->IsVisible()) {
@@ -152,12 +151,15 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 			pauseMenu->SetVisible(false);
 			ENGINE->GetSceneGraph3D()->Resume();
 			ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_UNPAUSE);
+			return;
 		} else if (uiObject->GetName() == "restart_pause") {
 			SINGLETONS->GetLevelManager()->ReloadCurrentLevel();
 			pauseMenu->SetVisible(!pauseMenu->IsVisible());
+			return;
 		} else if (uiObject->GetName() == "mission_from_pause") {
 			pauseMenu->SetVisible(false);
 			this->returnToMissionSelect();
+			return;
 		}
 	}
 	
@@ -166,39 +168,45 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		pauseMenu->SetVisible(!pauseMenu->IsVisible());
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_PAUSE);
 		ENGINE->GetSceneGraph3D()->Pause();
-		//UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
-		//postMenu->SetVisible(true);
-		
+		return;
 	} else if(uiObject->GetName() == "changeUnit") {
 		SINGLETONS->GetGridManager()->SwitchSelectedUnit();
+		return;
 	}
 	
 	// END MENU
 	UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
-	ASSERT(postMenu != nullptr, "postMenu still around");
-	if(postMenu->IsVisible()) {
+	//ASSERT(postMenu != nullptr, "postMenu still around");
+	if(postMenu == nullptr) {
+		FRAMEWORK->GetLogger()->dbglog("\n TOUCH: %s \n", uiObject->GetName().c_str());
+	}
+	if(postMenu != nullptr && postMenu->IsVisible()) {
 		if (uiObject->GetName() == "continue") {
 			if(SINGLETONS->GetLevelManager()->TryLoadNextLevel()) {
 				postMenu->SetVisible(false);
+				return;
 
 			} else {
 				postMenu->SetVisible(false);
 				this->returnToMissionSelect();
+				return;
 
 			}
 		} else if (uiObject->GetName() == "restart_post") {
 			SINGLETONS->GetLevelManager()->ReloadCurrentLevel();
 			postMenu->SetVisible(false);
+			return;
 		} else if (uiObject->GetName() == "mission_post") {
 			postMenu->SetVisible(false);
 			this->returnToMissionSelect();
-			
+			return;
 		}
 	}	
 
 	// TUTORIAL
 	if(uiObject->GetName() == TUTORIAL_NEXT_BTN) {
 		this->nextTutorialImage();
+		return;
 	} else if(uiObject->GetName() == TUTORIAL_EXIT_BTN) {
 		// tween in the tutorial
 		UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TUTORIAL_MENU]);
@@ -211,13 +219,14 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 										  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
 										  false,
 										  onTutorialTweenOutComplete);
+		return;
 	}
 }
 
 void GameUiTouchHandlers::returnToMissionSelect() {
+	UiSceneLoader::UnloadCurrentUiScene();
 	SINGLETONS->GetLevelManager()->UnloadLevel();	
 	std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
-	UiSceneLoader::UnloadCurrentUiScene();
 	UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
 	
 }
