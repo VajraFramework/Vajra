@@ -23,6 +23,7 @@ enum GameConstantId_type {
 	GAME_CONSTANT_dash_distance_in_units,
 	GAME_CONSTANT_jump_distance_in_units,
 	GAME_CONSTANT_jump_elevation_multiplier,
+	GAME_CONSTANT_jump_speed_in_units_per_second,
 	GAME_CONSTANT_target_tween_time,
 	GAME_CONSTANT_target_indicator_offset,
 	GAME_CONSTANT_target_indicator_scale,
