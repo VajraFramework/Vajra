@@ -86,116 +86,11 @@ bool renderFrame() {
 	}
 #endif
 
-    // static float grey = 0.0f;
     glClearColor(0.2f, 0.2f, 0.3f, 0.0f);                    checkGlError("glClearColor");
     glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);    checkGlError("glClear");
 
-    float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
-    {
-        // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(112);
-        if (quad != nullptr) {
-        	Transform* transform = quad->GetTransform();
-        	if (transform != nullptr) {
-        		// transform->SetOrientation(90.0f inRadians, YAXIS);
-        		transform->Translate(0.5f * deltaTime, transform->GetForward());
-        		transform->Rotate(60.0f * deltaTime inRadians, YAXIS);
-        		transform->Rotate(30.0f * deltaTime inRadians, -transform->GetLeft());
-        	}
-        }
-    }
-    {
-        // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(113);
-        if (quad != nullptr) {
-        	Transform* transform = quad->GetTransform();
-        	if (transform != nullptr) {
-        		// transform->SetOrientation(90.0f inRadians, YAXIS);
-        		// transform->Translate(0.04f, transform->GetForward());
-        		// transform->Rotate(30.0f * deltaTime inRadians, YAXIS);
-        		// transform->Rotate(0.4f inRadians, -transform->GetLeft());
-        	}
-        }
-    }
-    {
-        // Temp, testing transforms:
-        GameObject* quad = ENGINE->GetSceneGraph3D()->GetGameObjectById(114);
-        if (quad != nullptr) {
-        	Transform* transform = quad->GetTransform();
-        	if (transform != nullptr) {
-        		// transform->SetOrientation(90.0f inRadians, YAXIS);
-        		// transform->Translate(0.04f, transform->GetForward());
-        		// transform->Rotate(50.0f * deltaTime inRadians, YAXIS);
-        		// transform->Rotate(0.4f inRadians, -transform->GetLeft());
-        	}
-        }
-    }
-#if 0
-    {
-        // Temp, testing transforms:
-        GameObject* dlight = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainDirectionalLight()->GetObject();
-        if (dlight != nullptr) {
-        	Transform* transform = dlight->GetTransform();
-        	if (transform != nullptr) {
-        		// transform->SetOrientation(90.0f inRadians, YAXIS);
-        		transform->Translate(0.1f * deltaTime, transform->GetForward());
-        		transform->Rotate(-10.0f * deltaTime inRadians, YAXIS);
-        		// transform->Rotate(100.0f * deltaTime inRadians, -transform->GetLeft());
-        	}
-        }
-    }
-#endif
-    {
-        // Sending arbit message for testing
-        {
-			ENGINE->GetMessageHub()->SendPointcastMessage(MESSAGE_TYPE_UNSPECIFIED, 111);
-        }
-    }
-    {
-    	// GameObject* wavybox = ENGINE->GetSceneGraph3D()->GetGameObjectById(114);
-    	// Transform* transform = wavybox->GetTransform();
-    	// transform->Rotate(10.0f * deltaTime inRadians, YAXIS);
-    	// transform->Translate(0.05f * deltaTime, transform->GetForward());
-    	/* Armature* armature =  wavybox->GetComponent<Armature>();*/
+    // float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
 
-
-#if 0
-    	{
-			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_BackJoint01");
-			someBone->Rotate(5.0f * deltaTime inRadians, XAXIS, false);
-    	}
-#endif
-#if 0
-    	{
-			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_Left_ElbowJoint01");
-			someBone->Rotate(-5.0f * deltaTime inRadians, YAXIS, false);
-    	}
-#endif
-#if 0
-    	{
-			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_Left_ShoulderJoint01");
-			someBone->Rotate(-5.0f * deltaTime inRadians, YAXIS, true);
-    	}
-#endif
-#if 0
-    	{
-			Bone* someBone = armature->GetBoneByName("LadyAssassinWeights_NeckJoint01");
-			someBone->Translate(0.5f * deltaTime, YAXIS, false);
-    	}
-#endif
-#if 0
-    	{
-			Bone* someBone = armature->GetBoneByName("joint13");
-			someBone->Rotate(5.0f * deltaTime inRadians, ZAXIS, false);
-    	}
-#endif
-#if 0
-    	{
-			Bone* someBone = armature->GetBoneByName("joint6");
-			someBone->Rotate(5.0f * deltaTime inRadians, ZAXIS, true);
-    	}
-#endif
-    }
 #if 0
     {
         if(ENGINE->GetInput()->GetTouchCount() > 0)
@@ -223,6 +118,7 @@ bool renderFrame() {
 	DebugDraw::DrawCube(torus->GetTransform()->GetPosition(), 1.0f);
 
 #endif
+
     ENGINE->DoFrame();
 
     // printFrameTimeStats();
