@@ -108,6 +108,11 @@ void MessageHub::drainMessageCache_internal() {
 				bool retrievedMessageIsValid = false;
 				do {
 					MessageChunk messageChunk = this->RetrieveNextMessage(receipientId, retrievedMessageIsValid);
+#ifdef DEBUG
+					if (retrievedMessageIsValid) {
+						FRAMEWORK->GetLogger()->dbglog("\nDraining message to missing object of id %d, message type: %d", receipientId, messageChunk->GetMessageType());
+					}
+#endif
 				} while (retrievedMessageIsValid);
 			}
 		}

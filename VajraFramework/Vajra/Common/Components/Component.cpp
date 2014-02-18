@@ -49,6 +49,9 @@ void Component::HandleMessage(MessageChunk messageChunk) {
 void Component::addSubscriptionToMessageType(MessageType messageType, ComponentIdType selfComponentId, bool onLocalObject) {
 	if (this->GetObject() != nullptr) {
 		this->GetObject()->SubscribeToMessageType(messageType, selfComponentId, onLocalObject);
+		if (!onLocalObject) {
+			this->broadcastMessageTypesSubscribedTo.push_back(messageType);
+		}
 	} else {
 		FRAMEWORK->GetLogger()->dbglog("\nFailed to add subscription to messageType: %d because Object hasn't been assigned yet", messageType);
 	}
@@ -59,7 +62,7 @@ void Component::removeSubscriptionToMessageType(MessageType messageType, Compone
 }
 
 void Component::removeSubscriptionToAllMessageTypes(ComponentIdType selfComponentId) {
-	for (MessageType& messageType : this->messageTypesSubscribedTo) {
+	for (MessageType& messageType : this->broadcastMessageTypesSubscribedTo) {
 		this->removeSubscriptionToMessageType(messageType, selfComponentId);
 	}
 }

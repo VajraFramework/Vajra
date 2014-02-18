@@ -43,7 +43,7 @@ private:
 
 	Object* object;
 
-	std::vector<MessageType> messageTypesSubscribedTo;
+	std::vector<MessageType> broadcastMessageTypesSubscribedTo;
 };
 
 #endif // COMPONENT_H
