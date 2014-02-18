@@ -254,9 +254,17 @@ void LevelLoader::loadOtherDataFromXml(XmlNode* otherDataNode) {
 	while (dynamicObjNode != nullptr) {
 		int objXmlId       = dynamicObjNode->GetAttributeValueI(ID_ATTRIBUTE);
 		std::string prefab = dynamicObjNode->GetAttributeValueS(PREFAB_ATTRIBUTE);
+		int xGridPosition  = dynamicObjNode->GetAttributeValueI(X_ATTRIBUTE);
+		float yPosition    = dynamicObjNode->GetAttributeValueF(Y_ATTRIBUTE);
+		int zGridPosition  = dynamicObjNode->GetAttributeValueI(Z_ATTRIBUTE);
+		float rotation     = dynamicObjNode->GetAttributeValueF(ROTATION_ATTRIBUTE) inRadians;
 
 		GameObject* dynamicObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + prefab + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
 		idsFromXml[objXmlId] = dynamicObj->GetId();
+
+		// Position and orient the object
+		dynamicObj->GetTransform()->SetPosition(xGridPosition, yPosition, -zGridPosition);
+		dynamicObj->GetTransform()->SetOrientation(rotation, YAXIS);
 
 		// Check for overloaded components
 		XmlNode* compNode = dynamicObjNode->GetFirstChildByNodeName(COMPONENT_TAG);
