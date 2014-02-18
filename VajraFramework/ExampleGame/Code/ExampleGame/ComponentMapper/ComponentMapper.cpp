@@ -27,8 +27,10 @@
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Components/Switches/GridZoneSwitch.h"
+#include "ExampleGame/Components/Switches/MultiplexSwitch.h"
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/Components/Triggers/TriggerElevationChange.h"
+#include "ExampleGame/Components/Triggers/TriggerTerrainBlock.h"
 #include "ExampleGame/Components/Triggers/TriggerTransformation.h"
 
 
@@ -191,6 +193,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
+	if (componentName == "MultiplexSwitch") {
+		MultiplexSwitch* component = gameObject->GetComponent<MultiplexSwitch>();
+		if (component == nullptr) { component = gameObject->AddComponent<MultiplexSwitch>(); }
+		return component;
+	}
+	
 	if (componentName == "Triggerable") {
 		Triggerable* component = gameObject->GetComponent<Triggerable>();
 		if (component == nullptr) { component = gameObject->AddComponent<Triggerable>(); }
@@ -200,6 +208,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "TriggerElevationChange") {
 		TriggerElevationChange* component = gameObject->GetComponent<TriggerElevationChange>();
 		if (component == nullptr) { component = gameObject->AddComponent<TriggerElevationChange>(); }
+		return component;
+	}
+	
+	if (componentName == "TriggerTerrainBlock") {
+		TriggerTerrainBlock* component = gameObject->GetComponent<TriggerTerrainBlock>();
+		if (component == nullptr) { component = gameObject->AddComponent<TriggerTerrainBlock>(); }
 		return component;
 	}
 	
@@ -360,6 +374,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "Rotate") {
 			if ((int)argv.size() < 4) { return; }
 			component->Rotate(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
+		}
+		if (propertyName == "RotateByDegrees") {
+			if ((int)argv.size() < 4) { return; }
+			component->RotateByDegrees(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
 			return;
 		}
 		if (propertyName == "Scale") {
@@ -652,6 +671,32 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
+	if (componentName == "MultiplexSwitch") {
+		MultiplexSwitch* component = gameObject->GetComponent<MultiplexSwitch>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetSwitchType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetSwitchType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetResetTime") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetResetTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
+			return;
+		}
+		return;
+	}
+	
 	if (componentName == "Triggerable") {
 		Triggerable* component = gameObject->GetComponent<Triggerable>();
 		if (component == nullptr) { return; }
@@ -689,6 +734,37 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetRaisedState") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetRaisedState(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SubscribeToMySwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToMySwitch();
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "TriggerTerrainBlock") {
+		TriggerTerrainBlock* component = gameObject->GetComponent<TriggerTerrainBlock>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetChangeWalkability") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetChangeWalkability(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SetChangeVisibility") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetChangeVisibility(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		if (propertyName == "SubscribeToMySwitch") {

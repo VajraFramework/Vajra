@@ -32,8 +32,8 @@ public:
 	void SetMainCameraId(ObjectIdType id);
 
 	inline bool IsPaused() { return this->isPaused;  }
-	inline void Pause()    { this->isPaused = true;  }
-	inline void Resume()   { this->isPaused = false; }
+	void Pause();
+	void Resume();
 
 	virtual void update() = 0;
 	virtual void draw() = 0;

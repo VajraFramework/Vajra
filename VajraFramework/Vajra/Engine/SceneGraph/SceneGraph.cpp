@@ -4,6 +4,7 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
 #include "Vajra/Engine/SceneGraph/RenderLists.h"
+#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
@@ -62,6 +63,21 @@ void SceneGraph::UnloadCurrentScene() {
 	delete this->renderLists; 
 	this->renderLists = new RenderLists();
 }
+
+void SceneGraph::Pause() {
+	this->isPaused = true;
+	this->root->Pause();
+
+	ENGINE->GetTween()->PauseNumberTweensByAffiliation(NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D);
+}
+
+void SceneGraph::Resume() {
+	this->isPaused = false;
+	this->root->Resume();
+
+	ENGINE->GetTween()->ResumeNumberTweensByAffiliation(NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D);
+}
+
 void SceneGraph::init() {
 	this->root = nullptr;
 	this->renderLists = new RenderLists();

@@ -5,6 +5,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 
@@ -30,6 +31,8 @@ void Object::init() {
 
 	this->parentId = OBJECT_ID_INVALID;
 
+	this->isPaused = false;
+
 	FRAMEWORK->GetLogger()->dbglog("\nCreated new Object of id: %d", this->GetId());
 }
 
@@ -49,7 +52,7 @@ void Object::HandleMessages() {
 	do {
 		retrievedMessageIsValid = false;
 		MessageChunk messageChunk = ENGINE->GetMessageHub()->RetrieveNextMessage(this->GetId(), retrievedMessageIsValid);
-		if (retrievedMessageIsValid) {
+		if (retrievedMessageIsValid && !this->isPaused) {
 			// FRAMEWORK->GetLogger()->dbglog("\nObject %d got msg of type %d", this->GetId(), messageChunk->GetMessageType());
 			// Forward message to subscribed components:
 			unsigned int numMsgTypes = this->subscribersForMessageType.size();
@@ -188,6 +191,38 @@ void Object::removeAllComponents() {
 	}
 
 	this->componentMap.clear();
+}
+
+void Object::Pause() {
+	this->isPaused = true;
+	// TODO [Implement] Make sure to respect the object's original pause state, somehow
+	for (ObjectIdType childId : this->children) {
+		Object* child = ObjectRegistry::GetObjectById(childId);
+		if (child != nullptr) {
+			child->Pause();
+		}
+	}
+
+	// Pause all ongoing tweens this object might be participating in:
+	ENGINE->GetTween()->PausePostitionTween(this->GetId());
+	ENGINE->GetTween()->PauseOrientationTween(this->GetId());
+	ENGINE->GetTween()->PauseScaleTween(this->GetId());
+}
+
+void Object::Resume() {
+	this->isPaused = false;
+	// TODO [Implement] Make sure to respect the object's original pause state, somehow
+	for (ObjectIdType childId : this->children) {
+		Object* child = ObjectRegistry::GetObjectById(childId);
+		if (child != nullptr) {
+			child->Resume();
+		}
+	}
+
+	// Resume all ongoing tweens this object might be participating in:
+	ENGINE->GetTween()->ResumePostitionTween(this->GetId());
+	ENGINE->GetTween()->ResumeOrientationTween(this->GetId());
+	ENGINE->GetTween()->ResumeScaleTween(this->GetId());
 }
 
 ObjectIdType Object::getNextFreeId() {

@@ -116,14 +116,19 @@ float GameGrid::ConvertElevationToWorldY(unsigned int elevation) {
 	return elevation * ELEVATION_UNIT;
 }
 
+void GameGrid::GetCoordinates(int& outX, int& outZ, glm::vec3 worldPosition) {
+	outX = (int)(( worldPosition.x / CELL_SIZE) + 0.5f);
+	outZ = (int)((-worldPosition.z / CELL_SIZE) + 0.5f);
+}
+
 GridCell* GameGrid::GetCell(int x, int z) {
 	if (isWithinGrid(x * CELL_SIZE, z * CELL_SIZE)) { return this->gridCells[x][z]; }
 	return nullptr;
 }
 
 GridCell* GameGrid::GetCell(glm::vec3 loc) {
-	int gX = (int)((loc.x / CELL_SIZE) + 0.5f);
-	int gZ = (int)((-loc.z / CELL_SIZE) + 0.5f);
+	int gX, gZ;
+	this->GetCoordinates(gX, gZ, loc);
 	return GetCell(gX, gZ);
 }
 
@@ -505,8 +510,8 @@ bool GameGrid::isWithinGrid(int x, int z) {
 }
 
 bool GameGrid::isWithinGrid(glm::vec3 loc) {
-	int gX = (int)((loc.x / CELL_SIZE) + 0.5f);
-	int gZ = (int)((-loc.z / CELL_SIZE) + 0.5f);
+	int gX, gZ;
+	this->GetCoordinates(gX, gZ, loc);
 	return isWithinGrid(gX, gZ);
 }
 

@@ -27,6 +27,8 @@ public:
 	inline unsigned int GetGridWidth()   { return this->gridWidth;  }
 	inline unsigned int GetGridHeight()  { return this->gridHeight; }
 
+	void GetCoordinates(int& outX, int& outZ, glm::vec3 worldPosition);
+
 	GridCell* GetCell(int gridX, int gridZ);     // Returns the cell at the specified coordinates
 	GridCell* GetCell(glm::vec3 worldPosition);  // Returns the cell at the specified world position
 

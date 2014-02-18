@@ -6,6 +6,7 @@
 #include "ExampleGame/Components/Triggers/TriggerTransformation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
@@ -91,9 +92,22 @@ void TriggerTransformation::onSwitchToggled(bool /*switchState*/) {
 
 void TriggerTransformation::startTransformation(bool transformed) {
 	if (transformed != this->isTransformed) {
-		ObjectIdType myId = this->GetObject()->GetId();
-		Transform* trans = this->GetObject()->GetComponent<Transform>();
+		this->startTranslation(transformed);
+		this->startRotation(transformed);
+		this->startScaling(transformed);
 
+		this->isTransformed = transformed;
+	}
+}
+
+void TriggerTransformation::startTranslation(bool transformed) {
+	ObjectIdType myId = this->GetObject()->GetId();
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+
+	// Check if there's already a tween going on.
+	OnGoingTransformTweenDetails* translationDetails = ENGINE->GetTween()->GetOnGoingTransformTweenDetails(myId, TRANSFORM_TWEEN_TARGET_POSITION);
+	if (translationDetails == nullptr) {
+		// Don't do a tween if there's no translation
 		if (glm::length(this->translation) > ROUNDING_ERROR) {
 			glm::vec3 finalPosition = trans->GetPosition();
 			if (transformed) {
@@ -102,51 +116,141 @@ void TriggerTransformation::startTransformation(bool transformed) {
 			else {
 				finalPosition -= this->translation;
 			}
+
+			float tweenTime = this->transitTime;
+
 			ENGINE->GetTween()->TweenPosition(
 				myId,
 				finalPosition,
-				this->transitTime,
+				tweenTime,
 				true,
 				TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
 				false,
 				nullptr
 			);
 		}
-
-		glm::quat finalOrientation = trans->GetOrientation();
+	}
+	else {
+		// Reverse the current tween
+		float tweenTime = this->transitTime - translationDetails->totalTime + translationDetails->currentTime;
+		glm::vec3 diff;
 		if (transformed) {
-			finalOrientation = finalOrientation * this->rotation;
+			diff = this->translation * (tweenTime / this->transitTime);
 		}
 		else {
-			finalOrientation = finalOrientation * glm::inverse(this->rotation);
+			diff = this->translation * (-tweenTime / this->transitTime);
 		}
+
+		glm::vec3 finalPosition = trans->GetPosition() + diff;
+
+		ENGINE->GetTween()->TweenPosition(
+			myId,
+			finalPosition,
+			tweenTime,
+			true,
+			TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+			false,
+			nullptr
+		);
+	}
+}
+
+void TriggerTransformation::startRotation(bool transformed) {
+	ObjectIdType myId = this->GetObject()->GetId();
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+
+	// Check if there's already a tween going on.
+	OnGoingTransformTweenDetails* rotationDetails = ENGINE->GetTween()->GetOnGoingTransformTweenDetails(myId, TRANSFORM_TWEEN_TARGET_ORIENTATION);
+	if (rotationDetails == nullptr) {
+		// Don't do a tween if there's no rotation
+		if (true) {
+			glm::quat finalOrientation = trans->GetOrientation();
+			if (transformed) {
+				finalOrientation = finalOrientation * this->rotation;
+			}
+			else {
+				finalOrientation = finalOrientation * glm::inverse(this->rotation);
+			}
+
+			float tweenTime = this->transitTime;
+
+			ENGINE->GetTween()->TweenOrientation(
+				myId,
+				finalOrientation,
+				tweenTime,
+				true,
+				false,
+				nullptr
+			);
+		}
+	}
+	else {
+		// Reverse the current tween
+		float tweenTime = this->transitTime - rotationDetails->totalTime + rotationDetails->currentTime;
+		float angle = glm::angle(this->rotation);
+		glm::vec3 axis = glm::axis(this->rotation);
+		glm::quat diff;
+		if (transformed) {
+			diff = glm::angleAxis(angle * (tweenTime / this->transitTime), axis);
+		}
+		else {
+			diff = glm::angleAxis(angle * (tweenTime / this->transitTime), -axis);
+		}
+		glm::quat finalOrientation = trans->GetOrientation() * diff;
+
 		ENGINE->GetTween()->TweenOrientation(
 			myId,
 			finalOrientation,
-			this->transitTime,
+			tweenTime,
 			true,
-			//TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
 			false,
 			nullptr
 		);
+	}
+}
 
-		glm::vec3 finalScale = trans->GetScale();
-		if (transformed) {
-			finalScale = finalScale * this->scaling;
+void TriggerTransformation::startScaling(bool transformed) {
+	ObjectIdType myId = this->GetObject()->GetId();
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+
+	// Check if there's already a tween going on.
+	OnGoingTransformTweenDetails* scalingDetails = ENGINE->GetTween()->GetOnGoingTransformTweenDetails(myId, TRANSFORM_TWEEN_TARGET_SCALE);
+	if (scalingDetails == nullptr) {
+		// Don't do a tween if there's no scaling
+		if (true) {
+			glm::vec3 finalScale = trans->GetScale();
+			if (transformed) {
+				finalScale = finalScale * this->scaling;
+			}
+			else {
+				finalScale = finalScale / this->scaling;
+			}
+
+			float tweenTime = this->transitTime;
+
+			ENGINE->GetTween()->TweenScale(
+				myId,
+				finalScale,
+				tweenTime,
+				true,
+				false,
+				nullptr
+			);
 		}
-		else {
-			finalScale = finalScale / this->scaling;
-		}
+	}
+	else {
+		// Reverse the current tween
+		float tweenTime = this->transitTime - scalingDetails->totalTime + scalingDetails->currentTime;
+		glm::vec3 diff  = (scalingDetails->current_v - scalingDetails->to_v) * (tweenTime / (this->transitTime - tweenTime));
+		glm::vec3 finalScale = trans->GetScale() + diff;
+
 		ENGINE->GetTween()->TweenScale(
 			myId,
 			finalScale,
-			this->transitTime,
+			tweenTime,
 			true,
-			//TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
 			false,
 			nullptr
 		);
-
-		this->isTransformed = transformed;
 	}
 }

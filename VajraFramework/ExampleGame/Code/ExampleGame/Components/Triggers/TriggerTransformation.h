@@ -53,6 +53,10 @@ private:
 
 	void startTransformation(bool transformed);
 
+	void startTranslation(bool transformed);
+	void startRotation(bool transformed);
+	void startScaling(bool transformed);
+
 	glm::vec3 translation;
 	glm::quat rotation;
 	glm::vec3 scaling;
