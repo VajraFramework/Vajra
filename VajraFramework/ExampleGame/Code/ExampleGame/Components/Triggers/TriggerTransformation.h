@@ -63,14 +63,6 @@ private:
 
 	float transitTime;
 	bool isTransformed;
-
-	bool isTranslating;
-	bool isRotating;
-	bool isScaling;
-
-	friend void translationTriggerTweenCallback(ObjectIdType gameObjectId, std::string tweenClipName);
-	friend void rotationTriggerTweenCallback(ObjectIdType gameObjectId, std::string tweenClipName);
-	friend void scalingTriggerTweenCallback(ObjectIdType gameObjectId, std::string tweenClipName);
 };
 
 void TriggerTransformation::SetTransitTime(float seconds)         { this->transitTime = seconds;       }
