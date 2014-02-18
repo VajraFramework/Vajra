@@ -161,12 +161,24 @@ glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
 	Ray screenRay = ENGINE->GetSceneGraph3D()->GetMainCamera()->ScreenPointToRay(touchPos);
 	float dist;
 	this->gridPlane.origin.y = 0.0f;
+
+	GridCell* touchedCell = nullptr;
+	glm::vec3 posAtHeight;
 	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
 	{
 		gridPosition = screenRay.origin + screenRay.dir * dist;
+		for(int i = NUM_ELEVATIONS; i > -1; --i) {
+			posAtHeight = gridPosition + glm::vec3(0.0f, i, i);
+			touchedCell = this->GetGrid()->GetCell(posAtHeight);
+			if(this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
+				break;
+			}
+			
+		}
 	}
-	return gridPosition;
+	return posAtHeight;
 }
+
 
 void GridManager::SwitchSelectedUnit() {
 	UnitType uType = UNIT_TYPE_ASSASSIN;
@@ -202,8 +214,8 @@ void GridManager::debugTouchUpdate(int touchIndex) {
 	if (cell != nullptr) {
 		DebugDraw::DrawCube(cell->center, 1.0f);
 	}
-	glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
-	DebugDraw::DrawCube(gridPos, 0.1f);
+	//glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
+	//DebugDraw::DrawCube(gridPos, 0.1f);
 }
 #endif
 
