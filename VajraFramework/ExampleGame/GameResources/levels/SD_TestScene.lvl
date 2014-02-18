@@ -246,23 +246,7 @@
   </units>
 
   <other>
-      <dynamicObject id="56728" prefab="ScreenTransZone">
-          <component name="TransitionZone">
-              <property name="SetZoneBounds">
-                  <field>18</field>
-                  <field>5</field>
-                  <field>20</field>
-                  <field>8</field>
-              </property>
-              <property name="SetFirstDestination">
-                  <field>17</field>
-                  <field>7</field>
-              </property>
-              <property name="SetSecondDestination">
-                  <field>21</field>
-                  <field>7</field>
-              </property>
-          </component>
+      <dynamicObject id="56728" prefab="ScreenTransZone" x="19" y="0.0" z="7" rotation="0.0">
       </dynamicObject>
   </other>
 

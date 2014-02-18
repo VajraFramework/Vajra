@@ -101,8 +101,19 @@ void MessageHub::drainMessageCache_internal() {
 			if (receipient != nullptr) {
 				ASSERT(receipient->GetId() > OBJECT_ID_INVALID, "Valid object id (%d) should have been %d", receipient->GetId(), receipientId);
 				receipient->HandleMessages();
+
 			} else {
-				FRAMEWORK->GetLogger()->dbglog("\nWarning: Trying to deliver message to missing object of id %d", receipientId);
+				FRAMEWORK->GetLogger()->dbglog("\nWarning: Trying to deliver message to missing object of id %d. Draining those messages instead", receipientId);
+				// Drain messages intended for game object that doesn't exist anymore:
+				bool retrievedMessageIsValid = false;
+				do {
+					MessageChunk messageChunk = this->RetrieveNextMessage(receipientId, retrievedMessageIsValid);
+#ifdef DEBUG
+					if (retrievedMessageIsValid) {
+						FRAMEWORK->GetLogger()->dbglog("\nDraining message to missing object of id %d, message type: %d", receipientId, messageChunk->GetMessageType());
+					}
+#endif
+				} while (retrievedMessageIsValid);
 			}
 		}
 		this->currentlyDrainingMessageCacheRef->ClearMessagesForReceipientId(receipientId);

@@ -406,92 +406,17 @@
   </units>
 
   <other>
-      <dynamicObject id="11302" prefab="ScreenTransZone">
-          <component name="TransitionZone">
-              <property name="SetZoneBounds">
-                  <field>22</field>
-                  <field>10</field>
-                  <field>24</field>
-                  <field>12</field>
-              </property>
-              <property name="SetFirstDestination">
-                  <field>21</field>
-                  <field>11</field>
-              </property>
-              <property name="SetSecondDestination">
-                  <field>25</field>
-                  <field>11</field>
-              </property>
-          </component>
+      <dynamicObject id="11302" prefab="ScreenTransZone" x="23" y="0.0" z="11" rotation="0.0">
       </dynamicObject>
-      <dynamicObject id="10260" prefab="ScreenTransZone">
-          <component name="TransitionZone">
-              <property name="SetZoneBounds">
-                  <field>40</field>
-                  <field>10</field>
-                  <field>42</field>
-                  <field>12</field>
-              </property>
-              <property name="SetFirstDestination">
-                  <field>39</field>
-                  <field>11</field>
-              </property>
-              <property name="SetSecondDestination">
-                  <field>43</field>
-                  <field>11</field>
-              </property>
-          </component>
+      <dynamicObject id="10260" prefab="ScreenTransZone" x="41" y="0.0" z="11" rotation="0.0">
       </dynamicObject>
-      <dynamicObject id="10263" prefab="TestElevator_3x3">
-		  <component name="Transform">
-		      <property name="Translate">
-			      <field>19</field>
-				  <field>0</field>
-				  <field>-13</field>
-			  </property>
-		  </component>
+      <dynamicObject id="10263" prefab="TestElevator_3x3" x="19" y="0.0" z="13" rotation="0.0">
       </dynamicObject>
-	  <dynamicObject id="10264" prefab="Lever">
-			<component name="Transform">
-				<property name="Translate">
-					<field>19</field>
-					<field>0</field>
-					<field>-9</field>
-				</property>
-			</component>
-			<component name="GridZone">
-				<property name="SetZoneBounds">
-					<field>0</field>
-					<field>0</field>
-					<field>0</field>
-					<field>0</field>
-				</property>
-			</component>
+	  <dynamicObject id="10264" prefab="Lever" x="19" y="0.0" z="9" rotation="0.0">
 	  </dynamicObject>
-	  <dynamicObject id="10265" prefab="TriggerGate">
-			<component name="Transform">
-				<property name="Translate">
-					<field>22</field>
-					<field>0</field>
-					<field>-11</field>
-				</property>
-				
-				<property name="RotateByDegrees">
-					<field>90.0</field>
-					<field>0.0</field>
-					<field>1.0</field>
-					<field>0.0</field>
-				</property>
-			</component>
+	  <dynamicObject id="10265" prefab="TriggerGate" x="22" y="0.0" z="11" rotation="90.0">
 	  </dynamicObject>
-	  <dynamicObject id="10266" prefab="TriggerGate">
-			<component name="Transform">
-				<property name="Translate">
-					<field>12</field>
-					<field>0</field>
-					<field>-14</field>
-				</property>
-			</component>
+	  <dynamicObject id="10266" prefab="TriggerGate" x="12" y="0.0" z="14" rotation="0.0">
 	  </dynamicObject>
   </other>
 
