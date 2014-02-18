@@ -52,6 +52,8 @@ public:
 	void Rotate(float angleInRadians, float x, float y, float z);
 	void Rotate(float angleInRadians, glm::vec3 axis);
 	void Rotate(glm::quat quaternion);
+	//[[PROPERTY]]//
+	void RotateByDegrees(float angleInDegrees, float x, float y, float z);
 	void Scale(float x, float y, float z);
 	void Scale(glm::vec3 scaleVector);
 	//[[PROPERTY]]//

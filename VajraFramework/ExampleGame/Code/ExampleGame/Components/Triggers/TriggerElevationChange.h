@@ -47,6 +47,8 @@ private:
 	void destroy();
 
 	void startTransition(bool raised);
+	void startPositionTween(bool raised);
+	void changeCellElevations(bool raised);
 
 	int elevationChange;  // The amount of elevation change when this trigger activates
 	float transitTime;
