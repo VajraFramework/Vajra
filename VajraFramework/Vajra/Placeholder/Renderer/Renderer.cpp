@@ -86,7 +86,7 @@ bool renderFrame() {
 	}
 #endif
 
-    //static float grey = 0.0f;
+    // static float grey = 0.0f;
     glClearColor(0.2f, 0.2f, 0.3f, 0.0f);                    checkGlError("glClearColor");
     glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);    checkGlError("glClear");
 
@@ -152,7 +152,7 @@ bool renderFrame() {
         }
     }
     {
-    	//GameObject* wavybox = ENGINE->GetSceneGraph3D()->GetGameObjectById(114);
+    	// GameObject* wavybox = ENGINE->GetSceneGraph3D()->GetGameObjectById(114);
     	// Transform* transform = wavybox->GetTransform();
     	// transform->Rotate(10.0f * deltaTime inRadians, YAXIS);
     	// transform->Translate(0.05f * deltaTime, transform->GetForward());
