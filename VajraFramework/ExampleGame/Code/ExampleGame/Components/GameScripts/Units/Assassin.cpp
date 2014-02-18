@@ -93,7 +93,7 @@ void Assassin::onSpecialEnd() {
 }
 
 void Assassin::touchedCellChanged(GridCell* prevTouchedCell) {
-	if(this->inputState == InputState::INPUT_STATE_NAV) {
+	if(this->inputState != InputState::INPUT_STATE_SPECIAL) {
 		PlayerUnit::touchedCellChanged(prevTouchedCell);
 	} else {
 		this->aimSpecial();

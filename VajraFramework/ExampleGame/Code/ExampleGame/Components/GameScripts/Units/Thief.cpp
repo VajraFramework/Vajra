@@ -107,10 +107,12 @@ void Thief::startSpecial() {
 	this->SetTouchIndicatorSprite(THIEF_SPECIAL);
 	this->SetTouchIndicatorVisible(true);
 	
+	float jumpDist = glm::distance(this->targetedCell->center, this->gameObjectRef->GetTransform()->GetPosition());
+	float jumpTweenTime = jumpDist / GetFloatGameConstant(GAME_CONSTANT_jump_speed_in_units_per_second);
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
 									  this->gameObjectRef->GetTransform()->GetPosition(),
 									  this->targetedCell->center,
-									  1.0f,
+									  jumpTweenTime,
 									  false,
 									  TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA, 
 									  false,
@@ -124,7 +126,7 @@ void Thief::onSpecialEnd() {
 }
 
 void Thief::touchedCellChanged(GridCell* prevTouchedCell) {
-	if(this->inputState == InputState::INPUT_STATE_NAV) {
+	if(this->inputState != InputState::INPUT_STATE_SPECIAL) {
 		PlayerUnit::touchedCellChanged(prevTouchedCell);
 	} else {
 		if(this->targetIndicators[prevTouchedCell]) {
@@ -158,15 +160,27 @@ void Thief::updateLegalTagets() {
 															  + elevation * GetFloatGameConstant(GAME_CONSTANT_jump_elevation_multiplier));
 
 	for ( GridCell* c : cellsInRange) {
-		if(c->y == elevation) { // is the cell on the same height
+		int cellElevation = 0;
+		for(int i = 0; i < NUM_ELEVATIONS; ++i) {
+			if(SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, i)) {
+				cellElevation = i;
+				break;
+			}
+			
+		}
+		if(cellElevation == 0) {
+			int x = 0;
+			x++;
+		}
+		if(cellElevation == elevation) { // is the cell on the same height
 			if(this->gridNavRef->CanReachDestination(c, GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units)) && SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(currentCell, c, elevation) ) {
 				this->legalTargets.push_back(c);
 			}
 		}
-		else if(c->y <= elevation + 1) { // is the cell below it
-			if(SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, c->y)) {
-				float dist = glm::distance(c->origin, currentCell->origin);
-				if(dist <= GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units) + c->y * GetFloatGameConstant(GAME_CONSTANT_jump_elevation_multiplier)) {
+		else if(cellElevation <= elevation + 1) { // is the cell below it
+			if(SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, cellElevation)) {
+				float dist = glm::distance(glm::vec2(c->x, c->z), glm::vec2(currentCell->x, currentCell->z));
+				if(dist <= GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units) + cellElevation * GetFloatGameConstant(GAME_CONSTANT_jump_elevation_multiplier)) {
 					this->legalTargets.push_back(c);
 				}
 			}

@@ -23,6 +23,7 @@ void InitGameConstants() {
 	gameConstantNameToId["dash_distance_in_units"] = GAME_CONSTANT_dash_distance_in_units;
 	gameConstantNameToId["jump_distance_in_units"] = GAME_CONSTANT_jump_distance_in_units;
 	gameConstantNameToId["jump_elevation_multiplier"] = GAME_CONSTANT_jump_elevation_multiplier;
+	gameConstantNameToId["jump_speed_in_units_per_second"] = GAME_CONSTANT_jump_speed_in_units_per_second;
 	gameConstantNameToId["target_tween_time"] = GAME_CONSTANT_target_tween_time;
 	gameConstantNameToId["target_indicator_offset"] = GAME_CONSTANT_target_indicator_offset;
 	gameConstantNameToId["target_indicator_scale"] = GAME_CONSTANT_target_indicator_scale;
