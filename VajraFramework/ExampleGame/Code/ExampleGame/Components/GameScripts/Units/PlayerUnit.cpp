@@ -238,7 +238,7 @@ void PlayerUnit::startTouchIndicatorPulse() {
 	MessageData1S1I1F* userParams = new MessageData1S1I1F();
 	userParams->i = this->GetObject()->GetId();
 	ENGINE->GetTween()->CancelScaleTween(this->touchIndicator->GetId());
-	ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, true, true, true, "pulse", userParams, playerUnitNumberTweenCallback);	
+	ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, true, true, true, "pulse", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, playerUnitNumberTweenCallback);
 }
 
 

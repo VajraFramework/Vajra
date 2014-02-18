@@ -27,6 +27,11 @@ enum TweenTranslationCurveType {
 	TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA,
 };
 
+enum NumberTweenAffliationSceneGraph {
+	NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D,
+	NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui,
+};
+
 class Tween : public Object {
 public:
 	~Tween();
@@ -41,6 +46,7 @@ public:
 	void TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 
 	void TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool cancelCurrentTween, bool looping, bool continuousUpdates, std::string tweenName,
+					   NumberTweenAffliationSceneGraph affiliation,
 					   MessageData1S1I1F* userParams,
 					   void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName, MessageData1S1I1F* userParams));
 
@@ -54,6 +60,18 @@ public:
 	void CancelOrientationTween(ObjectIdType gameObjectId);
 	void CancelScaleTween(ObjectIdType gameObjectId);
 	void CancelNumberTween(std::string tweenName);
+
+	void PausePostitionTween(ObjectIdType gameObjectId);
+	void PauseOrientationTween(ObjectIdType gameObjectId);
+	void PauseScaleTween(ObjectIdType gameObjectId);
+	void PauseNumberTween(std::string tweenName);
+	void PauseNumberTweensByAffiliation(NumberTweenAffliationSceneGraph affiliation);
+	//
+	void ResumePostitionTween(ObjectIdType gameObjectId);
+	void ResumeOrientationTween(ObjectIdType gameObjectId);
+	void ResumeScaleTween(ObjectIdType gameObjectId);
+	void ResumeNumberTween(std::string tweenName);
+	void ResumeNumberTweensByAffiliation(NumberTweenAffliationSceneGraph affiliation);
 
 private:
 	Tween();
@@ -69,6 +87,12 @@ private:
 
 	void cancelOngoingTransformTween(ObjectIdType gameObjectId, TransformTweenTarget tweenTarget);
 	void cancelOngoingNumberTween(std::string tweenName);
+
+	void pauseOngoingTransformTween(ObjectIdType gameObjectId, TransformTweenTarget tweenTarget);
+	void resumeOngoingTransformTween(ObjectIdType gameObjectId, TransformTweenTarget tweenTarget);
+	//
+	void pauseOngoingNumberTween(std::string tweenName);
+	void resumeOngoingNumberTween(std::string tweenName);
 
 
 	void createNewTransformTween(ObjectIdType gameObjectId, TransformTweenTarget transformTweenTarget, glm::vec3 from_v, glm::vec3 to_v,
@@ -118,14 +142,20 @@ public:
 
 	bool looping;
 
+	bool isPaused;
+
 private:
 	bool StepTween(float deltaTime);
 	void ResetTween();
+	//
+	inline void Pause () { this->isPaused = true;  }
+	inline void Resume() { this->isPaused = false; }
 
 	OnGoingTransformTweenDetails() {
 		this->currentTime = 0.0f;
 		this->looping = false;
 		this->callback = 0;
+		this->isPaused = false;
 	}
 	friend class Tween;
 };
@@ -143,6 +173,9 @@ public:
 	float currentNumber;
 
 	std::string tweenName;
+
+	NumberTweenAffliationSceneGraph affiliation;
+
 	void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName, MessageData1S1I1F* userParams);
 	// TODO [Hack] Switch this to be of base type MessageData when we have dynamic type checking
 	MessageData1S1I1F* userParams;
@@ -151,9 +184,14 @@ public:
 
 	bool continuousUpdates;
 
+	bool isPaused;
+
 private:
 	bool StepTween(float deltaTime);
 	void ResetTween();
+	//
+	inline void Pause () { this->isPaused = true;  }
+	inline void Resume() { this->isPaused = false; }
 
 	OnGoingNumberTweenDetails() {
 		this->totalTime = this->fromNumber = this->toNumber = this->currentNumber = 0.0f;
@@ -161,6 +199,7 @@ private:
 		this->looping = false;
 		this->callback = 0;
 		this->userParams = nullptr;
+		this->isPaused = false;
 	}
 
 

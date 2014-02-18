@@ -152,6 +152,7 @@ void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::v
 }
 
 void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool cancelCurrentTween, bool looping, bool continuousUpdates, std::string tweenName,
+						  NumberTweenAffliationSceneGraph affiliation,
 						  MessageData1S1I1F* userParams,
 						  void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName, MessageData1S1I1F* userParams)) {
 	bool resettingExistingTween = false;
@@ -174,6 +175,7 @@ void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bo
 	newNumberTween->currentNumber             = fromNumber;
 	newNumberTween->toNumber                  = toNumber;
 	newNumberTween->totalTime                 = timePeriod;
+	newNumberTween->affiliation               = affiliation;
 	newNumberTween->callback                  = callback;
 	newNumberTween->userParams                = userParams;
 	newNumberTween->continuousUpdates         = continuousUpdates;
@@ -265,9 +267,41 @@ void Tween::cancelOngoingTransformTween(ObjectIdType gameObjectId, TransformTwee
 	}
 }
 
+void Tween::pauseOngoingTransformTween(ObjectIdType gameObjectId, TransformTweenTarget tweenTarget) {
+	OnGoingTransformTweenDetails* tweenDetails = this->GetOnGoingTransformTweenDetails(gameObjectId, tweenTarget);
+	if (tweenDetails != nullptr) {
+		tweenDetails->Pause();
+	}
+}
+
+void Tween::resumeOngoingTransformTween(ObjectIdType gameObjectId, TransformTweenTarget tweenTarget) {
+	OnGoingTransformTweenDetails* tweenDetails = this->GetOnGoingTransformTweenDetails(gameObjectId, tweenTarget);
+	if (tweenDetails != nullptr) {
+		tweenDetails->Resume();
+	}
+}
+
+
 void Tween::cancelOngoingNumberTween(std::string tweenName) {
 	this->ongoingNumberTweens.erase(tweenName);
 }
+
+void Tween::pauseOngoingNumberTween(std::string tweenName) {
+	OnGoingNumberTweenDetails* tweenDetails = this->GetOnGoingNumberTweenDetails(tweenName);
+	if (tweenDetails != nullptr) {
+		tweenDetails->Pause();
+	}
+}
+
+void Tween::resumeOngoingNumberTween(std::string tweenName) {
+	OnGoingNumberTweenDetails* tweenDetails = this->GetOnGoingNumberTweenDetails(tweenName);
+	if (tweenDetails != nullptr) {
+		tweenDetails->Resume();
+	}
+}
+
+
+
 
 void Tween::CancelPostitionTween(ObjectIdType gameObjectId) {
 	this->cancelOngoingTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_POSITION);
@@ -284,6 +318,99 @@ void Tween::CancelScaleTween(ObjectIdType gameObjectId) {
 void Tween::CancelNumberTween(std::string tweenName) {
 	this->cancelOngoingNumberTween(tweenName);
 }
+
+
+
+void Tween::PausePostitionTween(ObjectIdType gameObjectId) {
+	this->pauseOngoingTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_POSITION);
+}
+
+void Tween::PauseOrientationTween(ObjectIdType gameObjectId) {
+	this->pauseOngoingTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_ORIENTATION);
+}
+
+void Tween::PauseScaleTween(ObjectIdType gameObjectId) {
+	this->pauseOngoingTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_SCALE);
+}
+
+void Tween::PauseNumberTween(std::string tweenName) {
+	this->pauseOngoingNumberTween(tweenName);
+}
+
+void Tween::PauseNumberTweensByAffiliation(NumberTweenAffliationSceneGraph affiliation) {
+	for (auto it = this->ongoingNumberTweens.begin(); it != this->ongoingNumberTweens.end(); ++it) {
+		OnGoingNumberTweenDetails* tweenDetails = it->second;
+		if (tweenDetails->affiliation == affiliation) {
+			tweenDetails->Pause();
+		}
+	}
+}
+
+
+
+void Tween::ResumePostitionTween(ObjectIdType gameObjectId) {
+	this->resumeOngoingTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_POSITION);
+}
+
+void Tween::ResumeOrientationTween(ObjectIdType gameObjectId) {
+	this->resumeOngoingTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_ORIENTATION);
+}
+
+void Tween::ResumeScaleTween(ObjectIdType gameObjectId) {
+	this->resumeOngoingTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_SCALE);
+}
+
+void Tween::ResumeNumberTween(std::string tweenName) {
+	this->resumeOngoingNumberTween(tweenName);
+}
+
+void Tween::ResumeNumberTweensByAffiliation(NumberTweenAffliationSceneGraph affiliation) {
+	for (auto it = this->ongoingNumberTweens.begin(); it != this->ongoingNumberTweens.end(); ++it) {
+		OnGoingNumberTweenDetails* tweenDetails = it->second;
+		if (tweenDetails->affiliation == affiliation) {
+			tweenDetails->Resume();
+		}
+	}
+}
+
+
+OnGoingTransformTweenDetails* Tween::GetOnGoingTransformTweenDetails(ObjectIdType gameObjectId, TransformTweenTarget tweenTarget) {
+		OnGoingTransformTweenDetails* returnResult = nullptr;
+
+		switch (tweenTarget) {
+		case TRANSFORM_TWEEN_TARGET_POSITION: {
+			if (this->ongoingPositionTweens.find(gameObjectId) != this->ongoingPositionTweens.end()) {
+				returnResult = this->ongoingPositionTweens[gameObjectId];
+			}
+		} break;
+
+		case TRANSFORM_TWEEN_TARGET_ORIENTATION: {
+			if (this->ongoingOrientationTweens.find(gameObjectId) != this->ongoingOrientationTweens.end()) {
+				returnResult = this->ongoingOrientationTweens[gameObjectId];
+			}
+		} break;
+
+		case TRANSFORM_TWEEN_TARGET_SCALE: {
+			if (this->ongoingScaleTweens.find(gameObjectId) != this->ongoingScaleTweens.end()) {
+				returnResult = this->ongoingScaleTweens[gameObjectId];
+			}
+		} break;
+
+		default: { ASSERT(0, "Unknown TransformTweenTarget %d", tweenTarget);   } break;
+		}
+
+		return returnResult;
+}
+
+OnGoingNumberTweenDetails* Tween::GetOnGoingNumberTweenDetails(std::string tweenName) {
+		OnGoingNumberTweenDetails* returnResult = nullptr;
+		if (this->ongoingNumberTweens.find(tweenName) != this->ongoingNumberTweens.end()) {
+			returnResult = this->ongoingNumberTweens[tweenName];
+		}
+		return returnResult;
+}
+
+
 
 void Tween::init() {
 }
@@ -307,6 +434,11 @@ void OnGoingNumberTweenDetails::ResetTween() {
 #define TWEEN_PARABOLA_a 0.08f                  // From x = 4ay^2
 
 bool OnGoingTransformTweenDetails::StepTween(float deltaTime) {
+	if (this->isPaused) {
+		// Tween still in progress, but paused
+		return true;
+	}
+
 	float curTime = this->currentTime + deltaTime;
 	float interp = curTime / this->totalTime;
 	clamp(interp, 0.0f, 1.0f);
@@ -363,6 +495,11 @@ bool OnGoingTransformTweenDetails::StepTween(float deltaTime) {
 }
 
 bool OnGoingNumberTweenDetails::StepTween(float deltaTime) {
+	if (this->isPaused) {
+		// Tween still in progress, but paused
+		return true;
+	}
+
 	float newNumber = this->currentNumber + deltaTime * (this->toNumber - this->fromNumber) / this->totalTime;
 	this->currentNumber = newNumber;
 	if (newNumber > this->toNumber || this->continuousUpdates) {
@@ -389,40 +526,5 @@ OnGoingNumberTweenDetails::~OnGoingNumberTweenDetails() {
 	}
 }
 
-OnGoingTransformTweenDetails* Tween::GetOnGoingTransformTweenDetails(ObjectIdType gameObjectId, TransformTweenTarget tweenTarget) {
-		OnGoingTransformTweenDetails* returnResult = nullptr;
-
-		switch (tweenTarget) {
-		case TRANSFORM_TWEEN_TARGET_POSITION: {
-			if (this->ongoingPositionTweens.find(gameObjectId) != this->ongoingPositionTweens.end()) {
-				returnResult = this->ongoingPositionTweens[gameObjectId];
-			}
-		} break;
-
-		case TRANSFORM_TWEEN_TARGET_ORIENTATION: {
-			if (this->ongoingOrientationTweens.find(gameObjectId) != this->ongoingOrientationTweens.end()) {
-				returnResult = this->ongoingOrientationTweens[gameObjectId];
-			}
-		} break;
-
-		case TRANSFORM_TWEEN_TARGET_SCALE: {
-			if (this->ongoingScaleTweens.find(gameObjectId) != this->ongoingScaleTweens.end()) {
-				returnResult = this->ongoingScaleTweens[gameObjectId];
-			}
-		} break;
-
-		default: { ASSERT(0, "Unknown TransformTweenTarget %d", tweenTarget);   } break;
-		}
-
-		return returnResult;
-}
-
-OnGoingNumberTweenDetails* Tween::GetOnGoingNumberTweenDetails(std::string tweenName) {
-		OnGoingNumberTweenDetails* returnResult = nullptr;
-		if (this->ongoingNumberTweens.find(tweenName) != this->ongoingNumberTweens.end()) {
-			returnResult = this->ongoingNumberTweens[tweenName];
-		}
-		return returnResult;
-}
 
 ////////////////////////////////////////////////////////////////////////////////

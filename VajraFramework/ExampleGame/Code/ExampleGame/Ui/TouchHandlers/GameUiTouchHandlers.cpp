@@ -150,6 +150,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	if(pauseMenu->IsVisible()) {
 		if (uiObject->GetName() == "resume") {
 			pauseMenu->SetVisible(false);
+			ENGINE->GetSceneGraph3D()->Resume();
 			ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_UNPAUSE);
 		} else if (uiObject->GetName() == "restart_pause") {
 			SINGLETONS->GetLevelManager()->ReloadCurrentLevel();
@@ -164,6 +165,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	if (uiObject->GetName() == "pause") {
 		pauseMenu->SetVisible(!pauseMenu->IsVisible());
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_PAUSE);
+		ENGINE->GetSceneGraph3D()->Pause();
 		//UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
 		//postMenu->SetVisible(true);
 		
