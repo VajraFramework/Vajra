@@ -294,11 +294,11 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	UnitType uType = StringToUnitType(unitNameStr);
 	ObjectIdType id = SINGLETONS->GetGridManager()->GetPlayerUnitIdOfType(uType);
 	ASSERT(id != OBJECT_ID_INVALID, "Player unit of type %d exists in level", uType);
-	SINGLETONS->GetGridManager()->selectedUnitId = id;
+	//SINGLETONS->GetGridManager()->selectedUnitId = id;
 	PlayerUnit* pU = ENGINE->GetSceneGraph3D()->GetGameObjectById(id)->GetComponent<PlayerUnit>();
 	// TODO [Implement]: call this when the level starts so the player sees the selection animation
-	pU->onSelectedTouch();
-
+	//pU->onSelectedTouch();
+	SINGLETONS->GetGridManager()->selectUnitInCell(pU->gridNavRef->GetCurrentCell());
 	// Set the camera's position
 	GameObject* target = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 	GridNavigator* gNav = target->GetComponent<GridNavigator>();
@@ -307,7 +307,7 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	GridCell* cell = gNav->GetCurrentCell();
 	ASSERT(cell != nullptr, "Object with id %d is on grid", id);
 
-	cameraComponent->MoveToRoom(cell->x, cell->z);
+	//cameraComponent->MoveToRoom(cell->x, cell->z);
 }
 
 void LevelLoader::loadLinkDataFromXml  (XmlNode* linkBaseNode) {

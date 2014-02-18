@@ -46,11 +46,11 @@ void ShadyCamera::init() {
 	Transform* camTransform = this->gameObjectRef->GetTransform();
 
 	// TODO [Implement] : set this based on device resolution
-	this->gameCamHeight = 24.0f;
+	this->gameCamOffset = glm::vec3(0.0f, 26.0f, 0.0f);
 
 	// TODO [Implement] : get overview pos and start room from level data
 	this->overviewPos = glm::vec3(0.0f, 50.0f, 0.0f);
-	this->gameCamPos = glm::vec3(0.0f, this->gameCamHeight, 0.0f);
+	this->gameCamPos = this->gameCamOffset;
 
 	camTransform->SetPosition(this->gameCamPos);
 	camTransform->Rotate(90.0f inRadians, XAXIS);
@@ -60,6 +60,7 @@ void ShadyCamera::init() {
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SELECTED_UNIT_CHANGED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED, this->GetTypeId(), false);
 }
 
 void ShadyCamera::destroy() {
@@ -75,7 +76,12 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 			this->onPinch();
 			break;
 		case MESSAGE_TYPE_SELECTED_UNIT_CHANGED:
-			this->MoveToRoom(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
+			this->MoveGameCamToRoom(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
+			break;
+		case MESSAGE_TYPE_GRID_ROOM_ENTERED:
+			if(messageChunk->messageData.iv1.x == this->gridManagerRef->GetSelectedUnitId()) {
+				this->MoveGameCamToRoom(messageChunk->messageData.fv1);
+			}
 			break;
 		default:
 			break;
@@ -115,18 +121,9 @@ void ShadyCamera::ZoomBy(float yOffset) {
 	newPos.y += yOffset;
 	this->gameObjectRef->GetTransform()->SetPosition(newPos);
 }
- 
-void ShadyCamera::MoveToCurrentRoom() {
+
+void ShadyCamera::MoveToGamePos() {
 	this->MoveTo(this->gameCamPos);
-}
-
-void ShadyCamera::MoveToRoom(int x, int z) {
-	this->setGameCameraPosition(x, z);
-	this->MoveToCurrentRoom();
-}
-
-void ShadyCamera::MoveToRoom(GridCell* cell) {
-	this->MoveToRoom(cell->x, cell->z);
 }
 
 void ShadyCamera::MoveToOverview() {
@@ -138,13 +135,27 @@ void ShadyCamera::LevelStartPan() {
 
 }
 
-void ShadyCamera::setGameCameraPosition(int x, int z) {
-	glm::vec3 roomCenter = this->gridManagerRef->GetGrid()->GetRoomCenter(x, z);
-	// If the above function returns ZERO_VEC3, that means that the position is not within any room.
-	// This is not problematic on its own, but we should do nothing in that case.
-	if (roomCenter != ZERO_VEC3) {
-		this->gameCamPos = roomCenter;
-		this->gameCamPos.y += this->gameCamHeight;
+void ShadyCamera::MoveGameCamToRoom(int i, int j) {
+	this->MoveGameCamToRoom(this->gridManagerRef->GetGrid()->GetRoomCenter(i, j));
+}
+
+void ShadyCamera::MoveGameCamToRoom(glm::vec3 roomCenter) {
+	this->setCurrentRoomCenter(roomCenter);
+	this->updateGameCamPos();
+}
+
+void ShadyCamera::setCurrentRoomCenter(glm::vec3 roomCenter) {
+	if(roomCenter != ZERO_VEC3) {
+		this->currentRoomCenter = roomCenter;
+	}
+}
+void ShadyCamera::updateGameCamPos() {
+	glm::vec3 newPos = this->currentRoomCenter + this->gameCamOffset;
+	if(newPos != this->gameCamPos) {
+		this->gameCamPos = newPos;
+		if(this->camMode == CameraMode::CameraMode_Game) {
+			this->MoveToGamePos();
+		}
 	}
 }
 
@@ -170,7 +181,7 @@ void ShadyCamera::onPinch() {
 	// if a mode switch hasn't occur reset the camera
 	if(ENGINE->GetInput()->HasPinchEnded()) {
 		if(this->camMode == CameraMode::CameraMode_Game ) {
-			this->MoveToCurrentRoom();
+			this->MoveToGamePos();
 		}
 		else {
 			this->MoveToOverview();
@@ -179,14 +190,14 @@ void ShadyCamera::onPinch() {
 }
 
 bool ShadyCamera::tryModeSwitch(float velocity) {
-	float startY = this->camMode == CameraMode::CameraMode_Game ? this->gameCamHeight : this->overviewPos.y;
+	float startY = this->camMode == CameraMode::CameraMode_Game ? this->gameCamPos.y : this->overviewPos.y;
 	float camY = this->gameObjectRef->GetTransform()->GetPosition().y;
 	if(std::abs(velocity) >= this->velocityThreshold || std::abs(startY - camY) >= this->heightThreshold)
 	{
 		// Zoom in pinch
 		if(velocity > 0) {
 			this->setCameraMode(CameraMode::CameraMode_Game);
-			this->MoveToCurrentRoom();
+			this->MoveToGamePos();
 		}
 		else {
 			this->setCameraMode(CameraMode::CameraMode_Overview);
