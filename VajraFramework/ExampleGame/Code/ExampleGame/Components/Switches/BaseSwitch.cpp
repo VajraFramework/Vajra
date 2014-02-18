@@ -64,7 +64,7 @@ void BaseSwitch::init() {
 }
 
 void BaseSwitch::destroy() {
-
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
 void BaseSwitch::SetSwitchType(std::string typeStr) {

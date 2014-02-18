@@ -46,6 +46,8 @@ void Triggerable::destroy() {
 	while (this->subscriptions.size() > 0) {
 		this->UnsubscribeToSwitchObject(this->subscriptions.front());
 	}
+
+	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
 void Triggerable::SetTriggerType(std::string typeStr) {
@@ -105,15 +107,13 @@ void Triggerable::UnsubscribeToSwitchObject(ObjectIdType switchId) {
 	auto it = std::find(this->subscriptions.begin(), this->subscriptions.end(), switchId);
 	if (it != this->subscriptions.end()) {
 		GameObject* switchObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(switchId);
-		ASSERT(switchObj != nullptr, "Object exists with id %d", switchId);
 		if (switchObj != nullptr) {
 			BaseSwitch* switchComp = switchObj->GetComponent<BaseSwitch>();
-			ASSERT(switchComp != nullptr, "Object with id %d has BaseSwitch component", switchId);
 			if (switchComp != nullptr) {
 				switchComp->RemoveSubscriber(this->GetObject()->GetId());
-				this->subscriptions.erase(it);
 			}
 		}
+		this->subscriptions.erase(it);
 	}
 	else {
 		FRAMEWORK->GetLogger()->dbglog("Warning: Trying to unsubscribe for unfound subscription to switch: %d by triggerable: %d", switchId, this->GetObject()->GetId());
