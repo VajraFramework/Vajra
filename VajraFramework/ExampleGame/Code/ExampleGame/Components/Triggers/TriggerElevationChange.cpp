@@ -23,32 +23,8 @@ void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tween
 		TriggerElevationChange* triggerComp = caller->GetComponent<TriggerElevationChange>();
 		ASSERT(triggerComp != nullptr, "elevationChangeNumberTweenCallback: Object %d has TriggerElevationChange component", gameObjectId);
 		if (triggerComp != nullptr) {
-			int west, east, south, north;
-			// Get the grid zone component on this object.
-			GridZone* zone = triggerComp->GetObject()->GetComponent<GridZone>();
-			ASSERT(zone != nullptr, "Object %d with TriggerElevationChange component also has GridZone component", gameObjectId);
-
-			zone->GetZoneBounds(west, east, south, north);
-
-			GameGrid* grid = SINGLETONS->GetGridManager()->GetGrid();
-			int diff;
-			triggerComp->isRaised = !triggerComp->isRaised;
-			if (triggerComp->isRaised) {
-				diff = triggerComp->elevationChange;
-			}
-			else {
-				diff = -triggerComp->elevationChange;
-			}
-			for (int x = west; x <= east; ++x) {
-				for (int z = south; z <= north; ++z) {
-					grid->ChangeCellGroundLevel(x, z, diff);
-				}
-			}
-
 			// Unchild all units in zone
 			for (auto iter = triggerComp->unitsInZone.begin(); iter != triggerComp->unitsInZone.end(); ++iter) {
-				//glm::vec3 myPos = triggerComp->GetObject()->GetComponent<Transform>()->GetPositionWorld();
-
 				GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
 				ASSERT(gObj != nullptr, "Object exists with id %d", *iter);
 				if (gObj != nullptr) {
@@ -152,6 +128,20 @@ void TriggerElevationChange::onUnitExitedZone(ObjectIdType id) {
 
 void TriggerElevationChange::startTransition(bool raised) {
 	if (raised != this->isRaised) {
+		this->startPositionTween(raised);
+		this->changeCellElevations(raised);
+
+		this->isRaised = raised;
+	}
+}
+
+void TriggerElevationChange::startPositionTween(bool raised) {
+	ObjectIdType myId = this->GetObject()->GetId();
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+
+	// Check if there's already a tween going on.
+	OnGoingTransformTweenDetails* translationDetails = ENGINE->GetTween()->GetOnGoingTransformTweenDetails(myId, TRANSFORM_TWEEN_TARGET_POSITION);
+	if (translationDetails == nullptr) {
 		// Child all units in zone to this object before tweening.
 		for (auto iter = this->unitsInZone.begin(); iter != this->unitsInZone.end(); ++iter) {
 			glm::vec3 myPos = this->GetObject()->GetComponent<Transform>()->GetPositionWorld();
@@ -180,14 +170,62 @@ void TriggerElevationChange::startTransition(bool raised) {
 			finalPosition.y -= SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(this->elevationChange);
 		}
 
+		float tweenTime = this->transitTime;
+
 		ENGINE->GetTween()->TweenPosition(
-			this->GetObject()->GetId(),
+			myId,
 			finalPosition,
-			this->transitTime,
+			tweenTime,
 			true,
 			TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
 			false,
 			elevationChangeTweenCallback
 		);
+	}
+	else {
+		// Reverse the current tween
+		float tweenTime = this->transitTime - translationDetails->totalTime + translationDetails->currentTime;
+		glm::vec3 diff = glm::vec3(0.0f, SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(this->elevationChange), 0.0f);
+		if (raised) {
+			diff = diff * (tweenTime / this->transitTime);
+		}
+		else {
+			diff = diff * (-tweenTime / this->transitTime);
+		}
+
+		glm::vec3 finalPosition = trans->GetPosition() + diff;
+
+		ENGINE->GetTween()->TweenPosition(
+			myId,
+			finalPosition,
+			tweenTime,
+			true,
+			TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+			false,
+			elevationChangeTweenCallback
+		);
+	}
+}
+
+void TriggerElevationChange::changeCellElevations(bool raised) {
+	int west, east, south, north;
+	// Get the grid zone component on this object.
+	GridZone* zone = this->GetObject()->GetComponent<GridZone>();
+	ASSERT(zone != nullptr, "Object %d with TriggerElevationChange component also has GridZone component", this->GetObject()->GetId());
+
+	zone->GetZoneBounds(west, east, south, north);
+
+	GameGrid* grid = SINGLETONS->GetGridManager()->GetGrid();
+	int diff;
+	if (raised) {
+		diff = this->elevationChange;
+	}
+	else {
+		diff = -this->elevationChange;
+	}
+	for (int x = west; x <= east; ++x) {
+		for (int z = south; z <= north; ++z) {
+			grid->ChangeCellGroundLevel(x, z, diff);
+		}
 	}
 }
