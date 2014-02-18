@@ -22,6 +22,7 @@ public:
 
 	inline UnitState GetUnitState() { return this->unitState; }
 	inline UnitType GetUnitType() { return this->unitType; }
+	inline UnitActionState GetUnitActionState() { return this->unitActionState; }
 
 	void SwitchActionState(UnitActionState newState);
 

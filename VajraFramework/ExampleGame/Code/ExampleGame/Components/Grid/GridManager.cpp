@@ -141,12 +141,13 @@ GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
 
 glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
 	glm::vec3 gridPosition = glm::vec3();
-
 	Ray screenRay = ENGINE->GetSceneGraph3D()->GetMainCamera()->ScreenPointToRay(touchPos);
 	float dist;
+	this->gridPlane.origin.y = 1.0f;
 	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
 	{
 		gridPosition = screenRay.origin + screenRay.dir * dist;
+		//gridPosition.z -= .5f;
 	}
 	return gridPosition;
 }
