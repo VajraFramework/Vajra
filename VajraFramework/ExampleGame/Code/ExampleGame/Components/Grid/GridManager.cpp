@@ -135,19 +135,35 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 }
 
 GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
-	glm::vec3 gridPosition = this->TouchPositionToGridPosition(touchPos);
-	return this->GetGrid()->GetCell(gridPosition);
+	glm::vec3 gridPosition = glm::vec3();
+	Ray screenRay = ENGINE->GetSceneGraph3D()->GetMainCamera()->ScreenPointToRay(touchPos);
+	float dist;
+	this->gridPlane.origin.y = 0.0f;
+
+	GridCell* touchedCell = nullptr;
+	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
+	{
+		gridPosition = screenRay.origin + screenRay.dir * dist;
+		for(int i = NUM_ELEVATIONS; i > -1; --i) {
+			glm::vec3 posAtHeight = gridPosition + glm::vec3(0.0f, i, i);
+			touchedCell = this->GetGrid()->GetCell(posAtHeight);
+			if(this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
+				break;
+			}
+			
+		}
+	}
+	return touchedCell;
 }
 
 glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
 	glm::vec3 gridPosition = glm::vec3();
 	Ray screenRay = ENGINE->GetSceneGraph3D()->GetMainCamera()->ScreenPointToRay(touchPos);
 	float dist;
-	this->gridPlane.origin.y = 1.0f;
+	this->gridPlane.origin.y = 0.0f;
 	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
 	{
 		gridPosition = screenRay.origin + screenRay.dir * dist;
-		//gridPosition.z -= .5f;
 	}
 	return gridPosition;
 }

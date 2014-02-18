@@ -167,7 +167,6 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				this->inputState = InputState::INPUT_STATE_NAV;
 				touchIndicator->GetTransform()->SetPosition(this->currentTouchedCell->center);
 				touchIndicator->GetTransform()->Translate(0.01f, YAXIS);
-				touchIndicator->SetVisible(true);
 				// touch indicator tween up
 				ENGINE->GetTween()->CancelScaleTween(this->touchIndicator->GetId());
 				ENGINE->GetTween()->CancelNumberTween("pulse");
@@ -175,12 +174,14 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				break;
 			case TouchPhase::Ended:
 				this->currentTouchedCell = nullptr;
-				this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z);
-
 				this->inputState = InputState::INPUT_STATE_WAIT;
-				if(touchedCell != this->gridNavRef->GetCurrentCell()) {
+				if(this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z) && touchedCell != this->gridNavRef->GetCurrentCell()) {
 					this->SwitchActionState(UNIT_ACTION_STATE_WALKING);
 					this->startTouchIndicatorPulse();
+				}
+				if(touchedCell == this->gridNavRef->GetCurrentCell()) {
+					ENGINE->GetTween()->CancelNumberTween("pulse");
+					ENGINE->GetTween()->TweenScale(this->touchIndicator->GetId(), this->touchIndicator->GetTransform()->GetScale(), glm::vec3(0), TOUCH_SCALE_TIME);
 				}
 				break;
 			case TouchPhase::Cancelled:
@@ -196,7 +197,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 
 void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
 	this->SetTouchIndicatorCell(this->currentTouchedCell);
-	if(this->inputState == InputState::INPUT_STATE_NAV) {
+	if(this->inputState == InputState::INPUT_STATE_NAV || this->inputState == InputState::INPUT_STATE_WAIT) {
 		if(this->gridNavRef->CanReachDestination(this->currentTouchedCell)) {
 			this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 		} else {
