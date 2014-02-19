@@ -1,0 +1,55 @@
+<prefab>
+	<gameobject>
+		<component name="Transform">
+		</component>
+		
+		<component name="GridZone">
+			<property name="SetZoneBounds">
+				<field>0</field>
+				<field>0</field>
+				<field>0</field>
+				<field>0</field>
+			</property>
+		</component>
+
+		<component name="GridZoneSwitch">
+			<property name="SetSwitchType">
+				<field>Once</field>
+			</property>
+			<property name="SetRequiredOccupants">
+				<field>1</field>
+			</property>
+		</component>
+		
+		<gameobject>
+			<component name="MeshRenderer">
+				<property name="InitMesh">
+					<field>models/TexturedCube.model</field>
+				</property>
+			</component>
+			
+			<component name="Transform">
+				<property name="Translate">
+					<field>0</field>
+					<field>0.125</field>
+					<field>0</field>
+				</property>
+			</component>
+			
+			<component name="TriggerTransformation">
+				<property name="SubscribeToParentSwitch">
+				</property>
+				
+				<property name="SetTranslation">
+					<field>0</field>
+					<field>-0.125</field>
+					<field>0</field>
+				</property>
+				<property name="SetTransitTime">
+					<field>0.5</field>
+				</property>
+			</component>
+		</gameobject>
+	</gameobject>
+</prefab>
+
