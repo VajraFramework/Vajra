@@ -80,6 +80,7 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	// The level doesn't need to have a LINKS_TAG node
 	if (linkBaseNode != nullptr) {
 		loadLinkDataFromXml(linkBaseNode);
+		loadEndConditionsFromXml(linkBaseNode);
 	}
 
 	XmlNode* cameraNode = levelNode->GetFirstChildByNodeName(CAMERA_TAG);
@@ -374,5 +375,25 @@ void LevelLoader::loadLinkDataFromXml  (XmlNode* linkBaseNode) {
 		}
 
 		triggerLinkNode = triggerLinkNode->GetNextSiblingByNodeName(TRIGGER_LINK_TAG);
+	}
+}
+
+void LevelLoader::loadEndConditionsFromXml(XmlNode* linkBaseNode) {
+	XmlNode* winConditionNode = linkBaseNode->GetFirstChildByNodeName(WIN_CONDITION_TAG);
+	while (winConditionNode != nullptr) {
+		ObjectIdType switchId = winConditionNode->GetAttributeValueI(ID_ATTRIBUTE);
+
+		SINGLETONS->GetLevelManager()->AddWinCondition(idsFromXml[switchId]);
+
+		winConditionNode = winConditionNode->GetNextSiblingByNodeName(WIN_CONDITION_TAG);
+	}
+
+	XmlNode* loseConditionNode = linkBaseNode->GetFirstChildByNodeName(LOSE_CONDITION_TAG);
+	while (loseConditionNode != nullptr) {
+		ObjectIdType switchId = loseConditionNode->GetAttributeValueI(ID_ATTRIBUTE);
+
+		SINGLETONS->GetLevelManager()->AddLoseCondition(idsFromXml[switchId]);
+
+		loseConditionNode = loseConditionNode->GetNextSiblingByNodeName(LOSE_CONDITION_TAG);
 	}
 }

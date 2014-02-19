@@ -49,6 +49,9 @@ public:
 	void LoadLevel(int /*levelNumber*/);
 	//void LoadLevelFromAsset(std::string assetName); // Once we've got the loading process worked out, switch to using an asset
 
+	void AddWinCondition(ObjectIdType switchId);
+	void AddLoseCondition(ObjectIdType switchId);
+
 	inline bool IsPaused() { return this->isPaused; }
 private:
 	void init();
@@ -57,6 +60,7 @@ private:
 
 	void loadLevel_internal();
 	void LoadLevelFromData(LevelData /*levelData*/);
+	void clearEndConditions();
 	/*****************
 	bool playerHasWonLevel();
 	bool playerHasLostLevel();
@@ -70,6 +74,9 @@ private:
 	bool isPaused;
 	int currentLevelIndex;
 	int levelToLoad;
+
+	Object* winner;
+	Object* loser;
 
 	std::vector<LevelData> levelData;
 
