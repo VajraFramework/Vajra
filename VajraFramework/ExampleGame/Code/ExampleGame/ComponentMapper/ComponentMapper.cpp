@@ -637,11 +637,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->MoveTo(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
 			return;
 		}
-		if (propertyName == "MoveToRoom") {
-			if ((int)argv.size() < 2) { return; }
-			component->MoveToRoom(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
-			return;
-		}
 		if (propertyName == "MoveToOverview") {
 			if ((int)argv.size() < 0) { return; }
 			component->MoveToOverview();

@@ -161,9 +161,12 @@ void TransitionZone::onUnitEnteredZone(ObjectIdType id) {
 	}
 	gNav->SetDestination(target);
 
-	ShadyCamera* shadyCam = ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject()->GetComponent<ShadyCamera>();
-	ASSERT(shadyCam != nullptr, "What happened to the shady cam?");
-	if (shadyCam != nullptr) {
-		shadyCam->MoveToRoom(target);
+
+	if(id == SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
+		ShadyCamera* shadyCam = ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject()->GetComponent<ShadyCamera>();
+		ASSERT(shadyCam != nullptr, "What happened to the shady cam?");
+		if (shadyCam != nullptr) {
+			shadyCam->MoveGameCamToRoom(target->x, target->z);
+		}
 	}
 }
