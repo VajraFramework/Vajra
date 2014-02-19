@@ -26,6 +26,8 @@ void Object::SetName(std::string name_) {
 }
 
 void Object::init() {
+	this->classType_bitmask = CLASS_TYPE_OBJECT;
+
 	this->id = this->getNextFreeId();
 	ObjectRegistry::AddNewObject(this);
 

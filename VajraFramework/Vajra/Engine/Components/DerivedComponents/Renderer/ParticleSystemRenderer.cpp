@@ -131,7 +131,6 @@ void ParticleSystemRenderer::initializeRendererStructures() {
 	this->SetShaderName("prtshdr");
 
 	// Now that we are renderable, add self to the render lists in the scene graph:
-	// TODO [Implement] Ensure type safety here
 	Renderer::addToRenderList();
 }
 

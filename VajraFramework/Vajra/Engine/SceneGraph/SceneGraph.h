@@ -58,13 +58,11 @@ protected:
 // Inline Functions:
 
 GameObject* SceneGraph::GetGameObjectById(ObjectIdType id) {
-	// TODO [Cleanup] Add IF_USING_RTTI to switch between dynamic_cast<> and static_cast<>
-	// TODO [Implement] Figure out the best way to ensure that the object returned is of type GameObject
-	GameObject* gameObject = dynamic_cast<GameObject*>(ObjectRegistry::GetObjectById(id));
-	if (gameObject == nullptr) {
-		FRAMEWORK->GetLogger()->dbglog("Warning: GameObject of id %d not found", id);
+	GameObject* gameObject = (GameObject*)(ObjectRegistry::GetObjectById(id));
+	if (gameObject != nullptr) {
+		ASSERT(gameObject->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
 	} else {
-		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
+		FRAMEWORK->GetLogger()->dbglog("Warning: GameObject of id %d not found", id);
 	}
 	return gameObject;
 }

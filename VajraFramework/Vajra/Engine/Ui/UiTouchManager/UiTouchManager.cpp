@@ -46,8 +46,9 @@ bool UiTouchManager::TestTouchCapture(Touch touch) {
 	 * Deliver the touch to the ui object with the highest z
 	 */
 	for (ObjectIdType uiObjectId : this->registeredUiObjects) {
-		// TODO [Implement] Ensure type safety here
 		UiObject* uiObject = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(uiObjectId);
+		ASSERT(uiObject != nullptr, "Ui Object of id %d found", uiObjectId);
+		ASSERT(uiObject->GetClassType() & CLASS_TYPE_UIOBJECT, "Object is a ui object");
 		if (uiObject->IsPointWithin(touch.pos.x, touch.pos.y)) {
 			if (temp_currentlyReceivingUiObject == nullptr ||
 				temp_currentlyReceivingUiObject->GetTransform()->GetPosition().z < uiObject->GetTransform()->GetPosition().z) {
