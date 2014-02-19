@@ -88,9 +88,7 @@ glm::vec3& Transform::GetPositionWorld() {
 }
 
 glm::quat& Transform::GetOrientationWorld() {
-	// TODO [Hack] Fix this please
-	return this->GetOrientation();
-	//return this->orientationWorld;
+	return this->orientationWorld;
 }
 
 glm::vec3& Transform::GetScaleWorld() {
@@ -245,7 +243,7 @@ void Transform::updateModelMatrixCumulative() {
 	this->scaleWorld.x     = this->modelMatrixCumulative[0][0];
 	this->scaleWorld.y     = this->modelMatrixCumulative[1][1];
 	this->scaleWorld.z     = this->modelMatrixCumulative[2][2];
-	this->orientationWorld = glm::quat_cast(this->modelMatrixCumulative);
+	this->orientationWorld = glm::normalize(glm::quat_cast(this->modelMatrixCumulative));
 
 	this->rippleMatrixUpdates();
 }
