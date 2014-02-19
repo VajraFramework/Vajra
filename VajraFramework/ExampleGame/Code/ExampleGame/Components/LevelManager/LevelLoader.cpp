@@ -281,7 +281,7 @@ void LevelLoader::loadOtherDataFromXml(XmlNode* otherDataNode) {
 
 void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	// The level data file will specify which unit the camera should focus on by default
-	std::string unitNameStr = cameraNode->GetAttributeValueS("focus");
+	std::string unitNameStr = cameraNode->GetAttributeValueS(FOCUS_ATTRIBUTE);
 
 	// Create the ShadyCamera; this should possibly be a prefab as well.
 	GameObject* camera = new GameObject(ENGINE->GetSceneGraph3D());
@@ -308,14 +308,30 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	ASSERT(cell != nullptr, "Object with id %d is on grid", id);
 
 	// load in start and overview pos
-	// TODO [Hack] Matt remove these when you load this in right
-	glm::vec3 overviewPos = glm::vec3(20.0f, 50.0f, -20.0f);
-	glm::vec3 startPos = glm::vec3(50.0f, 25.0f, 0.0f);
-	bool overviewNodeIsNull = false;
+	glm::vec3 startPos;
 	bool startPosNodeIsNull = true;
+	XmlNode* startNode = cameraNode->GetFirstChildByNodeName(START_TAG);
+	if (startNode != nullptr) {
+		float startX = startNode->GetAttributeValueF(X_ATTRIBUTE);
+		float startY = startNode->GetAttributeValueF(Y_ATTRIBUTE);
+		float startZ = startNode->GetAttributeValueF(Z_ATTRIBUTE);
+		startPos = glm::vec3(startX, startY, startZ);
+		startPosNodeIsNull = false;
+	}
+
+	glm::vec3 overviewPos;
+	bool overviewNodeIsNull = true;
+	XmlNode* overviewNode = cameraNode->GetFirstChildByNodeName(OVERVIEW_TAG);
+	if (overviewNode != nullptr) {
+		float overviewX = overviewNode->GetAttributeValueF(X_ATTRIBUTE);
+		float overviewY = overviewNode->GetAttributeValueF(Y_ATTRIBUTE);
+		float overviewZ = overviewNode->GetAttributeValueF(Z_ATTRIBUTE);
+		overviewPos = glm::vec3(overviewX, overviewY, overviewZ);
+		overviewNodeIsNull = false;
+	}
 	
 	// If a level does not have an overview node something is wrong
-	ASSERT(!overviewNodeIsNull, "level XML has no overview data");
+	ASSERT(!overviewNodeIsNull, "level XML has information for overview camera");
 	cameraComponent->loadCameraData(pU->gridNavRef->GetCurrentCell(), overviewPos, startPos, !startPosNodeIsNull);
 }
 

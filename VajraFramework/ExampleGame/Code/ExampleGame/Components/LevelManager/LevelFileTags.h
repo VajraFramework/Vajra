@@ -27,6 +27,8 @@
 #define LINKS_TAG             "links"
 #define TRIGGER_LINK_TAG      "triggerLink"
 #define SWITCH_TAG            "switch"
+#define START_TAG             "start"
+#define OVERVIEW_TAG          "overview"
 
 #define LEVEL_NAME_ATTRIBUTE  "levelName"
 #define ID_ATTRIBUTE          "id"
@@ -38,6 +40,7 @@
 #define PREFAB_ATTRIBUTE      "prefab"
 #define ROTATION_ATTRIBUTE    "rotation"
 #define MESSAGE_TAG           "message"
+#define FOCUS_ATTRIBUTE       "focus"
 
 #define NAME_PROPERTY "name"
 #define TYPE_PROPERTY "type"
