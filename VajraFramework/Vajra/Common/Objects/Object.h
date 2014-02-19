@@ -21,6 +21,8 @@ public:
 	Object();
 	virtual ~Object();
 
+	inline int GetClassType() { return this->classType_bitmask; }
+
 	inline int GetId() { return this->id; }
 	inline int GetParentId() { return this->parentId; }
 	inline std::string GetName() { return this->name; }
@@ -58,6 +60,8 @@ public:
 		RemoveComponent();
 
 protected:
+	inline void setClassType(int classType_bitmask_) { this->classType_bitmask |= classType_bitmask_; }
+
 	// TODO [Implement] Change children from list to map, maybe
 	std::list<ObjectIdType /* id */> children;
 
@@ -90,7 +94,9 @@ private:
 
 	bool isPaused;
 
-friend class SceneGraph;
+	int classType_bitmask;
+
+	friend class SceneGraph;
 };
 
 

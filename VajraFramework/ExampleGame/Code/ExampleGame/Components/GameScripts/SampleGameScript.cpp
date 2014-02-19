@@ -31,8 +31,8 @@ SampleGameScript::~SampleGameScript() {
 }
 
 void SampleGameScript::start() {
-	// TODO [Implement] Ensure type-safety here
 	this->gameObjectRef = (GameObject*)this->GetObject();
+	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
 
 	this->getTransform()->Scale(0.5f, 0.5f, 0.5f);
 }

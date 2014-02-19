@@ -27,8 +27,8 @@ void UnitShadow::HandleMessage(MessageChunk messageChunk) {
 }
 
 void UnitShadow::start() {
-	// TODO [Implement] Ensure type safety here
 	this->gameObjectRef = (GameObject*)this->GetObject();
+	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
 
 	// Create a little shadow prefab and child it to the parent game object:
 	this->littleShadow = new GameObject(ENGINE->GetSceneGraph3D());

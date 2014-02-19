@@ -24,7 +24,7 @@ void DrawLine(glm::vec3 from, glm::vec3 direction, float length);
 void DrawArrow(glm::vec3 from, glm::vec3 to);
 void DrawArrow(glm::vec3 from, glm::vec3 direction, float length);
 #else
-void DrawPoint(...)
+#define DrawPoint(...)
 #define DrawCube(...)
 #define DrawLine(...)
 #endif
@@ -54,12 +54,14 @@ private:
 	// Friends:
 	friend class Engine;
 	//
+#ifdef DEBUG
 	friend void DebugDraw::DrawPoint(glm::vec3 position);
 	friend void DebugDraw::DrawCube(glm::vec3 position, float size);
 	friend void DebugDraw::DrawLine(glm::vec3 from, glm::vec3 to);
 	friend void DebugDraw::DrawLine(glm::vec3 from, glm::vec3 direction, float length);
 	friend void DebugDraw::DrawArrow(glm::vec3 from, glm::vec3 to);
 	friend void DebugDraw::DrawArrow(glm::vec3 from, glm::vec3 direction, float length);
+#endif
 };
 
 #endif // DEBUG_DRAWER_H

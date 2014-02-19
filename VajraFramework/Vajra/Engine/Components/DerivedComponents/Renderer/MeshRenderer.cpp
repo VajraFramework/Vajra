@@ -23,8 +23,8 @@ void MeshRenderer::InitMesh(std::string urlOfMesh) {
 	this->meshAsset = ENGINE->GetAssetLibrary()->GetAsset<MeshAsset>(urlOfMesh);
 	this->SetShaderName(this->meshAsset->GetShaderName());
 
-	// TODO [Implement] Ensure type safety here
-	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
+	GameObject* gameObject = (GameObject*)(this->GetObject());
+	ASSERT(gameObject->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
 	ASSERT(gameObject != nullptr, "GameObject not null");
 	Transform* transform = gameObject->GetTransform();
 	transform->SetPosition(this->meshAsset->GetInitialPosition().x, this->meshAsset->GetInitialPosition().y, this->meshAsset->GetInitialPosition().z);

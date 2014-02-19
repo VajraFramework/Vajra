@@ -22,6 +22,8 @@ GameObject::~GameObject() {
 }
 
 void GameObject::init(SceneGraph* sceneGraph) {
+	this->setClassType(CLASS_TYPE_GAMEOBJECT);
+
 	sceneGraph->AddNewGameObjectToScene(this);
 	this->parentSceneGraph = sceneGraph;
 
