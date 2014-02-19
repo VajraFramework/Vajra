@@ -147,10 +147,9 @@ GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
 		for(int i = NUM_ELEVATIONS; i > -1; --i) {
 			glm::vec3 posAtHeight = gridPosition + glm::vec3(0.0f, i, i);
 			touchedCell = this->GetGrid()->GetCell(posAtHeight);
-			if(this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
+			if(touchedCell != nullptr && this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
 				break;
 			}
-			
 		}
 	}
 	return touchedCell;
@@ -170,7 +169,7 @@ glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
 		for(int i = NUM_ELEVATIONS; i > -1; --i) {
 			posAtHeight = gridPosition + glm::vec3(0.0f, i, i);
 			touchedCell = this->GetGrid()->GetCell(posAtHeight);
-			if(this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
+			if(touchedCell != nullptr && this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
 				break;
 			}
 			
