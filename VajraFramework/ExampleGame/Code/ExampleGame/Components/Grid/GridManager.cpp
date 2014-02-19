@@ -492,13 +492,15 @@ void GridManager::selectUnitInCell(GridCell* cell) {
 void GridManager::deselectUnit() {
 	if (this->selectedUnitId != OBJECT_ID_INVALID) {
 		GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
-		BaseUnit* bu = obj->GetComponent<BaseUnit>();
-		ASSERT(bu != nullptr, "Selected object has BaseUnit component");
-		if(bu->GetUnitType() < UnitType::UNIT_TYPE_PLAYER_UNITS_COUNT) {
-			PlayerUnit* pu = obj->GetComponent<PlayerUnit>();
-			pu->OnDeselect();
-			this->selectedUnitId = OBJECT_ID_INVALID;
+		if (obj != nullptr) {
+			BaseUnit* bu = obj->GetComponent<BaseUnit>();
+			ASSERT(bu != nullptr, "Selected object has BaseUnit component");
+			if(bu->GetUnitType() < UnitType::UNIT_TYPE_PLAYER_UNITS_COUNT) {
+				PlayerUnit* pu = obj->GetComponent<PlayerUnit>();
+				pu->OnDeselect();
+			}
 		}
+		this->selectedUnitId = OBJECT_ID_INVALID;
 	}
 }
 #if 0
