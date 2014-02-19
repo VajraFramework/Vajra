@@ -82,13 +82,15 @@ void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
 	switch(messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_SELECTED_UNIT_CHANGED:
 			if(messageChunk->messageData.iv1.y == UNIT_TYPE_ASSASSIN) {
-				// TODO [Implement] Ensure type safety here
 				UiElement* changeUnitIcon = (UiElement*)ObjectRegistry::GetObjectByName("changeUnit");
+				ASSERT(changeUnitIcon != nullptr, "chagne unit icon found");
+				ASSERT(changeUnitIcon->GetClassType() & CLASS_TYPE_UIELEMENT, "Object is a ui element");
 				changeUnitIcon->SetSpriteTextureIndex(ASSASSIN_ICON_INDEX);
 
 			} else if(messageChunk->messageData.iv1.y == UNIT_TYPE_THIEF) {
-				// TODO [Implement] Ensure type safety here
 				UiElement* changeUnitIcon = (UiElement*)ObjectRegistry::GetObjectByName("changeUnit");
+				ASSERT(changeUnitIcon != nullptr, "chagne unit icon found");
+				ASSERT(changeUnitIcon->GetClassType() & CLASS_TYPE_UIELEMENT, "Object is a ui element");
 				changeUnitIcon->SetSpriteTextureIndex(THIEF_ICON_INDEX);
 			}
 			break;

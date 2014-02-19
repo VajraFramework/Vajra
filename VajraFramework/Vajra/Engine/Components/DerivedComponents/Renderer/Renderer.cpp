@@ -22,6 +22,7 @@ Renderer::~Renderer() {
 
 void Renderer::addToRenderList() {
 	GameObject* gameObject = (GameObject*)this->GetObject();
+	ASSERT(gameObject->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
 	ASSERT(gameObject != nullptr, "GameObject not null");
 	ASSERT(gameObject->GetParentSceneGraph() != nullptr, "GameObject has been added to a scenegraph");
 	gameObject->GetParentSceneGraph()->AddGameObjectToRenderLists(gameObject);
@@ -29,6 +30,7 @@ void Renderer::addToRenderList() {
 
 void Renderer::removeFromRenderList() {
 	GameObject* gameObject = (GameObject*)this->GetObject();
+	ASSERT(gameObject->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
 	ASSERT(gameObject != nullptr, "GameObject not null");
 	ASSERT(gameObject->GetParentSceneGraph() != nullptr, "GameObject has been added to a scenegraph");
 	gameObject->GetParentSceneGraph()->RemoveGameObjectFromRenderLiset(gameObject);

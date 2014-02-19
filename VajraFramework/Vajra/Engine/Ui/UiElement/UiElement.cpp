@@ -56,6 +56,8 @@ void UiElement::SetSpriteTextureIndex(unsigned int textureIndex) {
 }
 
 void UiElement::init() {
+	this->setClassType(CLASS_TYPE_UIELEMENT);
+
 	this->childSpriteObjectRef = nullptr;
 	this->childFontObjectRef   = nullptr;
 }

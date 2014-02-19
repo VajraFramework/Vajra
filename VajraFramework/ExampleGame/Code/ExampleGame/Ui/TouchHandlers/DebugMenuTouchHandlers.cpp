@@ -41,16 +41,16 @@ void DebugMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /*tou
 		// Do something
 
 	} else if (uiObject->GetName() == "up") {
-		// TODO [Implement] Ensure type safety here
+		ASSERT(uiObject->GetClassType() & CLASS_TYPE_UIELEMENT, "UiObject is a ui element");
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_DOWN);
 	} else if (uiObject->GetName() == "down") {
-		// TODO [Implement] Ensure type safety here
+		ASSERT(uiObject->GetClassType() & CLASS_TYPE_UIELEMENT, "UiObject is a ui element");
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_DOWN);
 	} else if (uiObject->GetName() == "left") {
-		// TODO [Implement] Ensure type safety here
+		ASSERT(uiObject->GetClassType() & CLASS_TYPE_UIELEMENT, "UiObject is a ui element");
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_DOWN);
 	} else if (uiObject->GetName() == "right") {
-		// TODO [Implement] Ensure type safety here
+		ASSERT(uiObject->GetClassType() & CLASS_TYPE_UIELEMENT, "UiObject is a ui element");
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_DOWN);
 	} else {
 		// Do something
@@ -80,19 +80,19 @@ void DebugMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touc
 	Transform* trans = debugCam->GetTransform();
 	if (uiObject->GetName() == "up") {
 		trans->Translate(this->cameraSpeed, trans->GetForward());
-		// TODO [Implement] Ensure type safety here
+		ASSERT(uiObject->GetClassType() & CLASS_TYPE_UIELEMENT, "UiObject is a ui element");
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_UP);
 	} else if (uiObject->GetName() == "down") {
 		trans->Translate(-this->cameraSpeed, trans->GetForward());
-		// TODO [Implement] Ensure type safety here
+		ASSERT(uiObject->GetClassType() & CLASS_TYPE_UIELEMENT, "UiObject is a ui element");
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_UP);
 	} else if (uiObject->GetName() == "left") {
 		trans->Translate(this->cameraSpeed, trans->GetLeft());
-		// TODO [Implement] Ensure type safety here
+		ASSERT(uiObject->GetClassType() & CLASS_TYPE_UIELEMENT, "UiObject is a ui element");
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_UP);
 	} else if (uiObject->GetName() == "right") {
 		trans->Translate(-this->cameraSpeed, trans->GetLeft());
-		// TODO [Implement] Ensure type safety here
+		ASSERT(uiObject->GetClassType() & CLASS_TYPE_UIELEMENT, "UiObject is a ui element");
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_UP);
 	} else if (uiObject->GetName() == "back") {
 		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";

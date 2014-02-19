@@ -78,6 +78,8 @@ void UiObject::OnTouchUp(Touch touch) {
 }
 
 void UiObject::init() {
+	this->setClassType(CLASS_TYPE_UIOBJECT);
+
 	this->width  = 0;
 	this->height = 0;
 	//
