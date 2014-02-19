@@ -35,12 +35,14 @@ ShadyCamera::~ShadyCamera() {
 void ShadyCamera::init() {
 	// Set camera properties
 	this->SetFOV(30.0f inRadians);
-	this->camSpeed = GetFloatGameConstant(GAME_CONSTANT_camSpeed);
-	this->camMode = CameraMode::CameraMode_Game;
 	
-	this->newPinch = false;
-	this->velocityThreshold = 7.0f;
-	this->heightThreshold = 10.0f;
+	this->camSpeed = GetFloatGameConstant(GAME_CONSTANT_camSpeed);
+	this->zoomSpeed = GetFloatGameConstant(GAME_CONSTANT_zoomSpeed);
+	this->maxZoomSpeed = GetFloatGameConstant(GAME_CONSTANT_maxZoomSpeed);
+	this->maxWrongZoomAmt = GetFloatGameConstant(GAME_CONSTANT_maxWrongZoomAmt);
+	this->changeModeThreshold = GetFloatGameConstant(GAME_CONSTANT_changeModeThreshold);
+	
+	this->camMode = CameraMode::CameraMode_Game;
 
 	this->gameObjectRef = (GameObject*)this->GetObject();
 	Transform* camTransform = this->gameObjectRef->GetTransform();
@@ -108,12 +110,7 @@ void ShadyCamera::SetGridManager(GridManager* newManager) {
 }
 
 void ShadyCamera::MoveTo(glm::vec3 newPos) {
-	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
-	float dist = glm::distance(curPos, newPos);
-	if (dist > ROUNDING_ERROR) {
-		ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos,
-				dist / this->camSpeed, true, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, false, ShadyCameraTween::tweenCallback);
-	}
+	this->moveTo_internal(newPos, this->camSpeed);
 }
 
 void ShadyCamera::MoveTo(float x, float y, float z) {
@@ -141,8 +138,13 @@ void ShadyCamera::MoveToGamePos() {
 	this->MoveTo(this->gameCamPos);
 }
 
-void ShadyCamera::MoveToOverview() {
-	this->MoveTo(this->overviewPos);
+void ShadyCamera::moveTo_internal(glm::vec3 newPos, float speed) {
+	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
+	float dist = glm::distance(curPos, newPos);
+	if (dist > ROUNDING_ERROR) {
+		ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos,
+				dist / speed, true, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, false, ShadyCameraTween::tweenCallback);
+	}
 }
 
 // TODO [Implement] : if needed
@@ -175,52 +177,51 @@ void ShadyCamera::updateGameCamPos() {
 }
 
 void ShadyCamera::onPinch() {
-	if(ENGINE->GetInput()->GetPinch().gestureState == GestureState::GestureState_Start) {
-		this->newPinch = true;
-	}
-	if(!this->newPinch) {
-		return;
-	}
-
 	float pinchVel = ENGINE->GetInput()->GetPinch().velocity;
 	float zoomAmt = -pinchVel;
+	clamp(zoomAmt, -this->maxZoomSpeed, this->maxZoomSpeed);
 
+	// Zoom the camera by the clamped pinch
 	this->ZoomBy(zoomAmt);
 
-	// if a mode switch occurs early out
-	if(tryModeSwitch(pinchVel)) {
-		this->newPinch = false;
-		return;
-	}
+	// Clamp the camera zoom in the "wrong" direction 
+	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
+	float zoomDela = 0;
 
-	// if a mode switch hasn't occur reset the camera
+	if(this->camMode == CameraMode::CameraMode_Game) {
+		zoomDela = std::abs(this->gameCamPos.y - curPos.y);	
+		// if the camera is zooming in
+		if(curPos.y < this->gameCamPos.y && zoomDela > this->maxWrongZoomAmt) {
+			this->ZoomBy(zoomDela - this->maxWrongZoomAmt);
+		}
+	} else if(this->camMode == CameraMode::CameraMode_Overview) {
+		zoomDela = std::abs(this->overviewPos.y - curPos.y);	
+		// if the cam is zooming out
+		if(curPos.y > this->overviewPos.y && zoomDela > this->maxWrongZoomAmt) {
+			this->ZoomBy(-1 * (zoomDela - this->maxWrongZoomAmt)); 
+		}
+	}
+	
+	// Once the pinch ends devices where to zoom the camera to
 	if(ENGINE->GetInput()->HasPinchEnded()) {
-		if(this->camMode == CameraMode::CameraMode_Game ) {
-			this->MoveToGamePos();
-		}
-		else {
-			this->MoveToOverview();
+		if(this->camMode == CameraMode::CameraMode_Game) {	
+			if(curPos.y - this->changeModeThreshold <= this->gameCamPos.y) {
+				this->moveTo_internal(this->gameCamPos, this->camSpeed);
+				this->setCameraMode(CameraMode::CameraMode_Game);
+			} else {
+				this->moveTo_internal(this->overviewPos, this->zoomSpeed);
+				this->setCameraMode(CameraMode::CameraMode_Overview);
+			}
+		} else if(this->camMode == CameraMode::CameraMode_Overview) {
+			if(curPos.y + this->changeModeThreshold <= this->overviewPos.y) {
+				this->moveTo_internal(this->gameCamPos, this->zoomSpeed);
+				this->setCameraMode(CameraMode::CameraMode_Game);
+			} else {
+				this->moveTo_internal(this->overviewPos, this->camSpeed);
+				this->setCameraMode(CameraMode::CameraMode_Overview);
+			}
 		}
 	}
-}
-
-bool ShadyCamera::tryModeSwitch(float velocity) {
-	float startY = this->camMode == CameraMode::CameraMode_Game ? this->gameCamPos.y : this->overviewPos.y;
-	float camY = this->gameObjectRef->GetTransform()->GetPosition().y;
-	if(std::abs(velocity) >= this->velocityThreshold || std::abs(startY - camY) >= this->heightThreshold)
-	{
-		// Zoom in pinch
-		if(velocity > 0) {
-			this->setCameraMode(CameraMode::CameraMode_Game);
-			this->MoveToGamePos();
-		}
-		else {
-			this->setCameraMode(CameraMode::CameraMode_Overview);
-			this->MoveToOverview();
-		}
-		return true;
-	} 
-	return false;
 }
 
 void ShadyCamera::setCameraMode(CameraMode newMode) {
