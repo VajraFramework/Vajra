@@ -51,9 +51,6 @@ public:
 	// Move camera to game room
 	void MoveToGamePos(); // move to current room
 	// Sets current room and then moves to it
-	
-	//[[PROPERTY]]//
-	void MoveToOverview();
 
 	// Pan the camera along a preset path for a level intro
 	void LevelStartPan();
@@ -76,11 +73,17 @@ private:
 	float velocityThreshold;
 	float heightThreshold;
 	void onPinch();
-	bool tryModeSwitch(float velocity);
 	void setCameraMode(CameraMode newMode);
 	void onUnitChanged();
 
+	void moveTo_internal(glm::vec3 pos, float speed);
+
+	// consts
 	float camSpeed;
+	float zoomSpeed;
+	float maxZoomSpeed;
+	float maxWrongZoomAmt;
+	float changeModeThreshold;
 
 	glm::vec3 gameCamOffset;
 
