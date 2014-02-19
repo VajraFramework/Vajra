@@ -142,6 +142,7 @@ void DebugDrawer::drawArrow(glm::vec3 from, glm::vec3 to) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef DEBUG
 void DebugDraw::DrawPoint(glm::vec3 position) {
 	ENGINE->GetDebugDrawer()->drawPoint(position);
 }
@@ -165,3 +166,4 @@ void DebugDraw::DrawArrow(glm::vec3 from, glm::vec3 to) {
 void DebugDraw::DrawArrow(glm::vec3 from, glm::vec3 direction, float length) {
 	ENGINE->GetDebugDrawer()->drawArrow(from, from + direction * length);
 }
+#endif
