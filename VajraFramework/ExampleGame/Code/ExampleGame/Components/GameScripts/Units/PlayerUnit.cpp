@@ -134,6 +134,7 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 void PlayerUnit::OnDeselect() {
 	this->inputState = InputState::INPUT_STATE_NONE;
 }
+
 void PlayerUnit::onSelectedTouch() {
 	this->inputState = InputState::INPUT_STATE_WAIT;
 }
@@ -150,8 +151,8 @@ void PlayerUnit::onSpecialEnd() {
 	touchIndicator->SetVisible(false);
 }
 
-void PlayerUnit::onSpecialCancelled() {
-	PlayerUnit::onSpecialEnd();
+void PlayerUnit::CancelSpecial() {
+	this->onSpecialEnd();
 }
 
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
