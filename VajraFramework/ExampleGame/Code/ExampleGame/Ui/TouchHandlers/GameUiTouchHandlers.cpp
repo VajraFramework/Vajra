@@ -70,6 +70,7 @@ GameUiTouchHandlers::GameUiTouchHandlers() : UiTouchHandlers() {
 	this->isTutorialLevel = false;
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_CREATED_TUTORIAL);
+	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_ON_END_CONDITIONS_MET);
 }
 
 GameUiTouchHandlers::~GameUiTouchHandlers() {
@@ -97,6 +98,9 @@ void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
 			break;
 		case MESSAGE_TYPE_CREATED_TUTORIAL:
 			this->setupTutorial(messageChunk->messageData.s);
+			break;
+		case MESSAGE_TYPE_ON_END_CONDITIONS_MET:
+			this->onLevelEnd(messageChunk->messageData.iv1.x >= 0);
 			break;
 		default:
 			break;
@@ -394,3 +398,7 @@ void GameUiTouchHandlers::nextTutorialImage() {
 	}
 }
 
+void GameUiTouchHandlers::onLevelEnd(bool /*success*/) {
+	UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
+	postMenu->SetVisible(true);
+}
