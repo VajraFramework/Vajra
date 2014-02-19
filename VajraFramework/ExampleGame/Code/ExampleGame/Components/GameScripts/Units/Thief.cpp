@@ -89,7 +89,7 @@ void Thief::onSpecialTouch(int touchId) {
 			this->startSpecial();
 		} else {
 			this->targetedCell = this->gridNavRef->GetCurrentCell();
-			this->onSpecialCancelled();
+			this->CancelSpecial();
 		}
 		this->tweenOutTargets();
 	}

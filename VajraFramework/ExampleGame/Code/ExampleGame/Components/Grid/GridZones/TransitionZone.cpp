@@ -3,12 +3,13 @@
 //  Created by Matt Kaufmann on 01/31/14.
 //
 
+#include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZones/TransitionZone.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
-#include "ExampleGame/Messages/Declarations.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
+#include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
@@ -163,6 +164,13 @@ void TransitionZone::onUnitEnteredZone(ObjectIdType id) {
 
 
 	if(id == SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
+		PlayerUnit* pU = gObj->GetComponent<PlayerUnit>();
+		ASSERT(pU != nullptr, "gameObject has a PlayerUnit component");
+		if(pU != nullptr) {
+			if(pU->GetPerformingSpecial()) {
+				pU->CancelSpecial();
+			}
+		}
 		ShadyCamera* shadyCam = ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject()->GetComponent<ShadyCamera>();
 		ASSERT(shadyCam != nullptr, "What happened to the shady cam?");
 		if (shadyCam != nullptr) {
