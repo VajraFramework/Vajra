@@ -160,16 +160,13 @@ void TransitionZone::onUnitEnteredZone(ObjectIdType id) {
 		// (Hopefully they won't be the same room)
 		target = destCell2;
 	}
-	gNav->SetDestination(target);
 
 
 	if(id == SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
 		PlayerUnit* pU = gObj->GetComponent<PlayerUnit>();
 		ASSERT(pU != nullptr, "gameObject has a PlayerUnit component");
 		if(pU != nullptr) {
-			if(pU->GetPerformingSpecial()) {
-				pU->CancelSpecial();
-			}
+			pU->OnTransitionZoneEntered(target);
 		}
 		ShadyCamera* shadyCam = ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject()->GetComponent<ShadyCamera>();
 		ASSERT(shadyCam != nullptr, "What happened to the shady cam?");

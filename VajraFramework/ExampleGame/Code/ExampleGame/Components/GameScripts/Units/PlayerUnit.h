@@ -33,7 +33,7 @@ public:
 	void OnTouch(int touchId, GridCell* touchedCell);
 	void OnDeselect();
 
-	virtual void CancelSpecial();
+	void OnTransitionZoneEntered(GridCell* newTarget);
 
 	inline bool GetPerformingSpecial() { return this->performingSpecial; }
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
@@ -48,6 +48,7 @@ protected:
 	virtual void trySpecial(int /* touchId */) = 0;
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
+	virtual void cancelSpecial();
 	virtual void touchedCellChanged(GridCell* prevTouchedCell);
 
 	InputState inputState;
