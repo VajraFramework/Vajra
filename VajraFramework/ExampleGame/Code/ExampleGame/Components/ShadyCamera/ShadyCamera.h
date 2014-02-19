@@ -46,13 +46,12 @@ public:
 	void ZoomTo(float y);
 	void ZoomBy(float yOffset);
 
+	void MoveGameCamToRoom(int i, int j); // Cell indicies
+	void MoveGameCamToRoom(glm::vec3 roomCenter); // center of the room
 	// Move camera to game room
-	void MoveToCurrentRoom(); // move to current room
+	void MoveToGamePos(); // move to current room
 	// Sets current room and then moves to it
-	//[[PROPERTY]]//
-	void MoveToRoom(int x, int z); // location in current room
-	void MoveToRoom(GridCell* cell); // cell is a cell in the current room
-
+	
 	//[[PROPERTY]]//
 	void MoveToOverview();
 
@@ -63,12 +62,15 @@ private:
 	void init();
 	void destroy();
 
+	void loadCameraData(GridCell* startUnitCell, glm::vec3 overviewPos, glm::vec3 startPos, bool useStartPos);
+
 	GameObject* gameObjectRef;
 	GridManager* gridManagerRef;
 
 	CameraMode camMode;
 	// Find and store the current position for the game camera
-	void setGameCameraPosition(int x, int z);
+	void setCurrentRoomCenter(glm::vec3 roomCenter); // center of the room
+	void updateGameCamPos();
 
 	bool newPinch;
 	float velocityThreshold;
@@ -79,9 +81,15 @@ private:
 	void onUnitChanged();
 
 	float camSpeed;
-	float gameCamHeight;
+
+	glm::vec3 gameCamOffset;
+
 	glm::vec3 gameCamPos;
 	glm::vec3 overviewPos;
+
+	glm::vec3 currentRoomCenter;
+
+	friend class LevelLoader;
 };
 
 #endif // SHADY_CAMERA_H
