@@ -58,9 +58,6 @@ void ShadyCamera::init() {
 
 	this->gridManagerRef = nullptr;
 
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_SELECTED_UNIT_CHANGED, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED, this->GetTypeId(), false);
 }
 
 void ShadyCamera::destroy() {
@@ -69,6 +66,24 @@ void ShadyCamera::destroy() {
 	this->gridManagerRef = nullptr;
 }
 
+void ShadyCamera::loadCameraData(GridCell* startUnitCell, glm::vec3 overviewPos, glm::vec3 startPos, bool useStartPos) {
+
+	this->overviewPos = overviewPos;
+	Transform* camTransform = this->gameObjectRef->GetTransform();
+	if(useStartPos) {
+		camTransform->SetPosition(startPos);
+		this->MoveGameCamToRoom(startUnitCell->x, startUnitCell->z);
+	} else {
+		this->setCurrentRoomCenter(this->gridManagerRef->GetGrid()->GetRoomCenter(startUnitCell->x, startUnitCell->z));
+		this->gameCamPos = this->currentRoomCenter + this->gameCamOffset;		
+		camTransform->SetPosition(gameCamPos);
+
+	}
+	// We only want to subscribe to messages once we set up the inital camera data 
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SELECTED_UNIT_CHANGED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED, this->GetTypeId(), false);
+}
 void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 	Camera::HandleMessage(messageChunk);
 	switch (messageChunk->GetMessageType()) {

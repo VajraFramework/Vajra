@@ -62,6 +62,8 @@ private:
 	void init();
 	void destroy();
 
+	void loadCameraData(GridCell* startUnitCell, glm::vec3 overviewPos, glm::vec3 startPos, bool useStartPos);
+
 	GameObject* gameObjectRef;
 	GridManager* gridManagerRef;
 
@@ -86,6 +88,8 @@ private:
 	glm::vec3 overviewPos;
 
 	glm::vec3 currentRoomCenter;
+
+	friend class LevelLoader;
 };
 
 #endif // SHADY_CAMERA_H

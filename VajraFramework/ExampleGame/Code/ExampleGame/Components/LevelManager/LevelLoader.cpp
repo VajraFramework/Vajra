@@ -289,7 +289,7 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	ShadyCamera* cameraComponent = camera->AddComponent<ShadyCamera>();
 	ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
 	cameraComponent->SetGridManager(SINGLETONS->GetGridManager());
-
+	
 	// Find the unit that the camera should focus on
 	UnitType uType = StringToUnitType(unitNameStr);
 	ObjectIdType id = SINGLETONS->GetGridManager()->GetPlayerUnitIdOfType(uType);
@@ -307,7 +307,16 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	GridCell* cell = gNav->GetCurrentCell();
 	ASSERT(cell != nullptr, "Object with id %d is on grid", id);
 
-	//cameraComponent->MoveToRoom(cell->x, cell->z);
+	// load in start and overview pos
+	// TODO [Hack] Matt remove these when you load this in right
+	glm::vec3 overviewPos = glm::vec3(20.0f, 50.0f, -20.0f);
+	glm::vec3 startPos = glm::vec3(50.0f, 25.0f, 0.0f);
+	bool overviewNodeIsNull = false;
+	bool startPosNodeIsNull = true;
+	
+	// If a level does not have an overview node something is wrong
+	ASSERT(!overviewNodeIsNull, "level XML has no overview data");
+	cameraComponent->loadCameraData(pU->gridNavRef->GetCurrentCell(), overviewPos, startPos, !startPosNodeIsNull);
 }
 
 void LevelLoader::loadLinkDataFromXml  (XmlNode* linkBaseNode) {
