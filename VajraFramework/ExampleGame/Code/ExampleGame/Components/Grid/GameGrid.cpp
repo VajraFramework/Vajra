@@ -286,6 +286,30 @@ GridZone* GameGrid::GetZone(GridCell* cell) {
 	return nullptr;
 }
 
+void GameGrid::GetZones(std::list<GridZone*>& outZones, int gridX, int gridZ) {
+	GridCell* cell = GetCell(gridX, gridZ);
+	this->GetZones(outZones, cell);
+}
+
+void GameGrid::GetZones(std::list<GridZone*>& outZones, glm::vec3 worldPosition) {
+	GridCell* cell = GetCell(worldPosition);
+	this->GetZones(outZones, cell);
+}
+
+void GameGrid::GetZones(std::list<GridZone*>& outZones, GridCell* cell) {
+	if (cell != nullptr) {
+		// If the cell is in multiple zones, only the first one is returned.
+		for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
+			GameObject* zoneObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
+			GridZone* zone = zoneObj->GetComponent<GridZone>();
+
+			if (zone->IsCellWithinZone(cell)) {
+				outZones.push_back(zone);
+			}
+		}
+	}
+}
+
 void GameGrid::TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outTouched) {
 	int spanX = goalCell->x - startCell->x;
 	int spanZ = goalCell->z - startCell->z;

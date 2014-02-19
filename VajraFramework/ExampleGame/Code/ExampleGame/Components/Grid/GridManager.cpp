@@ -423,32 +423,46 @@ void GridManager::removeNavigatorFromGrid(ObjectIdType id, glm::vec3 cellPos) {
 }
 
 void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
-	// We'll assume that no grid zones overlap
-	GridZone* startZone = this->grid->GetZone(startCell);
-	GridZone* destZone  = this->grid->GetZone(destCell);
+	// Get all of the zones that touch either the start or destination cell
+	std::list<GridZone*> startZones, destZones;
+	this->grid->GetZones(startZones, startCell);
+	this->grid->GetZones(destZones, destCell);
 
-	if (startZone != destZone) {
-		// Did the object leave its initial zone?
-		if (startZone != nullptr) {
-			Object* startZoneObj = startZone->GetObject();
-			ObjectIdType startZoneObjId = startZoneObj->GetId();
-
-			MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-			collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED);
-			collisionMessage->messageData.iv1.x = id;
-			ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, startZoneObjId, id);
+	// Ignore any zones that are in both lists.
+	auto iter1 = startZones.begin();
+	while ((iter1 != startZones.end()) && (destZones.size() > 0)) {
+		// Is the current zone in the other list as well?
+		auto iter2 = std::find(destZones.begin(), destZones.end(), *iter1);
+		if (iter2 != destZones.end()) {
+			// If so, remove that zone from both lists.
+			iter1 = startZones.erase(iter1);
+			iter2 = destZones.erase(iter2);
 		}
-
-		// Did the object enter a new zone?
-		if (destZone != nullptr) {
-			Object* destZoneObj = destZone->GetObject();
-			ObjectIdType destZoneObjId = destZoneObj->GetId();
-
-			MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-			collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED);
-			collisionMessage->messageData.iv1.x = id;
-			ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, destZoneObjId, id);
+		else {
+			iter1++;
 		}
+	}
+
+	// We now have two disjoint lists of zones.
+	for (auto iter = startZones.begin(); iter != startZones.end(); iter++) {
+		GridZone* startZone = *iter;
+		Object* startZoneObj = startZone->GetObject();
+		ObjectIdType startZoneObjId = startZoneObj->GetId();
+
+		MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED);
+		collisionMessage->messageData.iv1.x = id;
+		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, startZoneObjId, id);
+	}
+	for (auto iter = destZones.begin(); iter != destZones.end(); iter++) {
+		GridZone* destZone = *iter;
+		Object* destZoneObj = destZone->GetObject();
+		ObjectIdType destZoneObjId = destZoneObj->GetId();
+
+		MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED);
+		collisionMessage->messageData.iv1.x = id;
+		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, destZoneObjId, id);
 	}
 }
 
