@@ -50,7 +50,7 @@ void PlayerUnit::init() {
 	this->inputState = InputState::INPUT_STATE_NONE;
 	this->touchNearUnit = false;
 	this->performingSpecial = false;
-
+	this->unitHasTouchFocus = false;
 	this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
 	this->gridNavRef->SetTurnSpeedDegrees(TURN_SPEED_DEG);
 
@@ -100,34 +100,42 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 }
 
 void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
-	if(this->currentTouchedCell != touchedCell || ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Began) {
-		GridCell* prevTouchedCell = this->currentTouchedCell;
-		this->currentTouchedCell = touchedCell;
-		this->touchedCellChanged(prevTouchedCell);
+	bool touchBegan = ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Began;
+	if(touchBegan) {
+		this->unitHasTouchFocus = true;
 	}
-	
-	if(ENGINE->GetInput()->GetTouch(touchId).phase == TouchPhase::Began) {
-		this->touchStartPos = ENGINE->GetInput()->GetTouch(touchId).pos;
-		this->setTouchNearUnit();
-		this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
-	}	
 
 	if(this->performingSpecial) {
+		this->unitHasTouchFocus = false;
 		return;
 	}
+	// only handle a touch that was started when the unit has focus
+	if(this->unitHasTouchFocus) {
+		if(this->currentTouchedCell != touchedCell || touchBegan) {
+			GridCell* prevTouchedCell = this->currentTouchedCell;
+			this->currentTouchedCell = touchedCell;
+			this->touchedCellChanged(prevTouchedCell);
+		}
+		
+		if(touchBegan) {
+			this->touchStartPos = ENGINE->GetInput()->GetTouch(touchId).pos;
+			this->setTouchNearUnit();
+			this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
+		}	
 
-	switch(this->inputState) {
-		case InputState::INPUT_STATE_NONE:
-			this->onSelectedTouch();
-		case InputState::INPUT_STATE_WAIT:
-		case InputState::INPUT_STATE_NAV:
-			this->onNavTouch(touchId, touchedCell);
-			break;
-		case InputState::INPUT_STATE_SPECIAL:
-			this->onSpecialTouch(touchId);
-			break;
-		default:
-			break;
+		switch(this->inputState) {
+			case InputState::INPUT_STATE_NONE:
+				this->onSelectedTouch();
+			case InputState::INPUT_STATE_WAIT:
+			case InputState::INPUT_STATE_NAV:
+				this->onNavTouch(touchId, touchedCell);
+				break;
+			case InputState::INPUT_STATE_SPECIAL:
+				this->onSpecialTouch(touchId);
+				break;
+			default:
+				break;
+		}
 	}
 }
 

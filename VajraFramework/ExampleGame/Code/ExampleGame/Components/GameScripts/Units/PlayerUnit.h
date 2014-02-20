@@ -79,7 +79,7 @@ private:
 	bool touchNearUnit;
 	void setTouchNearUnit(); 
 
-	
+	bool unitHasTouchFocus;
 	bool performingSpecial;
 
 	friend void playerUnitNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams);
