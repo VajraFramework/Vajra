@@ -51,14 +51,11 @@
 
 		<uielement name="pause" clickable="true">
 			<dimensions>
-				<position x="4" y="4"></position>
+				<position x="8" y="8"></position>
 				<size widthPixels="64" heightPixels="64"></size>
 				<zorder>0</zorder>
 			</dimensions>
-			<text>
-				<font type="calibiri.fontspec" size="64.0"></font>
-				| |
-			</text>
+			<image name="SD_GUI_Pause_01.png" hasTransperancy="false"> </image>
 		</uielement>
 
 		<uielement name="changeUnit" clickable="true">
