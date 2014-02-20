@@ -38,14 +38,34 @@ void TextureAsset::Draw(GLint drawAsTextureUnit) {
 
 	ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
 
-	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_myTextureSampler)) {
-		GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_myTextureSampler);
-		glUniform1i(textureHandle, drawAsTextureUnit);
-	}
+	switch (drawAsTextureUnit) {
+	case 0: {
+		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_myTextureSampler)) {
+			GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_myTextureSampler);
+			glUniform1i(textureHandle, drawAsTextureUnit);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, this->textureGLHandle);
-	checkGlError("glBindTexture");
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, this->textureGLHandle);
+			checkGlError("glBindTexture");
+		}
+	} break;
+
+	case 1: {
+		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler)) {
+			GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler);
+			glUniform1i(textureHandle, drawAsTextureUnit);
+
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, this->textureGLHandle);
+			checkGlError("glBindTexture");
+		}
+	} break;
+
+	default: {
+		FRAMEWORK->GetLogger()->dbglog("\nValid texture unit %d", drawAsTextureUnit);
+	} break;
+
+	}
 }
 
 AssetType TextureAsset::GetAssetType() {

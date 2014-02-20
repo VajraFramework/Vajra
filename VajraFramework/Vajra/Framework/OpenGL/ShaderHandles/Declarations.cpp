@@ -138,6 +138,9 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "myTextureSampler") {
 		return SHADER_VARIABLE_VARIABLENAME_myTextureSampler;
 	}
+	if (s == "bakedAmbientGridTextureSampler") {
+		return SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler;
+	}
 	if (s == "invalid") {
 		return SHADER_VARIABLE_VARIABLENAME_invalid;
 	}
@@ -205,6 +208,7 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_pointSize: return "pointSize";
 	case SHADER_VARIABLE_VARIABLENAME_particleColor: return "particleColor";
 	case SHADER_VARIABLE_VARIABLENAME_myTextureSampler: return "myTextureSampler";
+	case SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler: return "bakedAmbientGridTextureSampler";
 	case SHADER_VARIABLE_VARIABLENAME_invalid: return "invalid";
 	// default: DO NOT ADD A DEFAULT HERE. It'll help catch the case where the enum is extended but not handled here
 	}

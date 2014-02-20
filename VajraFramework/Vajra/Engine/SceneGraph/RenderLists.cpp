@@ -4,6 +4,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Lighting/AmbientLighting.h"
 #include "Vajra/Engine/SceneGraph/RenderLists.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
@@ -68,6 +69,10 @@ void RenderList::Prepare() {
 }
 
 void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out) {
+
+	// Pass the ambient lighting parameters to the shader:
+	ENGINE->GetAmbientLighting()->Draw();
+
 	for (ObjectIdType id : this->gameObjectIds) {
 		GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 		if (gameObject != nullptr) {
