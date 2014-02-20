@@ -1,5 +1,4 @@
 <uiscene widthPixels="1024" heightPixels="768">
-
 	<uielement name="tutorialScreen" clickable="true">
 		<dimensions>
 			<position x="0" y="768"></position>
@@ -77,98 +76,112 @@
 
 	<uielement name="pauseMenu" clickable="false" visible="false">
 		<dimensions>
-			<position x="128" y="128"></position>
-			<size widthPixels="768" heightPixels="16"></size>
+			<position xwrto="CENTER" ywrto="CENTER" x="-256" y="-192"></position>
+			<size widthPixels="512" heightPixels="384"></size>
 			<zorder>0</zorder>
-			<color r="0.0" g="0.9" b="0.0" a="1.0"></color>
 		</dimensions>
-
+		<uielement name="pauseBackground" visible="true" clickable="false">
+			<dimensions>
+				<position xwrto="LEFT" ywrto="TOP" x="0" y="0"></position>
+				<size widthPixels="512" heightPixels="384"></size>
+				<zorder>-6</zorder>
+			</dimensions>
+			<image name="splashScreen.png" hasTransperancy="false"> </image>
+		</uielement>
 		<uielement name="resume" clickable="true" visible="true">
 			<dimensions>
-				<position xwrto="CENTER" x="-128" y="100"></position>
-				<size widthPixels="256" heightPixels="64"></size>
+				<position x="256" y="0"></position>
+				<size widthPixels="256" heightPixels="128"></size>
 				<zorder>0</zorder>
 			</dimensions>
 			<text>
 				<font type="calibiri.fontspec" size="64.0"></font>
 				Resume
 			</text>
-			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+			<color r="0.0" g="0.3" b="0.5" a="1.0"></color>
 		</uielement>
 
 		<uielement name="restart_pause" clickable="true" visible="true">
 			<dimensions>
-				<position xwrto="CENTER" x="-128" y="200"></position>
-				<size widthPixels="256" heightPixels="64"></size>
+				<position x="256" y="128"></position>
+				<size widthPixels="256" heightPixels="128"></size>
 				<zorder>0</zorder>
 			</dimensions>
 			<text>
 				<font type="calibiri.fontspec" size="64.0"></font>
 				Restart
 			</text>
-			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+			<color r="0.0" g="0.3" b="0.5" a="1.0"></color>
 		</uielement>
 
 		<uielement name="mission_from_pause" clickable="true" visible="true">
 			<dimensions>
-				<position xwrto="CENTER" x="-128" y="300"></position>
-				<size widthPixels="256" heightPixels="64"></size>
+				<position x="256" y="256"></position>
+				<size widthPixels="256" heightPixels="128"></size>
 				<zorder>0</zorder>
 			</dimensions>
 			<text>
 				<font type="calibiri.fontspec" size="64.0"></font>
 				Menu
 			</text>
-			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+			<color r="0.0" g="0.3" b="0.5" a="1.0"></color>
 		</uielement>
+
 	</uielement>
 
 	<uielement name="postGame" clickable="false" visible="false">
-	<dimensions>
-		<position x="700" y="128"></position>
-		<size widthPixels="768" heightPixels="16"></size>
-		<zorder>0</zorder>
-		<color r="0.0" g="0.9" b="0.0" a="1.0"></color>
-	</dimensions>
-
+		<dimensions>
+			<position xwrto="CENTER" ywrto="CENTER" x="-256" y="-192"></position>
+			<size widthPixels="512" heightPixels="384"></size>
+			<zorder>0</zorder>
+		</dimensions>
+		<uielement name="postBackground" visible="true" clickable="false">
+			<dimensions>
+				<position xwrto="LEFT" ywrto="TOP" x="0" y="0"></position>
+				<size widthPixels="512" heightPixels="384"></size>
+				<zorder>-6</zorder>
+			</dimensions>
+			<image name="splashScreen.png" hasTransperancy="false"> </image>
+		</uielement>
 		<uielement name="continue" clickable="true" visible="true">
 			<dimensions>
-				<position x="256" y="100"></position>
-				<size widthPixels="256" heightPixels="64"></size>
+				<position x="256" y="0"></position>
+				<size widthPixels="256" heightPixels="128"></size>
 				<zorder>0</zorder>
 			</dimensions>
 			<text>
 				<font type="calibiri.fontspec" size="64.0"></font>
 				Next Level
 			</text>
-			<color r="0.4" g="1.0" b="0.2" a="1.0"></color>
+			<color r="0.0" g="0.3" b="0.5" a="1.0"></color>
 		</uielement>
 
 		<uielement name="restart_post" clickable="true" visible="true">
 			<dimensions>
-				<position x="256" y="200"></position>
-				<size widthPixels="256" heightPixels="64"></size>
+				<position x="256" y="128"></position>
+				<size widthPixels="256" heightPixels="128"></size>
 				<zorder>0</zorder>
 			</dimensions>
 			<text>
 				<font type="calibiri.fontspec" size="64.0"></font>
 				Retry
 			</text>
-			<color r="0.4" g="1.0" b="0.2" a="1.0"></color>
+			<color r="0.0" g="0.3" b="0.5" a="1.0"></color>
 		</uielement>
 
 		<uielement name="mission_post" clickable="true" visible="true">
 			<dimensions>
-				<position x="256" y="300"></position>
-				<size widthPixels="256" heightPixels="64"></size>
+				<position x="256" y="256"></position>
+				<size widthPixels="256" heightPixels="128"></size>
 				<zorder>0</zorder>
 			</dimensions>
 			<text>
 				<font type="calibiri.fontspec" size="64.0"></font>
 				Menu
 			</text>
-			<color r="0.4" g="1.0" b="0.2" a="1.0"></color>
+			<color r="0.0" g="0.3" b="0.5" a="1.0"></color>
 		</uielement>
+
 	</uielement>
 
 </uiscene>

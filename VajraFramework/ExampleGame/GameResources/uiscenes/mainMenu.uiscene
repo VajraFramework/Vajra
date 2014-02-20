@@ -1,26 +1,37 @@
 <uiscene widthPixels="1024" heightPixels="768">
+
+	<uielement name="splashScreen" visible="true" clickable="false">
+		<dimensions>
+			<position xwrto="LEFT" ywrto="TOP" x="0" y="0"></position>
+			<size widthPixels="1024" heightPixels="768"></size>
+			<zorder>-6</zorder>
+		</dimensions>
+		<image name="splashScreen.png" hasTransperancy="false"> </image>
+	</uielement>
+
+
 	<uielement name="startMenu" clickable="false">
 	<dimensions>
 		<position x="0" y="0"></position>
-		<size widthPixels="200" heightPixels="768"></size>
+		<size widthPixels="1024" heightPixels="768"></size>
 		<zorder>0</zorder>
 		<color r="0.5" g="0.5" b="0.6" a="1.0"></color>
 	</dimensions>
 
 		<uielement name="play" clickable="true">
 			<dimensions>
-				<position xwrto="CENTER" ywrto="CENTER" x="-160" y="-80"></position>
-				<size widthPixels="320" heightPixels="160"></size>
+				<position xwrto="RIGHT" ywrto="TOP" x="64" y="128"></position>
+				<size widthPixels="256" heightPixels="128"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
 				<font type="calibiri.fontspec" size="64.0"></font>
 				Play
 			</text>
-			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
+			<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 		</uielement>
 
-		<uielement name="options" clickable="true">
+		<uielement name="options" visible="false" clickable="true">
 			<dimensions>
 				<position xwrto="CENTER" x="-160" y="500"></position>
 				<size widthPixels="320" heightPixels="160"></size>
