@@ -45,47 +45,49 @@
 		B3B806D918AFF57700D8B311 /* tags in Resources */ = {isa = PBXBuildFile; fileRef = B3B806C818AFF57700D8B311 /* tags */; };
 		B3B806DA18AFF57700D8B311 /* tutorials in Resources */ = {isa = PBXBuildFile; fileRef = B3B806C918AFF57700D8B311 /* tutorials */; };
 		B3B806DB18AFF57700D8B311 /* uiscenes in Resources */ = {isa = PBXBuildFile; fileRef = B3B806CA18AFF57700D8B311 /* uiscenes */; };
-		B3BB52DA18B408E8005A7BA1 /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB526F18B408E8005A7BA1 /* AndroidWrapper.cpp */; };
-		B3BB52DB18B408E8005A7BA1 /* ComponentMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB527218B408E8005A7BA1 /* ComponentMapper.cpp */; };
-		B3BB52DC18B408E8005A7BA1 /* AiCommandParse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB527918B408E8005A7BA1 /* AiCommandParse.cpp */; };
-		B3BB52DD18B408E8005A7BA1 /* AiKnowledge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB527B18B408E8005A7BA1 /* AiKnowledge.cpp */; };
-		B3BB52DE18B408E8005A7BA1 /* AiPerception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB527D18B408E8005A7BA1 /* AiPerception.cpp */; };
-		B3BB52DF18B408E8005A7BA1 /* AiRoutine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB527F18B408E8005A7BA1 /* AiRoutine.cpp */; };
-		B3BB52E018B408E8005A7BA1 /* SampleGameScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB528118B408E8005A7BA1 /* SampleGameScript.cpp */; };
-		B3BB52E118B408E8005A7BA1 /* UnitAnimationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB528518B408E8005A7BA1 /* UnitAnimationManager.cpp */; };
-		B3BB52E218B408E8005A7BA1 /* UnitShadow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB528718B408E8005A7BA1 /* UnitShadow.cpp */; };
-		B3BB52E318B408E8005A7BA1 /* Assassin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB528A18B408E8005A7BA1 /* Assassin.cpp */; };
-		B3BB52E418B408E8005A7BA1 /* BaseUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB528C18B408E8005A7BA1 /* BaseUnit.cpp */; };
-		B3BB52E518B408E8005A7BA1 /* EnemyUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB528E18B408E8005A7BA1 /* EnemyUnit.cpp */; };
-		B3BB52E618B408E8005A7BA1 /* Guard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB529018B408E8005A7BA1 /* Guard.cpp */; };
-		B3BB52E718B408E8005A7BA1 /* PlayerUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB529218B408E8005A7BA1 /* PlayerUnit.cpp */; };
-		B3BB52E818B408E8005A7BA1 /* Thief.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB529418B408E8005A7BA1 /* Thief.cpp */; };
-		B3BB52E918B408E8005A7BA1 /* GameGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB529818B408E8005A7BA1 /* GameGrid.cpp */; };
-		B3BB52EA18B408E8005A7BA1 /* GridCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB529A18B408E8005A7BA1 /* GridCell.cpp */; };
-		B3BB52EB18B408E8005A7BA1 /* GridConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB529C18B408E8005A7BA1 /* GridConstants.cpp */; };
-		B3BB52EC18B408E8005A7BA1 /* GridManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB529E18B408E8005A7BA1 /* GridManager.cpp */; };
-		B3BB52ED18B408E8005A7BA1 /* GridNavigator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52A018B408E8005A7BA1 /* GridNavigator.cpp */; };
-		B3BB52EE18B408E8005A7BA1 /* GridRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52A218B408E8005A7BA1 /* GridRoom.cpp */; };
-		B3BB52EF18B408E8005A7BA1 /* GridZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52A418B408E8005A7BA1 /* GridZone.cpp */; };
-		B3BB52F018B408E8005A7BA1 /* TransitionZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52A818B408E8005A7BA1 /* TransitionZone.cpp */; };
-		B3BB52F118B408E8005A7BA1 /* LevelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52AC18B408E8005A7BA1 /* LevelLoader.cpp */; };
-		B3BB52F218B408E8005A7BA1 /* LevelManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52AE18B408E8005A7BA1 /* LevelManager.cpp */; };
-		B3BB52F318B408E8005A7BA1 /* ShadyCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52B118B408E8005A7BA1 /* ShadyCamera.cpp */; };
-		B3BB52F418B408E8005A7BA1 /* BaseSwitch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52B418B408E8005A7BA1 /* BaseSwitch.cpp */; };
-		B3BB52F518B408E8005A7BA1 /* GridZoneSwitch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52B618B408E8005A7BA1 /* GridZoneSwitch.cpp */; };
-		B3BB52F618B408E8005A7BA1 /* MultiplexSwitch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52B818B408E8005A7BA1 /* MultiplexSwitch.cpp */; };
-		B3BB52F718B408E8005A7BA1 /* Triggerable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52BB18B408E8005A7BA1 /* Triggerable.cpp */; };
-		B3BB52F818B408E8005A7BA1 /* TriggerElevationChange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52BD18B408E8005A7BA1 /* TriggerElevationChange.cpp */; };
-		B3BB52F918B408E8005A7BA1 /* TriggerTerrainBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52BF18B408E8005A7BA1 /* TriggerTerrainBlock.cpp */; };
-		B3BB52FA18B408E8005A7BA1 /* TriggerTransformation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52C118B408E8005A7BA1 /* TriggerTransformation.cpp */; };
-		B3BB52FB18B408E8005A7BA1 /* GameConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52C418B408E8005A7BA1 /* GameConstants.cpp */; };
-		B3BB52FC18B408E8005A7BA1 /* GameConstants_additional.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52C618B408E8005A7BA1 /* GameConstants_additional.cpp */; };
-		B3BB52FD18B408E8005A7BA1 /* GameSingletons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52C818B408E8005A7BA1 /* GameSingletons.cpp */; };
-		B3BB52FE18B408E8005A7BA1 /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52CD18B408E8005A7BA1 /* TestFile.cpp */; };
-		B3BB52FF18B408E8005A7BA1 /* DebugMenuTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52D118B408E8005A7BA1 /* DebugMenuTouchHandlers.cpp */; };
-		B3BB530018B408E8005A7BA1 /* GameUiTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52D318B408E8005A7BA1 /* GameUiTouchHandlers.cpp */; };
-		B3BB530118B408E8005A7BA1 /* MainMenuTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52D518B408E8005A7BA1 /* MainMenuTouchHandlers.cpp */; };
-		B3BB530218B408E8005A7BA1 /* TestUiSceneTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB52D718B408E8005A7BA1 /* TestUiSceneTouchHandlers.cpp */; };
+		B3BB552118B69815005A7BA1 /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54B218B69815005A7BA1 /* AndroidWrapper.cpp */; };
+		B3BB552218B69815005A7BA1 /* ComponentMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54B518B69815005A7BA1 /* ComponentMapper.cpp */; };
+		B3BB552318B69815005A7BA1 /* AiCommandParse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54BC18B69815005A7BA1 /* AiCommandParse.cpp */; };
+		B3BB552418B69815005A7BA1 /* AiKnowledge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54BE18B69815005A7BA1 /* AiKnowledge.cpp */; };
+		B3BB552518B69815005A7BA1 /* AiPerception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54C018B69815005A7BA1 /* AiPerception.cpp */; };
+		B3BB552618B69815005A7BA1 /* AiRoutine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54C218B69815005A7BA1 /* AiRoutine.cpp */; };
+		B3BB552718B69815005A7BA1 /* SampleGameScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54C418B69815005A7BA1 /* SampleGameScript.cpp */; };
+		B3BB552818B69815005A7BA1 /* UnitAnimationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54C818B69815005A7BA1 /* UnitAnimationManager.cpp */; };
+		B3BB552918B69815005A7BA1 /* UnitShadow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54CA18B69815005A7BA1 /* UnitShadow.cpp */; };
+		B3BB552A18B69815005A7BA1 /* Assassin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54CD18B69815005A7BA1 /* Assassin.cpp */; };
+		B3BB552B18B69815005A7BA1 /* BaseUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54CF18B69815005A7BA1 /* BaseUnit.cpp */; };
+		B3BB552C18B69815005A7BA1 /* EnemyUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54D118B69815005A7BA1 /* EnemyUnit.cpp */; };
+		B3BB552D18B69815005A7BA1 /* Guard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54D318B69815005A7BA1 /* Guard.cpp */; };
+		B3BB552E18B69815005A7BA1 /* PlayerUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54D518B69815005A7BA1 /* PlayerUnit.cpp */; };
+		B3BB552F18B69815005A7BA1 /* Thief.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54D718B69815005A7BA1 /* Thief.cpp */; };
+		B3BB553018B69815005A7BA1 /* GameGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54DB18B69815005A7BA1 /* GameGrid.cpp */; };
+		B3BB553118B69815005A7BA1 /* GridCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54DD18B69815005A7BA1 /* GridCell.cpp */; };
+		B3BB553218B69815005A7BA1 /* GridConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54DF18B69815005A7BA1 /* GridConstants.cpp */; };
+		B3BB553318B69815005A7BA1 /* GridManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54E118B69815005A7BA1 /* GridManager.cpp */; };
+		B3BB553418B69815005A7BA1 /* GridNavigator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54E318B69815005A7BA1 /* GridNavigator.cpp */; };
+		B3BB553518B69815005A7BA1 /* GridRoom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54E518B69815005A7BA1 /* GridRoom.cpp */; };
+		B3BB553618B69815005A7BA1 /* GridZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54E718B69815005A7BA1 /* GridZone.cpp */; };
+		B3BB553718B69815005A7BA1 /* TransitionZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54EB18B69815005A7BA1 /* TransitionZone.cpp */; };
+		B3BB553818B69815005A7BA1 /* LevelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54EF18B69815005A7BA1 /* LevelLoader.cpp */; };
+		B3BB553918B69815005A7BA1 /* LevelManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54F118B69815005A7BA1 /* LevelManager.cpp */; };
+		B3BB553A18B69815005A7BA1 /* ShadyCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54F418B69815005A7BA1 /* ShadyCamera.cpp */; };
+		B3BB553B18B69815005A7BA1 /* BaseSwitch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54F718B69815005A7BA1 /* BaseSwitch.cpp */; };
+		B3BB553C18B69815005A7BA1 /* GridZoneSwitch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54F918B69815005A7BA1 /* GridZoneSwitch.cpp */; };
+		B3BB553D18B69815005A7BA1 /* MultiplexSwitch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54FB18B69815005A7BA1 /* MultiplexSwitch.cpp */; };
+		B3BB553E18B69815005A7BA1 /* Triggerable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB54FE18B69815005A7BA1 /* Triggerable.cpp */; };
+		B3BB553F18B69815005A7BA1 /* TriggerElevationChange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB550018B69815005A7BA1 /* TriggerElevationChange.cpp */; };
+		B3BB554018B69815005A7BA1 /* TriggerLevelDefeat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB550218B69815005A7BA1 /* TriggerLevelDefeat.cpp */; };
+		B3BB554118B69815005A7BA1 /* TriggerLevelVictory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB550418B69815005A7BA1 /* TriggerLevelVictory.cpp */; };
+		B3BB554218B69815005A7BA1 /* TriggerTerrainBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB550618B69815005A7BA1 /* TriggerTerrainBlock.cpp */; };
+		B3BB554318B69815005A7BA1 /* TriggerTransformation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB550818B69815005A7BA1 /* TriggerTransformation.cpp */; };
+		B3BB554418B69815005A7BA1 /* GameConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB550B18B69815005A7BA1 /* GameConstants.cpp */; };
+		B3BB554518B69815005A7BA1 /* GameConstants_additional.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB550D18B69815005A7BA1 /* GameConstants_additional.cpp */; };
+		B3BB554618B69815005A7BA1 /* GameSingletons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB550F18B69815005A7BA1 /* GameSingletons.cpp */; };
+		B3BB554718B69815005A7BA1 /* TestFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB551418B69815005A7BA1 /* TestFile.cpp */; };
+		B3BB554818B69815005A7BA1 /* DebugMenuTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB551818B69815005A7BA1 /* DebugMenuTouchHandlers.cpp */; };
+		B3BB554918B69815005A7BA1 /* GameUiTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB551A18B69815005A7BA1 /* GameUiTouchHandlers.cpp */; };
+		B3BB554A18B69815005A7BA1 /* MainMenuTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB551C18B69815005A7BA1 /* MainMenuTouchHandlers.cpp */; };
+		B3BB554B18B69815005A7BA1 /* TestUiSceneTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3BB551E18B69815005A7BA1 /* TestUiSceneTouchHandlers.cpp */; };
 		BA97CF0118971D9000942107 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDAF18971D8F00942107 /* CMakeLists.txt */; };
 		BA97CF0218971D9000942107 /* func_common.inl in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDB818971D8F00942107 /* func_common.inl */; };
 		BA97CF0318971D9000942107 /* func_exponential.inl in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDBA18971D8F00942107 /* func_exponential.inl */; };
@@ -380,93 +382,97 @@
 		B3B806C818AFF57700D8B311 /* tags */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tags; sourceTree = "<group>"; };
 		B3B806C918AFF57700D8B311 /* tutorials */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tutorials; sourceTree = "<group>"; };
 		B3B806CA18AFF57700D8B311 /* uiscenes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = uiscenes; sourceTree = "<group>"; };
-		B3BB526F18B408E8005A7BA1 /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
-		B3BB527018B408E8005A7BA1 /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
-		B3BB527218B408E8005A7BA1 /* ComponentMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComponentMapper.cpp; sourceTree = "<group>"; };
-		B3BB527318B408E8005A7BA1 /* ComponentMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentMapper.h; sourceTree = "<group>"; };
-		B3BB527618B408E8005A7BA1 /* ComponentTypeIds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentTypeIds.h; sourceTree = "<group>"; };
-		B3BB527918B408E8005A7BA1 /* AiCommandParse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiCommandParse.cpp; sourceTree = "<group>"; };
-		B3BB527A18B408E8005A7BA1 /* AiCommandParse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiCommandParse.h; sourceTree = "<group>"; };
-		B3BB527B18B408E8005A7BA1 /* AiKnowledge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiKnowledge.cpp; sourceTree = "<group>"; };
-		B3BB527C18B408E8005A7BA1 /* AiKnowledge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiKnowledge.h; sourceTree = "<group>"; };
-		B3BB527D18B408E8005A7BA1 /* AiPerception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiPerception.cpp; sourceTree = "<group>"; };
-		B3BB527E18B408E8005A7BA1 /* AiPerception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiPerception.h; sourceTree = "<group>"; };
-		B3BB527F18B408E8005A7BA1 /* AiRoutine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiRoutine.cpp; sourceTree = "<group>"; };
-		B3BB528018B408E8005A7BA1 /* AiRoutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiRoutine.h; sourceTree = "<group>"; };
-		B3BB528118B408E8005A7BA1 /* SampleGameScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SampleGameScript.cpp; sourceTree = "<group>"; };
-		B3BB528218B408E8005A7BA1 /* SampleGameScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleGameScript.h; sourceTree = "<group>"; };
-		B3BB528418B408E8005A7BA1 /* Definitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Definitions.h; sourceTree = "<group>"; };
-		B3BB528518B408E8005A7BA1 /* UnitAnimationManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UnitAnimationManager.cpp; sourceTree = "<group>"; };
-		B3BB528618B408E8005A7BA1 /* UnitAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitAnimationManager.h; sourceTree = "<group>"; };
-		B3BB528718B408E8005A7BA1 /* UnitShadow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UnitShadow.cpp; sourceTree = "<group>"; };
-		B3BB528818B408E8005A7BA1 /* UnitShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitShadow.h; sourceTree = "<group>"; };
-		B3BB528A18B408E8005A7BA1 /* Assassin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Assassin.cpp; sourceTree = "<group>"; };
-		B3BB528B18B408E8005A7BA1 /* Assassin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Assassin.h; sourceTree = "<group>"; };
-		B3BB528C18B408E8005A7BA1 /* BaseUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseUnit.cpp; sourceTree = "<group>"; };
-		B3BB528D18B408E8005A7BA1 /* BaseUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseUnit.h; sourceTree = "<group>"; };
-		B3BB528E18B408E8005A7BA1 /* EnemyUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EnemyUnit.cpp; sourceTree = "<group>"; };
-		B3BB528F18B408E8005A7BA1 /* EnemyUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnemyUnit.h; sourceTree = "<group>"; };
-		B3BB529018B408E8005A7BA1 /* Guard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Guard.cpp; sourceTree = "<group>"; };
-		B3BB529118B408E8005A7BA1 /* Guard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Guard.h; sourceTree = "<group>"; };
-		B3BB529218B408E8005A7BA1 /* PlayerUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerUnit.cpp; sourceTree = "<group>"; };
-		B3BB529318B408E8005A7BA1 /* PlayerUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerUnit.h; sourceTree = "<group>"; };
-		B3BB529418B408E8005A7BA1 /* Thief.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Thief.cpp; sourceTree = "<group>"; };
-		B3BB529518B408E8005A7BA1 /* Thief.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thief.h; sourceTree = "<group>"; };
-		B3BB529618B408E8005A7BA1 /* UnitDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitDeclarations.h; sourceTree = "<group>"; };
-		B3BB529818B408E8005A7BA1 /* GameGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameGrid.cpp; sourceTree = "<group>"; };
-		B3BB529918B408E8005A7BA1 /* GameGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameGrid.h; sourceTree = "<group>"; };
-		B3BB529A18B408E8005A7BA1 /* GridCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridCell.cpp; sourceTree = "<group>"; };
-		B3BB529B18B408E8005A7BA1 /* GridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridCell.h; sourceTree = "<group>"; };
-		B3BB529C18B408E8005A7BA1 /* GridConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridConstants.cpp; sourceTree = "<group>"; };
-		B3BB529D18B408E8005A7BA1 /* GridConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridConstants.h; sourceTree = "<group>"; };
-		B3BB529E18B408E8005A7BA1 /* GridManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridManager.cpp; sourceTree = "<group>"; };
-		B3BB529F18B408E8005A7BA1 /* GridManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridManager.h; sourceTree = "<group>"; };
-		B3BB52A018B408E8005A7BA1 /* GridNavigator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridNavigator.cpp; sourceTree = "<group>"; };
-		B3BB52A118B408E8005A7BA1 /* GridNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridNavigator.h; sourceTree = "<group>"; };
-		B3BB52A218B408E8005A7BA1 /* GridRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridRoom.cpp; sourceTree = "<group>"; };
-		B3BB52A318B408E8005A7BA1 /* GridRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridRoom.h; sourceTree = "<group>"; };
-		B3BB52A418B408E8005A7BA1 /* GridZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridZone.cpp; sourceTree = "<group>"; };
-		B3BB52A518B408E8005A7BA1 /* GridZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridZone.h; sourceTree = "<group>"; };
-		B3BB52A718B408E8005A7BA1 /* GridZoneDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridZoneDeclarations.h; sourceTree = "<group>"; };
-		B3BB52A818B408E8005A7BA1 /* TransitionZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransitionZone.cpp; sourceTree = "<group>"; };
-		B3BB52A918B408E8005A7BA1 /* TransitionZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionZone.h; sourceTree = "<group>"; };
-		B3BB52AB18B408E8005A7BA1 /* LevelFileTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelFileTags.h; sourceTree = "<group>"; };
-		B3BB52AC18B408E8005A7BA1 /* LevelLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelLoader.cpp; sourceTree = "<group>"; };
-		B3BB52AD18B408E8005A7BA1 /* LevelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelLoader.h; sourceTree = "<group>"; };
-		B3BB52AE18B408E8005A7BA1 /* LevelManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelManager.cpp; sourceTree = "<group>"; };
-		B3BB52AF18B408E8005A7BA1 /* LevelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelManager.h; sourceTree = "<group>"; };
-		B3BB52B118B408E8005A7BA1 /* ShadyCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShadyCamera.cpp; sourceTree = "<group>"; };
-		B3BB52B218B408E8005A7BA1 /* ShadyCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadyCamera.h; sourceTree = "<group>"; };
-		B3BB52B418B408E8005A7BA1 /* BaseSwitch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseSwitch.cpp; sourceTree = "<group>"; };
-		B3BB52B518B408E8005A7BA1 /* BaseSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseSwitch.h; sourceTree = "<group>"; };
-		B3BB52B618B408E8005A7BA1 /* GridZoneSwitch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridZoneSwitch.cpp; sourceTree = "<group>"; };
-		B3BB52B718B408E8005A7BA1 /* GridZoneSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridZoneSwitch.h; sourceTree = "<group>"; };
-		B3BB52B818B408E8005A7BA1 /* MultiplexSwitch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiplexSwitch.cpp; sourceTree = "<group>"; };
-		B3BB52B918B408E8005A7BA1 /* MultiplexSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiplexSwitch.h; sourceTree = "<group>"; };
-		B3BB52BB18B408E8005A7BA1 /* Triggerable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Triggerable.cpp; sourceTree = "<group>"; };
-		B3BB52BC18B408E8005A7BA1 /* Triggerable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triggerable.h; sourceTree = "<group>"; };
-		B3BB52BD18B408E8005A7BA1 /* TriggerElevationChange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriggerElevationChange.cpp; sourceTree = "<group>"; };
-		B3BB52BE18B408E8005A7BA1 /* TriggerElevationChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggerElevationChange.h; sourceTree = "<group>"; };
-		B3BB52BF18B408E8005A7BA1 /* TriggerTerrainBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriggerTerrainBlock.cpp; sourceTree = "<group>"; };
-		B3BB52C018B408E8005A7BA1 /* TriggerTerrainBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggerTerrainBlock.h; sourceTree = "<group>"; };
-		B3BB52C118B408E8005A7BA1 /* TriggerTransformation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriggerTransformation.cpp; sourceTree = "<group>"; };
-		B3BB52C218B408E8005A7BA1 /* TriggerTransformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggerTransformation.h; sourceTree = "<group>"; };
-		B3BB52C418B408E8005A7BA1 /* GameConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConstants.cpp; sourceTree = "<group>"; };
-		B3BB52C518B408E8005A7BA1 /* GameConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConstants.h; sourceTree = "<group>"; };
-		B3BB52C618B408E8005A7BA1 /* GameConstants_additional.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConstants_additional.cpp; sourceTree = "<group>"; };
-		B3BB52C818B408E8005A7BA1 /* GameSingletons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSingletons.cpp; sourceTree = "<group>"; };
-		B3BB52C918B408E8005A7BA1 /* GameSingletons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSingletons.h; sourceTree = "<group>"; };
-		B3BB52CB18B408E8005A7BA1 /* Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Declarations.h; sourceTree = "<group>"; };
-		B3BB52CD18B408E8005A7BA1 /* TestFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestFile.cpp; sourceTree = "<group>"; };
-		B3BB52CE18B408E8005A7BA1 /* TestFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
-		B3BB52D118B408E8005A7BA1 /* DebugMenuTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugMenuTouchHandlers.cpp; sourceTree = "<group>"; };
-		B3BB52D218B408E8005A7BA1 /* DebugMenuTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugMenuTouchHandlers.h; sourceTree = "<group>"; };
-		B3BB52D318B408E8005A7BA1 /* GameUiTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUiTouchHandlers.cpp; sourceTree = "<group>"; };
-		B3BB52D418B408E8005A7BA1 /* GameUiTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUiTouchHandlers.h; sourceTree = "<group>"; };
-		B3BB52D518B408E8005A7BA1 /* MainMenuTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenuTouchHandlers.cpp; sourceTree = "<group>"; };
-		B3BB52D618B408E8005A7BA1 /* MainMenuTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuTouchHandlers.h; sourceTree = "<group>"; };
-		B3BB52D718B408E8005A7BA1 /* TestUiSceneTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestUiSceneTouchHandlers.cpp; sourceTree = "<group>"; };
-		B3BB52D818B408E8005A7BA1 /* TestUiSceneTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUiSceneTouchHandlers.h; sourceTree = "<group>"; };
+		B3BB54B218B69815005A7BA1 /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
+		B3BB54B318B69815005A7BA1 /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
+		B3BB54B518B69815005A7BA1 /* ComponentMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComponentMapper.cpp; sourceTree = "<group>"; };
+		B3BB54B618B69815005A7BA1 /* ComponentMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentMapper.h; sourceTree = "<group>"; };
+		B3BB54B918B69815005A7BA1 /* ComponentTypeIds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentTypeIds.h; sourceTree = "<group>"; };
+		B3BB54BC18B69815005A7BA1 /* AiCommandParse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiCommandParse.cpp; sourceTree = "<group>"; };
+		B3BB54BD18B69815005A7BA1 /* AiCommandParse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiCommandParse.h; sourceTree = "<group>"; };
+		B3BB54BE18B69815005A7BA1 /* AiKnowledge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiKnowledge.cpp; sourceTree = "<group>"; };
+		B3BB54BF18B69815005A7BA1 /* AiKnowledge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiKnowledge.h; sourceTree = "<group>"; };
+		B3BB54C018B69815005A7BA1 /* AiPerception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiPerception.cpp; sourceTree = "<group>"; };
+		B3BB54C118B69815005A7BA1 /* AiPerception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiPerception.h; sourceTree = "<group>"; };
+		B3BB54C218B69815005A7BA1 /* AiRoutine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AiRoutine.cpp; sourceTree = "<group>"; };
+		B3BB54C318B69815005A7BA1 /* AiRoutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AiRoutine.h; sourceTree = "<group>"; };
+		B3BB54C418B69815005A7BA1 /* SampleGameScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SampleGameScript.cpp; sourceTree = "<group>"; };
+		B3BB54C518B69815005A7BA1 /* SampleGameScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleGameScript.h; sourceTree = "<group>"; };
+		B3BB54C718B69815005A7BA1 /* Definitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Definitions.h; sourceTree = "<group>"; };
+		B3BB54C818B69815005A7BA1 /* UnitAnimationManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UnitAnimationManager.cpp; sourceTree = "<group>"; };
+		B3BB54C918B69815005A7BA1 /* UnitAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitAnimationManager.h; sourceTree = "<group>"; };
+		B3BB54CA18B69815005A7BA1 /* UnitShadow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UnitShadow.cpp; sourceTree = "<group>"; };
+		B3BB54CB18B69815005A7BA1 /* UnitShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitShadow.h; sourceTree = "<group>"; };
+		B3BB54CD18B69815005A7BA1 /* Assassin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Assassin.cpp; sourceTree = "<group>"; };
+		B3BB54CE18B69815005A7BA1 /* Assassin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Assassin.h; sourceTree = "<group>"; };
+		B3BB54CF18B69815005A7BA1 /* BaseUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseUnit.cpp; sourceTree = "<group>"; };
+		B3BB54D018B69815005A7BA1 /* BaseUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseUnit.h; sourceTree = "<group>"; };
+		B3BB54D118B69815005A7BA1 /* EnemyUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EnemyUnit.cpp; sourceTree = "<group>"; };
+		B3BB54D218B69815005A7BA1 /* EnemyUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnemyUnit.h; sourceTree = "<group>"; };
+		B3BB54D318B69815005A7BA1 /* Guard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Guard.cpp; sourceTree = "<group>"; };
+		B3BB54D418B69815005A7BA1 /* Guard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Guard.h; sourceTree = "<group>"; };
+		B3BB54D518B69815005A7BA1 /* PlayerUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerUnit.cpp; sourceTree = "<group>"; };
+		B3BB54D618B69815005A7BA1 /* PlayerUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerUnit.h; sourceTree = "<group>"; };
+		B3BB54D718B69815005A7BA1 /* Thief.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Thief.cpp; sourceTree = "<group>"; };
+		B3BB54D818B69815005A7BA1 /* Thief.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thief.h; sourceTree = "<group>"; };
+		B3BB54D918B69815005A7BA1 /* UnitDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitDeclarations.h; sourceTree = "<group>"; };
+		B3BB54DB18B69815005A7BA1 /* GameGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameGrid.cpp; sourceTree = "<group>"; };
+		B3BB54DC18B69815005A7BA1 /* GameGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameGrid.h; sourceTree = "<group>"; };
+		B3BB54DD18B69815005A7BA1 /* GridCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridCell.cpp; sourceTree = "<group>"; };
+		B3BB54DE18B69815005A7BA1 /* GridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridCell.h; sourceTree = "<group>"; };
+		B3BB54DF18B69815005A7BA1 /* GridConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridConstants.cpp; sourceTree = "<group>"; };
+		B3BB54E018B69815005A7BA1 /* GridConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridConstants.h; sourceTree = "<group>"; };
+		B3BB54E118B69815005A7BA1 /* GridManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridManager.cpp; sourceTree = "<group>"; };
+		B3BB54E218B69815005A7BA1 /* GridManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridManager.h; sourceTree = "<group>"; };
+		B3BB54E318B69815005A7BA1 /* GridNavigator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridNavigator.cpp; sourceTree = "<group>"; };
+		B3BB54E418B69815005A7BA1 /* GridNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridNavigator.h; sourceTree = "<group>"; };
+		B3BB54E518B69815005A7BA1 /* GridRoom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridRoom.cpp; sourceTree = "<group>"; };
+		B3BB54E618B69815005A7BA1 /* GridRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridRoom.h; sourceTree = "<group>"; };
+		B3BB54E718B69815005A7BA1 /* GridZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridZone.cpp; sourceTree = "<group>"; };
+		B3BB54E818B69815005A7BA1 /* GridZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridZone.h; sourceTree = "<group>"; };
+		B3BB54EA18B69815005A7BA1 /* GridZoneDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridZoneDeclarations.h; sourceTree = "<group>"; };
+		B3BB54EB18B69815005A7BA1 /* TransitionZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransitionZone.cpp; sourceTree = "<group>"; };
+		B3BB54EC18B69815005A7BA1 /* TransitionZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionZone.h; sourceTree = "<group>"; };
+		B3BB54EE18B69815005A7BA1 /* LevelFileTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelFileTags.h; sourceTree = "<group>"; };
+		B3BB54EF18B69815005A7BA1 /* LevelLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelLoader.cpp; sourceTree = "<group>"; };
+		B3BB54F018B69815005A7BA1 /* LevelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelLoader.h; sourceTree = "<group>"; };
+		B3BB54F118B69815005A7BA1 /* LevelManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelManager.cpp; sourceTree = "<group>"; };
+		B3BB54F218B69815005A7BA1 /* LevelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelManager.h; sourceTree = "<group>"; };
+		B3BB54F418B69815005A7BA1 /* ShadyCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShadyCamera.cpp; sourceTree = "<group>"; };
+		B3BB54F518B69815005A7BA1 /* ShadyCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadyCamera.h; sourceTree = "<group>"; };
+		B3BB54F718B69815005A7BA1 /* BaseSwitch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseSwitch.cpp; sourceTree = "<group>"; };
+		B3BB54F818B69815005A7BA1 /* BaseSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseSwitch.h; sourceTree = "<group>"; };
+		B3BB54F918B69815005A7BA1 /* GridZoneSwitch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridZoneSwitch.cpp; sourceTree = "<group>"; };
+		B3BB54FA18B69815005A7BA1 /* GridZoneSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridZoneSwitch.h; sourceTree = "<group>"; };
+		B3BB54FB18B69815005A7BA1 /* MultiplexSwitch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiplexSwitch.cpp; sourceTree = "<group>"; };
+		B3BB54FC18B69815005A7BA1 /* MultiplexSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiplexSwitch.h; sourceTree = "<group>"; };
+		B3BB54FE18B69815005A7BA1 /* Triggerable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Triggerable.cpp; sourceTree = "<group>"; };
+		B3BB54FF18B69815005A7BA1 /* Triggerable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triggerable.h; sourceTree = "<group>"; };
+		B3BB550018B69815005A7BA1 /* TriggerElevationChange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriggerElevationChange.cpp; sourceTree = "<group>"; };
+		B3BB550118B69815005A7BA1 /* TriggerElevationChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggerElevationChange.h; sourceTree = "<group>"; };
+		B3BB550218B69815005A7BA1 /* TriggerLevelDefeat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriggerLevelDefeat.cpp; sourceTree = "<group>"; };
+		B3BB550318B69815005A7BA1 /* TriggerLevelDefeat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggerLevelDefeat.h; sourceTree = "<group>"; };
+		B3BB550418B69815005A7BA1 /* TriggerLevelVictory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriggerLevelVictory.cpp; sourceTree = "<group>"; };
+		B3BB550518B69815005A7BA1 /* TriggerLevelVictory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggerLevelVictory.h; sourceTree = "<group>"; };
+		B3BB550618B69815005A7BA1 /* TriggerTerrainBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriggerTerrainBlock.cpp; sourceTree = "<group>"; };
+		B3BB550718B69815005A7BA1 /* TriggerTerrainBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggerTerrainBlock.h; sourceTree = "<group>"; };
+		B3BB550818B69815005A7BA1 /* TriggerTransformation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriggerTransformation.cpp; sourceTree = "<group>"; };
+		B3BB550918B69815005A7BA1 /* TriggerTransformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggerTransformation.h; sourceTree = "<group>"; };
+		B3BB550B18B69815005A7BA1 /* GameConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConstants.cpp; sourceTree = "<group>"; };
+		B3BB550C18B69815005A7BA1 /* GameConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConstants.h; sourceTree = "<group>"; };
+		B3BB550D18B69815005A7BA1 /* GameConstants_additional.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConstants_additional.cpp; sourceTree = "<group>"; };
+		B3BB550F18B69815005A7BA1 /* GameSingletons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSingletons.cpp; sourceTree = "<group>"; };
+		B3BB551018B69815005A7BA1 /* GameSingletons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSingletons.h; sourceTree = "<group>"; };
+		B3BB551218B69815005A7BA1 /* Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Declarations.h; sourceTree = "<group>"; };
+		B3BB551418B69815005A7BA1 /* TestFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestFile.cpp; sourceTree = "<group>"; };
+		B3BB551518B69815005A7BA1 /* TestFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFile.h; sourceTree = "<group>"; };
+		B3BB551818B69815005A7BA1 /* DebugMenuTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugMenuTouchHandlers.cpp; sourceTree = "<group>"; };
+		B3BB551918B69815005A7BA1 /* DebugMenuTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugMenuTouchHandlers.h; sourceTree = "<group>"; };
+		B3BB551A18B69815005A7BA1 /* GameUiTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUiTouchHandlers.cpp; sourceTree = "<group>"; };
+		B3BB551B18B69815005A7BA1 /* GameUiTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUiTouchHandlers.h; sourceTree = "<group>"; };
+		B3BB551C18B69815005A7BA1 /* MainMenuTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenuTouchHandlers.cpp; sourceTree = "<group>"; };
+		B3BB551D18B69815005A7BA1 /* MainMenuTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuTouchHandlers.h; sourceTree = "<group>"; };
+		B3BB551E18B69815005A7BA1 /* TestUiSceneTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestUiSceneTouchHandlers.cpp; sourceTree = "<group>"; };
+		B3BB551F18B69815005A7BA1 /* TestUiSceneTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUiSceneTouchHandlers.h; sourceTree = "<group>"; };
 		BA97CDAF18971D8F00942107 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		BA97CDB018971D8F00942107 /* common.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = common.hpp; sourceTree = "<group>"; };
 		BA97CDB218971D8F00942107 /* _detail.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _detail.hpp; sourceTree = "<group>"; };
@@ -1698,268 +1704,272 @@
 		B3BB526C18B408E8005A7BA1 /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB526D18B408E8005A7BA1 /* ExampleGame */,
+				B3BB54B018B69815005A7BA1 /* ExampleGame */,
 			);
 			name = Code;
 			path = ../../../Code;
 			sourceTree = "<group>";
 		};
-		B3BB526D18B408E8005A7BA1 /* ExampleGame */ = {
+		B3BB54B018B69815005A7BA1 /* ExampleGame */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB526E18B408E8005A7BA1 /* AndroidWrapper */,
-				B3BB527118B408E8005A7BA1 /* ComponentMapper */,
-				B3BB527418B408E8005A7BA1 /* Components */,
-				B3BB52C318B408E8005A7BA1 /* GameConstants */,
-				B3BB52C718B408E8005A7BA1 /* GameSingletons */,
-				B3BB52CA18B408E8005A7BA1 /* Messages */,
-				B3BB52CC18B408E8005A7BA1 /* Test */,
-				B3BB52CF18B408E8005A7BA1 /* Ui */,
+				B3BB54B118B69815005A7BA1 /* AndroidWrapper */,
+				B3BB54B418B69815005A7BA1 /* ComponentMapper */,
+				B3BB54B718B69815005A7BA1 /* Components */,
+				B3BB550A18B69815005A7BA1 /* GameConstants */,
+				B3BB550E18B69815005A7BA1 /* GameSingletons */,
+				B3BB551118B69815005A7BA1 /* Messages */,
+				B3BB551318B69815005A7BA1 /* Test */,
+				B3BB551618B69815005A7BA1 /* Ui */,
 			);
 			path = ExampleGame;
 			sourceTree = "<group>";
 		};
-		B3BB526E18B408E8005A7BA1 /* AndroidWrapper */ = {
+		B3BB54B118B69815005A7BA1 /* AndroidWrapper */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB526F18B408E8005A7BA1 /* AndroidWrapper.cpp */,
-				B3BB527018B408E8005A7BA1 /* AndroidWrapper.h */,
+				B3BB54B218B69815005A7BA1 /* AndroidWrapper.cpp */,
+				B3BB54B318B69815005A7BA1 /* AndroidWrapper.h */,
 			);
 			path = AndroidWrapper;
 			sourceTree = "<group>";
 		};
-		B3BB527118B408E8005A7BA1 /* ComponentMapper */ = {
+		B3BB54B418B69815005A7BA1 /* ComponentMapper */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB527218B408E8005A7BA1 /* ComponentMapper.cpp */,
-				B3BB527318B408E8005A7BA1 /* ComponentMapper.h */,
+				B3BB54B518B69815005A7BA1 /* ComponentMapper.cpp */,
+				B3BB54B618B69815005A7BA1 /* ComponentMapper.h */,
 			);
 			path = ComponentMapper;
 			sourceTree = "<group>";
 		};
-		B3BB527418B408E8005A7BA1 /* Components */ = {
+		B3BB54B718B69815005A7BA1 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB527518B408E8005A7BA1 /* ComponentTypes */,
-				B3BB527718B408E8005A7BA1 /* GameScripts */,
-				B3BB529718B408E8005A7BA1 /* Grid */,
-				B3BB52AA18B408E8005A7BA1 /* LevelManager */,
-				B3BB52B018B408E8005A7BA1 /* ShadyCamera */,
-				B3BB52B318B408E8005A7BA1 /* Switches */,
-				B3BB52BA18B408E8005A7BA1 /* Triggers */,
+				B3BB54B818B69815005A7BA1 /* ComponentTypes */,
+				B3BB54BA18B69815005A7BA1 /* GameScripts */,
+				B3BB54DA18B69815005A7BA1 /* Grid */,
+				B3BB54ED18B69815005A7BA1 /* LevelManager */,
+				B3BB54F318B69815005A7BA1 /* ShadyCamera */,
+				B3BB54F618B69815005A7BA1 /* Switches */,
+				B3BB54FD18B69815005A7BA1 /* Triggers */,
 			);
 			path = Components;
 			sourceTree = "<group>";
 		};
-		B3BB527518B408E8005A7BA1 /* ComponentTypes */ = {
+		B3BB54B818B69815005A7BA1 /* ComponentTypes */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB527618B408E8005A7BA1 /* ComponentTypeIds.h */,
+				B3BB54B918B69815005A7BA1 /* ComponentTypeIds.h */,
 			);
 			path = ComponentTypes;
 			sourceTree = "<group>";
 		};
-		B3BB527718B408E8005A7BA1 /* GameScripts */ = {
+		B3BB54BA18B69815005A7BA1 /* GameScripts */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB527818B408E8005A7BA1 /* Ai */,
-				B3BB528118B408E8005A7BA1 /* SampleGameScript.cpp */,
-				B3BB528218B408E8005A7BA1 /* SampleGameScript.h */,
-				B3BB528318B408E8005A7BA1 /* UnitCustomizers */,
-				B3BB528918B408E8005A7BA1 /* Units */,
+				B3BB54BB18B69815005A7BA1 /* Ai */,
+				B3BB54C418B69815005A7BA1 /* SampleGameScript.cpp */,
+				B3BB54C518B69815005A7BA1 /* SampleGameScript.h */,
+				B3BB54C618B69815005A7BA1 /* UnitCustomizers */,
+				B3BB54CC18B69815005A7BA1 /* Units */,
 			);
 			path = GameScripts;
 			sourceTree = "<group>";
 		};
-		B3BB527818B408E8005A7BA1 /* Ai */ = {
+		B3BB54BB18B69815005A7BA1 /* Ai */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB527918B408E8005A7BA1 /* AiCommandParse.cpp */,
-				B3BB527A18B408E8005A7BA1 /* AiCommandParse.h */,
-				B3BB527B18B408E8005A7BA1 /* AiKnowledge.cpp */,
-				B3BB527C18B408E8005A7BA1 /* AiKnowledge.h */,
-				B3BB527D18B408E8005A7BA1 /* AiPerception.cpp */,
-				B3BB527E18B408E8005A7BA1 /* AiPerception.h */,
-				B3BB527F18B408E8005A7BA1 /* AiRoutine.cpp */,
-				B3BB528018B408E8005A7BA1 /* AiRoutine.h */,
+				B3BB54BC18B69815005A7BA1 /* AiCommandParse.cpp */,
+				B3BB54BD18B69815005A7BA1 /* AiCommandParse.h */,
+				B3BB54BE18B69815005A7BA1 /* AiKnowledge.cpp */,
+				B3BB54BF18B69815005A7BA1 /* AiKnowledge.h */,
+				B3BB54C018B69815005A7BA1 /* AiPerception.cpp */,
+				B3BB54C118B69815005A7BA1 /* AiPerception.h */,
+				B3BB54C218B69815005A7BA1 /* AiRoutine.cpp */,
+				B3BB54C318B69815005A7BA1 /* AiRoutine.h */,
 			);
 			path = Ai;
 			sourceTree = "<group>";
 		};
-		B3BB528318B408E8005A7BA1 /* UnitCustomizers */ = {
+		B3BB54C618B69815005A7BA1 /* UnitCustomizers */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB528418B408E8005A7BA1 /* Definitions.h */,
-				B3BB528518B408E8005A7BA1 /* UnitAnimationManager.cpp */,
-				B3BB528618B408E8005A7BA1 /* UnitAnimationManager.h */,
-				B3BB528718B408E8005A7BA1 /* UnitShadow.cpp */,
-				B3BB528818B408E8005A7BA1 /* UnitShadow.h */,
+				B3BB54C718B69815005A7BA1 /* Definitions.h */,
+				B3BB54C818B69815005A7BA1 /* UnitAnimationManager.cpp */,
+				B3BB54C918B69815005A7BA1 /* UnitAnimationManager.h */,
+				B3BB54CA18B69815005A7BA1 /* UnitShadow.cpp */,
+				B3BB54CB18B69815005A7BA1 /* UnitShadow.h */,
 			);
 			path = UnitCustomizers;
 			sourceTree = "<group>";
 		};
-		B3BB528918B408E8005A7BA1 /* Units */ = {
+		B3BB54CC18B69815005A7BA1 /* Units */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB528A18B408E8005A7BA1 /* Assassin.cpp */,
-				B3BB528B18B408E8005A7BA1 /* Assassin.h */,
-				B3BB528C18B408E8005A7BA1 /* BaseUnit.cpp */,
-				B3BB528D18B408E8005A7BA1 /* BaseUnit.h */,
-				B3BB528E18B408E8005A7BA1 /* EnemyUnit.cpp */,
-				B3BB528F18B408E8005A7BA1 /* EnemyUnit.h */,
-				B3BB529018B408E8005A7BA1 /* Guard.cpp */,
-				B3BB529118B408E8005A7BA1 /* Guard.h */,
-				B3BB529218B408E8005A7BA1 /* PlayerUnit.cpp */,
-				B3BB529318B408E8005A7BA1 /* PlayerUnit.h */,
-				B3BB529418B408E8005A7BA1 /* Thief.cpp */,
-				B3BB529518B408E8005A7BA1 /* Thief.h */,
-				B3BB529618B408E8005A7BA1 /* UnitDeclarations.h */,
+				B3BB54CD18B69815005A7BA1 /* Assassin.cpp */,
+				B3BB54CE18B69815005A7BA1 /* Assassin.h */,
+				B3BB54CF18B69815005A7BA1 /* BaseUnit.cpp */,
+				B3BB54D018B69815005A7BA1 /* BaseUnit.h */,
+				B3BB54D118B69815005A7BA1 /* EnemyUnit.cpp */,
+				B3BB54D218B69815005A7BA1 /* EnemyUnit.h */,
+				B3BB54D318B69815005A7BA1 /* Guard.cpp */,
+				B3BB54D418B69815005A7BA1 /* Guard.h */,
+				B3BB54D518B69815005A7BA1 /* PlayerUnit.cpp */,
+				B3BB54D618B69815005A7BA1 /* PlayerUnit.h */,
+				B3BB54D718B69815005A7BA1 /* Thief.cpp */,
+				B3BB54D818B69815005A7BA1 /* Thief.h */,
+				B3BB54D918B69815005A7BA1 /* UnitDeclarations.h */,
 			);
 			path = Units;
 			sourceTree = "<group>";
 		};
-		B3BB529718B408E8005A7BA1 /* Grid */ = {
+		B3BB54DA18B69815005A7BA1 /* Grid */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB529818B408E8005A7BA1 /* GameGrid.cpp */,
-				B3BB529918B408E8005A7BA1 /* GameGrid.h */,
-				B3BB529A18B408E8005A7BA1 /* GridCell.cpp */,
-				B3BB529B18B408E8005A7BA1 /* GridCell.h */,
-				B3BB529C18B408E8005A7BA1 /* GridConstants.cpp */,
-				B3BB529D18B408E8005A7BA1 /* GridConstants.h */,
-				B3BB529E18B408E8005A7BA1 /* GridManager.cpp */,
-				B3BB529F18B408E8005A7BA1 /* GridManager.h */,
-				B3BB52A018B408E8005A7BA1 /* GridNavigator.cpp */,
-				B3BB52A118B408E8005A7BA1 /* GridNavigator.h */,
-				B3BB52A218B408E8005A7BA1 /* GridRoom.cpp */,
-				B3BB52A318B408E8005A7BA1 /* GridRoom.h */,
-				B3BB52A418B408E8005A7BA1 /* GridZone.cpp */,
-				B3BB52A518B408E8005A7BA1 /* GridZone.h */,
-				B3BB52A618B408E8005A7BA1 /* GridZones */,
+				B3BB54DB18B69815005A7BA1 /* GameGrid.cpp */,
+				B3BB54DC18B69815005A7BA1 /* GameGrid.h */,
+				B3BB54DD18B69815005A7BA1 /* GridCell.cpp */,
+				B3BB54DE18B69815005A7BA1 /* GridCell.h */,
+				B3BB54DF18B69815005A7BA1 /* GridConstants.cpp */,
+				B3BB54E018B69815005A7BA1 /* GridConstants.h */,
+				B3BB54E118B69815005A7BA1 /* GridManager.cpp */,
+				B3BB54E218B69815005A7BA1 /* GridManager.h */,
+				B3BB54E318B69815005A7BA1 /* GridNavigator.cpp */,
+				B3BB54E418B69815005A7BA1 /* GridNavigator.h */,
+				B3BB54E518B69815005A7BA1 /* GridRoom.cpp */,
+				B3BB54E618B69815005A7BA1 /* GridRoom.h */,
+				B3BB54E718B69815005A7BA1 /* GridZone.cpp */,
+				B3BB54E818B69815005A7BA1 /* GridZone.h */,
+				B3BB54E918B69815005A7BA1 /* GridZones */,
 			);
 			path = Grid;
 			sourceTree = "<group>";
 		};
-		B3BB52A618B408E8005A7BA1 /* GridZones */ = {
+		B3BB54E918B69815005A7BA1 /* GridZones */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB52A718B408E8005A7BA1 /* GridZoneDeclarations.h */,
-				B3BB52A818B408E8005A7BA1 /* TransitionZone.cpp */,
-				B3BB52A918B408E8005A7BA1 /* TransitionZone.h */,
+				B3BB54EA18B69815005A7BA1 /* GridZoneDeclarations.h */,
+				B3BB54EB18B69815005A7BA1 /* TransitionZone.cpp */,
+				B3BB54EC18B69815005A7BA1 /* TransitionZone.h */,
 			);
 			path = GridZones;
 			sourceTree = "<group>";
 		};
-		B3BB52AA18B408E8005A7BA1 /* LevelManager */ = {
+		B3BB54ED18B69815005A7BA1 /* LevelManager */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB52AB18B408E8005A7BA1 /* LevelFileTags.h */,
-				B3BB52AC18B408E8005A7BA1 /* LevelLoader.cpp */,
-				B3BB52AD18B408E8005A7BA1 /* LevelLoader.h */,
-				B3BB52AE18B408E8005A7BA1 /* LevelManager.cpp */,
-				B3BB52AF18B408E8005A7BA1 /* LevelManager.h */,
+				B3BB54EE18B69815005A7BA1 /* LevelFileTags.h */,
+				B3BB54EF18B69815005A7BA1 /* LevelLoader.cpp */,
+				B3BB54F018B69815005A7BA1 /* LevelLoader.h */,
+				B3BB54F118B69815005A7BA1 /* LevelManager.cpp */,
+				B3BB54F218B69815005A7BA1 /* LevelManager.h */,
 			);
 			path = LevelManager;
 			sourceTree = "<group>";
 		};
-		B3BB52B018B408E8005A7BA1 /* ShadyCamera */ = {
+		B3BB54F318B69815005A7BA1 /* ShadyCamera */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB52B118B408E8005A7BA1 /* ShadyCamera.cpp */,
-				B3BB52B218B408E8005A7BA1 /* ShadyCamera.h */,
+				B3BB54F418B69815005A7BA1 /* ShadyCamera.cpp */,
+				B3BB54F518B69815005A7BA1 /* ShadyCamera.h */,
 			);
 			path = ShadyCamera;
 			sourceTree = "<group>";
 		};
-		B3BB52B318B408E8005A7BA1 /* Switches */ = {
+		B3BB54F618B69815005A7BA1 /* Switches */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB52B418B408E8005A7BA1 /* BaseSwitch.cpp */,
-				B3BB52B518B408E8005A7BA1 /* BaseSwitch.h */,
-				B3BB52B618B408E8005A7BA1 /* GridZoneSwitch.cpp */,
-				B3BB52B718B408E8005A7BA1 /* GridZoneSwitch.h */,
-				B3BB52B818B408E8005A7BA1 /* MultiplexSwitch.cpp */,
-				B3BB52B918B408E8005A7BA1 /* MultiplexSwitch.h */,
+				B3BB54F718B69815005A7BA1 /* BaseSwitch.cpp */,
+				B3BB54F818B69815005A7BA1 /* BaseSwitch.h */,
+				B3BB54F918B69815005A7BA1 /* GridZoneSwitch.cpp */,
+				B3BB54FA18B69815005A7BA1 /* GridZoneSwitch.h */,
+				B3BB54FB18B69815005A7BA1 /* MultiplexSwitch.cpp */,
+				B3BB54FC18B69815005A7BA1 /* MultiplexSwitch.h */,
 			);
 			path = Switches;
 			sourceTree = "<group>";
 		};
-		B3BB52BA18B408E8005A7BA1 /* Triggers */ = {
+		B3BB54FD18B69815005A7BA1 /* Triggers */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB52BB18B408E8005A7BA1 /* Triggerable.cpp */,
-				B3BB52BC18B408E8005A7BA1 /* Triggerable.h */,
-				B3BB52BD18B408E8005A7BA1 /* TriggerElevationChange.cpp */,
-				B3BB52BE18B408E8005A7BA1 /* TriggerElevationChange.h */,
-				B3BB52BF18B408E8005A7BA1 /* TriggerTerrainBlock.cpp */,
-				B3BB52C018B408E8005A7BA1 /* TriggerTerrainBlock.h */,
-				B3BB52C118B408E8005A7BA1 /* TriggerTransformation.cpp */,
-				B3BB52C218B408E8005A7BA1 /* TriggerTransformation.h */,
+				B3BB54FE18B69815005A7BA1 /* Triggerable.cpp */,
+				B3BB54FF18B69815005A7BA1 /* Triggerable.h */,
+				B3BB550018B69815005A7BA1 /* TriggerElevationChange.cpp */,
+				B3BB550118B69815005A7BA1 /* TriggerElevationChange.h */,
+				B3BB550218B69815005A7BA1 /* TriggerLevelDefeat.cpp */,
+				B3BB550318B69815005A7BA1 /* TriggerLevelDefeat.h */,
+				B3BB550418B69815005A7BA1 /* TriggerLevelVictory.cpp */,
+				B3BB550518B69815005A7BA1 /* TriggerLevelVictory.h */,
+				B3BB550618B69815005A7BA1 /* TriggerTerrainBlock.cpp */,
+				B3BB550718B69815005A7BA1 /* TriggerTerrainBlock.h */,
+				B3BB550818B69815005A7BA1 /* TriggerTransformation.cpp */,
+				B3BB550918B69815005A7BA1 /* TriggerTransformation.h */,
 			);
 			path = Triggers;
 			sourceTree = "<group>";
 		};
-		B3BB52C318B408E8005A7BA1 /* GameConstants */ = {
+		B3BB550A18B69815005A7BA1 /* GameConstants */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB52C418B408E8005A7BA1 /* GameConstants.cpp */,
-				B3BB52C518B408E8005A7BA1 /* GameConstants.h */,
-				B3BB52C618B408E8005A7BA1 /* GameConstants_additional.cpp */,
+				B3BB550B18B69815005A7BA1 /* GameConstants.cpp */,
+				B3BB550C18B69815005A7BA1 /* GameConstants.h */,
+				B3BB550D18B69815005A7BA1 /* GameConstants_additional.cpp */,
 			);
 			path = GameConstants;
 			sourceTree = "<group>";
 		};
-		B3BB52C718B408E8005A7BA1 /* GameSingletons */ = {
+		B3BB550E18B69815005A7BA1 /* GameSingletons */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB52C818B408E8005A7BA1 /* GameSingletons.cpp */,
-				B3BB52C918B408E8005A7BA1 /* GameSingletons.h */,
+				B3BB550F18B69815005A7BA1 /* GameSingletons.cpp */,
+				B3BB551018B69815005A7BA1 /* GameSingletons.h */,
 			);
 			path = GameSingletons;
 			sourceTree = "<group>";
 		};
-		B3BB52CA18B408E8005A7BA1 /* Messages */ = {
+		B3BB551118B69815005A7BA1 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB52CB18B408E8005A7BA1 /* Declarations.h */,
+				B3BB551218B69815005A7BA1 /* Declarations.h */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
 		};
-		B3BB52CC18B408E8005A7BA1 /* Test */ = {
+		B3BB551318B69815005A7BA1 /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB52CD18B408E8005A7BA1 /* TestFile.cpp */,
-				B3BB52CE18B408E8005A7BA1 /* TestFile.h */,
+				B3BB551418B69815005A7BA1 /* TestFile.cpp */,
+				B3BB551518B69815005A7BA1 /* TestFile.h */,
 			);
 			path = Test;
 			sourceTree = "<group>";
 		};
-		B3BB52CF18B408E8005A7BA1 /* Ui */ = {
+		B3BB551618B69815005A7BA1 /* Ui */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB52D018B408E8005A7BA1 /* TouchHandlers */,
-				B3BB52D918B408E8005A7BA1 /* TutorialManager */,
+				B3BB551718B69815005A7BA1 /* TouchHandlers */,
+				B3BB552018B69815005A7BA1 /* TutorialManager */,
 			);
 			path = Ui;
 			sourceTree = "<group>";
 		};
-		B3BB52D018B408E8005A7BA1 /* TouchHandlers */ = {
+		B3BB551718B69815005A7BA1 /* TouchHandlers */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB52D118B408E8005A7BA1 /* DebugMenuTouchHandlers.cpp */,
-				B3BB52D218B408E8005A7BA1 /* DebugMenuTouchHandlers.h */,
-				B3BB52D318B408E8005A7BA1 /* GameUiTouchHandlers.cpp */,
-				B3BB52D418B408E8005A7BA1 /* GameUiTouchHandlers.h */,
-				B3BB52D518B408E8005A7BA1 /* MainMenuTouchHandlers.cpp */,
-				B3BB52D618B408E8005A7BA1 /* MainMenuTouchHandlers.h */,
-				B3BB52D718B408E8005A7BA1 /* TestUiSceneTouchHandlers.cpp */,
-				B3BB52D818B408E8005A7BA1 /* TestUiSceneTouchHandlers.h */,
+				B3BB551818B69815005A7BA1 /* DebugMenuTouchHandlers.cpp */,
+				B3BB551918B69815005A7BA1 /* DebugMenuTouchHandlers.h */,
+				B3BB551A18B69815005A7BA1 /* GameUiTouchHandlers.cpp */,
+				B3BB551B18B69815005A7BA1 /* GameUiTouchHandlers.h */,
+				B3BB551C18B69815005A7BA1 /* MainMenuTouchHandlers.cpp */,
+				B3BB551D18B69815005A7BA1 /* MainMenuTouchHandlers.h */,
+				B3BB551E18B69815005A7BA1 /* TestUiSceneTouchHandlers.cpp */,
+				B3BB551F18B69815005A7BA1 /* TestUiSceneTouchHandlers.h */,
 			);
 			path = TouchHandlers;
 			sourceTree = "<group>";
 		};
-		B3BB52D918B408E8005A7BA1 /* TutorialManager */ = {
+		B3BB552018B69815005A7BA1 /* TutorialManager */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -2640,51 +2650,53 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3BB52E018B408E8005A7BA1 /* SampleGameScript.cpp in Sources */,
-				B3BB52DA18B408E8005A7BA1 /* AndroidWrapper.cpp in Sources */,
-				B3BB52FC18B408E8005A7BA1 /* GameConstants_additional.cpp in Sources */,
-				B3BB52EC18B408E8005A7BA1 /* GridManager.cpp in Sources */,
+				B3BB552718B69815005A7BA1 /* SampleGameScript.cpp in Sources */,
+				B3BB552118B69815005A7BA1 /* AndroidWrapper.cpp in Sources */,
+				B3BB553318B69815005A7BA1 /* GridManager.cpp in Sources */,
 				BA97CF2B18971D9000942107 /* glm.cpp in Sources */,
-				B3BB52FE18B408E8005A7BA1 /* TestFile.cpp in Sources */,
-				B3BB52DF18B408E8005A7BA1 /* AiRoutine.cpp in Sources */,
-				B3BB52F618B408E8005A7BA1 /* MultiplexSwitch.cpp in Sources */,
-				B3BB52E318B408E8005A7BA1 /* Assassin.cpp in Sources */,
-				B3BB52F318B408E8005A7BA1 /* ShadyCamera.cpp in Sources */,
-				B3BB52F018B408E8005A7BA1 /* TransitionZone.cpp in Sources */,
-				B3BB52E118B408E8005A7BA1 /* UnitAnimationManager.cpp in Sources */,
-				B3BB52FD18B408E8005A7BA1 /* GameSingletons.cpp in Sources */,
-				B3BB530018B408E8005A7BA1 /* GameUiTouchHandlers.cpp in Sources */,
-				B3BB52F718B408E8005A7BA1 /* Triggerable.cpp in Sources */,
-				B3BB52E418B408E8005A7BA1 /* BaseUnit.cpp in Sources */,
-				B3BB52F218B408E8005A7BA1 /* LevelManager.cpp in Sources */,
-				B3BB52EB18B408E8005A7BA1 /* GridConstants.cpp in Sources */,
-				B3BB52DE18B408E8005A7BA1 /* AiPerception.cpp in Sources */,
-				B3BB52DD18B408E8005A7BA1 /* AiKnowledge.cpp in Sources */,
-				B3BB52FF18B408E8005A7BA1 /* DebugMenuTouchHandlers.cpp in Sources */,
-				B3BB530218B408E8005A7BA1 /* TestUiSceneTouchHandlers.cpp in Sources */,
-				B3BB52F918B408E8005A7BA1 /* TriggerTerrainBlock.cpp in Sources */,
-				B3BB52F418B408E8005A7BA1 /* BaseSwitch.cpp in Sources */,
+				B3BB552618B69815005A7BA1 /* AiRoutine.cpp in Sources */,
+				B3BB553D18B69815005A7BA1 /* MultiplexSwitch.cpp in Sources */,
+				B3BB552A18B69815005A7BA1 /* Assassin.cpp in Sources */,
+				B3BB554818B69815005A7BA1 /* DebugMenuTouchHandlers.cpp in Sources */,
+				B3BB553A18B69815005A7BA1 /* ShadyCamera.cpp in Sources */,
+				B3BB553718B69815005A7BA1 /* TransitionZone.cpp in Sources */,
+				B3BB552818B69815005A7BA1 /* UnitAnimationManager.cpp in Sources */,
+				B3BB553E18B69815005A7BA1 /* Triggerable.cpp in Sources */,
+				B3BB552B18B69815005A7BA1 /* BaseUnit.cpp in Sources */,
+				B3BB553918B69815005A7BA1 /* LevelManager.cpp in Sources */,
+				B3BB553218B69815005A7BA1 /* GridConstants.cpp in Sources */,
+				B3BB552518B69815005A7BA1 /* AiPerception.cpp in Sources */,
+				B3BB552418B69815005A7BA1 /* AiKnowledge.cpp in Sources */,
+				B3BB554318B69815005A7BA1 /* TriggerTransformation.cpp in Sources */,
+				B3BB554418B69815005A7BA1 /* GameConstants.cpp in Sources */,
+				B3BB554018B69815005A7BA1 /* TriggerLevelDefeat.cpp in Sources */,
+				B3BB553B18B69815005A7BA1 /* BaseSwitch.cpp in Sources */,
 				58F247111850F5C90066E804 /* ViewController.mm in Sources */,
-				B3BB530118B408E8005A7BA1 /* MainMenuTouchHandlers.cpp in Sources */,
-				B3BB52FA18B408E8005A7BA1 /* TriggerTransformation.cpp in Sources */,
-				B3BB52DC18B408E8005A7BA1 /* AiCommandParse.cpp in Sources */,
-				B3BB52E818B408E8005A7BA1 /* Thief.cpp in Sources */,
-				B3BB52EA18B408E8005A7BA1 /* GridCell.cpp in Sources */,
-				B3BB52EF18B408E8005A7BA1 /* GridZone.cpp in Sources */,
+				B3BB552318B69815005A7BA1 /* AiCommandParse.cpp in Sources */,
+				B3BB552F18B69815005A7BA1 /* Thief.cpp in Sources */,
+				B3BB553118B69815005A7BA1 /* GridCell.cpp in Sources */,
+				B3BB554118B69815005A7BA1 /* TriggerLevelVictory.cpp in Sources */,
+				B3BB554A18B69815005A7BA1 /* MainMenuTouchHandlers.cpp in Sources */,
+				B3BB553618B69815005A7BA1 /* GridZone.cpp in Sources */,
+				B3BB554918B69815005A7BA1 /* GameUiTouchHandlers.cpp in Sources */,
 				58F247041850F5C90066E804 /* AppDelegate.mm in Sources */,
-				B3BB52E918B408E8005A7BA1 /* GameGrid.cpp in Sources */,
-				B3BB52E718B408E8005A7BA1 /* PlayerUnit.cpp in Sources */,
-				B3BB52F518B408E8005A7BA1 /* GridZoneSwitch.cpp in Sources */,
-				B3BB52F818B408E8005A7BA1 /* TriggerElevationChange.cpp in Sources */,
-				B3BB52E518B408E8005A7BA1 /* EnemyUnit.cpp in Sources */,
-				B3BB52ED18B408E8005A7BA1 /* GridNavigator.cpp in Sources */,
-				B3BB52EE18B408E8005A7BA1 /* GridRoom.cpp in Sources */,
-				B3BB52E218B408E8005A7BA1 /* UnitShadow.cpp in Sources */,
-				B3BB52E618B408E8005A7BA1 /* Guard.cpp in Sources */,
-				B3BB52DB18B408E8005A7BA1 /* ComponentMapper.cpp in Sources */,
-				B3BB52FB18B408E8005A7BA1 /* GameConstants.cpp in Sources */,
+				B3BB553018B69815005A7BA1 /* GameGrid.cpp in Sources */,
+				B3BB552E18B69815005A7BA1 /* PlayerUnit.cpp in Sources */,
+				B3BB554B18B69815005A7BA1 /* TestUiSceneTouchHandlers.cpp in Sources */,
+				B3BB553C18B69815005A7BA1 /* GridZoneSwitch.cpp in Sources */,
+				B3BB553F18B69815005A7BA1 /* TriggerElevationChange.cpp in Sources */,
+				B3BB552C18B69815005A7BA1 /* EnemyUnit.cpp in Sources */,
+				B3BB554218B69815005A7BA1 /* TriggerTerrainBlock.cpp in Sources */,
+				B3BB553418B69815005A7BA1 /* GridNavigator.cpp in Sources */,
+				B3BB553518B69815005A7BA1 /* GridRoom.cpp in Sources */,
+				B3BB552918B69815005A7BA1 /* UnitShadow.cpp in Sources */,
+				B3BB552D18B69815005A7BA1 /* Guard.cpp in Sources */,
+				B3BB552218B69815005A7BA1 /* ComponentMapper.cpp in Sources */,
 				58F247001850F5C90066E804 /* main.mm in Sources */,
-				B3BB52F118B408E8005A7BA1 /* LevelLoader.cpp in Sources */,
+				B3BB554518B69815005A7BA1 /* GameConstants_additional.cpp in Sources */,
+				B3BB553818B69815005A7BA1 /* LevelLoader.cpp in Sources */,
+				B3BB554718B69815005A7BA1 /* TestFile.cpp in Sources */,
+				B3BB554618B69815005A7BA1 /* GameSingletons.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
