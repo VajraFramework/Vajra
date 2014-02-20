@@ -248,7 +248,14 @@
   <other>
       <dynamicObject id="56728" prefab="ScreenTransZone" x="19" y="0.0" z="7" rotation="0.0">
       </dynamicObject>
+      <dynamicObject id="56729" prefab="PressurePlate" x="32" y="0.0" z="7" rotation="0.0">
+      </dynamicObject>
   </other>
+  
+  <links>
+		<winCondition id="56729">
+		</winCondition>
+  </links>
 
 	<camera focus="Assassin">
       <overview x="13.30079" y="24.53259" z="-6.496181">

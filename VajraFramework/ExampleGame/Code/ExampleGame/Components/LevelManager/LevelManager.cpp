@@ -6,6 +6,8 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
+#include "ExampleGame/Components/Triggers/TriggerLevelDefeat.h"
+#include "ExampleGame/Components/Triggers/TriggerLevelVictory.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -34,11 +36,12 @@ void LevelManager::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_FRAME_EVENT:
 			this->update();
 			break;
+		case MESSAGE_TYPE_ON_END_CONDITIONS_MET:
 		case MESSAGE_TYPE_PAUSE:
 			this->isPaused = true;
 			break;
 		case MESSAGE_TYPE_UNPAUSE:
-			this->isPaused = false;		
+			this->isPaused = false;
 		case MESSAGE_TYPE_LEVEL_UNLOADED:
 			if(this->levelToLoad != -1) {
 				ENGINE->GetMessageHub()->SendPointcastMessage(MESSAGE_TYPE_LOAD_LEVEL, this->GetObject()->GetId());
@@ -61,6 +64,7 @@ void LevelManager::UnloadLevel() {
 	// Unload the previous scene and all other items in the SceneGraph3D
 	ENGINE->GetSceneGraph3D()->UnloadCurrentScene();
 	this->isPaused = true;
+	this->clearEndConditions();
 	ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_UNLOADED);
 }
 
@@ -94,6 +98,16 @@ void LevelManager::LoadLevelFromData(LevelData levelData) {
 	}
 }
 
+void LevelManager::AddWinCondition(ObjectIdType switchId) {
+	Triggerable* victoryTrigger = this->winner->GetComponent<Triggerable>();
+	victoryTrigger->SubscribeToSwitchObject(switchId);
+}
+
+void LevelManager::AddLoseCondition(ObjectIdType switchId) {
+	Triggerable* defeatTrigger = this->loser->GetComponent<Triggerable>();
+	defeatTrigger->SubscribeToSwitchObject(switchId);
+}
+
 void LevelManager::init() {
 	//this->shadyCam = nullptr;
 	this->isPaused = false;
@@ -103,6 +117,14 @@ void LevelManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNPAUSE, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_UNLOADED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_LOAD_LEVEL, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_ON_END_CONDITIONS_MET, this->GetTypeId(), false);
+
+	// Generate required end condition objects
+	this->winner = new Object();
+	winner->AddComponent<TriggerLevelVictory>();
+
+	this->loser = new Object();
+	loser->AddComponent<TriggerLevelDefeat>();
 
 	this->levelToLoad = -1;
 
@@ -112,6 +134,16 @@ void LevelManager::init() {
 
 void LevelManager::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+
+	if (this->winner != nullptr) {
+		delete this->winner;
+		this->winner = nullptr;
+	}
+
+	if (this->loser != nullptr) {
+		delete this->loser;
+		this->loser = nullptr;
+	}
 }
 
 void LevelManager::update() {
@@ -123,4 +155,16 @@ void LevelManager::update() {
 void LevelManager::endLevel(bool /*success*/) {
 	this->isPaused = true;
 	//LevelEnd.EndLevel(success);
+}
+
+void LevelManager::clearEndConditions() {
+	Triggerable* victoryTrigger = winner->GetComponent<TriggerLevelVictory>();
+	if (victoryTrigger != nullptr) {
+		victoryTrigger->UnsubscribeToAllSwitches();
+	}
+
+	Triggerable* defeatTrigger = loser->GetComponent<TriggerLevelDefeat>();
+	if (defeatTrigger != nullptr) {
+		defeatTrigger->UnsubscribeToAllSwitches();
+	}
 }

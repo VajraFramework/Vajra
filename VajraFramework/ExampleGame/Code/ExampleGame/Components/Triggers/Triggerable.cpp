@@ -43,10 +43,7 @@ void Triggerable::init() {
 }
 
 void Triggerable::destroy() {
-	while (this->subscriptions.size() > 0) {
-		this->UnsubscribeToSwitchObject(this->subscriptions.front());
-	}
-
+	this->UnsubscribeToAllSwitches();
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
@@ -117,6 +114,12 @@ void Triggerable::UnsubscribeToSwitchObject(ObjectIdType switchId) {
 	}
 	else {
 		FRAMEWORK->GetLogger()->dbglog("Warning: Trying to unsubscribe for unfound subscription to switch: %d by triggerable: %d", switchId, this->GetObject()->GetId());
+	}
+}
+
+void Triggerable::UnsubscribeToAllSwitches() {
+	while (this->subscriptions.size() > 0) {
+		this->UnsubscribeToSwitchObject(this->subscriptions.front());
 	}
 }
 

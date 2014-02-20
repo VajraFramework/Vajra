@@ -39,6 +39,7 @@ public:
 	virtual void SubscribeToParentSwitch();  // Subscribe to the switch on the parent object, can be used in XML prefabs
 	void SubscribeToSwitchObject(ObjectIdType switchId);   // This must be called before this component can trigger
 	void UnsubscribeToSwitchObject(ObjectIdType switchId);
+	void UnsubscribeToAllSwitches();
 
 protected:
 	virtual void onSwitchToggled(bool /*switchState*/) { }

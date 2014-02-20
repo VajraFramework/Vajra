@@ -27,6 +27,8 @@
 #define LINKS_TAG             "links"
 #define TRIGGER_LINK_TAG      "triggerLink"
 #define SWITCH_TAG            "switch"
+#define WIN_CONDITION_TAG     "winCondition"
+#define LOSE_CONDITION_TAG    "loseCondition"
 #define START_TAG             "start"
 #define OVERVIEW_TAG          "overview"
 

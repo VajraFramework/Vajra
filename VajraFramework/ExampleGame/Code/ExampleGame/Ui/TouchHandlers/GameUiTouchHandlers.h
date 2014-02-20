@@ -34,6 +34,7 @@ private:
 	std::vector<TutorialData> tutorials;
 	bool isTutorialLevel;
 	void nextTutorialImage();
+	void onLevelEnd(bool success);
 	int currentTutorialIndex;
 	UiElement* dynamicTutorialElement;
 };
