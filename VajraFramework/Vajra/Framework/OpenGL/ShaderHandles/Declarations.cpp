@@ -22,6 +22,9 @@ Shader_variable_datatype_t GetShaderVariableDatatypeFromString(std::string s) {
 	if (s == "float") {
 		return SHADER_VARIABLE_DATATYPE_float;
 	}
+	if (s == "sampler2D") {
+		return SHADER_VARIABLE_DATATYPE_sampler2D;
+	}
 	if (s == "vec2") {
 		return SHADER_VARIABLE_DATATYPE_vec2;
 	}
@@ -132,6 +135,9 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "particleColor") {
 		return SHADER_VARIABLE_VARIABLENAME_particleColor;
 	}
+	if (s == "myTextureSampler") {
+		return SHADER_VARIABLE_VARIABLENAME_myTextureSampler;
+	}
 	if (s == "invalid") {
 		return SHADER_VARIABLE_VARIABLENAME_invalid;
 	}
@@ -154,6 +160,7 @@ std::string GetStringForShaderVariableDatatype(Shader_variable_datatype_t t) {
 	switch (t) {
 
 	case SHADER_VARIABLE_DATATYPE_float: return "float";
+	case SHADER_VARIABLE_DATATYPE_sampler2D: return "sampler2D";
 	case SHADER_VARIABLE_DATATYPE_vec2: return "vec2";
 	case SHADER_VARIABLE_DATATYPE_mat4: return "mat4";
 	case SHADER_VARIABLE_DATATYPE_vec4: return "vec4";
@@ -197,6 +204,7 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_MaterialSpecularColor_out: return "MaterialSpecularColor_out";
 	case SHADER_VARIABLE_VARIABLENAME_pointSize: return "pointSize";
 	case SHADER_VARIABLE_VARIABLENAME_particleColor: return "particleColor";
+	case SHADER_VARIABLE_VARIABLENAME_myTextureSampler: return "myTextureSampler";
 	case SHADER_VARIABLE_VARIABLENAME_invalid: return "invalid";
 	// default: DO NOT ADD A DEFAULT HERE. It'll help catch the case where the enum is extended but not handled here
 	}

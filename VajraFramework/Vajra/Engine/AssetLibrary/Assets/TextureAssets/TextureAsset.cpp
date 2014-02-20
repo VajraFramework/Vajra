@@ -2,6 +2,8 @@
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Loaders/TextureLoader/TextureLoader.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
+#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/Utilities.h"
 
 AssetType TextureAsset::assetType = ASSET_TYPE_GL_TEXTURE;
@@ -30,6 +32,20 @@ void TextureAsset::destroy() {
 		glDeleteTextures(1, &(this->textureGLHandle));
 	}
 	// TODO [Implement] Figure out if any other cleanup is necessary to free up allocated opengl texture memory
+}
+
+void TextureAsset::Draw(GLint drawAsTextureUnit) {
+
+	ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
+
+	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_myTextureSampler)) {
+		GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_myTextureSampler);
+		glUniform1i(textureHandle, drawAsTextureUnit);
+	}
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, this->textureGLHandle);
+	checkGlError("glBindTexture");
 }
 
 AssetType TextureAsset::GetAssetType() {

@@ -95,8 +95,8 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	dlight->GetTransform()->LookAt(0.5f, 10.0f, 0.5f);
 	ENGINE->GetSceneGraph3D()->SetMainDirectionalLightId(dlight->GetId());
 	//
-	dlightComponent->SetAmbientColor(0.5f, 0.5f, 0.6f, 1.0f);
-	dlightComponent->SetDiffuseColor(0.4f, 0.3f, 0.3f, 1.0f);
+	dlightComponent->SetAmbientColor(0.125f, 0.125f, 0.15f, 1.0f);
+	dlightComponent->SetDiffuseColor(0.6f, 0.45f, 0.45f, 1.0f);
 			
 }
 

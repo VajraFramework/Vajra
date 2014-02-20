@@ -11,7 +11,8 @@ public:
 	~TextureAsset();
 
 	std::string GetFilePathToTexture();
-	inline GLint GetGLTextureHandle() { return this->textureGLHandle; }
+
+	void Draw(GLint drawAsTextureUnit);
 
 	// @Override
 	virtual AssetType GetAssetType();
