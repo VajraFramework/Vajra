@@ -382,6 +382,7 @@ void LevelLoader::loadLinkDataFromXml  (XmlNode* linkBaseNode) {
 
 void LevelLoader::loadEndConditionsFromXml(XmlNode* linkBaseNode) {
 	XmlNode* winConditionNode = linkBaseNode->GetFirstChildByNodeName(WIN_CONDITION_TAG);
+	ASSERT(winConditionNode != nullptr, "Level has a win condition");
 	while (winConditionNode != nullptr) {
 		ObjectIdType switchId = winConditionNode->GetAttributeValueI(ID_ATTRIBUTE);
 
