@@ -23,7 +23,6 @@ public:
 	enum CameraMode {
 		CameraMode_Game,
 		CameraMode_Overview,
-		CameraMode_Transition,
 	};
 
 	ShadyCamera();
@@ -33,8 +32,6 @@ public:
 	static inline unsigned int GetTypeId() { return Camera::GetTypeId(); }
 
 	virtual void HandleMessage(MessageChunk messageChunk);
-
-	void SetGridManager(GridManager* value);
 
 	// General camera moving functions
 	void MoveTo(glm::vec3 newPos);
@@ -55,6 +52,8 @@ public:
 	// Pan the camera along a preset path for a level intro
 	void LevelStartPan();
 
+	inline CameraMode GetCameraMode() {return this->camMode;}
+	inline bool IsMoving() { return this->isMoving; }
 private:
 	void init();
 	void destroy();
@@ -62,9 +61,9 @@ private:
 	void loadCameraData(GridCell* startUnitCell, glm::vec3 overviewPos, glm::vec3 startPos, bool useStartPos);
 
 	GameObject* gameObjectRef;
-	GridManager* gridManagerRef;
 
 	CameraMode camMode;
+	bool isMoving;
 	// Find and store the current position for the game camera
 	void setCurrentRoomCenter(glm::vec3 roomCenter); // center of the room
 	void updateGameCamPos();
@@ -93,6 +92,7 @@ private:
 	glm::vec3 currentRoomCenter;
 
 	friend class LevelLoader;
+	friend void shadyCameraTweenCallback(ObjectIdType gameObjectId, std::string /* tweenClipName */);
 };
 
 #endif // SHADY_CAMERA_H

@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 
+class ShadyCamera;
 //[[COMPONENT]]//
 class GridManager : public Component, public IGameTouchTarget {
 public:
@@ -45,6 +46,7 @@ public:
 	GridCell* TouchPositionToCell(glm::vec2 touchPos);
 	glm::vec3 TouchPositionToGridPosition(glm::vec2 touchPos);
 
+	inline void SetShadyCamera(ShadyCamera* shadyCam) { this->shadyCamRef = shadyCam; }
 	/****************
 	// TODO [Implement]
 	std::list<GridCell> GetNeighbors(GridCell* cel, bool diagonals, bool sameRoom);
@@ -82,7 +84,7 @@ private:
 	void longPressOnGrid();
 
 	GameGrid* grid;
-
+	ShadyCamera* shadyCamRef;
 	int maxElevation;
 	Plane gridPlane;  // The center of cell (0,0) in world coordinates and it's normal
 

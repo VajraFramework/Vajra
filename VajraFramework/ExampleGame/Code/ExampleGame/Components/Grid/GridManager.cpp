@@ -12,6 +12,7 @@
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
+#include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 
@@ -115,6 +116,11 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 	if(SINGLETONS->GetLevelManager()->IsPaused()) {
 		return;
 	}
+
+	if(this->shadyCamRef->IsMoving() || this->shadyCamRef->GetCameraMode() == ShadyCamera::CameraMode::CameraMode_Overview) {
+		return;
+	}
+	
 #ifdef DEBUG_GRID
 	debugTouchUpdate(touchIndex);
 #endif
