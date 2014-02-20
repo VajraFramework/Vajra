@@ -75,7 +75,7 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	}
 
 	XmlNode* linkBaseNode = levelNode->GetFirstChildByNodeName(LINKS_TAG);
-	// The level doesn't need to have a LINKS_TAG node
+	VERIFY(linkBaseNode != nullptr, "Level definition contains <%s> node", LINKS_TAG);
 	if (linkBaseNode != nullptr) {
 		loadLinkDataFromXml(linkBaseNode);
 		loadEndConditionsFromXml(linkBaseNode);
