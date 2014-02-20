@@ -31,7 +31,7 @@ void GridZone::GetZoneBounds(int& west, int& east, int& south, int& north) {
 	int centerX, centerZ;
 	SINGLETONS->GetGridManager()->GetGrid()->GetCoordinates(centerX, centerZ, trans->GetPositionWorld());
 
-	glm::vec3 forward = trans->GetForward();
+	glm::vec3 forward = QuaternionForwardVector(trans->GetOrientationWorld());
 
 	// Determine the rough orientation of the object.
 	if (abs(forward.z) >= abs(forward.x)) {
