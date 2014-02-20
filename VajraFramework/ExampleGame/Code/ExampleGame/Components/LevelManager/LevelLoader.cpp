@@ -296,8 +296,11 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	//SINGLETONS->GetGridManager()->selectedUnitId = id;
 	PlayerUnit* pU = ENGINE->GetSceneGraph3D()->GetGameObjectById(id)->GetComponent<PlayerUnit>();
 	// TODO [Implement]: call this when the level starts so the player sees the selection animation
-	//pU->onSelectedTouch();
+
+	// Tell the grid who the selected unit is
 	SINGLETONS->GetGridManager()->selectUnitInCell(pU->gridNavRef->GetCurrentCell());
+	// Tell the select unit they are selected 
+	pU->onSelectedTouch();
 	// Set the camera's position
 	GameObject* target = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 	GridNavigator* gNav = target->GetComponent<GridNavigator>();
