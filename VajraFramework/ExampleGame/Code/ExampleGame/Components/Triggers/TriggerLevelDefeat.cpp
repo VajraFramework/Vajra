@@ -32,6 +32,6 @@ void TriggerLevelDefeat::destroy() {
 void TriggerLevelDefeat::onSwitchActivated() {
 	MessageChunk victoryMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 	victoryMessage->SetMessageType(MESSAGE_TYPE_ON_END_CONDITIONS_MET);
-	victoryMessage->messageData.iv1.x = -1;
+	victoryMessage->messageData.iv1.x = -1; // Player lost
 	ENGINE->GetMessageHub()->SendMulticastMessage(victoryMessage, this->GetObject()->GetId());
 }
