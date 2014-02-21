@@ -167,6 +167,7 @@ void PlayerUnit::onSpecialEnd() {
 	this->performingSpecial = false;
 	this->inputState = InputState::INPUT_STATE_NONE;
 	this->SwitchActionState(UNIT_ACTION_STATE_POST_SPECIAL);
+	this->touchIndicator->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	touchIndicator->SetVisible(false);
 }
 
