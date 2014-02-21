@@ -399,7 +399,7 @@ bool GameGrid::HasLineOfSight(GridCell* sourceCell, GridCell* targetCell, unsign
 		this->TouchedCells(sourceCell, targetCell, touchedCells);
 
 		for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
-			if (!this->IsCellVisibleAtElevation(targetCell->x, targetCell->z, elevation)) {
+			if (!this->IsCellVisibleAtElevation((*iter)->x, (*iter)->z, elevation)) {
 				return false;
 			}
 		}
