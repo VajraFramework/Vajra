@@ -371,6 +371,9 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
 	GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 	GridCell* destCell = this->grid->GetCell(dest.x, dest.z);
 
+	if(id == this->selectedUnitId) {
+		this->shadyCamRef->selectedUnitChangedCell(destCell);
+	}
 	GridNavigator* gNav = obj->GetComponent<GridNavigator>();
 	ASSERT(gNav != nullptr, "Moving object has GridNavigator component");
 	GridCell* startCell = gNav->GetCurrentCell();

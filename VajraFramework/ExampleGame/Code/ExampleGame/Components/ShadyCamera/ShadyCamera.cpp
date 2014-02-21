@@ -15,6 +15,7 @@
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
+#define DEFAULT_GAME_CAM_OFFSET glm::vec3(0.0f, 25.0f, 0.0f)
 void shadyCameraTweenCallback(ObjectIdType gameObjectId, std::string /* tweenClipName */) {
 	GameObject* camObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if(camObj != nullptr) {
@@ -55,7 +56,7 @@ void ShadyCamera::init() {
 	Transform* camTransform = this->gameObjectRef->GetTransform();
 
 	// TODO [Implement] : set this based on device resolution
-	this->gameCamOffset = glm::vec3(0.0f, 26.0f, 0.0f);
+	this->gameCamOffset = DEFAULT_GAME_CAM_OFFSET;
 
 	// TODO [Implement] : get overview pos and start room from level data
 	this->overviewPos = glm::vec3(0.0f, 50.0f, 0.0f);
@@ -232,6 +233,15 @@ void ShadyCamera::setCameraMode(CameraMode newMode) {
 		this->camMode = newMode;
 
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_CAMERA_MODE_CHANGED, this->gameObjectRef->GetId());
+	}
+}
+
+void ShadyCamera::selectedUnitChangedCell(GridCell* cell) {
+	int elevation = cell->y;
+	glm::vec3 newOffset = DEFAULT_GAME_CAM_OFFSET + glm::vec3(0.0f, elevation * 2, 0.0f);
+	if(this->gameCamOffset != newOffset) {
+		this->gameCamOffset = newOffset;
+		this->updateGameCamPos();
 	}
 }
 
