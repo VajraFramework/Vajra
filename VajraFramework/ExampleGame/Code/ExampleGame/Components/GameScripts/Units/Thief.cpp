@@ -168,10 +168,25 @@ void Thief::updateLegalTagets() {
 			}
 			
 		}
-		if(cellElevation == 0) {
-			int x = 0;
-			x++;
+
+		// The thief can jump to a maximum of one elevation level above her
+		if (cellElevation <= (elevation + 1)) {
+			if ((cellElevation != elevation) || (SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(currentCell, c, elevation))) {
+				if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, cellElevation)) {
+					int elevationDiff = elevation - cellElevation;
+					if (elevationDiff < 0) {
+						elevationDiff = 0;
+					}
+
+					float maxRange = fmax(GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units) + elevationDiff * GetFloatGameConstant(GAME_CONSTANT_jump_elevation_multiplier), 1.0f);
+					float dist = SINGLETONS->GetGridManager()->GetGrid()->GetGroundDistanceBetweenCells(currentCell, c);
+					if (dist <= maxRange) {
+						this->legalTargets.push_back(c);
+					}
+				}
+			}
 		}
+		/*
 		if(cellElevation == elevation) { // is the cell on the same height
 			if(this->gridNavRef->CanReachDestination(c, GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units)) && SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(currentCell, c, elevation) ) {
 				this->legalTargets.push_back(c);
@@ -185,6 +200,7 @@ void Thief::updateLegalTagets() {
 				}
 			}
 		}
+		*/
 	}
 	this->createTargets();
 	this->tweenInTargets();
