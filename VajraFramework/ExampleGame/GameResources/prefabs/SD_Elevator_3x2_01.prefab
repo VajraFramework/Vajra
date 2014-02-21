@@ -32,9 +32,25 @@
 		
       <component name="MeshRenderer">
           <property name="InitMesh">
-              <field>models/SD_Floor_Stone_3x3_01.model</field>
+              <field>models/SD_Floor_Stone_1x3_01.model</field>
           </property>
       </component>
+	  
+	  <gameobject>
+		<component name="Transform">
+			<property name="Translate">
+				<field>0</field>
+				<field>0</field>
+				<field>1</field>
+			</property>
+		</component>
+		
+		  <component name="MeshRenderer">
+			  <property name="InitMesh">
+				  <field>models/SD_Floor_Stone_1x3_01.model</field>
+			  </property>
+		  </component>
+	  </gameobject>
 	</gameobject>
 </prefab>
 
