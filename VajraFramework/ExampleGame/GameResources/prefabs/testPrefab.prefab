@@ -1,0 +1,20 @@
+<prefab>
+	<gameobject>
+		<component name="MeshRenderer">
+			<property name="InitMesh">
+				<field>models/TexturedCube.model</field>
+			</property>
+		</component>
+
+		<component name="Transform">
+			<property name="Scale">
+				<field>1.0</field>
+			</property>
+		</component>
+
+		<component name="SampleGameScript">
+		</component>
+
+	</gameobject>
+</prefab>
+
