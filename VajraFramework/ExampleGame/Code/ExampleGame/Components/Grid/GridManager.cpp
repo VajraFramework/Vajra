@@ -173,7 +173,7 @@ glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
 	{
 		gridPosition = screenRay.origin + screenRay.dir * dist;
 		for(int i = NUM_ELEVATIONS; i > -1; --i) {
-			posAtHeight = gridPosition + glm::vec3(0.0f, i, i);
+			posAtHeight = gridPosition + glm::vec3(0.0f, i * 2.0f, i);
 			touchedCell = this->GetGrid()->GetCell(posAtHeight);
 			if(touchedCell != nullptr && this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
 				break;
