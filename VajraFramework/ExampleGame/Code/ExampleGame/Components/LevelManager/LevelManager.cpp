@@ -110,7 +110,7 @@ void LevelManager::AddLoseCondition(ObjectIdType switchId) {
 
 void LevelManager::init() {
 	//this->shadyCam = nullptr;
-	this->isPaused = false;
+	this->isPaused = true;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PAUSE, this->GetTypeId(), false);

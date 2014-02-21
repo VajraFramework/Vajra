@@ -53,6 +53,7 @@ public:
 	void AddLoseCondition(ObjectIdType switchId);
 
 	inline bool IsPaused() { return this->isPaused; }
+	inline int NumLevels() { return this->levelData.size(); }
 private:
 	void init();
 	void destroy();
