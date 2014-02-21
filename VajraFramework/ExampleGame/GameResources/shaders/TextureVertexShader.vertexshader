@@ -8,6 +8,7 @@ uvCoords_out
 #ifdef SKEW_GEOMETRY
 modelMatrix
 vpMatrix
+modelCoordsForBakedAmbientLookup_out
 #else
 mvpMatrix
 #endif
@@ -52,8 +53,13 @@ void main()
 {
 #ifdef SKEW_GEOMETRY
 	gl_Position = modelMatrix * vPosition;
+
+	modelCoordsForBakedAmbientLookup_out.x = gl_Position.x;
+	modelCoordsForBakedAmbientLookup_out.y = gl_Position.z;
+
 	float yAmt = gl_Position.y;
 	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
+
 #else
 	gl_Position = mvpMatrix * vPosition;
 #endif

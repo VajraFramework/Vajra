@@ -11,7 +11,7 @@ class AmbientLighting : public Object {
 public:
 	~AmbientLighting();
 
-	void SetPathToBakedAmbientLightTexture(const char* filePath);
+	void SetBakedAmbientLightTexture(const char* filePath, float widthInWorld_, float heightInWorld_);
 	void Draw();
 
 private:
@@ -19,6 +19,8 @@ private:
 	void init();
 	void destroy();
 
+	float widthInWorld;
+	float heightInWorld;
 	std::shared_ptr<TextureAsset> bakedAmbientLightTextureAsset;
 
 	friend class Engine;

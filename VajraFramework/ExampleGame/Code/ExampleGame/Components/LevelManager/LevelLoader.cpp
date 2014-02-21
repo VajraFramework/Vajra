@@ -8,6 +8,7 @@
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
 #include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
 #include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
+#include "ExampleGame/Components/Grid/GridConstants.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
@@ -21,6 +22,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/Lighting/AmbientLighting.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
@@ -97,7 +99,12 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	//
 	dlightComponent->SetAmbientColor(0.125f, 0.125f, 0.15f, 1.0f);
 	dlightComponent->SetDiffuseColor(0.6f, 0.45f, 0.45f, 1.0f);
-			
+
+	std::string pathToAmbientLightMap = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "ambient_map.png";
+	ENGINE->GetAmbientLighting()->SetBakedAmbientLightTexture(
+								  pathToAmbientLightMap.c_str(),
+								  SINGLETONS->GetGridManager()->GetGrid()->GetGridWidth()  * CELL_SIZE,
+								  SINGLETONS->GetGridManager()->GetGrid()->GetGridHeight() * CELL_SIZE);
 }
 
 LevelType LevelLoader::stringToLevelType(std::string type) {
