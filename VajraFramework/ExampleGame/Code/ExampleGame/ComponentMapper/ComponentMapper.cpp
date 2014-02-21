@@ -28,6 +28,7 @@
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Components/Switches/GridZoneSwitch.h"
 #include "ExampleGame/Components/Switches/MultiplexSwitch.h"
+#include "ExampleGame/Components/Switches/UnitInGridZoneSwitch.h"
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/Components/Triggers/TriggerElevationChange.h"
 #include "ExampleGame/Components/Triggers/TriggerTerrainBlock.h"
@@ -196,6 +197,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "MultiplexSwitch") {
 		MultiplexSwitch* component = gameObject->GetComponent<MultiplexSwitch>();
 		if (component == nullptr) { component = gameObject->AddComponent<MultiplexSwitch>(); }
+		return component;
+	}
+	
+	if (componentName == "UnitInGridZoneSwitch") {
+		UnitInGridZoneSwitch* component = gameObject->GetComponent<UnitInGridZoneSwitch>();
+		if (component == nullptr) { component = gameObject->AddComponent<UnitInGridZoneSwitch>(); }
 		return component;
 	}
 	
@@ -682,6 +689,32 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SubscribeToParentSwitch") {
 			if ((int)argv.size() < 0) { return; }
 			component->SubscribeToParentSwitch();
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "UnitInGridZoneSwitch") {
+		UnitInGridZoneSwitch* component = gameObject->GetComponent<UnitInGridZoneSwitch>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetSwitchType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetSwitchType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetResetTime") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetResetTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetRequiredOccupants") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetRequiredOccupants(StringUtilities::ConvertStringToInt(argv[0]));
+			return;
+		}
+		if (propertyName == "SetRequiredUnitType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetRequiredUnitType(ConvertStringToString(argv[0]));
 			return;
 		}
 		return;
