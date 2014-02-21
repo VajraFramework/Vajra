@@ -114,6 +114,8 @@ void Assassin::aimSpecial(){
 		cellIndex++;
 	}
 	if(this->targetedCell != this->gridNavRef->GetCurrentCell()) {
+		this->SetTouchIndicatorVisible(true);
+		this->arrowTail->SetVisible(true);
 		this->gridNavRef->SetLookTarget(this->targetedCell->center);
 		this->SetTouchIndicatorCell(this->targetedCell);
 		this->TouchIndicatorLookAt(this->targetedCell);
@@ -126,5 +128,7 @@ void Assassin::aimSpecial(){
 		trans->SetPosition(this->gridNavRef->GetCurrentCell()->center + glm::vec3(0.0f, .1f, 0.0f));
 		trans->Translate(dist * .5f , trans->GetUp());
 	} else {
+		this->SetTouchIndicatorVisible(false);
+		this->arrowTail->SetVisible(false);
 	}
 }
