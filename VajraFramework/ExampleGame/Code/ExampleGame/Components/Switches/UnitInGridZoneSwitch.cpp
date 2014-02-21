@@ -45,7 +45,6 @@ bool UnitInGridZoneSwitch::doesObjectCountAsOccupant(ObjectIdType id) {
 
 	if (gObj != nullptr) {
 		BaseUnit* unit = gObj->GetComponent<BaseUnit>();
-
 		if (unit != nullptr) {
 			return (unit->GetUnitType() == this->requiredUnitType);
 		}
