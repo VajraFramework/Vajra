@@ -27,7 +27,7 @@ public:
 	//[[PROPERTY]]//
 	inline void SetTransitTime(float seconds);
 	//[[PROPERTY]]//
-	void SetRaisedState(bool raised);  // Only call this function from XML to set the initial state.
+	inline void SetRaisedState(bool raised);  // Only call this function from XML to set the initial state.
 
 	virtual void HandleMessage(MessageChunk messageChunk);
 
@@ -52,13 +52,13 @@ private:
 
 	int elevationChange;  // The amount of elevation change when this trigger activates
 	float transitTime;
-	bool isRaised;
 
 	std::list<ObjectIdType> unitsInZone;
 
 	friend void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string tweenClipName);
 };
 
+void TriggerElevationChange::SetRaisedState(bool raised)    { this->SetToggleState(raised); }
 void TriggerElevationChange::SetElevationDiff(int diff)     { this->elevationChange = diff; }
 void TriggerElevationChange::SetTransitTime(float seconds)  { this->transitTime = seconds;  }
 

@@ -62,10 +62,9 @@ private:
 	glm::vec3 scaling;
 
 	float transitTime;
-	bool isTransformed;
 };
 
 void TriggerTransformation::SetTransitTime(float seconds)         { this->transitTime = seconds;       }
-void TriggerTransformation::SetTransformedState(bool transformed) { this->isTransformed = transformed; }
+void TriggerTransformation::SetTransformedState(bool transformed) { this->SetToggleState(transformed); }
 
 #endif // TRIGGERTRANSFORMATION_H

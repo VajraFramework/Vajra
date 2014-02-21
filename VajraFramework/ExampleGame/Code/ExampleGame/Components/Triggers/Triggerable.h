@@ -30,6 +30,7 @@ public:
 
 	virtual void SetTriggerType(std::string typeStr);
 	inline void SetTriggerType(TriggerType st) { this->type = st; }
+	virtual void SetToggleState(bool toggle);
 
 	virtual void HandleMessage(MessageChunk messageChunk);
 
@@ -47,6 +48,7 @@ protected:
 	virtual void onSwitchDeactivated() { }
 
 	TriggerType type;
+	bool isToggled;
 
 private:
 	void init();
