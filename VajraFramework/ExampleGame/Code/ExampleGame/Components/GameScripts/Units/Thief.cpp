@@ -171,7 +171,7 @@ void Thief::updateLegalTagets() {
 
 		// The thief can jump to a maximum of one elevation level above her
 		if (cellElevation <= (elevation + 1)) {
-			if ((cellElevation != elevation) || (SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(currentCell, c, elevation))) {
+			if ((cellElevation > elevation) || (SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(currentCell, c, elevation))) {
 				if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, cellElevation)) {
 					int elevationDiff = elevation - cellElevation;
 					if (elevationDiff < 0) {
