@@ -52,6 +52,7 @@ public:
 	// Pan the camera along a preset path for a level intro
 	void LevelStartPan();
 
+	void selectedUnitChangedCell(GridCell* /*cell*/);
 	inline CameraMode GetCameraMode() {return this->camMode;}
 	inline bool IsMoving() { return this->isMoving; }
 private:
