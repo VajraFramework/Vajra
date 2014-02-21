@@ -40,6 +40,10 @@ void GridZoneSwitch::SetResetTime(float t) {
 	BaseSwitch::SetResetTime(t);
 }
 
+void GridZoneSwitch::SetRequiredOccupants(unsigned int num) {
+	this->requiredOccupants = num;
+}
+
 void GridZoneSwitch::HandleMessage(MessageChunk messageChunk) {
 	BaseSwitch::HandleMessage(messageChunk);
 

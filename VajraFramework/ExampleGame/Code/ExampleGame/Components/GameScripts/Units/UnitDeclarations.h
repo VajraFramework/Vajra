@@ -3,6 +3,8 @@
 
 #include "Libraries/glm/glm.hpp"
 
+#include <string>
+
 enum UnitState {
 	UNIT_STATE_ALIVE,
 	UNIT_STATE_DEAD
@@ -46,4 +48,7 @@ struct UnitColorScheme {
 	glm::vec4 uiColor;
 	glm::vec4 effectColor;
 };
+
+UnitType ConvertStringToUnitType(std::string typeStr);
+
 #endif // UNIT_DECLARATIONS_H

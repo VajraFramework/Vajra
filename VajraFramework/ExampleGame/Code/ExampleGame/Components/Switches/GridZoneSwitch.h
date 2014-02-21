@@ -24,7 +24,7 @@ public:
 	//[[PROPERTY]]//
 	virtual void SetResetTime(float t);
 	//[[PROPERTY]]//
-	inline void SetRequiredOccupants(unsigned int num);
+	virtual void SetRequiredOccupants(unsigned int num);
 
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
@@ -45,7 +45,5 @@ private:
 	unsigned int requiredOccupants;
 	std::list<ObjectIdType> occupants;
 };
-
-void GridZoneSwitch::SetRequiredOccupants(unsigned int num) { this->requiredOccupants = num; }
 
 #endif // GRIDZONESWITCH_H
