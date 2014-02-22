@@ -15,6 +15,7 @@
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
+#define DEFAULT_GAME_CAM_OFFSET glm::vec3(0.0f, 25.0f, 0.0f)
 void shadyCameraTweenCallback(ObjectIdType gameObjectId, std::string /* tweenClipName */) {
 	GameObject* camObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if(camObj != nullptr) {
@@ -52,10 +53,12 @@ void ShadyCamera::init() {
 	this->isMoving = false;
 
 	this->gameObjectRef = (GameObject*)this->GetObject();
+	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
+
 	Transform* camTransform = this->gameObjectRef->GetTransform();
 
 	// TODO [Implement] : set this based on device resolution
-	this->gameCamOffset = glm::vec3(0.0f, 26.0f, 0.0f);
+	this->gameCamOffset = DEFAULT_GAME_CAM_OFFSET;
 
 	// TODO [Implement] : get overview pos and start room from level data
 	this->overviewPos = glm::vec3(0.0f, 50.0f, 0.0f);
@@ -101,7 +104,7 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 			break;
 		case MESSAGE_TYPE_GRID_ROOM_ENTERED:
 			if(messageChunk->messageData.iv1.x == SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
-				this->MoveGameCamToRoom(messageChunk->messageData.fv1);
+				this->MoveGameCamToRoom(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
 			}
 			break;
 		default:
@@ -153,18 +156,36 @@ void ShadyCamera::LevelStartPan() {
 
 }
 
-void ShadyCamera::MoveGameCamToRoom(int i, int j) {
-	this->MoveGameCamToRoom(SINGLETONS->GetGridManager()->GetGrid()->GetRoomCenter(i, j));
+void ShadyCamera::FollowGameObjectDirectly(ObjectIdType unitId) {
+	if(this->camMode == CameraMode::CameraMode_Game) {
+		GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(unitId);
+		if(go != nullptr) {
+			this->setCurrentCameraHeight(go->GetTransform()->GetPosition().y);
+			this->updateGameCamPos();
+		}
+	}
+	
 }
 
-void ShadyCamera::MoveGameCamToRoom(glm::vec3 roomCenter) {
+void ShadyCamera::MoveGameCamToRoom(int i, int j) {
+	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(i, j);
+	glm::vec3 roomCenter = SINGLETONS->GetGridManager()->GetGrid()->GetRoomCenter(cell);
 	this->setCurrentRoomCenter(roomCenter);
+	this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(cell->y));
 	this->updateGameCamPos();
 }
 
 void ShadyCamera::setCurrentRoomCenter(glm::vec3 roomCenter) {
 	if(roomCenter != ZERO_VEC3) {
 		this->currentRoomCenter = roomCenter;
+	}
+}
+
+void ShadyCamera::setCurrentCameraHeight(float elevatorInWorldUnits) {
+	glm::vec3 newOffset = DEFAULT_GAME_CAM_OFFSET + glm::vec3(0.0f, elevatorInWorldUnits, 0.0f);
+	FRAMEWORK->GetLogger()->dbglog("\nsetCurrentCameraHeight %f" , elevatorInWorldUnits);
+	if(this->gameCamOffset != newOffset) {
+		this->gameCamOffset = newOffset;
 	}
 }
 void ShadyCamera::updateGameCamPos() {

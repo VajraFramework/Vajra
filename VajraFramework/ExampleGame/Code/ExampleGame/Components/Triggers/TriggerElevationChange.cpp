@@ -7,6 +7,7 @@
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
+#include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Components/Triggers/TriggerElevationChange.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
@@ -54,10 +55,10 @@ TriggerElevationChange::~TriggerElevationChange() {
 void TriggerElevationChange::init() {
 	this->elevationChange = 1;
 	this->transitTime     = 1.0f;
-	this->isRaised        = false;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED, this->GetTypeId(), true);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED, this->GetTypeId(), true);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT, this->GetTypeId(), true);
 }
 
 void TriggerElevationChange::destroy() {
@@ -66,10 +67,6 @@ void TriggerElevationChange::destroy() {
 
 void TriggerElevationChange::SetTriggerType(std::string typeStr) {
 	Triggerable::SetTriggerType(typeStr);
-}
-
-void TriggerElevationChange::SetRaisedState(bool raised) {
-	this->isRaised = raised;
 }
 
 void TriggerElevationChange::HandleMessage(MessageChunk messageChunk) {
@@ -83,6 +80,16 @@ void TriggerElevationChange::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_GRID_ZONE_EXITED:
 			this->onUnitExitedZone(messageChunk->messageData.iv1.x);
 			break;
+
+		case MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT:
+			for (auto iter = this->unitsInZone.begin(); iter != this->unitsInZone.end(); ++iter) {
+				// If it's the selected unit the camera should follow it up
+				if(*iter != SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
+					continue;
+				}
+				SINGLETONS->GetGridManager()->GetShadyCamera()->FollowGameObjectDirectly(this->GetObject()->GetId());
+			}
+			break;
 	}
 }
 
@@ -95,7 +102,7 @@ void TriggerElevationChange::SubscribeToParentSwitch() {
 }
 
 void TriggerElevationChange::onSwitchToggled(bool /*switchState*/) {
-	this->startTransition(!this->isRaised);
+	this->startTransition(!this->isToggled);
 }
 
 void TriggerElevationChange::onUnitEnteredZone(ObjectIdType id) {
@@ -127,11 +134,11 @@ void TriggerElevationChange::onUnitExitedZone(ObjectIdType id) {
 }
 
 void TriggerElevationChange::startTransition(bool raised) {
-	if (raised != this->isRaised) {
+	if (raised != this->isToggled) {
 		this->startPositionTween(raised);
 		this->changeCellElevations(raised);
 
-		this->isRaised = raised;
+		this->isToggled = raised;
 	}
 }
 

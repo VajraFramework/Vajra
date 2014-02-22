@@ -27,7 +27,6 @@ void TriggerTransformation::init() {
 	this->rotation      = IDENTITY_QUATERNION;
 	this->scaling       = glm::vec3(1.0f, 1.0f, 1.0f);
 	this->transitTime   = 1.0f;
-	this->isTransformed = false;
 }
 
 void TriggerTransformation::destroy() {
@@ -87,16 +86,16 @@ void TriggerTransformation::SubscribeToParentSwitch() {
 }
 
 void TriggerTransformation::onSwitchToggled(bool /*switchState*/) {
-	this->startTransformation(!this->isTransformed);
+	this->startTransformation(!this->isToggled);
 }
 
 void TriggerTransformation::startTransformation(bool transformed) {
-	if (transformed != this->isTransformed) {
+	if (transformed != this->isToggled) {
 		this->startTranslation(transformed);
 		this->startRotation(transformed);
 		this->startScaling(transformed);
 
-		this->isTransformed = transformed;
+		this->isToggled = transformed;
 	}
 }
 

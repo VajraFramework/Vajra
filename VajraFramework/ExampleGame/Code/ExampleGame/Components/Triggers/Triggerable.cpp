@@ -36,6 +36,7 @@ Triggerable::~Triggerable() {
 
 void Triggerable::init() {
 	this->type           = TRIGGER_TYPE_ALL;
+	this->isToggled      = false;
 	this->activeSwitches = 0;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SWITCH_ACTIVATED, this->GetTypeId(), true);
@@ -49,6 +50,10 @@ void Triggerable::destroy() {
 
 void Triggerable::SetTriggerType(std::string typeStr) {
 	this->type = ConvertStringToTriggerType(typeStr);
+}
+
+void Triggerable::SetToggleState(bool toggle) {
+	this->isToggled = toggle;
 }
 
 void Triggerable::HandleMessage(MessageChunk messageChunk) {

@@ -35,7 +35,7 @@ void GridZone::GetZoneBounds(int& west, int& east, int& south, int& north) {
 
 	// Determine the rough orientation of the object.
 	if (abs(forward.z) >= abs(forward.x)) {
-		if (forward.z >= 0.0f) {
+		if (forward.z <= 0.0f) {
 			west  = centerX + this->westBound;
 			east  = centerX + this->eastBound;
 			south = centerZ + this->southBound;
@@ -49,7 +49,7 @@ void GridZone::GetZoneBounds(int& west, int& east, int& south, int& north) {
 		}
 	}
 	else {
-		if (forward.x >= 0.0f) {
+		if (forward.x <= 0.0f) {
 			west  = centerX - this->northBound;
 			east  = centerX - this->southBound;
 			south = centerZ + this->westBound;

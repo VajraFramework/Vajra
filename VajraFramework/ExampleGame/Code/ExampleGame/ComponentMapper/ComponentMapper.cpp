@@ -723,6 +723,16 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "Triggerable") {
 		Triggerable* component = gameObject->GetComponent<Triggerable>();
 		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetToggleState") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetToggleState(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
 		if (propertyName == "SubscribeToMySwitch") {
 			if ((int)argv.size() < 0) { return; }
 			component->SubscribeToMySwitch();
