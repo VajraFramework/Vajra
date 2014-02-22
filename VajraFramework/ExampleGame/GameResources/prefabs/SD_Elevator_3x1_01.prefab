@@ -4,12 +4,12 @@
 		</component>
 		
 		<component name="GridZone">
-              <property name="SetZoneBounds">
-                  <field>-1</field>
-                  <field>0</field>
-                  <field>1</field>
-                  <field>0</field>
-              </property>
+              		<property name="SetZoneBounds">
+                  		<field>-1</field>
+                  		<field>0</field>
+                  		<field>1</field>
+                  		<field>0</field>
+              		</property>
 		</component>
 
 		<component name="GridZoneSwitch">
@@ -30,11 +30,12 @@
 			</property>
 		</component>
 		
-      <component name="MeshRenderer">
-          <property name="InitMesh">
-              <field>models/SD_Floor_Stone_1x3_01.model</field>
-          </property>
-      </component>
+      		<component name="MeshRenderer">
+          		<property name="InitMesh">
+              		<field>models/SD_elevator_3x1.model</field>
+          		</property>
+      		</component>
+
 	</gameobject>
 </prefab>
 
