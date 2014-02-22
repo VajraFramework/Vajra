@@ -102,7 +102,7 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 			break;
 		case MESSAGE_TYPE_GRID_ROOM_ENTERED:
 			if(messageChunk->messageData.iv1.x == SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
-				this->MoveGameCamToRoom(messageChunk->messageData.fv1);
+				this->MoveGameCamToRoom(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
 			}
 			break;
 		default:
@@ -154,18 +154,36 @@ void ShadyCamera::LevelStartPan() {
 
 }
 
-void ShadyCamera::MoveGameCamToRoom(int i, int j) {
-	this->MoveGameCamToRoom(SINGLETONS->GetGridManager()->GetGrid()->GetRoomCenter(i, j));
+void ShadyCamera::FollowGameObjectDirectly(ObjectIdType unitId) {
+	if(this->camMode == CameraMode::CameraMode_Game) {
+		GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(unitId);
+		if(go != nullptr) {
+			this->setCurrentCameraHeight(go->GetTransform()->GetPosition().y);
+			this->updateGameCamPos();
+		}
+	}
+	
 }
 
-void ShadyCamera::MoveGameCamToRoom(glm::vec3 roomCenter) {
+void ShadyCamera::MoveGameCamToRoom(int i, int j) {
+	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(i, j);
+	glm::vec3 roomCenter = SINGLETONS->GetGridManager()->GetGrid()->GetRoomCenter(cell);
 	this->setCurrentRoomCenter(roomCenter);
+	this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(cell->y));
 	this->updateGameCamPos();
 }
 
 void ShadyCamera::setCurrentRoomCenter(glm::vec3 roomCenter) {
 	if(roomCenter != ZERO_VEC3) {
 		this->currentRoomCenter = roomCenter;
+	}
+}
+
+void ShadyCamera::setCurrentCameraHeight(float elevatorInWorldUnits) {
+	glm::vec3 newOffset = DEFAULT_GAME_CAM_OFFSET + glm::vec3(0.0f, elevatorInWorldUnits, 0.0f);
+	FRAMEWORK->GetLogger()->dbglog("\nsetCurrentCameraHeight %f" , elevatorInWorldUnits);
+	if(this->gameCamOffset != newOffset) {
+		this->gameCamOffset = newOffset;
 	}
 }
 void ShadyCamera::updateGameCamPos() {
@@ -233,15 +251,6 @@ void ShadyCamera::setCameraMode(CameraMode newMode) {
 		this->camMode = newMode;
 
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_CAMERA_MODE_CHANGED, this->gameObjectRef->GetId());
-	}
-}
-
-void ShadyCamera::selectedUnitChangedCell(GridCell* cell) {
-	int elevation = cell->y;
-	glm::vec3 newOffset = DEFAULT_GAME_CAM_OFFSET + glm::vec3(0.0f, elevation * 2, 0.0f);
-	if(this->gameCamOffset != newOffset) {
-		this->gameCamOffset = newOffset;
-		this->updateGameCamPos();
 	}
 }
 
