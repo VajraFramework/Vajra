@@ -150,8 +150,9 @@ GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
 	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
 	{
 		gridPosition = screenRay.origin + screenRay.dir * dist;
-		for(int i = NUM_ELEVATIONS; i > -1; --i) {
-			glm::vec3 posAtHeight = gridPosition + glm::vec3(0.0f, i, i);
+		for(int i = 0; i < NUM_ELEVATIONS; i++) {
+			touchedCell = nullptr;
+			glm::vec3 posAtHeight = gridPosition + glm::vec3(0.0f, this->grid->ConvertElevationToWorldY(i), i);
 			touchedCell = this->GetGrid()->GetCell(posAtHeight);
 			if(touchedCell != nullptr && this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
 				break;
@@ -171,9 +172,10 @@ glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
 	glm::vec3 posAtHeight;
 	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
 	{
+		touchedCell = nullptr;
 		gridPosition = screenRay.origin + screenRay.dir * dist;
-		for(int i = NUM_ELEVATIONS; i > -1; --i) {
-			posAtHeight = gridPosition + glm::vec3(0.0f, i * 2.0f, i);
+		for(int i = 0; i < NUM_ELEVATIONS; i++) {
+			posAtHeight = gridPosition + glm::vec3(0.0f, this->grid->ConvertElevationToWorldY(i), i);
 			touchedCell = this->GetGrid()->GetCell(posAtHeight);
 			if(touchedCell != nullptr && this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
 				break;
@@ -219,8 +221,8 @@ void GridManager::debugTouchUpdate(int touchIndex) {
 	if (cell != nullptr) {
 		DebugDraw::DrawCube(cell->center, 1.0f);
 	}
-	//glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
-	//DebugDraw::DrawCube(gridPos, 0.1f);
+	glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
+	DebugDraw::DrawCube(gridPos, 0.1f);
 }
 #endif
 
