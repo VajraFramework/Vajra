@@ -2,33 +2,33 @@
 	<gameobject>
 		<component name="MeshRenderer">
 			<property name="InitMesh">
-				<field>models/SD_Thief_mesh.model</field>
+				<field>models/SD_CharMesh_Thief_05_SD_Thief_mesh.model</field>
 			</property>
 		</component>
 
 		<component name="BakedSkeletalAnimation">
 			<property name="AddAnimationClip">
-				<field>animations/SD_Thief_mesh.skeletalanimation#idle</field>
-				<field>0.1f</field>
+				<field>animations/SD_CharMesh_Thief_05_SD_Thief_mesh.skeletalanimation#idle</field>
+				<field>0.3f</field>
 				<field>true</field>
 			</property>
 			<property name="AddAnimationClip">
-				<field>animations/SD_Thief_mesh.skeletalanimation#walking</field>
-				<field>3.0f</field>
+				<field>animations/SD_CharMesh_Thief_05_SD_Thief_mesh.skeletalanimation#walking</field>
+				<field>1.1f</field>
 				<field>true</field>
 			</property>
 			<property name="AddAnimationClip">
-				<field>animations/SD_Thief_mesh.skeletalanimation#special_posing</field>
+				<field>animations/SD_CharMesh_Thief_05_SD_Thief_mesh.skeletalanimation#special_posing</field>
 				<field>3.0f</field>
 				<field>false</field>
 			</property>
 			<property name="AddAnimationClip">
-				<field>animations/SD_Thief_mesh.skeletalanimation#special_action</field>
+				<field>animations/SD_CharMesh_Thief_05_SD_Thief_mesh.skeletalanimation#special_action</field>
 				<field>3.0f</field>
 				<field>false</field>
 			</property>
 			<property name="AddAnimationClip">
-				<field>animations/SD_Thief_mesh.skeletalanimation#special_end</field>
+				<field>animations/SD_CharMesh_Thief_05_SD_Thief_mesh.skeletalanimation#special_end</field>
 				<field>3.0f</field>
 				<field>false</field>
 			</property>
