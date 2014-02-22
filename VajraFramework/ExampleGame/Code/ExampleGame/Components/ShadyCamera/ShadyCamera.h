@@ -44,7 +44,6 @@ public:
 	void ZoomBy(float yOffset);
 
 	void MoveGameCamToRoom(int i, int j); // Cell indicies
-	void MoveGameCamToRoom(glm::vec3 roomCenter); // center of the room
 	// Move camera to game room
 	void MoveToGamePos(); // move to current room
 	// Sets current room and then moves to it
@@ -52,7 +51,8 @@ public:
 	// Pan the camera along a preset path for a level intro
 	void LevelStartPan();
 
-	void selectedUnitChangedCell(GridCell* /*cell*/);
+	void FollowGameObjectDirectly(ObjectIdType unitId);
+
 	inline CameraMode GetCameraMode() {return this->camMode;}
 	inline bool IsMoving() { return this->isMoving; }
 private:
@@ -67,6 +67,7 @@ private:
 	bool isMoving;
 	// Find and store the current position for the game camera
 	void setCurrentRoomCenter(glm::vec3 roomCenter); // center of the room
+	void setCurrentCameraHeight(float /*elevatorInWorldUnits*/); 
 	void updateGameCamPos();
 
 	bool newPinch;

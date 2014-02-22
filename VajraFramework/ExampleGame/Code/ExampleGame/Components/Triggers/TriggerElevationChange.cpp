@@ -7,6 +7,7 @@
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
+#include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Components/Triggers/TriggerElevationChange.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
@@ -57,6 +58,7 @@ void TriggerElevationChange::init() {
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED, this->GetTypeId(), true);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED, this->GetTypeId(), true);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT, this->GetTypeId(), true);
 }
 
 void TriggerElevationChange::destroy() {
@@ -77,6 +79,16 @@ void TriggerElevationChange::HandleMessage(MessageChunk messageChunk) {
 
 		case MESSAGE_TYPE_GRID_ZONE_EXITED:
 			this->onUnitExitedZone(messageChunk->messageData.iv1.x);
+			break;
+
+		case MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT:
+			for (auto iter = this->unitsInZone.begin(); iter != this->unitsInZone.end(); ++iter) {
+				// If it's the selected unit the camera should follow it up
+				if(*iter != SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
+					continue;
+				}
+				SINGLETONS->GetGridManager()->GetShadyCamera()->FollowGameObjectDirectly(this->GetObject()->GetId());
+			}
 			break;
 	}
 }
