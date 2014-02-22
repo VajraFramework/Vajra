@@ -54,7 +54,6 @@ TriggerElevationChange::~TriggerElevationChange() {
 void TriggerElevationChange::init() {
 	this->elevationChange = 1;
 	this->transitTime     = 1.0f;
-	this->isRaised        = false;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED, this->GetTypeId(), true);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED, this->GetTypeId(), true);
@@ -66,10 +65,6 @@ void TriggerElevationChange::destroy() {
 
 void TriggerElevationChange::SetTriggerType(std::string typeStr) {
 	Triggerable::SetTriggerType(typeStr);
-}
-
-void TriggerElevationChange::SetRaisedState(bool raised) {
-	this->isRaised = raised;
 }
 
 void TriggerElevationChange::HandleMessage(MessageChunk messageChunk) {
@@ -95,7 +90,7 @@ void TriggerElevationChange::SubscribeToParentSwitch() {
 }
 
 void TriggerElevationChange::onSwitchToggled(bool /*switchState*/) {
-	this->startTransition(!this->isRaised);
+	this->startTransition(!this->isToggled);
 }
 
 void TriggerElevationChange::onUnitEnteredZone(ObjectIdType id) {
@@ -127,11 +122,11 @@ void TriggerElevationChange::onUnitExitedZone(ObjectIdType id) {
 }
 
 void TriggerElevationChange::startTransition(bool raised) {
-	if (raised != this->isRaised) {
+	if (raised != this->isToggled) {
 		this->startPositionTween(raised);
 		this->changeCellElevations(raised);
 
-		this->isRaised = raised;
+		this->isToggled = raised;
 	}
 }
 
