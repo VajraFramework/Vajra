@@ -723,6 +723,16 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "Triggerable") {
 		Triggerable* component = gameObject->GetComponent<Triggerable>();
 		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetToggleState") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetToggleState(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
 		if (propertyName == "SubscribeToMySwitch") {
 			if ((int)argv.size() < 0) { return; }
 			component->SubscribeToMySwitch();
@@ -744,11 +754,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetTriggerType(ConvertStringToString(argv[0]));
 			return;
 		}
-		if (propertyName == "SetRaisedState") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetRaisedState(StringUtilities::ConvertStringToBool(argv[0]));
-			return;
-		}
 		if (propertyName == "SetElevationDiff") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetElevationDiff(StringUtilities::ConvertStringToInt(argv[0]));
@@ -757,6 +762,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetTransitTime") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetTransitTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetRaisedState") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetRaisedState(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		if (propertyName == "SubscribeToMySwitch") {
