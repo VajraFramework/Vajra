@@ -55,7 +55,8 @@ void main()
 	gl_Position = modelMatrix * vPosition;
 
 	modelCoordsForBakedAmbientLookup_out.x = gl_Position.x;
-	modelCoordsForBakedAmbientLookup_out.y = gl_Position.z;
+	modelCoordsForBakedAmbientLookup_out.y = gl_Position.y;
+	modelCoordsForBakedAmbientLookup_out.z = gl_Position.z;
 
 	float yAmt = gl_Position.y;
 	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));

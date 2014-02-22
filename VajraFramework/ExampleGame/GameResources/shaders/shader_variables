@@ -40,4 +40,4 @@ attribute vec4 particleColor
 
 uniform sampler2D myTextureSampler
 uniform sampler2D bakedAmbientGridTextureSampler
-varying vec2 modelCoordsForBakedAmbientLookup_out
+varying vec3 modelCoordsForBakedAmbientLookup_out
