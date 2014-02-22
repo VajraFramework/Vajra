@@ -1,0 +1,16 @@
+<prefab>
+	<gameobject>
+		<component name="Transform">
+		</component>
+		
+		<component name="MultiplexSwitch">
+			<property name="SetSwitchType">
+				<field>Once</field>
+			</property>
+			<property name="SetTriggerType">
+				<field>All</field>
+			</property>
+		</component>
+	</gameobject>
+</prefab>
+
