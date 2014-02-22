@@ -1,21 +1,33 @@
 <tutorialScreens>
-	<tutorial name="SD_TestScene">	
-		<message name="MESSAGE_TYPE_GRID_ROOM_ENTERED">
-			<cellData x="4" z="7"></cellData>
+	<tutorial name="REMOVE_SD_Playtest2_01">	
+		<message name="MESSAGE_TYPE_LEVEL_LOADED">
 			<image name="monkey.png"></image>
 		</message>
 		<message name="MESSAGE_TYPE_GRID_ROOM_ENTERED">
-			<cellData x="30" z="7"></cellData>
-			<image name="assassin.png"></image>
+			<cellData x="10" z="20"></cellData>
 			<image name="monkey.png"></image>
 		</message>
 	</tutorial> 
 
-	<tutorial name="levelTwo">
-		<message name="MESSAGE_TYPE_GRID_ZONE_ENTERED">
-			<cellData x="4" z="7"></cellData>
+	<tutorial name="REMOVE_SD_Playtest2_02">
+		<message name="MESSAGE_TYPE_LEVEL_LOADED">
 			<image name="texture.png"></image>
+			<image name="texture.png"></image>
+		</message>
+		<message name="MESSAGE_TYPE_GRID_ROOM_ENTERED">
+			<cellData x="10" z="20"></cellData>
+			<image name="monkey.png"></image>
 		</message>
 	</tutorial> 
 	
+	<tutorial name="REMOVE_SD_Playtest2_04">
+		<message name="MESSAGE_TYPE_LEVEL_LOADED">
+			<image name="texture.png"></image>
+			<image name="texture.png"></image>
+		</message>
+		<message name="MESSAGE_TYPE_GRID_ROOM_ENTERED">
+			<cellData x="30" z="20"></cellData>
+			<image name="monkey.png"></image>
+		</message>
+	</tutorial> 
 </tutorialScreens>
