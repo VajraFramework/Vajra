@@ -28,8 +28,10 @@ public:
 
 	static inline ComponentIdType GetTypeId() { return componentTypeId; }
 
+	//[[PROPERTY]]//
 	virtual void SetTriggerType(std::string typeStr);
 	inline void SetTriggerType(TriggerType st) { this->type = st; }
+	//[[PROPERTY]]//
 	virtual void SetToggleState(bool toggle);
 
 	virtual void HandleMessage(MessageChunk messageChunk);
