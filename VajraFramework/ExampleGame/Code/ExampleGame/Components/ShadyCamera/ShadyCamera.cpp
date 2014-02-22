@@ -52,6 +52,8 @@ void ShadyCamera::init() {
 	this->isMoving = false;
 
 	this->gameObjectRef = (GameObject*)this->GetObject();
+	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
+
 	Transform* camTransform = this->gameObjectRef->GetTransform();
 
 	// TODO [Implement] : set this based on device resolution

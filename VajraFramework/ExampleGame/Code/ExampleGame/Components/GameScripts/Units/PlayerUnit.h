@@ -65,13 +65,12 @@ protected:
 
 	
 
-	//inline GameObject* GetTouchIndicator() { return this->touchIndicator; }
 	inline GridCell* GetCurrentTouchedCell() { return this->currentTouchedCell; }
 private:
 	void init();
 	void destroy();
 
-	GameObject* touchIndicator;
+	GameObject* touchIndicatorRef;
 	GridCell* currentTouchedCell;
 
 	UnitColorScheme colorScheme;
