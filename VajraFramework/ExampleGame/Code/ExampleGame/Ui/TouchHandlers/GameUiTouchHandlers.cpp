@@ -1,4 +1,4 @@
-#include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
+ #include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
 #include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Messages/Declarations.h"
@@ -245,6 +245,8 @@ MessageType stringToMessageType(std::string msgString) {
 		return MESSAGE_TYPE_GRID_ZONE_ENTERED;
 	} else if(msgString == "MESSAGE_TYPE_SELECTED_UNIT_CHANGED") {
 		return MESSAGE_TYPE_SELECTED_UNIT_CHANGED;
+	} else if(msgString == "MESSAGE_TYPE_LEVEL_LOADED") {
+		return MESSAGE_TYPE_LEVEL_LOADED;
 	}
 	ASSERT(true, "stringToMessageType has reached the end without returning a message. Did you add a case for %s?", msgString.c_str());
 	return MESSAGE_TYPE_UNSPECIFIED;
