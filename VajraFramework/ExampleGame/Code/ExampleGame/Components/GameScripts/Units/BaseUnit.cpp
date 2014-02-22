@@ -29,6 +29,8 @@ void BaseUnit::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_END  , this->GetTypeId(), false);
 
 	this->gameObjectRef = (GameObject*)this->GetObject();
+	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
+
 	this->gridNavRef = this->gameObjectRef->GetComponent<GridNavigator>();
 	this->unitState = UnitState::UNIT_STATE_ALIVE;
 	this->unitType = UnitType::UNIT_TYPE_GUARD;
