@@ -304,10 +304,10 @@ void GridNavigator::changeCell(GridCell* goalCell) {
 	// Send a message to the GridManager "asking" to move from one cell to another.
 	MessageChunk cellChangeMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 	cellChangeMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED);
-	cellChangeMessage->messageData.fv1.x = goalCell->x;
-	cellChangeMessage->messageData.fv1.y = goalCell->y;
-	cellChangeMessage->messageData.fv1.z = goalCell->z;
-	ENGINE->GetMessageHub()->SendPointcastMessage(cellChangeMessage, SINGLETONS->GetGridManagerObject()->GetId(), this->GetObject()->GetId());
+	cellChangeMessage->messageData.iv1.x = goalCell->x;
+	cellChangeMessage->messageData.iv1.y = goalCell->y;
+	cellChangeMessage->messageData.iv1.z = goalCell->z;
+	ENGINE->GetMessageHub()->SendMulticastMessage(cellChangeMessage, this->GetObject()->GetId());
 }
 
 float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outPath) {
