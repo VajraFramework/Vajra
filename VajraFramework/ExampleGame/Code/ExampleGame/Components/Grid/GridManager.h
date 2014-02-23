@@ -47,6 +47,7 @@ public:
 	glm::vec3 TouchPositionToGridPosition(glm::vec2 touchPos);
 
 	inline void SetShadyCamera(ShadyCamera* shadyCam) { this->shadyCamRef = shadyCam; }
+	inline ShadyCamera* GetShadyCamera() { return this->shadyCamRef; }
 	/****************
 	// TODO [Implement]
 	std::list<GridCell> GetNeighbors(GridCell* cel, bool diagonals, bool sameRoom);

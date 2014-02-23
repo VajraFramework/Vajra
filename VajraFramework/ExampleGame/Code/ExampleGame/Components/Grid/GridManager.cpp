@@ -150,8 +150,9 @@ GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
 	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
 	{
 		gridPosition = screenRay.origin + screenRay.dir * dist;
-		for(int i = NUM_ELEVATIONS; i > -1; --i) {
-			glm::vec3 posAtHeight = gridPosition + glm::vec3(0.0f, i, i);
+		for(int i = 0; i < NUM_ELEVATIONS; i++) {
+			touchedCell = nullptr;
+			glm::vec3 posAtHeight = gridPosition + glm::vec3(0.0f, this->grid->ConvertElevationToWorldY(i), i);
 			touchedCell = this->GetGrid()->GetCell(posAtHeight);
 			if(touchedCell != nullptr && this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
 				break;
@@ -171,9 +172,10 @@ glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
 	glm::vec3 posAtHeight;
 	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
 	{
+		touchedCell = nullptr;
 		gridPosition = screenRay.origin + screenRay.dir * dist;
-		for(int i = NUM_ELEVATIONS; i > -1; --i) {
-			posAtHeight = gridPosition + glm::vec3(0.0f, i * 2.0f, i);
+		for(int i = 0; i < NUM_ELEVATIONS; i++) {
+			posAtHeight = gridPosition + glm::vec3(0.0f, this->grid->ConvertElevationToWorldY(i), i);
 			touchedCell = this->GetGrid()->GetCell(posAtHeight);
 			if(touchedCell != nullptr && this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
 				break;
@@ -219,8 +221,8 @@ void GridManager::debugTouchUpdate(int touchIndex) {
 	if (cell != nullptr) {
 		DebugDraw::DrawCube(cell->center, 1.0f);
 	}
-	//glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
-	//DebugDraw::DrawCube(gridPos, 0.1f);
+	glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
+	DebugDraw::DrawCube(gridPos, 0.1f);
 }
 #endif
 
@@ -388,12 +390,12 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ) 
 		// A collision has occurred. Send a message to both units involved.
 		MessageChunk collisionMessageA = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		collisionMessageA->SetMessageType(MESSAGE_TYPE_GRID_UNIT_COLLISION);
-		collisionMessageA->messageData.iv1.x = id;
+		collisionMessageA->messageData.iv1.y = id;
 		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageA, destCell->GetFirstOccupantId(), id);
 
 		MessageChunk collisionMessageB = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		collisionMessageB->SetMessageType(MESSAGE_TYPE_GRID_UNIT_COLLISION);
-		collisionMessageB->messageData.iv1.x = destCell->GetFirstOccupantId();
+		collisionMessageB->messageData.iv1.y = destCell->GetFirstOccupantId();
 		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageB, id, destCell->GetFirstOccupantId());
 	}
 
@@ -405,7 +407,7 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ) 
 		if (startRoom != nullptr) {
 			MessageChunk roomExitMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 			roomExitMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_EXITED);
-			roomExitMessage->messageData.iv1.x = id;
+			roomExitMessage->messageData.iv1.y = id;
 			roomExitMessage->messageData.fv1 = this->grid->GetRoomCenter(startCell);
 			ENGINE->GetMessageHub()->SendMulticastMessage(roomExitMessage, this->GetObject()->GetId());
 		}
@@ -413,7 +415,9 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ) 
 		if (destRoom != nullptr) {
 			MessageChunk roomEnterMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 			roomEnterMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED);
-			roomEnterMessage->messageData.iv1.x = id;
+			roomEnterMessage->messageData.iv1.x = destCell->x;
+			roomEnterMessage->messageData.iv1.y = id;
+			roomEnterMessage->messageData.iv1.z = destCell->z;
 			roomEnterMessage->messageData.fv1 = this->grid->GetRoomCenter(destCell);
 			ENGINE->GetMessageHub()->SendMulticastMessage(roomEnterMessage, this->GetObject()->GetId());
 		}
