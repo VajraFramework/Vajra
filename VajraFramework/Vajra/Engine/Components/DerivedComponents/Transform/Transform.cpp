@@ -267,6 +267,40 @@ void Transform::rippleMatrixUpdates() {
 	}
 }
 
+void Transform::SetModelMatrixCumulative(glm::mat4 requiredModelMatrixCumulative) {
+	glm::mat4 requiredModelMatrix = IDENTITY_MATRIX;
+	GameObject* parent = nullptr;
+	if (this->GetObject() != nullptr) {
+		parent = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->GetObject()->GetParentId());
+	}
+	if (parent != nullptr) {
+		glm::mat4 parentMatrix = parent->GetTransform()->modelMatrixCumulative;
+		requiredModelMatrix = glm::inverse(parentMatrix) * requiredModelMatrixCumulative;
+
+	} else {
+		requiredModelMatrix = requiredModelMatrixCumulative;
+	}
+
+	glm::vec3 required_position;
+	glm::quat required_orientation;
+	glm::vec3 required_scale;
+
+	glm::vec4 worldPosition = requiredModelMatrix * ZERO_VEC4_POSITION;
+	required_position = glm::vec3(worldPosition.x, worldPosition.y, worldPosition.z);
+
+	required_scale.x     = requiredModelMatrix[0][0];
+	required_scale.y     = requiredModelMatrix[1][1];
+	required_scale.z     = requiredModelMatrix[2][2];
+
+	required_orientation = glm::normalize(glm::quat_cast(requiredModelMatrix));
+
+	this->modelMatrix = IDENTITY_MATRIX;
+
+	this->setPosition(required_position);
+	this->setOrientation(required_orientation);
+	// this->setScale(required_scale);
+}
+
 void Transform::init() {
 	GameObject* gameObject = dynamic_cast<GameObject*>(this->GetObject());
 	if (gameObject != nullptr) {
@@ -291,4 +325,3 @@ void Transform::init() {
 
 void Transform::destroy() {
 }
-
