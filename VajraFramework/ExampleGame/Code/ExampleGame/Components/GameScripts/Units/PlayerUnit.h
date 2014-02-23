@@ -54,7 +54,7 @@ protected:
 	InputState inputState;
 
 	glm::vec2 touchStartPos;
-
+	glm::vec3 specialStartPos;
 
 	void startTouchIndicatorPulse();
 	void SetTouchIndicatorSprite(int /*index*/ );
