@@ -112,3 +112,15 @@ bool GameObject::HasTransperancy() {
 	}
 	return false;
 }
+
+void GameObject::AddChild_maintainTransform(ObjectIdType childId) {
+
+	GameObject* child = (GameObject*)ObjectRegistry::GetObjectById(childId);
+	if (child != nullptr) {
+		ASSERT(child->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Child is a game object");
+		Object::AddChild(childId);
+
+	} else {
+		ASSERT(0, "Child found");
+	}
+}
