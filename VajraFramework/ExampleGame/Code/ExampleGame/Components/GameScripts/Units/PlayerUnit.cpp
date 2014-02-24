@@ -59,9 +59,9 @@ void PlayerUnit::init() {
 	this->touchIndicatorRef = new GameObject(ENGINE->GetSceneGraph3D());
 	SpriteRenderer* spriteRenderer = this->touchIndicatorRef->AddComponent<SpriteRenderer>();
 	std::vector<std::string> pathsToTextures;
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Indicator_01.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Indicator_03.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Fail_01.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_Arrow_04.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_Arrow_05.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_cyan.png");
 	
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
@@ -137,6 +137,10 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 
 void PlayerUnit::OnDeselect() {
 	this->inputState = InputState::INPUT_STATE_NONE;
+	ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
+	ENGINE->GetTween()->CancelNumberTween("pulse");
+	this->SetTouchIndicatorVisible(false);
+				
 }
 
 void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {
@@ -170,7 +174,11 @@ void PlayerUnit::onSpecialEnd() {
 }
 
 void PlayerUnit::cancelSpecial() {
-	this->onSpecialEnd();
+	this->performingSpecial = false;
+	this->inputState = InputState::INPUT_STATE_NONE;
+	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
+	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
+	this->touchIndicatorRef->SetVisible(false);
 }
 
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
