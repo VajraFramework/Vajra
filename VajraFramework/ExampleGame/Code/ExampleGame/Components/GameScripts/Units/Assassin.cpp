@@ -164,8 +164,8 @@ void Assassin::aimSpecial(){
 		this->SetTouchIndicatorCell(this->targetedCell);
 		this->TouchIndicatorLookAt(this->targetedCell);
 		float dist = glm::distance(this->gridNavRef->GetCurrentCell()->center, this->targetedCell->center) - 1.5f;
-		if(dist <= .5f) {
-			this->arrowHead->SetVisible(false);
+		if(dist < 0.5f) {
+			this->arrowTail->SetVisible(false);
 		}
 		this->arrowTail->GetTransform()->SetScale(1.0f, dist, 1.0f);
 
