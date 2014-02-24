@@ -18,6 +18,9 @@ public:
 
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 
+	// @Override
+	virtual void HandleMessage(MessageChunk messageChunk);
+
 protected:
 	// @Override 
 	virtual bool isSpecialTouch(int /* touchId */);
@@ -26,6 +29,7 @@ protected:
 	virtual void trySpecial(int /* touchId */ );
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
+	void onGridCellChanged(ObjectIdType id, int gridX, int gridZ);
 
 	virtual void touchedCellChanged(GridCell* prevTouchedCell);
 private:

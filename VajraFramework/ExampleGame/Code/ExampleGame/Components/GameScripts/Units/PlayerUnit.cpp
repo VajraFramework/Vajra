@@ -158,6 +158,7 @@ void PlayerUnit::onSelectedTouch() {
 void PlayerUnit::startSpecial() {
 	this->performingSpecial = true;
 	this->SwitchActionState(UNIT_ACTION_STATE_DOING_SPECIAL);
+	this->specialStartPos = this->GetObject()->GetComponent<Transform>()->GetPositionWorld();
 }
 
 void PlayerUnit::onSpecialEnd() {
