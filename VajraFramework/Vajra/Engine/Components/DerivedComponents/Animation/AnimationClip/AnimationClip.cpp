@@ -77,9 +77,12 @@ void AnimationClip::step(double deltaTime) {
 	if (nextKeyFrame != nullptr) {
 		double deltaBetweenFrames = nextKeyFrame->GetTime() - currentKeyFrame->GetTime();
 		this->interpolation = this->interpolation + deltaTime / deltaBetweenFrames * this->playbackSpeed;
+		float interpolation_overshoot = this->interpolation - 1.0f;
 		if (this->interpolation > 1.0f) {
 			this->interpolation = 0.0f;
 			this->setCurrentKeyFrameIndex(this->getCurrentKeyFrameIndex() + 1);
+
+			this->step(deltaTime - deltaTime * 1 / (1.0f + interpolation_overshoot));
 		}
 
 	} else {
