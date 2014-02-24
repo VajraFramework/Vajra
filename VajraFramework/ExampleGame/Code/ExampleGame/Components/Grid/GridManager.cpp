@@ -125,10 +125,6 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 #endif
 
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
-	if(touch.phase == TouchPhase::Ended) {
-		int i = 0;
-		i++;
-	}
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
 		if(cell->GetFirstOccupantId() != OBJECT_ID_INVALID) {
