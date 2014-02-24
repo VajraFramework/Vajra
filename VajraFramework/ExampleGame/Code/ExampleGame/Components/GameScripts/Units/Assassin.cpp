@@ -32,7 +32,7 @@ void Assassin::init() {
 	this->arrowTail = new GameObject(ENGINE->GetSceneGraph3D());
 	SpriteRenderer* spriteRenderer = this->arrowTail->AddComponent<SpriteRenderer>();
 	std::vector<std::string> pathsToTextures;
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_ArrowStem_01.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_ArrowStem_02.png");
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 	this->arrowTail->GetTransform()->SetScale( glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)));
 	this->arrowTail->GetTransform()->Rotate(90.0f inRadians, XAXIS);
