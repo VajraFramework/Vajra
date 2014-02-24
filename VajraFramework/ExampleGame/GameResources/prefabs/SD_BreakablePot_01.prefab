@@ -1,0 +1,19 @@
+<prefab>
+	<gameobject>
+		<component name="GridNavigator">
+		</component>
+
+		<component name="BreakablePot">
+		</component>
+	
+		<component name="MeshRenderer">
+		  <property name="InitMesh">
+			  <field>models/SD_Column_01.model</field>
+		  </property>
+		</component>
+
+		<component name="Transform">
+		</component>
+	</gameobject>
+</prefab>
+
