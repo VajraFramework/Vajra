@@ -90,7 +90,7 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
 			break;
 		case MESSAGE_TYPE_UNIT_KILLED:
-			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
+			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
 			break;
 		case MESSAGE_TYPE_LEVEL_LOADED:
 			this->onLevelLoaded();
@@ -424,10 +424,12 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ) 
 	}
 }
 
-void GridManager::removeNavigatorFromGrid(ObjectIdType id, glm::vec3 cellPos) {
-	GridCell* cell = this->grid->GetCell(cellPos);
-	if(cell->GetFirstOccupantId() == id) {
-		cell->SetFirstOccupantId(OBJECT_ID_INVALID);
+void GridManager::removeNavigatorFromGrid(ObjectIdType id, int gridX, int gridZ) {
+	GridCell* cell = this->grid->GetCell(gridX, gridZ);
+	if (cell != nullptr) {
+		if(cell->GetFirstOccupantId() == id) {
+			cell->SetFirstOccupantId(OBJECT_ID_INVALID);
+		}
 	}
 }
 

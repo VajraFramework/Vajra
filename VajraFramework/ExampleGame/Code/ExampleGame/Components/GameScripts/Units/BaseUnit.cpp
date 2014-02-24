@@ -42,6 +42,10 @@ void BaseUnit::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
+void BaseUnit::HandleMessage(MessageChunk messageChunk) {
+	Component::HandleMessage(messageChunk);
+}
+
 void BaseUnit::start() {
 }
 
@@ -69,10 +73,9 @@ void BaseUnit::Kill() {
 	GridCell* currentCell = this->gridNavRef->GetCurrentCell();
 	MessageChunk unitKilledMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 	unitKilledMessage->SetMessageType(MESSAGE_TYPE_UNIT_KILLED);
-	unitKilledMessage->messageData.iv1.x = this->unitType;
-	unitKilledMessage->messageData.fv1.x = currentCell->x;
-	unitKilledMessage->messageData.fv1.y = currentCell->y;
-	unitKilledMessage->messageData.fv1.z = currentCell->z;
+	unitKilledMessage->messageData.iv1.x = currentCell->x;
+	unitKilledMessage->messageData.iv1.y = currentCell->y;
+	unitKilledMessage->messageData.iv1.z = currentCell->z;
 	ENGINE->GetMessageHub()->SendMulticastMessage(unitKilledMessage, this->GetObject()->GetId());
 
 	// Remove the navigator component
