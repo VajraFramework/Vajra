@@ -124,7 +124,7 @@ void Assassin::onGridCellChanged(ObjectIdType id, int gridX, int gridZ) {
 	if (id == this->GetObject()->GetId()) {
 		GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(gridX, gridZ);
 		if (cell != nullptr) {
-			if (this->GetPerformingSpecial()) {
+			if (this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
 				// Send an attack message
 				MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 				attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);

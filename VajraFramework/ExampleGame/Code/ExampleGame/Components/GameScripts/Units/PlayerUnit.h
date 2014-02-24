@@ -35,7 +35,6 @@ public:
 
 	void OnTransitionZoneEntered(GridCell* newTarget);
 
-	inline bool GetPerformingSpecial() { return this->performingSpecial; }
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 protected:
 	void onSelectedTouch();
@@ -79,7 +78,6 @@ private:
 	void setTouchNearUnit(); 
 
 	bool unitHasTouchFocus;
-	bool performingSpecial;
 
 	friend void playerUnitNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams);
 	friend class LevelLoader;
