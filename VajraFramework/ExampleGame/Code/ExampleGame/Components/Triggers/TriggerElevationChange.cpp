@@ -31,16 +31,8 @@ void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tween
 				GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
 				ASSERT(gObj != nullptr, "Object exists with id %d", *iter);
 				if (gObj != nullptr) {
-					// glm::vec3 pos = gObj->GetTransform()->GetPositionWorld();
-					// glm::quat oldOrientation = gObj->GetTransform()->GetOrientationWorld();
-					glm::mat4 oldMatrix = gObj->GetTransform()->GetModelMatrixCumulative();
+					gObj->GetParentSceneGraph()->GetRootGameObject()->AddChild_maintainTransform(*iter);
 
-					gObj->GetParentSceneGraph()->GetRootGameObject()->AddChild(*iter);
-
-					gObj->GetTransform()->SetModelMatrixCumulative(oldMatrix);
-					// TODO [Hack] Use SetPositionWorld once implemented
-					// gObj->GetTransform()->SetPosition(pos);
-					// gObj->GetTransform()->SetOrientation(oldOrientation);
 				}
 			}
 		}
@@ -160,17 +152,14 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 	OnGoingTransformTweenDetails* translationDetails = ENGINE->GetTween()->GetOnGoingTransformTweenDetails(myId, TRANSFORM_TWEEN_TARGET_POSITION);
 	if (translationDetails == nullptr) {
 		// Child all units in zone to this object before tweening.
+		// glm::vec3 myPos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 		for (auto iter = this->unitsInZone.begin(); iter != this->unitsInZone.end(); ++iter) {
 
 			GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
 			ASSERT(gObj != nullptr, "Object exists with id %d", *iter);
 			if (gObj != nullptr) {
 
-				glm::mat4 oldMatrix = gObj->GetTransform()->GetModelMatrixCumulative();
-				//
-				this->gameObjectRef->AddChild(gObj->GetId());
-				//
-				gObj->GetTransform()->SetModelMatrixCumulative(oldMatrix);
+				this->gameObjectRef->AddChild_maintainTransform(gObj->GetId());
 
 				// If it's a unit that's moving, stop it:
 				GridNavigator* gNav = gObj->GetComponent<GridNavigator>();

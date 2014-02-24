@@ -283,21 +283,22 @@ void Transform::SetModelMatrixCumulative(glm::mat4 requiredModelMatrixCumulative
 
 	glm::vec3 required_position;
 	glm::quat required_orientation;
-	glm::vec3 required_scale;
+	// glm::vec3 required_scale;
 
 	glm::vec4 worldPosition = requiredModelMatrix * ZERO_VEC4_POSITION;
 	required_position = glm::vec3(worldPosition.x, worldPosition.y, worldPosition.z);
 
-	required_scale.x     = requiredModelMatrix[0][0];
-	required_scale.y     = requiredModelMatrix[1][1];
-	required_scale.z     = requiredModelMatrix[2][2];
+	glm::vec4 newForward = requiredModelMatrix * glm::vec4(ZAXIS.x, ZAXIS.y, ZAXIS.z, 0.0f);
+	newForward = glm::normalize(newForward);
+	required_orientation = QuaternionFromLookVectors(glm::vec3(newForward.x, newForward.y, newForward.z), YAXIS);
 
-	required_orientation = glm::normalize(glm::quat_cast(requiredModelMatrix));
-
-	this->modelMatrix = IDENTITY_MATRIX;
+	// required_scale.x     = requiredModelMatrix[0][0];
+	// required_scale.y     = requiredModelMatrix[1][1];
+	// required_scale.z     = requiredModelMatrix[2][2];
 
 	this->setPosition(required_position);
 	this->setOrientation(required_orientation);
+	// TODO [Implement] Figure out how to make scale work:
 	// this->setScale(required_scale);
 }
 
