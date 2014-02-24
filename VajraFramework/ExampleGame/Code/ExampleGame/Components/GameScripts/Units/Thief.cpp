@@ -235,7 +235,6 @@ void Thief::createTargets() {
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 		indicator->GetTransform()->SetPosition(c->center);
 		indicator->GetTransform()->SetScale( glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)));
-		indicator->GetTransform()->Translate(0.0f, YAXIS);
 		indicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 		this->targetIndicatorsRef[c] = indicator;
 	}
