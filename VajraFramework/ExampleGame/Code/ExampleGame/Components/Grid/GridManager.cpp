@@ -123,15 +123,20 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 #ifdef DEBUG_GRID
 	debugTouchUpdate(touchIndex);
 #endif
+
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
+	if(touch.phase == TouchPhase::Ended) {
+		int i = 0;
+		i++;
+	}
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
 		if(cell->GetFirstOccupantId() != OBJECT_ID_INVALID) {
 			if((cell->GetFirstOccupantId() != selectedUnitId) && (touch.phase == TouchPhase::Began)) {
 				selectUnitInCell(cell);
 			}
-		}	
-		if (this->selectedUnitId != OBJECT_ID_INVALID) {
+		}
+		if(this->selectedUnitId != OBJECT_ID_INVALID) {
 			GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
 			PlayerUnit* unit = obj->GetComponent<PlayerUnit>();
 			unit->OnTouch(touchIndex, cell);
@@ -147,15 +152,13 @@ GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
 	glm::vec3 posAtHeight;
 	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
 	{
-		gridPosition = screenRay.origin + screenRay.dir * dist;
-		for(int i = 0; i < NUM_ELEVATIONS; i++) {
+		for(int i = NUM_ELEVATIONS; i >= 0; i--) {
 			gridPosition = screenRay.origin + screenRay.dir * (dist - i); // due to the skew we want to use elevation values not real world units
 			posAtHeight = gridPosition + glm::vec3(0.0f, 0.0f, i); // the skew in the z is the same as the y
 			touchedCell = this->GetGrid()->GetCell(posAtHeight);
 			if(touchedCell != nullptr && this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
 				break;
 			}
-			touchedCell = nullptr;
 		}
 	}
 	return touchedCell;

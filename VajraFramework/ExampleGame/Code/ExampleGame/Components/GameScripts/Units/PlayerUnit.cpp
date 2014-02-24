@@ -137,6 +137,10 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 
 void PlayerUnit::OnDeselect() {
 	this->inputState = InputState::INPUT_STATE_NONE;
+	ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
+	ENGINE->GetTween()->CancelNumberTween("pulse");
+	this->SetTouchIndicatorVisible(false);
+				
 }
 
 void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {
@@ -170,7 +174,11 @@ void PlayerUnit::onSpecialEnd() {
 }
 
 void PlayerUnit::cancelSpecial() {
-	this->onSpecialEnd();
+	this->performingSpecial = false;
+	this->inputState = InputState::INPUT_STATE_NONE;
+	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
+	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
+	this->touchIndicatorRef->SetVisible(false);
 }
 
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
