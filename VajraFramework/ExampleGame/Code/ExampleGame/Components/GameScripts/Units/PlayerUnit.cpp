@@ -49,7 +49,6 @@ void PlayerUnit::init() {
 	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
 	this->inputState = InputState::INPUT_STATE_NONE;
 	this->touchNearUnit = false;
-	this->performingSpecial = false;
 	this->unitHasTouchFocus = false;
 	this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
 	this->gridNavRef->SetTurnSpeedDegrees(TURN_SPEED_DEG);
@@ -83,7 +82,7 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 	BaseUnit::HandleMessage(messageChunk);
 	switch(messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION:
-			if(this->performingSpecial) {
+			if(this->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL) {
 				this->onSpecialEnd();
 			}  else if(this->inputState == InputState::INPUT_STATE_WAIT || this->inputState == InputState::INPUT_STATE_NONE) {
 				this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
@@ -102,7 +101,8 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 		this->unitHasTouchFocus = true;
 	}
 
-	if(this->performingSpecial) {
+	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL ||
+	   this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_POST_SPECIAL) {
 		this->unitHasTouchFocus = false;
 		return;
 	}
@@ -144,7 +144,7 @@ void PlayerUnit::OnDeselect() {
 }
 
 void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {
-	if(this->performingSpecial) {
+	if(this->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL) {
 		this->cancelSpecial();
 	}
 	this->SetTouchIndicatorCell(newTarget);
@@ -160,13 +160,11 @@ void PlayerUnit::onSelectedTouch() {
 }
 
 void PlayerUnit::startSpecial() {
-	this->performingSpecial = true;
 	this->SwitchActionState(UNIT_ACTION_STATE_DOING_SPECIAL);
 	this->specialStartPos = this->GetObject()->GetComponent<Transform>()->GetPositionWorld();
 }
 
 void PlayerUnit::onSpecialEnd() {
-	this->performingSpecial = false;
 	this->inputState = InputState::INPUT_STATE_NONE;
 	this->SwitchActionState(UNIT_ACTION_STATE_POST_SPECIAL);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
@@ -174,7 +172,6 @@ void PlayerUnit::onSpecialEnd() {
 }
 
 void PlayerUnit::cancelSpecial() {
-	this->performingSpecial = false;
 	this->inputState = InputState::INPUT_STATE_NONE;
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
@@ -182,7 +179,6 @@ void PlayerUnit::cancelSpecial() {
 }
 
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
-	
 	if(this->isSpecialTouch(touchId)) {
 		this->inputState = InputState::INPUT_STATE_SPECIAL;
 		this->gridNavRef->StopNavigation();
