@@ -55,6 +55,8 @@ private:
 
 	std::list<ObjectIdType> unitsInZone;
 
+	GameObject* gameObjectRef;
+
 	friend void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string tweenClipName);
 };
 
