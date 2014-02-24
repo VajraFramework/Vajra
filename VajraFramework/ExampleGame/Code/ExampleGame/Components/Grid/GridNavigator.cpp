@@ -301,11 +301,14 @@ void GridNavigator::updateFacing() {
 }
 
 void GridNavigator::changeCell(GridCell* goalCell) {
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+	glm::vec3 pos = trans->GetPositionWorld();
+
 	// Send a message to the GridManager "asking" to move from one cell to another.
 	MessageChunk cellChangeMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 	cellChangeMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED);
 	cellChangeMessage->messageData.iv1.x = goalCell->x;
-	cellChangeMessage->messageData.iv1.y = goalCell->y;
+	cellChangeMessage->messageData.iv1.y = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(pos.y);
 	cellChangeMessage->messageData.iv1.z = goalCell->z;
 	ENGINE->GetMessageHub()->SendMulticastMessage(cellChangeMessage, this->GetObject()->GetId());
 }
