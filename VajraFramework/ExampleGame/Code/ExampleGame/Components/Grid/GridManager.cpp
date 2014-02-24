@@ -151,12 +151,12 @@ GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
 	{
 		gridPosition = screenRay.origin + screenRay.dir * dist;
 		for(int i = 0; i < NUM_ELEVATIONS; i++) {
-			touchedCell = nullptr;
 			glm::vec3 posAtHeight = gridPosition + glm::vec3(0.0f, this->grid->ConvertElevationToWorldY(i), i);
 			touchedCell = this->GetGrid()->GetCell(posAtHeight);
 			if(touchedCell != nullptr && this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
 				break;
 			}
+			touchedCell = nullptr;
 		}
 	}
 	return touchedCell;
@@ -172,7 +172,6 @@ glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
 	glm::vec3 posAtHeight;
 	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
 	{
-		touchedCell = nullptr;
 		gridPosition = screenRay.origin + screenRay.dir * dist;
 		for(int i = 0; i < NUM_ELEVATIONS; i++) {
 			posAtHeight = gridPosition + glm::vec3(0.0f, this->grid->ConvertElevationToWorldY(i), i);
@@ -180,7 +179,7 @@ glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
 			if(touchedCell != nullptr && this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
 				break;
 			}
-			
+			touchedCell = nullptr;
 		}
 	}
 	return posAtHeight;
