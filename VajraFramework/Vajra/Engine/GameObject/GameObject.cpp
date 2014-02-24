@@ -112,3 +112,21 @@ bool GameObject::HasTransperancy() {
 	}
 	return false;
 }
+
+void GameObject::AddChild_maintainTransform(ObjectIdType childId) {
+
+
+	GameObject* child = (GameObject*)ObjectRegistry::GetObjectById(childId);
+	if (child != nullptr) {
+		ASSERT(child->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Child is a game object");
+
+		glm::mat4 oldModelMatrixCumulative = child->GetTransform()->GetModelMatrixCumulative();
+
+		Object::AddChild(childId);
+
+		child->GetTransform()->SetModelMatrixCumulative(oldModelMatrixCumulative);
+
+	} else {
+		ASSERT(0, "Child found");
+	}
+}

@@ -120,10 +120,10 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 	if(this->shadyCamRef->IsMoving() || this->shadyCamRef->GetCameraMode() == ShadyCamera::CameraMode::CameraMode_Overview) {
 		return;
 	}
-	
 #ifdef DEBUG_GRID
 	debugTouchUpdate(touchIndex);
 #endif
+
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
 	GridCell* cell = this->TouchPositionToCell(touch.pos);
 	if (cell != nullptr) {
@@ -131,8 +131,8 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 			if((cell->GetFirstOccupantId() != selectedUnitId) && (touch.phase == TouchPhase::Began)) {
 				selectUnitInCell(cell);
 			}
-		}	
-		if (this->selectedUnitId != OBJECT_ID_INVALID) {
+		}
+		if(this->selectedUnitId != OBJECT_ID_INVALID) {
 			GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
 			PlayerUnit* unit = obj->GetComponent<PlayerUnit>();
 			unit->OnTouch(touchIndex, cell);
@@ -144,15 +144,13 @@ GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
 	glm::vec3 gridPosition = glm::vec3();
 	Ray screenRay = ENGINE->GetSceneGraph3D()->GetMainCamera()->ScreenPointToRay(touchPos);
 	float dist;
-	this->gridPlane.origin.y = 0.0f;
-
 	GridCell* touchedCell = nullptr;
+	glm::vec3 posAtHeight;
 	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
 	{
-		gridPosition = screenRay.origin + screenRay.dir * dist;
-		for(int i = 0; i < NUM_ELEVATIONS; i++) {
-			touchedCell = nullptr;
-			glm::vec3 posAtHeight = gridPosition + glm::vec3(0.0f, this->grid->ConvertElevationToWorldY(i), i);
+		for(int i = NUM_ELEVATIONS; i >= 0; i--) {
+			gridPosition = screenRay.origin + screenRay.dir * (dist - i); // due to the skew we want to use elevation values not real world units
+			posAtHeight = gridPosition + glm::vec3(0.0f, 0.0f, i); // the skew in the z is the same as the y
 			touchedCell = this->GetGrid()->GetCell(posAtHeight);
 			if(touchedCell != nullptr && this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
 				break;
@@ -163,29 +161,23 @@ GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
 }
 
 glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
-	glm::vec3 gridPosition = glm::vec3();
-	Ray screenRay = ENGINE->GetSceneGraph3D()->GetMainCamera()->ScreenPointToRay(touchPos);
+	// Get the elevation the cell we are touching is
+	GridCell* touchedCell = this->TouchPositionToCell(touchPos);
+	if(touchedCell == nullptr) {
+		return glm::vec3(0);
+	}
+	// Raycast against that height to get true grid position
+	float elevation = touchedCell->y;
 	float dist;
-	this->gridPlane.origin.y = 0.0f;
-
-	GridCell* touchedCell = nullptr;
-	glm::vec3 posAtHeight;
+	Ray screenRay = ENGINE->GetSceneGraph3D()->GetMainCamera()->ScreenPointToRay(touchPos);
+	glm::vec3 gridPosition;
 	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
 	{
-		touchedCell = nullptr;
-		gridPosition = screenRay.origin + screenRay.dir * dist;
-		for(int i = 0; i < NUM_ELEVATIONS; i++) {
-			posAtHeight = gridPosition + glm::vec3(0.0f, this->grid->ConvertElevationToWorldY(i), i);
-			touchedCell = this->GetGrid()->GetCell(posAtHeight);
-			if(touchedCell != nullptr && this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
-				break;
-			}
-			
-		}
+		gridPosition = screenRay.origin + screenRay.dir * (dist - this->grid->ConvertElevationToWorldY(elevation));
+		gridPosition += glm::vec3(0.0f, 0.0f, elevation); // z skew
 	}
-	return posAtHeight;
+	return gridPosition;
 }
-
 
 void GridManager::SwitchSelectedUnit() {
 	UnitType uType = UNIT_TYPE_ASSASSIN;

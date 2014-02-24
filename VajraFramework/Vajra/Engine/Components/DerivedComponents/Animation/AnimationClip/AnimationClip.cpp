@@ -30,6 +30,9 @@ void AnimationClip::raiseEvent(MessageChunk messageChunk, int gameObjectId, std:
 }
 
 void AnimationClip::Play() {
+	if (this->getNumKeyFrames() > 0) {
+		this->setCurrentKeyFrameIndex(0);
+	}
 	this->isPlaying = true;
 	// FRAMEWORK->GetLogger()->dbglog("\nPlaying AnimationClip %s", this->clipName.c_str());
 	MessageChunk messageChunk = ENGINE->GetMessageHub()->GetOneFreeMessage();

@@ -16,6 +16,8 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 
+#include "Libraries/glm/gtx/vector_angle.hpp"
+
 void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tweenClipName*/) {
 	GameObject* caller = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 
@@ -29,11 +31,8 @@ void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tween
 				GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
 				ASSERT(gObj != nullptr, "Object exists with id %d", *iter);
 				if (gObj != nullptr) {
-					glm::vec3 pos = gObj->GetTransform()->GetPositionWorld();
+					gObj->GetParentSceneGraph()->GetRootGameObject()->AddChild_maintainTransform(*iter);
 
-					gObj->GetParentSceneGraph()->GetRootGameObject()->AddChild(*iter);
-					// TODO [Hack] Use SetPositionWorld once implemented
-					gObj->GetTransform()->SetPosition(pos);
 				}
 			}
 		}
@@ -53,6 +52,9 @@ TriggerElevationChange::~TriggerElevationChange() {
 }
 
 void TriggerElevationChange::init() {
+	this->gameObjectRef = (GameObject*)this->GetObject();
+	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
+
 	this->elevationChange = 1;
 	this->transitTime     = 1.0f;
 
@@ -150,21 +152,19 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 	OnGoingTransformTweenDetails* translationDetails = ENGINE->GetTween()->GetOnGoingTransformTweenDetails(myId, TRANSFORM_TWEEN_TARGET_POSITION);
 	if (translationDetails == nullptr) {
 		// Child all units in zone to this object before tweening.
+		// glm::vec3 myPos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 		for (auto iter = this->unitsInZone.begin(); iter != this->unitsInZone.end(); ++iter) {
-			glm::vec3 myPos = this->GetObject()->GetComponent<Transform>()->GetPositionWorld();
 
 			GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
 			ASSERT(gObj != nullptr, "Object exists with id %d", *iter);
 			if (gObj != nullptr) {
-				glm::vec3 pos = gObj->GetTransform()->GetPositionWorld();
-				this->GetObject()->AddChild(*iter);
-				// TODO [Hack] Use SetPositionWorld once implemented
-				gObj->GetTransform()->SetPosition(pos - myPos);
 
-				// If it's a unit that's moving, return it to the center of its cell.
+				this->gameObjectRef->AddChild_maintainTransform(gObj->GetId());
+
+				// If it's a unit that's moving, stop it:
 				GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
 				if (gNav != nullptr) {
-					gNav->ReturnToCellCenter();
+					gNav->StopNavigation();
 				}
 			}
 		}

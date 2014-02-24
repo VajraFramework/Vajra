@@ -30,15 +30,27 @@ Assassin::~Assassin() {
 void Assassin::init() {
 	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
 
-	// create the arrow tail
-	this->arrowTail = new GameObject(ENGINE->GetSceneGraph3D());
-	SpriteRenderer* spriteRenderer = this->arrowTail->AddComponent<SpriteRenderer>();
-	std::vector<std::string> pathsToTextures;
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_ArrowStem_01.png");
-	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
-	this->arrowTail->GetTransform()->SetScale( glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)));
-	this->arrowTail->GetTransform()->Rotate(90.0f inRadians, XAXIS);
-	this->arrowTail->SetVisible(false);
+	{
+		// create the arrow tail
+		this->arrowTail = new GameObject(ENGINE->GetSceneGraph3D());
+		SpriteRenderer* spriteRenderer = this->arrowTail->AddComponent<SpriteRenderer>();
+		std::vector<std::string> pathsToTextures;
+		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_ArrowStem_02.png");
+		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
+		this->arrowTail->GetTransform()->SetScale( glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)));
+		this->arrowTail->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+		this->arrowTail->SetVisible(false);
+	}
+	{
+		// create the arrow head
+		this->arrowHead = new GameObject(ENGINE->GetSceneGraph3D());
+		SpriteRenderer* spriteRenderer = this->arrowHead->AddComponent<SpriteRenderer>();
+		std::vector<std::string> pathsToTextures;
+		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_Arrow_05.png");
+		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
+		this->arrowHead->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+		this->arrowHead->SetVisible(false);
+	}
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
 }
@@ -64,8 +76,6 @@ bool Assassin::isSpecialTouch(int touchId) {
 		if(touch.timeDown <= GetFloatGameConstant(GAME_CONSTANT_swipe_duration_in_seconds) && glm::distance(touch.pos, this->touchStartPos) > GetFloatGameConstant(GAME_CONSTANT_swipe_dist_in_pixels)) {
 			this->swipeDirectionScreen = this->touchStartPos - touch.pos;
 			this->targetedCell = nullptr;
-			this->SetTouchIndicatorSprite(ASSASSIN_SPECIAL);
-			this->arrowTail->SetVisible(true);
 			this->aimSpecial();
 			return true;
 		}
@@ -77,6 +87,8 @@ void Assassin::onSpecialTouch(int touchId) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchId);
 	if(touch.phase == TouchPhase::Ended) {
 		this->trySpecial(touchId);
+	} else if(touch.phase == TouchPhase::Cancelled) {
+		this->cancelSpecial();
 	}
 }
 
@@ -90,13 +102,18 @@ void Assassin::trySpecial(int /*touchId*/) {
 
 void Assassin::startSpecial() {
 	PlayerUnit::startSpecial();
+	
 	this->gridNavRef->SetMovementSpeed(GetFloatGameConstant(GAME_CONSTANT_assassin_attack_speed));
 	this->gridNavRef->SetDestination(this->targetedCell->x, this->targetedCell->z);
-	//this->startTouchIndicatorPulse();
+	
+	this->startTouchIndicatorPulse();
+	this->arrowHead->SetVisible(false);
+	this->arrowTail->SetVisible(false);
 }
 
 void Assassin::onSpecialEnd() {
 	PlayerUnit::onSpecialEnd();
+	this->arrowHead->SetVisible(false);
 	this->arrowTail->SetVisible(false);
 	this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
 
@@ -107,7 +124,7 @@ void Assassin::onGridCellChanged(ObjectIdType id, int gridX, int gridZ) {
 	if (id == this->GetObject()->GetId()) {
 		GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(gridX, gridZ);
 		if (cell != nullptr) {
-			if (this->GetPerformingSpecial()) {
+			if (this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
 				// Send an attack message
 				MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 				attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
@@ -131,6 +148,7 @@ void Assassin::touchedCellChanged(GridCell* prevTouchedCell) {
 
 void Assassin::aimSpecial(){
 	std::list<GridCell*> touchedCells;
+	ASSERT(this->GetCurrentTouchedCell() != nullptr, "Current touhed cell is not null");
 	SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->gridNavRef->GetCurrentCell(), this->GetCurrentTouchedCell(), touchedCells);
 	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(this->gridNavRef->GetCurrentCell()->center.y);
 	int cellIndex = 0;
@@ -144,11 +162,16 @@ void Assassin::aimSpecial(){
 	}
 	if(this->targetedCell != this->gridNavRef->GetCurrentCell()) {
 		this->SetTouchIndicatorVisible(true);
+
+		// Arrow Tail
 		this->arrowTail->SetVisible(true);
 		this->gridNavRef->SetLookTarget(this->targetedCell->center);
 		this->SetTouchIndicatorCell(this->targetedCell);
 		this->TouchIndicatorLookAt(this->targetedCell);
-		float dist = glm::distance(this->gridNavRef->GetCurrentCell()->center, this->targetedCell->center) - .5f;
+		float dist = glm::distance(this->gridNavRef->GetCurrentCell()->center, this->targetedCell->center) - 1.5f;
+		if(dist < 0.5f) {
+			this->arrowTail->SetVisible(false);
+		}
 		this->arrowTail->GetTransform()->SetScale(1.0f, dist, 1.0f);
 
 		Transform* trans = this->arrowTail->GetComponent<Transform>();
@@ -156,8 +179,17 @@ void Assassin::aimSpecial(){
 
 		trans->SetPosition(this->gridNavRef->GetCurrentCell()->center + glm::vec3(0.0f, .1f, 0.0f));
 		trans->Translate(dist * .5f , trans->GetUp());
+
+		// Arrow Head
+		glm::vec3 attackDir = this->targetedCell->center - this->gridNavRef->GetCurrentCell()->center;
+		this->arrowHead->SetVisible(true);
+		this->GridPlaneLookAt(this->arrowHead, this->targetedCell);
+		this->arrowHead->GetTransform()->SetPosition(this->targetedCell->center + glm::vec3(0.0f, .1f, 0.0f));
+		this->arrowHead->GetTransform()->Translate(-1.0f, attackDir);
+
 	} else {
 		this->SetTouchIndicatorVisible(false);
+		this->arrowHead->SetVisible(false);
 		this->arrowTail->SetVisible(false);
 	}
 }

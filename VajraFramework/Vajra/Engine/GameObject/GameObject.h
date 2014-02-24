@@ -24,6 +24,9 @@ public:
 	GameObject(SceneGraph* sceneGraph);
 	virtual ~GameObject();
 
+	// Adds the child game object to this, and makes sure that the child remains at the "same" transform in the world:
+	void AddChild_maintainTransform(ObjectIdType childId);
+
 	inline Transform* GetTransform() { return this->transform; }
 	std::string GetShaderName();
 

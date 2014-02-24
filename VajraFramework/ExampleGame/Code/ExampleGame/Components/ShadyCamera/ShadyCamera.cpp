@@ -91,6 +91,7 @@ void ShadyCamera::loadCameraData(GridCell* startUnitCell, glm::vec3 overviewPos,
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SELECTED_UNIT_CHANGED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT, this->GetTypeId(), false);
 }
 
 void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
@@ -104,6 +105,11 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 			break;
 		case MESSAGE_TYPE_GRID_ROOM_ENTERED:
 			if(messageChunk->messageData.iv1.x == SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
+				this->MoveGameCamToRoom(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
+			}
+			break;
+		case MESSAGE_TYPE_UNIT_SPECIAL_HIT:
+			if(messageChunk->GetSenderId() == SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
 				this->MoveGameCamToRoom(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
 			}
 			break;
