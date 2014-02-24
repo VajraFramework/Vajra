@@ -6,11 +6,13 @@
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/GameConstants/GameConstants.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
-#include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
+#include "ExampleGame/Messages/Declarations.h"
 
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
@@ -123,6 +125,15 @@ void Thief::startSpecial() {
 void Thief::onSpecialEnd() {
 	PlayerUnit::onSpecialEnd();
 	this->gridNavRef->SetGridPosition(this->targetedCell);
+
+	// Broadcast an attack message
+	MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
+	attackMessage->messageData.iv1.x = this->targetedCell->x;
+	attackMessage->messageData.iv1.y = this->targetedCell->y;
+	attackMessage->messageData.iv1.z = this->targetedCell->z;
+	attackMessage->messageData.fv1 = this->specialStartPos;
+	ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
 }
 
 void Thief::touchedCellChanged(GridCell* prevTouchedCell) {

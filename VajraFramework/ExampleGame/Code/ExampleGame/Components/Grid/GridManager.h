@@ -75,7 +75,7 @@ private:
 
 	void placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height);
 	void placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ);
-	void gridCellChangedHandler(ObjectIdType id, glm::vec3 dest);
+	void gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ);
 	void removeNavigatorFromGrid(ObjectIdType id, glm::vec3 cellPos);
 	void checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell);
 

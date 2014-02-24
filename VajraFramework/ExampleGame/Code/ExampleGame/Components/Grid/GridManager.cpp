@@ -87,7 +87,7 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 			break;
 #endif
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
-			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
+			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
 			break;
 		case MESSAGE_TYPE_UNIT_KILLED:
 			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
@@ -369,9 +369,9 @@ void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {
 	trans->SetPosition(destCell->center);
 }
 
-void GridManager::gridCellChangedHandler(ObjectIdType id, glm::vec3 dest) {
+void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ) {
 	GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
-	GridCell* destCell = this->grid->GetCell(dest.x, dest.z);
+	GridCell* destCell = this->grid->GetCell(gridX, gridZ);
 
 	GridNavigator* gNav = obj->GetComponent<GridNavigator>();
 	ASSERT(gNav != nullptr, "Moving object has GridNavigator component");
