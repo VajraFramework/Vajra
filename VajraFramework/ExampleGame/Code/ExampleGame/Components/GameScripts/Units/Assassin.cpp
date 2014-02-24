@@ -85,6 +85,8 @@ void Assassin::onSpecialTouch(int touchId) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchId);
 	if(touch.phase == TouchPhase::Ended) {
 		this->trySpecial(touchId);
+	} else if(touch.phase == TouchPhase::Cancelled) {
+		this->cancelSpecial();
 	}
 }
 
@@ -144,6 +146,7 @@ void Assassin::touchedCellChanged(GridCell* prevTouchedCell) {
 
 void Assassin::aimSpecial(){
 	std::list<GridCell*> touchedCells;
+	ASSERT(this->GetCurrentTouchedCell() != nullptr, "Current touhed cell is not null");
 	SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->gridNavRef->GetCurrentCell(), this->GetCurrentTouchedCell(), touchedCells);
 	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(this->gridNavRef->GetCurrentCell()->center.y);
 	int cellIndex = 0;
