@@ -1,5 +1,6 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
+#include "ExampleGame/GameConstants/GameConstants.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "ExampleGame/Ui/MenuManager/MenuManager.h"
@@ -43,8 +44,8 @@ void MenuManager::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_LEVEL_LOADED: {
 			if(this->loadScreen != nullptr && this->loadScreen->IsVisible()) {
 				float loadTime = ((float)ENGINE->GetTimer()->GetHighResAbsoluteTime()) - this->loadStartTime;
-				if(loadTime < MIN_LOAD_TIME) {
-					float extraLoadTime = MIN_LOAD_TIME - loadTime;
+				if(loadTime < GetFloatGameConstant(GAME_CONSTANT_min_load_time)) {
+					float extraLoadTime = GetFloatGameConstant(GAME_CONSTANT_min_load_time) - loadTime;
 					ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, extraLoadTime, false, false, false, "extraLoadTime", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
 				} else {
 					this->hideLoadScreen();
