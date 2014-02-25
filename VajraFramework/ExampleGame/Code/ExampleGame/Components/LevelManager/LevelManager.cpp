@@ -44,11 +44,7 @@ void LevelManager::HandleMessage(MessageChunk messageChunk) {
 				MessageChunk mc = ENGINE->GetMessageHub()->GetOneFreeMessage();
 				mc->SetMessageType(MESSAGE_TYPE_LOAD_LEVEL);
 				// TODO [HACK We need this delay when loading a new level
-				if(this->levelToLoad != this->currentLevelIndex) {
-					mc->messageData.iv1.x = 3;
-				} else {
-					mc->messageData.iv1.x = 0;
-				}
+				mc->messageData.iv1.x = 3;
 				ENGINE->GetMessageHub()->SendPointcastMessage(mc, this->GetObject()->GetId(), this->GetObject()->GetId());
 			}
 			break;

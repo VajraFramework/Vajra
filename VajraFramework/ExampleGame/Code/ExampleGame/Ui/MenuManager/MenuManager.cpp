@@ -19,7 +19,7 @@
 
 ComponentIdType MenuManager::componentTypeId = COMPONENT_TYPE_ID_LEVEL_MANAGER;
 
-#define MIN_LOAD_TIME 0.5f
+#define MIN_LOAD_TIME 0.3f
 
 void menuManagerNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* /*userParams*/) {
 	SINGLETONS->GetMenuManager()->hideLoadScreen();
@@ -100,9 +100,7 @@ void MenuManager::LoadLevel(int levelIndex) {
 	}
 
 	if(levelIndex < SINGLETONS->GetLevelManager()->NumLevels()) {
-		if(levelIndex != SINGLETONS->GetLevelManager()->GetCurrentLevelIndex()) {
-			this->showLoadScreen(); // We only need a load screen when we are loading a new level
-		}
+		this->showLoadScreen(); // We only need a load screen when we are loading a new level
 		SINGLETONS->GetLevelManager()->LoadLevel(levelIndex);
 	} else {
 		this->LoadMainMenu();
