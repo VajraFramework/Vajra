@@ -8,6 +8,7 @@
 
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
+#include "ExampleGame/Ui/MenuManager/MenuManager.h"
 
 #include "Vajra/Common/Objects/Object.h"
 
@@ -22,6 +23,8 @@ public:
 	inline LevelManager* GetLevelManager() { return this->levelManagerComp; }
 	inline Object* GetGridManagerObject()  { return this->gridManagerObj;   }
 	inline GridManager* GetGridManager()   { return this->gridManagerComp;  }
+	inline Object* GetMenuManagerObject()  { return this->menuManagerObj;   }
+	inline MenuManager* GetMenuManager()   { return this->menuManagerComp;  }
 private:
 	void init();
 	void destroy();
@@ -32,6 +35,8 @@ private:
 	LevelManager* levelManagerComp;
 	Object* gridManagerObj;
 	GridManager* gridManagerComp;
+	Object* menuManagerObj;
+	MenuManager* menuManagerComp;
 };
 
 #define SINGLETONS GameSingletons::GetInstance()

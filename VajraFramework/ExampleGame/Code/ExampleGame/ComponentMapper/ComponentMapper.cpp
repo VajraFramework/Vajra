@@ -33,6 +33,7 @@
 #include "ExampleGame/Components/Triggers/TriggerElevationChange.h"
 #include "ExampleGame/Components/Triggers/TriggerTerrainBlock.h"
 #include "ExampleGame/Components/Triggers/TriggerTransformation.h"
+#include "ExampleGame/Ui/MenuManager/MenuManager.h"
 
 
 Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObject* gameObject, std::string componentName) {
@@ -227,6 +228,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "TriggerTransformation") {
 		TriggerTransformation* component = gameObject->GetComponent<TriggerTransformation>();
 		if (component == nullptr) { component = gameObject->AddComponent<TriggerTransformation>(); }
+		return component;
+	}
+	
+	if (componentName == "MenuManager") {
+		MenuManager* component = gameObject->GetComponent<MenuManager>();
+		if (component == nullptr) { component = gameObject->AddComponent<MenuManager>(); }
 		return component;
 	}
 
@@ -881,6 +888,12 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SubscribeToParentSwitch();
 			return;
 		}
+		return;
+	}
+	
+	if (componentName == "MenuManager") {
+		MenuManager* component = gameObject->GetComponent<MenuManager>();
+		if (component == nullptr) { return; }
 		return;
 	}
 }
