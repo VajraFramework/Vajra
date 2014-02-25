@@ -7,8 +7,14 @@
 #include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
+#include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
+
+#define POT_PARTICLE_PREFAB "dustexplosion.prefab"
 
 BreakablePot::BreakablePot() : BaseUnit() {
 	this->init();
@@ -26,6 +32,8 @@ void BreakablePot::init() {
 	this->unitType = UNIT_TYPE_OBSTACLE;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT, this->GetTypeId(), false);
+
+	this->generateParticleEffect();
 }
 
 void BreakablePot::destroy() {
@@ -60,6 +68,7 @@ void BreakablePot::Kill() {
 	BaseUnit::Kill();
 
 	// Create a particle effect and deactivate the mesh renderer for this object.
+	this->activateParticleEffect();
 	this->gameObjectRef->SetVisible(false);
 }
 
@@ -83,6 +92,24 @@ void BreakablePot::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ) {
 					}
 				}
 			}
+		}
+	}
+}
+
+void BreakablePot::generateParticleEffect() {
+	GameObject* particleObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + POT_PARTICLE_PREFAB, ENGINE->GetSceneGraph3D());
+	this->deathEffectId = particleObj->GetId();
+}
+
+void BreakablePot::activateParticleEffect() {
+	GameObject* particleObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->deathEffectId);
+	if (particleObj != nullptr) {
+		Transform* myTrans = this->gameObjectRef->GetTransform();
+		Transform* particleTrans = particleObj->GetTransform();
+		particleTrans->SetPosition(myTrans->GetPositionWorld());
+		ParticleSystem* particles = particleObj->GetComponent<ParticleSystem>();
+		if (particles != nullptr) {
+			particles->Play();
 		}
 	}
 }

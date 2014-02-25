@@ -33,6 +33,10 @@ private:
 	void destroy();
 
 	void onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ);
+	void generateParticleEffect();
+	void activateParticleEffect();
+
+	ObjectIdType deathEffectId;
 };
 
 #endif // BREAKABLEPOT_H
