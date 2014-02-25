@@ -95,10 +95,7 @@ void DebugMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touc
 		ASSERT(uiObject->GetClassType() & CLASS_TYPE_UIELEMENT, "UiObject is a ui element");
 		((UiElement*)uiObject)->SetSpriteTextureIndex(TEXTURE_INDEX_BUTTON_UP);
 	} else if (uiObject->GetName() == "back") {
-		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
-		//
-		UiSceneLoader::UnloadCurrentUiScene();
-		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new GameUiTouchHandlers());
+		SINGLETONS->GetMenuManager()->LoadGameMenu();
 
 
 		GameObject* debugCam = (GameObject*)ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject();

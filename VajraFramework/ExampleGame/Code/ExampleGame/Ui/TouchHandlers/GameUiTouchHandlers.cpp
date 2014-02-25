@@ -231,10 +231,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 }
 
 void GameUiTouchHandlers::returnToMissionSelect() {
-	UiSceneLoader::UnloadCurrentUiScene();
-	SINGLETONS->GetLevelManager()->UnloadLevel();	
-	std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
-	UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
+	SINGLETONS->GetMenuManager()->LoadMainMenu("missionMenu");
 	
 }
 
