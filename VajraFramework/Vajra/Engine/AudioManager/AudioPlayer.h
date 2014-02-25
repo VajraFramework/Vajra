@@ -39,6 +39,7 @@ public:
 	void SetAudioClip(std::string assetName);
 	void SetVolume(float volume);
 	void SetPlaybackSpeed(float speed);
+	void SetLooping(ALint loop);
 	
 	// Other methods
 	void Play();
