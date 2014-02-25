@@ -7,6 +7,8 @@
 // Forward Declarations
 class MainMenuTouchHandlers;
 class GameUiTouchHandlers;
+class MessageData1S1I1F;
+
 //[[COMPONENT]]//
 class MenuManager : public Component {	
 public:
@@ -29,6 +31,8 @@ private:
 	void showLoadScreen();
 	void hideLoadScreen();
 
+	float loadStartTime;
+
 	UiElement* loadScreen;
 
 	MainMenuTouchHandlers* mainMenuTouchHandler;
@@ -36,7 +40,7 @@ private:
 
 	static ComponentIdType componentTypeId;
 
-	//friend class LevelManager;
+	friend void menuManagerNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* /*userParams*/);
 };
 
 #endif //MENU_MANAGER_H

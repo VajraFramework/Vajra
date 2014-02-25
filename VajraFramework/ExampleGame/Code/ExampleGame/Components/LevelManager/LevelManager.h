@@ -49,7 +49,6 @@ public:
 	void AddWinCondition(ObjectIdType switchId);
 	void AddLoseCondition(ObjectIdType switchId);
 
-	inline bool IsPaused() { return this->isPaused; }
 	inline int NumLevels() { return this->levelData.size(); }
 private:
 	void init();
@@ -74,8 +73,6 @@ private:
 
 	static ComponentIdType componentTypeId;
 
-	//ShadyCamera* shadyCam;
-	bool isPaused;
 	int currentLevelIndex;
 	int levelToLoad;
 

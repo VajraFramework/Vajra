@@ -38,11 +38,7 @@ void LevelManager::HandleMessage(MessageChunk messageChunk) {
 			this->update();
 			break;
 		case MESSAGE_TYPE_ON_END_CONDITIONS_MET:
-		case MESSAGE_TYPE_PAUSE:
-			this->isPaused = true;
 			break;
-		case MESSAGE_TYPE_UNPAUSE:
-			this->isPaused = false;
 		case MESSAGE_TYPE_LEVEL_UNLOADED:
 			if(this->levelToLoad != -1) {
 				MessageChunk mc = ENGINE->GetMessageHub()->GetOneFreeMessage();
@@ -79,7 +75,6 @@ void LevelManager::LoadLevel(int levelNumber) {
 void LevelManager::UnloadLevel() {
 	// Unload the previous scene and all other items in the SceneGraph3D
 	ENGINE->GetSceneGraph3D()->UnloadCurrentScene();
-	this->isPaused = true;
 	this->clearEndConditions();
 	ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_UNLOADED);
 }
@@ -101,7 +96,6 @@ void LevelManager::loadLevel_internal() {
 	if(this->levelToLoad < (int)this->levelData.size()) {
 		this->currentLevelIndex = this->levelToLoad;
 		this->LoadLevelFromData(levelData[this->levelToLoad]);
-		this->isPaused = false;
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_LOADED);
 	}
 	this->levelToLoad = -1;
@@ -125,12 +119,7 @@ void LevelManager::AddLoseCondition(ObjectIdType switchId) {
 }
 
 void LevelManager::init() {
-	//this->shadyCam = nullptr;
-	this->isPaused = true;
-
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_PAUSE, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNPAUSE, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_UNLOADED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_LOAD_LEVEL, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_ON_END_CONDITIONS_MET, this->GetTypeId(), false);
@@ -163,13 +152,9 @@ void LevelManager::destroy() {
 }
 
 void LevelManager::update() {
-	if (!this->isPaused) {
-
-	}
 }
 
 void LevelManager::endLevel(bool /*success*/) {
-	this->isPaused = true;
 	//LevelEnd.EndLevel(success);
 }
 

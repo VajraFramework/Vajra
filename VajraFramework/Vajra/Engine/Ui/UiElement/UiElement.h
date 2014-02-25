@@ -35,6 +35,8 @@ private:
 	void addChildSpriteObject();
 	void addChildFontObject();
 
+	float loadTime;
+	
 	UiSpriteObject* childSpriteObjectRef;
 	UiFontObject*   childFontObjectRef;
 };

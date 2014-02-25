@@ -157,7 +157,6 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		if (uiObject->GetName() == "resume") {
 			pauseMenu->SetVisible(false);
 			ENGINE->GetSceneGraph3D()->Resume();
-			ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_UNPAUSE);
 			return;
 		} else if (uiObject->GetName() == "restart_pause") {
 			pauseMenu->SetVisible(!pauseMenu->IsVisible());
@@ -173,7 +172,6 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	// HUD
 	if (uiObject->GetName() == "pause") {
 		pauseMenu->SetVisible(!pauseMenu->IsVisible());
-		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_PAUSE);
 		ENGINE->GetSceneGraph3D()->Pause();
 		return;
 	} else if(uiObject->GetName() == "changeUnit") {
