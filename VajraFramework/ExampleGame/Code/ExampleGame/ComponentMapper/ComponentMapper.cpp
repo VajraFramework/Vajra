@@ -298,6 +298,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetPlaybackSpeed(StringUtilities::ConvertStringToFloat(argv[0]));
 			return;
 		}
+		if (propertyName == "SetLooping") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetLooping(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
 		return;
 	}
 	
