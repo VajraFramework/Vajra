@@ -50,16 +50,14 @@ void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch /* tou
 void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch */) {
 	ASSERT(this->missionRoot != nullptr, "The mission root is not null");
 	if(this->missionRoot != nullptr && this->missionRoot->IsVisible()) {
-		int levelToLoad = 0;
+		int levelToLoad = -1;
 		for(ObjectIdType id : this->missionRoot->GetChildren()){
 			if(uiObject->GetId() != id) {
+				printf("\n UiElement name: %s", uiObject->GetName().c_str());
 				levelToLoad++;
 			} else {
 				std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
-		
-				SINGLETONS->GetMenuManager()->LoadGameMenu();
-
-				SINGLETONS->GetLevelManager()->LoadLevel(levelToLoad);
+				SINGLETONS->GetMenuManager()->LoadLevel(levelToLoad);
 				return;
 			}
 		}
@@ -86,11 +84,7 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch
 }
 
 void MainMenuTouchHandlers::createMissionMenu() {
-	this->missionRoot = (UiElement*)ObjectRegistry::GetObjectByName("missionMenu");;
-	//ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(this->missionRoot->GetId());
-	//this->missionRoot->SetTouchHandlers(this);
-	//this->missionRoot->SetClickable(false);
-
+	this->missionRoot = (UiElement*)ObjectRegistry::GetObjectByName("missionMenu");
 	float margin = 32.0f;
 	float buttonZoneWidth = ((float)FRAMEWORK->GetDeviceProperties()->GetWidthPixels());
 	float buttonZoneHeight = ((float)FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
