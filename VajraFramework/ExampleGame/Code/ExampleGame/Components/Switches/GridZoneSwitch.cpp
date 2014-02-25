@@ -92,3 +92,7 @@ void GridZoneSwitch::onUnitExitedZone(ObjectIdType id) {
 		}
 	}
 }
+
+void GridZoneSwitch::SetDecalType(std::string decalType) {
+	this->setDecalType(decalType);
+}

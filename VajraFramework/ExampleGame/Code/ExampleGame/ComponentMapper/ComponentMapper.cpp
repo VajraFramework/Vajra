@@ -670,6 +670,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetRequiredOccupants(StringUtilities::ConvertStringToInt(argv[0]));
 			return;
 		}
+		if (propertyName == "SetDecalType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDecalType(ConvertStringToString(argv[0]));
+			return;
+		}
 		return;
 	}
 	
@@ -722,6 +727,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetRequiredUnitType(ConvertStringToString(argv[0]));
 			return;
 		}
+		if (propertyName == "SetDecalType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDecalType(ConvertStringToString(argv[0]));
+			return;
+		}
 		return;
 	}
 	
@@ -746,6 +756,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SubscribeToParentSwitch") {
 			if ((int)argv.size() < 0) { return; }
 			component->SubscribeToParentSwitch();
+			return;
+		}
+		if (propertyName == "SetDecalType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDecalType(ConvertStringToString(argv[0]));
 			return;
 		}
 		return;
