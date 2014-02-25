@@ -42,6 +42,8 @@ public:
 	void SetVolume(float volume);
 	//[[PROPERTY]]//
 	void SetPlaybackSpeed(float speed);
+	//[[PROPERTY]]//
+	void SetLooping(bool loop);
 
 	// Other methods
 	void Play();

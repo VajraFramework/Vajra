@@ -27,6 +27,8 @@ public:
 	//[[PROPERTY]]//
 	void SetRequiredUnitType(std::string typeStr);
 	inline void SetRequiredUnitType(UnitType uType);
+	//[[PROPERTY]]//
+	void SetDecalType(std::string decalType);
 
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);

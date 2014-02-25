@@ -4,6 +4,7 @@
 //
 
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
+#include "ExampleGame/Components/Switches/DecalGenerator.h"
 #include "ExampleGame/Components/Switches/BaseSwitch.h"
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/Messages/Declarations.h"
@@ -38,6 +39,9 @@ void Triggerable::init() {
 	this->type           = TRIGGER_TYPE_ALL;
 	this->isToggled      = false;
 	this->activeSwitches = 0;
+
+
+	this->decalRef = nullptr;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SWITCH_ACTIVATED, this->GetTypeId(), true);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SWITCH_DEACTIVATED, this->GetTypeId(), true);
@@ -152,4 +156,18 @@ bool Triggerable::shouldTriggerDeactivate() {
 		default:
 			return false;
 	}
+}
+
+void Triggerable::setDecalType(std::string decalType_) {
+	this->decalType = decalType_;
+
+	GameObject* gameObjectRef = (GameObject*)this->GetObject();
+	ASSERT(gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
+
+	this->decalRef = DecalGenerator::GetDecalFromDecalType(this->decalType, gameObjectRef->GetParentSceneGraph());
+	gameObjectRef->AddChild(this->decalRef->GetId());
+}
+
+void Triggerable::SetDecalType(std::string decalType) {
+	this->setDecalType(decalType);
 }

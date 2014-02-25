@@ -21,6 +21,9 @@ enum SwitchType {
 	SWITCH_TYPE_INVALID,
 };
 
+// Forward Declarations:
+class GameObject;
+
 SwitchType ConvertStringToSwitchType(std::string str);
 
 class BaseSwitch : public Component {
@@ -42,10 +45,14 @@ public:
 	void AddSubscriber(ObjectIdType subscriberId);
 	void RemoveSubscriber(ObjectIdType subscriberId);
 
+	std::string GetDecalType() { return this->decalType; }
+
 protected:
 	virtual bool isConditionMet() { return false; }
 
 	void setConditionState(bool state);  // This gets called whenever the switch's conditional state changes
+
+	void setDecalType(std::string decalType_);
 
 	SwitchType type;
 
@@ -57,6 +64,11 @@ private:
 
 	bool isActive;
 	float resetTime;    // Time in seconds for the switch to reset
+
+	std::string decalType;
+	GameObject* decalRef;
+
+	GameObject* gameObjectRef;
 
 	std::list<ObjectIdType> subscribers; // Objects in this list will receive messages when the switch changes state
 
