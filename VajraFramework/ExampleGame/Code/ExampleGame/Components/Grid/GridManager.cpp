@@ -341,7 +341,7 @@ void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {
 	ASSERT(unit != nullptr, "Object with id %d has BaseUnit component", id);
 	UnitType uType = unit->GetUnitType();
 
-	if (uType < UNIT_TYPE_PLAYER_UNITS_COUNT) {
+	if (uType <= LAST_PLAYER_UNIT_TYPE) {
 		auto iter = this->playerUnits.find(uType);
 		ASSERT(iter == this->playerUnits.end(), "Grid does not already have player unit of type %d", uType);
 		this->playerUnits[uType] = id;
@@ -494,7 +494,7 @@ void GridManager::selectUnitInCell(GridCell* cell) {
 		GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(cell->GetFirstOccupantId());
 		BaseUnit* bu = obj->GetComponent<BaseUnit>();
 		ASSERT(bu != nullptr, "Selected object has BaseUnit component");
-		if(bu->GetUnitType() < UnitType::UNIT_TYPE_PLAYER_UNITS_COUNT) {
+		if(bu->GetUnitType() <= LAST_PLAYER_UNIT_TYPE) {
 			this->deselectUnit();
 			this->selectedUnitId = cell->GetFirstOccupantId();
 
@@ -514,7 +514,7 @@ void GridManager::deselectUnit() {
 		if (obj != nullptr) {
 			BaseUnit* bu = obj->GetComponent<BaseUnit>();
 			ASSERT(bu != nullptr, "Selected object has BaseUnit component");
-			if(bu->GetUnitType() < UnitType::UNIT_TYPE_PLAYER_UNITS_COUNT) {
+			if(bu->GetUnitType() <= LAST_PLAYER_UNIT_TYPE) {
 				PlayerUnit* pu = obj->GetComponent<PlayerUnit>();
 				pu->OnDeselect();
 			}
