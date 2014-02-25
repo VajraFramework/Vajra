@@ -52,10 +52,13 @@ bool UnitInGridZoneSwitch::doesObjectCountAsOccupant(ObjectIdType id) {
 	return false;
 }
 
+void UnitInGridZoneSwitch::SetDecalType(std::string decalType) {
+	this->setDecalType(decalType);
+}
+
 void UnitInGridZoneSwitch::init() {
 	this->requiredUnitType = UNIT_TYPE_UNKNOWN;
 }
 
 void UnitInGridZoneSwitch::destroy() {
-
 }

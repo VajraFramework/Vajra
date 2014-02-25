@@ -5,11 +5,16 @@
 
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/Switches/BaseSwitch.h"
+#include "ExampleGame/Components/Switches/DecalGenerator.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
 SwitchType ConvertStringToSwitchType(std::string str) {
 	if      (str == "Once") {
@@ -61,6 +66,11 @@ void BaseSwitch::init() {
 	this->type         = SWITCH_TYPE_CONTINUOUS;
 	this->isActive     = false;
 	this->resetTime    = 0.0f;
+
+	this->gameObjectRef = (GameObject*)this->GetObject();
+	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
+
+	this->decalRef = nullptr;
 }
 
 void BaseSwitch::destroy() {
@@ -165,4 +175,11 @@ void BaseSwitch::setActiveState(bool state) {
 
 		this->isActive = state;
 	}
+}
+
+void BaseSwitch::setDecalType(std::string decalType_) {
+	this->decalType = decalType_;
+
+	this->decalRef = DecalGenerator::GetDecalFromDecalType(this->decalType, this->gameObjectRef->GetParentSceneGraph());
+	this->gameObjectRef->AddChild(this->decalRef->GetId());
 }

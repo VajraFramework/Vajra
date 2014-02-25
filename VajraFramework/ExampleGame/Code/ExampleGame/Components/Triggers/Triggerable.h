@@ -19,6 +19,9 @@ enum TriggerType {
 
 TriggerType ConvertStringToTriggerType(std::string str);
 
+// Forward Declarations:
+class GameObject;
+
 //[[COMPONENT]]//
 class Triggerable : public Component {
 public:
@@ -44,10 +47,17 @@ public:
 	void UnsubscribeToSwitchObject(ObjectIdType switchId);
 	void UnsubscribeToAllSwitches();
 
+	//[[PROPERTY]]//
+	void SetDecalType(std::string decalType);
+
+	std::string GetDecalType() { return this->decalType; }
+
 protected:
 	virtual void onSwitchToggled(bool /*switchState*/) { }
 	virtual void onSwitchActivated() { }
 	virtual void onSwitchDeactivated() { }
+
+	void setDecalType(std::string decalType_);
 
 	TriggerType type;
 	bool isToggled;
@@ -61,6 +71,9 @@ private:
 
 	std::list<ObjectIdType> subscriptions;
 	int activeSwitches;
+
+	std::string decalType;
+	GameObject* decalRef;
 
 	static ComponentIdType componentTypeId;
 };
