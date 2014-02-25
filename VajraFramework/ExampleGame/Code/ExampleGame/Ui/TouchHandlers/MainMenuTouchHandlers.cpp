@@ -50,11 +50,13 @@ void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch /* tou
 void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch */) {
 	ASSERT(this->missionRoot != nullptr, "The mission root is not null");
 	if(this->missionRoot != nullptr && this->missionRoot->IsVisible()) {
-		int levelToLoad = -1;
+		int levelToLoad = 0;
 		for(ObjectIdType id : this->missionRoot->GetChildren()){
 			if(uiObject->GetId() != id) {
-				printf("\n UiElement name: %s", uiObject->GetName().c_str());
-				levelToLoad++;
+				GameObject* child = ENGINE->GetSceneGraphUi()->GetGameObjectById(id);
+				if(child->GetClassType() & CLASS_TYPE_UIELEMENT) { // We only care about UIELEMENT children
+					levelToLoad++;
+				}
 			} else {
 				std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
 				SINGLETONS->GetMenuManager()->LoadLevel(levelToLoad);
