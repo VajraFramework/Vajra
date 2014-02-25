@@ -5,13 +5,9 @@ vNormal
 uvCoords_in
 uvCoords_out
 
-#ifdef SKEW_GEOMETRY
 modelMatrix
 vpMatrix
 modelCoordsForBakedAmbientLookup_out
-#else
-mvpMatrix
-#endif
 
 #ifdef PER_PIXEL_LIGHTING
 vNormal_out
@@ -78,7 +74,6 @@ void main()
 	posL.w = posL0.w + (posL1.w - posL0.w) * interp.x;
 
 
-#ifdef SKEW_GEOMETRY
 	gl_Position = modelMatrix * posL;
 
 	modelCoordsForBakedAmbientLookup_out.x = gl_Position.x;
@@ -87,9 +82,6 @@ void main()
 
 	float yAmt = gl_Position.y;
 	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
-#else
-	gl_Position = mvpMatrix * posL;
-#endif
 
 
 #ifdef PER_PIXEL_LIGHTING

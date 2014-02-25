@@ -5,9 +5,8 @@ precision mediump float;
 varying vec2 uvCoords_out;
 uniform sampler2D myTextureSampler;
 uniform sampler2D bakedAmbientGridTextureSampler;
-#ifdef SKEW_GEOMETRY
+
 varying vec3 modelCoordsForBakedAmbientLookup_out;
-#endif
 
 #ifdef PER_PIXEL_LIGHTING
 varying vec4 vNormal_out;
