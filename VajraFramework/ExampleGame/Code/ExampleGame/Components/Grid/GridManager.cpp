@@ -69,7 +69,6 @@ void GridManager::destroy() {
 }
 
 void GridManager::onLevelLoaded() {
-
 }
 
 void GridManager::onLevelUnloaded() {
