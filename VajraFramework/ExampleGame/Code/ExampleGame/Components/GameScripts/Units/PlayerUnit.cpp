@@ -52,6 +52,7 @@ void PlayerUnit::init() {
 	this->unitHasTouchFocus = false;
 	this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
 	this->gridNavRef->SetTurnSpeedDegrees(TURN_SPEED_DEG);
+	this->gridNavRef->SetMaxNavigableUnitType(LAST_PLAYER_UNIT_TYPE);
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION, this->GetTypeId(), false);
 

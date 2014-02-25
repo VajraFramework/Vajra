@@ -18,6 +18,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
@@ -49,6 +50,7 @@ void GridNavigator::init() {
 	this->isTurning = false;
 	this->movementSpeed = 1.0f;
 	this->turningSpeed = 90.0f inRadians;
+	this->maxNavigableUnitType = UNIT_TYPE_UNKNOWN;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
@@ -372,7 +374,7 @@ float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std:
 		std::list<GridCell*> neighbors;
 		SINGLETONS->GetGridManager()->GetGrid()->GetNeighborCells(neighbors, current);
 		for (auto iter = neighbors.begin(); iter != neighbors.end(); ++iter) {
-			if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(current->x, current->z, elevation)) {
+			if (this->canNavigateThroughCellAtElevation(current, elevation)) {
 				float gScoreTentative = gScores[current] + actualTravelCost(current, *iter);
 				float fScoreTentative = gScoreTentative + travelCostEstimate(*iter, goalCell);
 
@@ -407,9 +409,34 @@ float GridNavigator::actualTravelCost(GridCell* startCell, GridCell* goalCell) {
 	return SINGLETONS->GetGridManager()->GetGrid()->GetGroundDistanceBetweenCells(startCell, goalCell);
 }
 
+bool GridNavigator::canNavigateThroughCellAtElevation(GridCell* cell, int elevation) {
+	// Is the cell passable at all?
+	if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(cell->x, cell->z, elevation)) {
+		// Does the cell have an occupant?
+		ObjectIdType occId = cell->GetOccupantIdAtElevation(elevation);
+		GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+		if (occupant == nullptr) {
+			return true;
+		}
+
+		// Does the occupant of the cell block this navigator?
+		BaseUnit* occUnit = occupant->GetComponent<BaseUnit>();
+		if (occUnit != nullptr) {
+			UnitType otherType = occUnit->GetUnitType();
+			return (otherType <= this->maxNavigableUnitType);
+		}
+		return true;
+	}
+
+	return false;
+}
+
 void GridNavigator::simplifyPath(std::list<GridCell*>& outPath) {
 	if (outPath.size() == 0) { return; }
 	std::list<GridCell*> simplePath;
+
+	Transform* trans = this->gameObjectRef->GetTransform();
+	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(trans->GetPositionWorld().y);
 
 	auto startIter = outPath.begin();
 	auto nextIter = startIter;
@@ -421,7 +448,7 @@ void GridNavigator::simplifyPath(std::list<GridCell*>& outPath) {
 		// Check if any of the cells are blocked.
 		bool isRouteClear = true;
 		for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
-			if (!SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation((*iter)->x, (*iter)->z, (*startIter)->y)) {
+			if (!this->canNavigateThroughCellAtElevation(*iter, elevation)) {
 				isRouteClear = false;
 				break;
 			}
@@ -451,4 +478,8 @@ void GridNavigator::SetIsTraveling(bool isTraveling_) {
 		this->isTraveling = isTraveling_;
 
 	}
+}
+
+void GridNavigator::SetMaxNavigableUnitType(UnitType uType) {
+	this->maxNavigableUnitType = uType;
 }

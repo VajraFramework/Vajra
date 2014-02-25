@@ -6,6 +6,7 @@
 #ifndef GRIDNAVIGATOR_H
 #define GRIDNAVIGATOR_H
 
+#include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
 #include "ExampleGame/Components/Grid/GridCell.h"
 #include "Libraries/glm/glm.hpp"
 #include "Vajra/Common/Components/Component.h"
@@ -34,6 +35,7 @@ public:
 	inline void SetTurnSpeedRadians(float /* radiansPerSecond */);
 	inline void SetCurrentCell(GridCell* cell) { this->currentCell = cell;            }
 	void SetIsTraveling(bool isTraveling_);
+	void SetMaxNavigableUnitType(UnitType uType);
 
 	//[[PROPERTY]]//
 	void SetGridPosition(int x, int z);   // Place the object at the indicated cell on the grid.
@@ -80,6 +82,7 @@ private:
 	float calculatePath(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outPath); // Calculates a path and returns its length. Returns -1 if no path found.
 	float travelCostEstimate(GridCell* startCell, GridCell* goalCell); // Estimated distance between two cells
 	float actualTravelCost(GridCell* startCell, GridCell* goalCell);
+	bool canNavigateThroughCellAtElevation(GridCell* cell, int elevation);
 	void simplifyPath(std::list<GridCell*>& outPath);
 
 	Transform* getTransform() { return this->gameObjectRef->GetTransform(); }
@@ -91,6 +94,7 @@ private:
 	bool isTurning;
 	float movementSpeed;
 	float turningSpeed;
+	UnitType maxNavigableUnitType;
 
 	GameObject* gameObjectRef;
 
