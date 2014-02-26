@@ -29,6 +29,7 @@ protected:
 	virtual void trySpecial(int /* touchId */ );
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
+	virtual void cancelSpecial();
 	void onGridCellChanged(ObjectIdType id, int gridX, int gridZ);
 
 	virtual void touchedCellChanged(GridCell* prevTouchedCell);

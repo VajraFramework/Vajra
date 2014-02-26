@@ -120,6 +120,13 @@ void Assassin::onSpecialEnd() {
 
 }
 
+void Assassin::cancelSpecial() {
+	PlayerUnit::cancelSpecial();
+	this->arrowHead->SetVisible(false);
+	this->arrowTail->SetVisible(false);
+	this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
+}
+
 void Assassin::onGridCellChanged(ObjectIdType id, int gridX, int gridZ) {
 	// If this object is the one that sent the message, broadcast an attack message as well
 	if (id == this->GetObject()->GetId()) {

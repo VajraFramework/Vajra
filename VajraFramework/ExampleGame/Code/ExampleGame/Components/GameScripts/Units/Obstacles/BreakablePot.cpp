@@ -9,6 +9,7 @@
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
 #include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
@@ -27,9 +28,12 @@ BreakablePot::~BreakablePot() {
 
 void BreakablePot::init() {
 	this->unitType = UNIT_TYPE_OBSTACLE;
+
 	this->deathEffect = "";
+	this->deathEffectObjId = OBJECT_ID_INVALID;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT, this->GetTypeId(), false);
+
 }
 
 void BreakablePot::destroy() {
@@ -62,7 +66,7 @@ void BreakablePot::update() {
 
 void BreakablePot::Kill() {
 	BaseUnit::Kill();
-	this->generateDeathEffect();
+	this->activateDeathEffect();
 	this->gameObjectRef->SetVisible(false);
 }
 
@@ -92,10 +96,19 @@ void BreakablePot::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ) {
 
 void BreakablePot::generateDeathEffect() {
 	GameObject* deathEffectObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + this->deathEffect, ENGINE->GetSceneGraph3D());
+	this->deathEffectObjId = deathEffectObj->GetId();
+}
+
+void BreakablePot::activateDeathEffect() {
+	GameObject* deathEffectObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->deathEffectObjId);
 	if (deathEffectObj != nullptr) {
 		// Move the effect to this object's position
 		Transform* myTrans = this->gameObjectRef->GetTransform();
 		Transform* effectTrans = deathEffectObj->GetTransform();
 		effectTrans->SetPosition(myTrans->GetPositionWorld());
+
+		ParticleSystem* deathEffectParticleSystem = deathEffectObj->GetComponent<ParticleSystem>();
+		VERIFY(deathEffectParticleSystem != nullptr, "Death effect prefab has a particle system on it");
+		deathEffectParticleSystem->Play();
 	}
 }
