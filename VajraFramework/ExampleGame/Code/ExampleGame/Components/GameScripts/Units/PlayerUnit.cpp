@@ -259,7 +259,7 @@ void PlayerUnit::GridPlaneLookAt(GameObject* plane, GridCell* target) {
 		angle = -angle;
 	}
 
-	if(glm::isnan(angle)) {
+	if(std::isnan(angle)) {
 		return;
 	}
 
