@@ -77,7 +77,8 @@ private:
 	void setCameraMode(CameraMode newMode);
 	void onUnitChanged();
 
-	void moveTo_internal(glm::vec3 pos, float speed);
+	void moveTo_internal_overTime(glm::vec3 pos, float time);
+	void moveTo_internal_withSpeed(glm::vec3 pos, float speed);
 
 	// consts
 	float camSpeed;

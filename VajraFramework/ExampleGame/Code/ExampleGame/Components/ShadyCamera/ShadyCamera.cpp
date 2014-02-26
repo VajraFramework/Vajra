@@ -15,6 +15,10 @@
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
+#define PAN_TIME 0.75f
+#define SWITCH_MODE_TIME 1.0f
+#define HEIGHT_CHANGE_TIME 0.25f
+
 #define DEFAULT_GAME_CAM_OFFSET glm::vec3(0.0f, 25.0f, 0.0f)
 void shadyCameraTweenCallback(ObjectIdType gameObjectId, std::string /* tweenClipName */) {
 	GameObject* camObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
@@ -110,7 +114,7 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 			break;
 		case MESSAGE_TYPE_UNIT_SPECIAL_HIT:
 			if(messageChunk->GetSenderId() == SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
-				this->MoveGameCamToRoom(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
+				this->MoveGameCamToRoom(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z); // Add zoom function 
 			}
 			break;
 		default:
@@ -119,7 +123,7 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 }
 
 void ShadyCamera::MoveTo(glm::vec3 newPos) {
-	this->moveTo_internal(newPos, this->camSpeed);
+	this->moveTo_internal_withSpeed(newPos, this->camSpeed);
 }
 
 void ShadyCamera::MoveTo(float x, float y, float z) {
@@ -147,7 +151,17 @@ void ShadyCamera::MoveToGamePos() {
 	this->MoveTo(this->gameCamPos);
 }
 
-void ShadyCamera::moveTo_internal(glm::vec3 newPos, float speed) {
+void ShadyCamera::moveTo_internal_overTime(glm::vec3 newPos, float time) {
+	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
+	float dist = glm::distance(curPos, newPos);
+	if (dist > ROUNDING_ERROR) {
+		this->isMoving = true;
+		ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos,
+				time, true, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, false, shadyCameraTweenCallback);
+	}
+}
+
+void ShadyCamera::moveTo_internal_withSpeed(glm::vec3 newPos, float speed) {
 	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
 	float dist = glm::distance(curPos, newPos);
 	if (dist > ROUNDING_ERROR) {
@@ -156,7 +170,6 @@ void ShadyCamera::moveTo_internal(glm::vec3 newPos, float speed) {
 				dist / speed, true, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, false, shadyCameraTweenCallback);
 	}
 }
-
 // TODO [Implement] : if needed
 void ShadyCamera::LevelStartPan() {
 
@@ -176,9 +189,18 @@ void ShadyCamera::FollowGameObjectDirectly(ObjectIdType unitId) {
 void ShadyCamera::MoveGameCamToRoom(int i, int j) {
 	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(i, j);
 	glm::vec3 roomCenter = SINGLETONS->GetGridManager()->GetGrid()->GetRoomCenter(cell);
-	this->setCurrentRoomCenter(roomCenter);
-	this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(cell->y));
-	this->updateGameCamPos();
+
+	// If we are moving to a new room
+	if(roomCenter != this->currentRoomCenter) { 
+		this->setCurrentRoomCenter(roomCenter);
+		this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(cell->y));
+		this->updateGameCamPos();
+		this->moveTo_internal_overTime(this->gameCamPos, PAN_TIME);
+	} else { // if we are simply (and potentieally) changing height
+		this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(cell->y));
+		this->updateGameCamPos();
+		this->moveTo_internal_overTime(this->gameCamPos, HEIGHT_CHANGE_TIME);
+	}
 }
 
 void ShadyCamera::setCurrentRoomCenter(glm::vec3 roomCenter) {
@@ -198,9 +220,6 @@ void ShadyCamera::updateGameCamPos() {
 	glm::vec3 newPos = this->currentRoomCenter + this->gameCamOffset;
 	if(newPos != this->gameCamPos) {
 		this->gameCamPos = newPos;
-		if(this->camMode == CameraMode::CameraMode_Game) {
-			this->MoveToGamePos();
-		}
 	}
 }
 
@@ -236,18 +255,18 @@ void ShadyCamera::onPinch() {
 		this->isMoving = false;
 		if(this->camMode == CameraMode::CameraMode_Game) {	
 			if(curPos.y - this->changeModeThreshold <= this->gameCamPos.y) {
-				this->moveTo_internal(this->gameCamPos, this->camSpeed);
+				this->moveTo_internal_overTime(this->gameCamPos, HEIGHT_CHANGE_TIME);
 				this->setCameraMode(CameraMode::CameraMode_Game);
 			} else {
-				this->moveTo_internal(this->overviewPos, this->zoomSpeed);
+				this->moveTo_internal_overTime(this->overviewPos, SWITCH_MODE_TIME);
 				this->setCameraMode(CameraMode::CameraMode_Overview);
 			}
 		} else if(this->camMode == CameraMode::CameraMode_Overview) {
 			if(curPos.y + this->changeModeThreshold <= this->overviewPos.y) {
-				this->moveTo_internal(this->gameCamPos, this->zoomSpeed);
+				this->moveTo_internal_overTime(this->gameCamPos, SWITCH_MODE_TIME);
 				this->setCameraMode(CameraMode::CameraMode_Game);
 			} else {
-				this->moveTo_internal(this->overviewPos, this->camSpeed);
+				this->moveTo_internal_overTime(this->overviewPos, HEIGHT_CHANGE_TIME);
 				this->setCameraMode(CameraMode::CameraMode_Overview);
 			}
 		}
