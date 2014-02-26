@@ -85,10 +85,12 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION:
 			if(this->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL) {
 				this->onSpecialEnd();
-			}  else if(this->inputState == InputState::INPUT_STATE_WAIT || this->inputState == InputState::INPUT_STATE_NONE) {
+			}  else {
 				this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
-				ENGINE->GetTween()->CancelNumberTween("pulse");
-				ENGINE->GetTween()->TweenScale(this->touchIndicatorRef->GetId(), this->touchIndicatorRef->GetTransform()->GetScale(), glm::vec3(0), TOUCH_SCALE_TIME);
+				if(this->inputState == InputState::INPUT_STATE_WAIT || this->inputState == InputState::INPUT_STATE_NONE) {
+					ENGINE->GetTween()->CancelNumberTween("pulse");
+					ENGINE->GetTween()->TweenScale(this->touchIndicatorRef->GetId(), this->touchIndicatorRef->GetTransform()->GetScale(), glm::vec3(0), TOUCH_SCALE_TIME);
+				}
 			}
 			break;
 		default:
