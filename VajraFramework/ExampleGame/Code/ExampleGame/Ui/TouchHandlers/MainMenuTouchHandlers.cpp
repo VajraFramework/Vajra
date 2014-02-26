@@ -48,23 +48,18 @@ void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch /* tou
 }
 
 void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch */) {
-	// TODO [HACK] remove when a real misison menu is possible
-	if(this->missionRoot == nullptr) {
-			this->createMissionMenu();
-	}
-	
-	if(this->missionRoot->IsVisible()) {
+	ASSERT(this->missionRoot != nullptr, "The mission root is not null");
+	if(this->missionRoot != nullptr && this->missionRoot->IsVisible()) {
 		int levelToLoad = 0;
 		for(ObjectIdType id : this->missionRoot->GetChildren()){
 			if(uiObject->GetId() != id) {
-				levelToLoad++;
+				GameObject* child = ENGINE->GetSceneGraphUi()->GetGameObjectById(id);
+				if(child->GetClassType() & CLASS_TYPE_UIELEMENT) { // We only care about UIELEMENT children
+					levelToLoad++;
+				}
 			} else {
 				std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
-		
-				UiSceneLoader::UnloadCurrentUiScene();
-				UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new GameUiTouchHandlers());
-
-				SINGLETONS->GetLevelManager()->LoadLevel(levelToLoad);
+				SINGLETONS->GetMenuManager()->LoadLevel(levelToLoad);
 				return;
 			}
 		}
@@ -91,11 +86,7 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch
 }
 
 void MainMenuTouchHandlers::createMissionMenu() {
-	this->missionRoot = new UiElement(ENGINE->GetSceneGraphUi());
-	ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(this->missionRoot->GetId());
-	this->missionRoot->SetTouchHandlers(this);
-	this->missionRoot->SetClickable(false);
-
+	this->missionRoot = (UiElement*)ObjectRegistry::GetObjectByName("missionMenu");
 	float margin = 32.0f;
 	float buttonZoneWidth = ((float)FRAMEWORK->GetDeviceProperties()->GetWidthPixels());
 	float buttonZoneHeight = ((float)FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
@@ -115,7 +106,7 @@ void MainMenuTouchHandlers::createMissionMenu() {
 			uiElement->InitSprite(buttonWidth, buttonHeight, "uscshdr", glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
 			uiElement->SetTouchHandlers(this);
 			uiElement->SetClickable(true);
-			uiElement->SetVisible(true);
+			uiElement->SetVisible(false);
 			uiElement->SetPosition(j * buttonWidth + margin * (1+j), i * buttonHeight + margin * (1+i));
 			uiElement->SetZOrder(2);
 		}

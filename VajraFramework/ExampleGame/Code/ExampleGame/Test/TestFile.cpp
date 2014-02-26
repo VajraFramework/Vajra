@@ -31,6 +31,9 @@ int TestFuntion() {
 	// Intialize the game constants:
 	InitGameConstants();
 
+	// Intialize the game singletons:
+	SINGLETONS; //!!!
+
 	// Instantiate a ComponentMapper so that its singleton get stored:
 	/* ComponentMapper* componentMapper = */ new ComponentMapper();
 
@@ -185,28 +188,6 @@ int TestFuntion() {
 #endif
 	}
 
-	initUiGameObjects();
-
 	return 4;
 }
 
-void initUiGameObjects() {
-	{
-		GameObject* camera = new GameObject(ENGINE->GetSceneGraphUi());
-		ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(camera->GetId());
-		Camera* cameraComponent = camera->AddComponent<Camera>();
-		cameraComponent->SetCameraType(CAMERA_TYPE_ORTHO);
-		camera->GetTransform()->SetPosition(0.0f, 0.0f, 400.0f);
-		camera->GetTransform()->Rotate(10.0f inRadians, YAXIS);
-		// camera->GetTransform()->SetOrientation(-45.0f inRadians, camera->GetTransform()->GetUp());
-		// camera->GetTransform()->Rotate(45.0f inRadians, camera->GetTransform()->GetLeft());
-		camera->GetTransform()->LookAt(0.0f, 0.0f, 0.0f);
-		ENGINE->GetSceneGraphUi()->SetMainCameraId(camera->GetId());
-	}
-
-	{
-		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
-		UiSceneLoader::UnloadCurrentUiScene();
-		UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
-	}
-}

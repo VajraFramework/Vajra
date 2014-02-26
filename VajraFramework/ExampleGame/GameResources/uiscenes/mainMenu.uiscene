@@ -1,5 +1,6 @@
 <uiscene widthPixels="1024" heightPixels="768">
 
+	
 	<uielement name="splashScreen" visible="true" clickable="false">
 		<dimensions>
 			<position xwrto="LEFT" ywrto="TOP" x="0" y="0"></position>
@@ -10,7 +11,7 @@
 	</uielement>
 
 
-	<uielement name="startMenu" clickable="false">
+	<uielement name="startMenu" visible="false" clickable="false">
 	<dimensions>
 		<position x="0" y="0"></position>
 		<size widthPixels="1024" heightPixels="768"></size>
@@ -18,7 +19,7 @@
 		<color r="0.5" g="0.5" b="0.6" a="1.0"></color>
 	</dimensions>
 
-		<uielement name="play" clickable="true">
+		<uielement name="play" visible="true" clickable="true">
 			<dimensions>
 				<position xwrto="RIGHT" ywrto="TOP" x="64" y="128"></position>
 				<size widthPixels="256" heightPixels="128"></size>
@@ -30,23 +31,9 @@
 			</text>
 			<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 		</uielement>
-
-		<uielement name="options" visible="false" clickable="true">
-			<dimensions>
-				<position xwrto="CENTER" x="-160" y="500"></position>
-				<size widthPixels="320" heightPixels="160"></size>
-				<zorder>-1</zorder>
-			</dimensions>
-			<text>
-				<font type="calibiri.fontspec" size="64.0"></font>
-				Options
-			</text>
-			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
-		</uielement>
-
 	</uielement>
 
-	<uielement name="optionsMenu" clickable="true" visible="false">
+	<uielement name="optionsMenu" visible="false" clickable="true">
 	<dimensions>
 		<position x="0" y="0"></position>
 		<size widthPixels="0" heightPixels="0"></size>
@@ -68,5 +55,13 @@
 
 	</uielement>
 
+	<uielement name="missionMenu" visible="false" clickable="false">
+		<dimensions>
+			<position xwrto="LEFT" ywrto="TOP" x="0" y="0"></position>
+			<size widthPixels="1024" heightPixels="768"></size>
+			<zorder>-6</zorder>
+		</dimensions>
+	</uielement>
+	
 </uiscene>
 

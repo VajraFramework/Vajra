@@ -69,7 +69,6 @@ void GridManager::destroy() {
 }
 
 void GridManager::onLevelLoaded() {
-
 }
 
 void GridManager::onLevelUnloaded() {
@@ -112,11 +111,6 @@ ObjectIdType GridManager::GetPlayerUnitIdOfType(UnitType uType) {
 }
 
 void GridManager::OnTouchUpdate(int touchIndex) {
-	// Todo [HACK] temp fix for game crashing one scene unload, remove once the message hub purges itself when the scene is unloaded
-	if(SINGLETONS->GetLevelManager()->IsPaused()) {
-		return;
-	}
-
 	if(this->shadyCamRef->IsMoving() || this->shadyCamRef->GetCameraMode() == ShadyCamera::CameraMode::CameraMode_Overview) {
 		return;
 	}

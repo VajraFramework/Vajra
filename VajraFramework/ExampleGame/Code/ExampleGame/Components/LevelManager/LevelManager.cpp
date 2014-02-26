@@ -10,10 +10,11 @@
 #include "ExampleGame/Components/Triggers/TriggerLevelVictory.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
-
 #include "Vajra/Engine/Core/Engine.h"
+
 #include <fstream>
 
 ComponentIdType LevelManager::componentTypeId = COMPONENT_TYPE_ID_LEVEL_MANAGER;
@@ -37,18 +38,25 @@ void LevelManager::HandleMessage(MessageChunk messageChunk) {
 			this->update();
 			break;
 		case MESSAGE_TYPE_ON_END_CONDITIONS_MET:
-		case MESSAGE_TYPE_PAUSE:
-			this->isPaused = true;
 			break;
-		case MESSAGE_TYPE_UNPAUSE:
-			this->isPaused = false;
 		case MESSAGE_TYPE_LEVEL_UNLOADED:
 			if(this->levelToLoad != -1) {
-				ENGINE->GetMessageHub()->SendPointcastMessage(MESSAGE_TYPE_LOAD_LEVEL, this->GetObject()->GetId());
+				MessageChunk mc = ENGINE->GetMessageHub()->GetOneFreeMessage();
+				mc->SetMessageType(MESSAGE_TYPE_LOAD_LEVEL);
+				// TODO [HACK We need this delay when loading a new level
+				mc->messageData.iv1.x = 3;
+				ENGINE->GetMessageHub()->SendPointcastMessage(mc, this->GetObject()->GetId(), this->GetObject()->GetId());
 			}
 			break;
 		case MESSAGE_TYPE_LOAD_LEVEL:
-				this->loadLevel_internal();
+				if(messageChunk->messageData.iv1.x == 0) {
+					this->loadLevel_internal();
+				} else {
+					MessageChunk mc = ENGINE->GetMessageHub()->GetOneFreeMessage();
+					mc->SetMessageType(MESSAGE_TYPE_LOAD_LEVEL);
+					mc->messageData.iv1.x = messageChunk->messageData.iv1.x - 1;
+					ENGINE->GetMessageHub()->SendPointcastMessage(mc, this->GetObject()->GetId(), this->GetObject()->GetId());
+				}
 			break;
 		default:
 			break;
@@ -63,7 +71,6 @@ void LevelManager::LoadLevel(int levelNumber) {
 void LevelManager::UnloadLevel() {
 	// Unload the previous scene and all other items in the SceneGraph3D
 	ENGINE->GetSceneGraph3D()->UnloadCurrentScene();
-	this->isPaused = true;
 	this->clearEndConditions();
 	ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_UNLOADED);
 }
@@ -85,7 +92,6 @@ void LevelManager::loadLevel_internal() {
 	if(this->levelToLoad < (int)this->levelData.size()) {
 		this->currentLevelIndex = this->levelToLoad;
 		this->LoadLevelFromData(levelData[this->levelToLoad]);
-		this->isPaused = false;
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_LOADED);
 	}
 	this->levelToLoad = -1;
@@ -109,12 +115,7 @@ void LevelManager::AddLoseCondition(ObjectIdType switchId) {
 }
 
 void LevelManager::init() {
-	//this->shadyCam = nullptr;
-	this->isPaused = true;
-
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_PAUSE, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNPAUSE, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_UNLOADED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_LOAD_LEVEL, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_ON_END_CONDITIONS_MET, this->GetTypeId(), false);
@@ -147,13 +148,9 @@ void LevelManager::destroy() {
 }
 
 void LevelManager::update() {
-	if (!this->isPaused) {
-
-	}
 }
 
 void LevelManager::endLevel(bool /*success*/) {
-	this->isPaused = true;
 	//LevelEnd.EndLevel(success);
 }
 
