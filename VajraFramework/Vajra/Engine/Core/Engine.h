@@ -4,6 +4,7 @@
 int testEngineFunction();
 
 // Forward Declarations:
+class AmbientLighting;
 class AssetLibrary;
 class AudioManager;
 class DebugDrawer;
@@ -22,17 +23,18 @@ public:
 
 	static Engine* GetInstance();
 
-	inline AssetLibrary* GetAssetLibrary() { return this->assetLibrary; }
-	inline AudioManager* GetAudioManager() { return this->audioManager; }
-	inline DebugDrawer*  GetDebugDrawer()  { return this->debugDrawer;  }
-	inline Input*        GetInput()        { return this->input;        }
-	inline MessageHub*   GetMessageHub()   { return this->messageHub;   }
-	inline Profiler*     GetProfiler()     { return this->profiler;     }
-	inline SceneGraph3D* GetSceneGraph3D() { return this->sceneGraph3D; }
-	inline SceneGraphUi* GetSceneGraphUi() { return this->sceneGraphUi; }
-	inline TagManager*   GetTagManager()   { return this->tagManager;   }
-	inline Timer*        GetTimer()        { return this->timer;        }
-	inline Tween*        GetTween()        { return this->tween;        }
+	inline AmbientLighting* GetAmbientLighting() { return this->ambientLighting; }
+	inline AssetLibrary* GetAssetLibrary()       { return this->assetLibrary;    }
+	inline AudioManager* GetAudioManager()       { return this->audioManager;    }
+	inline DebugDrawer*  GetDebugDrawer()        { return this->debugDrawer;     }
+	inline Input*        GetInput()              { return this->input;           }
+	inline MessageHub*   GetMessageHub()         { return this->messageHub;      }
+	inline Profiler*     GetProfiler()           { return this->profiler;        }
+	inline SceneGraph3D* GetSceneGraph3D()       { return this->sceneGraph3D;    }
+	inline SceneGraphUi* GetSceneGraphUi()       { return this->sceneGraphUi;    }
+	inline TagManager*   GetTagManager()         { return this->tagManager;      }
+	inline Timer*        GetTimer()              { return this->timer;           }
+	inline Tween*        GetTween()              { return this->tween;           }
 
 	void DoFrame();
 
@@ -51,17 +53,18 @@ private:
 	void updateSceneUi();
 	void renderSceneUi();
 
-	AssetLibrary* assetLibrary;
-	AudioManager* audioManager;
-	DebugDrawer*  debugDrawer;
-	Input*        input;
-	MessageHub*   messageHub;
-	Profiler*     profiler;
-	SceneGraph3D* sceneGraph3D;
-	SceneGraphUi* sceneGraphUi;
-	TagManager*   tagManager;
-	Timer*        timer;
-	Tween*        tween;
+	AmbientLighting* ambientLighting;
+	AssetLibrary*    assetLibrary;
+	AudioManager*    audioManager;
+	DebugDrawer*     debugDrawer;
+	Input*           input;
+	MessageHub*      messageHub;
+	Profiler*        profiler;
+	SceneGraph3D*    sceneGraph3D;
+	SceneGraphUi*    sceneGraphUi;
+	TagManager*      tagManager;
+	Timer*           timer;
+	Tween*           tween;
 };
 
 #define ENGINE Engine::GetInstance()
