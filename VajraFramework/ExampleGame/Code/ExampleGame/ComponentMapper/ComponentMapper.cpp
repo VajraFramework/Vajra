@@ -583,6 +583,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "BreakablePot") {
 		BreakablePot* component = gameObject->GetComponent<BreakablePot>();
 		if (component == nullptr) { return; }
+		if (propertyName == "SetDeathEffect") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDeathEffect(ConvertStringToString(argv[0]));
+			return;
+		}
 		return;
 	}
 	
@@ -606,8 +611,8 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			return;
 		}
 		if (propertyName == "SetDestination") {
-			if ((int)argv.size() < 2) { return; }
-			component->SetDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
+			if ((int)argv.size() < 3) { return; }
+			component->SetDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToBool(argv[2]));
 			return;
 		}
 		if (propertyName == "AddDestination") {

@@ -76,6 +76,7 @@ bool Thief::isSpecialTouch(int touchId) {
 		if(touch.timeDown >= GetFloatGameConstant(GAME_CONSTANT_long_press_length_in_seconds) && glm::distance(touch.pos, this->touchStartPos) <= GetFloatGameConstant(GAME_CONSTANT_allowed_finger_movement_in_press)) {
 			this->targetedCell = nullptr;
 			this->SetTouchIndicatorVisible(false);
+			this->gridNavRef->StopNavigation();
 			this->updateLegalTagets();
 			return true;
 		}
@@ -136,6 +137,11 @@ void Thief::onSpecialEnd() {
 	ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
 }
 
+void Thief::cancelSpecial() {
+	PlayerUnit::cancelSpecial();
+	this->tweenOutTargets();
+	
+}
 void Thief::touchedCellChanged(GridCell* prevTouchedCell) {
 	if(this->inputState != InputState::INPUT_STATE_SPECIAL) {
 		PlayerUnit::touchedCellChanged(prevTouchedCell);

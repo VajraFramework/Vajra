@@ -77,6 +77,7 @@ void MenuManager::LoadMainMenu(std::string screenToShow /* = "startMenu"*/) {
 	// Post load init
 	this->mainMenuTouchHandler->createMissionMenu();
 	SINGLETONS->GetLevelManager()->currentLevelIndex = -1;
+	ENGINE->GetSceneGraph3D()->Pause();
 	
 	UiElement* screen = (UiElement*)ObjectRegistry::GetObjectByName(screenToShow);
 	VERIFY(screen != nullptr, "screen to show is not null");

@@ -8,6 +8,8 @@
 
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 
+#include <string>
+
 //[[COMPONENT]]//
 class BreakablePot : public BaseUnit {
 public:
@@ -17,6 +19,9 @@ public:
 
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
+
+	//[[PROPERTY]]//
+	inline void SetDeathEffect(std::string prefabName);
 
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 
@@ -33,10 +38,16 @@ private:
 	void destroy();
 
 	void onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ);
-	void generateParticleEffect();
-	void activateParticleEffect();
+	void generateDeathEffect();
+	void activateDeathEffect();
 
-	ObjectIdType deathEffectId;
+	std::string deathEffect;
+	ObjectIdType deathEffectObjId;
 };
+
+void BreakablePot::SetDeathEffect(std::string prefabName)  {
+	this->deathEffect = prefabName;
+	this->generateDeathEffect();
+}
 
 #endif // BREAKABLEPOT_H

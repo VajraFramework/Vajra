@@ -14,8 +14,6 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
-#define POT_PARTICLE_PREFAB "dustexplosion.prefab"
-
 BreakablePot::BreakablePot() : BaseUnit() {
 	this->init();
 }
@@ -31,9 +29,11 @@ BreakablePot::~BreakablePot() {
 void BreakablePot::init() {
 	this->unitType = UNIT_TYPE_OBSTACLE;
 
+	this->deathEffect = "";
+	this->deathEffectObjId = OBJECT_ID_INVALID;
+
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT, this->GetTypeId(), false);
 
-	//this->generateParticleEffect();
 }
 
 void BreakablePot::destroy() {
@@ -66,9 +66,7 @@ void BreakablePot::update() {
 
 void BreakablePot::Kill() {
 	BaseUnit::Kill();
-
-	// Create a particle effect and deactivate the mesh renderer for this object.
-	this->activateParticleEffect();
+	this->activateDeathEffect();
 	this->gameObjectRef->SetVisible(false);
 }
 
@@ -96,21 +94,21 @@ void BreakablePot::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ) {
 	}
 }
 
-void BreakablePot::generateParticleEffect() {
-	GameObject* particleObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + POT_PARTICLE_PREFAB, ENGINE->GetSceneGraph3D());
-	this->deathEffectId = particleObj->GetId();
+void BreakablePot::generateDeathEffect() {
+	GameObject* deathEffectObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + this->deathEffect, ENGINE->GetSceneGraph3D());
+	this->deathEffectObjId = deathEffectObj->GetId();
 }
 
-void BreakablePot::activateParticleEffect() {
-	GameObject* particleObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->deathEffectId);
-	if (particleObj != nullptr) {
+void BreakablePot::activateDeathEffect() {
+	GameObject* deathEffectObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->deathEffectObjId);
+	if (deathEffectObj != nullptr) {
+		// Move the effect to this object's position
 		Transform* myTrans = this->gameObjectRef->GetTransform();
-		Transform* particleTrans = particleObj->GetTransform();
-		particleTrans->SetPosition(myTrans->GetPositionWorld());
-		ParticleSystem* particles = particleObj->GetComponent<ParticleSystem>();
-		if (particles != nullptr) {
-			particles->InitParticleSystem();
-			particles->Play();
-		}
+		Transform* effectTrans = deathEffectObj->GetTransform();
+		effectTrans->SetPosition(myTrans->GetPositionWorld());
+
+		ParticleSystem* deathEffectParticleSystem = deathEffectObj->GetComponent<ParticleSystem>();
+		VERIFY(deathEffectParticleSystem != nullptr, "Death effect prefab has a particle system on it");
+		deathEffectParticleSystem->Play();
 	}
 }

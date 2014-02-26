@@ -1,12 +1,18 @@
 <prefab>
   <gameobject>
-      <component name="MeshRenderer">
-          <property name="InitMesh">
-              <field>models/SD_Floor_Grass_1x9_01.model</field>
-          </property>
-      </component>
 
       <component name="Transform">
       </component>
+      <gameobject>
+          <component name="MeshRenderer">
+              <property name="InitMesh">
+                  <field>models/SD_Floor_Grass_1x9_01.model</field>
+              </property>
+          </component>
+
+          <component name="Transform">
+
+          </component>
+      </gameobject>
   </gameobject>
 </prefab>

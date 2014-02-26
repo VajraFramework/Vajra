@@ -30,6 +30,7 @@ protected:
 	virtual void trySpecial(int /* touchId */) {}
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
+	virtual void cancelSpecial();
 
 	virtual void touchedCellChanged(GridCell* prevTouchedCell);
 private:
