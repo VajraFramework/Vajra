@@ -45,7 +45,9 @@ void UnitAnimationManager::onAnimationEndMessage(MessageChunk messageChunk) {
 	if (messageChunk->messageData.s == UNIT_ANIMATION_CLIP_NAME_postspecial) {
 		BaseUnit* thisBaseUnit = this->GetObject()->GetComponent<BaseUnit>();
 		VERIFY(thisBaseUnit != nullptr, "UnitAnimationManager's parent game object has a BaseUnit component");
-		thisBaseUnit->SwitchActionState(UNIT_ACTION_STATE_IDLE);
+		if(thisBaseUnit->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_POST_SPECIAL) {
+			thisBaseUnit->SwitchActionState(UNIT_ACTION_STATE_IDLE);
+		}
 	}
 }
 

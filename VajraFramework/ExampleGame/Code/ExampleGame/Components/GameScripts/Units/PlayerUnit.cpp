@@ -147,7 +147,7 @@ void PlayerUnit::OnDeselect() {
 }
 
 void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {
-	if(this->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL) {
+	if(this->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL || this->GetUnitActionState() == UNIT_ACTION_STATE_POST_SPECIAL) {
 		this->cancelSpecial();
 	}
 	this->SetTouchIndicatorCell(newTarget);
