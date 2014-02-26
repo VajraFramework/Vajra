@@ -310,42 +310,43 @@ void GameGrid::GetZones(std::list<GridZone*>& outZones, GridCell* cell) {
 	}
 }
 
-void GameGrid::TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outTouched) {
-	int spanX = goalCell->x - startCell->x;
-	int spanZ = goalCell->z - startCell->z;
+void GameGrid::TouchedCells(glm::vec3 startPosition, glm::vec3 goalPosition, std::list<GridCell*>& outTouched) {
+	int xIndex = (int)floor(startPosition.x + 0.5f);
+	int zIndex = (int)floor(0.5f - startPosition.z);
+
+	float spanX = goalPosition.x - startPosition.x;
+	float spanZ = startPosition.z - goalPosition.z;
 
 	int xDirection;
 	float fracX, incrX;
-	if (spanX == 0) {
+	if ((spanX < ROUNDING_ERROR) && (spanX > -ROUNDING_ERROR)) {
 		xDirection = 0;
 		fracX = 100.0f;
 		incrX = 100.0f;
 	}
 	else {
-		if (spanX > 0)  { xDirection =  1; }
-		else            { xDirection = -1; }
-		incrX = (float)xDirection / spanX;
-		fracX = incrX * 0.5f;
+		if (spanX > 0.0f)  { xDirection =  1; }
+		else               { xDirection = -1; }
+		fracX = (xIndex + (0.5f * xDirection) - startPosition.x) / spanX;
+		incrX = xDirection / spanX;
 	}
 
 	int zDirection;
 	float fracZ, incrZ;
-	if (spanZ == 0) {
+	if ((spanZ < ROUNDING_ERROR) && (spanZ > -ROUNDING_ERROR)) {
 		zDirection = 0;
 		fracZ = 100.0f;
 		incrZ = 100.0f;
 	}
 	else {
-		if (spanZ > 0)  { zDirection =  1; }
-		else            { zDirection = -1; }
-		incrZ = (float)zDirection / spanZ;
-		fracZ = incrZ * 0.5f;
+		if (spanZ > 0.0f)  { zDirection =  1; }
+		else               { zDirection = -1; }
+		fracZ = (zIndex + (0.5f * zDirection) + startPosition.z) / spanZ;
+		incrZ = zDirection / spanZ;
 	}
 
-	int xIndex = startCell->x;
-	int zIndex = startCell->z;
-
 	// Add the starting cell
+	GridCell* startCell = this->GetCell(startPosition);
 	outTouched.push_back(startCell);
 	while ((fracX < 1.0f) || (fracZ < 1.0f)) {
 		float diff = fracZ - fracX;
@@ -371,6 +372,10 @@ void GameGrid::TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<G
 			fracZ  += incrZ;
 		}
 	}
+}
+
+void GameGrid::TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outTouched) {
+	this->TouchedCells(startCell->center, goalCell->center, outTouched);
 }
 
 bool GameGrid::Passable(GridCell* startCell, GridCell* goalCell) {
