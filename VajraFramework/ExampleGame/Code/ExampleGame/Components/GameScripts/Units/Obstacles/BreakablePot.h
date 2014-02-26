@@ -39,10 +39,15 @@ private:
 
 	void onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ);
 	void generateDeathEffect();
+	void activateDeathEffect();
 
 	std::string deathEffect;
+	ObjectIdType deathEffectObjId;
 };
 
-void BreakablePot::SetDeathEffect(std::string prefabName)  { this->deathEffect = prefabName; }
+void BreakablePot::SetDeathEffect(std::string prefabName)  {
+	this->deathEffect = prefabName;
+	this->generateDeathEffect();
+}
 
 #endif // BREAKABLEPOT_H
