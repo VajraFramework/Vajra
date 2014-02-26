@@ -13,6 +13,7 @@
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 
@@ -29,6 +30,12 @@ void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tween
 			// Update the grid cells
 			triggerComp->changeCellElevations(triggerComp->isToggled);
 			triggerComp->setCellsInGridZonePassable(true);
+
+			// Navigators need to update their pathfinding
+			MessageChunk gridNavMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			gridNavMessage->SetMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH);
+			ENGINE->GetMessageHub()->SendMulticastMessage(gridNavMessage, SINGLETONS->GetGridManagerObject()->GetId());
+
 			// Unchild all units in zone
 			for (auto iter = triggerComp->unitsInZone.begin(); iter != triggerComp->unitsInZone.end(); ++iter) {
 				GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
@@ -232,6 +239,11 @@ void TriggerElevationChange::setCellsInGridZonePassable(bool pass) {
 			grid->SetCellPassableAtElevation(x, z, elevation, pass);
 		}
 	}
+
+	// Navigators need to update their pathfinding
+	MessageChunk gridNavMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	gridNavMessage->SetMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH);
+	ENGINE->GetMessageHub()->SendMulticastMessage(gridNavMessage, SINGLETONS->GetGridManagerObject()->GetId());
 }
 
 void TriggerElevationChange::changeCellElevations(bool raised) {
