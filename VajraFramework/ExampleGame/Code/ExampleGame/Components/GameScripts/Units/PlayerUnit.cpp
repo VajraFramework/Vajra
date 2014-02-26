@@ -181,8 +181,7 @@ void PlayerUnit::cancelSpecial() {
 
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	if(this->isSpecialTouch(touchId)) {
-		this->inputState = InputState::INPUT_STATE_SPECIAL;
-		this->gridNavRef->StopNavigation();
+		this->inputState = InputState::INPUT_STATE_SPECIAL; 
 		this->onSpecialTouch(touchId);
 		this->SwitchActionState(UNIT_ACTION_STATE_PRE_SPECIAL);
 	} else {
