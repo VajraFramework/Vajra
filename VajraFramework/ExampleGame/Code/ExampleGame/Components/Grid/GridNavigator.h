@@ -29,6 +29,9 @@ public:
 
 	GridCell* GetDestination();
 
+	// @Override
+	virtual void HandleMessage(MessageChunk messageChunk);
+
 	//[[PROPERTY]]//
 	inline void SetMovementSpeed(float speed);
 	inline void SetTurnSpeedDegrees(float /* degreesPerSecond */);
@@ -83,6 +86,7 @@ private:
 	void init();
 	void destroy();
 
+	void recalculatePath();
 	void followPath();
 	void updateFacing();
 

@@ -53,6 +53,7 @@ void GridNavigator::init() {
 	this->maxNavigableUnitType = UNIT_TYPE_UNKNOWN;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH, this->GetTypeId(), false);
 }
 
 void GridNavigator::destroy() {
@@ -64,6 +65,18 @@ GridCell* GridNavigator::GetDestination() {
 		return nullptr;
 	}
 	return this->currentPath.back();
+}
+
+void GridNavigator::HandleMessage(MessageChunk messageChunk) {
+	Component::HandleMessage(messageChunk);
+	switch (messageChunk->GetMessageType()) {
+		case MESSAGE_TYPE_GRID_NAVIGATION_REFRESH:
+			this->recalculatePath();
+			break;
+
+		default:
+			break;
+	}
 }
 
 void GridNavigator::SetGridPosition(int x, int z) {
@@ -250,6 +263,17 @@ void GridNavigator::update() {
 	}
 	if (this->isTurning) {
 		updateFacing();
+	}
+}
+
+void GridNavigator::recalculatePath() {
+	if (this->isTraveling) {
+		// If our current path is now blocked but another one is available, we'll change course.
+		// If no valid path exists anymore, stop moving.
+		GridCell* destCell = this->currentPath.back();
+		if (!this->SetDestination(destCell, this->ignoreOccupantsForPathing)) {
+			this->ReturnToCellCenter();
+		}
 	}
 }
 
