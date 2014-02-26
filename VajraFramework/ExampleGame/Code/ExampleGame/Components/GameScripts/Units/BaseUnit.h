@@ -24,6 +24,9 @@ public:
 	inline UnitType GetUnitType() { return this->unitType; }
 	inline UnitActionState GetUnitActionState() { return this->unitActionState; }
 
+	// @Override
+	virtual void HandleMessage(MessageChunk messageChunk);
+
 	void SwitchActionState(UnitActionState newState);
 
 	static inline ComponentIdType GetTypeId()  { return componentTypeId; }
@@ -33,7 +36,7 @@ protected:
 	virtual void end();
 	virtual void update();
 
-	void Kill(); 
+	virtual void Kill();
 
 	UnitType unitType;
 

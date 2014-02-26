@@ -69,7 +69,6 @@ void GridManager::destroy() {
 }
 
 void GridManager::onLevelLoaded() {
-
 }
 
 void GridManager::onLevelUnloaded() {
@@ -87,10 +86,10 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 			break;
 #endif
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
-			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
+			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z, messageChunk->messageData.iv1.y);
 			break;
 		case MESSAGE_TYPE_UNIT_KILLED:
-			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.fv1);
+			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.iv1.y);
 			break;
 		case MESSAGE_TYPE_LEVEL_LOADED:
 			this->onLevelLoaded();
@@ -112,11 +111,9 @@ ObjectIdType GridManager::GetPlayerUnitIdOfType(UnitType uType) {
 }
 
 void GridManager::OnTouchUpdate(int touchIndex) {
-	// Todo [HACK] temp fix for game crashing one scene unload, remove once the message hub purges itself when the scene is unloaded
-	if(SINGLETONS->GetLevelManager()->IsPaused()) {
+	if(ENGINE->GetSceneGraph3D()->IsPaused()) {
 		return;
 	}
-
 	if(this->shadyCamRef->IsMoving() || this->shadyCamRef->GetCameraMode() == ShadyCamera::CameraMode::CameraMode_Overview) {
 		return;
 	}
@@ -341,7 +338,7 @@ void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {
 	ASSERT(unit != nullptr, "Object with id %d has BaseUnit component", id);
 	UnitType uType = unit->GetUnitType();
 
-	if (uType < UNIT_TYPE_PLAYER_UNITS_COUNT) {
+	if (uType <= LAST_PLAYER_UNIT_TYPE) {
 		auto iter = this->playerUnits.find(uType);
 		ASSERT(iter == this->playerUnits.end(), "Grid does not already have player unit of type %d", uType);
 		this->playerUnits[uType] = id;
@@ -361,7 +358,7 @@ void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {
 	trans->SetPosition(destCell->center);
 }
 
-void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ) {
+void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ, int elevation) {
 	GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 	GridCell* destCell = this->grid->GetCell(gridX, gridZ);
 
@@ -369,58 +366,50 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ) 
 	ASSERT(gNav != nullptr, "Moving object has GridNavigator component");
 	GridCell* startCell = gNav->GetCurrentCell();
 
-	if (destCell->GetFirstOccupantId() == OBJECT_ID_INVALID) {
+	// The unit's position on the grid will only be updated if the destination cell is not already occupied.
+	bool didUnitsCollide = this->checkUnitCollisions(id, destCell, elevation);
+	if (!didUnitsCollide) {
+		// Move the unit to the destination cell
 		if (startCell != nullptr) {
-			startCell->SetFirstOccupantId(OBJECT_ID_INVALID);
+			startCell->SetOccupantIdAtElevation(OBJECT_ID_INVALID, elevation);
 		}
-		destCell->SetFirstOccupantId(id);
+		if (destCell != nullptr) {
+			destCell->SetOccupantIdAtElevation(id, elevation);
+		}
 		gNav->SetCurrentCell(destCell);
-		// Determine if the object entered or exited any grid zones.
+
 		this->checkZoneCollisions(id, startCell, destCell);
+		this->checkRoomCollisions(id, startCell, destCell);
 	}
-	else {
+}
+
+void GridManager::removeNavigatorFromGrid(ObjectIdType id, int elevation) {
+	// Move the navigator to a non-existent cell
+	this->gridCellChangedHandler(id, -1, -1, elevation);
+}
+
+bool GridManager::checkUnitCollisions(ObjectIdType id, GridCell* destCell, int elevation) {
+	if (destCell != nullptr) {
+		ObjectIdType occId = destCell->GetOccupantIdAtElevation(elevation);
+		// No collision if the cell occupant is empty or the same unit that's moving there.
+		if ((occId == OBJECT_ID_INVALID) || (occId == id)) {
+			return false;
+		}
+
 		// A collision has occurred. Send a message to both units involved.
 		MessageChunk collisionMessageA = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		collisionMessageA->SetMessageType(MESSAGE_TYPE_GRID_UNIT_COLLISION);
 		collisionMessageA->messageData.iv1.y = id;
-		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageA, destCell->GetFirstOccupantId(), id);
+		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageA, occId, id);
 
 		MessageChunk collisionMessageB = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		collisionMessageB->SetMessageType(MESSAGE_TYPE_GRID_UNIT_COLLISION);
-		collisionMessageB->messageData.iv1.y = destCell->GetFirstOccupantId();
-		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageB, id, destCell->GetFirstOccupantId());
+		collisionMessageB->messageData.iv1.y = occId;
+		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessageB, id, occId);
+
+		return true;
 	}
-
-	// Check if the unit changed rooms
-	GridRoom* startRoom = this->grid->GetRoom(startCell);
-	GridRoom* destRoom = this->grid->GetRoom(destCell);
-
-	if (startRoom != destRoom) {
-		if (startRoom != nullptr) {
-			MessageChunk roomExitMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-			roomExitMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_EXITED);
-			roomExitMessage->messageData.iv1.y = id;
-			roomExitMessage->messageData.fv1 = this->grid->GetRoomCenter(startCell);
-			ENGINE->GetMessageHub()->SendMulticastMessage(roomExitMessage, this->GetObject()->GetId());
-		}
-
-		if (destRoom != nullptr) {
-			MessageChunk roomEnterMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-			roomEnterMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED);
-			roomEnterMessage->messageData.iv1.x = destCell->x;
-			roomEnterMessage->messageData.iv1.y = id;
-			roomEnterMessage->messageData.iv1.z = destCell->z;
-			roomEnterMessage->messageData.fv1 = this->grid->GetRoomCenter(destCell);
-			ENGINE->GetMessageHub()->SendMulticastMessage(roomEnterMessage, this->GetObject()->GetId());
-		}
-	}
-}
-
-void GridManager::removeNavigatorFromGrid(ObjectIdType id, glm::vec3 cellPos) {
-	GridCell* cell = this->grid->GetCell(cellPos);
-	if(cell->GetFirstOccupantId() == id) {
-		cell->SetFirstOccupantId(OBJECT_ID_INVALID);
-	}
+	return false;
 }
 
 void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
@@ -467,6 +456,32 @@ void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, Grid
 	}
 }
 
+void GridManager::checkRoomCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
+	// Check if the unit changed rooms
+	GridRoom* startRoom = this->grid->GetRoom(startCell);
+	GridRoom* destRoom = this->grid->GetRoom(destCell);
+
+	if (startRoom != destRoom) {
+		if (startRoom != nullptr) {
+			MessageChunk roomExitMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			roomExitMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_EXITED);
+			roomExitMessage->messageData.iv1.y = id;
+			roomExitMessage->messageData.fv1 = this->grid->GetRoomCenter(startCell);
+			ENGINE->GetMessageHub()->SendMulticastMessage(roomExitMessage, this->GetObject()->GetId());
+		}
+
+		if (destRoom != nullptr) {
+			MessageChunk roomEnterMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			roomEnterMessage->SetMessageType(MESSAGE_TYPE_GRID_ROOM_ENTERED);
+			roomEnterMessage->messageData.iv1.x = destCell->x;
+			roomEnterMessage->messageData.iv1.y = id;
+			roomEnterMessage->messageData.iv1.z = destCell->z;
+			roomEnterMessage->messageData.fv1 = this->grid->GetRoomCenter(destCell);
+			ENGINE->GetMessageHub()->SendMulticastMessage(roomEnterMessage, this->GetObject()->GetId());
+		}
+	}
+}
+
 void GridManager::selectUnitInCell(int x, int z) {
 	this->selectUnitInCell(this->grid->GetCell(x, z));
 }
@@ -476,7 +491,7 @@ void GridManager::selectUnitInCell(GridCell* cell) {
 		GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(cell->GetFirstOccupantId());
 		BaseUnit* bu = obj->GetComponent<BaseUnit>();
 		ASSERT(bu != nullptr, "Selected object has BaseUnit component");
-		if(bu->GetUnitType() < UnitType::UNIT_TYPE_PLAYER_UNITS_COUNT) {
+		if(bu->GetUnitType() <= LAST_PLAYER_UNIT_TYPE) {
 			this->deselectUnit();
 			this->selectedUnitId = cell->GetFirstOccupantId();
 
@@ -496,7 +511,7 @@ void GridManager::deselectUnit() {
 		if (obj != nullptr) {
 			BaseUnit* bu = obj->GetComponent<BaseUnit>();
 			ASSERT(bu != nullptr, "Selected object has BaseUnit component");
-			if(bu->GetUnitType() < UnitType::UNIT_TYPE_PLAYER_UNITS_COUNT) {
+			if(bu->GetUnitType() <= LAST_PLAYER_UNIT_TYPE) {
 				PlayerUnit* pu = obj->GetComponent<PlayerUnit>();
 				pu->OnDeselect();
 			}

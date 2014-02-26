@@ -25,6 +25,8 @@ public:
 	virtual void SetResetTime(float t);
 	//[[PROPERTY]]//
 	virtual void SetRequiredOccupants(unsigned int num);
+	//[[PROPERTY]]//
+	void SetDecalType(std::string decalType);
 
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);

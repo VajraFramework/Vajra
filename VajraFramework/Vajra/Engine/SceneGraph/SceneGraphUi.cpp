@@ -23,6 +23,10 @@ void SceneGraphUi::update() {
 
 void SceneGraphUi::draw() {
 	GameObject* mainCamera = this->GetGameObjectById(this->mainCameraId);
+	if(mainCamera == nullptr) {
+		FRAMEWORK->GetLogger()->dbglog("Warning: There is no camera in the SceneGraph3D");
+		return;
+	}
 	VERIFY(mainCamera != nullptr, "mainCamera set");
 
 	Camera* cameraComponent = mainCamera->GetComponent<Camera>();

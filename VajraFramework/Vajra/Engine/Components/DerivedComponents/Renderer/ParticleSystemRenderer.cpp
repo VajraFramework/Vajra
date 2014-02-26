@@ -109,7 +109,7 @@ void ParticleSystemRenderer::initializeRendererStructures() {
 	if (this->particleSystemRef->getParticleSizesForDrawing() != nullptr) {
 		glGenBuffers(1, &this->vboPointSizes); checkGlError("glGenBuffers");
 		glBindBuffer(GL_ARRAY_BUFFER, this->vboPointSizes); checkGlError("glBindBuffer");
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * this->particleSystemRef->getNumParticlesToDraw(), this->particleSystemRef->getParticleSizesForDrawing(), GL_STATIC_DRAW); checkGlError("glBufferData");
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * this->particleSystemRef->getNumParticlesToDraw(), this->particleSystemRef->getParticleSizesForDrawing(), GL_STATIC_DRAW); checkGlError("glBufferData");
 	} else {
 		FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
 		return;
@@ -148,7 +148,7 @@ void ParticleSystemRenderer::updateVBOs() {
 	//
 	if (this->particleSystemRef->getParticleSizesForDrawing() != nullptr) {
 		glBindBuffer(GL_ARRAY_BUFFER, this->vboPointSizes); checkGlError("glBindBuffer");
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * this->particleSystemRef->getNumParticlesToDraw(), this->particleSystemRef->getParticleSizesForDrawing()); checkGlError("glBufferSubData");
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * this->particleSystemRef->getNumParticlesToDraw(), this->particleSystemRef->getParticleSizesForDrawing()); checkGlError("glBufferSubData");
     } else {
         FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
         return;

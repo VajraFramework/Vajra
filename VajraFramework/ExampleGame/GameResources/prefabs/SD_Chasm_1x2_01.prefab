@@ -1,0 +1,22 @@
+<prefab>
+  <gameobject>
+
+      <component name="Transform">
+      </component>
+      <gameobject>
+          <component name="MeshRenderer">
+              <property name="InitMesh">
+                  <field>models/SD_Chasm_1x1_01.model</field>
+              </property>
+          </component>
+
+          <component name="Transform">
+              <property name="Translate">
+                  <field>0</field>
+                  <field>0</field>
+                  <field>-0.5</field>
+              </property>
+          </component>
+      </gameobject>
+  </gameobject>
+</prefab>

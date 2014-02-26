@@ -157,11 +157,10 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		if (uiObject->GetName() == "resume") {
 			pauseMenu->SetVisible(false);
 			ENGINE->GetSceneGraph3D()->Resume();
-			ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_UNPAUSE);
 			return;
 		} else if (uiObject->GetName() == "restart_pause") {
-			SINGLETONS->GetLevelManager()->ReloadCurrentLevel();
 			pauseMenu->SetVisible(!pauseMenu->IsVisible());
+			SINGLETONS->GetMenuManager()->LoadLevel(SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
 			return;
 		} else if (uiObject->GetName() == "mission_from_pause") {
 			pauseMenu->SetVisible(false);
@@ -173,7 +172,6 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	// HUD
 	if (uiObject->GetName() == "pause") {
 		pauseMenu->SetVisible(!pauseMenu->IsVisible());
-		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_PAUSE);
 		ENGINE->GetSceneGraph3D()->Pause();
 		return;
 	} else if(uiObject->GetName() == "changeUnit") {
@@ -189,19 +187,12 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	}
 	if(postMenu != nullptr && postMenu->IsVisible()) {
 		if (uiObject->GetName() == "continue") {
-			if(SINGLETONS->GetLevelManager()->TryLoadNextLevel()) {
-				postMenu->SetVisible(false);
-				return;
-
-			} else {
-				postMenu->SetVisible(false);
-				this->returnToMissionSelect();
-				return;
-
-			}
-		} else if (uiObject->GetName() == "restart_post") {
-			SINGLETONS->GetLevelManager()->ReloadCurrentLevel();
 			postMenu->SetVisible(false);
+			SINGLETONS->GetMenuManager()->LoadLevel(SINGLETONS->GetLevelManager()->GetCurrentLevelIndex() + 1);
+			return;
+		} else if (uiObject->GetName() == "restart_post") {
+			postMenu->SetVisible(false);
+			SINGLETONS->GetMenuManager()->LoadLevel(SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
 			return;
 		} else if (uiObject->GetName() == "mission_post") {
 			postMenu->SetVisible(false);
@@ -231,10 +222,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 }
 
 void GameUiTouchHandlers::returnToMissionSelect() {
-	UiSceneLoader::UnloadCurrentUiScene();
-	SINGLETONS->GetLevelManager()->UnloadLevel();	
-	std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
-	UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), new MainMenuTouchHandlers());
+	SINGLETONS->GetMenuManager()->LoadMainMenu("missionMenu");
 	
 }
 
