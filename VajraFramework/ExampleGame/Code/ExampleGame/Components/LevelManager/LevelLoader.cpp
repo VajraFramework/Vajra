@@ -115,6 +115,8 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 								  	pathToAmbientLightMap.c_str(),
 								  	SINGLETONS->GetGridManager()->GetGrid()->GetGridWidth()  * CELL_SIZE,
 								  	SINGLETONS->GetGridManager()->GetGrid()->GetGridHeight() * CELL_SIZE);
+	} else {
+		ENGINE->GetAmbientLighting()->ResetBakedAmbientLightTexture();
 	}
 }
 

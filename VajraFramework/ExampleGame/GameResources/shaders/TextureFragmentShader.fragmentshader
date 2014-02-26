@@ -7,6 +7,7 @@ uniform sampler2D myTextureSampler;
 uniform sampler2D bakedAmbientGridTextureSampler;
 
 varying vec3 modelCoordsForBakedAmbientLookup_out;
+uniform float bakedLightMapSize;
 
 #ifdef PER_PIXEL_LIGHTING
 varying vec4 vNormal_out;
@@ -38,8 +39,8 @@ void main()
 
 	vec2 uv_into_bakedmap = modelCoordsForBakedAmbientLookup_out.xz;
 	// Adjust uv into bakedmap according to the size of exported map:
-	uv_into_bakedmap.x = (uv_into_bakedmap.x + 0.5) / 64.0;
-	uv_into_bakedmap.y = -1.0 * (uv_into_bakedmap.y - 0.5) / 64.0;
+	uv_into_bakedmap.x = (uv_into_bakedmap.x + 0.5) / bakedLightMapSize;
+	uv_into_bakedmap.y = -1.0 * (uv_into_bakedmap.y - 0.5) / bakedLightMapSize;
 	vec4 baked_ambient_value = texture2D(bakedAmbientGridTextureSampler, uv_into_bakedmap);
 	float down_ambient_intensity_at_point = baked_ambient_value.r;
 	float up_ambient_intensity_at_point = baked_ambient_value.g;

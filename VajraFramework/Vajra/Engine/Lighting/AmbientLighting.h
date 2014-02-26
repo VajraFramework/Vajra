@@ -12,6 +12,8 @@ public:
 	~AmbientLighting();
 
 	void SetBakedAmbientLightTexture(const char* filePath, float widthInWorld_, float heightInWorld_);
+	void ResetBakedAmbientLightTexture();
+
 	void Draw();
 
 private:

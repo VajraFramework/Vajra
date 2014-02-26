@@ -31,6 +31,9 @@ Shader_variable_datatype_t GetShaderVariableDatatypeFromString(std::string s) {
 	if (s == "mat4") {
 		return SHADER_VARIABLE_DATATYPE_mat4;
 	}
+	if (s == "vec3") {
+		return SHADER_VARIABLE_DATATYPE_vec3;
+	}
 	if (s == "vec4") {
 		return SHADER_VARIABLE_DATATYPE_vec4;
 	}
@@ -144,6 +147,9 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "modelCoordsForBakedAmbientLookup_out") {
 		return SHADER_VARIABLE_VARIABLENAME_modelCoordsForBakedAmbientLookup_out;
 	}
+	if (s == "bakedLightMapSize") {
+		return SHADER_VARIABLE_VARIABLENAME_bakedLightMapSize;
+	}
 	if (s == "invalid") {
 		return SHADER_VARIABLE_VARIABLENAME_invalid;
 	}
@@ -169,6 +175,7 @@ std::string GetStringForShaderVariableDatatype(Shader_variable_datatype_t t) {
 	case SHADER_VARIABLE_DATATYPE_sampler2D: return "sampler2D";
 	case SHADER_VARIABLE_DATATYPE_vec2: return "vec2";
 	case SHADER_VARIABLE_DATATYPE_mat4: return "mat4";
+	case SHADER_VARIABLE_DATATYPE_vec3: return "vec3";
 	case SHADER_VARIABLE_DATATYPE_vec4: return "vec4";
 	case SHADER_VARIABLE_DATATYPE_invalid: return "invalid";
 	// default: DO NOT ADD A DEFAULT HERE. It'll help catch the case where the enum is extended but not handled here
@@ -213,6 +220,7 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_myTextureSampler: return "myTextureSampler";
 	case SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler: return "bakedAmbientGridTextureSampler";
 	case SHADER_VARIABLE_VARIABLENAME_modelCoordsForBakedAmbientLookup_out: return "modelCoordsForBakedAmbientLookup_out";
+	case SHADER_VARIABLE_VARIABLENAME_bakedLightMapSize: return "bakedLightMapSize";
 	case SHADER_VARIABLE_VARIABLENAME_invalid: return "invalid";
 	// default: DO NOT ADD A DEFAULT HERE. It'll help catch the case where the enum is extended but not handled here
 	}
