@@ -87,6 +87,12 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	VERIFY(cameraNode != nullptr, "Level definition contains <%s> node", CAMERA_TAG);
 	loadCameraDataFromXml(cameraNode);
 
+	XmlNode* lightmapNode = levelNode->GetFirstChildByNodeName(LIGHTMAP_TAG);
+	std::string lightMapName;
+	if (lightmapNode != nullptr) {
+		lightMapName = lightmapNode->GetAttributeValueS(NAME_ATTRIBUTE);
+	}
+
 	delete parser;
 
 	idsFromXml.clear();
@@ -101,11 +107,13 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	dlightComponent->SetAmbientColor(0.125, 0.125, 0.2, 1.0f);
 	dlightComponent->SetDiffuseColor(0.6f, 0.5f, 0.5f, 1.0f);
 
-	std::string pathToAmbientLightMap = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "baked_light_map.png";
-	ENGINE->GetAmbientLighting()->SetBakedAmbientLightTexture(
-								  pathToAmbientLightMap.c_str(),
-								  SINGLETONS->GetGridManager()->GetGrid()->GetGridWidth()  * CELL_SIZE,
-								  SINGLETONS->GetGridManager()->GetGrid()->GetGridHeight() * CELL_SIZE);
+	if (lightMapName != "") {
+		std::string pathToAmbientLightMap = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + lightMapName;
+		ENGINE->GetAmbientLighting()->SetBakedAmbientLightTexture(
+								  	pathToAmbientLightMap.c_str(),
+								  	SINGLETONS->GetGridManager()->GetGrid()->GetGridWidth()  * CELL_SIZE,
+								  	SINGLETONS->GetGridManager()->GetGrid()->GetGridHeight() * CELL_SIZE);
+	}
 }
 
 LevelType LevelLoader::stringToLevelType(std::string type) {

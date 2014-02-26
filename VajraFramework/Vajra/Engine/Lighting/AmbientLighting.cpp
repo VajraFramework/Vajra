@@ -27,7 +27,7 @@ void AmbientLighting::Draw() {
 void AmbientLighting::init() {
 	// Initialize with a black texture:
 	this->bakedAmbientLightTextureAsset = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(
-										  FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "ambient_map.png");
+										  FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "black.png");
 	// Some sensible numbers:
 	this->widthInWorld  = 100.0f;
 	this->heightInWorld = 100.0f;
