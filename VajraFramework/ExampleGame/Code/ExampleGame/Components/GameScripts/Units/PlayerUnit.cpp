@@ -103,7 +103,7 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 	if(touchBegan) {
 		this->unitHasTouchFocus = true;
 	}
-
+	
 	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL ||
 	   this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_POST_SPECIAL) {
 		this->unitHasTouchFocus = false;
@@ -168,14 +168,14 @@ void PlayerUnit::startSpecial() {
 }
 
 void PlayerUnit::onSpecialEnd() {
-	this->inputState = InputState::INPUT_STATE_NONE;
+	this->inputState = InputState::INPUT_STATE_WAIT;
 	this->SwitchActionState(UNIT_ACTION_STATE_POST_SPECIAL);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	this->touchIndicatorRef->SetVisible(false);
 }
 
 void PlayerUnit::cancelSpecial() {
-	this->inputState = InputState::INPUT_STATE_NONE;
+	this->inputState = InputState::INPUT_STATE_WAIT;
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	this->touchIndicatorRef->SetVisible(false);
