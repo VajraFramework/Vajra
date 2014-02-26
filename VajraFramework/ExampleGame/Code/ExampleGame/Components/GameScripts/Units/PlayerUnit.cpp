@@ -216,6 +216,8 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				this->inputState = InputState::INPUT_STATE_WAIT;
 				this->currentTouchedCell = nullptr;
 				this->touchIndicatorRef->SetVisible(false);
+				ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
+				ENGINE->GetTween()->CancelNumberTween("pulse");
 				break;
 			default:
 				break;
