@@ -81,8 +81,9 @@ void ParticleSystemRenderer::Draw() {
     checkGlError("glVertexAttribPointer");
     }
 
-	glBindTexture(GL_TEXTURE_2D, this->textureAsset->GetGLTextureHandle());
-	checkGlError("glBindTexture");
+    if (this->textureAsset != nullptr) {
+    	this->textureAsset->Draw(0);
+    }
 
     glDrawArrays(GL_POINTS, 0, this->particleSystemRef->getNumParticlesToDraw());
     checkGlError("glDrawArrays");

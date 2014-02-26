@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/Lighting/AmbientLighting.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
@@ -43,6 +44,9 @@ void Engine::init() {
 
 	this->assetLibrary = new AssetLibrary();
 	this->assetLibrary->init();
+
+	this->ambientLighting = new AmbientLighting();
+	this->ambientLighting->init();
 
 	this->sceneGraph3D = new SceneGraph3D();
 	this->sceneGraph3D->init();
@@ -175,6 +179,9 @@ void Engine::destroy() {
 	}
 	if (this->audioManager != nullptr) {
 		delete this->audioManager;
+	}
+	if (this->ambientLighting != nullptr) {
+		delete this->ambientLighting;
 	}
 	if (this->profiler != nullptr) {
 		delete this->profiler;
