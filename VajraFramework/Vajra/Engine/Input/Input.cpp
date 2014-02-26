@@ -142,8 +142,8 @@ void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {
 
 void Input::UpdatePinch(float scale, float velocity,
 		GestureState gestureState) {
-	this->asyncPinch.scale = glm::isnan(scale) ? 0 : scale;
-	this->asyncPinch.velocity = glm::isnan(velocity) ? 0 : velocity;
+	this->asyncPinch.scale = std::isnan(scale) ? 0 : scale;
+	this->asyncPinch.velocity = std::isnan(velocity) ? 0 : velocity;
 
 	if (this->asyncPinch.gestureState != GestureState::GestureState_Start)
 		this->asyncPinch.gestureState = gestureState;
