@@ -33,7 +33,7 @@ void BreakablePot::init() {
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT, this->GetTypeId(), false);
 
-	//this->generateParticleEffect();
+	this->generateParticleEffect();
 }
 
 void BreakablePot::destroy() {
