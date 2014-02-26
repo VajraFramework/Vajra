@@ -95,6 +95,7 @@ void EnemyUnit::init() {
 	this->isActive = false;
 	this->alertness = 0.0f;
 	this->brainState = ENEMY_BRAIN_CALM;
+	this->gridNavRef->SetMaxNavigableUnitType(LAST_ENEMY_UNIT_TYPE);
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_AI_SIGHTED_PLAYER, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_AI_LOST_SIGHT_OF_PLAYER, this->GetTypeId(), false);

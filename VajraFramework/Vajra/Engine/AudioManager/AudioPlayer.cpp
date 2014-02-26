@@ -69,6 +69,11 @@ void AudioPlayer::SetPlaybackSpeed(float speed) {
 	// TODO [Implement] Determine if OpenAL can change playback speed without affecting pitch
 }
 
+void AudioPlayer::SetLooping(ALint loop) {
+	this->looping = loop;
+	alSourcei(this->source, AL_LOOPING, this->looping);
+}
+
 void AudioPlayer::Play() {
 	alSourcePlay(this->source);
 }

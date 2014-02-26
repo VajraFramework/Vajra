@@ -20,6 +20,7 @@
 #include "ExampleGame/Components/GameScripts/Units/Assassin.h"
 #include "ExampleGame/Components/GameScripts/Units/Guard.h"
 #include "ExampleGame/Components/GameScripts/Units/Thief.h"
+#include "ExampleGame/Components/GameScripts/Units/Obstacles/BreakablePot.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
@@ -33,6 +34,7 @@
 #include "ExampleGame/Components/Triggers/TriggerElevationChange.h"
 #include "ExampleGame/Components/Triggers/TriggerTerrainBlock.h"
 #include "ExampleGame/Components/Triggers/TriggerTransformation.h"
+#include "ExampleGame/Ui/MenuManager/MenuManager.h"
 
 
 Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObject* gameObject, std::string componentName) {
@@ -152,6 +154,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
+	if (componentName == "BreakablePot") {
+		BreakablePot* component = gameObject->GetComponent<BreakablePot>();
+		if (component == nullptr) { component = gameObject->AddComponent<BreakablePot>(); }
+		return component;
+	}
+	
 	if (componentName == "GridManager") {
 		GridManager* component = gameObject->GetComponent<GridManager>();
 		if (component == nullptr) { component = gameObject->AddComponent<GridManager>(); }
@@ -229,6 +237,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		if (component == nullptr) { component = gameObject->AddComponent<TriggerTransformation>(); }
 		return component;
 	}
+	
+	if (componentName == "MenuManager") {
+		MenuManager* component = gameObject->GetComponent<MenuManager>();
+		if (component == nullptr) { component = gameObject->AddComponent<MenuManager>(); }
+		return component;
+	}
 
 	return nullptr;
 }
@@ -296,6 +310,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetPlaybackSpeed") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetPlaybackSpeed(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetLooping") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetLooping(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		return;
@@ -561,6 +580,17 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
+	if (componentName == "BreakablePot") {
+		BreakablePot* component = gameObject->GetComponent<BreakablePot>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetDeathEffect") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDeathEffect(ConvertStringToString(argv[0]));
+			return;
+		}
+		return;
+	}
+	
 	if (componentName == "GridManager") {
 		GridManager* component = gameObject->GetComponent<GridManager>();
 		if (component == nullptr) { return; }
@@ -581,8 +611,8 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			return;
 		}
 		if (propertyName == "SetDestination") {
-			if ((int)argv.size() < 2) { return; }
-			component->SetDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
+			if ((int)argv.size() < 3) { return; }
+			component->SetDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToBool(argv[2]));
 			return;
 		}
 		if (propertyName == "AddDestination") {
@@ -665,6 +695,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetRequiredOccupants(StringUtilities::ConvertStringToInt(argv[0]));
 			return;
 		}
+		if (propertyName == "SetDecalType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDecalType(ConvertStringToString(argv[0]));
+			return;
+		}
 		return;
 	}
 	
@@ -717,6 +752,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetRequiredUnitType(ConvertStringToString(argv[0]));
 			return;
 		}
+		if (propertyName == "SetDecalType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDecalType(ConvertStringToString(argv[0]));
+			return;
+		}
 		return;
 	}
 	
@@ -741,6 +781,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SubscribeToParentSwitch") {
 			if ((int)argv.size() < 0) { return; }
 			component->SubscribeToParentSwitch();
+			return;
+		}
+		if (propertyName == "SetDecalType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDecalType(ConvertStringToString(argv[0]));
 			return;
 		}
 		return;
@@ -861,6 +906,12 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SubscribeToParentSwitch();
 			return;
 		}
+		return;
+	}
+	
+	if (componentName == "MenuManager") {
+		MenuManager* component = gameObject->GetComponent<MenuManager>();
+		if (component == nullptr) { return; }
 		return;
 	}
 }

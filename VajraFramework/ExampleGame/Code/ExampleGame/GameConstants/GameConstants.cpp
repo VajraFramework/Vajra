@@ -15,6 +15,7 @@ void InitGameConstants() {
 	gameConstantNameToId["maxZoomSpeed"] = GAME_CONSTANT_maxZoomSpeed;
 	gameConstantNameToId["maxWrongZoomAmt"] = GAME_CONSTANT_maxWrongZoomAmt;
 	gameConstantNameToId["changeModeThreshold"] = GAME_CONSTANT_changeModeThreshold;
+	gameConstantNameToId["min_load_time"] = GAME_CONSTANT_min_load_time;
 	gameConstantNameToId["door_close_time"] = GAME_CONSTANT_door_close_time;
 	gameConstantNameToId["ghostName"] = GAME_CONSTANT_ghostName;
 	gameConstantNameToId["someBoolVariable"] = GAME_CONSTANT_someBoolVariable;

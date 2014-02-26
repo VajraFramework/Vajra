@@ -42,22 +42,24 @@ public:
 	void HandleMessage(MessageChunk messageChunk);
 
 	inline std::string GetCurrentLevelName() { return this->levelData[this->currentLevelIndex].name; }
+	inline int GetCurrentLevelIndex() { return this->currentLevelIndex; }
 
-	void UnloadLevel();
-	bool TryLoadNextLevel();
-	void ReloadCurrentLevel();
-	void LoadLevel(int /*levelNumber*/);
 	//void LoadLevelFromAsset(std::string assetName); // Once we've got the loading process worked out, switch to using an asset
 
 	void AddWinCondition(ObjectIdType switchId);
 	void AddLoseCondition(ObjectIdType switchId);
 
-	inline bool IsPaused() { return this->isPaused; }
 	inline int NumLevels() { return this->levelData.size(); }
 private:
 	void init();
 	void destroy();
 	void update();
+
+	void UnloadLevel();
+	bool TryLoadNextLevel();
+
+	void ReloadCurrentLevel();
+	void LoadLevel(int /*levelNumber*/);
 
 	void loadLevel_internal();
 	void LoadLevelFromData(LevelData /*levelData*/);
@@ -71,8 +73,6 @@ private:
 
 	static ComponentIdType componentTypeId;
 
-	//ShadyCamera* shadyCam;
-	bool isPaused;
 	int currentLevelIndex;
 	int levelToLoad;
 
@@ -90,6 +90,8 @@ private:
 	std::vector<EndCondition*> loseCons; // This too
 	int PLAYER_THREATS;
 	*****************/
+
+	friend class MenuManager;
 };
 
 #endif // LEVELMANAGER_H

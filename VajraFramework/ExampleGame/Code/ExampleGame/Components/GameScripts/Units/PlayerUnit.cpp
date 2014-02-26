@@ -52,6 +52,7 @@ void PlayerUnit::init() {
 	this->unitHasTouchFocus = false;
 	this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
 	this->gridNavRef->SetTurnSpeedDegrees(TURN_SPEED_DEG);
+	this->gridNavRef->SetMaxNavigableUnitType(LAST_PLAYER_UNIT_TYPE);
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION, this->GetTypeId(), false);
 
@@ -180,8 +181,7 @@ void PlayerUnit::cancelSpecial() {
 
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	if(this->isSpecialTouch(touchId)) {
-		this->inputState = InputState::INPUT_STATE_SPECIAL;
-		this->gridNavRef->StopNavigation();
+		this->inputState = InputState::INPUT_STATE_SPECIAL; 
 		this->onSpecialTouch(touchId);
 		this->SwitchActionState(UNIT_ACTION_STATE_PRE_SPECIAL);
 	} else {

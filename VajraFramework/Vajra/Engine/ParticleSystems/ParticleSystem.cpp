@@ -154,9 +154,6 @@ void ParticleSystem::updateShaderAttributeVectors() {
 }
 
 void ParticleSystem::stepSimulation(float deltaTime) {
-
-	ASSERT(this->isInited == true, "ParticleSystem has been inited");
-
 	if (this->isPlaying) {
 		this->spawnParticles(deltaTime);
 		this->stepParticles (deltaTime);
@@ -274,6 +271,7 @@ void ParticleSystem::destroy() {
 }
 
 void ParticleSystem::Play() {
+	ASSERT(this->isInited == true, "ParticleSystem has been inited");
 	this->isPlaying = true;
 }
 

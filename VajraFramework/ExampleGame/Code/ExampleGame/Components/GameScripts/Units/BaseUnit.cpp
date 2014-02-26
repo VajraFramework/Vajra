@@ -2,10 +2,13 @@
 #include "ExampleGame/Components/GameScripts/UnitCustomizers/UnitAnimationManager.h"
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Components/Grid/GridCell.h"
+#include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 
 #include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 
@@ -42,6 +45,10 @@ void BaseUnit::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
+void BaseUnit::HandleMessage(MessageChunk messageChunk) {
+	Component::HandleMessage(messageChunk);
+}
+
 void BaseUnit::start() {
 }
 
@@ -65,17 +72,14 @@ void BaseUnit::SwitchActionState(UnitActionState newState) {
 void BaseUnit::Kill() {
 	this->unitState = UnitState::UNIT_STATE_DEAD;
 
+	glm::vec3 pos = this->gameObjectRef->GetTransform()->GetPositionWorld();
+
 	// broadcast a message about unit death
 	GridCell* currentCell = this->gridNavRef->GetCurrentCell();
 	MessageChunk unitKilledMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 	unitKilledMessage->SetMessageType(MESSAGE_TYPE_UNIT_KILLED);
-	unitKilledMessage->messageData.iv1.x = this->unitType;
-	unitKilledMessage->messageData.fv1.x = currentCell->x;
-	unitKilledMessage->messageData.fv1.y = currentCell->y;
-	unitKilledMessage->messageData.fv1.z = currentCell->z;
+	unitKilledMessage->messageData.iv1.x = currentCell->x;
+	unitKilledMessage->messageData.iv1.y = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(pos.y);
+	unitKilledMessage->messageData.iv1.z = currentCell->z;
 	ENGINE->GetMessageHub()->SendMulticastMessage(unitKilledMessage, this->GetObject()->GetId());
-
-	// Remove the navigator component
-	this->gameObjectRef->RemoveComponent<GridNavigator>();
-	this->gridNavRef = nullptr;
 }

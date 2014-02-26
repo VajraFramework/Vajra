@@ -50,7 +50,7 @@ void AiPerception::destroy() {
 }
 
 void AiPerception::gatherInformation() {
-	for (int typeInt = FIRST_PLAYER_UNIT_TYPE; typeInt < UNIT_TYPE_PLAYER_UNITS_COUNT; typeInt++) {
+	for (int typeInt = FIRST_PLAYER_UNIT_TYPE; typeInt <= LAST_PLAYER_UNIT_TYPE; typeInt++) {
 		UnitType uType = static_cast<UnitType>(typeInt);
 		ObjectIdType objId = SINGLETONS->GetGridManager()->GetPlayerUnitIdOfType(uType);
 		if (objId != OBJECT_ID_INVALID) {

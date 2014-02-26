@@ -66,6 +66,15 @@ void AudioSource::SetAudioClip(std::string assetName) {
 void AudioSource::SetVolume(float volume)        { this->player->SetVolume(volume); }
 void AudioSource::SetPlaybackSpeed(float speed)  { this->player->SetPlaybackSpeed(speed); }
 
+void AudioSource::SetLooping(bool loop) {
+	if (loop) {
+		this->player->SetLooping(AL_TRUE);
+	}
+	else {
+		this->player->SetLooping(AL_FALSE);
+	}
+}
+
 // Other methods
 void AudioSource::Play() {
 	this->player->Play();

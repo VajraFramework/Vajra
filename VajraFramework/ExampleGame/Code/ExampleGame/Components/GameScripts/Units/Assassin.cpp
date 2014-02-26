@@ -35,7 +35,7 @@ void Assassin::init() {
 		this->arrowTail = new GameObject(ENGINE->GetSceneGraph3D());
 		SpriteRenderer* spriteRenderer = this->arrowTail->AddComponent<SpriteRenderer>();
 		std::vector<std::string> pathsToTextures;
-		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_ArrowStem_02.png");
+		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_ArrowStem_magenta_02.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 		this->arrowTail->GetTransform()->SetScale( glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)));
 		this->arrowTail->GetTransform()->Rotate(90.0f inRadians, XAXIS);
@@ -46,7 +46,7 @@ void Assassin::init() {
 		this->arrowHead = new GameObject(ENGINE->GetSceneGraph3D());
 		SpriteRenderer* spriteRenderer = this->arrowHead->AddComponent<SpriteRenderer>();
 		std::vector<std::string> pathsToTextures;
-		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_Arrow_05.png");
+		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_Arrow_magenta_03.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 		this->arrowHead->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 		this->arrowHead->SetVisible(false);
@@ -76,6 +76,7 @@ bool Assassin::isSpecialTouch(int touchId) {
 		if(touch.timeDown <= GetFloatGameConstant(GAME_CONSTANT_swipe_duration_in_seconds) && glm::distance(touch.pos, this->touchStartPos) > GetFloatGameConstant(GAME_CONSTANT_swipe_dist_in_pixels)) {
 			this->swipeDirectionScreen = this->touchStartPos - touch.pos;
 			this->targetedCell = nullptr;
+			this->gridNavRef->StopNavigation();
 			this->aimSpecial();
 			return true;
 		}
@@ -104,7 +105,7 @@ void Assassin::startSpecial() {
 	PlayerUnit::startSpecial();
 	
 	this->gridNavRef->SetMovementSpeed(GetFloatGameConstant(GAME_CONSTANT_assassin_attack_speed));
-	this->gridNavRef->SetDestination(this->targetedCell->x, this->targetedCell->z);
+	this->gridNavRef->SetDestination(this->targetedCell, true);
 	
 	this->startTouchIndicatorPulse();
 	this->arrowHead->SetVisible(false);
@@ -178,7 +179,7 @@ void Assassin::aimSpecial(){
 		this->GridPlaneLookAt(this->arrowTail, this->targetedCell);
 
 		trans->SetPosition(this->gridNavRef->GetCurrentCell()->center + glm::vec3(0.0f, .1f, 0.0f));
-		trans->Translate(dist * .5f , trans->GetUp());
+		trans->Translate(dist * .5f, trans->GetUp());
 
 		// Arrow Head
 		glm::vec3 attackDir = this->targetedCell->center - this->gridNavRef->GetCurrentCell()->center;

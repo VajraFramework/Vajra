@@ -14,6 +14,8 @@ public:
 private:
 	void createMissionMenu();
 	UiElement* missionRoot;
+
+	friend class MenuManager;
 };
 
 #endif // MAINMENU_TOUCH_HANDLERS_H
