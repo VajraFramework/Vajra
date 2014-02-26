@@ -192,8 +192,6 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				this->inputState = InputState::INPUT_STATE_NAV;
 				this->touchIndicatorRef->GetTransform()->SetPosition(this->currentTouchedCell->center);
 				this->touchIndicatorRef->GetTransform()->Translate(0.01f, YAXIS);
-				// touch indicator tween up
-				this->touchIndicatorRef->SetVisible(true);
 				ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
 				ENGINE->GetTween()->CancelNumberTween("pulse");
 				ENGINE->GetTween()->TweenScale(this->touchIndicatorRef->GetId(), glm::vec3(0), glm::vec3(1),TOUCH_SCALE_TIME);
