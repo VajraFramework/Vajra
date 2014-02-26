@@ -111,6 +111,9 @@ ObjectIdType GridManager::GetPlayerUnitIdOfType(UnitType uType) {
 }
 
 void GridManager::OnTouchUpdate(int touchIndex) {
+	if(ENGINE->GetSceneGraph3D()->IsPaused()) {
+		return;
+	}
 	if(this->shadyCamRef->IsMoving() || this->shadyCamRef->GetCameraMode() == ShadyCamera::CameraMode::CameraMode_Overview) {
 		return;
 	}
