@@ -18,6 +18,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
@@ -49,6 +50,7 @@ void GridNavigator::init() {
 	this->isTurning = false;
 	this->movementSpeed = 1.0f;
 	this->turningSpeed = 90.0f inRadians;
+	this->maxNavigableUnitType = UNIT_TYPE_UNKNOWN;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
@@ -84,22 +86,23 @@ void GridNavigator::SetGridPosition(GridCell* cell) {
 	}
 }
 
-bool GridNavigator::SetDestination(int x, int z) {
+bool GridNavigator::SetDestination(int x, int z, bool ignoreCellOccupants/*= false*/) {
 	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(x, z);
-	return SetDestination(goalCell);
+	return SetDestination(goalCell, ignoreCellOccupants);
 }
 
-bool GridNavigator::SetDestination(glm::vec3 loc) {
+bool GridNavigator::SetDestination(glm::vec3 loc, bool ignoreCellOccupants/*= false*/) {
 	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(loc);
-	return SetDestination(goalCell);
+	return SetDestination(goalCell, ignoreCellOccupants);
 }
 
-bool GridNavigator::SetDestination(GridCell* cell) {
+bool GridNavigator::SetDestination(GridCell* cell, bool ignoreCellOccupants/*= false*/) {
 	std::list<GridCell*> newPath;
-	float dist = this->calculatePath(this->currentCell, cell, newPath);
+	float dist = this->calculatePath(this->currentCell, cell, newPath, ignoreCellOccupants);
 	if (dist > 0.0f) {
 		this->currentPath = newPath;
 		this->SetIsTraveling(true);
+		this->ignoreOccupantsForPathing = ignoreCellOccupants;
 	}
 	return (dist >= 0.0f);
 }
@@ -124,6 +127,37 @@ bool GridNavigator::AddDestination(GridCell* cell) {
 		this->SetIsTraveling(true);
 	}
 	return (dist >= 0.0f);
+}
+
+void GridNavigator::SetForcedDestination(int gridX, int gridZ) {
+	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(gridX, gridZ);
+	this->SetForcedDestination(goalCell);
+}
+
+void GridNavigator::SetForcedDestination(glm::vec3 worldPosition) {
+	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(worldPosition);
+	this->SetForcedDestination(goalCell);
+}
+
+void GridNavigator::SetForcedDestination(GridCell* cell) {
+	this->currentPath.clear();
+	this->AddForcedDestination(cell);
+	this->SetIsTraveling(true);
+	this->ignoreOccupantsForPathing = true;
+}
+
+void GridNavigator::AddForcedDestination(int gridX, int gridZ) {
+	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(gridX, gridZ);
+	this->AddForcedDestination(goalCell);
+}
+
+void GridNavigator::AddForcedDestination(glm::vec3 worldPosition) {
+	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(worldPosition);
+	this->AddForcedDestination(goalCell);
+}
+
+void GridNavigator::AddForcedDestination(GridCell* cell) {
+	this->currentPath.push_back(cell);
 }
 
 void GridNavigator::SetLookTarget(int x, int z) {
@@ -162,19 +196,19 @@ void GridNavigator::SetTargetForward(glm::vec3 forward) {
 #endif
 }
 
-bool GridNavigator::CanReachDestination(int cellX, int cellZ, float maxDistance/*= -1.0f*/) {
+bool GridNavigator::CanReachDestination(int cellX, int cellZ, float maxDistance/*= -1.0f*/, bool ignoreCellOccupants/*= false*/) {
 	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(cellX, cellZ);
-	return CanReachDestination(goalCell, maxDistance);
+	return CanReachDestination(goalCell, maxDistance, ignoreCellOccupants);
 }
 
-bool GridNavigator::CanReachDestination(glm::vec3 worldPos, float maxDistance/*= -1.0f*/) {
+bool GridNavigator::CanReachDestination(glm::vec3 worldPos, float maxDistance/*= -1.0f*/, bool ignoreCellOccupants/*= false*/) {
 	GridCell* goalCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(worldPos);
-	return CanReachDestination(goalCell, maxDistance);
+	return CanReachDestination(goalCell, maxDistance, ignoreCellOccupants);
 }
 
-bool GridNavigator::CanReachDestination(GridCell* cell, float maxDistance/*= -1.0f*/) {
+bool GridNavigator::CanReachDestination(GridCell* cell, float maxDistance/*= -1.0f*/, bool ignoreCellOccupants/*= false*/) {
 	std::list<GridCell*> dummyPath;
-	float distance = this->calculatePath(this->currentCell, cell, dummyPath);
+	float distance = this->calculatePath(this->currentCell, cell, dummyPath, ignoreCellOccupants);
 
 	// If maxDist is negative, the path can be any length
 	if (maxDistance < 0.0f) {
@@ -301,16 +335,19 @@ void GridNavigator::updateFacing() {
 }
 
 void GridNavigator::changeCell(GridCell* goalCell) {
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+	glm::vec3 pos = trans->GetPositionWorld();
+
 	// Send a message to the GridManager "asking" to move from one cell to another.
 	MessageChunk cellChangeMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 	cellChangeMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED);
 	cellChangeMessage->messageData.iv1.x = goalCell->x;
-	cellChangeMessage->messageData.iv1.y = goalCell->y;
+	cellChangeMessage->messageData.iv1.y = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(pos.y);
 	cellChangeMessage->messageData.iv1.z = goalCell->z;
 	ENGINE->GetMessageHub()->SendMulticastMessage(cellChangeMessage, this->GetObject()->GetId());
 }
 
-float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outPath) {
+float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outPath, bool ignoreCellOccupants/*= false*/) {
 	if ((startCell == nullptr) || (goalCell == nullptr)) {
 		return -1.0f;
 	}
@@ -359,7 +396,7 @@ float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std:
 				outPath.push_front(checked);
 				checked = cameFrom[checked];
 			}
-			this->simplifyPath(outPath);
+			this->simplifyPath(outPath, ignoreCellOccupants);
 			return gScores[current];
 		}
 
@@ -369,22 +406,20 @@ float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std:
 		std::list<GridCell*> neighbors;
 		SINGLETONS->GetGridManager()->GetGrid()->GetNeighborCells(neighbors, current);
 		for (auto iter = neighbors.begin(); iter != neighbors.end(); ++iter) {
-			if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(current->x, current->z, elevation)) {
-				float gScoreTentative = gScores[current] + actualTravelCost(current, *iter);
-				float fScoreTentative = gScoreTentative + travelCostEstimate(*iter, goalCell);
+			GridCell* neighbor = *iter;
+			auto closedIter = std::find(closedSet.begin(), closedSet.end(), neighbor);
+			if (closedIter != closedSet.end()) { continue; }
 
-				auto closedIter = std::find(closedSet.begin(), closedSet.end(), *iter);
+			if (this->canNavigateThroughCellAtElevation(neighbor, elevation, ignoreCellOccupants)) {
+				auto openIter = std::find(openSet.begin(), openSet.end(), neighbor);
+				float gScoreTentative = gScores[current] + actualTravelCost(current, neighbor);
 
-				if ((closedIter != closedSet.end()) && (fScoreTentative >= fScores[*iter])) { continue; }
-
-				auto openIter = std::find(openSet.begin(), openSet.end(), *iter);
-
-				if ((openIter == openSet.end()) || (fScoreTentative < fScores[*iter])) {
-					cameFrom[*iter] = current;
-					gScores[*iter] = gScoreTentative;
-					fScores[*iter] = fScoreTentative;
+				if ((openIter == openSet.end()) || (gScoreTentative < gScores[neighbor])) {
+					cameFrom[neighbor] = current;
+					gScores[neighbor] = gScoreTentative;
+					fScores[neighbor] = gScoreTentative + travelCostEstimate(neighbor, goalCell);
 					if (openIter == openSet.end()) {
-						openSet.push_back(*iter);
+						openSet.push_back(neighbor);
 					}
 				}
 			}
@@ -404,9 +439,39 @@ float GridNavigator::actualTravelCost(GridCell* startCell, GridCell* goalCell) {
 	return SINGLETONS->GetGridManager()->GetGrid()->GetGroundDistanceBetweenCells(startCell, goalCell);
 }
 
-void GridNavigator::simplifyPath(std::list<GridCell*>& outPath) {
+bool GridNavigator::canNavigateThroughCellAtElevation(GridCell* cell, int elevation, bool ignoreCellOccupants/*= false*/) {
+	// Is the cell passable at all?
+	if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(cell->x, cell->z, elevation)) {
+		if (!ignoreCellOccupants) {
+
+			// Does the cell have an occupant?
+			ObjectIdType occId = cell->GetOccupantIdAtElevation(elevation);
+			GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+			if (occupant == nullptr) {
+				return true;
+			}
+
+			// Does the occupant of the cell block this navigator?
+			BaseUnit* occUnit = occupant->GetComponent<BaseUnit>();
+			if (occUnit != nullptr) {
+				UnitType otherType = occUnit->GetUnitType();
+				return (otherType <= this->maxNavigableUnitType);
+				//return true;
+			}
+
+		}
+		return true;
+	}
+
+	return false;
+}
+
+void GridNavigator::simplifyPath(std::list<GridCell*>& outPath, bool ignoreCellOccupants/*= false*/) {
 	if (outPath.size() == 0) { return; }
 	std::list<GridCell*> simplePath;
+
+	Transform* trans = this->gameObjectRef->GetTransform();
+	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(trans->GetPositionWorld().y);
 
 	auto startIter = outPath.begin();
 	auto nextIter = startIter;
@@ -418,7 +483,7 @@ void GridNavigator::simplifyPath(std::list<GridCell*>& outPath) {
 		// Check if any of the cells are blocked.
 		bool isRouteClear = true;
 		for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
-			if (!SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation((*iter)->x, (*iter)->z, (*startIter)->y)) {
+			if (!this->canNavigateThroughCellAtElevation(*iter, elevation, ignoreCellOccupants)) {
 				isRouteClear = false;
 				break;
 			}
@@ -448,4 +513,8 @@ void GridNavigator::SetIsTraveling(bool isTraveling_) {
 		this->isTraveling = isTraveling_;
 
 	}
+}
+
+void GridNavigator::SetMaxNavigableUnitType(UnitType uType) {
+	this->maxNavigableUnitType = uType;
 }

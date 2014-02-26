@@ -6,6 +6,7 @@
 #ifndef GRIDNAVIGATOR_H
 #define GRIDNAVIGATOR_H
 
+#include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
 #include "ExampleGame/Components/Grid/GridCell.h"
 #include "Libraries/glm/glm.hpp"
 #include "Vajra/Common/Components/Component.h"
@@ -34,6 +35,7 @@ public:
 	inline void SetTurnSpeedRadians(float /* radiansPerSecond */);
 	inline void SetCurrentCell(GridCell* cell) { this->currentCell = cell;            }
 	void SetIsTraveling(bool isTraveling_);
+	void SetMaxNavigableUnitType(UnitType uType);
 
 	//[[PROPERTY]]//
 	void SetGridPosition(int x, int z);   // Place the object at the indicated cell on the grid.
@@ -42,22 +44,31 @@ public:
 
 	// Each of the following methods return true if a valid path can be found, false otherwise.
 	//[[PROPERTY]]//
-	bool SetDestination(int x, int z);    // Set destination to the center of the designated cell
-	bool SetDestination(glm::vec3 loc);   // Set destination to the designated world position
-	bool SetDestination(GridCell* cell);  // Set destination to the center of the designated cell
+	bool SetDestination(int x, int z, bool ignoreCellOccupants = false);    // Set destination to the center of the designated cell
+	bool SetDestination(glm::vec3 loc, bool ignoreCellOccupants = false);   // Set destination to the designated world position
+	bool SetDestination(GridCell* cell, bool ignoreCellOccupants = false);  // Set destination to the center of the designated cell
 	//[[PROPERTY]]//
 	bool AddDestination(int x, int z);    // Set new destination without destroying current path
 	bool AddDestination(glm::vec3 loc);   // Set new destination without destroying current path
 	bool AddDestination(GridCell* cell);  // Set new destination without destroying current path
+
+	// The following methods can be used to circumvent path checking.
+	void SetForcedDestination(int gridX, int gridZ);
+	void SetForcedDestination(glm::vec3 worldPosition);
+	void SetForcedDestination(GridCell* cell);
+
+	void AddForcedDestination(int gridX, int gridZ);
+	void AddForcedDestination(glm::vec3 worldPosition);
+	void AddForcedDestination(GridCell* cell);
 
 	void SetLookTarget(int x, int z);     // Set look target to the center of the designated cell
 	void SetLookTarget(glm::vec3 loc);    // Set look target to the designated world position
 	void SetLookTarget(glm::quat orient); // Set look target to the designated orientation
 	void SetTargetForward(glm::vec3 forward);
 
-	bool CanReachDestination(int cellX, int cellZ, float maxDistance = -1.0f);
-	bool CanReachDestination(glm::vec3 worldPos, float maxDistance = -1.0f);
-	bool CanReachDestination(GridCell* cell, float maxDistance = -1.0f);
+	bool CanReachDestination(int cellX, int cellZ, float maxDistance = -1.0f, bool ignoreCellOccupants = false);
+	bool CanReachDestination(glm::vec3 worldPos, float maxDistance = -1.0f, bool ignoreCellOccupants = false);
+	bool CanReachDestination(GridCell* cell, float maxDistance = -1.0f, bool ignoreCellOccupants = false);
 
 	void PauseNavigation();
 	void ResumeNavigation();
@@ -77,10 +88,11 @@ private:
 
 	void changeCell(GridCell* goalCell);
 
-	float calculatePath(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outPath); // Calculates a path and returns its length. Returns -1 if no path found.
+	float calculatePath(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outPath, bool ignoreCellOccupants = false); // Calculates a path and returns its length. Returns -1 if no path found.
 	float travelCostEstimate(GridCell* startCell, GridCell* goalCell); // Estimated distance between two cells
 	float actualTravelCost(GridCell* startCell, GridCell* goalCell);
-	void simplifyPath(std::list<GridCell*>& outPath);
+	bool canNavigateThroughCellAtElevation(GridCell* cell, int elevation, bool ignoreCellOccupants = false);
+	void simplifyPath(std::list<GridCell*>& outPath, bool ignoreCellOccupants = false);
 
 	Transform* getTransform() { return this->gameObjectRef->GetTransform(); }
 
@@ -91,6 +103,8 @@ private:
 	bool isTurning;
 	float movementSpeed;
 	float turningSpeed;
+	UnitType maxNavigableUnitType;
+	bool ignoreOccupantsForPathing; // This is stored each time we set a path in case the path needs to be recalculated.
 
 	GameObject* gameObjectRef;
 
