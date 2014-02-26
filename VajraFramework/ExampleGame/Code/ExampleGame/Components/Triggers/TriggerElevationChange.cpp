@@ -26,6 +26,9 @@ void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tween
 		TriggerElevationChange* triggerComp = caller->GetComponent<TriggerElevationChange>();
 		ASSERT(triggerComp != nullptr, "elevationChangeNumberTweenCallback: Object %d has TriggerElevationChange component", gameObjectId);
 		if (triggerComp != nullptr) {
+			// Update the grid cells
+			triggerComp->changeCellElevations(triggerComp->isToggled);
+			triggerComp->setCellsInGridZonePassable(true);
 			// Unchild all units in zone
 			for (auto iter = triggerComp->unitsInZone.begin(); iter != triggerComp->unitsInZone.end(); ++iter) {
 				GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
@@ -138,7 +141,7 @@ void TriggerElevationChange::onUnitExitedZone(ObjectIdType id) {
 void TriggerElevationChange::startTransition(bool raised) {
 	if (raised != this->isToggled) {
 		this->startPositionTween(raised);
-		this->changeCellElevations(raised);
+		this->setCellsInGridZonePassable(false);
 
 		this->isToggled = raised;
 	}
@@ -211,6 +214,23 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 			false,
 			elevationChangeTweenCallback
 		);
+	}
+}
+
+void TriggerElevationChange::setCellsInGridZonePassable(bool pass) {
+	int west, east, south, north;
+	// Get the grid zone component on this object.
+	GridZone* zone = this->GetObject()->GetComponent<GridZone>();
+	ASSERT(zone != nullptr, "Object %d with TriggerElevationChange component also has GridZone component", this->GetObject()->GetId());
+
+	zone->GetZoneBounds(west, east, south, north);
+
+	GameGrid* grid = SINGLETONS->GetGridManager()->GetGrid();
+	for (int x = west; x <= east; ++x) {
+		for (int z = south; z <= north; ++z) {
+			int elevation = grid->GetCellGroundLevel(x, z);
+			grid->SetCellPassableAtElevation(x, z, elevation, pass);
+		}
 	}
 }
 
