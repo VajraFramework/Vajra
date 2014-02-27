@@ -4,7 +4,6 @@
 //
 
 #include "ExampleGame/Components/Grid/GridCell.h"
-#include "ExampleGame/Components/Grid/GridConstants.h"
 
 GridCell::GridCell(int x0, int y0, int z0, glm::vec3 origin0, glm::vec3 center0) :
 	x(x0),
@@ -14,13 +13,12 @@ GridCell::GridCell(int x0, int y0, int z0, glm::vec3 origin0, glm::vec3 center0)
 	center(center0)
 {
 	for (int i = 0; i < NUM_ELEVATIONS; ++i) {
-		this->unitIds.push_back(OBJECT_ID_INVALID);
+		this->unitIds[i]    = OBJECT_ID_INVALID;
+		this->staticObjs[i] = OBJECT_ID_INVALID;
 	}
 }
 
 GridCell::~GridCell() {
-	this->unitIds.clear();
-	this->staticObjs.clear();
 }
 
 ObjectIdType GridCell::GetFirstOccupantId() {
