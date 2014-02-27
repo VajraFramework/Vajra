@@ -3,11 +3,6 @@ precision mediump float;
 #endif
 
 varying vec2 uvCoords_out;
-uniform sampler2D myTextureSampler;
-uniform sampler2D bakedAmbientGridTextureSampler;
-
-varying vec3 modelCoordsForBakedAmbientLookup_out;
-uniform float bakedLightMapSize;
 
 #ifdef PER_PIXEL_LIGHTING
 varying vec4 vNormal_out;
@@ -19,8 +14,17 @@ varying vec4 DLight0SpecularColor_out;
 varying vec4 lightIntensity;
 #endif
 
+uniform sampler2D myTextureSampler;
+
+#ifdef BAKED_AMBIENT_LIGHTING
+uniform sampler2D bakedAmbientGridTextureSampler;
+
+varying vec3 modelCoordsForBakedAmbientLookup_out;
+uniform float bakedLightMapSize;
+
 float DOWN_AMBIENT_INTENSITY_FACTOR = 0.2;
 float UP_AMBIENT_INTENSITY_FACTOR = 0.2;
+#endif
 
 void main()
 {
@@ -35,6 +39,7 @@ void main()
 	lightIntensity = lightIntensity + DLight0SpecularColor_out;
 #endif
 
+#ifdef BAKED_AMBIENT_LIGHTING
 	vec4 color_temp = vec4(texture2D(myTextureSampler, uvCoords_out).rgba) * lightIntensity;
 
 	vec2 uv_into_bakedmap = modelCoordsForBakedAmbientLookup_out.xz;
@@ -51,5 +56,8 @@ void main()
 		down_ambient_intensity_at_point = 0.0;
 	}
 	gl_FragColor = color_temp - down_ambient_intensity_at_point * DOWN_AMBIENT_INTENSITY_FACTOR + up_ambient_intensity_at_point * UP_AMBIENT_INTENSITY_FACTOR;
+#else
+	gl_FragColor = vec4(texture2D(myTextureSampler, uvCoords_out).rgba) * lightIntensity;
+#endif
 }
 

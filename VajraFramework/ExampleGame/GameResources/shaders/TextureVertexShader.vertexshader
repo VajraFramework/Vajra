@@ -8,7 +8,6 @@ uvCoords_out
 modelMatrix
 vpMatrix
 
-modelCoordsForBakedAmbientLookup_out
 
 #ifdef PER_PIXEL_LIGHTING
 vNormal_out
@@ -31,8 +30,12 @@ DLight0SpecularColor_out
 #endif
 
 myTextureSampler
+
+#ifdef BAKED_AMBIENT_LIGHTING
 bakedAmbientGridTextureSampler
 bakedLightMapSize
+modelCoordsForBakedAmbientLookup_out
+#endif
 
 __VARIABLES_END__
 
@@ -51,9 +54,11 @@ void main()
 {
 	gl_Position = modelMatrix * vPosition;
 
+#ifdef BAKED_AMBIENT_LIGHTING
 	modelCoordsForBakedAmbientLookup_out.x = gl_Position.x;
 	modelCoordsForBakedAmbientLookup_out.y = gl_Position.y;
 	modelCoordsForBakedAmbientLookup_out.z = gl_Position.z;
+#endif
 
 	float yAmt = gl_Position.y;
 	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
