@@ -190,16 +190,14 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 		switch(ENGINE->GetInput()->GetTouch(touchId).phase) {
 			case TouchPhase::Began:
 				this->inputState = InputState::INPUT_STATE_NAV;
-				this->touchIndicatorRef->GetTransform()->SetPosition(this->currentTouchedCell->center);
-				this->touchIndicatorRef->GetTransform()->Translate(0.01f, YAXIS);
+				this->SetTouchIndicatorCell(this->currentTouchedCell);
 				ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
 				ENGINE->GetTween()->CancelNumberTween("pulse");
 				ENGINE->GetTween()->TweenScale(this->touchIndicatorRef->GetId(), glm::vec3(0), glm::vec3(1),TOUCH_SCALE_TIME);
 				break;
 			case TouchPhase::Ended:
-				this->currentTouchedCell = nullptr;
 				this->inputState = InputState::INPUT_STATE_WAIT;
-				if(this->gridNavRef->SetDestination(touchedCell->x, touchedCell->z) && touchedCell != this->gridNavRef->GetCurrentCell()) {
+				if(this->currentTouchedCell != nullptr && this->gridNavRef->SetDestination(this->currentTouchedCell->x, this->currentTouchedCell->z) && this->currentTouchedCell != this->gridNavRef->GetCurrentCell()) {
 					this->SwitchActionState(UNIT_ACTION_STATE_WALKING);
 					this->startTouchIndicatorPulse();
 				} else {
@@ -211,6 +209,8 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 					ENGINE->GetTween()->CancelNumberTween("pulse");
 					ENGINE->GetTween()->TweenScale(this->touchIndicatorRef->GetId(), this->touchIndicatorRef->GetTransform()->GetScale(), glm::vec3(0), TOUCH_SCALE_TIME);
 				}
+
+				this->currentTouchedCell = nullptr;
 				break;
 			case TouchPhase::Cancelled:
 				this->inputState = InputState::INPUT_STATE_WAIT;
@@ -233,17 +233,21 @@ void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
 		} else {
 			this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(BAD_TOUCH);
 		}
-		// Toggle the touch indicator visibility 
-		bool standable;
-		for(int i = 0; i < NUM_ELEVATIONS; ++i) {
-			standable = SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(this->currentTouchedCell->x,
-																						   this->currentTouchedCell->z,
-																						   i);
-			if(standable) {
-				break;
+		if(this->currentTouchedCell != nullptr) {
+			// Toggle the touch indicator visibility 
+			bool standable;
+			for(int i = 0; i < NUM_ELEVATIONS; ++i) {
+				standable = SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(this->currentTouchedCell->x,
+																							   this->currentTouchedCell->z,
+																							   i);
+				if(standable) {
+					break;
+				}
 			}
+			this->touchIndicatorRef->SetVisible(standable);
+		} else {
+			this->touchIndicatorRef->SetVisible(false);
 		}
-		this->touchIndicatorRef->SetVisible(standable);
 	}
 }
 
@@ -292,8 +296,10 @@ void PlayerUnit::SetTouchIndicatorSprite(int index) {
 }
 
 void PlayerUnit::SetTouchIndicatorCell(GridCell* c) {
-	this->touchIndicatorRef->GetTransform()->SetPosition(c->center);
-	this->touchIndicatorRef->GetTransform()->Translate(0.01f + (c->y * 0.05), YAXIS);
+	if(c != nullptr) {
+		this->touchIndicatorRef->GetTransform()->SetPosition(c->center);
+		this->touchIndicatorRef->GetTransform()->Translate(0.01f + (c->y * 0.05), YAXIS);
+	}
 }
 
 void PlayerUnit::SetTouchIndicatorVisible(bool visibility) {
