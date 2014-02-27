@@ -14,11 +14,11 @@ GridCell::GridCell(int x0, int y0, int z0, glm::vec3 origin0, glm::vec3 center0)
 {
 	for (int i = 0; i < NUM_ELEVATIONS; ++i) {
 		this->unitIds[i]    = OBJECT_ID_INVALID;
-		this->staticObjs[i] = OBJECT_ID_INVALID;
 	}
 }
 
 GridCell::~GridCell() {
+	this->staticObjs.clear();
 }
 
 ObjectIdType GridCell::GetFirstOccupantId() {

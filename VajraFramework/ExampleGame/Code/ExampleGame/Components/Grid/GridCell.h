@@ -29,7 +29,7 @@ public:
 	glm::vec3 origin; // Southwest corner of the cell in world coordinates
 	glm::vec3 center; // Center of the cell in world coordinates
 	ObjectIdType unitIds[NUM_ELEVATIONS];    // units occupying the cell at each elevation
-	ObjectIdType staticObjs[NUM_ELEVATIONS]; // static object IDs that occupy the cell at each elevation
+	std::vector<ObjectIdType> staticObjs;    // list of static object IDs that occupy the cell
 
 	/*
 	? Vision blocking
