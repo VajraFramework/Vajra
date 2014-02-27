@@ -157,14 +157,7 @@ GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
 	return nullptr;
 }
 
-glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
-	// Get the elevation the cell we are touching is
-	GridCell* touchedCell = this->TouchPositionToCell(touchPos);
-	if(touchedCell == nullptr) {
-		return glm::vec3(0);
-	}
-	// Raycast against that height to get true grid position
-	float elevation = touchedCell->y;
+glm::vec3 GridManager::TouchPositionToGridPositionAtElevation(glm::vec2 touchPos, int elevation) {
 	float dist;
 	Ray screenRay = ENGINE->GetSceneGraph3D()->GetMainCamera()->ScreenPointToRay(touchPos);
 	glm::vec3 gridPosition;
@@ -210,8 +203,8 @@ void GridManager::debugTouchUpdate(int touchIndex) {
 	if (cell != nullptr) {
 		DebugDraw::DrawCube(cell->center, 1.0f);
 	}
-	glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
-	DebugDraw::DrawCube(gridPos, 0.1f);
+	//glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
+	//DebugDraw::DrawCube(gridPos, 0.1f);
 }
 #endif
 

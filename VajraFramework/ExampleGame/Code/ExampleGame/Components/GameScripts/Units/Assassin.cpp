@@ -90,6 +90,10 @@ void Assassin::onSpecialTouch(int touchId) {
 		this->trySpecial(touchId);
 	} else if(touch.phase == TouchPhase::Cancelled) {
 		this->cancelSpecial();
+	} else {
+		if(this->GetCurrentTouchedCell() == nullptr) {
+			this->aimSpecial();
+		}
 	}
 }
 
@@ -150,56 +154,59 @@ void Assassin::touchedCellChanged(GridCell* prevTouchedCell) {
 	if(this->inputState != InputState::INPUT_STATE_SPECIAL) {
 		PlayerUnit::touchedCellChanged(prevTouchedCell);
 	} else {
-		this->aimSpecial();
+		 this->aimSpecial();
 	}
 }
 
 void Assassin::aimSpecial(){
-	if(this->GetCurrentTouchedCell() != nullptr) {
-		std::list<GridCell*> touchedCells;
-		ASSERT(this->GetCurrentTouchedCell() != nullptr, "Current touhed cell is not null");
-		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->gridNavRef->GetCurrentCell(), this->GetCurrentTouchedCell(), touchedCells);
-		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(this->gridNavRef->GetCurrentCell()->center.y);
-		int cellIndex = 0;
-		for( GridCell* c : touchedCells) {
-			if(cellIndex <= GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units) && SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, elevation)) {
-				this->targetedCell = c;
-			} else {
-				break;
-			}
-			cellIndex++;
-		}
-		if(this->targetedCell != this->gridNavRef->GetCurrentCell()) {
-			this->SetTouchIndicatorVisible(true);
+	glm::vec3 targetLoc = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(ENGINE->GetInput()->GetTouch(0).pos, this->gridNavRef->GetCurrentCell()->y);
 
-			// Arrow Tail
-			this->arrowTail->SetVisible(true);
-			this->gridNavRef->SetLookTarget(this->targetedCell->center);
-			this->SetTouchIndicatorCell(this->targetedCell);
-			this->TouchIndicatorLookAt(this->targetedCell);
-			float dist = glm::distance(this->gridNavRef->GetCurrentCell()->center, this->targetedCell->center) - 1.5f;
-			if(dist < 0.5f) {
-				this->arrowTail->SetVisible(false);
-			}
-			this->arrowTail->GetTransform()->SetScale(1.0f, dist, 1.0f);
+	std::list<GridCell*> touchedCells;
+	
+	GridCell* targetCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(targetLoc);
+	ASSERT(targetCell != nullptr, "the target cell is not null");
 
-			Transform* trans = this->arrowTail->GetComponent<Transform>();
-			this->GridPlaneLookAt(this->arrowTail, this->targetedCell);
-
-			trans->SetPosition(this->gridNavRef->GetCurrentCell()->center + glm::vec3(0.0f, .1f, 0.0f));
-			trans->Translate(dist * .5f, trans->GetUp());
-
-			// Arrow Head
-			glm::vec3 attackDir = this->targetedCell->center - this->gridNavRef->GetCurrentCell()->center;
-			this->arrowHead->SetVisible(true);
-			this->GridPlaneLookAt(this->arrowHead, this->targetedCell);
-			this->arrowHead->GetTransform()->SetPosition(this->targetedCell->center + glm::vec3(0.0f, .1f, 0.0f));
-			this->arrowHead->GetTransform()->Translate(-1.0f, attackDir);
-
+	SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->gridNavRef->GetCurrentCell(), targetCell, touchedCells);
+	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(this->gridNavRef->GetCurrentCell()->center.y);
+	int cellIndex = 0;
+	for( GridCell* c : touchedCells) {
+		if(cellIndex <= GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units) && SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, elevation)) {
+			this->targetedCell = c;
 		} else {
-			this->SetTouchIndicatorVisible(false);
-			this->arrowHead->SetVisible(false);
+			break;
+		}
+		cellIndex++;
+	}
+	if(this->targetedCell != this->gridNavRef->GetCurrentCell()) {
+		this->SetTouchIndicatorVisible(true);
+
+		// Arrow Tail
+		this->arrowTail->SetVisible(true);
+		this->gridNavRef->SetLookTarget(this->targetedCell->center);
+		this->SetTouchIndicatorCell(this->targetedCell);
+		this->TouchIndicatorLookAt(this->targetedCell);
+		float dist = glm::distance(this->gridNavRef->GetCurrentCell()->center, this->targetedCell->center) - 1.5f;
+		if(dist < 0.5f) {
 			this->arrowTail->SetVisible(false);
 		}
+		this->arrowTail->GetTransform()->SetScale(1.0f, dist, 1.0f);
+
+		Transform* trans = this->arrowTail->GetComponent<Transform>();
+		this->GridPlaneLookAt(this->arrowTail, this->targetedCell);
+
+		trans->SetPosition(this->gridNavRef->GetCurrentCell()->center + glm::vec3(0.0f, .1f, 0.0f));
+		trans->Translate(dist * .5f, trans->GetUp());
+
+		// Arrow Head
+		glm::vec3 attackDir = this->targetedCell->center - this->gridNavRef->GetCurrentCell()->center;
+		this->arrowHead->SetVisible(true);
+		this->GridPlaneLookAt(this->arrowHead, this->targetedCell);
+		this->arrowHead->GetTransform()->SetPosition(this->targetedCell->center + glm::vec3(0.0f, .1f, 0.0f));
+		this->arrowHead->GetTransform()->Translate(-1.0f, attackDir);
+
+	} else {
+		this->SetTouchIndicatorVisible(false);
+		this->arrowHead->SetVisible(false);
+		this->arrowTail->SetVisible(false);
 	}
 }

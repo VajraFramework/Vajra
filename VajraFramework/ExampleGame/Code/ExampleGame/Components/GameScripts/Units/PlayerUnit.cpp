@@ -275,7 +275,7 @@ void PlayerUnit::GridPlaneLookAt(GameObject* plane, GridCell* target) {
 	trans->Rotate(angle, YAXIS);
 }
 void PlayerUnit::setTouchNearUnit() {
-	glm::vec3 gridPos = SINGLETONS->GetGridManager()->TouchPositionToGridPosition(touchStartPos);
+	glm::vec3 gridPos = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(touchStartPos, this->gridNavRef->GetCurrentCell()->y);
 	if(glm::distance(gridPos, this->gridNavRef->GetCurrentCell()->center) < NEAR_TOUCH_DIST) {
 		this->touchNearUnit = true;
 	} else {
