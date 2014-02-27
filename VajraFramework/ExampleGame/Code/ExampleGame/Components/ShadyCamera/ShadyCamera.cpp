@@ -121,19 +121,6 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 	}
 }
 
-void ShadyCamera::MoveTo(glm::vec3 newPos) {
-	//this->moveTo_internal_withSpeed(newPos, this->camSpeed);
-}
-
-void ShadyCamera::MoveTo(float x, float y, float z) {
-	this->MoveTo(glm::vec3(x, y, z));
-}
-
-void ShadyCamera::PanTo(float x, float z) {
-	float y = this->gameObjectRef->GetTransform()->GetPosition().y;
-	this->MoveTo(glm::vec3(x, y, z));
-}
-
 void ShadyCamera::ZoomTo(float y) {
 	glm::vec3 newPos = this->gameObjectRef->GetTransform()->GetPosition();
 	newPos.y = y;
@@ -146,9 +133,6 @@ void ShadyCamera::ZoomBy(float yOffset) {
 	this->gameObjectRef->GetTransform()->SetPosition(newPos);
 }
 
-void ShadyCamera::MoveToGamePos() {
-	this->MoveTo(this->gameCamPos);
-}
 
 void ShadyCamera::moveTo_internal_overTime(glm::vec3 newPos, float time) {
 	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
@@ -158,11 +142,6 @@ void ShadyCamera::moveTo_internal_overTime(glm::vec3 newPos, float time) {
 		ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos,
 				time, true, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, false, shadyCameraTweenCallback);
 	}
-}
-
-// TODO [Implement] : if needed
-void ShadyCamera::LevelStartPan() {
-
 }
 
 void ShadyCamera::FollowGameObjectDirectly(ObjectIdType unitId) {

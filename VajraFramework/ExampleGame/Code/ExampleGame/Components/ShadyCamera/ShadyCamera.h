@@ -33,23 +33,11 @@ public:
 
 	virtual void HandleMessage(MessageChunk messageChunk);
 
-	// General camera moving functions
-	void MoveTo(glm::vec3 newPos);
-	//[[PROPERTY]]//
-	void MoveTo(float x, float y, float z);
-
-	// Moves the camera along x and z, keeping y (height) the same
-	void PanTo(float x, float z);
 	void ZoomTo(float y);
 	void ZoomBy(float yOffset);
 
 	void MoveGameCamToRoom(int i, int j); // Cell indicies
-	// Move camera to game room
 	void MoveToGamePos(); // move to current room
-	// Sets current room and then moves to it
-
-	// Pan the camera along a preset path for a level intro
-	void LevelStartPan();
 
 	void FollowGameObjectDirectly(ObjectIdType unitId);
 
@@ -83,7 +71,7 @@ private:
 	float panTime;
 	float gameToOverviewTime;
 	float heightChangeTime;
-	
+
 	float maxZoomSpeed;
 	float maxWrongZoomAmt;
 	float changeModeThreshold;
