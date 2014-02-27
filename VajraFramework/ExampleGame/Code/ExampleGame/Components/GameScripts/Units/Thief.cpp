@@ -137,6 +137,11 @@ void Thief::onSpecialEnd() {
 	ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
 }
 
+void Thief::cancelSpecial() {
+	PlayerUnit::cancelSpecial();
+	this->tweenOutTargets();
+	
+}
 void Thief::touchedCellChanged(GridCell* prevTouchedCell) {
 	if(this->inputState != InputState::INPUT_STATE_SPECIAL) {
 		PlayerUnit::touchedCellChanged(prevTouchedCell);

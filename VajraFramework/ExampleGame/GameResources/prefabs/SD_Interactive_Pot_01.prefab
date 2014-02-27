@@ -1,12 +1,21 @@
 <prefab>
-  <gameobject>
-      <component name="MeshRenderer">
-          <property name="InitMesh">
-              <field>models/SD_Interactive_Pot_01.model</field>
-          </property>
-      </component>
+	<gameobject>
+		<component name="GridNavigator">
+		</component>
 
-      <component name="Transform">
-      </component>
-  </gameobject>
+		<component name="BreakablePot">
+			<property name="SetDeathEffect">
+				<field>dustexplosion.prefab</field>
+			</property>
+		</component>
+	
+		<component name="MeshRenderer">
+		  <property name="InitMesh">
+			  <field>models/SD_Interactive_Pot_01.model</field>
+		  </property>
+		</component>
+
+		<component name="Transform">
+		</component>
+	</gameobject>
 </prefab>

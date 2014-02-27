@@ -16,6 +16,7 @@
 #include "Vajra/Utilities/MathUtilities.h"
 
 #define DEFAULT_GAME_CAM_OFFSET glm::vec3(0.0f, 25.0f, 0.0f)
+
 void shadyCameraTweenCallback(ObjectIdType gameObjectId, std::string /* tweenClipName */) {
 	GameObject* camObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if(camObj != nullptr) {
@@ -43,8 +44,10 @@ void ShadyCamera::init() {
 	// Set camera properties
 	this->SetFOV(30.0f inRadians);
 	
-	this->camSpeed = GetFloatGameConstant(GAME_CONSTANT_camSpeed);
-	this->zoomSpeed = GetFloatGameConstant(GAME_CONSTANT_zoomSpeed);
+	// read and store constants
+	this->panTime = GetFloatGameConstant(GAME_CONSTANT_panTime);
+	this->gameToOverviewTime = GetFloatGameConstant(GAME_CONSTANT_gameToOverviewTime);
+	this->heightChangeTime = GetFloatGameConstant(GAME_CONSTANT_heightChangeTime);
 	this->maxZoomSpeed = GetFloatGameConstant(GAME_CONSTANT_maxZoomSpeed);
 	this->maxWrongZoomAmt = GetFloatGameConstant(GAME_CONSTANT_maxWrongZoomAmt);
 	this->changeModeThreshold = GetFloatGameConstant(GAME_CONSTANT_changeModeThreshold);
@@ -110,25 +113,12 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 			break;
 		case MESSAGE_TYPE_UNIT_SPECIAL_HIT:
 			if(messageChunk->GetSenderId() == SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
-				this->MoveGameCamToRoom(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
+				this->MoveGameCamToRoom(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z); // Add zoom function 
 			}
 			break;
 		default:
 			break;
 	}
-}
-
-void ShadyCamera::MoveTo(glm::vec3 newPos) {
-	this->moveTo_internal(newPos, this->camSpeed);
-}
-
-void ShadyCamera::MoveTo(float x, float y, float z) {
-	this->MoveTo(glm::vec3(x, y, z));
-}
-
-void ShadyCamera::PanTo(float x, float z) {
-	float y = this->gameObjectRef->GetTransform()->GetPosition().y;
-	this->MoveTo(glm::vec3(x, y, z));
 }
 
 void ShadyCamera::ZoomTo(float y) {
@@ -143,23 +133,15 @@ void ShadyCamera::ZoomBy(float yOffset) {
 	this->gameObjectRef->GetTransform()->SetPosition(newPos);
 }
 
-void ShadyCamera::MoveToGamePos() {
-	this->MoveTo(this->gameCamPos);
-}
 
-void ShadyCamera::moveTo_internal(glm::vec3 newPos, float speed) {
+void ShadyCamera::moveTo_internal_overTime(glm::vec3 newPos, float time) {
 	glm::vec3 curPos = this->gameObjectRef->GetTransform()->GetPosition();
 	float dist = glm::distance(curPos, newPos);
 	if (dist > ROUNDING_ERROR) {
 		this->isMoving = true;
 		ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos,
-				dist / speed, true, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, false, shadyCameraTweenCallback);
+				time, true, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, false, shadyCameraTweenCallback);
 	}
-}
-
-// TODO [Implement] : if needed
-void ShadyCamera::LevelStartPan() {
-
 }
 
 void ShadyCamera::FollowGameObjectDirectly(ObjectIdType unitId) {
@@ -176,9 +158,25 @@ void ShadyCamera::FollowGameObjectDirectly(ObjectIdType unitId) {
 void ShadyCamera::MoveGameCamToRoom(int i, int j) {
 	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(i, j);
 	glm::vec3 roomCenter = SINGLETONS->GetGridManager()->GetGrid()->GetRoomCenter(cell);
-	this->setCurrentRoomCenter(roomCenter);
-	this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(cell->y));
-	this->updateGameCamPos();
+
+	// If we are moving to a new room
+	if(roomCenter != this->currentRoomCenter) { 
+
+		float roomChangeTime = this->panTime;
+		// We want a slow pan for left and right (because screens are wider than tall)
+		if(std::abs(roomCenter.x - this->currentRoomCenter.x) > std::abs(roomCenter.z - this->currentRoomCenter.z)) {
+			roomChangeTime *= 1.66f; // make this based on resolution
+		}
+		
+		this->setCurrentRoomCenter(roomCenter);
+		this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(cell->y));
+		this->updateGameCamPos();
+		this->moveTo_internal_overTime(this->gameCamPos, roomChangeTime);
+	} else { // if we are simply (and potentieally) changing height
+		this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(cell->y));
+		this->updateGameCamPos();
+		this->moveTo_internal_overTime(this->gameCamPos, this->heightChangeTime);
+	}
 }
 
 void ShadyCamera::setCurrentRoomCenter(glm::vec3 roomCenter) {
@@ -198,9 +196,6 @@ void ShadyCamera::updateGameCamPos() {
 	glm::vec3 newPos = this->currentRoomCenter + this->gameCamOffset;
 	if(newPos != this->gameCamPos) {
 		this->gameCamPos = newPos;
-		if(this->camMode == CameraMode::CameraMode_Game) {
-			this->MoveToGamePos();
-		}
 	}
 }
 
@@ -236,18 +231,18 @@ void ShadyCamera::onPinch() {
 		this->isMoving = false;
 		if(this->camMode == CameraMode::CameraMode_Game) {	
 			if(curPos.y - this->changeModeThreshold <= this->gameCamPos.y) {
-				this->moveTo_internal(this->gameCamPos, this->camSpeed);
+				this->moveTo_internal_overTime(this->gameCamPos, this->heightChangeTime);
 				this->setCameraMode(CameraMode::CameraMode_Game);
 			} else {
-				this->moveTo_internal(this->overviewPos, this->zoomSpeed);
+				this->moveTo_internal_overTime(this->overviewPos, this->gameToOverviewTime);
 				this->setCameraMode(CameraMode::CameraMode_Overview);
 			}
 		} else if(this->camMode == CameraMode::CameraMode_Overview) {
 			if(curPos.y + this->changeModeThreshold <= this->overviewPos.y) {
-				this->moveTo_internal(this->gameCamPos, this->zoomSpeed);
+				this->moveTo_internal_overTime(this->gameCamPos, this->gameToOverviewTime);
 				this->setCameraMode(CameraMode::CameraMode_Game);
 			} else {
-				this->moveTo_internal(this->overviewPos, this->camSpeed);
+				this->moveTo_internal_overTime(this->overviewPos, this->heightChangeTime);
 				this->setCameraMode(CameraMode::CameraMode_Overview);
 			}
 		}

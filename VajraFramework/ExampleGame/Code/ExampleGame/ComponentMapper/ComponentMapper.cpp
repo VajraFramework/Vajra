@@ -669,11 +669,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "ShadyCamera") {
 		ShadyCamera* component = gameObject->GetComponent<ShadyCamera>();
 		if (component == nullptr) { return; }
-		if (propertyName == "MoveTo") {
-			if ((int)argv.size() < 3) { return; }
-			component->MoveTo(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
-			return;
-		}
 		return;
 	}
 	

@@ -87,8 +87,7 @@ void UiFontRenderer::Draw() {
     checkGlError("glVertexAttribPointer");
 
     ASSERT(this->fontType->GetTextureAsset() != nullptr, "FontType has texture initialized");
-	glBindTexture(GL_TEXTURE_2D, this->fontType->GetTextureAsset()->GetGLTextureHandle());
-	checkGlError("glBindTexture");
+	this->fontType->GetTextureAsset()->Draw(0);
 
 	GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
 	glEnableVertexAttribArray(textureCoordsHandle);

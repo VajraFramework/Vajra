@@ -85,10 +85,12 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION:
 			if(this->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL) {
 				this->onSpecialEnd();
-			}  else if(this->inputState == InputState::INPUT_STATE_WAIT || this->inputState == InputState::INPUT_STATE_NONE) {
+			}  else {
 				this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
-				ENGINE->GetTween()->CancelNumberTween("pulse");
-				ENGINE->GetTween()->TweenScale(this->touchIndicatorRef->GetId(), this->touchIndicatorRef->GetTransform()->GetScale(), glm::vec3(0), TOUCH_SCALE_TIME);
+				if(this->inputState == InputState::INPUT_STATE_WAIT || this->inputState == InputState::INPUT_STATE_NONE) {
+					ENGINE->GetTween()->CancelNumberTween("pulse");
+					ENGINE->GetTween()->TweenScale(this->touchIndicatorRef->GetId(), this->touchIndicatorRef->GetTransform()->GetScale(), glm::vec3(0), TOUCH_SCALE_TIME);
+				}
 			}
 			break;
 		default:
@@ -101,7 +103,7 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 	if(touchBegan) {
 		this->unitHasTouchFocus = true;
 	}
-
+	
 	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL ||
 	   this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_POST_SPECIAL) {
 		this->unitHasTouchFocus = false;
@@ -145,7 +147,7 @@ void PlayerUnit::OnDeselect() {
 }
 
 void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {
-	if(this->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL) {
+	if(this->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL || this->GetUnitActionState() == UNIT_ACTION_STATE_POST_SPECIAL) {
 		this->cancelSpecial();
 	}
 	this->SetTouchIndicatorCell(newTarget);
@@ -166,14 +168,14 @@ void PlayerUnit::startSpecial() {
 }
 
 void PlayerUnit::onSpecialEnd() {
-	this->inputState = InputState::INPUT_STATE_NONE;
+	this->inputState = InputState::INPUT_STATE_WAIT;
 	this->SwitchActionState(UNIT_ACTION_STATE_POST_SPECIAL);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	this->touchIndicatorRef->SetVisible(false);
 }
 
 void PlayerUnit::cancelSpecial() {
-	this->inputState = InputState::INPUT_STATE_NONE;
+	this->inputState = InputState::INPUT_STATE_WAIT;
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	this->touchIndicatorRef->SetVisible(false);
@@ -190,8 +192,6 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				this->inputState = InputState::INPUT_STATE_NAV;
 				this->touchIndicatorRef->GetTransform()->SetPosition(this->currentTouchedCell->center);
 				this->touchIndicatorRef->GetTransform()->Translate(0.01f, YAXIS);
-				// touch indicator tween up
-				this->touchIndicatorRef->SetVisible(true);
 				ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
 				ENGINE->GetTween()->CancelNumberTween("pulse");
 				ENGINE->GetTween()->TweenScale(this->touchIndicatorRef->GetId(), glm::vec3(0), glm::vec3(1),TOUCH_SCALE_TIME);
@@ -216,6 +216,8 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				this->inputState = InputState::INPUT_STATE_WAIT;
 				this->currentTouchedCell = nullptr;
 				this->touchIndicatorRef->SetVisible(false);
+				ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
+				ENGINE->GetTween()->CancelNumberTween("pulse");
 				break;
 			default:
 				break;
@@ -259,7 +261,7 @@ void PlayerUnit::GridPlaneLookAt(GameObject* plane, GridCell* target) {
 		angle = -angle;
 	}
 
-	if(glm::isnan(angle)) {
+	if(std::isnan(angle)) {
 		return;
 	}
 

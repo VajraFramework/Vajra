@@ -8,6 +8,7 @@
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
 #include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
 #include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
+#include "ExampleGame/Components/Grid/GridConstants.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
@@ -23,6 +24,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/Lighting/AmbientLighting.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
@@ -87,6 +89,12 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	VERIFY(cameraNode != nullptr, "Level definition contains <%s> node", CAMERA_TAG);
 	loadCameraDataFromXml(cameraNode);
 
+	XmlNode* lightmapNode = levelNode->GetFirstChildByNodeName(LIGHTMAP_TAG);
+	std::string lightMapName;
+	if (lightmapNode != nullptr) {
+		lightMapName = lightmapNode->GetAttributeValueS(NAME_ATTRIBUTE);
+	}
+
 	delete parser;
 
 	idsFromXml.clear();
@@ -98,9 +106,18 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	dlight->GetTransform()->LookAt(0.5f, 10.0f, 0.5f);
 	ENGINE->GetSceneGraph3D()->SetMainDirectionalLightId(dlight->GetId());
 	//
-	dlightComponent->SetAmbientColor(0.5f, 0.5f, 0.6f, 1.0f);
-	dlightComponent->SetDiffuseColor(0.4f, 0.3f, 0.3f, 1.0f);
-			
+	dlightComponent->SetAmbientColor(0.125, 0.125, 0.2, 1.0f);
+	dlightComponent->SetDiffuseColor(0.6f, 0.5f, 0.5f, 1.0f);
+
+	if (lightMapName != "") {
+		std::string pathToAmbientLightMap = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + lightMapName;
+		ENGINE->GetAmbientLighting()->SetBakedAmbientLightTexture(
+								  	pathToAmbientLightMap.c_str(),
+								  	SINGLETONS->GetGridManager()->GetGrid()->GetGridWidth()  * CELL_SIZE,
+								  	SINGLETONS->GetGridManager()->GetGrid()->GetGridHeight() * CELL_SIZE);
+	} else {
+		ENGINE->GetAmbientLighting()->ResetBakedAmbientLightTexture();
+	}
 }
 
 LevelType LevelLoader::stringToLevelType(std::string type) {

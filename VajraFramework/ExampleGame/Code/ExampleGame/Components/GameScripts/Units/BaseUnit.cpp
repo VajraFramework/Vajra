@@ -60,13 +60,15 @@ void BaseUnit::update() {
 }
 
 void BaseUnit::SwitchActionState(UnitActionState newState) {
-	UnitActionState oldState = this->unitActionState;
-	this->unitActionState = newState;
-	MessageChunk messageChunk = ENGINE->GetMessageHub()->GetOneFreeMessage();
-	messageChunk->SetMessageType(MESSAGE_TYPE_UNIT_ACTION_STATE_CHANGED);
-	messageChunk->messageData.iv1.x = oldState;
-	messageChunk->messageData.iv1.y = newState;
-	ENGINE->GetMessageHub()->SendPointcastMessage(messageChunk, this->GetObject()->GetId(), this->GetObject()->GetId());
+	if(newState != this->unitActionState) {
+		UnitActionState oldState = this->unitActionState;
+		this->unitActionState = newState;
+		MessageChunk messageChunk = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		messageChunk->SetMessageType(MESSAGE_TYPE_UNIT_ACTION_STATE_CHANGED);
+		messageChunk->messageData.iv1.x = oldState;
+		messageChunk->messageData.iv1.y = newState;
+		ENGINE->GetMessageHub()->SendPointcastMessage(messageChunk, this->GetObject()->GetId(), this->GetObject()->GetId());
+	}
 }
 
 void BaseUnit::Kill() {

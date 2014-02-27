@@ -128,8 +128,7 @@ void SpriteRenderer::Draw() {
     checkGlError("glVertexAttribPointer");
 
     if (this->getNumberOfTextureAssets() != 0) {
-    	glBindTexture(GL_TEXTURE_2D, this->getTextureAssetByIndex(this->currentTextureIndex)->GetGLTextureHandle());
-    	checkGlError("glBindTexture");
+    	this->getTextureAssetByIndex(this->currentTextureIndex)->Draw(0);
 
 		GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
     	glEnableVertexAttribArray(textureCoordsHandle);
