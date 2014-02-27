@@ -116,6 +116,9 @@ void Triggerable::UnsubscribeToSwitchObject(ObjectIdType switchId) {
 		if (switchObj != nullptr) {
 			BaseSwitch* switchComp = switchObj->GetComponent<BaseSwitch>();
 			if (switchComp != nullptr) {
+				if (switchComp->IsActive()) {
+					--this->activeSwitches;
+				}
 				switchComp->RemoveSubscriber(this->GetObject()->GetId());
 			}
 		}
