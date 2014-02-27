@@ -10,8 +10,9 @@
 
 enum GameConstantId_type {
 
-	GAME_CONSTANT_camSpeed,
-	GAME_CONSTANT_zoomSpeed,
+	GAME_CONSTANT_panTime,
+	GAME_CONSTANT_gameToOverviewTime,
+	GAME_CONSTANT_heightChangeTime,
 	GAME_CONSTANT_maxZoomSpeed,
 	GAME_CONSTANT_maxWrongZoomAmt,
 	GAME_CONSTANT_changeModeThreshold,

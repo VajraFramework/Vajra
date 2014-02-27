@@ -78,11 +78,12 @@ private:
 	void onUnitChanged();
 
 	void moveTo_internal_overTime(glm::vec3 pos, float time);
-	void moveTo_internal_withSpeed(glm::vec3 pos, float speed);
-
+	
 	// consts
-	float camSpeed;
-	float zoomSpeed;
+	float panTime;
+	float gameToOverviewTime;
+	float heightChangeTime;
+	
 	float maxZoomSpeed;
 	float maxWrongZoomAmt;
 	float changeModeThreshold;
