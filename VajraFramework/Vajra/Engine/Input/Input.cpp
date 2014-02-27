@@ -1,4 +1,3 @@
-
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
@@ -103,6 +102,9 @@ Touch Input::GetTouch(int index) {
 }
 
 void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
+	if(this->asyncTouches.size() >= MAX_TOUCHES) {
+		return;
+	}
 	Touch t;
 	t.uId = uId;
 	t.pos.x = startX;
@@ -124,6 +126,7 @@ void Input::AddTouch(int uId, float startX, float startY, TouchPhase phase) {
 }
 
 void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {
+	//printf("\n \n U ID %i \n", uId);
 	for (std::vector<Touch>::iterator it = this->asyncTouches.begin();
 			it != this->asyncTouches.end(); ++it) {
 		if (it->uId == uId) {
@@ -166,11 +169,15 @@ void Input::AddGameTouchTarget(IGameTouchTarget* newTarget) {
 
 void Input::logTouches() {
 	if (this->GetTouchCount() > 0) {
-		FRAMEWORK->GetLogger()->dbglog("TOUCH LOG \n");
+		FRAMEWORK->GetLogger()->dbglog("\n TOUCH LOG \n");
 		for(std::vector<Touch>::iterator it = this->frameTouches.begin(); it != this->frameTouches.end(); ++it) {
 			FRAMEWORK->GetLogger()->dbglog("Touch id: %i pos: (%f, %f) %i \n", it->fingerId, it->pos.x, it->pos.y, (int)it->phase);
 		}
 	}
+	if(this->framePinch.gestureState != GestureState::GestureState_Inactive) {
+		FRAMEWORK->GetLogger()->dbglog("async pinch state:  %i \n", (int)this->framePinch.gestureState);
+	}
+		
 }
 
 void Input::testTouchTargets(Touch touch) {
