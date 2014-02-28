@@ -172,7 +172,11 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	// HUD
 	if (uiObject->GetName() == "pause") {
 		pauseMenu->SetVisible(!pauseMenu->IsVisible());
-		ENGINE->GetSceneGraph3D()->Pause();
+		if(pauseMenu->IsVisible()) {
+			ENGINE->GetSceneGraph3D()->Pause();
+		} else {
+			ENGINE->GetSceneGraph3D()->Resume();
+		}
 		return;
 	} else if(uiObject->GetName() == "changeUnit") {
 		SINGLETONS->GetGridManager()->SwitchSelectedUnit();
@@ -389,6 +393,7 @@ void GameUiTouchHandlers::nextTutorialImage() {
 }
 
 void GameUiTouchHandlers::onLevelEnd(bool /*success*/) {
+	ENGINE->GetSceneGraph3D()->Pause();
 	UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
 	postMenu->SetVisible(true);
 }
