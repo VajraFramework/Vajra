@@ -122,7 +122,7 @@ void MenuManager::showLoadScreen() {
 		this->loadScreen = new UiElement(ENGINE->GetSceneGraphUi());
 		ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(this->loadScreen->GetId());
 		std::vector<std::string> pathsToTextures;
-		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "splashScreen.png");
+		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "loading.png");
 		this->loadScreen->InitSprite(FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels(), "ustshdr", pathsToTextures, false);
 		this->loadScreen->SetPosition(0.0f, 0.0f);
 		this->loadScreen->SetZOrder(5);

@@ -44,7 +44,7 @@ public:
 	virtual void OnTouchUpdate(int touchIndex);
 	
 	GridCell* TouchPositionToCell(glm::vec2 touchPos);
-	glm::vec3 TouchPositionToGridPosition(glm::vec2 touchPos);
+	glm::vec3 TouchPositionToGridPositionAtElevation(glm::vec2 touchPos, int elevation);
 
 	inline void SetShadyCamera(ShadyCamera* shadyCam) { this->shadyCamRef = shadyCam; }
 	inline ShadyCamera* GetShadyCamera() { return this->shadyCamRef; }

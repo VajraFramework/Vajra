@@ -90,6 +90,10 @@ void Assassin::onSpecialTouch(int touchId) {
 		this->trySpecial(touchId);
 	} else if(touch.phase == TouchPhase::Cancelled) {
 		this->cancelSpecial();
+	} else {
+		if(this->GetCurrentTouchedCell() == nullptr) {
+			this->aimSpecial();
+		}
 	}
 }
 
@@ -150,14 +154,19 @@ void Assassin::touchedCellChanged(GridCell* prevTouchedCell) {
 	if(this->inputState != InputState::INPUT_STATE_SPECIAL) {
 		PlayerUnit::touchedCellChanged(prevTouchedCell);
 	} else {
-		this->aimSpecial();
+		 this->aimSpecial();
 	}
 }
 
 void Assassin::aimSpecial(){
+	glm::vec3 targetLoc = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(ENGINE->GetInput()->GetTouch(0).pos, this->gridNavRef->GetCurrentCell()->y);
+
 	std::list<GridCell*> touchedCells;
-	ASSERT(this->GetCurrentTouchedCell() != nullptr, "Current touhed cell is not null");
-	SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->gridNavRef->GetCurrentCell(), this->GetCurrentTouchedCell(), touchedCells);
+	
+	GridCell* targetCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(targetLoc);
+	ASSERT(targetCell != nullptr, "the target cell is not null");
+
+	SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->gridNavRef->GetCurrentCell(), targetCell, touchedCells);
 	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(this->gridNavRef->GetCurrentCell()->center.y);
 	int cellIndex = 0;
 	for( GridCell* c : touchedCells) {
