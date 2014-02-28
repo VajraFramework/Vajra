@@ -266,22 +266,20 @@ void GridNavigator::update() {
 	if (this->isTraveling) {
 		followPath();
 	}
-	else {
-		glm::vec3 pos = this->gameObjectRef->GetTransform()->GetPositionWorld();
-		GridCell* actualCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(pos);
-		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(pos.y);
-		if (!this->canNavigateThroughCellAtElevation(actualCell, elevation, this->ignoreOccupantsForPathing)) {
-			// If the navigator ended up in an impossible area, get to the nearest walkable area.
-			goToNearestPassableCell();
-		}
-	}
 	if (this->isTurning) {
 		updateFacing();
 	}
 }
 
 void GridNavigator::recalculatePath() {
-	if (this->isTraveling) {
+	glm::vec3 pos = this->gameObjectRef->GetTransform()->GetPositionWorld();
+	GridCell* actualCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(pos);
+	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(pos.y);
+	if (!this->canNavigateThroughCellAtElevation(actualCell, elevation, this->ignoreOccupantsForPathing)) {
+		// If the navigator isp in an impossible area, get to the nearest walkable area.
+		goToNearestPassableCell();
+	}
+	else if (this->isTraveling) {
 		// If our current path is now blocked but another one is available, we'll change course.
 		// If no valid path exists anymore, continue along current route.
 		GridCell* destCell = this->currentPath.back();
