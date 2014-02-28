@@ -11,6 +11,22 @@
           </component>
 
           <component name="Transform">
+              <property name="Translate">
+                  <field>0</field>
+                  <field>0</field>
+                  <field>0</field>
+              </property>
+              <property name="RotateByDegrees">
+                  <field>180</field>
+                  <field>0</field>
+                  <field>1</field>
+                  <field>0</field>
+              </property>
+              <property name="Scale">
+                  <field>1</field>
+                  <field>1</field>
+                  <field>1</field>
+              </property>
           </component>
       </gameobject>
       <gameobject>
@@ -25,6 +41,17 @@
                   <field>0</field>
                   <field>2</field>
                   <field>0</field>
+              </property>
+              <property name="RotateByDegrees">
+                  <field>0</field>
+                  <field>0</field>
+                  <field>1</field>
+                  <field>0</field>
+              </property>
+              <property name="Scale">
+                  <field>1</field>
+                  <field>1</field>
+                  <field>1</field>
               </property>
           </component>
       </gameobject>

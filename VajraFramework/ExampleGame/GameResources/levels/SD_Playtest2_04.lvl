@@ -390,9 +390,9 @@
       </staticObject>
 		<staticObject id="162992" prefab="SD_Short_Terrace_Straight_01" x="61" y="2.0" z="29" width="3" height="3" rotation="90">
       </staticObject>
-		<staticObject id="-1733610" prefab="SD_Chasm_1x2_01" x="36" y="0.0" z="12" width="1" height="2" rotation="270">
+		<staticObject id="1733610" prefab="SD_Chasm_1x2_01" x="36" y="0.0" z="12" width="1" height="2" rotation="270">
       </staticObject>
-		<staticObject id="-1725354" prefab="SD_Chasm_1x2_01" x="43" y="0.0" z="12" width="1" height="2" rotation="90">
+		<staticObject id="1725354" prefab="SD_Chasm_1x2_01" x="43" y="0.0" z="12" width="1" height="2" rotation="90">
       </staticObject>
 		<staticObject id="164080" prefab="SD_Chasm_1x9_01" x="35" y="0.0" z="13" width="9" height="1" rotation="180">
       </staticObject>
@@ -564,7 +564,7 @@
               </property>
           </component>
       </dynamicObject>
-      <dynamicObject id="159506" prefab="ScreenTransZone" x="45" y="0" z="23" rotation="180">
+      <dynamicObject id="159506" prefab="ScreenTransZone" x="45" y="2" z="23" rotation="180">
           <component name="TransitionZone">
               <property name="SetZoneBounds">
                   <field>-1</field>
@@ -582,7 +582,7 @@
               </property>
           </component>
       </dynamicObject>
-      <dynamicObject id="158710" prefab="ScreenTransZone" x="27" y="0" z="23" rotation="180">
+      <dynamicObject id="158710" prefab="ScreenTransZone" x="23" y="2" z="23" rotation="180">
           <component name="TransitionZone">
               <property name="SetZoneBounds">
                   <field>-1</field>
