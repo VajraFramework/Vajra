@@ -81,6 +81,7 @@ private:
 	void checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell);
 	void checkRoomCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell);
 
+	void tryUnitSwitch(int touchIndex);
 	void selectUnitInCell(int x, int z);
 	void selectUnitInCell(GridCell* cell);
 	void deselectUnit();

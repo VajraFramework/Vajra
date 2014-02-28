@@ -122,9 +122,10 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 			this->setTouchNearUnit();
 		}	
 
+		if(this->inputState == InputState::INPUT_STATE_NONE) {
+			this->onSelectedTouch();
+		}
 		switch(this->inputState) {
-			case InputState::INPUT_STATE_NONE:
-				this->onSelectedTouch();
 			case InputState::INPUT_STATE_WAIT:
 			case InputState::INPUT_STATE_NAV:
 				this->onNavTouch(touchId, touchedCell);

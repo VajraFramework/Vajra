@@ -120,23 +120,57 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 #ifdef DEBUG_GRID
 	debugTouchUpdate(touchIndex);
 #endif
-
-	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
-	GridCell* cell = this->TouchPositionToCell(touch.pos);
-	if (cell != nullptr) {
-		if(cell->GetFirstOccupantId() != OBJECT_ID_INVALID) {
-			if((cell->GetFirstOccupantId() != selectedUnitId) && (touch.phase == TouchPhase::Began)) {
-				selectUnitInCell(cell);
-			}
-		}
-	}
+	this->tryUnitSwitch(touchIndex);
 	if(this->selectedUnitId != OBJECT_ID_INVALID) {
+		GridCell* cell = this->TouchPositionToCell(ENGINE->GetInput()->GetTouch(touchIndex).pos);
 		GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
 		PlayerUnit* unit = obj->GetComponent<PlayerUnit>();
 		unit->OnTouch(touchIndex, cell);
 	}
 }
 
+void GridManager::tryUnitSwitch(int touchIndex) {
+	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
+	if(touch.phase != TouchPhase::Began) {
+		return;
+	}
+
+	GridCell* cell = this->TouchPositionToCell(touch.pos);
+	if (cell != nullptr) {
+		
+		// early out if you click right on a unit
+		if(cell->GetFirstOccupantId() != OBJECT_ID_INVALID) {
+			if((cell->GetFirstOccupantId() != selectedUnitId)) {
+				this->selectUnitInCell(cell);
+				return;
+			}
+		}
+		
+		PlayerUnit* selectedUnit = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId)->GetComponent<PlayerUnit>();
+		for(auto typeIdPair : this->playerUnits) {
+			ObjectIdType objectId = typeIdPair.second;
+			if(objectId != this->selectedUnitId) {
+				// otherwise we got a lot of stuff to do
+				GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(objectId);
+				ASSERT(go != nullptr, "player unit game object is not null");
+				if(go != nullptr) {
+					float distToSwitch = .65f;
+					glm::vec3 unitPos = go->GetTransform()->GetPosition();
+					GridCell* unitCell = this->grid->GetCell(unitPos);
+					glm::vec3 touchPos = this->TouchPositionToGridPositionAtElevation(touch.pos, unitCell->y);
+					if(unitCell != nullptr && !selectedUnit->GetGridNavRef()->CanReachDestination(unitPos)) {
+						distToSwitch += 1.0f;
+					}
+					if(glm::distance(unitPos, touchPos) <= distToSwitch) {
+						this->selectUnitInCell(unitCell);
+						return;
+					}
+				}
+
+			}
+		}
+	}
+}
 GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
 	glm::vec3 gridPosition = glm::vec3();
 	Ray screenRay = ENGINE->GetSceneGraph3D()->GetMainCamera()->ScreenPointToRay(touchPos);
