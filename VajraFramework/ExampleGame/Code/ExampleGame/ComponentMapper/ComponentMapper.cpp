@@ -27,6 +27,7 @@
 #include "ExampleGame/Components/Grid/GridZones/TransitionZone.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
+#include "ExampleGame/Components/Switches/BaseSwitch.h"
 #include "ExampleGame/Components/Switches/GridZoneSwitch.h"
 #include "ExampleGame/Components/Switches/MultiplexSwitch.h"
 #include "ExampleGame/Components/Switches/UnitInGridZoneSwitch.h"
@@ -194,6 +195,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "ShadyCamera") {
 		ShadyCamera* component = gameObject->GetComponent<ShadyCamera>();
 		if (component == nullptr) { component = gameObject->AddComponent<ShadyCamera>(); }
+		return component;
+	}
+	
+	if (componentName == "BaseSwitch") {
+		BaseSwitch* component = gameObject->GetComponent<BaseSwitch>();
+		if (component == nullptr) { component = gameObject->AddComponent<BaseSwitch>(); }
 		return component;
 	}
 	
@@ -679,6 +686,22 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
+	if (componentName == "BaseSwitch") {
+		BaseSwitch* component = gameObject->GetComponent<BaseSwitch>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetSwitchType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetSwitchType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetResetTime") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetResetTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		return;
+	}
+	
 	if (componentName == "GridZoneSwitch") {
 		GridZoneSwitch* component = gameObject->GetComponent<GridZoneSwitch>();
 		if (component == nullptr) { return; }
@@ -840,6 +863,16 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetToggleState") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetToggleState(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SetChangeWalkability") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetChangeWalkability(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SetChangeVisibility") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetChangeVisibility(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		if (propertyName == "SetTranslation") {
