@@ -6,6 +6,7 @@
 #ifndef GRIDCELL_H
 #define GRIDCELL_H
 
+#include "ExampleGame/Components/Grid/GridConstants.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 
 #include "Libraries/glm/glm.hpp"
@@ -13,6 +14,7 @@
 class GridCell {
 public:
 	GridCell(int x0, int y0, int z0, glm::vec3 origin0, glm::vec3 center0);
+	~GridCell();
 
 	ObjectIdType GetFirstOccupantId();
 	ObjectIdType GetOccupantIdAtElevation(int elevation);
@@ -26,8 +28,8 @@ public:
 	int z; // Grid cell coordinate z
 	glm::vec3 origin; // Southwest corner of the cell in world coordinates
 	glm::vec3 center; // Center of the cell in world coordinates
-	std::list<ObjectIdType> unitIds; // List of units occupying the cell
-	std::list<ObjectIdType> staticObjs; // List of static object IDs that occupy the cell
+	ObjectIdType unitIds[NUM_ELEVATIONS];    // units occupying the cell at each elevation
+	std::vector<ObjectIdType> staticObjs;    // list of static object IDs that occupy the cell
 
 	/*
 	? Vision blocking

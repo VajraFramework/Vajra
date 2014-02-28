@@ -17,8 +17,10 @@ enum Shader_variable_qualifier_t {
 
 enum Shader_variable_datatype_t {
 	SHADER_VARIABLE_DATATYPE_float,
+	SHADER_VARIABLE_DATATYPE_sampler2D,
 	SHADER_VARIABLE_DATATYPE_vec2,
 	SHADER_VARIABLE_DATATYPE_mat4,
+	SHADER_VARIABLE_DATATYPE_vec3,
 	SHADER_VARIABLE_DATATYPE_vec4,
 	SHADER_VARIABLE_DATATYPE_invalid,
 };
@@ -55,6 +57,10 @@ enum Shader_variable_variablename_id_t {
 	SHADER_VARIABLE_VARIABLENAME_MaterialSpecularColor_out,
 	SHADER_VARIABLE_VARIABLENAME_pointSize,
 	SHADER_VARIABLE_VARIABLENAME_particleColor,
+	SHADER_VARIABLE_VARIABLENAME_myTextureSampler,
+	SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler,
+	SHADER_VARIABLE_VARIABLENAME_modelCoordsForBakedAmbientLookup_out,
+	SHADER_VARIABLE_VARIABLENAME_bakedLightMapSize,
 	SHADER_VARIABLE_VARIABLENAME_invalid,
 };
 

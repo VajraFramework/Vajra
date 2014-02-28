@@ -262,8 +262,7 @@ void MeshAsset::Draw() {
     //
     this->material->WriteMaterialToShader();
     if (this->material->HasTexture()) {
-    	glBindTexture(GL_TEXTURE_2D, this->material->GetTextureAsset()->GetGLTextureHandle());
-    	checkGlError("glBindTexture");
+    	this->material->GetTextureAsset()->Draw(0);
 
 		GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
     	glEnableVertexAttribArray(textureCoordsHandle);

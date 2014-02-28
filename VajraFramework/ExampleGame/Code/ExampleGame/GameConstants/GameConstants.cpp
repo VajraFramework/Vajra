@@ -10,8 +10,9 @@ std::map<GameConstantId_type, bool>        gameConstants_bool;
 
 void InitGameConstants() {
 
-	gameConstantNameToId["camSpeed"] = GAME_CONSTANT_camSpeed;
-	gameConstantNameToId["zoomSpeed"] = GAME_CONSTANT_zoomSpeed;
+	gameConstantNameToId["panTime"] = GAME_CONSTANT_panTime;
+	gameConstantNameToId["gameToOverviewTime"] = GAME_CONSTANT_gameToOverviewTime;
+	gameConstantNameToId["heightChangeTime"] = GAME_CONSTANT_heightChangeTime;
 	gameConstantNameToId["maxZoomSpeed"] = GAME_CONSTANT_maxZoomSpeed;
 	gameConstantNameToId["maxWrongZoomAmt"] = GAME_CONSTANT_maxWrongZoomAmt;
 	gameConstantNameToId["changeModeThreshold"] = GAME_CONSTANT_changeModeThreshold;

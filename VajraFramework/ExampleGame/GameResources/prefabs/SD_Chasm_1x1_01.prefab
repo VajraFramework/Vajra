@@ -6,15 +6,26 @@
       <gameobject>
           <component name="MeshRenderer">
               <property name="InitMesh">
-                  <field>models/SD_Chasm_1x2_01.model</field>
+                  <field>models/SD_Chasm_1x1_01.model</field>
               </property>
           </component>
 
           <component name="Transform">
               <property name="Translate">
-                  <field>0.5</field>
                   <field>0</field>
-                  <field>-0.5</field>
+                  <field>0</field>
+                  <field>0.5</field>
+              </property>
+              <property name="RotateByDegrees">
+                  <field>0</field>
+                  <field>0</field>
+                  <field>1</field>
+                  <field>0</field>
+              </property>
+              <property name="Scale">
+                  <field>1</field>
+                  <field>1</field>
+                  <field>1</field>
               </property>
           </component>
       </gameobject>

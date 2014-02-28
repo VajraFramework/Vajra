@@ -161,17 +161,23 @@ void TransitionZone::onUnitEnteredZone(ObjectIdType id) {
 		target = destCell2;
 	}
 
-
 	if(id == SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
 		PlayerUnit* pU = gObj->GetComponent<PlayerUnit>();
 		ASSERT(pU != nullptr, "gameObject has a PlayerUnit component");
 		if(pU != nullptr) {
 			pU->OnTransitionZoneEntered(target);
 		}
-		ShadyCamera* shadyCam = ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject()->GetComponent<ShadyCamera>();
-		ASSERT(shadyCam != nullptr, "What happened to the shady cam?");
-		if (shadyCam != nullptr) {
-			shadyCam->MoveGameCamToRoom(target->x, target->z);
+
+		GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
+		ASSERT(gNav != nullptr, "gameObject has a GridNavigator component");
+		if (gNav != nullptr) {
+			if (gNav->CanReachDestination(target)) {
+				ShadyCamera* shadyCam = ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject()->GetComponent<ShadyCamera>();
+				ASSERT(shadyCam != nullptr, "What happened to the shady cam?");
+				if (shadyCam != nullptr) {
+					shadyCam->MoveGameCamToRoom(target->x, target->z);
+				}
+			}
 		}
 	}
 }

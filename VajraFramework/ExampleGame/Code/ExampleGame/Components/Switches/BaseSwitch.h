@@ -45,6 +45,7 @@ public:
 	void AddSubscriber(ObjectIdType subscriberId);
 	void RemoveSubscriber(ObjectIdType subscriberId);
 
+	inline bool IsActive()     { return this->isActive;  }
 	std::string GetDecalType() { return this->decalType; }
 
 protected:
@@ -61,6 +62,7 @@ private:
 	void destroy();
 
 	void setActiveState(bool state);     // This should only be called by setConditionalState
+	void clearSubscribers();
 
 	bool isActive;
 	float resetTime;    // Time in seconds for the switch to reset

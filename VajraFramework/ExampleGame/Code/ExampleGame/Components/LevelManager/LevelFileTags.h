@@ -31,6 +31,7 @@
 #define LOSE_CONDITION_TAG    "loseCondition"
 #define START_TAG             "start"
 #define OVERVIEW_TAG          "overview"
+#define LIGHTMAP_TAG          "lightMap"
 
 #define LEVEL_NAME_ATTRIBUTE  "levelName"
 #define ID_ATTRIBUTE          "id"

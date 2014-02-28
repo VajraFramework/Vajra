@@ -5,12 +5,9 @@ vNormal
 uvCoords_in
 uvCoords_out
 
-#ifdef SKEW_GEOMETRY
 modelMatrix
 vpMatrix
-#else
-mvpMatrix
-#endif
+
 
 #ifdef PER_PIXEL_LIGHTING
 vNormal_out
@@ -31,6 +28,15 @@ DLight0AmbientColor_out
 DLight0DiffuseColor_out
 DLight0SpecularColor_out
 #endif
+
+myTextureSampler
+
+#ifdef BAKED_AMBIENT_LIGHTING
+bakedAmbientGridTextureSampler
+bakedLightMapSize
+modelCoordsForBakedAmbientLookup_out
+#endif
+
 __VARIABLES_END__
 
 
@@ -46,13 +52,16 @@ vec4 ySkew = vec4(0.0, 0.0, 0.0, 0.0);
 
 void main()
 {
-#ifdef SKEW_GEOMETRY
 	gl_Position = modelMatrix * vPosition;
+
+#ifdef BAKED_AMBIENT_LIGHTING
+	modelCoordsForBakedAmbientLookup_out.x = gl_Position.x;
+	modelCoordsForBakedAmbientLookup_out.y = gl_Position.y;
+	modelCoordsForBakedAmbientLookup_out.z = gl_Position.z;
+#endif
+
 	float yAmt = gl_Position.y;
 	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
-#else
-	gl_Position = mvpMatrix * vPosition;
-#endif
 
 	uvCoords_out = uvCoords_in;
 

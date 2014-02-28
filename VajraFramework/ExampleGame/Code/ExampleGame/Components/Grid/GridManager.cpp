@@ -129,11 +129,11 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 				selectUnitInCell(cell);
 			}
 		}
-		if(this->selectedUnitId != OBJECT_ID_INVALID) {
-			GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
-			PlayerUnit* unit = obj->GetComponent<PlayerUnit>();
-			unit->OnTouch(touchIndex, cell);
-		}
+	}
+	if(this->selectedUnitId != OBJECT_ID_INVALID) {
+		GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId);
+		PlayerUnit* unit = obj->GetComponent<PlayerUnit>();
+		unit->OnTouch(touchIndex, cell);
 	}
 }
 
@@ -145,26 +145,19 @@ GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
 	glm::vec3 posAtHeight;
 	if(rayPlaneIntersection(screenRay, this->gridPlane, dist))
 	{
-		for(int i = NUM_ELEVATIONS; i >= 0; i--) {
+		for(int i = NUM_ELEVATIONS - 1; i >= 0; i--) {
 			gridPosition = screenRay.origin + screenRay.dir * (dist - i); // due to the skew we want to use elevation values not real world units
 			posAtHeight = gridPosition + glm::vec3(0.0f, 0.0f, i); // the skew in the z is the same as the y
 			touchedCell = this->GetGrid()->GetCell(posAtHeight);
 			if(touchedCell != nullptr && this->GetGrid()->IsCellPassableAtElevation(touchedCell->x, touchedCell->z, i)) {
-				break;
+				return touchedCell;
 			}
 		}
 	}
-	return touchedCell;
+	return nullptr;
 }
 
-glm::vec3 GridManager::TouchPositionToGridPosition(glm::vec2 touchPos) {
-	// Get the elevation the cell we are touching is
-	GridCell* touchedCell = this->TouchPositionToCell(touchPos);
-	if(touchedCell == nullptr) {
-		return glm::vec3(0);
-	}
-	// Raycast against that height to get true grid position
-	float elevation = touchedCell->y;
+glm::vec3 GridManager::TouchPositionToGridPositionAtElevation(glm::vec2 touchPos, int elevation) {
 	float dist;
 	Ray screenRay = ENGINE->GetSceneGraph3D()->GetMainCamera()->ScreenPointToRay(touchPos);
 	glm::vec3 gridPosition;
@@ -210,8 +203,8 @@ void GridManager::debugTouchUpdate(int touchIndex) {
 	if (cell != nullptr) {
 		DebugDraw::DrawCube(cell->center, 1.0f);
 	}
-	glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
-	DebugDraw::DrawCube(gridPos, 0.1f);
+	//glm::vec3 gridPos = this->TouchPositionToGridPosition(touch.pos);
+	//DebugDraw::DrawCube(gridPos, 0.1f);
 }
 #endif
 
