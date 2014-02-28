@@ -181,15 +181,17 @@ void BaseSwitch::setActiveState(bool state) {
 
 void BaseSwitch::clearSubscribers() {
 	ObjectIdType myId = this->GetObject()->GetId();
-	while (this->subscribers.size() > 0) {
-		Object* obj = ObjectRegistry::GetObjectById(this->subscribers.front());
+	while (!this->subscribers.empty()) {
+		ObjectIdType subscriberId = this->subscribers.front();
+		Object* obj = ObjectRegistry::GetObjectById(subscriberId);
 		if (obj != nullptr) {
 			Triggerable* trigger = obj->GetComponent<Triggerable>();
 			if (trigger != nullptr) {
 				trigger->UnsubscribeToSwitchObject(myId);
 			}
 		}
-		this->subscribers.pop_front();
+		// TODO [Hack] Clear it out in case th etrigger couldn't be found to unsubscribe it; handle this double connection between switches and triggers better
+		this->RemoveSubscriber(subscriberId);
 	}
 }
 
