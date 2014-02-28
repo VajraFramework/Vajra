@@ -67,6 +67,7 @@ public:
 	void GetZones(std::list<GridZone*>& outZones, glm::vec3 worldPosition);
 	void GetZones(std::list<GridZone*>& outZones, GridCell* cell);
 
+	void TouchedCells(glm::vec3 startPosition, glm::vec3 goalPosition, std::list<GridCell*>& outTouched);
 	void TouchedCells(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outTouched); 
 
 	bool Passable(GridCell* startCell, GridCell* goalCell);

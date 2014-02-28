@@ -48,6 +48,7 @@ private:
 
 	void startTransition(bool raised);
 	void startPositionTween(bool raised);
+	void setCellsInGridZonePassable(bool pass);
 	void changeCellElevations(bool raised);
 
 	int elevationChange;  // The amount of elevation change when this trigger activates

@@ -29,6 +29,9 @@ public:
 
 	GridCell* GetDestination();
 
+	// @Override
+	virtual void HandleMessage(MessageChunk messageChunk);
+
 	//[[PROPERTY]]//
 	inline void SetMovementSpeed(float speed);
 	inline void SetTurnSpeedDegrees(float /* degreesPerSecond */);
@@ -83,6 +86,7 @@ private:
 	void init();
 	void destroy();
 
+	void recalculatePath();
 	void followPath();
 	void updateFacing();
 
@@ -93,11 +97,13 @@ private:
 	float actualTravelCost(GridCell* startCell, GridCell* goalCell);
 	bool canNavigateThroughCellAtElevation(GridCell* cell, int elevation, bool ignoreCellOccupants = false);
 	void simplifyPath(std::list<GridCell*>& outPath, bool ignoreCellOccupants = false);
+	void setNextWaypoint();
 
 	Transform* getTransform() { return this->gameObjectRef->GetTransform(); }
 
 	GridCell* currentCell;
 	std::list<GridCell*> currentPath;
+	std::list<GridCell*> currentSegment;
 	glm::vec3 targetForward;
 	bool isTraveling;
 	bool isTurning;
