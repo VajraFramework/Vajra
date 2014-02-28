@@ -14,17 +14,20 @@
 
 		<component name="GridZoneSwitch">
 			<property name="SetSwitchType">
-				<field>Continuous</field>
+				<field>ResetOnDeactivate</field>
 			</property>
 			<property name="SetRequiredOccupants">
 				<field>1</field>
+			</property>
+            <property name="SetResetTime">
+				<field>0.3</field>
 			</property>
 		</component>
 		
 		<gameobject>
 			<component name="MeshRenderer">
 				<property name="InitMesh">
-					<field>models/TexturedCube.model</field>
+					<field>models/SD_Interactive_PressurePlate_01.model</field>
 				</property>
 			</component>
 			

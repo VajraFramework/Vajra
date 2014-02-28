@@ -11,6 +11,7 @@ void Logger::dbglog(const char* fmt, ...) {
     va_start(args, fmt);
     this->vdbglog(fmt, args);
     va_end(args);
+    fflush(stdout);
 }
 
 void Logger::vdbglog(const char* fmt, va_list args) {
