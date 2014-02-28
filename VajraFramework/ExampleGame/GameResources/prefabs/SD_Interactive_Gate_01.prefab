@@ -25,6 +25,14 @@
 				<property name="SubscribeToParentSwitch">
 				</property>
 				
+				<property name="SetChangeWalkability">
+					<field>true</field>
+				</property>
+				
+				<property name="SetChangeVisibility">
+					<field>true</field>
+				</property>
+				
 				<property name="SetTranslation">
 					<field>1.5</field>
 					<field>0.0</field>
@@ -62,7 +70,7 @@
 				</property>
 				
 				<property name="Translate">
-					<field>0.1</field>
+					<field>-0.1</field>
 					<field>0.0</field>
 					<field>0.0</field>
 				</property>
@@ -70,6 +78,14 @@
 			
 			<component name="TriggerMovingBlocker">
 				<property name="SubscribeToParentSwitch">
+				</property>
+				
+				<property name="SetChangeWalkability">
+					<field>true</field>
+				</property>
+				
+				<property name="SetChangeVisibility">
+					<field>true</field>
 				</property>
 				
 				<property name="SetTranslation">

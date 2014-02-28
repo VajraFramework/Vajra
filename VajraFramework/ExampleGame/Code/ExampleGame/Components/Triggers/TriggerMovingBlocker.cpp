@@ -38,11 +38,13 @@ TriggerMovingBlocker::~TriggerMovingBlocker() {
 }
 
 void TriggerMovingBlocker::init() {
-	this->translation   = ZERO_VEC3;
-	this->transitTime   = 1.0f;
-	this->isPassable    = false;
-	this->isInTransit   = false;
-	this->currentCell   = nullptr;
+	this->changeWalkability = true;
+	this->changeVisibility  = true;
+	this->translation       = ZERO_VEC3;
+	this->transitTime       = 1.0f;
+	this->isPassable        = false;
+	this->isInTransit       = false;
+	this->currentCell       = nullptr;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
@@ -101,7 +103,12 @@ void TriggerMovingBlocker::update() {
 					int gX = this->currentCell->x;
 					int gZ = this->currentCell->z;
 					int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetCellGroundLevel(gX, gZ);
-					SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gX, gZ, elevation, this->isPassable);
+					if (this->changeWalkability) {
+						SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gX, gZ, elevation, this->isPassable);
+					}
+					if (this->changeVisibility) {
+						SINGLETONS->GetGridManager()->GetGrid()->SetCellVisibleAtElevation(gX, gZ, elevation, this->isPassable);
+					}
 				}
 			}
 			else {
@@ -109,17 +116,16 @@ void TriggerMovingBlocker::update() {
 					int gX = newCell->x;
 					int gZ = newCell->z;
 					int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetCellGroundLevel(gX, gZ);
-					SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gX, gZ, elevation, this->isPassable);
+					if (this->changeWalkability) {
+						SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gX, gZ, elevation, this->isPassable);
+					}
+					if (this->changeVisibility) {
+						SINGLETONS->GetGridManager()->GetGrid()->SetCellVisibleAtElevation(gX, gZ, elevation, this->isPassable);
+					}
 				}
 			}
 			this->currentCell = newCell;
 		}
-/*
-		if ((newCell != this->currentCell) && (newCell != nullptr)) {
-			this->currentCell = newCell;
-			this->setCellBlocked(this->isToggled);
-		}
-*/
 	}
 }
 
@@ -135,7 +141,6 @@ void TriggerMovingBlocker::startTransformation(bool transformed) {
 		this->isToggled = transformed;
 		this->isPassable = !this->isPassable;
 		this->isInTransit = true;
-		//this->setCellBlocked(this->isToggled);
 	}
 }
 
@@ -196,13 +201,3 @@ void TriggerMovingBlocker::startTranslation(bool transformed) {
 		);
 	}
 }
-/*
-void TriggerMovingBlocker::setCellPassable(GridCell* cell, bool passable) {
-	if (this->currentCell != nullptr) {
-		int x = this->currentCell->x;
-		int z = this->currentCell->z;
-		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetCellGroundLevel(x, z);
-		SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(x, z, elevation, blocked);
-	}
-}
-*/

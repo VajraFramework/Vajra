@@ -22,6 +22,10 @@ public:
 	//[[PROPERTY]]//
 	virtual void SetToggleState(bool toggle);
 	//[[PROPERTY]]//
+	inline void SetChangeWalkability(bool changeWalkable);
+	//[[PROPERTY]]//
+	inline void SetChangeVisibility(bool changeVisible);
+	//[[PROPERTY]]//
 	void SetTranslation(float x, float y, float z);
 	void SetTranslation(glm::vec3 vec);
 	//[[PROPERTY]]//
@@ -49,6 +53,8 @@ private:
 	void startTranslation(bool transformed);
 	//void setCellPassable(GridCell* cell, bool passable);
 
+	bool changeWalkability;
+	bool changeVisibility;
 	glm::vec3 translation;
 	float transitTime;
 	bool isPassable;
@@ -59,6 +65,8 @@ private:
 	friend void movingBlockerTweenCallback(ObjectIdType gameObjectId, std::string /*tweenClipName*/);
 };
 
-void TriggerMovingBlocker::SetTransitTime(float seconds)  { this->transitTime = seconds; }
+void TriggerMovingBlocker::SetChangeWalkability(bool changeWalkable)  { this->changeWalkability = changeWalkable; }
+void TriggerMovingBlocker::SetChangeVisibility(bool changeVisible)    { this->changeVisibility  = changeVisible;  }
+void TriggerMovingBlocker::SetTransitTime(float seconds)              { this->transitTime       = seconds;        }
 
 #endif // TRIGGERMOVINGBLOCKER_H
