@@ -98,6 +98,7 @@ private:
 	bool canNavigateThroughCellAtElevation(GridCell* cell, int elevation, bool ignoreCellOccupants = false);
 	void simplifyPath(std::list<GridCell*>& outPath, bool ignoreCellOccupants = false);
 	void setNextWaypoint();
+	void goToNearestPassableCell();
 
 	Transform* getTransform() { return this->gameObjectRef->GetTransform(); }
 
@@ -111,6 +112,7 @@ private:
 	float turningSpeed;
 	UnitType maxNavigableUnitType;
 	bool ignoreOccupantsForPathing; // This is stored each time we set a path in case the path needs to be recalculated.
+	bool ignoreEverything;          // If the navigator somehow ends up inside of a blocked area, this will turn on
 
 	GameObject* gameObjectRef;
 
