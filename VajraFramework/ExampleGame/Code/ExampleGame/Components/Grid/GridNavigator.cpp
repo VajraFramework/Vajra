@@ -517,47 +517,44 @@ bool GridNavigator::canNavigateThroughCellAtElevation(GridCell* cell, int elevat
 }
 
 void GridNavigator::simplifyPath(std::list<GridCell*>& outPath, bool ignoreCellOccupants/*= false*/) {
-	if (outPath.size() == 0) { return; }
-	std::list<GridCell*> simplePath;
+	if (outPath.size() > 0) {
+		Transform* trans = this->gameObjectRef->GetTransform();
+		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(trans->GetPositionWorld().y);
 
-	Transform* trans = this->gameObjectRef->GetTransform();
-	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(trans->GetPositionWorld().y);
+		auto startIter = outPath.begin();  // Iterator to first cell along current path segment
+		auto safeIter = startIter;         // Iterator to last known passable cell
+		auto nextIter = startIter;         // Iterator to next cell to be checked
+		nextIter++;
 
-	// Add the first node to the path
-	simplePath.push_back(outPath.front());
+		while (nextIter != outPath.end()) {
+			// Trace the direct route to the target cell.
+			std::list<GridCell*> touchedCells;
+			SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(*startIter, *nextIter, touchedCells);
 
-	auto startIter = outPath.begin();
-	auto nextIter = startIter;
-	nextIter++;
-	while (nextIter != outPath.end()) {
-		// Trace the direct route to the target cell from opposite corners.
-		std::list<GridCell*> touchedCells;
-		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(*startIter, *nextIter, touchedCells);
+			// Check if any of the cells are blocked.
+			bool isRouteClear = true;
+			for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
+				if (*iter != *startIter) {
+					if (!this->canNavigateThroughCellAtElevation(*iter, elevation, ignoreCellOccupants)) {
+						isRouteClear = false;
+						break;
+					}
+				}
+			}
 
-		// Check if any of the cells are blocked.
-		bool isRouteClear = true;
-		for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
-			if (!this->canNavigateThroughCellAtElevation(*iter, elevation, ignoreCellOccupants)) {
-				isRouteClear = false;
-				break;
+			if (isRouteClear) {
+				if (safeIter != startIter) {
+					safeIter = outPath.erase(safeIter);
+				}
+				else {
+					++safeIter;
+				}
+				++nextIter;
+			}
+			else {
+				startIter = safeIter;
 			}
 		}
-
-		if (isRouteClear) {
-			++nextIter;
-		}
-		else {
-			startIter = nextIter;
-			--startIter;
-			simplePath.push_back(*startIter);
-		}
-	}
-	simplePath.push_back(outPath.back());
-
-	outPath.clear();
-	while (simplePath.size() > 0) {
-		outPath.push_back(simplePath.front());
-		simplePath.pop_front();
 	}
 }
 
