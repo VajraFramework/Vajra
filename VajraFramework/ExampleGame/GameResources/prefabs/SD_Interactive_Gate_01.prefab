@@ -13,70 +13,15 @@
 		</component>
 		
 		<gameobject>
-			<component name="Transform>
-			</component>
-			
-			<component name="GridZone">
-				<property name="SetZoneBounds">
-					<field>-1</field>
-					<field>0</field>
-					<field>1</field>
-					<field>0</field>
-				</property>
-			</component>
-
-			<component name="TriggerTerrainBlock">
-				<property name="SubscribeToParentSwitch">
-				</property>
-			</component>
-		</gameobject>
-		
-		<gameobject>
-			<component name="MeshRenderer">
-				<property name="InitMesh">
-					<field>models/SD_Interactive_Gate_01.model</field>
-				</property>
-			</component>
-			
 			<component name="Transform">
 				<property name="Translate">
-					<field>-1</field>
+					<field>0.1</field>
 					<field>0.0</field>
 					<field>0.0</field>
 				</property>
 			</component>
 			
-			<component name="TriggerTransformation">
-				<property name="SubscribeToParentSwitch">
-				</property>
-				
-				<property name="SetTranslation">
-					<field>-1.5</field>
-					<field>0.0</field>
-					<field>0.0</field>
-				</property>
-				<property name="SetTransitTime">
-					<field>0.5</field>
-				</property>
-			</component>
-		</gameobject>
-		
-		<gameobject>
-			<component name="MeshRenderer">
-				<property name="InitMesh">
-					<field>models/SD_Interactive_Gate_01.model</field>
-				</property>
-			</component>
-			
-			<component name="Transform">
-				<property name="Translate">
-					<field>1</field>
-					<field>0.0</field>
-					<field>0.0</field>
-				</property>
-			</component>
-			
-			<component name="TriggerTransformation">
+			<component name="TriggerMovingBlocker">
 				<property name="SubscribeToParentSwitch">
 				</property>
 				
@@ -89,6 +34,69 @@
 					<field>0.5</field>
 				</property>
 			</component>
+			
+			<gameobject>
+				<component name="MeshRenderer">
+					<property name="InitMesh">
+						<field>models/SD_Interactive_Gate_01.model</field>
+					</property>
+				</component>
+				
+				<component name="Transform">
+					<property name="Translate">
+						<field>0.9</field>
+						<field>0.0</field>
+						<field>0.0</field>
+					</property>
+				</component>
+			</gameobject>
+		</gameobject>
+		
+		<gameobject>
+			<component name="Transform">
+				<property name="RotateByDegrees">
+					<field>180.0</field>
+					<field>0.0</field>
+					<field>1.0</field>
+					<field>0.0</field>
+				</property>
+				
+				<property name="Translate">
+					<field>0.1</field>
+					<field>0.0</field>
+					<field>0.0</field>
+				</property>
+			</component>
+			
+			<component name="TriggerMovingBlocker">
+				<property name="SubscribeToParentSwitch">
+				</property>
+				
+				<property name="SetTranslation">
+					<field>-1.5</field>
+					<field>0.0</field>
+					<field>0.0</field>
+				</property>
+				<property name="SetTransitTime">
+					<field>0.5</field>
+				</property>
+			</component>
+
+			<gameobject>
+				<component name="MeshRenderer">
+					<property name="InitMesh">
+						<field>models/SD_Interactive_Gate_01.model</field>
+					</property>
+				</component>
+				
+				<component name="Transform">
+					<property name="Translate">
+						<field>0.9</field>
+						<field>0.0</field>
+						<field>0.0</field>
+					</property>
+				</component>
+			</gameobject>
 		</gameobject>
 	</gameobject>
 </prefab>

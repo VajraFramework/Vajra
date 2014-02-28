@@ -32,6 +32,7 @@
 #include "ExampleGame/Components/Switches/UnitInGridZoneSwitch.h"
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/Components/Triggers/TriggerElevationChange.h"
+#include "ExampleGame/Components/Triggers/TriggerMovingBlocker.h"
 #include "ExampleGame/Components/Triggers/TriggerTerrainBlock.h"
 #include "ExampleGame/Components/Triggers/TriggerTransformation.h"
 #include "ExampleGame/Ui/MenuManager/MenuManager.h"
@@ -223,6 +224,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "TriggerElevationChange") {
 		TriggerElevationChange* component = gameObject->GetComponent<TriggerElevationChange>();
 		if (component == nullptr) { component = gameObject->AddComponent<TriggerElevationChange>(); }
+		return component;
+	}
+	
+	if (componentName == "TriggerMovingBlocker") {
+		TriggerMovingBlocker* component = gameObject->GetComponent<TriggerMovingBlocker>();
+		if (component == nullptr) { component = gameObject->AddComponent<TriggerMovingBlocker>(); }
 		return component;
 	}
 	
@@ -817,6 +824,47 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SubscribeToParentSwitch") {
 			if ((int)argv.size() < 0) { return; }
 			component->SubscribeToParentSwitch();
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "TriggerMovingBlocker") {
+		TriggerMovingBlocker* component = gameObject->GetComponent<TriggerMovingBlocker>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetToggleState") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetToggleState(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SetTranslation") {
+			if ((int)argv.size() < 3) { return; }
+			component->SetTranslation(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
+		}
+		if (propertyName == "SetTransitTime") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTransitTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SubscribeToMySwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToMySwitch();
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
+			return;
+		}
+		if (propertyName == "SetDecalType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDecalType(ConvertStringToString(argv[0]));
 			return;
 		}
 		return;
