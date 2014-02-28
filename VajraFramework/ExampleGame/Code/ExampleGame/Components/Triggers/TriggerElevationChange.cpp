@@ -28,7 +28,6 @@ void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tween
 		ASSERT(triggerComp != nullptr, "elevationChangeNumberTweenCallback: Object %d has TriggerElevationChange component", gameObjectId);
 		if (triggerComp != nullptr) {
 			// Update the grid cells
-			triggerComp->changeCellElevations(triggerComp->isToggled);
 			triggerComp->setCellsInGridZonePassable(true);
 
 			// Navigators need to update their pathfinding
@@ -148,6 +147,7 @@ void TriggerElevationChange::onUnitExitedZone(ObjectIdType id) {
 void TriggerElevationChange::startTransition(bool raised) {
 	if (raised != this->isToggled) {
 		this->startPositionTween(raised);
+		this->changeCellElevations(raised);
 		this->setCellsInGridZonePassable(false);
 
 		this->isToggled = raised;
