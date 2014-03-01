@@ -69,8 +69,7 @@ private:
 	void incrementSwitchCount();
 	void decrementSwitchCount();
 
-	bool shouldTriggerActivate();
-	bool shouldTriggerDeactivate();
+	void toggleState();
 
 	std::list<ObjectIdType> subscriptions;
 	int activeSwitches;

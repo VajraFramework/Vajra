@@ -128,48 +128,59 @@ void Triggerable::UnsubscribeToAllSwitches() {
 }
 
 void Triggerable::incrementSwitchCount() {
+	int prevActiveSwitches = this->activeSwitches;
 	this->activeSwitches++;
-	if (this->shouldTriggerActivate()) {
-		this->onSwitchToggled(true);
-		this->onSwitchActivated();
+	int numSwitches = this->subscriptions.size();
+
+	switch (this->type) {
+		case TRIGGER_TYPE_ALL:
+			if ((prevActiveSwitches < numSwitches) && (this->activeSwitches >= numSwitches)) {
+				this->toggleState();
+			}
+			break;
+
+		case TRIGGER_TYPE_ANY:
+			if ((prevActiveSwitches < 1) && (this->activeSwitches >= 1)) {
+				this->toggleState();
+			}
+			break;
+
+		default:
+			break;
 	}
 }
 
 void Triggerable::decrementSwitchCount() {
+	int prevActiveSwitches = this->activeSwitches;
 	this->activeSwitches--;
-	if (this->shouldTriggerDeactivate()) {
+	int numSwitches = this->subscriptions.size();
+
+	switch (this->type) {
+	case TRIGGER_TYPE_ALL:
+		if ((prevActiveSwitches >= numSwitches) && (this->activeSwitches < numSwitches)) {
+			this->toggleState();
+		}
+		break;
+
+	case TRIGGER_TYPE_ANY:
+		if ((prevActiveSwitches >= 1) && (this->activeSwitches < 1)) {
+			this->toggleState();
+		}
+		break;
+
+	default:
+		break;
+	}
+}
+
+void Triggerable::toggleState() {
+	if (this->isToggled) {
 		this->onSwitchToggled(false);
 		this->onSwitchDeactivated();
 	}
-}
-
-bool Triggerable::shouldTriggerActivate() {
-	if (this->isToggled) { return false; }
-
-	switch (this->type) {
-		case TRIGGER_TYPE_ALL:
-			return (this->activeSwitches >= (int)this->subscriptions.size());
-
-		case TRIGGER_TYPE_ANY:
-			return (this->activeSwitches > 0);
-
-		default:
-			return false;
-	}
-}
-
-bool Triggerable::shouldTriggerDeactivate() {
-	if (!this->isToggled) { return false; }
-
-	switch (this->type) {
-		case TRIGGER_TYPE_ALL:
-			return (this->activeSwitches < (int)this->subscriptions.size());
-
-		case TRIGGER_TYPE_ANY:
-			return (this->activeSwitches <= 0);
-
-		default:
-			return false;
+	else {
+		this->onSwitchToggled(true);
+		this->onSwitchActivated();
 	}
 }
 
