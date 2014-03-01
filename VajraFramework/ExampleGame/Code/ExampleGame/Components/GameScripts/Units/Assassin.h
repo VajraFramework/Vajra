@@ -30,14 +30,13 @@ protected:
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
 	virtual void cancelSpecial();
-	void onGridCellChanged(ObjectIdType id, int gridX, int gridZ);
+	virtual void aimSpecial(int /* touchId */ );
 
-	virtual void touchedCellChanged(GridCell* prevTouchedCell);
+	void onGridCellChanged(ObjectIdType id, int gridX, int gridZ);
 private:
 	void init();
 	void destroy();
 	
-	void aimSpecial();
 	glm::vec2 swipeDirectionScreen; // direction of the swipe on the device screen
 
 	GameObject* arrowHead;

@@ -77,7 +77,7 @@ bool Assassin::isSpecialTouch(int touchId) {
 			this->swipeDirectionScreen = this->touchStartPos - touch.pos;
 			this->targetedCell = nullptr;
 			this->gridNavRef->HaltMovement();
-			this->aimSpecial();
+			this->aimSpecial(touchId);
 			return true;
 		}
 	}
@@ -90,10 +90,8 @@ void Assassin::onSpecialTouch(int touchId) {
 		this->trySpecial(touchId);
 	} else if(touch.phase == TouchPhase::Cancelled) {
 		this->cancelSpecial();
-	} else {
-		if(this->GetCurrentTouchedCell() == nullptr) {
-			this->aimSpecial();
-		}
+	} else if(touch.phase == TouchPhase::Moved) {
+		this->aimSpecial(touchId);
 	}
 }
 
@@ -150,16 +148,8 @@ void Assassin::onGridCellChanged(ObjectIdType id, int gridX, int gridZ) {
 	}
 }
 
-void Assassin::touchedCellChanged(GridCell* prevTouchedCell) {
-	if(this->inputState != InputState::INPUT_STATE_SPECIAL) {
-		PlayerUnit::touchedCellChanged(prevTouchedCell);
-	} else {
-		 this->aimSpecial();
-	}
-}
-
-void Assassin::aimSpecial(){
-	glm::vec3 targetLoc = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(ENGINE->GetInput()->GetTouch(0).pos, this->gridNavRef->GetCurrentCell()->y);
+void Assassin::aimSpecial(int touchId){
+	glm::vec3 targetLoc = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(ENGINE->GetInput()->GetTouch(touchId).pos, this->gridNavRef->GetCurrentCell()->y);
 
 	std::list<GridCell*> touchedCells;
 	
