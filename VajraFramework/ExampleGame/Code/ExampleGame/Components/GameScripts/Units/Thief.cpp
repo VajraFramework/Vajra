@@ -302,7 +302,12 @@ void Thief::scaleDownIndicator(GridCell* cell) {
 
 GridCell* Thief::getNearCellTowardsUnit(int touchId) {
 	glm::vec3 unitPos = this->gridNavRef->GetCurrentCell()->center;
-	glm::vec3 touchPos = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(ENGINE->GetInput()->GetTouch(touchId).pos, this->gridNavRef->GetCurrentCell()->y);
+	glm::vec3 touchPos;
+	if(this->GetCurrentTouchedCell()) {
+		touchPos = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(ENGINE->GetInput()->GetTouch(touchId).pos, this->GetCurrentTouchedCell()->y);
+	}  else {
+		touchPos = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(ENGINE->GetInput()->GetTouch(touchId).pos, this->gridNavRef->GetCurrentCell()->y);
+	}
 	glm::vec3 dirTowardsThief = glm::normalize(unitPos - touchPos);
 	dirTowardsThief *= .55f;
 	glm::vec3 cellLocation = touchPos + dirTowardsThief;
