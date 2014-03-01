@@ -98,9 +98,9 @@ void GridNavigator::SetGridPosition(GridCell* cell) {
 	if (cell != nullptr) {
 		Transform* myTransform = this->GetObject()->GetComponent<Transform>();
 		myTransform->SetPosition(cell->center);
-		if (this->currentCell != cell) {
-			this->changeCell(cell);
-		}
+	}
+	if (this->currentCell != cell) {
+		this->changeCell(cell);
 	}
 }
 
@@ -398,13 +398,24 @@ void GridNavigator::updateFacing() {
 void GridNavigator::changeCell(GridCell* goalCell) {
 	Transform* trans = this->GetObject()->GetComponent<Transform>();
 	glm::vec3 pos = trans->GetPositionWorld();
+	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(pos.y);
+
+	int gridX, gridZ;
+	if (goalCell != nullptr) {
+		gridX = goalCell->x;
+		gridZ = goalCell->z;
+	}
+	else {
+		gridX = -1;
+		gridZ = -1;
+	}
 
 	// Send a message to the GridManager "asking" to move from one cell to another.
 	MessageChunk cellChangeMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 	cellChangeMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED);
-	cellChangeMessage->messageData.iv1.x = goalCell->x;
-	cellChangeMessage->messageData.iv1.y = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(pos.y);
-	cellChangeMessage->messageData.iv1.z = goalCell->z;
+	cellChangeMessage->messageData.iv1.x = gridX;
+	cellChangeMessage->messageData.iv1.y = elevation;
+	cellChangeMessage->messageData.iv1.z = gridZ;
 	ENGINE->GetMessageHub()->SendMulticastMessage(cellChangeMessage, this->GetObject()->GetId());
 }
 
