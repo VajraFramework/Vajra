@@ -30,11 +30,6 @@ void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tween
 			// Update the grid cells
 			triggerComp->setCellsInGridZonePassable(true);
 
-			// Navigators need to update their pathfinding
-			MessageChunk gridNavMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-			gridNavMessage->SetMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH);
-			ENGINE->GetMessageHub()->SendMulticastMessage(gridNavMessage, SINGLETONS->GetGridManagerObject()->GetId());
-
 			// Unchild all units in zone
 			for (auto iter = triggerComp->unitsInZone.begin(); iter != triggerComp->unitsInZone.end(); ++iter) {
 				GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
@@ -43,7 +38,18 @@ void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tween
 					gObj->GetParentSceneGraph()->GetRootGameObject()->AddChild_maintainTransform(*iter);
 
 				}
+
+				// Re-enable the navigators.
+				GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
+				if (gNav != nullptr) {
+					gNav->EnableNavigation();
+				}
 			}
+
+			// Navigators need to update their pathfinding
+			MessageChunk gridNavMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			gridNavMessage->SetMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH);
+			ENGINE->GetMessageHub()->SendMulticastMessage(gridNavMessage, SINGLETONS->GetGridManagerObject()->GetId());
 		}
 	}
 }
@@ -162,7 +168,6 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 	OnGoingTransformTweenDetails* translationDetails = ENGINE->GetTween()->GetOnGoingTransformTweenDetails(myId, TRANSFORM_TWEEN_TARGET_POSITION);
 	if (translationDetails == nullptr) {
 		// Child all units in zone to this object before tweening.
-		// glm::vec3 myPos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 		for (auto iter = this->unitsInZone.begin(); iter != this->unitsInZone.end(); ++iter) {
 
 			GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
@@ -174,7 +179,8 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 				// If it's a unit that's moving, stop it:
 				GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
 				if (gNav != nullptr) {
-					gNav->StopNavigation();
+					gNav->HaltMovement();
+					gNav->DisableNavigation();
 				}
 			}
 		}

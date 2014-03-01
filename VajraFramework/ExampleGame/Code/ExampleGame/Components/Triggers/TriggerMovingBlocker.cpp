@@ -7,8 +7,10 @@
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Triggers/TriggerMovingBlocker.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
+#include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Utilities/MathUtilities.h"
@@ -23,6 +25,11 @@ void movingBlockerTweenCallback(ObjectIdType gameObjectId, std::string /*tweenCl
 			blocker->isInTransit = false;
 		}
 	}
+
+	// Navigators need to update their pathfinding
+	MessageChunk gridNavMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	gridNavMessage->SetMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH);
+	ENGINE->GetMessageHub()->SendMulticastMessage(gridNavMessage, SINGLETONS->GetGridManagerObject()->GetId());
 }
 
 TriggerMovingBlocker::TriggerMovingBlocker() : Triggerable() {
@@ -173,7 +180,7 @@ void TriggerMovingBlocker::startTranslation(bool transformed) {
 				true,
 				TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
 				false,
-				nullptr
+				movingBlockerTweenCallback
 			);
 		}
 	}
@@ -197,7 +204,7 @@ void TriggerMovingBlocker::startTranslation(bool transformed) {
 			true,
 			TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
 			false,
-			nullptr
+			movingBlockerTweenCallback
 		);
 	}
 }

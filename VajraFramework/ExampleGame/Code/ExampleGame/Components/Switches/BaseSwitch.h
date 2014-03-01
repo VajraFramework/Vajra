@@ -26,6 +26,7 @@ class GameObject;
 
 SwitchType ConvertStringToSwitchType(std::string str);
 
+//[[COMPONENT]]//
 class BaseSwitch : public Component {
 public:
 	BaseSwitch();
@@ -34,9 +35,11 @@ public:
 
 	static inline ComponentIdType GetTypeId() { return componentTypeId; }
 
+	//[[PROPERTY]]//
 	virtual void SetSwitchType(std::string typeStr);
 	inline void SetSwitchType(SwitchType st) { this->type = st; }
 
+	//[[PROPERTY]]//
 	virtual void SetResetTime(float t);
 
 	// @Override
