@@ -152,14 +152,6 @@ void Thief::aimSpecial(int touchId) {
 			this->scaleUpIndicator(this->targetedCell);
 			this->scaleDownIndicator(prevTargetCell);
 		}
-	} else if (!this->targetIndicatorsRef[prevTargetCell] && !this->targetIndicatorsRef[this->targetedCell]) {
-		GridCell* nearCell = this->getNearCellTowardsUnit(touchId);
-		if(nearCell != nullptr) {
-			if(this->targetIndicatorsRef[nearCell]) {
-				this->scaleUpIndicator(nearCell);
-			}
-			this->targetedCell = nearCell;
-		} 
 	} else if(this->targetIndicatorsRef[prevTargetCell]) {
 		GridCell* nearCell = this->getNearCellTowardsUnit(touchId);
 		if(nearCell != nullptr) {
@@ -177,6 +169,14 @@ void Thief::aimSpecial(int touchId) {
 		}
 	} else if(this->targetIndicatorsRef[this->targetedCell]) {
 		this->scaleUpIndicator(this->targetedCell);
+	} else {
+		GridCell* nearCell = this->getNearCellTowardsUnit(touchId);
+		if(nearCell != nullptr) {
+			if(this->targetIndicatorsRef[nearCell]) {
+				this->scaleUpIndicator(nearCell);
+			}
+			this->targetedCell = nearCell;
+		} 
 	} 
 
 	if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {

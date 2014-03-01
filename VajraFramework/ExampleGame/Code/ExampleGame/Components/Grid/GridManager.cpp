@@ -158,7 +158,7 @@ void GridManager::tryUnitSwitch(int touchIndex) {
 					glm::vec3 unitPos = go->GetTransform()->GetPosition();
 					GridCell* unitCell = this->grid->GetCell(unitPos);
 					glm::vec3 touchPos = this->TouchPositionToGridPositionAtElevation(touch.pos, unitCell->y);
-					if(unitCell != nullptr && !selectedUnit->GetGridNavRef()->CanReachDestination(unitPos)) {
+					if(unitCell != nullptr && !selectedUnit->GetObject()->GetComponent<GridNavigator>()->CanReachDestination(unitPos)) {
 						distToSwitch += 1.0f;
 					}
 					if(glm::distance(unitPos, touchPos) <= distToSwitch) {

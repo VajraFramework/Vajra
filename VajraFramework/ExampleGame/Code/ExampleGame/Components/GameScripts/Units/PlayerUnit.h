@@ -35,7 +35,6 @@ public:
 	void OnDeselect();
 
 	void OnTransitionZoneEntered(GridCell* newTarget);
-	inline GridNavigator* GetGridNavRef() { return this->gridNavRef; }
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 protected:
 	void onSelectedTouch();
