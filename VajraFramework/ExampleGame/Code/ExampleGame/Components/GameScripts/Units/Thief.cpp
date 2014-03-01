@@ -100,6 +100,8 @@ void Thief::onSpecialTouch(int touchId) {
 
 void Thief::startSpecial() {
 	PlayerUnit::startSpecial();
+	this->gridNavRef->SetGridPosition(nullptr);
+
 	// Remove the indicator at the selected position
 	GameObject* selectedTargetIndicator = this->targetIndicatorsRef[this->targetedCell];
 	this->targetIndicatorsRef.erase(this->targetedCell);
