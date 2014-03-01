@@ -53,6 +53,7 @@ void GridNavigator::init() {
 	this->maxNavigableUnitType = UNIT_TYPE_UNKNOWN;
 	this->ignoreOccupantsForPathing = false;
 	this->ignoreEverything = false;
+	this->navigationEnabled = true;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH, this->GetTypeId(), false);
@@ -73,7 +74,9 @@ void GridNavigator::HandleMessage(MessageChunk messageChunk) {
 	Component::HandleMessage(messageChunk);
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_GRID_NAVIGATION_REFRESH:
-			this->recalculatePath();
+			if (this->navigationEnabled) {
+				this->recalculatePath();
+			}
 			break;
 
 		default:
@@ -235,18 +238,15 @@ bool GridNavigator::CanReachDestination(GridCell* cell, float maxDistance/*= -1.
 	return ((distance >= 0.0f) && (distance <= maxDistance));
 }
 
-void GridNavigator::PauseNavigation() {
-	this->SetIsTraveling(false);
-	this->isTurning = false;
+void GridNavigator::DisableNavigation() {
+	this->navigationEnabled = false;
 }
 
-void GridNavigator::ResumeNavigation() {
-	if (this->currentPath.size() > 0) {
-		this->SetIsTraveling(true);
-	}
+void GridNavigator::EnableNavigation() {
+	this->navigationEnabled = true;
 }
 
-void GridNavigator::StopNavigation() {
+void GridNavigator::HaltMovement() {
 	this->SetIsTraveling(false);
 	this->isTurning = false;
 	this->currentPath.clear();
@@ -263,11 +263,13 @@ void GridNavigator::ReturnToCellCenter() {
 }
 
 void GridNavigator::update() {
-	if (this->isTraveling) {
-		followPath();
-	}
-	if (this->isTurning) {
-		updateFacing();
+	if (this->navigationEnabled) {
+		if (this->isTraveling) {
+			followPath();
+		}
+		if (this->isTurning) {
+			updateFacing();
+		}
 	}
 }
 

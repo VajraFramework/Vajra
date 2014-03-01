@@ -73,9 +73,9 @@ public:
 	bool CanReachDestination(glm::vec3 worldPos, float maxDistance = -1.0f, bool ignoreCellOccupants = false);
 	bool CanReachDestination(GridCell* cell, float maxDistance = -1.0f, bool ignoreCellOccupants = false);
 
-	void PauseNavigation();
-	void ResumeNavigation();
-	void StopNavigation();
+	void DisableNavigation();
+	void EnableNavigation();
+	void HaltMovement();
 
 	void ReturnToCellCenter();  // Use this method if you want to stop a unit's movement but have it end at the center of a cell.
 
@@ -113,6 +113,7 @@ private:
 	UnitType maxNavigableUnitType;
 	bool ignoreOccupantsForPathing; // This is stored each time we set a path in case the path needs to be recalculated.
 	bool ignoreEverything;          // If the navigator somehow ends up inside of a blocked area, this will turn on
+	bool navigationEnabled;
 
 	GameObject* gameObjectRef;
 
