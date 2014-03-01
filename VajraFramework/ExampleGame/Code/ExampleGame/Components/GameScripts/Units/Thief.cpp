@@ -95,7 +95,7 @@ void Thief::onSpecialTouch(int touchId) {
 		}
 		this->tweenOutTargets();
 	} else if(touch.phase == TouchPhase::Moved) {
-		this->aimSpecial();
+		this->aimSpecial(touchId);
 	}
 }
 
@@ -143,7 +143,7 @@ void Thief::cancelSpecial() {
 	this->tweenOutTargets();
 	
 }
-void Thief::aimSpecial() {
+void Thief::aimSpecial(int touchId) {
 	GridCell* prevTargetCell = this->targetedCell;
 	this->targetedCell = this->GetCurrentTouchedCell();
 
@@ -153,7 +153,7 @@ void Thief::aimSpecial() {
 			this->scaleDownIndicator(prevTargetCell);
 		}
 	} else if (!this->targetIndicatorsRef[prevTargetCell] && !this->targetIndicatorsRef[this->targetedCell]) {
-		GridCell* nearCell = this->getNearCellTowardsUnit();
+		GridCell* nearCell = this->getNearCellTowardsUnit(touchId);
 		if(nearCell != nullptr) {
 			if(this->targetIndicatorsRef[nearCell]) {
 				this->scaleUpIndicator(nearCell);
@@ -161,7 +161,7 @@ void Thief::aimSpecial() {
 			this->targetedCell = nearCell;
 		} 
 	} else if(this->targetIndicatorsRef[prevTargetCell]) {
-		GridCell* nearCell = this->getNearCellTowardsUnit();
+		GridCell* nearCell = this->getNearCellTowardsUnit(touchId);
 		if(nearCell != nullptr) {
 			if(this->targetIndicatorsRef[nearCell]) {
 				if(nearCell != prevTargetCell) {
@@ -300,9 +300,9 @@ void Thief::scaleDownIndicator(GridCell* cell) {
 	}
 }
 
-GridCell* Thief::getNearCellTowardsUnit() {
+GridCell* Thief::getNearCellTowardsUnit(int touchId) {
 	glm::vec3 unitPos = this->gridNavRef->GetCurrentCell()->center;
-	glm::vec3 touchPos = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(ENGINE->GetInput()->GetTouch(0).pos, this->gridNavRef->GetCurrentCell()->y);
+	glm::vec3 touchPos = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(ENGINE->GetInput()->GetTouch(touchId).pos, this->gridNavRef->GetCurrentCell()->y);
 	glm::vec3 dirTowardsThief = glm::normalize(unitPos - touchPos);
 	dirTowardsThief *= .55f;
 	glm::vec3 cellLocation = touchPos + dirTowardsThief;

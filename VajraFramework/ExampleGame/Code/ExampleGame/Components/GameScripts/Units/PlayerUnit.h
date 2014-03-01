@@ -50,7 +50,7 @@ protected:
 	virtual void onSpecialEnd();
 	virtual void cancelSpecial();
 	virtual void touchedCellChanged(GridCell* prevTouchedCell);
-
+	virtual void aimSpecial(int touchId) = 0;
 	InputState inputState;
 
 	glm::vec2 touchStartPos;

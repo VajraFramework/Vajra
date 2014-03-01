@@ -32,6 +32,7 @@ protected:
 	virtual void onSpecialEnd();
 	virtual void cancelSpecial();
 
+	virtual void aimSpecial(int /* touchId */);
 private:
 	void init();
 	void destroy();
@@ -46,10 +47,9 @@ private:
 
 	GridCell* targetedCell;
 
-	void aimSpecial();
 	void scaleUpIndicator(GridCell* /*cell*/);
 	void scaleDownIndicator(GridCell* /*cell*/);
-	GridCell* getNearCellTowardsUnit();
+	GridCell* getNearCellTowardsUnit(int touchId);
 	std::vector<GridCell*> legalTargets;
 	std::map<GridCell* /*cell*/, GameObject*> targetIndicatorsRef;
 	friend void thiefTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
