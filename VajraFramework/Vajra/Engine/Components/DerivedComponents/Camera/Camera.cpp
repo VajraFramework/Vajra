@@ -50,6 +50,8 @@ void Camera::updateMatrices() {
 			ASSERT(0, "Unknown camera type, %d", this->cameraType);
 		} break;
 	}
+
+	this->updateFrustum();
 }
 
 void Camera::HandleMessage(MessageChunk messageChunk) {
@@ -99,6 +101,86 @@ Ray Camera::ScreenPointToRay(glm::vec2 screenPoint) {
 	FRAMEWORK->GetLogger()->dbglog("\ray dir: %f, %f, %f", dir.x, dir.y, dir.z);
 #endif
 	return screenRay;
+}
+
+void Camera::updateFrustum() {
+	glm::mat4 viewProj = this->projMatrix * this->viewMatrix;
+
+
+	// Left plane
+	this->frustumPlanes[PLANE_LEFT] = glm::vec4(
+								viewProj[0][3] + viewProj[0][0] ,
+								viewProj[1][3] + viewProj[1][0] ,
+								viewProj[2][3] + viewProj[2][0] ,
+								viewProj[3][3] + viewProj[3][0] );
+
+	// Right plane
+	this->frustumPlanes[PLANE_RIGHT] = glm::vec4(
+								viewProj[0][3] - viewProj[0][0] ,
+								viewProj[1][3] - viewProj[1][0] ,
+								viewProj[2][3] - viewProj[2][0] ,
+								viewProj[3][3] - viewProj[3][0] );
+
+
+    	// Top plane
+	this->frustumPlanes[PLANE_TOP] = glm::vec4(
+								viewProj[0][3] - viewProj[0][1] ,
+								viewProj[1][3] - viewProj[1][1] ,
+								viewProj[2][3] - viewProj[2][1] ,
+								viewProj[3][3] - viewProj[3][1] );
+
+    	// Bottom plane
+	this->frustumPlanes[PLANE_BOTTOM] = glm::vec4(
+								viewProj[0][3] + viewProj[0][1] ,
+								viewProj[1][3] + viewProj[1][1] ,
+								viewProj[2][3] + viewProj[2][1] ,
+								viewProj[3][3] + viewProj[3][1] );
+
+    	// Near plane
+	this->frustumPlanes[PLANE_NEAR] = glm::vec4(
+								viewProj[0][3] + viewProj[0][2] ,
+								viewProj[1][3] + viewProj[1][2] ,
+								viewProj[2][3] + viewProj[2][2] ,
+								viewProj[3][3] + viewProj[3][2] );
+
+    	// Far plane
+	this->frustumPlanes[PLANE_FAR] = glm::vec4(
+								viewProj[0][3] - viewProj[0][2] ,
+								viewProj[1][3] - viewProj[1][2] ,
+								viewProj[2][3] - viewProj[2][2] ,
+								viewProj[3][3] - viewProj[3][2] );
+
+
+
+
+	for (int i = 0 ; i < PLANE_NUM_PLANES; ++i) {
+		float magnitude = sqrt (this->frustumPlanes[i].x * this->frustumPlanes[i].x +
+								this->frustumPlanes[i].y * this->frustumPlanes[i].y +
+								this->frustumPlanes[i].z * this->frustumPlanes[i].z);
+		this->frustumPlanes[i][0] /= magnitude;
+		this->frustumPlanes[i][1] /= magnitude;
+		this->frustumPlanes[i][2] /= magnitude;
+		this->frustumPlanes[i][3] /= magnitude;
+	}
+}
+
+float DistanceToPoint(glm::vec4 plane, glm::vec3 point) {
+	return (plane.x * point.x + plane.y * point.y + plane.z * point.z + plane.w);
+}
+
+bool Camera::IsPointInFrustum(glm::vec3 point) {
+
+	// TODO [Hack] Don't check against near and far planes, save computation
+	for (int i = 0 ; i < PLANE_NEAR; ++i) {
+		glm::vec4 plane = this->frustumPlanes[i];
+		// float signed_distance = glm::dot(point, glm::vec3(plane));
+		float signed_distance = DistanceToPoint(plane, point);
+		if (signed_distance < 0) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void Camera::init() {
