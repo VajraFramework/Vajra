@@ -65,19 +65,11 @@ void Triggerable::HandleMessage(MessageChunk messageChunk) {
 
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_SWITCH_ACTIVATED:
-			this->activeSwitches++;
-			if (this->shouldTriggerActivate()) {
-				this->onSwitchToggled(true);
-				this->onSwitchActivated();
-			}
+			this->incrementSwitchCount();
 			break;
 
 		case MESSAGE_TYPE_SWITCH_DEACTIVATED:
-			this->activeSwitches--;
-			if (this->shouldTriggerDeactivate()) {
-				this->onSwitchToggled(false);
-				this->onSwitchDeactivated();
-			}
+			this->decrementSwitchCount();
 			break;
 	}
 }
@@ -135,7 +127,25 @@ void Triggerable::UnsubscribeToAllSwitches() {
 	}
 }
 
+void Triggerable::incrementSwitchCount() {
+	this->activeSwitches++;
+	if (this->shouldTriggerActivate()) {
+		this->onSwitchToggled(true);
+		this->onSwitchActivated();
+	}
+}
+
+void Triggerable::decrementSwitchCount() {
+	this->activeSwitches--;
+	if (this->shouldTriggerDeactivate()) {
+		this->onSwitchToggled(false);
+		this->onSwitchDeactivated();
+	}
+}
+
 bool Triggerable::shouldTriggerActivate() {
+	if (this->isToggled) { return false; }
+
 	switch (this->type) {
 		case TRIGGER_TYPE_ALL:
 			return (this->activeSwitches >= (int)this->subscriptions.size());
@@ -149,6 +159,8 @@ bool Triggerable::shouldTriggerActivate() {
 }
 
 bool Triggerable::shouldTriggerDeactivate() {
+	if (!this->isToggled) { return false; }
+
 	switch (this->type) {
 		case TRIGGER_TYPE_ALL:
 			return (this->activeSwitches < (int)this->subscriptions.size());

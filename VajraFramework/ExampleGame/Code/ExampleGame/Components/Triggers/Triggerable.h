@@ -66,6 +66,9 @@ private:
 	void init();
 	void destroy();
 
+	void incrementSwitchCount();
+	void decrementSwitchCount();
+
 	bool shouldTriggerActivate();
 	bool shouldTriggerDeactivate();
 
