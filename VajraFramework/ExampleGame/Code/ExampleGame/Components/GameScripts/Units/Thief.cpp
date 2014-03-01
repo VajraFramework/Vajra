@@ -87,14 +87,15 @@ bool Thief::isSpecialTouch(int touchId) {
 void Thief::onSpecialTouch(int touchId) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchId);
 	if(touch.phase == TouchPhase::Ended) {
-		this->targetedCell = SINGLETONS->GetGridManager()->TouchPositionToCell(touch.pos);
-		if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
+		if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->targetedCell) != this->legalTargets.end()) {
 			this->startSpecial();
 		} else {
 			this->targetedCell = this->gridNavRef->GetCurrentCell();
 			this->cancelSpecial();
 		}
 		this->tweenOutTargets();
+	} else if(touch.phase == TouchPhase::Moved) {
+		this->aimSpecial();
 	}
 }
 
@@ -142,26 +143,46 @@ void Thief::cancelSpecial() {
 	this->tweenOutTargets();
 	
 }
-void Thief::touchedCellChanged(GridCell* prevTouchedCell) {
-	if(this->inputState != InputState::INPUT_STATE_SPECIAL) {
-		PlayerUnit::touchedCellChanged(prevTouchedCell);
-	} else {
-		if(this->targetIndicatorsRef[prevTouchedCell]) {
-			ENGINE->GetTween()->TweenScale(this->targetIndicatorsRef[prevTouchedCell]->GetId(), glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale_hover)),
-																							 glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)), 
-																							 GetFloatGameConstant(GAME_CONSTANT_target_tween_time));
+void Thief::aimSpecial() {
+	GridCell* prevTargetCell = this->targetedCell;
+	this->targetedCell = this->GetCurrentTouchedCell();
+
+	if(this->targetIndicatorsRef[prevTargetCell] && this->targetIndicatorsRef[this->targetedCell]) {
+		if(this->targetedCell != prevTargetCell) {
+			this->scaleUpIndicator(this->targetedCell);
+			this->scaleDownIndicator(prevTargetCell);
 		}
-		if(this->targetIndicatorsRef[this->GetCurrentTouchedCell()]) {
-			ENGINE->GetTween()->TweenScale(this->targetIndicatorsRef[this->GetCurrentTouchedCell()]->GetId(),  glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)),
-																											glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale_hover)), 
-																											GetFloatGameConstant(GAME_CONSTANT_target_tween_time));
-			this->gridNavRef->SetLookTarget(this->GetCurrentTouchedCell()->center);
-		}
-		if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
-			this->SetTouchIndicatorSprite(GOOD_TOUCH);
+	} else if (!this->targetIndicatorsRef[prevTargetCell] && !this->targetIndicatorsRef[this->targetedCell]) {
+		GridCell* nearCell = this->getNearCellTowardsUnit();
+		if(nearCell != nullptr) {
+			if(this->targetIndicatorsRef[nearCell]) {
+				this->scaleUpIndicator(nearCell);
+			}
+			this->targetedCell = nearCell;
+		} 
+	} else if(this->targetIndicatorsRef[prevTargetCell]) {
+		GridCell* nearCell = this->getNearCellTowardsUnit();
+		if(nearCell != nullptr) {
+			if(this->targetIndicatorsRef[nearCell]) {
+				if(nearCell != prevTargetCell) {
+					this->scaleUpIndicator(nearCell);
+					this->scaleDownIndicator(prevTargetCell);
+				}
+			} else {
+				this->scaleDownIndicator(prevTargetCell);
+			}
+			this->targetedCell = nearCell;
 		} else {
-			this->SetTouchIndicatorSprite(BAD_TOUCH);
+			this->scaleDownIndicator(prevTargetCell);
 		}
+	} else if(this->targetIndicatorsRef[this->targetedCell]) {
+		this->scaleUpIndicator(this->targetedCell);
+	} 
+
+	if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
+		this->SetTouchIndicatorSprite(GOOD_TOUCH);
+	} else {
+		this->SetTouchIndicatorSprite(BAD_TOUCH);
 	}
 }
 
@@ -259,4 +280,31 @@ void Thief::createTargets() {
 
 void Thief::deleteTargets() {
 	this->targetIndicatorsRef.clear();
+}
+
+void Thief::scaleUpIndicator(GridCell* cell) {
+	if(cell != nullptr && this->targetIndicatorsRef[cell] != nullptr) {
+		ENGINE->GetTween()->TweenScale(this->targetIndicatorsRef[cell]->GetId(), 
+									   glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)),
+									   glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale_hover)), 
+									   GetFloatGameConstant(GAME_CONSTANT_target_tween_time));		
+	}
+}
+
+void Thief::scaleDownIndicator(GridCell* cell) {
+	if(cell != nullptr && this->targetIndicatorsRef[cell] != nullptr) {
+		ENGINE->GetTween()->TweenScale(this->targetIndicatorsRef[cell]->GetId(), 
+									   glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale_hover)),
+									   glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)), 
+									   GetFloatGameConstant(GAME_CONSTANT_target_tween_time));		
+	}
+}
+
+GridCell* Thief::getNearCellTowardsUnit() {
+	glm::vec3 unitPos = this->gridNavRef->GetCurrentCell()->center;
+	glm::vec3 touchPos = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(ENGINE->GetInput()->GetTouch(0).pos, this->gridNavRef->GetCurrentCell()->y);
+	glm::vec3 dirTowardsThief = glm::normalize(unitPos - touchPos);
+	dirTowardsThief *= .55f;
+	glm::vec3 cellLocation = touchPos + dirTowardsThief;
+	return SINGLETONS->GetGridManager()->GetGrid()->GetCell(cellLocation);
 }
