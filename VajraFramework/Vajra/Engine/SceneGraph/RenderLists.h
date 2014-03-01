@@ -42,7 +42,8 @@ private:
 	void Next();
 	void SetCurrentRenderListIdx(unsigned int idx) { this->currentRenderListIdx = idx; }
 	bool PrepareCurrentRenderList();
-	void RenderGameObjectsInCurrentList(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out);
+	void RenderGameObjectsInCurrentList(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out,
+		float x_min_bound, float x_max_bound, float y_min_bound, float y_max_bound, float z_min_bound, float z_max_bound);
 
 	void addGameObjectIdToRenderList(ObjectIdType id, std::string shaderName);
 	void removeGameObjectIdToRenderList(ObjectIdType id, std::string shaderName);
