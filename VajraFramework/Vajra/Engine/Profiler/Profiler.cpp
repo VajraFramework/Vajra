@@ -115,6 +115,7 @@ void Profiler::PrintAllExperimentData(std::ofstream& outputFile) {
 	for (auto iter = this->experimentMap.begin(); iter != this->experimentMap.end(); ++iter) {
 		iter->second->PrintLogStats(outputFile);
 	}
+	outputFile << std::endl;
 }
 
 std::shared_ptr<ProfileExperiment> Profiler::GetExperiment(std::string id) {

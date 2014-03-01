@@ -161,13 +161,13 @@ void TransitionZone::onUnitEnteredZone(ObjectIdType id) {
 		target = destCell2;
 	}
 
-	if(id == SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
-		PlayerUnit* pU = gObj->GetComponent<PlayerUnit>();
-		ASSERT(pU != nullptr, "gameObject has a PlayerUnit component");
-		if(pU != nullptr) {
-			pU->OnTransitionZoneEntered(target);
-		}
+	PlayerUnit* pU = gObj->GetComponent<PlayerUnit>();
+	ASSERT(pU != nullptr, "gameObject has a PlayerUnit component");
+	if(pU != nullptr) {
+		pU->OnTransitionZoneEntered(target);
+	}
 
+	if(id == SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
 		GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
 		ASSERT(gNav != nullptr, "gameObject has a GridNavigator component");
 		if (gNav != nullptr) {
