@@ -7,7 +7,10 @@
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Triggers/TriggerTerrainBlock.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
+#include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 
 TriggerTerrainBlock::TriggerTerrainBlock() : Triggerable() {
 	this->init();
@@ -81,4 +84,9 @@ void TriggerTerrainBlock::startTerrainChange() {
 			}
 		}
 	}
+
+	// Navigators need to update their pathfinding
+	MessageChunk gridNavMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	gridNavMessage->SetMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH);
+	ENGINE->GetMessageHub()->SendMulticastMessage(gridNavMessage, SINGLETONS->GetGridManagerObject()->GetId());
 }

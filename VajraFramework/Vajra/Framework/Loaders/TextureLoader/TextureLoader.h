@@ -9,6 +9,8 @@
 #include <vector>
 #include <fstream>
 
+#define USING_MIPMAPS
+
 GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes);
 
 #endif // TEXTURELOADER_H

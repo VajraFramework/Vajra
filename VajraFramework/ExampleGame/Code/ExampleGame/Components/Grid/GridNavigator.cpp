@@ -51,8 +51,12 @@ void GridNavigator::init() {
 	this->movementSpeed = 1.0f;
 	this->turningSpeed = 90.0f inRadians;
 	this->maxNavigableUnitType = UNIT_TYPE_UNKNOWN;
+	this->ignoreOccupantsForPathing = false;
+	this->ignoreEverything = false;
+	this->navigationEnabled = true;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH, this->GetTypeId(), false);
 }
 
 void GridNavigator::destroy() {
@@ -64,6 +68,20 @@ GridCell* GridNavigator::GetDestination() {
 		return nullptr;
 	}
 	return this->currentPath.back();
+}
+
+void GridNavigator::HandleMessage(MessageChunk messageChunk) {
+	Component::HandleMessage(messageChunk);
+	switch (messageChunk->GetMessageType()) {
+		case MESSAGE_TYPE_GRID_NAVIGATION_REFRESH:
+			if (this->navigationEnabled) {
+				this->recalculatePath();
+			}
+			break;
+
+		default:
+			break;
+	}
 }
 
 void GridNavigator::SetGridPosition(int x, int z) {
@@ -101,6 +119,7 @@ bool GridNavigator::SetDestination(GridCell* cell, bool ignoreCellOccupants/*= f
 	float dist = this->calculatePath(this->currentCell, cell, newPath, ignoreCellOccupants);
 	if (dist > 0.0f) {
 		this->currentPath = newPath;
+		this->setNextWaypoint();
 		this->SetIsTraveling(true);
 		this->ignoreOccupantsForPathing = ignoreCellOccupants;
 	}
@@ -141,7 +160,9 @@ void GridNavigator::SetForcedDestination(glm::vec3 worldPosition) {
 
 void GridNavigator::SetForcedDestination(GridCell* cell) {
 	this->currentPath.clear();
+	this->currentPath.push_back(this->currentCell);
 	this->AddForcedDestination(cell);
+	this->setNextWaypoint();
 	this->SetIsTraveling(true);
 	this->ignoreOccupantsForPathing = true;
 }
@@ -217,18 +238,15 @@ bool GridNavigator::CanReachDestination(GridCell* cell, float maxDistance/*= -1.
 	return ((distance >= 0.0f) && (distance <= maxDistance));
 }
 
-void GridNavigator::PauseNavigation() {
-	this->SetIsTraveling(false);
-	this->isTurning = false;
+void GridNavigator::DisableNavigation() {
+	this->navigationEnabled = false;
 }
 
-void GridNavigator::ResumeNavigation() {
-	if (this->currentPath.size() > 0) {
-		this->SetIsTraveling(true);
-	}
+void GridNavigator::EnableNavigation() {
+	this->navigationEnabled = true;
 }
 
-void GridNavigator::StopNavigation() {
+void GridNavigator::HaltMovement() {
 	this->SetIsTraveling(false);
 	this->isTurning = false;
 	this->currentPath.clear();
@@ -245,11 +263,29 @@ void GridNavigator::ReturnToCellCenter() {
 }
 
 void GridNavigator::update() {
-	if (this->isTraveling) {
-		followPath();
+	if (this->navigationEnabled) {
+		if (this->isTraveling) {
+			followPath();
+		}
+		if (this->isTurning) {
+			updateFacing();
+		}
 	}
-	if (this->isTurning) {
-		updateFacing();
+}
+
+void GridNavigator::recalculatePath() {
+	glm::vec3 pos = this->gameObjectRef->GetTransform()->GetPositionWorld();
+	GridCell* actualCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(pos);
+	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(pos.y);
+	if (!this->canNavigateThroughCellAtElevation(actualCell, elevation, this->ignoreOccupantsForPathing)) {
+		// If the navigator isp in an impossible area, get to the nearest walkable area.
+		goToNearestPassableCell();
+	}
+	else if (this->isTraveling) {
+		// If our current path is now blocked but another one is available, we'll change course.
+		// If no valid path exists anymore, continue along current route.
+		GridCell* destCell = this->currentPath.back();
+		this->SetDestination(destCell, this->ignoreOccupantsForPathing);
 	}
 }
 
@@ -261,24 +297,55 @@ void GridNavigator::followPath() {
 	glm::vec3 worldPosition = trans->GetPositionWorld();
 	glm::vec3 tempLocation = worldPosition;
 
-	int count = this->currentPath.size();
-	while ((distToTravel > 0.0f) && (count > 0)) {
+	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(worldPosition.y);
+
+	while ((distToTravel > ROUNDING_ERROR) && (this->currentPath.size() > 0)) {
+		// Determine the target location.
 		glm::vec3 targetLocation = this->currentPath.front()->center;
 		// Prevent movement along y-axis.
 		targetLocation.y = tempLocation.y;
 
 		float distToTarget = glm::distance(tempLocation, targetLocation);
+		if (distToTravel < distToTarget) {
+			// Travel as far as possible towards the target location.
+			float ratio = distToTravel / distToTarget;
+			lerp(targetLocation, tempLocation, targetLocation, ratio);
+		}
+		GridCell* targetCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(targetLocation);
 
-		if (distToTravel >= distToTarget) {
+		// Make sure all of the cells along the path are clear.
+		GridCell* tempCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(tempLocation);
+		if (!this->ignoreEverything) {
+			while ((this->currentSegment.size() > 0) && (tempCell != targetCell)) {
+				if (this->canNavigateThroughCellAtElevation(this->currentSegment.front(), elevation, this->ignoreOccupantsForPathing)) {
+					tempCell = this->currentSegment.front();
+					this->currentSegment.pop_front();
+				}
+				else {
+					// Stop once we find a cell that is blocked.
+					break;
+				}
+			}
+		}
+		else {
+			tempCell = targetCell;
+		}
+
+		// Can we actually make it to our intended location?
+		if (tempCell == targetCell) {
+			// If we can make it there, move the unit along that path.
 			tempLocation = targetLocation;
-			this->currentPath.pop_front();
-			--count;
+			if (distToTravel >= distToTarget) {
+				this->setNextWaypoint();
+			}
 			distToTravel -= distToTarget;
 		}
 		else {
-			float ratio = distToTravel / distToTarget;
-			lerp(tempLocation, tempLocation, targetLocation, ratio);
-			distToTravel = 0.0f;
+			// If the path to our intended target was blocked, update the target but don't move this time.
+			this->currentPath.clear();
+			this->currentPath.push_back(tempCell);
+			this->currentSegment.clear();
+			SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(tempLocation, tempCell->center, this->currentSegment);
 		}
 	}
 
@@ -293,13 +360,7 @@ void GridNavigator::followPath() {
 	}
 	else {
 		this->SetIsTraveling(false);
-
-		// Send an event message to the unit
-		ObjectIdType myId = this->GetObject()->GetId();
-		MessageChunk reachedDestinationMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-		reachedDestinationMessage->SetMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION);
-		reachedDestinationMessage->messageData.fv1 = trans->GetPositionWorld();
-		ENGINE->GetMessageHub()->SendPointcastMessage(reachedDestinationMessage, myId, myId);
+		this->ignoreEverything = false;
 	}
 }
 
@@ -467,51 +528,87 @@ bool GridNavigator::canNavigateThroughCellAtElevation(GridCell* cell, int elevat
 }
 
 void GridNavigator::simplifyPath(std::list<GridCell*>& outPath, bool ignoreCellOccupants/*= false*/) {
-	if (outPath.size() == 0) { return; }
-	std::list<GridCell*> simplePath;
+	if (outPath.size() > 0) {
+		Transform* trans = this->gameObjectRef->GetTransform();
+		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(trans->GetPositionWorld().y);
 
-	Transform* trans = this->gameObjectRef->GetTransform();
-	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(trans->GetPositionWorld().y);
+		auto startIter = outPath.begin();  // Iterator to first cell along current path segment
+		auto safeIter = startIter;         // Iterator to last known passable cell
+		auto nextIter = startIter;         // Iterator to next cell to be checked
+		nextIter++;
 
-	auto startIter = outPath.begin();
-	auto nextIter = startIter;
-	while (nextIter != outPath.end()) {
-		// Trace the direct route to the target cell from opposite corners.
-		std::list<GridCell*> touchedCells;
-		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(*startIter, *nextIter, touchedCells);
+		while (nextIter != outPath.end()) {
+			// Trace the direct route to the target cell.
+			std::list<GridCell*> touchedCells;
+			SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(*startIter, *nextIter, touchedCells);
 
-		// Check if any of the cells are blocked.
-		bool isRouteClear = true;
-		for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
-			if (!this->canNavigateThroughCellAtElevation(*iter, elevation, ignoreCellOccupants)) {
-				isRouteClear = false;
-				break;
+			// Check if any of the cells are blocked.
+			bool isRouteClear = true;
+			for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
+				if (*iter != *startIter) {
+					if (!this->canNavigateThroughCellAtElevation(*iter, elevation, ignoreCellOccupants)) {
+						isRouteClear = false;
+						break;
+					}
+				}
+			}
+
+			if (isRouteClear) {
+				if (safeIter != startIter) {
+					safeIter = outPath.erase(safeIter);
+				}
+				else {
+					++safeIter;
+				}
+				++nextIter;
+			}
+			else {
+				startIter = safeIter;
 			}
 		}
-
-		if (isRouteClear) {
-			++nextIter;
-		}
-		else {
-			startIter = nextIter;
-			--startIter;
-			simplePath.push_back(*startIter);
-		}
 	}
-	simplePath.push_back(outPath.back());
+}
 
-	outPath.clear();
-	while (simplePath.size() > 0) {
-		outPath.push_back(simplePath.front());
-		simplePath.pop_front();
+void GridNavigator::setNextWaypoint() {
+	this->currentPath.pop_front();
+	this->currentSegment.clear();
+	if (this->currentPath.size() > 0) {
+		Transform* trans = this->gameObjectRef->GetTransform();
+		GridCell* cell = this->currentPath.front();
+		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(trans->GetPositionWorld(), cell->center, this->currentSegment);
+	}
+}
+
+void GridNavigator::goToNearestPassableCell() {
+	glm::vec3 pos = this->gameObjectRef->GetTransform()->GetPositionWorld();
+	GridCell* actualCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(pos);
+	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(pos.y);
+	const float MAX_SEARCH_DISTANCE = 3.0f;
+	std::list<GridCell*> neighbors;
+	SINGLETONS->GetGridManager()->GetGrid()->GetNeighborCells(neighbors, actualCell, MAX_SEARCH_DISTANCE);
+
+	for (auto iter = neighbors.begin(); iter != neighbors.end(); ++iter) {
+		if (this->canNavigateThroughCellAtElevation(*iter, elevation, this->ignoreOccupantsForPathing)) {
+			this->SetForcedDestination(*iter);
+			this->ignoreEverything = true;
+			break;
+		}
 	}
 }
 
 void GridNavigator::SetIsTraveling(bool isTraveling_) {
 	if (this->isTraveling != isTraveling_) {
-
 		this->isTraveling = isTraveling_;
 
+		if (!isTraveling_) {
+			// Send an event message to the unit
+			ObjectIdType myId = this->GetObject()->GetId();
+			Transform* trans = this->gameObjectRef->GetTransform();
+			MessageChunk reachedDestinationMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			reachedDestinationMessage->SetMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION);
+			reachedDestinationMessage->messageData.fv1 = trans->GetPositionWorld();
+			ENGINE->GetMessageHub()->SendPointcastMessage(reachedDestinationMessage, myId, myId);
+		}
 	}
 }
 

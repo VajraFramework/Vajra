@@ -14,13 +14,13 @@
 
 		<component name="GridZoneSwitch">
 			<property name="SetSwitchType">
-				<field>ResetOnDeactivate</field>
+				<field>ResetOnActivate</field>
+			</property>
+            <property name="SetResetTime">
+				<field>2</field>
 			</property>
 			<property name="SetRequiredOccupants">
 				<field>1</field>
-			</property>
-            <property name="SetResetTime">
-				<field>0.3</field>
 			</property>
 		</component>
 		

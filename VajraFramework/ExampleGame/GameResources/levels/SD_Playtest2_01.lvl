@@ -519,6 +519,14 @@
       <dynamicObject id="148894" prefab="GoalZone_Assassin" x="38" y="0" z="29" rotation="180">
       </dynamicObject>
       <dynamicObject id="145384" prefab="PressurePlate" x="38" y="0" z="20" rotation="180">
+		<component name="BaseSwitch">
+			<property name="SetSwitchType">
+				<field>ResetOnDeactivate</field>
+			</property>
+			<property name="SetResetTime">
+				<field>0.333</field>
+			</property>
+		</component>
       </dynamicObject>
       <dynamicObject id="148752" prefab="SD_Interactive_Gate_01" x="38" y="0" z="23" rotation="180">
       </dynamicObject>

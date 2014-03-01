@@ -6,6 +6,7 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/Switches/BaseSwitch.h"
 #include "ExampleGame/Components/Switches/DecalGenerator.h"
+#include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
@@ -75,6 +76,7 @@ void BaseSwitch::init() {
 
 void BaseSwitch::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+	this->setActiveState(false);
 }
 
 void BaseSwitch::SetSwitchType(std::string typeStr) {

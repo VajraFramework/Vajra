@@ -13,6 +13,7 @@
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 
@@ -26,6 +27,9 @@ void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tween
 		TriggerElevationChange* triggerComp = caller->GetComponent<TriggerElevationChange>();
 		ASSERT(triggerComp != nullptr, "elevationChangeNumberTweenCallback: Object %d has TriggerElevationChange component", gameObjectId);
 		if (triggerComp != nullptr) {
+			// Update the grid cells
+			triggerComp->setCellsInGridZonePassable(true);
+
 			// Unchild all units in zone
 			for (auto iter = triggerComp->unitsInZone.begin(); iter != triggerComp->unitsInZone.end(); ++iter) {
 				GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
@@ -34,7 +38,18 @@ void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tween
 					gObj->GetParentSceneGraph()->GetRootGameObject()->AddChild_maintainTransform(*iter);
 
 				}
+
+				// Re-enable the navigators.
+				GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
+				if (gNav != nullptr) {
+					gNav->EnableNavigation();
+				}
 			}
+
+			// Navigators need to update their pathfinding
+			MessageChunk gridNavMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			gridNavMessage->SetMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH);
+			ENGINE->GetMessageHub()->SendMulticastMessage(gridNavMessage, SINGLETONS->GetGridManagerObject()->GetId());
 		}
 	}
 }
@@ -139,6 +154,7 @@ void TriggerElevationChange::startTransition(bool raised) {
 	if (raised != this->isToggled) {
 		this->startPositionTween(raised);
 		this->changeCellElevations(raised);
+		this->setCellsInGridZonePassable(false);
 
 		this->isToggled = raised;
 	}
@@ -152,7 +168,6 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 	OnGoingTransformTweenDetails* translationDetails = ENGINE->GetTween()->GetOnGoingTransformTweenDetails(myId, TRANSFORM_TWEEN_TARGET_POSITION);
 	if (translationDetails == nullptr) {
 		// Child all units in zone to this object before tweening.
-		// glm::vec3 myPos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 		for (auto iter = this->unitsInZone.begin(); iter != this->unitsInZone.end(); ++iter) {
 
 			GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
@@ -164,7 +179,8 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 				// If it's a unit that's moving, stop it:
 				GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
 				if (gNav != nullptr) {
-					gNav->StopNavigation();
+					gNav->HaltMovement();
+					gNav->DisableNavigation();
 				}
 			}
 		}
@@ -212,6 +228,28 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 			elevationChangeTweenCallback
 		);
 	}
+}
+
+void TriggerElevationChange::setCellsInGridZonePassable(bool pass) {
+	int west, east, south, north;
+	// Get the grid zone component on this object.
+	GridZone* zone = this->GetObject()->GetComponent<GridZone>();
+	ASSERT(zone != nullptr, "Object %d with TriggerElevationChange component also has GridZone component", this->GetObject()->GetId());
+
+	zone->GetZoneBounds(west, east, south, north);
+
+	GameGrid* grid = SINGLETONS->GetGridManager()->GetGrid();
+	for (int x = west; x <= east; ++x) {
+		for (int z = south; z <= north; ++z) {
+			int elevation = grid->GetCellGroundLevel(x, z);
+			grid->SetCellPassableAtElevation(x, z, elevation, pass);
+		}
+	}
+
+	// Navigators need to update their pathfinding
+	MessageChunk gridNavMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	gridNavMessage->SetMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH);
+	ENGINE->GetMessageHub()->SendMulticastMessage(gridNavMessage, SINGLETONS->GetGridManagerObject()->GetId());
 }
 
 void TriggerElevationChange::changeCellElevations(bool raised) {

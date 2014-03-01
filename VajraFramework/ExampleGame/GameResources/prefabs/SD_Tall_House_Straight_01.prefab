@@ -16,7 +16,7 @@
       <gameobject>
           <component name="MeshRenderer">
               <property name="InitMesh">
-                  <field>models/SD_House_Mid_Straight_01.model</field>
+                  <field>models/SD_House_Base_Straight_01.model</field>
               </property>
           </component>
 
@@ -26,12 +26,23 @@
                   <field>2</field>
                   <field>0</field>
               </property>
+              <property name="RotateByDegrees">
+                  <field>0</field>
+                  <field>0</field>
+                  <field>1</field>
+                  <field>0</field>
+              </property>
+              <property name="Scale">
+                  <field>1</field>
+                  <field>1</field>
+                  <field>1</field>
+              </property>
           </component>
       </gameobject>
       <gameobject>
           <component name="MeshRenderer">
               <property name="InitMesh">
-                  <field>models/SD_House_Mid_Straight_01.model</field>
+                  <field>models/SD_House_Base_Straight_01.model</field>
               </property>
           </component>
 
@@ -40,6 +51,17 @@
                   <field>0</field>
                   <field>4</field>
                   <field>0</field>
+              </property>
+              <property name="RotateByDegrees">
+                  <field>0</field>
+                  <field>0</field>
+                  <field>1</field>
+                  <field>0</field>
+              </property>
+              <property name="Scale">
+                  <field>1</field>
+                  <field>1</field>
+                  <field>1</field>
               </property>
           </component>
       </gameobject>
@@ -55,6 +77,17 @@
                   <field>0</field>
                   <field>6</field>
                   <field>0</field>
+              </property>
+              <property name="RotateByDegrees">
+                  <field>0</field>
+                  <field>0</field>
+                  <field>1</field>
+                  <field>0</field>
+              </property>
+              <property name="Scale">
+                  <field>1</field>
+                  <field>1</field>
+                  <field>1</field>
               </property>
           </component>
       </gameobject>

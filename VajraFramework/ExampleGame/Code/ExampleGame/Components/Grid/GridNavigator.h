@@ -29,6 +29,9 @@ public:
 
 	GridCell* GetDestination();
 
+	// @Override
+	virtual void HandleMessage(MessageChunk messageChunk);
+
 	//[[PROPERTY]]//
 	inline void SetMovementSpeed(float speed);
 	inline void SetTurnSpeedDegrees(float /* degreesPerSecond */);
@@ -70,9 +73,9 @@ public:
 	bool CanReachDestination(glm::vec3 worldPos, float maxDistance = -1.0f, bool ignoreCellOccupants = false);
 	bool CanReachDestination(GridCell* cell, float maxDistance = -1.0f, bool ignoreCellOccupants = false);
 
-	void PauseNavigation();
-	void ResumeNavigation();
-	void StopNavigation();
+	void DisableNavigation();
+	void EnableNavigation();
+	void HaltMovement();
 
 	void ReturnToCellCenter();  // Use this method if you want to stop a unit's movement but have it end at the center of a cell.
 
@@ -83,6 +86,7 @@ private:
 	void init();
 	void destroy();
 
+	void recalculatePath();
 	void followPath();
 	void updateFacing();
 
@@ -93,11 +97,14 @@ private:
 	float actualTravelCost(GridCell* startCell, GridCell* goalCell);
 	bool canNavigateThroughCellAtElevation(GridCell* cell, int elevation, bool ignoreCellOccupants = false);
 	void simplifyPath(std::list<GridCell*>& outPath, bool ignoreCellOccupants = false);
+	void setNextWaypoint();
+	void goToNearestPassableCell();
 
 	Transform* getTransform() { return this->gameObjectRef->GetTransform(); }
 
 	GridCell* currentCell;
 	std::list<GridCell*> currentPath;
+	std::list<GridCell*> currentSegment;
 	glm::vec3 targetForward;
 	bool isTraveling;
 	bool isTurning;
@@ -105,6 +112,8 @@ private:
 	float turningSpeed;
 	UnitType maxNavigableUnitType;
 	bool ignoreOccupantsForPathing; // This is stored each time we set a path in case the path needs to be recalculated.
+	bool ignoreEverything;          // If the navigator somehow ends up inside of a blocked area, this will turn on
+	bool navigationEnabled;
 
 	GameObject* gameObjectRef;
 
