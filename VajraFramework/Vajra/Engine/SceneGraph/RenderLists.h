@@ -12,6 +12,8 @@ class Camera;
 class DirectionalLight;
 class RenderList;
 
+#define USING_FRUSTUM_CULLING 1
+
 ////////////////////////////////////////////////////////////////////////////////
 
 // Transperant GameObject:

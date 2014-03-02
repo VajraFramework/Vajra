@@ -7,6 +7,7 @@
 #include "Vajra/Engine/Lighting/AmbientLighting.h"
 #include "Vajra/Engine/SceneGraph/RenderLists.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 
 #include <algorithm>
@@ -14,11 +15,12 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static glm::vec3 g_cameraPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+static glm::vec3 g_current_cameraPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+static Camera* g_current_camera = nullptr;
 
 bool CompareTrGos(TrGo t1, TrGo t2) {
-	float t1_distanceFromCamera = glm::distance(g_cameraPosition, t1.gameobject->GetTransform()->GetPosition());
-	float t2_distanceFromCamera = glm::distance(g_cameraPosition, t2.gameobject->GetTransform()->GetPosition());
+	float t1_distanceFromCamera = glm::distance(g_current_cameraPosition, t1.gameobject->GetTransform()->GetPosition());
+	float t2_distanceFromCamera = glm::distance(g_current_cameraPosition, t2.gameobject->GetTransform()->GetPosition());
 	return (t1_distanceFromCamera < t2_distanceFromCamera);
 }
 
@@ -92,6 +94,17 @@ void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobje
 }
 
 void RenderList::Draw_one_gameobject(GameObject* gameObject) {
+
+#if USING_FRUSTUM_CULLING
+	if (g_current_camera != nullptr) {
+		// TODO [Hack] Get tolerance radius from the model files instead, maybe
+		float toleranceRadius = 4.0f;
+		if (!g_current_camera->IsPointInFrustum(gameObject->GetTransform()->GetPositionWorld(), toleranceRadius)) {
+			return;
+		}
+	}
+#endif
+
 	gameObject->Draw();
 }
 
@@ -119,13 +132,17 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight /* = n
 
 	HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration heap_gameobjectsWithTransperancy_out(CompareTrGos);
 	if (camera != nullptr) {
-		g_cameraPosition = ((GameObject*)camera->GetObject())->GetTransform()->GetPosition();
+		g_current_cameraPosition = ((GameObject*)camera->GetObject())->GetTransform()->GetPosition();
 	}
+
+	glm::vec3 left_bottom;
+	glm::vec3 right_top;
 
 	this->Begin();
 	while (this->PrepareCurrentRenderList()) {
 
 		if (camera != nullptr) {
+			g_current_camera = camera;
 			// TODO [Cleanup] Change mainCamera->cameraComponent->WriteLookAt() to use messages sent to mainCamera instead, maybe
 			camera->WriteLookAt();
 		}
@@ -151,6 +168,7 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight /* = n
 		trgo.renderlist->Prepare();
 
 		if (camera != nullptr) {
+			g_current_camera = camera;
 			camera->WriteLookAt();
 		}
 		if (directionalLight != nullptr) {
@@ -180,6 +198,7 @@ bool RenderLists::PrepareCurrentRenderList() {
 }
 
 void RenderLists::RenderGameObjectsInCurrentList(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out) {
+
 	ASSERT(this->currentRenderListIdx < this->renderLists.size(), "\nCurrent render list idx is valid");
 	this->renderLists[this->currentRenderListIdx]->Draw(heap_gameobjectsWithTransperancy_out);
 }

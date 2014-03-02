@@ -68,6 +68,8 @@ struct Plane {
 
 bool rayPlaneIntersection(Ray& ray, Plane& plane, float& dist);
 
+float DistanceFromPlaneToPoint(glm::vec4 plane, glm::vec3 point);
+
 // Vector functions
 void lerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float interp);
 void lerp(glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, const float interp);
