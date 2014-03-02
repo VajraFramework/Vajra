@@ -168,14 +168,13 @@ float DistanceToPoint(glm::vec4 plane, glm::vec3 point) {
 	return (plane.x * point.x + plane.y * point.y + plane.z * point.z + plane.w);
 }
 
-bool Camera::IsPointInFrustum(glm::vec3 point) {
+bool Camera::IsPointInFrustum(glm::vec3 point, float toleranceRadius /* = 0.0f */) {
 
 	// TODO [Hack] Don't check against near and far planes, save computation
 	for (int i = 0 ; i < PLANE_NEAR; ++i) {
-		glm::vec4 plane = this->frustumPlanes[i];
-		// float signed_distance = glm::dot(point, glm::vec3(plane));
-		float signed_distance = DistanceToPoint(plane, point);
-		if (signed_distance < 0) {
+		float signed_distance = DistanceToPoint(this->frustumPlanes[i], point);
+		if (!((signed_distance + toleranceRadius) >= 0 ||
+			  (signed_distance - toleranceRadius) >= 0)) {
 			return false;
 		}
 	}

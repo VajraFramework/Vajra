@@ -15,12 +15,12 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static glm::vec3 g_cameraPosition = glm::vec3(0.0f, 0.0f, 0.0f);
-static Camera* g_camera = nullptr;
+static glm::vec3 g_current_cameraPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+static Camera* g_current_camera = nullptr;
 
 bool CompareTrGos(TrGo t1, TrGo t2) {
-	float t1_distanceFromCamera = glm::distance(g_cameraPosition, t1.gameobject->GetTransform()->GetPosition());
-	float t2_distanceFromCamera = glm::distance(g_cameraPosition, t2.gameobject->GetTransform()->GetPosition());
+	float t1_distanceFromCamera = glm::distance(g_current_cameraPosition, t1.gameobject->GetTransform()->GetPosition());
+	float t2_distanceFromCamera = glm::distance(g_current_cameraPosition, t2.gameobject->GetTransform()->GetPosition());
 	return (t1_distanceFromCamera < t2_distanceFromCamera);
 }
 
@@ -31,11 +31,9 @@ public:
 	RenderList(std::string shaderName_);
 
 	void Prepare();
-	void Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out,
-		float x_min_bound, float x_max_bound, float y_min_bound, float y_max_bound, float z_min_bound, float z_max_bound);
+	void Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out);
 
-	void Draw_one_gameobject(GameObject* gameObject,
-		float x_min_bound, float x_max_bound, float y_min_bound, float y_max_bound, float z_min_bound, float z_max_bound);
+	void Draw_one_gameobject(GameObject* gameObject);
 
 	inline std::string GetShaderName() { return this->shaderName; }
 	void AddGameObjectId(ObjectIdType id);
@@ -72,8 +70,7 @@ void RenderList::Prepare() {
 	FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet(this->GetShaderName());
 }
 
-void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out,
-					  float x_min_bound, float x_max_bound, float y_min_bound, float y_max_bound, float z_min_bound, float z_max_bound) {
+void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out) {
 
 	// Pass the ambient lighting parameters to the shader:
 	ENGINE->GetAmbientLighting()->Draw();
@@ -82,7 +79,7 @@ void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobje
 		GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 		if (gameObject != nullptr) {
 			if (!gameObject->HasTransperancy()) {
-				this->Draw_one_gameobject(gameObject, x_min_bound, x_max_bound, y_min_bound, y_max_bound, z_min_bound, z_max_bound);
+				this->Draw_one_gameobject(gameObject);
 
 			} else {
 
@@ -96,23 +93,17 @@ void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobje
 	}
 }
 
-void RenderList::Draw_one_gameobject(GameObject* gameObject,
-	 float x_min_bound, float x_max_bound, float y_min_bound, float y_max_bound, float z_min_bound, float z_max_bound) {
+void RenderList::Draw_one_gameobject(GameObject* gameObject) {
 
-	glm::vec3 gameObjectPosition = gameObject->GetTransform()->GetPositionWorld();
-
-	if (gameObjectPosition.x < x_min_bound || gameObjectPosition.x > x_max_bound ||
-		gameObjectPosition.y < y_min_bound || gameObjectPosition.y > y_max_bound ||
-		gameObjectPosition.z < z_min_bound || gameObjectPosition.z > z_max_bound) {
-		// Outside viewable volume:
-		// return;
-	}
-
-	if (g_camera != nullptr) {
-		if (!g_camera->IsPointInFrustum(gameObject->GetTransform()->GetPositionWorld())) {
+#if USING_FRUSTUM_CULLING
+	if (g_current_camera != nullptr) {
+		// TODO [Hack] Get tolerance radius from the model files instead, maybe
+		float toleranceRadius = 4.0f;
+		if (!g_current_camera->IsPointInFrustum(gameObject->GetTransform()->GetPositionWorld(), toleranceRadius)) {
 			return;
 		}
 	}
+#endif
 
 	gameObject->Draw();
 }
@@ -141,7 +132,7 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight /* = n
 
 	HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration heap_gameobjectsWithTransperancy_out(CompareTrGos);
 	if (camera != nullptr) {
-		g_cameraPosition = ((GameObject*)camera->GetObject())->GetTransform()->GetPosition();
+		g_current_cameraPosition = ((GameObject*)camera->GetObject())->GetTransform()->GetPosition();
 	}
 
 	glm::vec3 left_bottom;
@@ -151,7 +142,7 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight /* = n
 	while (this->PrepareCurrentRenderList()) {
 
 		if (camera != nullptr) {
-			g_camera = camera;
+			g_current_camera = camera;
 			// TODO [Cleanup] Change mainCamera->cameraComponent->WriteLookAt() to use messages sent to mainCamera instead, maybe
 			camera->WriteLookAt();
 		}
@@ -160,13 +151,8 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight /* = n
 			directionalLight->WriteLightPropertiesToShader();
 		}
 
-		// Get bounds of viewable area:
-		// left_bottom = camera->ScreenToWorldPoint( glm::vec3(1.0f, FRAMEWORK->GetDeviceProperties()->GetHeightPixels(), 1.0f) );
-		// right_top   = camera->ScreenToWorldPoint( glm::vec3(FRAMEWORK->GetDeviceProperties()->GetWidthPixels(),  1.0f, 1.0f) );
-
 		// Render all the renderable game objects in the current render list:
-		this->RenderGameObjectsInCurrentList(&heap_gameobjectsWithTransperancy_out,
-				left_bottom.x, right_top.x, -9999.9f, 9999.9f, left_bottom.z, right_top.z);
+		this->RenderGameObjectsInCurrentList(&heap_gameobjectsWithTransperancy_out);
 
 		this->Next();
 	}
@@ -182,15 +168,14 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight /* = n
 		trgo.renderlist->Prepare();
 
 		if (camera != nullptr) {
-			g_camera = camera;
+			g_current_camera = camera;
 			camera->WriteLookAt();
 		}
 		if (directionalLight != nullptr) {
 			directionalLight->WriteLightPropertiesToShader();
 		}
 
-		trgo.renderlist->Draw_one_gameobject(trgo.gameobject,
-				left_bottom.x, right_top.x, -9999.9f, 9999.9f, left_bottom.z, right_top.z);
+		trgo.renderlist->Draw_one_gameobject(trgo.gameobject);
 
 		heap_gameobjectsWithTransperancy_out.pop();
 	}
@@ -212,12 +197,10 @@ bool RenderLists::PrepareCurrentRenderList() {
 	return false;
 }
 
-void RenderLists::RenderGameObjectsInCurrentList(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out,
-		float x_min_bound, float x_max_bound, float y_min_bound, float y_max_bound, float z_min_bound, float z_max_bound) {
+void RenderLists::RenderGameObjectsInCurrentList(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out) {
 
 	ASSERT(this->currentRenderListIdx < this->renderLists.size(), "\nCurrent render list idx is valid");
-	this->renderLists[this->currentRenderListIdx]->Draw(heap_gameobjectsWithTransperancy_out,
-			x_min_bound, x_max_bound, y_min_bound, y_max_bound, z_min_bound, z_max_bound);
+	this->renderLists[this->currentRenderListIdx]->Draw(heap_gameobjectsWithTransperancy_out);
 }
 
 void RenderLists::init() {

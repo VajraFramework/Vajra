@@ -53,7 +53,7 @@ public:
 	glm::vec3 ScreenToWorldPoint(glm::vec3 screenPoint);
 	Ray ScreenPointToRay(glm::vec2 screenPoint);
 
-	bool IsPointInFrustum(glm::vec3 point);
+	bool IsPointInFrustum(glm::vec3 point, float toleranceRadius = 0.0f);
 
 private:
 	void init();
