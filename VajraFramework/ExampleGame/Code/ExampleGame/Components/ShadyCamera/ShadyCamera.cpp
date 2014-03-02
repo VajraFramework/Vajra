@@ -171,11 +171,15 @@ void ShadyCamera::MoveGameCamToRoom(int i, int j) {
 		this->setCurrentRoomCenter(roomCenter);
 		this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(cell->y));
 		this->updateGameCamPos();
-		this->moveTo_internal_overTime(this->gameCamPos, roomChangeTime);
+		if(this->camMode == CameraMode::CameraMode_Game) {
+			this->moveTo_internal_overTime(this->gameCamPos, roomChangeTime);
+		}
 	} else { // if we are simply (and potentieally) changing height
 		this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(cell->y));
 		this->updateGameCamPos();
-		this->moveTo_internal_overTime(this->gameCamPos, this->heightChangeTime);
+		if(this->camMode == CameraMode::CameraMode_Game) {
+			this->moveTo_internal_overTime(this->gameCamPos, this->heightChangeTime);
+		}
 	}
 }
 
