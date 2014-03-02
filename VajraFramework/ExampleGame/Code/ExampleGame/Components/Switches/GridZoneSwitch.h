@@ -26,6 +26,8 @@ public:
 	//[[PROPERTY]]//
 	virtual void SetRequiredOccupants(unsigned int num);
 	//[[PROPERTY]]//
+	virtual void SetActivateWhenUnitsInZone(bool b);
+	//[[PROPERTY]]//
 	void SetDecalType(std::string decalType);
 
 	// @Override
@@ -45,6 +47,7 @@ private:
 	void onUnitExitedZone(ObjectIdType id);
 
 	unsigned int requiredOccupants;
+	bool activateWhenUnitsInZone;
 	std::list<ObjectIdType> occupants;
 };
 

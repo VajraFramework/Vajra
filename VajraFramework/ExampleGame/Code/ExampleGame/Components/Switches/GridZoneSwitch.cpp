@@ -21,6 +21,7 @@ GridZoneSwitch::~GridZoneSwitch() {
 
 void GridZoneSwitch::init() {
 	this->requiredOccupants = 1;
+	this->activateWhenUnitsInZone = true;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED, this->GetTypeId(), true);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED, this->GetTypeId(), true);
@@ -42,6 +43,10 @@ void GridZoneSwitch::SetResetTime(float t) {
 
 void GridZoneSwitch::SetRequiredOccupants(unsigned int num) {
 	this->requiredOccupants = num;
+}
+
+void GridZoneSwitch::SetActivateWhenUnitsInZone(bool b) {
+	this->activateWhenUnitsInZone = b;
 }
 
 void GridZoneSwitch::HandleMessage(MessageChunk messageChunk) {
@@ -73,7 +78,7 @@ void GridZoneSwitch::onUnitEnteredZone(ObjectIdType id) {
 			this->occupants.push_back(id);
 
 			if (this->occupants.size() >= this->requiredOccupants) {
-				this->setConditionState(true);
+				this->setConditionState(this->activateWhenUnitsInZone);
 			}
 		}
 	}
@@ -88,7 +93,7 @@ void GridZoneSwitch::onUnitExitedZone(ObjectIdType id) {
 		this->occupants.erase(it);
 
 		if (this->occupants.size() < this->requiredOccupants) {
-			this->setConditionState(false);
+			this->setConditionState(!this->activateWhenUnitsInZone);
 		}
 	}
 }

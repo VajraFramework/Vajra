@@ -32,6 +32,10 @@ void UnitInGridZoneSwitch::SetRequiredOccupants(unsigned int num) {
 	GridZoneSwitch::SetRequiredOccupants(num);
 }
 
+void UnitInGridZoneSwitch::SetActivateWhenUnitsInZone(bool b) {
+	GridZoneSwitch::SetActivateWhenUnitsInZone(b);
+}
+
 void UnitInGridZoneSwitch::SetRequiredUnitType(std::string typeStr) {
 	this->SetRequiredUnitType(ConvertStringToUnitType(typeStr));
 }
