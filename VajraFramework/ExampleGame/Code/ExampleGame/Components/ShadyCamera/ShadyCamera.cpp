@@ -145,14 +145,14 @@ void ShadyCamera::moveTo_internal_overTime(glm::vec3 newPos, float time) {
 }
 
 void ShadyCamera::FollowGameObjectDirectly(ObjectIdType unitId) {
-	if(this->camMode == CameraMode::CameraMode_Game) {
-		GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(unitId);
-		if(go != nullptr) {
-			this->setCurrentCameraHeight(go->GetTransform()->GetPosition().y);
-			this->updateGameCamPos();
+	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(unitId);
+	if(go != nullptr) {
+		this->setCurrentCameraHeight(go->GetTransform()->GetPosition().y);
+		this->updateGameCamPos();
+		if(this->camMode == CameraMode::CameraMode_Game) {
+			this->gameObjectRef->GetTransform()->SetPosition(this->gameCamPos);
 		}
 	}
-	
 }
 
 void ShadyCamera::MoveGameCamToRoom(int i, int j) {
@@ -191,7 +191,6 @@ void ShadyCamera::setCurrentRoomCenter(glm::vec3 roomCenter) {
 
 void ShadyCamera::setCurrentCameraHeight(float elevatorInWorldUnits) {
 	glm::vec3 newOffset = DEFAULT_GAME_CAM_OFFSET + glm::vec3(0.0f, elevatorInWorldUnits, 0.0f);
-	FRAMEWORK->GetLogger()->dbglog("\nsetCurrentCameraHeight %f" , elevatorInWorldUnits);
 	if(this->gameCamOffset != newOffset) {
 		this->gameCamOffset = newOffset;
 	}

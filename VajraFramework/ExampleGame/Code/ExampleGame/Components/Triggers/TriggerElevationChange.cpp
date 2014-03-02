@@ -101,10 +101,9 @@ void TriggerElevationChange::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT:
 			for (auto iter = this->unitsInZone.begin(); iter != this->unitsInZone.end(); ++iter) {
 				// If it's the selected unit the camera should follow it up
-				if(*iter != SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
-					continue;
+				if(*iter == SINGLETONS->GetGridManager()->GetSelectedUnitId()) {
+					SINGLETONS->GetGridManager()->GetShadyCamera()->FollowGameObjectDirectly(this->GetObject()->GetId());
 				}
-				SINGLETONS->GetGridManager()->GetShadyCamera()->FollowGameObjectDirectly(this->GetObject()->GetId());
 			}
 			break;
 	}
