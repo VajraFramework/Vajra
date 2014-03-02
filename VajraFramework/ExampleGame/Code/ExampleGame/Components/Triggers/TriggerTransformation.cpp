@@ -142,15 +142,21 @@ void TriggerTransformation::startTranslation(bool transformed) {
 
 		glm::vec3 finalPosition = trans->GetPosition() + diff;
 
-		ENGINE->GetTween()->TweenPosition(
-			myId,
-			finalPosition,
-			tweenTime,
-			true,
-			TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
-			false,
-			nullptr
-		);
+		if (tweenTime > 0.0f) {
+			ENGINE->GetTween()->TweenPosition(
+				myId,
+				finalPosition,
+				tweenTime,
+				true,
+				TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+				false,
+				nullptr
+			);
+		}
+		else {
+			// Well that's strange. Just cancel the tween.
+			ENGINE->GetTween()->CancelPostitionTween(myId);
+		}
 	}
 }
 

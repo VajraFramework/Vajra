@@ -197,14 +197,20 @@ void TriggerMovingBlocker::startTranslation(bool transformed) {
 
 		glm::vec3 finalPosition = trans->GetPosition() + diff;
 
-		ENGINE->GetTween()->TweenPosition(
-			myId,
-			finalPosition,
-			tweenTime,
-			true,
-			TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
-			false,
-			movingBlockerTweenCallback
-		);
+		if (tweenTime > 0.0f) {
+			ENGINE->GetTween()->TweenPosition(
+				myId,
+				finalPosition,
+				tweenTime,
+				true,
+				TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+				false,
+				movingBlockerTweenCallback
+			);
+		}
+		else {
+			// Well that's strange. Just cancel the tween.
+			ENGINE->GetTween()->CancelPostitionTween(myId);
+		}
 	}
 }
