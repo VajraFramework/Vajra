@@ -16,7 +16,7 @@ public:
 	MultiplexSwitch(Object* object_);
 	virtual ~MultiplexSwitch();
 
-	static inline ComponentIdType GetTypeId() { return BaseSwitch::GetTypeId(); }
+	static inline ComponentIdType GetTypeId() { return componentTypeId; }
 
 	//[[PROPERTY]]//
 	virtual void SetSwitchType(std::string typeStr);
@@ -55,6 +55,8 @@ private:
 
 	std::list<ObjectIdType> subscriptions;
 	int activeSwitches;
+
+	static ComponentIdType componentTypeId;
 };
 
 #endif // MULTIPLEXSWITCH_H
