@@ -9,8 +9,6 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 
-ComponentIdType MultiplexSwitch::componentTypeId = COMPONENT_TYPE_ID_MULTIPLEX_SWITCH;
-
 MultiplexSwitch::MultiplexSwitch() : BaseSwitch() {
 	this->init();
 }
