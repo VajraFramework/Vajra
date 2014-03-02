@@ -32,7 +32,7 @@ void SceneGraphUi::draw() {
 	Camera* cameraComponent = mainCamera->GetComponent<Camera>();
 	VERIFY(cameraComponent != nullptr, "mainCamera has Camera component");
 
-	this->renderLists->Draw(cameraComponent, nullptr);
+	this->renderLists->Draw(cameraComponent);
 }
 
 bool SceneGraphUi::TestTouchStart(Touch touch) {
