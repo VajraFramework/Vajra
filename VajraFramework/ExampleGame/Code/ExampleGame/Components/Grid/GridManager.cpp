@@ -372,14 +372,9 @@ void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {
 	}
 
 	GridCell* destCell = this->grid->GetCell(cellX, cellZ);
+	int elevation = destCell->y;
 
-	GridNavigator* gNav = obj->GetComponent<GridNavigator>();
-	ASSERT(gNav != nullptr, "Object with id %d has GridNavigator component", id);
-	ASSERT(destCell != nullptr, "Placing object into grid cell (%d, %d)", cellX, cellZ);
-	ASSERT(destCell->GetFirstOccupantId() == OBJECT_ID_INVALID, "Grid cell (%d, %d) is unoccupied", cellX, cellZ);
-
-	destCell->SetFirstOccupantId(id);
-	gNav->SetCurrentCell(destCell);
+	this->gridCellChangedHandler(id, cellX, cellZ, elevation);
 
 	Transform* trans = obj->GetTransform();
 	trans->SetPosition(destCell->center);
