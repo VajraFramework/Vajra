@@ -78,7 +78,7 @@ void main()
 
 	// TODO [Hack] Not applying ambient occlusion to heights above 2.0, change this to be read from the blue channel of the baked map instead:
 	if (modelCoordsForBakedAmbientLookup_out.y > height_cutoof_at_pixel) {
-		// down_ambient_intensity_at_point = 0.0;
+		down_ambient_intensity_at_point = 0.0;
 	}
 	gl_FragColor = color_temp - down_ambient_intensity_at_point * DOWN_AMBIENT_INTENSITY_FACTOR + up_ambient_intensity_at_point * UP_AMBIENT_INTENSITY_FACTOR;
 #else
