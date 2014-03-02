@@ -85,8 +85,8 @@ void TriggerTransformation::SubscribeToParentSwitch() {
 	Triggerable::SubscribeToParentSwitch();
 }
 
-void TriggerTransformation::onSwitchToggled(bool /*switchState*/) {
-	this->startTransformation(!this->isToggled);
+void TriggerTransformation::onSwitchToggled(bool switchState) {
+	this->startTransformation(switchState);
 }
 
 void TriggerTransformation::startTransformation(bool transformed) {
@@ -94,8 +94,6 @@ void TriggerTransformation::startTransformation(bool transformed) {
 		this->startTranslation(transformed);
 		this->startRotation(transformed);
 		this->startScaling(transformed);
-
-		this->isToggled = transformed;
 	}
 }
 
@@ -203,14 +201,20 @@ void TriggerTransformation::startRotation(bool transformed) {
 		}
 		glm::quat finalOrientation = trans->GetOrientation() * diff;
 
-		ENGINE->GetTween()->TweenOrientation(
-			myId,
-			finalOrientation,
-			tweenTime,
-			true,
-			false,
-			nullptr
-		);
+		if (tweenTime > 0.0f) {
+			ENGINE->GetTween()->TweenOrientation(
+				myId,
+				finalOrientation,
+				tweenTime,
+				true,
+				false,
+				nullptr
+			);
+		}
+		else {
+			// Well that's strange. Just cancel the tween.
+			ENGINE->GetTween()->CancelPostitionTween(myId);
+		}
 	}
 }
 
@@ -249,13 +253,19 @@ void TriggerTransformation::startScaling(bool transformed) {
 		glm::vec3 diff  = (scalingDetails->current_v - scalingDetails->to_v) * (tweenTime / (this->transitTime - tweenTime));
 		glm::vec3 finalScale = trans->GetScale() + diff;
 
-		ENGINE->GetTween()->TweenScale(
-			myId,
-			finalScale,
-			tweenTime,
-			true,
-			false,
-			nullptr
-		);
+		if (tweenTime > 0.0f) {
+			ENGINE->GetTween()->TweenScale(
+				myId,
+				finalScale,
+				tweenTime,
+				true,
+				false,
+				nullptr
+			);
+		}
+		else {
+			// Well that's strange. Just cancel the tween.
+			ENGINE->GetTween()->CancelPostitionTween(myId);
+		}
 	}
 }

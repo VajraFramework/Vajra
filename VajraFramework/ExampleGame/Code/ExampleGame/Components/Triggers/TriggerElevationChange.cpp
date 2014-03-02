@@ -117,8 +117,8 @@ void TriggerElevationChange::SubscribeToParentSwitch() {
 	Triggerable::SubscribeToParentSwitch();
 }
 
-void TriggerElevationChange::onSwitchToggled(bool /*switchState*/) {
-	this->startTransition(!this->isToggled);
+void TriggerElevationChange::onSwitchToggled(bool switchState) {
+	this->startTransition(switchState);
 }
 
 void TriggerElevationChange::onUnitEnteredZone(ObjectIdType id) {
@@ -154,8 +154,6 @@ void TriggerElevationChange::startTransition(bool raised) {
 		this->startPositionTween(raised);
 		this->changeCellElevations(raised);
 		this->setCellsInGridZonePassable(false);
-
-		this->isToggled = raised;
 	}
 }
 

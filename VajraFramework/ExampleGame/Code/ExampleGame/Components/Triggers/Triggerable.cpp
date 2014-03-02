@@ -182,6 +182,7 @@ void Triggerable::toggleState() {
 		this->onSwitchToggled(true);
 		this->onSwitchActivated();
 	}
+	this->isToggled = !this->isToggled;
 }
 
 void Triggerable::setDecalType(std::string decalType_) {

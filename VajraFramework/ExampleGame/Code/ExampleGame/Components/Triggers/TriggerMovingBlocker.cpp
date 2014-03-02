@@ -136,8 +136,8 @@ void TriggerMovingBlocker::update() {
 	}
 }
 
-void TriggerMovingBlocker::onSwitchToggled(bool /*switchState*/) {
-	this->startTransformation(!this->isToggled);
+void TriggerMovingBlocker::onSwitchToggled(bool switchState) {
+	this->startTransformation(switchState);
 }
 
 void TriggerMovingBlocker::startTransformation(bool transformed) {
@@ -145,7 +145,6 @@ void TriggerMovingBlocker::startTransformation(bool transformed) {
 		Transform* trans = this->GetObject()->GetComponent<Transform>();
 		this->currentCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(trans->GetPositionWorld());
 		this->startTranslation(transformed);
-		this->isToggled = transformed;
 		this->isPassable = !this->isPassable;
 		this->isInTransit = true;
 	}
