@@ -153,3 +153,7 @@ void lerp(glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, const fl
 	lerp(destination.z, a.z, b.z, interp);
 	lerp(destination.w, a.w, b.w, interp);
 }
+
+float DistanceFromPlaneToPoint(glm::vec4 plane, glm::vec3 point) {
+	return (plane.x * point.x + plane.y * point.y + plane.z * point.z + plane.w);
+}

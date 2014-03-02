@@ -10,6 +10,10 @@
 
 unsigned int Camera::componentTypeId = COMPONENT_TYPE_ID_CAMERA;
 
+/*
+ * Frustum Culling Reference:  http://web.archive.org/web/20120531231005/http://crazyjoke.free.fr/doc/3D/plane%20extraction.pdf
+ */
+
 Camera::Camera() : Component() {
 	this->init();
 }
@@ -164,15 +168,12 @@ void Camera::updateFrustum() {
 	}
 }
 
-float DistanceToPoint(glm::vec4 plane, glm::vec3 point) {
-	return (plane.x * point.x + plane.y * point.y + plane.z * point.z + plane.w);
-}
 
 bool Camera::IsPointInFrustum(glm::vec3 point, float toleranceRadius /* = 0.0f */) {
 
 	// TODO [Hack] Don't check against near and far planes, save computation
 	for (int i = 0 ; i < PLANE_NEAR; ++i) {
-		float signed_distance = DistanceToPoint(this->frustumPlanes[i], point);
+		float signed_distance = DistanceFromPlaneToPoint(this->frustumPlanes[i], point);
 		if (!((signed_distance + toleranceRadius) >= 0 ||
 			  (signed_distance - toleranceRadius) >= 0)) {
 			return false;
