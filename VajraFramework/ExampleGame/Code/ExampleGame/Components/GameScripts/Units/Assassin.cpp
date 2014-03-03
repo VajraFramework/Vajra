@@ -184,7 +184,7 @@ void Assassin::aimSpecial(int touchId){
 		Transform* trans = this->arrowTail->GetComponent<Transform>();
 		this->GridPlaneLookAt(this->arrowTail, this->targetedCell);
 
-		trans->SetPosition(this->gridNavRef->GetCurrentCell()->center + glm::vec3(0.0f, .1f, 0.0f));
+		trans->SetPosition(this->gameObjectRef->GetTransform()->GetPosition() + glm::vec3(0.0f, .1f, 0.0f));
 		trans->Translate(dist * .5f, trans->GetUp());
 
 		// Arrow Head
