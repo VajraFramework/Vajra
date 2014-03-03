@@ -73,7 +73,7 @@ void Assassin::HandleMessage(MessageChunk messageChunk) {
 bool Assassin::isSpecialTouch(int touchId) {
 	if(this->getTouchNearUnit()) {
 		Touch touch = ENGINE->GetInput()->GetTouch(touchId);
-		if(touch.timeDown <= GetFloatGameConstant(GAME_CONSTANT_swipe_duration_in_seconds) && glm::distance(touch.pos, this->touchStartPos) > GetFloatGameConstant(GAME_CONSTANT_swipe_dist_in_pixels)) {
+		if(touch.timeDown <= GetFloatGameConstant(GAME_CONSTANT_swipe_duration_in_seconds) && glm::distance(touch.pos, this->touchStartPos) > GetFloatGameConstant(GAME_CONSTANT_assassin_swipe_dist_in_pixels)) {
 			this->swipeDirectionScreen = this->touchStartPos - touch.pos;
 			this->targetedCell = nullptr;
 			this->gridNavRef->HaltMovement();

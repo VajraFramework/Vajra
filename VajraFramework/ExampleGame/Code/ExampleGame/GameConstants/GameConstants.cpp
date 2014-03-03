@@ -24,10 +24,11 @@ void InitGameConstants() {
 	gameConstantNameToId["allowed_finger_movement_in_press"] = GAME_CONSTANT_allowed_finger_movement_in_press;
 	gameConstantNameToId["long_press_length_in_seconds"] = GAME_CONSTANT_long_press_length_in_seconds;
 	gameConstantNameToId["assassin_attack_speed"] = GAME_CONSTANT_assassin_attack_speed;
-	gameConstantNameToId["swipe_dist_in_pixels"] = GAME_CONSTANT_swipe_dist_in_pixels;
+	gameConstantNameToId["assassin_swipe_dist_in_pixels"] = GAME_CONSTANT_assassin_swipe_dist_in_pixels;
 	gameConstantNameToId["swipe_duration_in_seconds"] = GAME_CONSTANT_swipe_duration_in_seconds;
 	gameConstantNameToId["dash_distance_in_units"] = GAME_CONSTANT_dash_distance_in_units;
 	gameConstantNameToId["jump_distance_in_units"] = GAME_CONSTANT_jump_distance_in_units;
+	gameConstantNameToId["thief_swipe_dist_in_pixels"] = GAME_CONSTANT_thief_swipe_dist_in_pixels;
 	gameConstantNameToId["jump_elevation_multiplier"] = GAME_CONSTANT_jump_elevation_multiplier;
 	gameConstantNameToId["jump_speed_in_units_per_second"] = GAME_CONSTANT_jump_speed_in_units_per_second;
 	gameConstantNameToId["target_tween_time"] = GAME_CONSTANT_target_tween_time;
