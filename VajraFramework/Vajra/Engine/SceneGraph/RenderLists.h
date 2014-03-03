@@ -33,7 +33,8 @@ class RenderLists {
 public:
 	~RenderLists();
 
-	void Draw(Camera* camera, DirectionalLight* directionalLight = nullptr);
+	void Draw(Camera* camera);
+	void Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights);
 
 private:
 	RenderLists();

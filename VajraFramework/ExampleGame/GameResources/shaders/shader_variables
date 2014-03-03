@@ -35,6 +35,20 @@ varying vec4 MaterialAmbientColor_out
 varying vec4 MaterialDiffuseColor_out
 varying vec4 MaterialSpecularColor_out
 
+
+uniform vec4 AdditionalLight0Direction
+uniform vec4 AdditionalLight0Ambient
+uniform vec4 AdditionalLight0Diffuse
+
+uniform vec4 AdditionalLight1Direction
+uniform vec4 AdditionalLight1Ambient
+uniform vec4 AdditionalLight1Diffuse
+
+uniform vec4 AdditionalLight2Direction
+uniform vec4 AdditionalLight2Ambient
+uniform vec4 AdditionalLight2Diffuse
+
+
 attribute float pointSize
 attribute vec4 particleColor
 

@@ -8,6 +8,9 @@
 
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 
+// Forward Declarations:
+class GridCell;
+
 //[[COMPONENT]]//
 class TriggerMovingBlocker : public Triggerable {
 public:

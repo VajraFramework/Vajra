@@ -31,6 +31,13 @@ void SceneGraph3D::SetMainDirectionalLightId(ObjectIdType id) {
 	this->mainDirectionalLightId = id;
 }
 
+void SceneGraph3D::AddAdditionalLightId(ObjectIdType id) {
+	GameObject *directionalLight = this->GetGameObjectById(id);
+	ASSERT(directionalLight != nullptr, "New additional directionalLight object not null");
+	ASSERT(directionalLight->GetComponent<DirectionalLight>() != nullptr, "New additional directionalLight object has a DirectionalLight component");
+	this->additionalLightIds.push_back(id);
+}
+
 void SceneGraph3D::update() {
 	// TODO [Implement] Figure out if we need to put anything here
 }
@@ -48,12 +55,21 @@ void SceneGraph3D::draw() {
 		return;
 	}
 
+	std::vector<DirectionalLight*> additionalLights_components;
+	for (ObjectIdType additionalLightId : this->additionalLightIds) {
+		GameObject* additionalLightObject = this->GetGameObjectById(additionalLightId);
+		if (additionalLightObject != nullptr) {
+			DirectionalLight* additionalLight_component = additionalLightObject->GetComponent<DirectionalLight>();
+			additionalLights_components.push_back(additionalLight_component);
+		}
+	}
+
 	Camera* cameraComponent = mainCamera->GetComponent<Camera>();
 	VERIFY(cameraComponent != nullptr, "mainCamera has Camera component");
 	DirectionalLight* directionalLightComponent = mainDirectionalLight->GetComponent<DirectionalLight>();
 	VERIFY(directionalLightComponent != nullptr, "mainDirectionalLight has DirectionalLight component");
 
-	this->renderLists->Draw(cameraComponent, directionalLightComponent);
+	this->renderLists->Draw(cameraComponent, directionalLightComponent, additionalLights_components);
 }
 
 void SceneGraph3D::init() {
@@ -66,3 +82,4 @@ void SceneGraph3D::init() {
 void SceneGraph3D::destroy() {
 	SceneGraph::destroy();
 }
+
