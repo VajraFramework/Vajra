@@ -73,7 +73,7 @@ void Assassin::HandleMessage(MessageChunk messageChunk) {
 bool Assassin::isSpecialTouch(int touchId) {
 	if(this->getTouchNearUnit()) {
 		Touch touch = ENGINE->GetInput()->GetTouch(touchId);
-		if(touch.timeDown <= GetFloatGameConstant(GAME_CONSTANT_swipe_duration_in_seconds) && glm::distance(touch.pos, this->touchStartPos) > GetFloatGameConstant(GAME_CONSTANT_swipe_dist_in_pixels)) {
+		if(touch.timeDown <= GetFloatGameConstant(GAME_CONSTANT_swipe_duration_in_seconds) && glm::distance(touch.pos, this->touchStartPos) > GetFloatGameConstant(GAME_CONSTANT_assassin_swipe_dist_in_pixels)) {
 			this->swipeDirectionScreen = this->touchStartPos - touch.pos;
 			this->targetedCell = nullptr;
 			this->gridNavRef->HaltMovement();
@@ -184,7 +184,7 @@ void Assassin::aimSpecial(int touchId){
 		Transform* trans = this->arrowTail->GetComponent<Transform>();
 		this->GridPlaneLookAt(this->arrowTail, this->targetedCell);
 
-		trans->SetPosition(this->gridNavRef->GetCurrentCell()->center + glm::vec3(0.0f, .1f, 0.0f));
+		trans->SetPosition(this->gameObjectRef->GetTransform()->GetPosition() + glm::vec3(0.0f, .1f, 0.0f));
 		trans->Translate(dist * .5f, trans->GetUp());
 
 		// Arrow Head

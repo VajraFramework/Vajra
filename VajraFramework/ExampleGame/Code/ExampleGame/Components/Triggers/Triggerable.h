@@ -66,13 +66,17 @@ private:
 	void init();
 	void destroy();
 
-	void incrementSwitchCount();
-	void decrementSwitchCount();
+	void subscribeInternal(ObjectIdType switchId);
+	void unsubscribeInternal(ObjectIdType switchId);
+	void markAsActive(ObjectIdType switchId);
+	void markAsInactive(ObjectIdType switchId);
+
+	void compareCounts(int prevActive, int prevSwitches, int currActive, int currSwitches);
 
 	void toggleState();
 
 	std::list<ObjectIdType> subscriptions;
-	int activeSwitches;
+	std::list<ObjectIdType> activeSwitches;
 
 	std::string decalType;
 	GameObject* decalRef;

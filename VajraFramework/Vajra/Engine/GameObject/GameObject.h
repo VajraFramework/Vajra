@@ -24,6 +24,8 @@ public:
 	GameObject(SceneGraph* sceneGraph);
 	virtual ~GameObject();
 
+	virtual void AddChild(ObjectIdType childId);
+	virtual void SetParent(ObjectIdType newParentId);
 	// Adds the child game object to this, and makes sure that the child remains at the "same" transform in the world:
 	void AddChild_maintainTransform(ObjectIdType childId);
 

@@ -26,17 +26,42 @@ float DOWN_AMBIENT_INTENSITY_FACTOR = 0.2;
 float UP_AMBIENT_INTENSITY_FACTOR = 0.2;
 #endif
 
+
+#ifdef ADDITIONAL_LIGHTS
+uniform vec4 AdditionalLight0Direction;
+uniform vec4 AdditionalLight0Ambient;
+uniform vec4 AdditionalLight0Diffuse;
+uniform vec4 AdditionalLight1Direction;
+uniform vec4 AdditionalLight1Ambient;
+uniform vec4 AdditionalLight1Diffuse;
+uniform vec4 AdditionalLight2Direction;
+uniform vec4 AdditionalLight2Ambient;
+uniform vec4 AdditionalLight2Diffuse;
+#endif
+
+
 void main()
 {
 #ifdef PER_PIXEL_LIGHTING
 	float cosTheta = clamp( dot( vNormal_out, DLight0Direction_out ), 0.0, 1.0 );
 	vec4 lightIntensity = DLight0DiffuseColor_out * cosTheta;
-
-	// Fake the ambient lighting:
 	lightIntensity = lightIntensity + DLight0AmbientColor_out;
-
 	// Temp using variables:
 	lightIntensity = lightIntensity + DLight0SpecularColor_out;
+
+#ifdef ADDITIONAL_LIGHTS
+	cosTheta = clamp( dot( vNormal_out, AdditionalLight0Direction ), 0.0, 1.0 );
+	lightIntensity = lightIntensity + AdditionalLight0Diffuse * cosTheta;
+	lightIntensity = lightIntensity + AdditionalLight0Ambient;
+	//
+	cosTheta = clamp( dot( vNormal_out, AdditionalLight1Direction ), 0.0, 1.0 );
+	lightIntensity = lightIntensity + AdditionalLight1Diffuse * cosTheta;
+	lightIntensity = lightIntensity + AdditionalLight1Ambient;
+	//
+	cosTheta = clamp( dot( vNormal_out, AdditionalLight2Direction ), 0.0, 1.0 );
+	lightIntensity = lightIntensity + AdditionalLight2Diffuse * cosTheta;
+	lightIntensity = lightIntensity + AdditionalLight2Ambient;
+#endif
 #endif
 
 #ifdef BAKED_AMBIENT_LIGHTING

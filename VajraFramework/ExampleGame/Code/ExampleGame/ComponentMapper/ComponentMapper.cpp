@@ -360,9 +360,19 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "DirectionalLight") {
 		DirectionalLight* component = gameObject->GetComponent<DirectionalLight>();
 		if (component == nullptr) { return; }
+		if (propertyName == "SetIntensity") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetIntensity(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
 		if (propertyName == "SetAmbientColor") {
 			if ((int)argv.size() < 4) { return; }
 			component->SetAmbientColor(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
+		}
+		if (propertyName == "SetAmbientColorInts") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetAmbientColorInts(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToInt(argv[2]), StringUtilities::ConvertStringToInt(argv[3]));
 			return;
 		}
 		if (propertyName == "SetDiffuseColor") {
@@ -370,9 +380,19 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetDiffuseColor(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
 			return;
 		}
+		if (propertyName == "SetDiffuseColorInts") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetDiffuseColorInts(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToInt(argv[2]), StringUtilities::ConvertStringToInt(argv[3]));
+			return;
+		}
 		if (propertyName == "SetSpecularColor") {
 			if ((int)argv.size() < 4) { return; }
 			component->SetSpecularColor(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
+		}
+		if (propertyName == "SetLightType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetLightType(ConvertStringToString(argv[0]));
 			return;
 		}
 		return;
@@ -957,6 +977,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetChangeVisibility") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetChangeVisibility(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SetPassableWhenActivated") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetPassableWhenActivated(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		if (propertyName == "SubscribeToMySwitch") {

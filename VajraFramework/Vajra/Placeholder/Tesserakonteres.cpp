@@ -107,10 +107,10 @@ namespace Tesserakonteres {
 			DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
 			dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
 			dlight->GetTransform()->LookAt(0.5f, 10.0f, 0.5f);
-			ENGINE->GetSceneGraph3D()->SetMainDirectionalLightId(dlight->GetId());
 			//
 			dlightComponent->SetAmbientColor(0.15f, 0.15f, 0.3f, 1.0f);
 			dlightComponent->SetDiffuseColor(0.5f, 0.5f, 0.55f, 1.0f);
+			dlightComponent->SetLightType("main");
 		}
 
 		{

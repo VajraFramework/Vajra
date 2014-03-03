@@ -38,8 +38,6 @@ Triggerable::~Triggerable() {
 void Triggerable::init() {
 	this->type           = TRIGGER_TYPE_ALL;
 	this->isToggled      = false;
-	this->activeSwitches = 0;
-
 
 	this->decalRef = nullptr;
 
@@ -63,13 +61,23 @@ void Triggerable::SetToggleState(bool toggle) {
 void Triggerable::HandleMessage(MessageChunk messageChunk) {
 	Component::HandleMessage(messageChunk);
 
+	int prevActive   = this->activeSwitches.size();
+	int prevSwitches = this->subscriptions.size();
+	int currActive, currSwitches;
+
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_SWITCH_ACTIVATED:
-			this->incrementSwitchCount();
+			this->markAsActive(messageChunk->GetSenderId());
+			currActive = this->activeSwitches.size();
+			currSwitches = this->subscriptions.size();
+			this->compareCounts(prevActive, prevSwitches, currActive, currSwitches);
 			break;
 
 		case MESSAGE_TYPE_SWITCH_DEACTIVATED:
-			this->decrementSwitchCount();
+			this->markAsInactive(messageChunk->GetSenderId());
+			currActive = this->activeSwitches.size();
+			currSwitches = this->subscriptions.size();
+			this->compareCounts(prevActive, prevSwitches, currActive, currSwitches);
 			break;
 	}
 }
@@ -83,6 +91,44 @@ void Triggerable::SubscribeToParentSwitch() {
 }
 
 void Triggerable::SubscribeToSwitchObject(ObjectIdType switchId) {
+	int prevActive   = this->activeSwitches.size();
+	int prevSwitches = this->subscriptions.size();
+
+	this->subscribeInternal(switchId);
+
+	int currActive   = this->activeSwitches.size();
+	int currSwitches = this->subscriptions.size();
+
+	this->compareCounts(prevActive, prevSwitches, currActive, currSwitches);
+}
+
+void Triggerable::UnsubscribeToSwitchObject(ObjectIdType switchId) {
+	int prevActive   = this->activeSwitches.size();
+	int prevSwitches = this->subscriptions.size();
+
+	this->unsubscribeInternal(switchId);
+
+	int currActive   = this->activeSwitches.size();
+	int currSwitches = this->subscriptions.size();
+
+	this->compareCounts(prevActive, prevSwitches, currActive, currSwitches);
+}
+
+void Triggerable::UnsubscribeToAllSwitches() {
+	int prevActive   = this->activeSwitches.size();
+	int prevSwitches = this->subscriptions.size();
+
+	while (this->subscriptions.size() > 0) {
+		this->unsubscribeInternal(this->subscriptions.front());
+	}
+
+	int currActive   = this->activeSwitches.size();
+	int currSwitches = this->subscriptions.size();
+
+	this->compareCounts(prevActive, prevSwitches, currActive, currSwitches);
+}
+
+void Triggerable::subscribeInternal(ObjectIdType switchId) {
 	auto it = std::find(this->subscriptions.begin(), this->subscriptions.end(), switchId);
 	if (it == this->subscriptions.end()) {
 		GameObject* switchObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(switchId);
@@ -92,6 +138,9 @@ void Triggerable::SubscribeToSwitchObject(ObjectIdType switchId) {
 			ASSERT(switchComp != nullptr, "Object with id %d has BaseSwitch component", switchId);
 			if (switchComp != nullptr) {
 				switchComp->AddSubscriber(this->GetObject()->GetId());
+				if (switchComp->IsActive()) {
+					this->markAsActive(switchId);
+				}
 				this->subscriptions.push_back(switchId);
 			}
 		}
@@ -101,75 +150,74 @@ void Triggerable::SubscribeToSwitchObject(ObjectIdType switchId) {
 	}
 }
 
-void Triggerable::UnsubscribeToSwitchObject(ObjectIdType switchId) {
+void Triggerable::unsubscribeInternal(ObjectIdType switchId) {
 	auto it = std::find(this->subscriptions.begin(), this->subscriptions.end(), switchId);
 	if (it != this->subscriptions.end()) {
 		GameObject* switchObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(switchId);
 		if (switchObj != nullptr) {
 			BaseSwitch* switchComp = switchObj->GetComponent<BaseSwitch>();
 			if (switchComp != nullptr) {
-				if (switchComp->IsActive()) {
-					--this->activeSwitches;
-				}
 				switchComp->RemoveSubscriber(this->GetObject()->GetId());
 			}
 		}
 		this->subscriptions.erase(it);
+		this->markAsInactive(switchId);
 	}
 	else {
 		FRAMEWORK->GetLogger()->dbglog("Warning: Trying to unsubscribe for unfound subscription to switch: %d by triggerable: %d", switchId, this->GetObject()->GetId());
 	}
 }
 
-void Triggerable::UnsubscribeToAllSwitches() {
-	while (this->subscriptions.size() > 0) {
-		this->UnsubscribeToSwitchObject(this->subscriptions.front());
+void Triggerable::markAsActive(ObjectIdType switchId) {
+	auto iter = std::find(this->activeSwitches.begin(), this->activeSwitches.end(), switchId);
+	if (iter == this->activeSwitches.end()) {
+		// Add the switch's id to the list.
+		this->activeSwitches.push_back(switchId);
 	}
 }
 
-void Triggerable::incrementSwitchCount() {
-	int prevActiveSwitches = this->activeSwitches;
-	this->activeSwitches++;
-	int numSwitches = this->subscriptions.size();
+void Triggerable::markAsInactive(ObjectIdType switchId) {
+	auto iter = std::find(this->activeSwitches.begin(), this->activeSwitches.end(), switchId);
+	if (iter != this->activeSwitches.end()) {
+		// Remove the switch's id from the list.
+		this->activeSwitches.erase(iter);
+	}
+}
 
+void Triggerable::compareCounts(int prevActive, int prevSwitches, int currActive, int currSwitches) {
 	switch (this->type) {
 		case TRIGGER_TYPE_ALL:
-			if ((prevActiveSwitches < numSwitches) && (this->activeSwitches >= numSwitches)) {
+			if      (prevSwitches == 0) {
+				// If the trigger had no subscriptions, it was off.
+				if ((currSwitches > 0) && (currActive >= currSwitches)) {
+					this->toggleState();
+				}
+			}
+			else if (currSwitches == 0) {
+				// If the trigger has no subscriptions, it should stay off.
+				if ((prevSwitches > 0) && (prevActive >= prevSwitches)) {
+					this->toggleState();
+				}
+			}
+			else if ((prevActive >= prevSwitches) && (currActive < currSwitches)) {
+				this->toggleState();
+			}
+			else if ((prevActive < prevSwitches) && (currActive >= currSwitches)) {
 				this->toggleState();
 			}
 			break;
 
 		case TRIGGER_TYPE_ANY:
-			if ((prevActiveSwitches < 1) && (this->activeSwitches >= 1)) {
+			if ((prevActive >= 1) && (currActive < 1)) {
+				this->toggleState();
+			}
+			else if ((prevActive < 1) && (currActive >= 1)) {
 				this->toggleState();
 			}
 			break;
 
 		default:
 			break;
-	}
-}
-
-void Triggerable::decrementSwitchCount() {
-	int prevActiveSwitches = this->activeSwitches;
-	this->activeSwitches--;
-	int numSwitches = this->subscriptions.size();
-
-	switch (this->type) {
-	case TRIGGER_TYPE_ALL:
-		if ((prevActiveSwitches >= numSwitches) && (this->activeSwitches < numSwitches)) {
-			this->toggleState();
-		}
-		break;
-
-	case TRIGGER_TYPE_ANY:
-		if ((prevActiveSwitches >= 1) && (this->activeSwitches < 1)) {
-			this->toggleState();
-		}
-		break;
-
-	default:
-		break;
 	}
 }
 

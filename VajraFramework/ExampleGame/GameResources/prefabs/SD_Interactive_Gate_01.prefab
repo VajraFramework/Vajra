@@ -24,11 +24,15 @@
 					<field>-1</field>
 					<field>0</field>
 					<field>1</field>
-					<field>0</field>
+					<field>1</field>
 				</property>
 			</component>
 
 			<component name="TriggerTerrainBlock">
+				<property name="SetPassableWhenActivated">
+					<field>true</field>
+				</property>
+			
 				<property name="SubscribeToParentSwitch">
 				</property>
 			</component>
