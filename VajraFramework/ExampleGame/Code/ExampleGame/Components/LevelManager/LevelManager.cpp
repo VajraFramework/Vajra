@@ -70,8 +70,8 @@ void LevelManager::LoadLevel(int levelNumber) {
 
 void LevelManager::UnloadLevel() {
 	// Unload the previous scene and all other items in the SceneGraph3D
-	ENGINE->GetSceneGraph3D()->UnloadCurrentScene();
 	this->clearEndConditions();
+	ENGINE->GetSceneGraph3D()->UnloadCurrentScene();
 	ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_UNLOADED);
 }
 

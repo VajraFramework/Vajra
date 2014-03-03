@@ -38,8 +38,6 @@ Triggerable::~Triggerable() {
 void Triggerable::init() {
 	this->type           = TRIGGER_TYPE_ALL;
 	this->isToggled      = false;
-	this->activeSwitches = 0;
-
 
 	this->decalRef = nullptr;
 
@@ -65,11 +63,11 @@ void Triggerable::HandleMessage(MessageChunk messageChunk) {
 
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_SWITCH_ACTIVATED:
-			this->incrementSwitchCount();
+			this->markAsActive(messageChunk->GetSenderId());
 			break;
 
 		case MESSAGE_TYPE_SWITCH_DEACTIVATED:
-			this->decrementSwitchCount();
+			this->markAsInactive(messageChunk->GetSenderId());
 			break;
 	}
 }
@@ -92,6 +90,9 @@ void Triggerable::SubscribeToSwitchObject(ObjectIdType switchId) {
 			ASSERT(switchComp != nullptr, "Object with id %d has BaseSwitch component", switchId);
 			if (switchComp != nullptr) {
 				switchComp->AddSubscriber(this->GetObject()->GetId());
+				if (switchComp->IsActive()) {
+					this->markAsActive(switchId);
+				}
 				this->subscriptions.push_back(switchId);
 			}
 		}
@@ -108,13 +109,11 @@ void Triggerable::UnsubscribeToSwitchObject(ObjectIdType switchId) {
 		if (switchObj != nullptr) {
 			BaseSwitch* switchComp = switchObj->GetComponent<BaseSwitch>();
 			if (switchComp != nullptr) {
-				if (switchComp->IsActive()) {
-					--this->activeSwitches;
-				}
 				switchComp->RemoveSubscriber(this->GetObject()->GetId());
 			}
 		}
 		this->subscriptions.erase(it);
+		this->markAsInactive(switchId);
 	}
 	else {
 		FRAMEWORK->GetLogger()->dbglog("Warning: Trying to unsubscribe for unfound subscription to switch: %d by triggerable: %d", switchId, this->GetObject()->GetId());
@@ -127,49 +126,67 @@ void Triggerable::UnsubscribeToAllSwitches() {
 	}
 }
 
-void Triggerable::incrementSwitchCount() {
-	int prevActiveSwitches = this->activeSwitches;
-	this->activeSwitches++;
-	int numSwitches = this->subscriptions.size();
+void Triggerable::markAsActive(ObjectIdType switchId) {
+	auto iter = std::find(this->activeSwitches.begin(), this->activeSwitches.end(), switchId);
+	if (iter == this->activeSwitches.end()) {
+		int prevNumActive = this->activeSwitches.size();
+		int numSwitches = this->subscriptions.size();
 
-	switch (this->type) {
+		// Add the switch's id to the list.
+		this->activeSwitches.push_back(switchId);
+		int numActive = this->activeSwitches.size();
+
+		switch (this->type) {
+			case TRIGGER_TYPE_ALL:
+				if ((prevNumActive < numSwitches) && (numActive >= numSwitches)) {
+					this->toggleState();
+				}
+				else if ((numSwitches == 0) && (prevNumActive == 0)) {
+					this->toggleState();
+				}
+				break;
+
+			case TRIGGER_TYPE_ANY:
+				if ((prevNumActive < 1) && (numActive >= 1)) {
+					this->toggleState();
+				}
+				break;
+
+			default:
+				break;
+		}
+	}
+}
+
+void Triggerable::markAsInactive(ObjectIdType switchId) {
+	auto iter = std::find(this->activeSwitches.begin(), this->activeSwitches.end(), switchId);
+	if (iter != this->activeSwitches.end()) {
+		int prevNumActive = this->activeSwitches.size();
+		int numSwitches = this->subscriptions.size();
+
+		// Remove the switch's id from the list.
+		this->activeSwitches.erase(iter);
+		int numActive = this->activeSwitches.size();
+
+		switch (this->type) {
 		case TRIGGER_TYPE_ALL:
-			if ((prevActiveSwitches < numSwitches) && (this->activeSwitches >= numSwitches)) {
+			if ((prevNumActive >= numSwitches) && (numActive < numSwitches)) {
+				this->toggleState();
+			}
+			else if ((numSwitches == 0) && (prevNumActive > 0)) {
 				this->toggleState();
 			}
 			break;
 
 		case TRIGGER_TYPE_ANY:
-			if ((prevActiveSwitches < 1) && (this->activeSwitches >= 1)) {
+			if ((prevNumActive >= 1) && (numActive < 1)) {
 				this->toggleState();
 			}
 			break;
 
 		default:
 			break;
-	}
-}
-
-void Triggerable::decrementSwitchCount() {
-	int prevActiveSwitches = this->activeSwitches;
-	this->activeSwitches--;
-	int numSwitches = this->subscriptions.size();
-
-	switch (this->type) {
-	case TRIGGER_TYPE_ALL:
-		if ((prevActiveSwitches >= numSwitches) && (this->activeSwitches < numSwitches)) {
-			this->toggleState();
 		}
-		break;
-
-	case TRIGGER_TYPE_ANY:
-		if ((prevActiveSwitches >= 1) && (this->activeSwitches < 1)) {
-			this->toggleState();
-		}
-		break;
-
-	default:
-		break;
 	}
 }
 
