@@ -16,6 +16,7 @@
 #include "ExampleGame/Components/Triggers/TriggerTransformation.h"
 #include "ExampleGame/Components/Triggers/TriggerTerrainBlock.h"
 #include "ExampleGame/Components/Triggers/TriggerElevationChange.h"
+#include "ExampleGame/Components/Triggers/TriggerMultiplex.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
 #include "ExampleGame/Components/GameScripts/UnitCustomizers/UnitShadow.h"
@@ -129,6 +130,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "TriggerElevationChange") {
 		TriggerElevationChange* component = gameObject->GetComponent<TriggerElevationChange>();
 		if (component == nullptr) { component = gameObject->AddComponent<TriggerElevationChange>(); }
+		return component;
+	}
+	
+	if (componentName == "TriggerMultiplex") {
+		TriggerMultiplex* component = gameObject->GetComponent<TriggerMultiplex>();
+		if (component == nullptr) { component = gameObject->AddComponent<TriggerMultiplex>(); }
 		return component;
 	}
 	
@@ -740,6 +747,37 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
+	if (componentName == "TriggerMultiplex") {
+		TriggerMultiplex* component = gameObject->GetComponent<TriggerMultiplex>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetToggleState") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetToggleState(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SubscribeToMySwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToMySwitch();
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
+			return;
+		}
+		if (propertyName == "SetDecalType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDecalType(ConvertStringToString(argv[0]));
+			return;
+		}
+		return;
+	}
+	
 	if (componentName == "LevelManager") {
 		LevelManager* component = gameObject->GetComponent<LevelManager>();
 		if (component == nullptr) { return; }
@@ -850,16 +888,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetResetTime(StringUtilities::ConvertStringToFloat(argv[0]));
 			return;
 		}
-		if (propertyName == "SetTriggerType") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetTriggerType(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SubscribeToParentSwitch") {
-			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToParentSwitch();
-			return;
-		}
 		return;
 	}
 	
@@ -879,6 +907,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetRequiredOccupants") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetRequiredOccupants(StringUtilities::ConvertStringToInt(argv[0]));
+			return;
+		}
+		if (propertyName == "SetActivateWhenUnitsInZone") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetActivateWhenUnitsInZone(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		if (propertyName == "SetRequiredUnitType") {
@@ -926,6 +959,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetRequiredOccupants") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetRequiredOccupants(StringUtilities::ConvertStringToInt(argv[0]));
+			return;
+		}
+		if (propertyName == "SetActivateWhenUnitsInZone") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetActivateWhenUnitsInZone(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		if (propertyName == "SetDecalType") {

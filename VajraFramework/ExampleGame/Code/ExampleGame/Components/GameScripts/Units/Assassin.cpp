@@ -167,7 +167,7 @@ void Assassin::aimSpecial(int touchId){
 		}
 		cellIndex++;
 	}
-	if(this->targetedCell != this->gridNavRef->GetCurrentCell()) {
+	if(this->targetedCell != nullptr && this->targetedCell != this->gridNavRef->GetCurrentCell()) {
 		this->SetTouchIndicatorVisible(true);
 
 		// Arrow Tail

@@ -46,7 +46,7 @@ public:
 
 protected:
 	virtual void update();
-	virtual void onSwitchToggled(bool /*switchState*/);
+	virtual void onSwitchToggled(bool switchState);
 
 private:
 	void init();

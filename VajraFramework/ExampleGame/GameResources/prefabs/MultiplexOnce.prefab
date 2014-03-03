@@ -2,11 +2,14 @@
 	<gameobject>
 		<component name="Transform">
 		</component>
-		
+
 		<component name="MultiplexSwitch">
 			<property name="SetSwitchType">
 				<field>Once</field>
 			</property>
+		</component>
+		
+		<component name="TriggerMultiplex">
 			<property name="SetTriggerType">
 				<field>All</field>
 			</property>

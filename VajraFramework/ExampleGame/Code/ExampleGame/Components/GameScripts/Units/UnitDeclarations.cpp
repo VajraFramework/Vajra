@@ -18,5 +18,8 @@ UnitType ConvertStringToUnitType(std::string typeStr) {
 	if (typeStr == "Captain") {
 		return UNIT_TYPE_CAPTAIN;
 	}
+	if (typeStr == "Obstacle") {
+		return UNIT_TYPE_OBSTACLE;
+	}
 	return UNIT_TYPE_UNKNOWN;
 }

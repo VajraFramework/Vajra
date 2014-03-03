@@ -136,8 +136,8 @@ void TriggerMovingBlocker::update() {
 	}
 }
 
-void TriggerMovingBlocker::onSwitchToggled(bool /*switchState*/) {
-	this->startTransformation(!this->isToggled);
+void TriggerMovingBlocker::onSwitchToggled(bool switchState) {
+	this->startTransformation(switchState);
 }
 
 void TriggerMovingBlocker::startTransformation(bool transformed) {
@@ -145,7 +145,6 @@ void TriggerMovingBlocker::startTransformation(bool transformed) {
 		Transform* trans = this->GetObject()->GetComponent<Transform>();
 		this->currentCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(trans->GetPositionWorld());
 		this->startTranslation(transformed);
-		this->isToggled = transformed;
 		this->isPassable = !this->isPassable;
 		this->isInTransit = true;
 	}
@@ -197,14 +196,20 @@ void TriggerMovingBlocker::startTranslation(bool transformed) {
 
 		glm::vec3 finalPosition = trans->GetPosition() + diff;
 
-		ENGINE->GetTween()->TweenPosition(
-			myId,
-			finalPosition,
-			tweenTime,
-			true,
-			TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
-			false,
-			movingBlockerTweenCallback
-		);
+		if (tweenTime > 0.0f) {
+			ENGINE->GetTween()->TweenPosition(
+				myId,
+				finalPosition,
+				tweenTime,
+				true,
+				TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+				false,
+				movingBlockerTweenCallback
+			);
+		}
+		else {
+			// Well that's strange. Just cancel the tween.
+			ENGINE->GetTween()->CancelPostitionTween(myId);
+		}
 	}
 }

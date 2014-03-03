@@ -45,7 +45,7 @@ public:
 	virtual void SubscribeToParentSwitch();  // Subscribe to the switch on the parent object, can be used in XML prefabs
 
 protected:
-	virtual void onSwitchToggled(bool /*switchState*/);
+	virtual void onSwitchToggled(bool switchState);
 
 private:
 	void init();

@@ -68,15 +68,15 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 		loadStaticDataFromXml(staticNode);
 	}
 
-	XmlNode* unitBaseNode = levelNode->GetFirstChildByNodeName(UNITS_TAG);
-	VERIFY(unitBaseNode != nullptr, "Level definition contains <%s> node", UNITS_TAG);
-	loadUnitDataFromXml(unitBaseNode);
-
 	XmlNode* otherDataNode = levelNode->GetFirstChildByNodeName(OTHER_TAG);
 	// The level doesn't need to have an OTHER_TAG node
 	if (otherDataNode != nullptr) {
 		loadOtherDataFromXml(otherDataNode);
 	}
+
+	XmlNode* unitBaseNode = levelNode->GetFirstChildByNodeName(UNITS_TAG);
+	VERIFY(unitBaseNode != nullptr, "Level definition contains <%s> node", UNITS_TAG);
+	loadUnitDataFromXml(unitBaseNode);
 
 	XmlNode* linkBaseNode = levelNode->GetFirstChildByNodeName(LINKS_TAG);
 	VERIFY(linkBaseNode != nullptr, "Level definition contains <%s> node", LINKS_TAG);
@@ -417,22 +417,12 @@ void LevelLoader::loadLinkDataFromXml  (XmlNode* linkBaseNode) {
 		ASSERT(triggerObj != nullptr, "Trigger object with id %d exists in level", triggerId);
 		if (triggerObj != nullptr) {
 			Triggerable* triggerComp = triggerObj->GetComponent<Triggerable>();
-			MultiplexSwitch* multiplexComp = triggerObj->GetComponent<MultiplexSwitch>();
-			ASSERT((triggerComp != nullptr) || (multiplexComp != nullptr), "Object with id %d has Triggerable component", triggerId);
+			ASSERT((triggerComp != nullptr), "Object with id %d has Triggerable component", triggerId);
 			if (triggerComp != nullptr) {
 				XmlNode* switchNode = triggerLinkNode->GetFirstChildByNodeName(SWITCH_TAG);
 				while (switchNode != nullptr) {
 					ObjectIdType switchId = switchNode->GetAttributeValueI(ID_ATTRIBUTE);
 					triggerComp->SubscribeToSwitchObject(idsFromXml[switchId]);
-
-					switchNode = switchNode->GetNextSiblingByNodeName(SWITCH_TAG);
-				}
-			}
-			if (multiplexComp != nullptr) {
-				XmlNode* switchNode = triggerLinkNode->GetFirstChildByNodeName(SWITCH_TAG);
-				while (switchNode != nullptr) {
-					ObjectIdType switchId = switchNode->GetAttributeValueI(ID_ATTRIBUTE);
-					multiplexComp->SubscribeToSwitchObject(idsFromXml[switchId]);
 
 					switchNode = switchNode->GetNextSiblingByNodeName(SWITCH_TAG);
 				}

@@ -25,6 +25,8 @@ public:
 	//[[PROPERTY]]//
 	virtual void SetRequiredOccupants(unsigned int num);
 	//[[PROPERTY]]//
+	virtual void SetActivateWhenUnitsInZone(bool b);
+	//[[PROPERTY]]//
 	void SetRequiredUnitType(std::string typeStr);
 	inline void SetRequiredUnitType(UnitType uType);
 	//[[PROPERTY]]//
