@@ -885,8 +885,8 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		Decal* component = gameObject->GetComponent<Decal>();
 		if (component == nullptr) { return; }
 		if (propertyName == "SetDecalImages") {
-			if ((int)argv.size() < 2) { return; }
-			component->SetDecalImages(ConvertStringToString(argv[0]), ConvertStringToString(argv[1]));
+			if ((int)argv.size() < 4) { return; }
+			component->SetDecalImages(ConvertStringToString(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), ConvertStringToString(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
 			return;
 		}
 		return;

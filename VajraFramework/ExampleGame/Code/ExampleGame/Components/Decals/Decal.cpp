@@ -27,7 +27,7 @@ Decal::~Decal() {
 	this->destroy();
 }
 
-void Decal::SetDecalImages(std::string gameMode_image, std::string overviewMode_image) {
+void Decal::SetDecalImages(std::string gameMode_image, float gameMode_imageSize, std::string overviewMode_image, float overviewMode_imageSize) {
 	// Create a game object to hold the decals:
 	this->decalObjectRef = new GameObject(this->gameObjectRef->GetParentSceneGraph());
 
@@ -41,14 +41,13 @@ void Decal::SetDecalImages(std::string gameMode_image, std::string overviewMode_
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 	spriteRenderer->SetCurrentTextureIndex(GAME_MODE_IMAGE_IDX);
 
-	this->decalObjectRef->GetTransform()->SetPosition(this->gameObjectRef->GetTransform()->GetPositionWorld());
-	this->decalObjectRef->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
-	this->decalObjectRef->GetTransform()->Translate(2.0f, YAXIS);
-	// TODO [Hack] Remove this when AddChild_maintainTransform() handles scale as well:
-	glm::vec3 parentScale = this->gameObjectRef->GetTransform()->GetScaleWorld();
-	this->decalObjectRef->GetTransform()->Scale(1.0f / parentScale.x, 1.0f / parentScale.y, 1.0f / parentScale.z);
+	this->scales[GAME_MODE_IMAGE_IDX] = gameMode_imageSize;
+	this->scales[OVERVIEW_MODE_IMAGE_IDX] = overviewMode_imageSize;
 
-	this->gameObjectRef->AddChild_maintainTransform(this->decalObjectRef->GetId());
+	this->decalObjectRef->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
+	this->decalObjectRef->GetTransform()->SetScale(this->scales[this->currentMode], this->scales[this->currentMode], this->scales[this->currentMode]);
+
+	this->updatePosition();
 }
 
 void Decal::HandleMessage(MessageChunk messageChunk) {
@@ -61,6 +60,17 @@ void Decal::HandleMessage(MessageChunk messageChunk) {
 
 	default: {
 	} break;
+	}
+}
+
+void Decal::update() {
+	this->updatePosition();
+}
+
+void Decal::updatePosition() {
+	if (this->decalObjectRef != nullptr) {
+		this->decalObjectRef->GetTransform()->SetPosition(this->gameObjectRef->GetTransform()->GetPositionWorld());
+		this->decalObjectRef->GetTransform()->Translate(2.0f, YAXIS);
 	}
 }
 
@@ -77,22 +87,34 @@ void Decal::handleCameraModeChanged() {
 	ASSERT(shadyCamera != nullptr, "Got shady camera");
 	if (shadyCamera != nullptr) {
 		if (shadyCamera->GetCameraMode() == ShadyCamera::CameraMode_Game) {
-			spriteRenderer->SetCurrentTextureIndex(GAME_MODE_IMAGE_IDX);
+			this->currentMode = GAME_MODE_IMAGE_IDX;
 
 		} else if (shadyCamera->GetCameraMode() == ShadyCamera::CameraMode_Overview) {
-			spriteRenderer->SetCurrentTextureIndex(OVERVIEW_MODE_IMAGE_IDX);
+			this->currentMode = OVERVIEW_MODE_IMAGE_IDX;
 
 		}
+
+		spriteRenderer->SetCurrentTextureIndex(this->currentMode);
+		this->decalObjectRef->GetTransform()->SetScale(this->scales[this->currentMode], this->scales[this->currentMode], this->scales[this->currentMode]);
 	}
 }
 
 void Decal::init() {
+	this->decalObjectRef = nullptr;
+
+	this->currentMode = GAME_MODE_IMAGE_IDX;
+
+	this->scales[GAME_MODE_IMAGE_IDX] = 1.0f;
+	this->scales[OVERVIEW_MODE_IMAGE_IDX] = 1.0f;
+
 	this->gameObjectRef = (GameObject*)this->GetObject();
 	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_CAMERA_MODE_CHANGED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
 
 void Decal::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
+
