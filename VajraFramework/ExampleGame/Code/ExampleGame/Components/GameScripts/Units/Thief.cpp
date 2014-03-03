@@ -73,7 +73,7 @@ void Thief::destroy() {
 bool Thief::isSpecialTouch(int touchId) {
 	if(this->getTouchNearUnit()) {
 		Touch touch = ENGINE->GetInput()->GetTouch(touchId);
-		if(touch.timeDown >= GetFloatGameConstant(GAME_CONSTANT_long_press_length_in_seconds) && glm::distance(touch.pos, this->touchStartPos) <= GetFloatGameConstant(GAME_CONSTANT_allowed_finger_movement_in_press)) {
+		if(glm::distance(touch.pos, this->touchStartPos) > GetFloatGameConstant(GAME_CONSTANT_thief_swipe_dist_in_pixels) || touch.timeDown >= GetFloatGameConstant(GAME_CONSTANT_long_press_length_in_seconds) && glm::distance(touch.pos, this->touchStartPos) <= GetFloatGameConstant(GAME_CONSTANT_allowed_finger_movement_in_press)) {
 			this->targetedCell = nullptr;
 			this->SetTouchIndicatorVisible(false);
 			this->gridNavRef->HaltMovement();
@@ -181,11 +181,8 @@ void Thief::aimSpecial(int touchId) {
 		} 
 	} 
 
-	if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
-		this->SetTouchIndicatorSprite(GOOD_TOUCH);
-	} else {
-		this->SetTouchIndicatorSprite(BAD_TOUCH);
-	}
+	// Looka the target
+	this->gridNavRef->SetLookTarget(this->targetedCell->center);
 }
 
 void Thief::updateLegalTagets() {
