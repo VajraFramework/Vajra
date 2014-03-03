@@ -31,8 +31,8 @@ public:
 
 	inline const std::list<ObjectIdType>& GetChildren() { return this->children; }
 
-	void AddChild(ObjectIdType childId);
-	void SetParent(ObjectIdType newParentId);
+	virtual void AddChild(ObjectIdType childId);
+	virtual void SetParent(ObjectIdType newParentId);
 
 	void HandleMessages();
 

@@ -101,6 +101,8 @@ private:
 	glm::mat4 modelMatrix;
 	glm::mat4 modelMatrixCumulative;
 
+	// Friended to GameObject so as to not have to expose updateModelMatrix()
+	friend class GameObject;
 };
 
 #endif // TRANSFORM_H

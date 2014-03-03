@@ -24,15 +24,15 @@ GameObject::~GameObject() {
 void GameObject::init(SceneGraph* sceneGraph) {
 	this->setClassType(CLASS_TYPE_GAMEOBJECT);
 
-	sceneGraph->AddNewGameObjectToScene(this);
-	this->parentSceneGraph = sceneGraph;
-
 	this->AddComponent<Transform>();
 	this->transform = (Transform*)this->GetComponent<Transform>();
 	ASSERT(this->transform != 0, "Succeeded in Add and GetComponent of type Transform to GameObject of id: %d", this->GetId());
 
 	this->visible = true;
 	this->tags = NO_TAGS;
+
+	sceneGraph->AddNewGameObjectToScene(this);
+	this->parentSceneGraph = sceneGraph;
 
 	FRAMEWORK->GetLogger()->dbglog("\nCreated new GameObject of id: %d", this->GetId());
 }
@@ -113,6 +113,21 @@ bool GameObject::HasTransperancy() {
 	return false;
 }
 
+void GameObject::AddChild(ObjectIdType childId) {
+	Object::AddChild(childId);
+
+	GameObject* child = (GameObject*)ObjectRegistry::GetObjectById(childId);
+	VERIFY(child != nullptr, "Child not null");
+	//
+	child->GetTransform()->updateModelMatrix();
+}
+
+void GameObject::SetParent(ObjectIdType newParentId) {
+	Object::SetParent(newParentId);
+
+	this->GetTransform()->updateModelMatrix();
+}
+
 void GameObject::AddChild_maintainTransform(ObjectIdType childId) {
 
 
@@ -130,3 +145,4 @@ void GameObject::AddChild_maintainTransform(ObjectIdType childId) {
 		ASSERT(0, "Child found");
 	}
 }
+
