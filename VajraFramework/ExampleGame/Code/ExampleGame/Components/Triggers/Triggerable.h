@@ -66,8 +66,12 @@ private:
 	void init();
 	void destroy();
 
+	void subscribeInternal(ObjectIdType switchId);
+	void unsubscribeInternal(ObjectIdType switchId);
 	void markAsActive(ObjectIdType switchId);
 	void markAsInactive(ObjectIdType switchId);
+
+	void compareCounts(int prevActive, int prevSwitches, int currActive, int currSwitches);
 
 	void toggleState();
 
