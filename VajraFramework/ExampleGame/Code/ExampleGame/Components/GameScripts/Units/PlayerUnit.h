@@ -59,7 +59,10 @@ protected:
 	void SetTouchIndicatorSprite(int /*index*/ );
 	void SetTouchIndicatorCell(GridCell*);
 	void TouchIndicatorLookAt(GridCell* /*target*/);
+
 	void GridPlaneLookAt(GameObject* /*plane*/, GridCell* /*target*/);
+	void GridPlaneLookAt(GameObject* /*plane*/, glm::vec3 /*target*/);
+
 	void SetTouchIndicatorVisible(bool /*visibilty*/);	
 
 	inline GridCell* GetCurrentTouchedCell() { return this->currentTouchedCell; }

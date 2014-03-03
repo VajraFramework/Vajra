@@ -85,7 +85,7 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION:
 			if(this->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL) {
 				this->onSpecialEnd();
-			}  else {
+			}  else if(this->GetUnitActionState() != UNIT_ACTION_STATE_PRE_SPECIAL) {
 				this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 				if(this->inputState == InputState::INPUT_STATE_WAIT || this->inputState == InputState::INPUT_STATE_NONE) {
 					ENGINE->GetTween()->CancelNumberTween("pulse");
@@ -253,12 +253,16 @@ void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
 }
 
 void PlayerUnit::TouchIndicatorLookAt(GridCell* target) {
-	this->GridPlaneLookAt(this->touchIndicatorRef, target);
+	this->GridPlaneLookAt(this->touchIndicatorRef, target->center);
 }
 
 void PlayerUnit::GridPlaneLookAt(GameObject* plane, GridCell* target) {
+	this->GridPlaneLookAt(plane, target->center);
+}
+
+void PlayerUnit::GridPlaneLookAt(GameObject* plane, glm::vec3 target) {
 	Transform* trans = plane->GetComponent<Transform>();
-	glm::vec3 direction = target->center - this->gridNavRef->GetCurrentCell()->center;
+	glm::vec3 direction = target - this->gridNavRef->GetCurrentCell()->center;
 	direction = glm::normalize(direction);
 	float angle = acos(glm::dot(direction, ZAXIS));
 	
