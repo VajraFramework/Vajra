@@ -21,6 +21,8 @@ public:
 	DirectionalLight* GetMainDirectionalLight();
 	void SetMainDirectionalLightId(ObjectIdType id);
 
+	void AddAdditionalLightId(ObjectIdType id);
+
 	// @Override
 	virtual void update();
 	virtual void draw();
@@ -33,6 +35,7 @@ protected:
 	virtual void destroy();
 
 	ObjectIdType mainDirectionalLightId;
+	std::vector<ObjectIdType> additionalLightIds;
 
 	friend class Engine;
 };

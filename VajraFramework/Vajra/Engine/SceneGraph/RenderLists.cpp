@@ -122,7 +122,12 @@ RenderLists::~RenderLists() {
 }
 
 
-void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight /* = nullptr */) {
+void RenderLists::Draw(Camera* camera) {
+	std::vector<DirectionalLight*> emptyVector;
+	this->Draw(camera, nullptr, emptyVector);
+}
+
+void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights) {
 
 	/*
 	 * We draw the scene in render-list-iterations
@@ -147,8 +152,12 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight /* = n
 			camera->WriteLookAt();
 		}
 		if (directionalLight != nullptr) {
-			// TODO [Cleanup] Change mainDirectionalLight->directionalLightComponent->WriteLightStuff() to use messages sent to mainDirectionalLight instead, maybe
+			// TODO [Cleanup] Change directionalLight->WriteLightStuff() to use messages sent to mainDirectionalLight instead, maybe
 			directionalLight->WriteLightPropertiesToShader();
+		}
+		for (DirectionalLight* additionalLight : additionalLights) {
+			// TODO [Cleanup] Change additionalLight->WriteLightStuff() to use messages sent to additionalLight instead, maybe
+			additionalLight->WriteLightPropertiesToShader();
 		}
 
 		// Render all the renderable game objects in the current render list:
@@ -173,6 +182,10 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight /* = n
 		}
 		if (directionalLight != nullptr) {
 			directionalLight->WriteLightPropertiesToShader();
+		}
+		for (DirectionalLight* additionalLight : additionalLights) {
+			// TODO [Cleanup] Change additionalLight->WriteLightStuff() to use messages sent to additionalLight instead, maybe
+			additionalLight->WriteLightPropertiesToShader();
 		}
 
 		trgo.renderlist->Draw_one_gameobject(trgo.gameobject);

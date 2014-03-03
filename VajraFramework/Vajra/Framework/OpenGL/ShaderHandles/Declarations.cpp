@@ -132,6 +132,33 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "MaterialSpecularColor_out") {
 		return SHADER_VARIABLE_VARIABLENAME_MaterialSpecularColor_out;
 	}
+	if (s == "AdditionalLight0Direction") {
+		return SHADER_VARIABLE_VARIABLENAME_AdditionalLight0Direction;
+	}
+	if (s == "AdditionalLight0Ambient") {
+		return SHADER_VARIABLE_VARIABLENAME_AdditionalLight0Ambient;
+	}
+	if (s == "AdditionalLight0Diffuse") {
+		return SHADER_VARIABLE_VARIABLENAME_AdditionalLight0Diffuse;
+	}
+	if (s == "AdditionalLight1Direction") {
+		return SHADER_VARIABLE_VARIABLENAME_AdditionalLight1Direction;
+	}
+	if (s == "AdditionalLight1Ambient") {
+		return SHADER_VARIABLE_VARIABLENAME_AdditionalLight1Ambient;
+	}
+	if (s == "AdditionalLight1Diffuse") {
+		return SHADER_VARIABLE_VARIABLENAME_AdditionalLight1Diffuse;
+	}
+	if (s == "AdditionalLight2Direction") {
+		return SHADER_VARIABLE_VARIABLENAME_AdditionalLight2Direction;
+	}
+	if (s == "AdditionalLight2Ambient") {
+		return SHADER_VARIABLE_VARIABLENAME_AdditionalLight2Ambient;
+	}
+	if (s == "AdditionalLight2Diffuse") {
+		return SHADER_VARIABLE_VARIABLENAME_AdditionalLight2Diffuse;
+	}
 	if (s == "pointSize") {
 		return SHADER_VARIABLE_VARIABLENAME_pointSize;
 	}
@@ -215,6 +242,15 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_MaterialAmbientColor_out: return "MaterialAmbientColor_out";
 	case SHADER_VARIABLE_VARIABLENAME_MaterialDiffuseColor_out: return "MaterialDiffuseColor_out";
 	case SHADER_VARIABLE_VARIABLENAME_MaterialSpecularColor_out: return "MaterialSpecularColor_out";
+	case SHADER_VARIABLE_VARIABLENAME_AdditionalLight0Direction: return "AdditionalLight0Direction";
+	case SHADER_VARIABLE_VARIABLENAME_AdditionalLight0Ambient: return "AdditionalLight0Ambient";
+	case SHADER_VARIABLE_VARIABLENAME_AdditionalLight0Diffuse: return "AdditionalLight0Diffuse";
+	case SHADER_VARIABLE_VARIABLENAME_AdditionalLight1Direction: return "AdditionalLight1Direction";
+	case SHADER_VARIABLE_VARIABLENAME_AdditionalLight1Ambient: return "AdditionalLight1Ambient";
+	case SHADER_VARIABLE_VARIABLENAME_AdditionalLight1Diffuse: return "AdditionalLight1Diffuse";
+	case SHADER_VARIABLE_VARIABLENAME_AdditionalLight2Direction: return "AdditionalLight2Direction";
+	case SHADER_VARIABLE_VARIABLENAME_AdditionalLight2Ambient: return "AdditionalLight2Ambient";
+	case SHADER_VARIABLE_VARIABLENAME_AdditionalLight2Diffuse: return "AdditionalLight2Diffuse";
 	case SHADER_VARIABLE_VARIABLENAME_pointSize: return "pointSize";
 	case SHADER_VARIABLE_VARIABLENAME_particleColor: return "particleColor";
 	case SHADER_VARIABLE_VARIABLENAME_myTextureSampler: return "myTextureSampler";
