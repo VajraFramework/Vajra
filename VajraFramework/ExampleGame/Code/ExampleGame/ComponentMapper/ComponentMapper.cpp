@@ -1011,6 +1011,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetZoneBounds(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToInt(argv[2]), StringUtilities::ConvertStringToInt(argv[3]));
 			return;
 		}
+		if (propertyName == "Visualize") {
+			if ((int)argv.size() < 4) { return; }
+			component->Visualize(StringUtilities::ConvertStringToBool(argv[0]), ConvertStringToString(argv[1]), StringUtilities::ConvertStringToBool(argv[2]), StringUtilities::ConvertStringToBool(argv[3]));
+			return;
+		}
 		return;
 	}
 	

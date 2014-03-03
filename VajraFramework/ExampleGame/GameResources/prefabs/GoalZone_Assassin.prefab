@@ -4,12 +4,18 @@
 		</component>
 
 		<component name="GridZone">
-              <property name="SetZoneBounds">
-                  <field>-1</field>
-                  <field>-1</field>
-                  <field>1</field>
-                  <field>1</field>
-              </property>
+              		<property name="SetZoneBounds">
+                  		<field>-1</field>
+                  		<field>-1</field>
+                  		<field>1</field>
+                  		<field>1</field>
+              		</property>
+              		<property name="Visualize">
+                  		<field>true</field>
+                  		<field>goalzone_assassin.png</field>
+                  		<field>true</field>
+                  		<field>true</field>
+              		</property>
 		</component>
 		
 		<component name="UnitInGridZoneSwitch">
