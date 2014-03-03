@@ -30,6 +30,7 @@ private:
 	static void loadCameraDataFromXml(XmlNode* cameraNode);
 	static void loadLinkDataFromXml  (XmlNode* linkBaseNode);
 
+	static void loadParentConnectionsFromXml(XmlNode* linkBaseNode);
 	static void loadEndConditionsFromXml(XmlNode* linkBaseNode);
 
 	static LevelType stringToLevelType(std::string);
