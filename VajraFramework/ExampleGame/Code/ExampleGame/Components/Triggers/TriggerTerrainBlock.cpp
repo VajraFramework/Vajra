@@ -27,6 +27,7 @@ TriggerTerrainBlock::~TriggerTerrainBlock() {
 void TriggerTerrainBlock::init() {
 	this->changeVisibility  = true;
 	this->changeWalkability = true;
+	this->isPassable        = false;
 }
 
 void TriggerTerrainBlock::destroy() {
@@ -51,6 +52,7 @@ void TriggerTerrainBlock::SubscribeToParentSwitch() {
 
 void TriggerTerrainBlock::onSwitchToggled(bool /*switchState*/) {
 	this->startTerrainChange();
+	this->isPassable = !this->isPassable;
 }
 
 void TriggerTerrainBlock::onSwitchActivated() {
@@ -76,10 +78,10 @@ void TriggerTerrainBlock::startTerrainChange() {
 		for (int x = west; x <= east; ++x) {
 			for (int z = south; z <= north; ++z) {
 				if (this->changeWalkability) {
-					grid->SetCellPassableAtElevation(x, z, elevation, !grid->IsCellPassableAtElevation(x, z, elevation));
+					grid->SetCellPassableAtElevation(x, z, elevation, this->isPassable);
 				}
 				if (this->changeVisibility) {
-					grid->SetCellVisibleAtElevation(x, z, elevation, !grid->IsCellVisibleAtElevation(x, z, elevation));
+					grid->SetCellVisibleAtElevation(x, z, elevation, this->isPassable);
 				}
 			}
 		}

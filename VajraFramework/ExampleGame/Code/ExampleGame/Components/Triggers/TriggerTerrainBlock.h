@@ -24,6 +24,8 @@ public:
 	inline void SetChangeWalkability(bool changeWalkable);
 	//[[PROPERTY]]//
 	inline void SetChangeVisibility(bool changeVisible);
+	//[[PROPERTY]]//
+	inline void SetPassableWhenActivated(bool passable);
 
 	virtual void HandleMessage(MessageChunk messageChunk);
 
@@ -45,9 +47,11 @@ private:
 
 	bool changeWalkability;
 	bool changeVisibility;
+	bool isPassable;
 };
 
 void TriggerTerrainBlock::SetChangeWalkability(bool changeWalkable)  { this->changeWalkability = changeWalkable; }
 void TriggerTerrainBlock::SetChangeVisibility(bool changeVisible)    { this->changeVisibility  = changeVisible;  }
+void TriggerTerrainBlock::SetPassableWhenActivated(bool passable)    { this->isPassable        = passable;       }
 
 #endif // TRIGGERTERRAINBLOCK_H
