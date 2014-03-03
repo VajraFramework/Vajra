@@ -181,11 +181,8 @@ void Thief::aimSpecial(int touchId) {
 		} 
 	} 
 
-	if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->GetCurrentTouchedCell()) != this->legalTargets.end()) {
-		this->SetTouchIndicatorSprite(GOOD_TOUCH);
-	} else {
-		this->SetTouchIndicatorSprite(BAD_TOUCH);
-	}
+	// Looka the target
+	this->gridNavRef->SetLookTarget(this->targetedCell->center);
 }
 
 void Thief::updateLegalTagets() {
