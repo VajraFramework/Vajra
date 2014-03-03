@@ -1,53 +1,48 @@
 #include "ExampleGame/ComponentMapper/ComponentMapper.h"
 #include "Vajra/Utilities/StringUtilities.h"
 
-#include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h"
-#include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
-#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
+#include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
-#include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/ParticleSystemRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
+#include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
+#include "ExampleGame/Components/Triggers/TriggerMovingBlocker.h"
+#include "ExampleGame/Components/Triggers/Triggerable.h"
+#include "ExampleGame/Components/Triggers/TriggerTransformation.h"
+#include "ExampleGame/Components/Triggers/TriggerTerrainBlock.h"
+#include "ExampleGame/Components/Triggers/TriggerElevationChange.h"
+#include "ExampleGame/Components/Triggers/TriggerMultiplex.h"
+#include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
-#include "ExampleGame/Components/GameScripts/Ai/AiKnowledge.h"
+#include "ExampleGame/Components/GameScripts/UnitCustomizers/UnitShadow.h"
+#include "ExampleGame/Components/GameScripts/UnitCustomizers/UnitAnimationManager.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiPerception.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiRoutine.h"
-#include "ExampleGame/Components/GameScripts/UnitCustomizers/UnitAnimationManager.h"
-#include "ExampleGame/Components/GameScripts/UnitCustomizers/UnitShadow.h"
+#include "ExampleGame/Components/GameScripts/Ai/AiKnowledge.h"
+#include "ExampleGame/Components/GameScripts/Units/Thief.h"
 #include "ExampleGame/Components/GameScripts/Units/Assassin.h"
 #include "ExampleGame/Components/GameScripts/Units/Guard.h"
-#include "ExampleGame/Components/GameScripts/Units/Thief.h"
 #include "ExampleGame/Components/GameScripts/Units/Obstacles/BreakablePot.h"
-#include "ExampleGame/Components/Grid/GridManager.h"
-#include "ExampleGame/Components/Grid/GridNavigator.h"
-#include "ExampleGame/Components/Grid/GridZone.h"
-#include "ExampleGame/Components/Grid/GridZones/TransitionZone.h"
-#include "ExampleGame/Components/LevelManager/LevelManager.h"
+#include "ExampleGame/Components/Decals/Decal.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
-#include "ExampleGame/Components/Switches/BaseSwitch.h"
-#include "ExampleGame/Components/Switches/GridZoneSwitch.h"
 #include "ExampleGame/Components/Switches/MultiplexSwitch.h"
 #include "ExampleGame/Components/Switches/UnitInGridZoneSwitch.h"
-#include "ExampleGame/Components/Triggers/Triggerable.h"
-#include "ExampleGame/Components/Triggers/TriggerElevationChange.h"
-#include "ExampleGame/Components/Triggers/TriggerMovingBlocker.h"
-#include "ExampleGame/Components/Triggers/TriggerMultiplex.h"
-#include "ExampleGame/Components/Triggers/TriggerTerrainBlock.h"
-#include "ExampleGame/Components/Triggers/TriggerTransformation.h"
+#include "ExampleGame/Components/Switches/BaseSwitch.h"
+#include "ExampleGame/Components/Switches/GridZoneSwitch.h"
+#include "ExampleGame/Components/Grid/GridManager.h"
+#include "ExampleGame/Components/Grid/GridZone.h"
+#include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/Components/Grid/GridZones/TransitionZone.h"
 #include "ExampleGame/Ui/MenuManager/MenuManager.h"
 
 
 Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObject* gameObject, std::string componentName) {
 
-	
-	if (componentName == "BakedSkeletalAnimation") {
-		BakedSkeletalAnimation* component = gameObject->GetComponent<BakedSkeletalAnimation>();
-		if (component == nullptr) { component = gameObject->AddComponent<BakedSkeletalAnimation>(); }
-		return component;
-	}
 	
 	if (componentName == "RigidAnimation") {
 		RigidAnimation* component = gameObject->GetComponent<RigidAnimation>();
@@ -55,15 +50,9 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
-	if (componentName == "Armature") {
-		Armature* component = gameObject->GetComponent<Armature>();
-		if (component == nullptr) { component = gameObject->AddComponent<Armature>(); }
-		return component;
-	}
-	
-	if (componentName == "AudioSource") {
-		AudioSource* component = gameObject->GetComponent<AudioSource>();
-		if (component == nullptr) { component = gameObject->AddComponent<AudioSource>(); }
+	if (componentName == "BakedSkeletalAnimation") {
+		BakedSkeletalAnimation* component = gameObject->GetComponent<BakedSkeletalAnimation>();
+		if (component == nullptr) { component = gameObject->AddComponent<BakedSkeletalAnimation>(); }
 		return component;
 	}
 	
@@ -79,15 +68,27 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
+	if (componentName == "ParticleSystemRenderer") {
+		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
+		if (component == nullptr) { component = gameObject->AddComponent<ParticleSystemRenderer>(); }
+		return component;
+	}
+	
 	if (componentName == "MeshRenderer") {
 		MeshRenderer* component = gameObject->GetComponent<MeshRenderer>();
 		if (component == nullptr) { component = gameObject->AddComponent<MeshRenderer>(); }
 		return component;
 	}
 	
-	if (componentName == "ParticleSystemRenderer") {
-		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
-		if (component == nullptr) { component = gameObject->AddComponent<ParticleSystemRenderer>(); }
+	if (componentName == "AudioSource") {
+		AudioSource* component = gameObject->GetComponent<AudioSource>();
+		if (component == nullptr) { component = gameObject->AddComponent<AudioSource>(); }
+		return component;
+	}
+	
+	if (componentName == "Armature") {
+		Armature* component = gameObject->GetComponent<Armature>();
+		if (component == nullptr) { component = gameObject->AddComponent<Armature>(); }
 		return component;
 	}
 	
@@ -103,15 +104,63 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
+	if (componentName == "TriggerMovingBlocker") {
+		TriggerMovingBlocker* component = gameObject->GetComponent<TriggerMovingBlocker>();
+		if (component == nullptr) { component = gameObject->AddComponent<TriggerMovingBlocker>(); }
+		return component;
+	}
+	
+	if (componentName == "Triggerable") {
+		Triggerable* component = gameObject->GetComponent<Triggerable>();
+		if (component == nullptr) { component = gameObject->AddComponent<Triggerable>(); }
+		return component;
+	}
+	
+	if (componentName == "TriggerTransformation") {
+		TriggerTransformation* component = gameObject->GetComponent<TriggerTransformation>();
+		if (component == nullptr) { component = gameObject->AddComponent<TriggerTransformation>(); }
+		return component;
+	}
+	
+	if (componentName == "TriggerTerrainBlock") {
+		TriggerTerrainBlock* component = gameObject->GetComponent<TriggerTerrainBlock>();
+		if (component == nullptr) { component = gameObject->AddComponent<TriggerTerrainBlock>(); }
+		return component;
+	}
+	
+	if (componentName == "TriggerElevationChange") {
+		TriggerElevationChange* component = gameObject->GetComponent<TriggerElevationChange>();
+		if (component == nullptr) { component = gameObject->AddComponent<TriggerElevationChange>(); }
+		return component;
+	}
+	
+	if (componentName == "TriggerMultiplex") {
+		TriggerMultiplex* component = gameObject->GetComponent<TriggerMultiplex>();
+		if (component == nullptr) { component = gameObject->AddComponent<TriggerMultiplex>(); }
+		return component;
+	}
+	
+	if (componentName == "LevelManager") {
+		LevelManager* component = gameObject->GetComponent<LevelManager>();
+		if (component == nullptr) { component = gameObject->AddComponent<LevelManager>(); }
+		return component;
+	}
+	
 	if (componentName == "SampleGameScript") {
 		SampleGameScript* component = gameObject->GetComponent<SampleGameScript>();
 		if (component == nullptr) { component = gameObject->AddComponent<SampleGameScript>(); }
 		return component;
 	}
 	
-	if (componentName == "AiKnowledge") {
-		AiKnowledge* component = gameObject->GetComponent<AiKnowledge>();
-		if (component == nullptr) { component = gameObject->AddComponent<AiKnowledge>(); }
+	if (componentName == "UnitShadow") {
+		UnitShadow* component = gameObject->GetComponent<UnitShadow>();
+		if (component == nullptr) { component = gameObject->AddComponent<UnitShadow>(); }
+		return component;
+	}
+	
+	if (componentName == "UnitAnimationManager") {
+		UnitAnimationManager* component = gameObject->GetComponent<UnitAnimationManager>();
+		if (component == nullptr) { component = gameObject->AddComponent<UnitAnimationManager>(); }
 		return component;
 	}
 	
@@ -127,15 +176,15 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
-	if (componentName == "UnitAnimationManager") {
-		UnitAnimationManager* component = gameObject->GetComponent<UnitAnimationManager>();
-		if (component == nullptr) { component = gameObject->AddComponent<UnitAnimationManager>(); }
+	if (componentName == "AiKnowledge") {
+		AiKnowledge* component = gameObject->GetComponent<AiKnowledge>();
+		if (component == nullptr) { component = gameObject->AddComponent<AiKnowledge>(); }
 		return component;
 	}
 	
-	if (componentName == "UnitShadow") {
-		UnitShadow* component = gameObject->GetComponent<UnitShadow>();
-		if (component == nullptr) { component = gameObject->AddComponent<UnitShadow>(); }
+	if (componentName == "Thief") {
+		Thief* component = gameObject->GetComponent<Thief>();
+		if (component == nullptr) { component = gameObject->AddComponent<Thief>(); }
 		return component;
 	}
 	
@@ -151,63 +200,21 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
-	if (componentName == "Thief") {
-		Thief* component = gameObject->GetComponent<Thief>();
-		if (component == nullptr) { component = gameObject->AddComponent<Thief>(); }
-		return component;
-	}
-	
 	if (componentName == "BreakablePot") {
 		BreakablePot* component = gameObject->GetComponent<BreakablePot>();
 		if (component == nullptr) { component = gameObject->AddComponent<BreakablePot>(); }
 		return component;
 	}
 	
-	if (componentName == "GridManager") {
-		GridManager* component = gameObject->GetComponent<GridManager>();
-		if (component == nullptr) { component = gameObject->AddComponent<GridManager>(); }
-		return component;
-	}
-	
-	if (componentName == "GridNavigator") {
-		GridNavigator* component = gameObject->GetComponent<GridNavigator>();
-		if (component == nullptr) { component = gameObject->AddComponent<GridNavigator>(); }
-		return component;
-	}
-	
-	if (componentName == "GridZone") {
-		GridZone* component = gameObject->GetComponent<GridZone>();
-		if (component == nullptr) { component = gameObject->AddComponent<GridZone>(); }
-		return component;
-	}
-	
-	if (componentName == "TransitionZone") {
-		TransitionZone* component = gameObject->GetComponent<TransitionZone>();
-		if (component == nullptr) { component = gameObject->AddComponent<TransitionZone>(); }
-		return component;
-	}
-	
-	if (componentName == "LevelManager") {
-		LevelManager* component = gameObject->GetComponent<LevelManager>();
-		if (component == nullptr) { component = gameObject->AddComponent<LevelManager>(); }
+	if (componentName == "Decal") {
+		Decal* component = gameObject->GetComponent<Decal>();
+		if (component == nullptr) { component = gameObject->AddComponent<Decal>(); }
 		return component;
 	}
 	
 	if (componentName == "ShadyCamera") {
 		ShadyCamera* component = gameObject->GetComponent<ShadyCamera>();
 		if (component == nullptr) { component = gameObject->AddComponent<ShadyCamera>(); }
-		return component;
-	}
-	
-	if (componentName == "BaseSwitch") {
-		BaseSwitch* component = gameObject->GetComponent<BaseSwitch>();
-		if (component == nullptr) { component = gameObject->AddComponent<BaseSwitch>(); }
-		return component;
-	}
-	
-	if (componentName == "GridZoneSwitch") {
-		GridZoneSwitch* component = gameObject->GetComponent<GridZoneSwitch>();
-		if (component == nullptr) { component = gameObject->AddComponent<GridZoneSwitch>(); }
 		return component;
 	}
 	
@@ -223,39 +230,39 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
-	if (componentName == "Triggerable") {
-		Triggerable* component = gameObject->GetComponent<Triggerable>();
-		if (component == nullptr) { component = gameObject->AddComponent<Triggerable>(); }
+	if (componentName == "BaseSwitch") {
+		BaseSwitch* component = gameObject->GetComponent<BaseSwitch>();
+		if (component == nullptr) { component = gameObject->AddComponent<BaseSwitch>(); }
 		return component;
 	}
 	
-	if (componentName == "TriggerElevationChange") {
-		TriggerElevationChange* component = gameObject->GetComponent<TriggerElevationChange>();
-		if (component == nullptr) { component = gameObject->AddComponent<TriggerElevationChange>(); }
+	if (componentName == "GridZoneSwitch") {
+		GridZoneSwitch* component = gameObject->GetComponent<GridZoneSwitch>();
+		if (component == nullptr) { component = gameObject->AddComponent<GridZoneSwitch>(); }
 		return component;
 	}
 	
-	if (componentName == "TriggerMovingBlocker") {
-		TriggerMovingBlocker* component = gameObject->GetComponent<TriggerMovingBlocker>();
-		if (component == nullptr) { component = gameObject->AddComponent<TriggerMovingBlocker>(); }
+	if (componentName == "GridManager") {
+		GridManager* component = gameObject->GetComponent<GridManager>();
+		if (component == nullptr) { component = gameObject->AddComponent<GridManager>(); }
 		return component;
 	}
 	
-	if (componentName == "TriggerMultiplex") {
-		TriggerMultiplex* component = gameObject->GetComponent<TriggerMultiplex>();
-		if (component == nullptr) { component = gameObject->AddComponent<TriggerMultiplex>(); }
+	if (componentName == "GridZone") {
+		GridZone* component = gameObject->GetComponent<GridZone>();
+		if (component == nullptr) { component = gameObject->AddComponent<GridZone>(); }
 		return component;
 	}
 	
-	if (componentName == "TriggerTerrainBlock") {
-		TriggerTerrainBlock* component = gameObject->GetComponent<TriggerTerrainBlock>();
-		if (component == nullptr) { component = gameObject->AddComponent<TriggerTerrainBlock>(); }
+	if (componentName == "GridNavigator") {
+		GridNavigator* component = gameObject->GetComponent<GridNavigator>();
+		if (component == nullptr) { component = gameObject->AddComponent<GridNavigator>(); }
 		return component;
 	}
 	
-	if (componentName == "TriggerTransformation") {
-		TriggerTransformation* component = gameObject->GetComponent<TriggerTransformation>();
-		if (component == nullptr) { component = gameObject->AddComponent<TriggerTransformation>(); }
+	if (componentName == "TransitionZone") {
+		TransitionZone* component = gameObject->GetComponent<TransitionZone>();
+		if (component == nullptr) { component = gameObject->AddComponent<TransitionZone>(); }
 		return component;
 	}
 	
@@ -272,22 +279,6 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *gameObject, std::string componentName, std::string propertyName, std::vector<std::string> argv) {
 
 	
-	if (componentName == "BakedSkeletalAnimation") {
-		BakedSkeletalAnimation* component = gameObject->GetComponent<BakedSkeletalAnimation>();
-		if (component == nullptr) { return; }
-		if (propertyName == "AddAnimationClip") {
-			if ((int)argv.size() < 3) { return; }
-			component->AddAnimationClip(ConvertStringToString(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToBool(argv[2]));
-			return;
-		}
-		if (propertyName == "PlayAnimationClip") {
-			if ((int)argv.size() < 1) { return; }
-			component->PlayAnimationClip(ConvertStringToString(argv[0]));
-			return;
-		}
-		return;
-	}
-	
 	if (componentName == "RigidAnimation") {
 		RigidAnimation* component = gameObject->GetComponent<RigidAnimation>();
 		if (component == nullptr) { return; }
@@ -304,38 +295,17 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
-	if (componentName == "Armature") {
-		Armature* component = gameObject->GetComponent<Armature>();
+	if (componentName == "BakedSkeletalAnimation") {
+		BakedSkeletalAnimation* component = gameObject->GetComponent<BakedSkeletalAnimation>();
 		if (component == nullptr) { return; }
-		if (propertyName == "InitArmature") {
-			if ((int)argv.size() < 1) { return; }
-			component->InitArmature(ConvertStringToString(argv[0]));
+		if (propertyName == "AddAnimationClip") {
+			if ((int)argv.size() < 3) { return; }
+			component->AddAnimationClip(ConvertStringToString(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToBool(argv[2]));
 			return;
 		}
-		return;
-	}
-	
-	if (componentName == "AudioSource") {
-		AudioSource* component = gameObject->GetComponent<AudioSource>();
-		if (component == nullptr) { return; }
-		if (propertyName == "SetAudioClip") {
+		if (propertyName == "PlayAnimationClip") {
 			if ((int)argv.size() < 1) { return; }
-			component->SetAudioClip(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetVolume") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetVolume(StringUtilities::ConvertStringToFloat(argv[0]));
-			return;
-		}
-		if (propertyName == "SetPlaybackSpeed") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetPlaybackSpeed(StringUtilities::ConvertStringToFloat(argv[0]));
-			return;
-		}
-		if (propertyName == "SetLooping") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetLooping(StringUtilities::ConvertStringToBool(argv[0]));
+			component->PlayAnimationClip(ConvertStringToString(argv[0]));
 			return;
 		}
 		return;
@@ -398,6 +368,12 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
+	if (componentName == "ParticleSystemRenderer") {
+		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
+		if (component == nullptr) { return; }
+		return;
+	}
+	
 	if (componentName == "MeshRenderer") {
 		MeshRenderer* component = gameObject->GetComponent<MeshRenderer>();
 		if (component == nullptr) { return; }
@@ -409,9 +385,40 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
-	if (componentName == "ParticleSystemRenderer") {
-		ParticleSystemRenderer* component = gameObject->GetComponent<ParticleSystemRenderer>();
+	if (componentName == "AudioSource") {
+		AudioSource* component = gameObject->GetComponent<AudioSource>();
 		if (component == nullptr) { return; }
+		if (propertyName == "SetAudioClip") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetAudioClip(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetVolume") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetVolume(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetPlaybackSpeed") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetPlaybackSpeed(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetLooping") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetLooping(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "Armature") {
+		Armature* component = gameObject->GetComponent<Armature>();
+		if (component == nullptr) { return; }
+		if (propertyName == "InitArmature") {
+			if ((int)argv.size() < 1) { return; }
+			component->InitArmature(ConvertStringToString(argv[0]));
+			return;
+		}
 		return;
 	}
 	
@@ -547,14 +554,262 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
+	if (componentName == "TriggerMovingBlocker") {
+		TriggerMovingBlocker* component = gameObject->GetComponent<TriggerMovingBlocker>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetToggleState") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetToggleState(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SetChangeWalkability") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetChangeWalkability(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SetChangeVisibility") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetChangeVisibility(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SetTranslation") {
+			if ((int)argv.size() < 3) { return; }
+			component->SetTranslation(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
+		}
+		if (propertyName == "SetTransitTime") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTransitTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SubscribeToMySwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToMySwitch();
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
+			return;
+		}
+		if (propertyName == "SetDecalType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDecalType(ConvertStringToString(argv[0]));
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "Triggerable") {
+		Triggerable* component = gameObject->GetComponent<Triggerable>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetToggleState") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetToggleState(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SubscribeToMySwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToMySwitch();
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
+			return;
+		}
+		if (propertyName == "SetDecalType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDecalType(ConvertStringToString(argv[0]));
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "TriggerTransformation") {
+		TriggerTransformation* component = gameObject->GetComponent<TriggerTransformation>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetTranslation") {
+			if ((int)argv.size() < 3) { return; }
+			component->SetTranslation(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
+		}
+		if (propertyName == "SetRotationDegrees") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetRotationDegrees(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
+		}
+		if (propertyName == "SetRotationRadians") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetRotationRadians(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			return;
+		}
+		if (propertyName == "SetScaling") {
+			if ((int)argv.size() < 3) { return; }
+			component->SetScaling(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
+		}
+		if (propertyName == "SetTransitTime") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTransitTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetTransformedState") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTransformedState(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SubscribeToMySwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToMySwitch();
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "TriggerTerrainBlock") {
+		TriggerTerrainBlock* component = gameObject->GetComponent<TriggerTerrainBlock>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetChangeWalkability") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetChangeWalkability(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SetChangeVisibility") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetChangeVisibility(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SetPassableWhenActivated") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetPassableWhenActivated(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SubscribeToMySwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToMySwitch();
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "TriggerElevationChange") {
+		TriggerElevationChange* component = gameObject->GetComponent<TriggerElevationChange>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetElevationDiff") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetElevationDiff(StringUtilities::ConvertStringToInt(argv[0]));
+			return;
+		}
+		if (propertyName == "SetTransitTime") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTransitTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetRaisedState") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetRaisedState(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SubscribeToMySwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToMySwitch();
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "TriggerMultiplex") {
+		TriggerMultiplex* component = gameObject->GetComponent<TriggerMultiplex>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetToggleState") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetToggleState(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SubscribeToMySwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToMySwitch();
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
+			return;
+		}
+		if (propertyName == "SetDecalType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDecalType(ConvertStringToString(argv[0]));
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "LevelManager") {
+		LevelManager* component = gameObject->GetComponent<LevelManager>();
+		if (component == nullptr) { return; }
+		return;
+	}
+	
 	if (componentName == "SampleGameScript") {
 		SampleGameScript* component = gameObject->GetComponent<SampleGameScript>();
 		if (component == nullptr) { return; }
 		return;
 	}
 	
-	if (componentName == "AiKnowledge") {
-		AiKnowledge* component = gameObject->GetComponent<AiKnowledge>();
+	if (componentName == "UnitShadow") {
+		UnitShadow* component = gameObject->GetComponent<UnitShadow>();
+		if (component == nullptr) { return; }
+		return;
+	}
+	
+	if (componentName == "UnitAnimationManager") {
+		UnitAnimationManager* component = gameObject->GetComponent<UnitAnimationManager>();
 		if (component == nullptr) { return; }
 		return;
 	}
@@ -591,14 +846,14 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
-	if (componentName == "UnitAnimationManager") {
-		UnitAnimationManager* component = gameObject->GetComponent<UnitAnimationManager>();
+	if (componentName == "AiKnowledge") {
+		AiKnowledge* component = gameObject->GetComponent<AiKnowledge>();
 		if (component == nullptr) { return; }
 		return;
 	}
 	
-	if (componentName == "UnitShadow") {
-		UnitShadow* component = gameObject->GetComponent<UnitShadow>();
+	if (componentName == "Thief") {
+		Thief* component = gameObject->GetComponent<Thief>();
 		if (component == nullptr) { return; }
 		return;
 	}
@@ -615,12 +870,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
-	if (componentName == "Thief") {
-		Thief* component = gameObject->GetComponent<Thief>();
-		if (component == nullptr) { return; }
-		return;
-	}
-	
 	if (componentName == "BreakablePot") {
 		BreakablePot* component = gameObject->GetComponent<BreakablePot>();
 		if (component == nullptr) { return; }
@@ -632,131 +881,20 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
-	if (componentName == "GridManager") {
-		GridManager* component = gameObject->GetComponent<GridManager>();
+	if (componentName == "Decal") {
+		Decal* component = gameObject->GetComponent<Decal>();
 		if (component == nullptr) { return; }
-		return;
-	}
-	
-	if (componentName == "GridNavigator") {
-		GridNavigator* component = gameObject->GetComponent<GridNavigator>();
-		if (component == nullptr) { return; }
-		if (propertyName == "SetMovementSpeed") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetMovementSpeed(StringUtilities::ConvertStringToFloat(argv[0]));
-			return;
-		}
-		if (propertyName == "SetGridPosition") {
+		if (propertyName == "SetDecalImages") {
 			if ((int)argv.size() < 2) { return; }
-			component->SetGridPosition(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
+			component->SetDecalImages(ConvertStringToString(argv[0]), ConvertStringToString(argv[1]));
 			return;
 		}
-		if (propertyName == "SetDestination") {
-			if ((int)argv.size() < 3) { return; }
-			component->SetDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToBool(argv[2]));
-			return;
-		}
-		if (propertyName == "AddDestination") {
-			if ((int)argv.size() < 2) { return; }
-			component->AddDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
-			return;
-		}
-		return;
-	}
-	
-	if (componentName == "GridZone") {
-		GridZone* component = gameObject->GetComponent<GridZone>();
-		if (component == nullptr) { return; }
-		if (propertyName == "SetZoneBounds") {
-			if ((int)argv.size() < 4) { return; }
-			component->SetZoneBounds(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToInt(argv[2]), StringUtilities::ConvertStringToInt(argv[3]));
-			return;
-		}
-		return;
-	}
-	
-	if (componentName == "TransitionZone") {
-		TransitionZone* component = gameObject->GetComponent<TransitionZone>();
-		if (component == nullptr) { return; }
-		if (propertyName == "SetZoneBounds") {
-			if ((int)argv.size() < 4) { return; }
-			component->SetZoneBounds(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToInt(argv[2]), StringUtilities::ConvertStringToInt(argv[3]));
-			return;
-		}
-		if (propertyName == "SetFirstDestination") {
-			if ((int)argv.size() < 2) { return; }
-			component->SetFirstDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
-			return;
-		}
-		if (propertyName == "SetSecondDestination") {
-			if ((int)argv.size() < 2) { return; }
-			component->SetSecondDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
-			return;
-		}
-		if (propertyName == "SetDestinations") {
-			if ((int)argv.size() < 4) { return; }
-			component->SetDestinations(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToInt(argv[2]), StringUtilities::ConvertStringToInt(argv[3]));
-			return;
-		}
-		return;
-	}
-	
-	if (componentName == "LevelManager") {
-		LevelManager* component = gameObject->GetComponent<LevelManager>();
-		if (component == nullptr) { return; }
 		return;
 	}
 	
 	if (componentName == "ShadyCamera") {
 		ShadyCamera* component = gameObject->GetComponent<ShadyCamera>();
 		if (component == nullptr) { return; }
-		return;
-	}
-	
-	if (componentName == "BaseSwitch") {
-		BaseSwitch* component = gameObject->GetComponent<BaseSwitch>();
-		if (component == nullptr) { return; }
-		if (propertyName == "SetSwitchType") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetSwitchType(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetResetTime") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetResetTime(StringUtilities::ConvertStringToFloat(argv[0]));
-			return;
-		}
-		return;
-	}
-	
-	if (componentName == "GridZoneSwitch") {
-		GridZoneSwitch* component = gameObject->GetComponent<GridZoneSwitch>();
-		if (component == nullptr) { return; }
-		if (propertyName == "SetSwitchType") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetSwitchType(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetResetTime") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetResetTime(StringUtilities::ConvertStringToFloat(argv[0]));
-			return;
-		}
-		if (propertyName == "SetRequiredOccupants") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetRequiredOccupants(StringUtilities::ConvertStringToInt(argv[0]));
-			return;
-		}
-		if (propertyName == "SetActivateWhenUnitsInZone") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetActivateWhenUnitsInZone(StringUtilities::ConvertStringToBool(argv[0]));
-			return;
-		}
-		if (propertyName == "SetDecalType") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetDecalType(ConvertStringToString(argv[0]));
-			return;
-		}
 		return;
 	}
 	
@@ -812,27 +950,43 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
-	if (componentName == "Triggerable") {
-		Triggerable* component = gameObject->GetComponent<Triggerable>();
+	if (componentName == "BaseSwitch") {
+		BaseSwitch* component = gameObject->GetComponent<BaseSwitch>();
 		if (component == nullptr) { return; }
-		if (propertyName == "SetTriggerType") {
+		if (propertyName == "SetSwitchType") {
 			if ((int)argv.size() < 1) { return; }
-			component->SetTriggerType(ConvertStringToString(argv[0]));
+			component->SetSwitchType(ConvertStringToString(argv[0]));
 			return;
 		}
-		if (propertyName == "SetToggleState") {
+		if (propertyName == "SetResetTime") {
 			if ((int)argv.size() < 1) { return; }
-			component->SetToggleState(StringUtilities::ConvertStringToBool(argv[0]));
+			component->SetResetTime(StringUtilities::ConvertStringToFloat(argv[0]));
 			return;
 		}
-		if (propertyName == "SubscribeToMySwitch") {
-			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToMySwitch();
+		return;
+	}
+	
+	if (componentName == "GridZoneSwitch") {
+		GridZoneSwitch* component = gameObject->GetComponent<GridZoneSwitch>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetSwitchType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetSwitchType(ConvertStringToString(argv[0]));
 			return;
 		}
-		if (propertyName == "SubscribeToParentSwitch") {
-			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToParentSwitch();
+		if (propertyName == "SetResetTime") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetResetTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetRequiredOccupants") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetRequiredOccupants(StringUtilities::ConvertStringToInt(argv[0]));
+			return;
+		}
+		if (propertyName == "SetActivateWhenUnitsInZone") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetActivateWhenUnitsInZone(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		if (propertyName == "SetDecalType") {
@@ -843,206 +997,70 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
-	if (componentName == "TriggerElevationChange") {
-		TriggerElevationChange* component = gameObject->GetComponent<TriggerElevationChange>();
+	if (componentName == "GridManager") {
+		GridManager* component = gameObject->GetComponent<GridManager>();
 		if (component == nullptr) { return; }
-		if (propertyName == "SetTriggerType") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetTriggerType(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetElevationDiff") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetElevationDiff(StringUtilities::ConvertStringToInt(argv[0]));
-			return;
-		}
-		if (propertyName == "SetTransitTime") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetTransitTime(StringUtilities::ConvertStringToFloat(argv[0]));
-			return;
-		}
-		if (propertyName == "SetRaisedState") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetRaisedState(StringUtilities::ConvertStringToBool(argv[0]));
-			return;
-		}
-		if (propertyName == "SubscribeToMySwitch") {
-			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToMySwitch();
-			return;
-		}
-		if (propertyName == "SubscribeToParentSwitch") {
-			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToParentSwitch();
-			return;
-		}
 		return;
 	}
 	
-	if (componentName == "TriggerMovingBlocker") {
-		TriggerMovingBlocker* component = gameObject->GetComponent<TriggerMovingBlocker>();
+	if (componentName == "GridZone") {
+		GridZone* component = gameObject->GetComponent<GridZone>();
 		if (component == nullptr) { return; }
-		if (propertyName == "SetTriggerType") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetTriggerType(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetToggleState") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetToggleState(StringUtilities::ConvertStringToBool(argv[0]));
-			return;
-		}
-		if (propertyName == "SetChangeWalkability") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetChangeWalkability(StringUtilities::ConvertStringToBool(argv[0]));
-			return;
-		}
-		if (propertyName == "SetChangeVisibility") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetChangeVisibility(StringUtilities::ConvertStringToBool(argv[0]));
-			return;
-		}
-		if (propertyName == "SetTranslation") {
-			if ((int)argv.size() < 3) { return; }
-			component->SetTranslation(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
-			return;
-		}
-		if (propertyName == "SetTransitTime") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetTransitTime(StringUtilities::ConvertStringToFloat(argv[0]));
-			return;
-		}
-		if (propertyName == "SubscribeToMySwitch") {
-			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToMySwitch();
-			return;
-		}
-		if (propertyName == "SubscribeToParentSwitch") {
-			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToParentSwitch();
-			return;
-		}
-		if (propertyName == "SetDecalType") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetDecalType(ConvertStringToString(argv[0]));
-			return;
-		}
-		return;
-	}
-	
-	if (componentName == "TriggerMultiplex") {
-		TriggerMultiplex* component = gameObject->GetComponent<TriggerMultiplex>();
-		if (component == nullptr) { return; }
-		if (propertyName == "SetTriggerType") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetTriggerType(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetToggleState") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetToggleState(StringUtilities::ConvertStringToBool(argv[0]));
-			return;
-		}
-		if (propertyName == "SubscribeToMySwitch") {
-			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToMySwitch();
-			return;
-		}
-		if (propertyName == "SubscribeToParentSwitch") {
-			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToParentSwitch();
-			return;
-		}
-		if (propertyName == "SetDecalType") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetDecalType(ConvertStringToString(argv[0]));
-			return;
-		}
-		return;
-	}
-	
-	if (componentName == "TriggerTerrainBlock") {
-		TriggerTerrainBlock* component = gameObject->GetComponent<TriggerTerrainBlock>();
-		if (component == nullptr) { return; }
-		if (propertyName == "SetTriggerType") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetTriggerType(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetChangeWalkability") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetChangeWalkability(StringUtilities::ConvertStringToBool(argv[0]));
-			return;
-		}
-		if (propertyName == "SetChangeVisibility") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetChangeVisibility(StringUtilities::ConvertStringToBool(argv[0]));
-			return;
-		}
-		if (propertyName == "SetPassableWhenActivated") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetPassableWhenActivated(StringUtilities::ConvertStringToBool(argv[0]));
-			return;
-		}
-		if (propertyName == "SubscribeToMySwitch") {
-			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToMySwitch();
-			return;
-		}
-		if (propertyName == "SubscribeToParentSwitch") {
-			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToParentSwitch();
-			return;
-		}
-		return;
-	}
-	
-	if (componentName == "TriggerTransformation") {
-		TriggerTransformation* component = gameObject->GetComponent<TriggerTransformation>();
-		if (component == nullptr) { return; }
-		if (propertyName == "SetTriggerType") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetTriggerType(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetTranslation") {
-			if ((int)argv.size() < 3) { return; }
-			component->SetTranslation(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
-			return;
-		}
-		if (propertyName == "SetRotationDegrees") {
+		if (propertyName == "SetZoneBounds") {
 			if ((int)argv.size() < 4) { return; }
-			component->SetRotationDegrees(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+			component->SetZoneBounds(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToInt(argv[2]), StringUtilities::ConvertStringToInt(argv[3]));
 			return;
 		}
-		if (propertyName == "SetRotationRadians") {
-			if ((int)argv.size() < 4) { return; }
-			component->SetRotationRadians(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
+		return;
+	}
+	
+	if (componentName == "GridNavigator") {
+		GridNavigator* component = gameObject->GetComponent<GridNavigator>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetMovementSpeed") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetMovementSpeed(StringUtilities::ConvertStringToFloat(argv[0]));
 			return;
 		}
-		if (propertyName == "SetScaling") {
+		if (propertyName == "SetGridPosition") {
+			if ((int)argv.size() < 2) { return; }
+			component->SetGridPosition(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
+			return;
+		}
+		if (propertyName == "SetDestination") {
 			if ((int)argv.size() < 3) { return; }
-			component->SetScaling(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			component->SetDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToBool(argv[2]));
 			return;
 		}
-		if (propertyName == "SetTransitTime") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetTransitTime(StringUtilities::ConvertStringToFloat(argv[0]));
+		if (propertyName == "AddDestination") {
+			if ((int)argv.size() < 2) { return; }
+			component->AddDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
 			return;
 		}
-		if (propertyName == "SetTransformedState") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetTransformedState(StringUtilities::ConvertStringToBool(argv[0]));
+		return;
+	}
+	
+	if (componentName == "TransitionZone") {
+		TransitionZone* component = gameObject->GetComponent<TransitionZone>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetZoneBounds") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetZoneBounds(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToInt(argv[2]), StringUtilities::ConvertStringToInt(argv[3]));
 			return;
 		}
-		if (propertyName == "SubscribeToMySwitch") {
-			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToMySwitch();
+		if (propertyName == "SetFirstDestination") {
+			if ((int)argv.size() < 2) { return; }
+			component->SetFirstDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
 			return;
 		}
-		if (propertyName == "SubscribeToParentSwitch") {
-			if ((int)argv.size() < 0) { return; }
-			component->SubscribeToParentSwitch();
+		if (propertyName == "SetSecondDestination") {
+			if ((int)argv.size() < 2) { return; }
+			component->SetSecondDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
+			return;
+		}
+		if (propertyName == "SetDestinations") {
+			if ((int)argv.size() < 4) { return; }
+			component->SetDestinations(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToInt(argv[2]), StringUtilities::ConvertStringToInt(argv[3]));
 			return;
 		}
 		return;

@@ -263,10 +263,10 @@ void Input::updateDesktopInput() {
 	int pinchOut = glfwGetKey(GLFW_KEY_O);
 
 	if (pinchIn == GLFW_PRESS) {
-		this->UpdatePinch(10.0f, 10.0f, GestureState::GestureState_Start);
+		this->UpdatePinch(10.0f, 10.0f, GestureState::GestureState_End);
 	}
 	if (pinchOut == GLFW_PRESS) {
-		this->UpdatePinch(10.0f, -10.0f, GestureState::GestureState_Start);
+		this->UpdatePinch(10.0f, -10.0f, GestureState::GestureState_End);
 	}
 }
 
