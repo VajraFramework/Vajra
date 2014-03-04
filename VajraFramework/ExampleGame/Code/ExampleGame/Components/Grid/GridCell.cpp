@@ -59,3 +59,32 @@ void GridCell::SetOccupantIdAtElevation(ObjectIdType id, int elevation) {
 		this->unitIds[index] = id;
 	}
 }
+
+void GridCell::AddZoneToCell(ObjectIdType id) {
+	auto iter = std::find(this->zones.begin(), this->zones.end(), id);
+	if (iter == this->zones.end()) {
+		this->zones.push_back(id);
+	}
+}
+
+void GridCell::RemoveZoneFromCell(ObjectIdType id) {
+	auto iter = std::find(this->zones.begin(), this->zones.end(), id);
+	if (iter != this->zones.end()) {
+		this->zones.erase(iter);
+	}
+}
+
+ObjectIdType GridCell::GetFirstZoneId() {
+	if (this->zones.empty()) {
+		return OBJECT_ID_INVALID;
+	}
+	else {
+		return this->zones.front();
+	}
+}
+
+void GridCell::GetZoneIds(std::list<ObjectIdType>& ids) {
+	for (auto iter = this->zones.begin(); iter != this->zones.end(); ++iter) {
+		ids.push_back(*iter);
+	}
+}
