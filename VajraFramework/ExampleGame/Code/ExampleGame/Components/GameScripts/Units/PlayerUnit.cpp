@@ -299,7 +299,7 @@ void PlayerUnit::SetTouchIndicatorSprite(int index) {
 void PlayerUnit::SetTouchIndicatorCell(GridCell* c) {
 	if(c != nullptr) {
 		this->touchIndicatorRef->GetTransform()->SetPosition(c->center);
-		this->touchIndicatorRef->GetTransform()->Translate(0.01f + (c->y * 0.05), YAXIS);
+		this->touchIndicatorRef->GetTransform()->Translate(0.02f + (c->y * 0.05), YAXIS);
 	}
 }
 
