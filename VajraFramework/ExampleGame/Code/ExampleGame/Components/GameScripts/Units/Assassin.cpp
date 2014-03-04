@@ -167,20 +167,27 @@ void Assassin::aimSpecial(int touchId){
 		}
 		cellIndex++;
 	}
-	if(this->targetedCell != nullptr && this->targetedCell != this->gridNavRef->GetCurrentCell()) {
+	if(this->targetedCell != nullptr && touchedCell != nullptr && this->targetedCell != this->gridNavRef->GetCurrentCell()) {
+		glm::vec3 attackDir = glm::normalize(targetLoc - sinPos);
 		if(touchedCell != this->targetedCell) {
-			targetLoc = this->targetedCell->center;
+			glm::vec3 temp = targetLoc;
+			GridCell* tempCell = touchedCell;
+			while(tempCell != this->targetedCell) {
+				temp -= attackDir * .01f;
+				tempCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(temp);
+			}
+			targetLoc = temp;
+			touchedCell = tempCell;
+
 		}
 		this->SetTouchIndicatorVisible(true);
 		this->gridNavRef->SetLookTarget(targetLoc);
 
-		glm::vec3 sinPos = this->gameObjectRef->GetTransform()->GetPosition();
 		// Arrow Tail
 		this->arrowTail->SetVisible(true);
 		this->SetTouchIndicatorLocation(targetLoc);
 		this->TouchIndicatorLookAt(targetedCell);
 
-		glm::vec3 attackDir = targetLoc - sinPos;
 		if(glm::length(attackDir) > GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units)) {
 			targetLoc = sinPos + glm::normalize(attackDir) * GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units);
 		}
