@@ -184,8 +184,6 @@ void GridZone::init() {
 	this->displayVisualizerInGameMode = true;
 	this->displayVisualizerInOverviewMode = true;
 
-	SINGLETONS->GetGridManager()->GetGrid()->AddGridZone(this->GetObject()->GetId());
-
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_CAMERA_MODE_CHANGED, this->GetTypeId(), false);
 }
 

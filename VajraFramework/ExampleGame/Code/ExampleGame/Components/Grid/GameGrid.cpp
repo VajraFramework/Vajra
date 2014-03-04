@@ -250,15 +250,31 @@ glm::vec3 GameGrid::GetRoomCenter(GridCell* cell) {
 }
 
 void GameGrid::AddGridZone(ObjectIdType zoneId) {
-	for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
-		if (*iter == zoneId) {
-			// This zone is already in our list
-			return;
+	GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(zoneId);
+	if (gObj != nullptr) {
+		GridZone* zone = gObj->GetComponent<GridZone>();
+		if (zone != nullptr) {
+			for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
+				if (*iter == zoneId) {
+					// This zone is already in our list
+					return;
+				}
+			}
+
+			int west, east, south, north;
+			zone->GetZoneBounds(west, east, south, north);
+			for (int x = west; x <= east; ++x) {
+				for (int z = south; z <= north; ++z) {
+					if (this->isWithinGrid(x, z)) {
+						this->gridCells[x][z]->AddZoneToCell(zoneId);
+					}
+				}
+			}
+
+			// Add the id to the list
+			this->gridZones.push_back(zoneId);
 		}
 	}
-
-	// Add the id to the list
-	this->gridZones.push_back(zoneId);
 }
 
 GridZone* GameGrid::GetZone(int x, int z) {
@@ -274,14 +290,10 @@ GridZone* GameGrid::GetZone(glm::vec3 loc) {
 GridZone* GameGrid::GetZone(GridCell* cell) {
 	if (cell != nullptr) {
 		// If the cell is in multiple zones, only the first one is returned.
-		for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
-			GameObject* zoneObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
-			GridZone* zone = zoneObj->GetComponent<GridZone>();
-
-			if (zone->IsCellWithinZone(cell)) {
-				return zone;
-			}
-		}
+		ObjectIdType zoneId = cell->GetFirstZoneId();
+		GameObject* zoneObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(zoneId);
+		GridZone* zone = zoneObj->GetComponent<GridZone>();
+		return zone;
 	}
 	return nullptr;
 }
@@ -298,14 +310,12 @@ void GameGrid::GetZones(std::list<GridZone*>& outZones, glm::vec3 worldPosition)
 
 void GameGrid::GetZones(std::list<GridZone*>& outZones, GridCell* cell) {
 	if (cell != nullptr) {
-		// If the cell is in multiple zones, only the first one is returned.
-		for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
+		std::list<ObjectIdType> zoneIds;
+		cell->GetZoneIds(zoneIds);
+		for (auto iter = zoneIds.begin(); iter != zoneIds.end(); ++iter) {
 			GameObject* zoneObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
 			GridZone* zone = zoneObj->GetComponent<GridZone>();
-
-			if (zone->IsCellWithinZone(cell)) {
-				outZones.push_back(zone);
-			}
+			outZones.push_back(zone);
 		}
 	}
 }

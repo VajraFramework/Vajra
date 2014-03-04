@@ -88,6 +88,10 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
 			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z, messageChunk->messageData.iv1.y);
 			break;
+		case MESSAGE_TYPE_GRID_ZONE_BOUNDS_CHANGED:
+			gridZoneBoundsChangedHandler(messageChunk->GetSenderId(), (int)messageChunk->messageData.fv1.x, (int)messageChunk->messageData.fv2.x,
+										 (int)messageChunk->messageData.fv1.z, (int)messageChunk->messageData.fv2.z);
+			break;
 		case MESSAGE_TYPE_UNIT_KILLED:
 			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.iv1.y);
 			break;
@@ -361,24 +365,59 @@ void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int so
 void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {
 	GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 	ASSERT(obj != nullptr, "Object with id %d exists", id);
+	if (obj != nullptr) {
+		BaseUnit* unit = obj->GetComponent<BaseUnit>();
+		ASSERT(unit != nullptr, "Object with id %d has BaseUnit component", id);
+		if (unit != nullptr) {
+			UnitType uType = unit->GetUnitType();
 
-	BaseUnit* unit = obj->GetComponent<BaseUnit>();
-	ASSERT(unit != nullptr, "Object with id %d has BaseUnit component", id);
-	UnitType uType = unit->GetUnitType();
+			if (uType <= LAST_PLAYER_UNIT_TYPE) {
+				auto iter = this->playerUnits.find(uType);
+				ASSERT(iter == this->playerUnits.end(), "Grid does not already have player unit of type %d", uType);
+				this->playerUnits[uType] = id;
+			}
 
-	if (uType <= LAST_PLAYER_UNIT_TYPE) {
-		auto iter = this->playerUnits.find(uType);
-		ASSERT(iter == this->playerUnits.end(), "Grid does not already have player unit of type %d", uType);
-		this->playerUnits[uType] = id;
+			GridCell* destCell = this->grid->GetCell(cellX, cellZ);
+			int elevation = destCell->y;
+
+			this->gridCellChangedHandler(id, cellX, cellZ, elevation);
+
+			Transform* trans = obj->GetTransform();
+			trans->SetPosition(destCell->center);
+		}
 	}
+}
 
-	GridCell* destCell = this->grid->GetCell(cellX, cellZ);
-	int elevation = destCell->y;
+void GridManager::placeZoneOnGrid(ObjectIdType id) {
+	this->grid->AddGridZone(id);
 
-	this->gridCellChangedHandler(id, cellX, cellZ, elevation);
-
-	Transform* trans = obj->GetTransform();
-	trans->SetPosition(destCell->center);
+	// Send messages to the grid zone for each cell occupant in the area it occupies.
+	GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+	ASSERT(obj != nullptr, "Object with id %d exists", id);
+	if (obj != nullptr) {
+		GridZone* zone = obj->GetComponent<GridZone>();
+		ASSERT(zone != nullptr, "Object with id %d has GridZone component", id);
+		if (zone != nullptr) {
+			int west, east, south, north;
+			zone->GetZoneBounds(west, east, south, north);
+			for (int x = west; x <= east; ++x) {
+				for (int z = south; z <= north; ++z) {
+					GridCell* cell = this->grid->GetCell(x, z);
+					if (cell != nullptr) {
+						for (int y = 0; y < NUM_ELEVATIONS; ++y) {
+							ObjectIdType occId = cell->GetOccupantIdAtElevation(y);
+							if (occId != OBJECT_ID_INVALID) {
+								MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+								collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED);
+								collisionMessage->messageData.iv1.x = occId;
+								ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, id, occId);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ, int elevation) {
