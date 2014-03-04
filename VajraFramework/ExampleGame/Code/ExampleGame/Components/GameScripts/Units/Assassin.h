@@ -42,6 +42,10 @@ private:
 	GameObject* arrowHead;
 	GameObject* arrowTail;
 	GridCell* targetedCell;
+	glm::vec3 targetLoc;
+
+	friend void assassinTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
+	
 };
 
 #endif //ASSASSIN_UNIT_H
