@@ -205,7 +205,8 @@ glm::vec3 GridManager::TouchPositionToGridPositionAtElevation(glm::vec2 touchPos
 
 void GridManager::SwitchSelectedUnit() {
 	UnitType uType = UNIT_TYPE_ASSASSIN;
-	if(this->playerUnits.find(UNIT_TYPE_ASSASSIN) != this->playerUnits.end()) {
+	auto iter = this->playerUnits.find(UNIT_TYPE_ASSASSIN);
+	if(iter != this->playerUnits.end() && iter->second == this->selectedUnitId) {
 		uType = UNIT_TYPE_THIEF;
 	}
 	if(this->playerUnits.find(uType) != this->playerUnits.end()) {
