@@ -40,6 +40,7 @@ void Decal::SetDecalImages(std::string gameMode_image, float gameMode_imageSize,
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + overviewMode_image);
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 	spriteRenderer->SetCurrentTextureIndex(GAME_MODE_IMAGE_IDX);
+	spriteRenderer->SetHasTransperancy(true);
 
 	this->scales[GAME_MODE_IMAGE_IDX] = gameMode_imageSize;
 	this->scales[OVERVIEW_MODE_IMAGE_IDX] = overviewMode_imageSize;
