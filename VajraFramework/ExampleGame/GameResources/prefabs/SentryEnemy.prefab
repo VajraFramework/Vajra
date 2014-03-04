@@ -2,13 +2,45 @@
 	<gameobject>
 		<component name="MeshRenderer">
 			<property name="InitMesh">
-				<field>models/TexturedCube.model</field>
+				<field>models/SD_Guard_mesh.model</field>
 			</property>
 		</component>
 
+		<component name="BakedSkeletalAnimation">
+			<property name="AddAnimationClip">
+				<field>animations/SD_Guard_mesh.skeletalanimation#idle</field>
+				<field>0.25</field>
+				<field>true</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Guard_mesh.skeletalanimation#walking</field>
+				<field>0.25</field>
+				<field>true</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Guard_mesh.skeletalanimation#special_posing</field>
+				<field>0.25f</field>
+				<field>false</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Guard_mesh.skeletalanimation#special_action</field>
+				<field>0.25f</field>
+				<field>false</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Guard_mesh.skeletalanimation#special_end</field>
+				<field>1.5f</field>
+				<field>false</field>
+			</property>
+			<property name="PlayAnimationClip">
+				<field>walking</field>
+			</property>
+		</component>
+
+
 		<component name="Transform">
 			<property name="Scale">
-				<field>1.0</field>
+				<field>0.07</field>
 			</property>
 		</component>
 		
@@ -37,6 +69,13 @@
 		
 		<component name="AiRoutine">
 		</component>
+
+		<component name="UnitAnimationManager">
+		</component>
+
+		<component name="UnitShadow">
+		</component>
+
 	</gameobject>
 </prefab>
 

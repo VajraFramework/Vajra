@@ -18,10 +18,16 @@ public:
 
 	static inline ComponentIdType GetTypeId() { return componentTypeId; };
 
+	// @Override
+	virtual void HandleMessage(MessageChunk messageChunk);
+
 	void GetZoneBounds(int& west, int& east, int& south, int& north);
 
 	//[[PROPERTY]]//
 	virtual void SetZoneBounds(int xMin, int zMin, int xMax, int zMax);
+
+	//[[PROPERTY]]//
+	void Visualize(bool shouldVisualize, std::string imageName, bool displayInGamemode, bool displayInOverviewMode);
 
 	bool IsCellWithinZone(GridCell* cell);
 
@@ -36,6 +42,15 @@ protected:
 private:
 	void init();
 	void destroy();
+
+	void updateVisualizer();
+	void handleCameraModeChanged();
+
+	GameObject* gameObjectRef;
+	GameObject* visualizerObjectRef;
+
+	bool displayVisualizerInGameMode;
+	bool displayVisualizerInOverviewMode;
 
 	static unsigned int componentTypeId;
 };

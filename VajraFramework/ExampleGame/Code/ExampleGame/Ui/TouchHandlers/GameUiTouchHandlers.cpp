@@ -160,6 +160,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 			return;
 		} else if (uiObject->GetName() == "restart_pause") {
 			pauseMenu->SetVisible(!pauseMenu->IsVisible());
+			this->tutorials.clear();
 			SINGLETONS->GetMenuManager()->LoadLevel(SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
 			return;
 		} else if (uiObject->GetName() == "mission_from_pause") {
@@ -196,6 +197,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 			return;
 		} else if (uiObject->GetName() == "restart_post") {
 			postMenu->SetVisible(false);
+			this->tutorials.clear();
 			SINGLETONS->GetMenuManager()->LoadLevel(SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
 			return;
 		} else if (uiObject->GetName() == "mission_post") {
@@ -212,7 +214,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	} else if(uiObject->GetName() == TUTORIAL_EXIT_BTN) {
 		// tween in the tutorial
 		UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TUTORIAL_MENU]);
-	
+		
 		ENGINE->GetTween()->TweenPosition(tut->GetId(),
 										  tut->GetTransform()->GetPosition(),
 										  glm::vec3(tut->GetTransform()->GetPosition().x, -768.0f, tut->GetTransform()->GetPosition().z),
@@ -339,7 +341,6 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 	// Grab
 	UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TUTORIAL_MENU]);
 	tut->SetClickable(false);
-	
 
 	// Load the textures for the tutorial
 	this->dynamicTutorialElement = new UiElement(ENGINE->GetSceneGraphUi());
@@ -397,4 +398,5 @@ void GameUiTouchHandlers::onLevelEnd(bool /*success*/) {
 	ENGINE->GetSceneGraph3D()->Pause();
 	UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
 	postMenu->SetVisible(true);
+	this->tutorials.clear();
 }

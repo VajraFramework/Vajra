@@ -82,6 +82,7 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	VERIFY(linkBaseNode != nullptr, "Level definition contains <%s> node", LINKS_TAG);
 	if (linkBaseNode != nullptr) {
 		loadLinkDataFromXml(linkBaseNode);
+		loadParentConnectionsFromXml(linkBaseNode);
 		loadEndConditionsFromXml(linkBaseNode);
 	}
 
@@ -430,6 +431,26 @@ void LevelLoader::loadLinkDataFromXml  (XmlNode* linkBaseNode) {
 		}
 
 		triggerLinkNode = triggerLinkNode->GetNextSiblingByNodeName(TRIGGER_LINK_TAG);
+	}
+}
+
+void LevelLoader::loadParentConnectionsFromXml(XmlNode* linkBaseNode) {
+	XmlNode* parentNode = linkBaseNode->GetFirstChildByNodeName(PARENT_LINK_TAG);
+	while (parentNode != nullptr) {
+		int parentXmlId = parentNode->GetAttributeValueI(ID_ATTRIBUTE);
+		GameObject* parentObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(idsFromXml[parentXmlId]);
+		if (parentObj != nullptr) {
+			XmlNode* childNode = parentNode->GetFirstChildByNodeName(CHILD_TAG);
+			while (childNode != nullptr) {
+				int childXmlId = childNode->GetAttributeValueI(ID_ATTRIBUTE);
+
+				parentObj->AddChild_maintainTransform(idsFromXml[childXmlId]);
+
+				childNode = childNode->GetNextSiblingByNodeName(CHILD_TAG);
+			}
+		}
+
+		parentNode = parentNode->GetNextSiblingByNodeName(PARENT_LINK_TAG);
 	}
 }
 
