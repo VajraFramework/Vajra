@@ -205,10 +205,10 @@ glm::vec3 GridManager::TouchPositionToGridPositionAtElevation(glm::vec2 touchPos
 
 void GridManager::SwitchSelectedUnit() {
 	UnitType uType = UNIT_TYPE_ASSASSIN;
-	if(this->playerUnits[UNIT_TYPE_ASSASSIN] == this->selectedUnitId ) {
+	if(this->playerUnits.find(UNIT_TYPE_ASSASSIN) != this->playerUnits.end()) {
 		uType = UNIT_TYPE_THIEF;
-	} 
-	if(this->playerUnits[uType] != OBJECT_ID_INVALID) {
+	}
+	if(this->playerUnits.find(uType) != this->playerUnits.end()) {
 		GridCell* gc = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->playerUnits[uType])->GetComponent<GridNavigator>()->GetCurrentCell();
 		this->selectUnitInCell(gc);
 	}
