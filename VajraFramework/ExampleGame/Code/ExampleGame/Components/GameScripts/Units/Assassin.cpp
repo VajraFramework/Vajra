@@ -167,7 +167,8 @@ void Assassin::aimSpecial(int touchId){
 		cellIndex++;
 	}
 	if(this->targetedCell != nullptr && this->targetedCell != this->gridNavRef->GetCurrentCell()) {
-		this->SetTouchIndicatorVisible(false);
+		this->SetTouchIndicatorVisible(true);
+		this->gridNavRef->SetLookTarget(targetLoc);
 
 		glm::vec3 sinPos = this->gameObjectRef->GetTransform()->GetPosition();
 		// Arrow Tail
@@ -179,32 +180,25 @@ void Assassin::aimSpecial(int touchId){
 		if(glm::length(attackDir) > GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units)) {
 			targetLoc = sinPos + glm::normalize(attackDir) * GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units);
 		}
-		float dist = glm::distance(sinPos, targetLoc) - 0.5f;
+		float dist = glm::distance(sinPos, targetLoc); // - 0.5f;
 		if(dist < 0.5f) {
 			this->arrowTail->SetVisible(false);
 		}
 
-
-		printf("\n AIM SPECIAL \n sin loc: (%f, %f, %f)", sinPos.x, sinPos.y, sinPos.z);
-
-		printf("\n currentCell :  (%f, %f, %f) \n", this->gridNavRef->GetCurrentCell()->center.x, this->gridNavRef->GetCurrentCell()->center.y, this->gridNavRef->GetCurrentCell()->center.z);
-		sinPos.y = 0.0f;
-		targetLoc.y = 0.0f;
-
-		this->gridNavRef->SetLookTarget(targetLoc);
 		this->arrowTail->GetTransform()->SetScale(1.0f, dist, 1.0f);
+	
 
 		Transform* trans = this->arrowTail->GetComponent<Transform>();
 		this->GridPlaneLookAt(this->arrowTail, targetLoc);
 
 		trans->SetPosition(sinPos + glm::vec3(0.0f, .1f, 0.0f));
-		trans->Translate(dist * .5f, attackDir);
+		trans->Translate(dist * .5f, trans->GetUp());
 
 		// Arrow Head
 		this->arrowHead->SetVisible(true);
 		this->GridPlaneLookAt(this->arrowHead, targetLoc);
 		this->arrowHead->GetTransform()->SetPosition(sinPos + glm::vec3(0.0f, .1f, 0.0f));
-		this->arrowHead->GetTransform()->Translate(dist + .5f, attackDir);
+		this->arrowHead->GetTransform()->Translate(dist + .5f, this->arrowHead->GetTransform()->GetUp());
 
 	} else {
 		this->SetTouchIndicatorVisible(false);
