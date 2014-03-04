@@ -585,6 +585,14 @@
                   <field>Obstacle</field>
               </property>
           </component>
+          <component name="GridZone">
+		<property name="SetZoneBounds">
+			<field>-3</field>
+			<field>-3</field>
+			<field>3</field>
+			<field>3</field>
+		</property>
+          </component>
       </dynamicObject>
   </other>
 
