@@ -57,7 +57,8 @@ protected:
 
 	void startTouchIndicatorPulse();
 	void SetTouchIndicatorSprite(int /*index*/ );
-	void SetTouchIndicatorCell(GridCell*);
+	void SetTouchIndicatorLocation(GridCell*);
+	void SetTouchIndicatorLocation(glm::vec3);
 	void TouchIndicatorLookAt(GridCell* /*target*/);
 
 	void GridPlaneLookAt(GameObject* /*plane*/, GridCell* /*target*/);

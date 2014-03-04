@@ -151,7 +151,7 @@ void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {
 	if(this->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL || this->GetUnitActionState() == UNIT_ACTION_STATE_POST_SPECIAL) {
 		this->cancelSpecial();
 	}
-	this->SetTouchIndicatorCell(newTarget);
+	this->SetTouchIndicatorLocation(newTarget);
 	this->SwitchActionState(UNIT_ACTION_STATE_WALKING);
 	this->startTouchIndicatorPulse();
 	this->gridNavRef->SetDestination(newTarget);
@@ -191,7 +191,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 		switch(ENGINE->GetInput()->GetTouch(touchId).phase) {
 			case TouchPhase::Began:
 				this->inputState = InputState::INPUT_STATE_NAV;
-				this->SetTouchIndicatorCell(this->currentTouchedCell);
+				this->SetTouchIndicatorLocation(this->currentTouchedCell);
 				ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
 				ENGINE->GetTween()->CancelNumberTween("pulse");
 				ENGINE->GetTween()->TweenScale(this->touchIndicatorRef->GetId(), glm::vec3(0), glm::vec3(1),TOUCH_SCALE_TIME);
@@ -227,7 +227,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 }
 
 void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
-	this->SetTouchIndicatorCell(this->currentTouchedCell);
+	this->SetTouchIndicatorLocation(this->currentTouchedCell);
 	if(this->inputState == InputState::INPUT_STATE_NAV || this->inputState == InputState::INPUT_STATE_WAIT) {
 		if(this->gridNavRef->CanReachDestination(this->currentTouchedCell)) {
 			this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
@@ -300,11 +300,18 @@ void PlayerUnit::SetTouchIndicatorSprite(int index) {
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(index);
 }
 
-void PlayerUnit::SetTouchIndicatorCell(GridCell* c) {
+void PlayerUnit::SetTouchIndicatorLocation(GridCell* c) {
 	if(c != nullptr) {
-		this->touchIndicatorRef->GetTransform()->SetPosition(c->center);
-		this->touchIndicatorRef->GetTransform()->Translate(0.01f + (c->y * 0.05), YAXIS);
+		glm::vec3 target = c->center;
+		target.y += c->y * 0.05;
+		this->SetTouchIndicatorLocation(target);
 	}
+}
+
+void PlayerUnit::SetTouchIndicatorLocation(glm::vec3 target) {
+	this->touchIndicatorRef->GetTransform()->SetPosition(target);
+	this->touchIndicatorRef->GetTransform()->Translate(0.01f , YAXIS);
+
 }
 
 void PlayerUnit::SetTouchIndicatorVisible(bool visibility) {

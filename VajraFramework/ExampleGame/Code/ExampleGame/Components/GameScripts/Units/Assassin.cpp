@@ -150,12 +150,13 @@ void Assassin::onGridCellChanged(ObjectIdType id, int gridX, int gridZ) {
 
 void Assassin::aimSpecial(int touchId){
 	glm::vec3 targetLoc = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(ENGINE->GetInput()->GetTouch(touchId).pos, this->gridNavRef->GetCurrentCell()->y);
-
+	glm::vec3 sinPos = this->gameObjectRef->GetTransform()->GetPosition();
+	
 	std::list<GridCell*> touchedCells;
-	GridCell* targetCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(targetLoc);
-	ASSERT(targetCell != nullptr, "the target cell is not null");
+	GridCell* touchedCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(targetLoc);
+	ASSERT(touchedCell != nullptr, "the target cell is not null");
 
-	SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->gridNavRef->GetCurrentCell(), targetCell, touchedCells);
+	SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(sinPos, targetLoc, touchedCells);
 	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(this->gridNavRef->GetCurrentCell()->center.y);
 	int cellIndex = 0;
 	for( GridCell* c : touchedCells) {
@@ -167,20 +168,23 @@ void Assassin::aimSpecial(int touchId){
 		cellIndex++;
 	}
 	if(this->targetedCell != nullptr && this->targetedCell != this->gridNavRef->GetCurrentCell()) {
+		if(touchedCell != this->targetedCell) {
+			targetLoc = this->targetedCell->center;
+		}
 		this->SetTouchIndicatorVisible(true);
 		this->gridNavRef->SetLookTarget(targetLoc);
 
 		glm::vec3 sinPos = this->gameObjectRef->GetTransform()->GetPosition();
 		// Arrow Tail
 		this->arrowTail->SetVisible(true);
-		this->SetTouchIndicatorCell(this->targetedCell);
+		this->SetTouchIndicatorLocation(targetLoc);
 		this->TouchIndicatorLookAt(targetedCell);
 
 		glm::vec3 attackDir = targetLoc - sinPos;
 		if(glm::length(attackDir) > GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units)) {
 			targetLoc = sinPos + glm::normalize(attackDir) * GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units);
 		}
-		float dist = glm::distance(sinPos, targetLoc); // - 0.5f;
+		float dist = glm::distance(sinPos, targetLoc) - 1.5f;
 		if(dist < 0.5f) {
 			this->arrowTail->SetVisible(false);
 		}
