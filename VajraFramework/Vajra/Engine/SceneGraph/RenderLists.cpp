@@ -78,7 +78,7 @@ void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobje
 	for (ObjectIdType id : this->gameObjectIds) {
 		GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 		if (gameObject != nullptr) {
-			if (!gameObject->HasTransperancy()) {
+			if (!gameObject->HasTransperancy() && !gameObject->IsOverlay()) {
 				this->Draw_one_gameobject(gameObject);
 
 			} else {
@@ -105,7 +105,19 @@ void RenderList::Draw_one_gameobject(GameObject* gameObject) {
 	}
 #endif
 
+	// Switch off depth buffer for game objects that are supposed to be overlaid on top of everything:
+	if (!gameObject->IsOverlay()) {
+	} else {
+		glDisable(GL_DEPTH_TEST);
+	}
+
 	gameObject->Draw();
+
+	// Switch on switched off depth buffer:
+	if (!gameObject->IsOverlay()) {
+	} else {
+		glEnable(GL_DEPTH_TEST);
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

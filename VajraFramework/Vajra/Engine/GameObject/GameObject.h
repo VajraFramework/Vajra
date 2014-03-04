@@ -38,6 +38,7 @@ public:
 	virtual void SetVisible(bool visible_);
 
 	bool HasTransperancy();
+	bool IsOverlay();
 
 	SceneGraph* GetParentSceneGraph() { return this->parentSceneGraph; }
 
@@ -49,6 +50,7 @@ public:
 
 	bool HasTag(std::string tag);
 	bool HasTag(unsigned int tagBit);
+
 private:
 	void init(SceneGraph* sceneGraph);
 	void destroy();
