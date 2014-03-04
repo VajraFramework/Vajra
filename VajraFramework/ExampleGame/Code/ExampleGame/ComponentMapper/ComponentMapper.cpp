@@ -963,6 +963,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetResetTime(StringUtilities::ConvertStringToFloat(argv[0]));
 			return;
 		}
+		if (propertyName == "SetDecalType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDecalType(ConvertStringToString(argv[0]));
+			return;
+		}
 		return;
 	}
 	

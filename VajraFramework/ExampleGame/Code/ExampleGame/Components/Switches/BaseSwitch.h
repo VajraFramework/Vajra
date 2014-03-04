@@ -51,6 +51,9 @@ public:
 	inline bool IsActive()     { return this->isActive;  }
 	std::string GetDecalType() { return this->decalType; }
 
+	//[[PROPERTY]]//
+	void SetDecalType(std::string decalType);
+
 protected:
 	virtual bool isConditionMet() { return false; }
 

@@ -185,3 +185,7 @@ void BaseSwitch::setDecalType(std::string decalType_) {
 	this->decalRef = DecalGenerator::GetDecalFromDecalType(this->decalType, this->gameObjectRef->GetParentSceneGraph());
 	this->gameObjectRef->AddChild(this->decalRef->GetId());
 }
+
+void BaseSwitch::SetDecalType(std::string decalType) {
+	this->setDecalType(decalType);
+}
