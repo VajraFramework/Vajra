@@ -113,6 +113,14 @@ bool GameObject::HasTransperancy() {
 	return false;
 }
 
+bool GameObject::IsOverlay() {
+	Renderer* renderer = this->GetComponent<Renderer>();
+	if (renderer != nullptr) {
+		return renderer->IsOverlay();
+	}
+	return false;
+}
+
 void GameObject::AddChild(ObjectIdType childId) {
 	Object::AddChild(childId);
 
@@ -145,4 +153,3 @@ void GameObject::AddChild_maintainTransform(ObjectIdType childId) {
 		ASSERT(0, "Child found");
 	}
 }
-

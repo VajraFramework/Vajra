@@ -88,9 +88,11 @@ void Decal::handleCameraModeChanged() {
 	if (shadyCamera != nullptr) {
 		if (shadyCamera->GetCameraMode() == ShadyCamera::CameraMode_Game) {
 			this->currentMode = GAME_MODE_IMAGE_IDX;
+			spriteRenderer->SetIsOverlay(false);
 
 		} else if (shadyCamera->GetCameraMode() == ShadyCamera::CameraMode_Overview) {
 			this->currentMode = OVERVIEW_MODE_IMAGE_IDX;
+			spriteRenderer->SetIsOverlay(true);
 
 		}
 

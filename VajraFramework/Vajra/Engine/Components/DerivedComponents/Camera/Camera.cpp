@@ -47,7 +47,7 @@ void Camera::updateMatrices() {
 		} break;
 
 	case CAMERA_TYPE_PERSPECTIVE: {
-			this->projMatrix = glm::perspective(this->fov, aspecRatio, 0.1f, 8000.0f);
+			this->projMatrix = glm::perspective(this->fov, aspecRatio, 0.1f, 1000.0f);
 		} break;
 
 	default: {
