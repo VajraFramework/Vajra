@@ -2950,7 +2950,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ExampleGame/ExampleGame-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = PLATFORM_IOS;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					PLATFORM_IOS,
+					GLM_FORCE_RADIANS,
+				);
 				INFOPLIST_FILE = "ExampleGame/ExampleGame-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
