@@ -277,6 +277,11 @@ void GameGrid::AddGridZone(ObjectIdType zoneId) {
 	}
 }
 
+bool GameGrid::ZoneExistsOnGrid(ObjectIdType zoneId) {
+	auto iter = std::find(this->gridZones.begin(), this->gridZones.end(), zoneId);
+	return (iter != this->gridZones.end());
+}
+
 GridZone* GameGrid::GetZone(int x, int z) {
 	GridCell* cell = GetCell(x, z);
 	return GetZone(cell);

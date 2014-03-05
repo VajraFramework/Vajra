@@ -58,6 +58,7 @@ public:
 	glm::vec3 GetRoomCenter(GridCell* cell);
 
 	void AddGridZone(ObjectIdType zoneId);
+	bool ZoneExistsOnGrid(ObjectIdType zoneId);
 
 	GridZone* GetZone(int gridX, int gridZ);     // Returns the first zone the cell at the specified coordinates resides in
 	GridZone* GetZone(glm::vec3 worldPosition);  // Returns the first zone the cell at the specified world position resides in
