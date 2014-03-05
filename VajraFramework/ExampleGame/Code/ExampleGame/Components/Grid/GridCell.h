@@ -23,6 +23,12 @@ public:
 	void SetFirstOccupantId(ObjectIdType id);
 	void SetOccupantIdAtElevation(ObjectIdType id, int elevation);
 
+	void AddZoneToCell(ObjectIdType id);
+	void RemoveZoneFromCell(ObjectIdType id);
+
+	ObjectIdType GetFirstZoneId();
+	void GetZoneIds(std::list<ObjectIdType>& ids);
+
 	int x; // Grid cell coordinate x
 	int y; // Ground level elevation
 	int z; // Grid cell coordinate z
@@ -30,6 +36,7 @@ public:
 	glm::vec3 center; // Center of the cell in world coordinates
 	ObjectIdType unitIds[NUM_ELEVATIONS];    // units occupying the cell at each elevation
 	std::vector<ObjectIdType> staticObjs;    // list of static object IDs that occupy the cell
+	std::list<ObjectIdType> zones;           // List of GridZones that touch this cell
 
 	/*
 	? Vision blocking

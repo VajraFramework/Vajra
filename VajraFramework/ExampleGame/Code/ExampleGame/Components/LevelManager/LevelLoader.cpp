@@ -345,6 +345,11 @@ void LevelLoader::loadOtherDataFromXml(XmlNode* otherDataNode) {
 			compNode = compNode->GetNextSiblingByNodeName(COMPONENT_TAG);
 		}
 
+		GridZone* zone = dynamicObj->GetComponent<GridZone>();
+		if (zone != nullptr) {
+			SINGLETONS->GetGridManager()->placeZoneOnGrid(dynamicObj->GetId());//GetGrid()->AddGridZone(dynamicObj->GetId());
+		}
+
 		dynamicObjNode = dynamicObjNode->GetNextSiblingByNodeName(DYNAMIC_OBJECT_TAG);
 	}
 
