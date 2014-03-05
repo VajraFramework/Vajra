@@ -120,7 +120,7 @@ void Thief::startSpecial() {
 									  this->targetedCell->center,
 									  jumpTweenTime,
 									  false,
-									  TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA, 
+									  INTERPOLATION_TYPE_PARABOLA,
 									  false,
 									  thiefTweenCallback);
  

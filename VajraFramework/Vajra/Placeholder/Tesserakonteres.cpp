@@ -126,7 +126,7 @@ namespace Tesserakonteres {
 
 		MessageData1S1I1F* userParams = new MessageData1S1I1F();
 		userParams->i = 9001;
-		ENGINE->GetTween()->TweenToNumber(-20.0f, 20.0f, 20.0f, true, true, true, "numbertween", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, tweenNumberCallback);
+		ENGINE->GetTween()->TweenToNumber(-20.0f, 20.0f, 20.0f, INTERPOLATION_TYPE_LINEAR, true, true, true, "numbertween", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, tweenNumberCallback);
 
 		FRAMEWORK->GetLogger()->dbglog("\nDone loading game objects for the scene");
 	}

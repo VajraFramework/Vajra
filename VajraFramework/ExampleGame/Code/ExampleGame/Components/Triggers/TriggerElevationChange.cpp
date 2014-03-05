@@ -201,7 +201,7 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 			finalPosition,
 			tweenTime,
 			true,
-			TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+			INTERPOLATION_TYPE_LINEAR,
 			false,
 			elevationChangeTweenCallback
 		);
@@ -225,7 +225,7 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 				finalPosition,
 				tweenTime,
 				true,
-				TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+				INTERPOLATION_TYPE_LINEAR,
 				false,
 				elevationChangeTweenCallback
 			);

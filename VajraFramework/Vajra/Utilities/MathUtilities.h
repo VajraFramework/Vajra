@@ -50,10 +50,44 @@ glm::vec3 QuaternionUpVector(glm::quat q);
 glm::vec3 QuaternionForwardVector(glm::quat q);
 
 // Interpolation Functions:
+enum InterpolationType_t {
+	INTERPOLATION_TYPE_LINEAR,
+	INTERPOLATION_TYPE_CUBIC,
+	INTERPOLATION_TYPE_CUBIC_INVERSE,           // Doesn't work yet, don't use >.<
+	INTERPOLATION_TYPE_SINE,
+	INTERPOLATION_TYPE_EXPONENTIAL,
+	INTERPOLATION_TYPE_OVERSHOOT,
+	INTERPOLATION_TYPE_PARABOLA,
+	//
+	INTERPOLATION_TYPE_NUM_INTERPOLATION_TYPES,
+};
+
 void lerp(float& destination, const float a, const float b, const float interp);
+void cubicerp        (float& destination, const float a, const float b, float interp, const float totalTime);
+void cubicinverseerp (float& destination, const float a, const float b, float interp, const float totalTime);
+void sineerp         (float& destination, const float a, const float b, float interp, const float totalTime);
+void exponentialerp  (float& destination, const float a, const float b, float interp, const float totalTime);
+void overshooterp    (float& destination, const float a, const float b, float interp, const float totalTime);
+//
 void slerp(glm::quat& destination, const glm::quat a, const glm::quat b, float interp);
 void catmullromerp(float& destination, const float p0, const float p1, const float p2, const float p3, const float interp);
-void parabolaerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float parabola_a, const float interp);
+
+// Vector functions
+void lerp            (glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float interp);
+void cubicerp        (glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, float interp, const float totalTime);
+void cubicinverseerp (glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, float interp, const float totalTime);
+void sineerp         (glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, float interp, const float totalTime);
+void exponentialerp  (glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, float interp, const float totalTime);
+void overshooterp    (glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, float interp, const float totalTime);
+void parabolaerp     (glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float parabola_a, const float interp);
+//
+void lerp(glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, const float interp);
+void cubicerp        (glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, float interp, const float totalTime);
+void cubicinverseerp (glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, float interp, const float totalTime);
+void sineerp         (glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, float interp, const float totalTime);
+void exponentialerp  (glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, float interp, const float totalTime);
+void overshooterp    (glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, float interp, const float totalTime);
+void parabolaerp     (glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, const float parabola_a, const float interp);
 
 // Simple intersection
 struct Ray {
@@ -70,9 +104,6 @@ bool rayPlaneIntersection(Ray& ray, Plane& plane, float& dist);
 
 float DistanceFromPlaneToPoint(glm::vec4 plane, glm::vec3 point);
 
-// Vector functions
-void lerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float interp);
-void lerp(glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, const float interp);
 
 inline float square(float number) {
 	return number * number;

@@ -139,7 +139,7 @@ void BaseSwitch::setConditionState(bool state) {
 				userParams = new MessageData1S1I1F();
 				userParams->i = this->GetObject()->GetId();
 				userParams->f = -1.0f;
-				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, this->resetTime, false, false, false, tweenName, NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, baseSwitchNumberTweenCallback);
+				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, this->resetTime, INTERPOLATION_TYPE_LINEAR, false, false, false, tweenName, NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, baseSwitchNumberTweenCallback);
 			}
 			break;
 
@@ -152,7 +152,7 @@ void BaseSwitch::setConditionState(bool state) {
 				userParams = new MessageData1S1I1F();
 				userParams->i = this->GetObject()->GetId();
 				userParams->f = -1.0f;
-				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, this->resetTime, false, false, false, tweenName, NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, baseSwitchNumberTweenCallback);
+				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, this->resetTime, INTERPOLATION_TYPE_LINEAR, false, false, false, tweenName, NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, baseSwitchNumberTweenCallback);
 			}
 			break;
 

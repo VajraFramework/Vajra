@@ -22,11 +22,6 @@ enum TransformTweenTarget {
 	TRANSFORM_TWEEN_TARGET_NUM_TARGETS
 };
 
-enum TweenTranslationCurveType {
-	TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
-	TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA,
-};
-
 enum NumberTweenAffliationSceneGraph {
 	NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D,
 	NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui,
@@ -36,8 +31,8 @@ class Tween : public Object {
 public:
 	~Tween();
 
-	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, bool cancelCurrentTween = true, TweenTranslationCurveType curveType = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
-	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, bool cancelCurrentTween = true, TweenTranslationCurveType curveType = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, bool cancelCurrentTween = true, InterpolationType_t interpolationType = INTERPOLATION_TYPE_LINEAR, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, bool cancelCurrentTween = true, InterpolationType_t interpolationType = INTERPOLATION_TYPE_LINEAR, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 
 	void TweenOrientation(ObjectIdType gameObjectId, glm::quat initialOrientation, glm::quat finalOrientation, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 	void TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientation, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
@@ -45,7 +40,7 @@ public:
 	void TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::vec3 finalScale, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 	void TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 
-	void TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool cancelCurrentTween, bool looping, bool continuousUpdates, std::string tweenName,
+	void TweenToNumber(float fromNumber, float toNumber, float timePeriod, InterpolationType_t interpolationType, bool cancelCurrentTween, bool looping, bool continuousUpdates, std::string tweenName,
 					   NumberTweenAffliationSceneGraph affiliation,
 					   MessageData1S1I1F* userParams,
 					   void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName, MessageData1S1I1F* userParams));
@@ -99,7 +94,7 @@ private:
 														float time,
 														void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName),
 														bool looping,
-														TweenTranslationCurveType curveType = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR);
+														InterpolationType_t interpolationType = INTERPOLATION_TYPE_LINEAR);
 	void createNewTransformTween(ObjectIdType gameObjectId, TransformTweenTarget transformTweenTarget, glm::quat from_q, glm::quat to_q,
 														float time,
 														void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName),
@@ -132,7 +127,8 @@ public:
 	glm::quat current_q;
 
 	TransformTweenTarget tweenTarget;
-	TweenTranslationCurveType curveType;
+
+	InterpolationType_t interpolationType;
 
 	ObjectIdType gameObjectId;
 
@@ -153,6 +149,7 @@ private:
 
 	OnGoingTransformTweenDetails() {
 		this->currentTime = 0.0f;
+		this->interpolationType = INTERPOLATION_TYPE_LINEAR;
 		this->looping = false;
 		this->callback = 0;
 		this->isPaused = false;
@@ -170,9 +167,11 @@ public:
 	float fromNumber;
 	float toNumber;
 	//
-	float currentNumber;
+	float currentTime;
 
 	std::string tweenName;
+
+	InterpolationType_t interpolationType;
 
 	NumberTweenAffliationSceneGraph affiliation;
 
@@ -194,7 +193,8 @@ private:
 	inline void Resume() { this->isPaused = false; }
 
 	OnGoingNumberTweenDetails() {
-		this->totalTime = this->fromNumber = this->toNumber = this->currentNumber = 0.0f;
+		this->totalTime = this->fromNumber = this->toNumber = this->currentTime = 0.0f;
+		this->interpolationType = INTERPOLATION_TYPE_LINEAR;
 		this->continuousUpdates = false;
 		this->looping = false;
 		this->callback = 0;

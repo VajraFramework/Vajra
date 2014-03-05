@@ -27,7 +27,7 @@ void Tween::createNewTransformTween(ObjectIdType gameObjectId, TransformTweenTar
 		glm::vec3 from_v, glm::vec3 to_v, float time,
 		void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName),
 		bool looping,
-		TweenTranslationCurveType curveType) {
+		InterpolationType_t interpolationType) {
 	OnGoingTransformTweenDetails* newTransformTweenDetails = new OnGoingTransformTweenDetails();
 	newTransformTweenDetails->tweenTarget  = transformTweenTarget;
 	newTransformTweenDetails->from_v       = from_v;
@@ -36,7 +36,7 @@ void Tween::createNewTransformTween(ObjectIdType gameObjectId, TransformTweenTar
 	newTransformTweenDetails->callback     = callback;
 	newTransformTweenDetails->looping      = looping;
 	newTransformTweenDetails->gameObjectId = gameObjectId;
-	newTransformTweenDetails->curveType    = curveType;
+	newTransformTweenDetails->interpolationType    = interpolationType;
 	newTransformTweenDetails->totalTime    = time;
 	ASSERT(time != 0, "TimePeriod to tween over is not zero");
 
@@ -68,14 +68,14 @@ void Tween::createNewTransformTween(ObjectIdType gameObjectId, TransformTweenTar
 	}
 }
 
-void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, bool cancelCurrentTween /* = true */, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, bool cancelCurrentTween /* = true */, InterpolationType_t interpolationType /* = INTERPOLATION_TYPE_LINEAR */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
-		this->TweenPosition(gameObjectId, gameObject->GetTransform()->GetPosition(), finalPosition, time, cancelCurrentTween, curveType, looping, callback);
+		this->TweenPosition(gameObjectId, gameObject->GetTransform()->GetPosition(), finalPosition, time, cancelCurrentTween, interpolationType, looping, callback);
 	}
 }
 
-void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, bool cancelCurrentTween /* = true */, TweenTranslationCurveType curveType /* = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
+void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, bool cancelCurrentTween /* = true */, InterpolationType_t interpolationType /* = INTERPOLATION_TYPE_LINEAR */, bool looping /* = false */, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName)) {
 	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	if (gameObject != nullptr) {
 		if (this->IsTweening_transform(gameObjectId, TRANSFORM_TWEEN_TARGET_POSITION)) {
@@ -88,7 +88,7 @@ void Tween::TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, 
 			}
 		}
 
-		this->createNewTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_POSITION, initialPosition, finalPosition, time, callback, looping, curveType);
+		this->createNewTransformTween(gameObjectId, TRANSFORM_TWEEN_TARGET_POSITION, initialPosition, finalPosition, time, callback, looping, interpolationType);
 
 	} else {
 		FRAMEWORK->GetLogger()->dbglog("\nTrying to tween null GameObject");
@@ -151,7 +151,7 @@ void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::v
 	}
 }
 
-void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool cancelCurrentTween, bool looping, bool continuousUpdates, std::string tweenName,
+void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, InterpolationType_t interpolationType, bool cancelCurrentTween, bool looping, bool continuousUpdates, std::string tweenName,
 						  NumberTweenAffliationSceneGraph affiliation,
 						  MessageData1S1I1F* userParams,
 						  void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName, MessageData1S1I1F* userParams)) {
@@ -172,9 +172,10 @@ void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bo
 	}
 	ASSERT(newNumberTween != nullptr, "Number tween not nullptr");
 	newNumberTween->fromNumber                = fromNumber;
-	newNumberTween->currentNumber             = fromNumber;
 	newNumberTween->toNumber                  = toNumber;
+	newNumberTween->currentTime               = 0.0f;
 	newNumberTween->totalTime                 = timePeriod;
+	newNumberTween->interpolationType         = interpolationType;
 	newNumberTween->affiliation               = affiliation;
 	newNumberTween->callback                  = callback;
 	newNumberTween->userParams                = userParams;
@@ -427,7 +428,7 @@ void OnGoingTransformTweenDetails::ResetTween() {
 }
 
 void OnGoingNumberTweenDetails::ResetTween() {
-	this->currentNumber = this->fromNumber;
+	this->currentTime = 0.0f;
 }
 
 
@@ -450,10 +451,24 @@ bool OnGoingTransformTweenDetails::StepTween(float deltaTime) {
 
 		switch (this->tweenTarget) {
 		case TRANSFORM_TWEEN_TARGET_POSITION: {
-			if (this->curveType == TWEEN_TRANSLATION_CURVE_TYPE_LINEAR) {
-				lerp(this->current_v, this->from_v, this->to_v, interp);
-			} else if (this->curveType == TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA) {
-				parabolaerp(this->current_v, this->from_v, this->to_v, TWEEN_PARABOLA_a, interp);
+
+			switch (this->interpolationType) {
+			case INTERPOLATION_TYPE_LINEAR:
+				lerp(this->current_v, this->from_v, this->to_v, interp); break;
+			case INTERPOLATION_TYPE_CUBIC:
+				cubicerp(this->current_v, this->from_v, this->to_v, this->currentTime, totalTime); break;
+			case INTERPOLATION_TYPE_CUBIC_INVERSE:
+				cubicinverseerp(this->current_v, this->from_v, this->to_v, this->currentTime, totalTime); break;
+			case INTERPOLATION_TYPE_SINE:
+				sineerp(this->current_v, this->from_v, this->to_v, this->currentTime, totalTime); break;
+			case INTERPOLATION_TYPE_EXPONENTIAL:
+				exponentialerp(this->current_v, this->from_v, this->to_v, this->currentTime, totalTime); break;
+			case INTERPOLATION_TYPE_OVERSHOOT:
+				overshooterp(this->current_v, this->from_v, this->to_v, this->currentTime, totalTime); break;
+			case INTERPOLATION_TYPE_PARABOLA:
+				parabolaerp(this->current_v, this->from_v, this->to_v, TWEEN_PARABOLA_a, interp); break;
+			default:
+				ASSERT(0, "Valid interpolation type, %d", this->interpolationType); break;
 			}
 			transform->SetPosition(this->current_v);
 		} break;
@@ -464,7 +479,24 @@ bool OnGoingTransformTweenDetails::StepTween(float deltaTime) {
 		} break;
 
 		case TRANSFORM_TWEEN_TARGET_SCALE: {
-			lerp(this->current_v, this->from_v, this->to_v, interp);
+			switch (this->interpolationType) {
+			case INTERPOLATION_TYPE_LINEAR:
+				lerp(this->current_v, this->from_v, this->to_v, interp); break;
+			case INTERPOLATION_TYPE_CUBIC:
+				cubicerp(this->current_v, this->from_v, this->to_v, this->currentTime, totalTime); break;
+			case INTERPOLATION_TYPE_CUBIC_INVERSE:
+				cubicinverseerp(this->current_v, this->from_v, this->to_v, this->currentTime, totalTime); break;
+			case INTERPOLATION_TYPE_SINE:
+				sineerp(this->current_v, this->from_v, this->to_v, this->currentTime, totalTime); break;
+			case INTERPOLATION_TYPE_EXPONENTIAL:
+				exponentialerp(this->current_v, this->from_v, this->to_v, this->currentTime, totalTime); break;
+			case INTERPOLATION_TYPE_OVERSHOOT:
+				overshooterp(this->current_v, this->from_v, this->to_v, this->currentTime, totalTime); break;
+			case INTERPOLATION_TYPE_PARABOLA:
+				ASSERT(0, "Valid interpolation type, %d (no _PARABOLA for scale tween)", this->interpolationType); break;
+			default:
+				ASSERT(0, "Valid interpolation type, %d", this->interpolationType); break;
+			}
 			transform->SetScale(this->current_v);
 		} break;
 
@@ -500,15 +532,36 @@ bool OnGoingNumberTweenDetails::StepTween(float deltaTime) {
 		return true;
 	}
 
-	float newNumber = this->currentNumber + deltaTime * (this->toNumber - this->fromNumber) / this->totalTime;
-	this->currentNumber = newNumber;
-	if (newNumber > this->toNumber || this->continuousUpdates) {
+	// float newNumber = this->currentNumber + deltaTime * (this->toNumber - this->fromNumber) / this->totalTime;
+	float newNumber;
+
+	switch (this->interpolationType) {
+	case INTERPOLATION_TYPE_LINEAR:
+		lerp(newNumber, this->fromNumber, this->toNumber, this->currentTime); break;
+	case INTERPOLATION_TYPE_CUBIC:
+		cubicerp(newNumber, this->fromNumber, this->toNumber, this->currentTime, this->totalTime); break;
+	case INTERPOLATION_TYPE_CUBIC_INVERSE:
+		cubicinverseerp(newNumber, this->fromNumber, this->toNumber, this->currentTime, this->totalTime); break;
+	case INTERPOLATION_TYPE_SINE:
+		sineerp(newNumber, this->fromNumber, this->toNumber, this->currentTime, this->totalTime); break;
+	case INTERPOLATION_TYPE_EXPONENTIAL:
+		exponentialerp(newNumber, this->fromNumber, this->toNumber, this->currentTime, this->totalTime); break;
+	case INTERPOLATION_TYPE_OVERSHOOT:
+		overshooterp(newNumber, this->fromNumber, this->toNumber, this->currentTime, this->totalTime); break;
+	case INTERPOLATION_TYPE_PARABOLA:
+		ASSERT(0, "Valid interpolation type, %d -- _PARABOLA not implemented for pure number tweens", this->interpolationType); break;
+	default:
+		ASSERT(0, "Valid interpolation type, %d", this->interpolationType); break;
+	}
+
+	this->currentTime += deltaTime;
+	if (this->currentTime > this->totalTime || this->continuousUpdates) {
 		ASSERT(this->callback != 0, "Callback not 0");
 		clamp(newNumber, this->fromNumber, this->toNumber);
 		this->callback(this->fromNumber, this->toNumber, newNumber, this->tweenName, this->userParams);
 	}
 
-	if (newNumber >= this->toNumber) {
+	if (this->currentTime >= this->totalTime) {
 		if (this->looping) {
 			this->ResetTween();
 		} else {

@@ -46,7 +46,7 @@ void MenuManager::HandleMessage(MessageChunk messageChunk) {
 				float loadTime = ((float)ENGINE->GetTimer()->GetHighResAbsoluteTime()) - this->loadStartTime;
 				if(loadTime < GetFloatGameConstant(GAME_CONSTANT_min_load_time)) {
 					float extraLoadTime = GetFloatGameConstant(GAME_CONSTANT_min_load_time) - loadTime;
-					ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, extraLoadTime, false, false, false, "extraLoadTime", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
+					ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, extraLoadTime, INTERPOLATION_TYPE_LINEAR, false, false, false, "extraLoadTime", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
 				} else {
 					this->hideLoadScreen();
 				}
