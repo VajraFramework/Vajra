@@ -136,11 +136,11 @@ void Assassin::startSpecial() {
 	
 	//this->gridNavRef->SetMovementSpeed(GetFloatGameConstant(GAME_CONSTANT_assassin_attack_speed));
 	//this->gridNavRef->SetDestination(this->targetedCell, true);
-	float tweenTime = glm::distance(this->gameObjectRef->GetTransform()->GetPosition(), this->targetLoc) / GetFloatGameConstant(GAME_CONSTANT_assassin_attack_speed);
+	float tweenTime = glm::distance(this->gameObjectRef->GetTransform()->GetPositionWorld(), this->targetLoc) / GetFloatGameConstant(GAME_CONSTANT_assassin_attack_speed);
 	ASSERT(tweenTime > 0, "tweenTime is greater than zero");
-	this->lastHitCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPosition());
+	this->lastHitCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld());
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
-									  this->gameObjectRef->GetTransform()->GetPosition(),
+									  this->gameObjectRef->GetTransform()->GetPositionWorld(),
 									  this->targetLoc,
 									  tweenTime,
 									  false,
@@ -162,8 +162,8 @@ void Assassin::onSpecialEnd() {
 	this->arrowTail->SetVisible(false);
 	this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
 	//this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
-	//this->gridNavRef->SetGridPosition(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPosition()));
-	//(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPosition()));
+	//this->gridNavRef->SetGridPosition(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
+	//(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
 	//this->gameObjectRef->GetTransform()->SetPosition(this->targetLoc);
 }
 
@@ -197,7 +197,7 @@ void Assassin::onGridCellChanged(ObjectIdType id, int gridX, int gridZ) {
 
 void Assassin::aimSpecial(int touchId){
 	this->targetLoc = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(ENGINE->GetInput()->GetTouch(touchId).pos, this->gridNavRef->GetCurrentCell()->y);
-	glm::vec3 sinPos = this->gameObjectRef->GetTransform()->GetPosition();
+	glm::vec3 sinPos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 	
 	std::list<GridCell*> touchedCells;
 	GridCell* touchedCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->targetLoc);
@@ -207,7 +207,7 @@ void Assassin::aimSpecial(int touchId){
 	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(this->gridNavRef->GetCurrentCell()->center.y);
 	int cellIndex = 0;
 	for( GridCell* c : touchedCells) {
-		if(glm::distance(c->center, sinPos) <= GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units) && SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, elevation)) {
+		if(SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, elevation)) {
 			this->targetedCell = c;
 		} else {
 			break;
@@ -227,7 +227,14 @@ void Assassin::aimSpecial(int touchId){
 			}
 		}
 
-		float dist = glm::distance(sinPos, this->targetLoc) - 1.5f;
+		float dist = glm::distance(sinPos, this->targetLoc);
+		if(dist > GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units)) {
+			dist = GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units);
+			this->targetLoc = sinPos + (attackDir *  dist);
+			touchedCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->targetLoc);
+		}
+
+		dist -= 1.5f; // shorten dist so arrow heads are in the right spot
 		if(dist < 0.5f) {
 			this->arrowTail->SetVisible(false);
 		}
@@ -261,7 +268,7 @@ void Assassin::aimSpecial(int touchId){
 }
 
 void Assassin::specialUpdate() {
-	GridCell* currentCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPosition());
+	GridCell* currentCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld());
 	if(currentCell != this->lastHitCell) {
 		std::list<GridCell*> touchedCells;
 		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->lastHitCell, currentCell, touchedCells);
