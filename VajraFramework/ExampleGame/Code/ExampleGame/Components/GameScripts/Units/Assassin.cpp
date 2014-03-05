@@ -136,18 +136,20 @@ void Assassin::startSpecial() {
 	
 	//this->gridNavRef->SetMovementSpeed(GetFloatGameConstant(GAME_CONSTANT_assassin_attack_speed));
 	//this->gridNavRef->SetDestination(this->targetedCell, true);
+	float tweenTime = glm::distance(this->gameObjectRef->GetTransform()->GetPosition(), this->targetLoc) / GetFloatGameConstant(GAME_CONSTANT_assassin_attack_speed);
+	ASSERT(tweenTime > 0, "tweenTime is greater than zero");
 	this->lastHitCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPosition());
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
 									  this->gameObjectRef->GetTransform()->GetPosition(),
 									  this->targetLoc,
-									  .5f,
+									  tweenTime,
 									  false,
 									  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
 									  false,
 									  assassinTweenCallback);
 	MessageData1S1I1F* userParams = new MessageData1S1I1F();
  	userParams->i = this->GetObject()->GetId();
-	ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, .5f, true, false, true, "dash", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, assassinNumberTweenCallback);
+	ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, tweenTime, true, false, true, "dash", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, assassinNumberTweenCallback);
 	
 	this->startTouchIndicatorPulse();
 	this->arrowHead->SetVisible(false);
