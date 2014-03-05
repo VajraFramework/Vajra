@@ -44,7 +44,11 @@ private:
 	GridCell* targetedCell;
 	glm::vec3 targetLoc;
 
+	GridCell* lastHitCell;
+	void specialUpdate();
+
 	friend void assassinTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
+	friend void assassinNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* userParams);
 	
 };
 

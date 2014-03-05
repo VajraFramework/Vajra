@@ -7,6 +7,7 @@
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 
+#include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -24,10 +25,23 @@ void assassinTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipN
 		Assassin* pUnit = go->GetComponent<Assassin>();
 		ASSERT(pUnit != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
 		if(pUnit != nullptr) {
+			pUnit->specialUpdate(); // make sure we hit everything we got in the last frame
 			pUnit->onSpecialEnd();
 		}
 	}
 	
+}
+
+void assassinNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* userParams) {
+	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
+	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
+	if(go != nullptr) {
+		Assassin* pUnit = go->GetComponent<Assassin>();
+		ASSERT(pUnit != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
+		if(pUnit != nullptr) {
+			pUnit->specialUpdate();
+		}
+	}
 }
 
 Assassin::Assassin() : PlayerUnit() {
@@ -123,7 +137,7 @@ void Assassin::startSpecial() {
 	
 	//this->gridNavRef->SetMovementSpeed(GetFloatGameConstant(GAME_CONSTANT_assassin_attack_speed));
 	//this->gridNavRef->SetDestination(this->targetedCell, true);
-	
+	this->lastHitCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPosition());
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
 									  this->gameObjectRef->GetTransform()->GetPosition(),
 									  this->targetLoc,
@@ -132,7 +146,10 @@ void Assassin::startSpecial() {
 									  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
 									  false,
 									  assassinTweenCallback);
-	//ENGINE->GetTween()->TweeNumber()-
+	MessageData1S1I1F* userParams = new MessageData1S1I1F();
+ 	userParams->i = this->GetObject()->GetId();
+	ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, .5f, true, false, true, "dash", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, assassinNumberTweenCallback);
+	
 	this->startTouchIndicatorPulse();
 	this->arrowHead->SetVisible(false);
 	this->arrowTail->SetVisible(false);
@@ -143,7 +160,9 @@ void Assassin::onSpecialEnd() {
 	this->arrowHead->SetVisible(false);
 	this->arrowTail->SetVisible(false);
 	//this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
-	this->gridNavRef->SetGridPosition(this->targetedCell);(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPosition()));
+	this->gridNavRef->SetGridPosition(this->targetedCell);
+	//(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPosition()));
+	this->gameObjectRef->GetTransform()->SetPosition(this->targetLoc);
 }
 
 void Assassin::cancelSpecial() {
@@ -240,5 +259,23 @@ void Assassin::aimSpecial(int touchId){
 		this->SetTouchIndicatorVisible(false);
 		this->arrowHead->SetVisible(false);
 		this->arrowTail->SetVisible(false);
+	}
+}
+
+void Assassin::specialUpdate() {
+	GridCell* currentCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPosition());
+	if(currentCell != this->lastHitCell) {
+		std::list<GridCell*> touchedCells;
+		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->lastHitCell, currentCell, touchedCells);
+		for( GridCell* c : touchedCells) {
+			MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
+			attackMessage->messageData.iv1.x = c->x;
+			attackMessage->messageData.iv1.y = c->y;
+			attackMessage->messageData.iv1.z = c->z;
+			//attackMessage->messageData.fv1 = this->specialStartPos;
+			ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
+		}
+		this->lastHitCell = currentCell;
 	}
 }
