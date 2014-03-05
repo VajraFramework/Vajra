@@ -138,7 +138,7 @@ void Assassin::startSpecial() {
 	//this->gridNavRef->SetDestination(this->targetedCell, true);
 	float tweenTime = glm::distance(this->gameObjectRef->GetTransform()->GetPositionWorld(), this->targetLoc) / GetFloatGameConstant(GAME_CONSTANT_assassin_attack_speed);
 	ASSERT(tweenTime > 0, "tweenTime is greater than zero");
-	this->lastHitCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld());
+	this->lastHitCell = this->gridNavRef->GetCurrentCell();
 	this->specialStartPos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
 									  this->gameObjectRef->GetTransform()->GetPositionWorld(),
@@ -273,6 +273,7 @@ void Assassin::specialUpdate() {
 	GridCell* currentCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld());
 	if(currentCell != this->lastHitCell) {
 		std::list<GridCell*> touchedCells;
+		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->lastHitCell, currentCell, touchedCells);
 		SINGLETONS->GetGridManager()->CheckZoneCollisions(this->GetObject()->GetId(), this->lastHitCell, currentCell);
 		for( GridCell* c : touchedCells) {
 			if(this->lastHitCell != c) {
