@@ -75,6 +75,7 @@ private:
 
 	void placeStaticObjectOnGrid(ObjectIdType id, int westBound, int southBound, int width, int height);
 	void placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ);
+	void placeZoneOnGrid(ObjectIdType id);
 	void gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ, int elevation);
 	void removeNavigatorFromGrid(ObjectIdType id, int elevation);
 	bool checkUnitCollisions(ObjectIdType id, GridCell* destCell, int elevation);
