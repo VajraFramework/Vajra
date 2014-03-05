@@ -63,6 +63,7 @@ void Assassin::init() {
 		// create the arrow tail
 		this->arrowTail = new GameObject(ENGINE->GetSceneGraph3D());
 		SpriteRenderer* spriteRenderer = this->arrowTail->AddComponent<SpriteRenderer>();
+		spriteRenderer->SetHasTransperancy(true);
 		std::vector<std::string> pathsToTextures;
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_ArrowStem_magenta_02.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
@@ -73,6 +74,7 @@ void Assassin::init() {
 		// create the arrow head
 		this->arrowHead = new GameObject(ENGINE->GetSceneGraph3D());
 		SpriteRenderer* spriteRenderer = this->arrowHead->AddComponent<SpriteRenderer>();
+		spriteRenderer->SetHasTransperancy(true);
 		std::vector<std::string> pathsToTextures;
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_Arrow_magenta_03.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);

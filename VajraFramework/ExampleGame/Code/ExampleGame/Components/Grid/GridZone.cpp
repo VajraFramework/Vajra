@@ -279,6 +279,7 @@ void GridZone::Visualize(bool shouldVisualize, std::string imageName, bool displ
 			SpriteRenderer* spriteRenderer = this->visualizerObjectRef->GetComponent<SpriteRenderer>();
 			if (spriteRenderer == nullptr) {
 				spriteRenderer = this->visualizerObjectRef->AddComponent<SpriteRenderer>();
+				spriteRenderer->SetHasTransperancy(true);
 				std::vector<std::string> pathsToTextures;
 				pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + imageName);
 				spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
