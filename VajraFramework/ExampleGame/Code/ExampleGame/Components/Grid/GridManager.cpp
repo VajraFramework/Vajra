@@ -88,10 +88,6 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
 			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z, messageChunk->messageData.iv1.y);
 			break;
-		case MESSAGE_TYPE_GRID_ZONE_BOUNDS_CHANGED:
-			gridZoneBoundsChangedHandler(messageChunk->GetSenderId(), (int)messageChunk->messageData.fv1.x, (int)messageChunk->messageData.fv2.x,
-										 (int)messageChunk->messageData.fv1.z, (int)messageChunk->messageData.fv2.z);
-			break;
 		case MESSAGE_TYPE_UNIT_KILLED:
 			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.iv1.y);
 			break;
