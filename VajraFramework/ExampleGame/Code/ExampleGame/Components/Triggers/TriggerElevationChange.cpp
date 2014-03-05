@@ -2,7 +2,7 @@
 //  TriggerElevationChange.cpp
 //  Created by Matt Kaufmann on 02/15/14.
 //
-
+#include "ExampleGame/Components/GameScripts/Units/Assassin.h"
 #include "ExampleGame/Components/Grid/GameGrid.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
@@ -172,7 +172,11 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 			if (gObj != nullptr) {
 
 				this->gameObjectRef->AddChild_maintainTransform(gObj->GetId());
-
+				
+				if(gObj->GetComponent<Assassin>()) {
+					gObj->GetComponent<Assassin>()->stopSpecial();
+				}
+				
 				// If it's a unit that's moving, stop it:
 				GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
 				if (gNav != nullptr) {
