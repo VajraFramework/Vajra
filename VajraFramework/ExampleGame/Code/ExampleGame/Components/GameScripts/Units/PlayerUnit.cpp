@@ -262,7 +262,7 @@ void PlayerUnit::GridPlaneLookAt(GameObject* plane, GridCell* target) {
 
 void PlayerUnit::GridPlaneLookAt(GameObject* plane, glm::vec3 target) {
 	Transform* trans = plane->GetComponent<Transform>();
-	glm::vec3 direction = target - this->gridNavRef->GetCurrentCell()->center;
+	glm::vec3 direction = target - this->gameObjectRef->GetTransform()->GetPosition();
 	direction = glm::normalize(direction);
 	float angle = acos(glm::dot(direction, ZAXIS));
 	

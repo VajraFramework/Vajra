@@ -66,7 +66,6 @@ void Assassin::init() {
 		std::vector<std::string> pathsToTextures;
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_ArrowStem_magenta_02.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
-		this->arrowTail->GetTransform()->SetScale( glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)));
 		this->arrowTail->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 		this->arrowTail->SetVisible(false);
 	}
@@ -210,52 +209,45 @@ void Assassin::aimSpecial(int touchId){
 		}
 		cellIndex++;
 	}
+
+	// if there is a legal target
 	if(this->targetedCell != nullptr && touchedCell != nullptr && this->targetedCell != this->gridNavRef->GetCurrentCell()) {
 		glm::vec3 attackDir = glm::normalize(this->targetLoc - sinPos);
 		if(touchedCell != this->targetedCell) {
-			glm::vec3 temp = this->targetLoc;
-			GridCell* tempCell = touchedCell;
+			// if the touched cell is obstructed move back along the path until the target is reachable
 			float dis = glm::distance(sinPos, this->targetedCell->center);
-			while(tempCell != this->targetedCell && glm::distance(sinPos, temp) > dis) {
-				temp -= attackDir * .1f;
-				tempCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(temp);
+			while(touchedCell != this->targetedCell && glm::distance(sinPos, this->targetLoc) > dis) {
+				this->targetLoc -= attackDir * .1f;
+				touchedCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->targetLoc);
 			}
-			this->targetLoc = temp;
-			touchedCell = tempCell;
-
 		}
-		this->SetTouchIndicatorVisible(true);
-		this->gridNavRef->SetLookTarget(this->targetLoc);
 
-		// Arrow Tail
-		this->arrowTail->SetVisible(true);
-		this->SetTouchIndicatorLocation(this->targetLoc);
-		this->TouchIndicatorLookAt(targetedCell);
-
-		if(glm::length(attackDir) > GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units)) {
-			this->targetLoc = sinPos + glm::normalize(attackDir) * GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units);
-		}
 		float dist = glm::distance(sinPos, this->targetLoc) - 1.5f;
 		if(dist < 0.5f) {
 			this->arrowTail->SetVisible(false);
 		}
+		// make the sin look at the target
+		this->gridNavRef->SetLookTarget(this->targetLoc);
 
-		this->arrowTail->GetTransform()->SetScale(1.0f, dist, 1.0f);
+		// the yOffset the indicators should have
 		float yOffset = touchedCell->y * 0.05 + .01f;
 
-		Transform* trans = this->arrowTail->GetComponent<Transform>();
+		// touch indicator
+		this->SetTouchIndicatorVisible(true);
+		this->SetTouchIndicatorLocation(this->targetLoc + yOffset);
+
+		// Arrow Tail
+		this->arrowTail->SetVisible(true);
 		this->GridPlaneLookAt(this->arrowTail, this->targetLoc);
-
-		trans->SetPosition(sinPos + glm::vec3(0.0f, yOffset, 0.0f));
-		trans->Translate(dist * .5f, attackDir);
-
+		this->arrowTail->GetTransform()->SetScale(1.0f, dist, 1.0f);
+		this->arrowTail->GetComponent<Transform>()->SetPosition(sinPos + glm::vec3(0.0f, yOffset, 0.0f));
+		this->arrowTail->GetComponent<Transform>()->Translate(dist * .5f, this->arrowTail->GetComponent<Transform>()->GetUp());
+		
 		// Arrow Head
 		this->arrowHead->SetVisible(true);
 		this->GridPlaneLookAt(this->arrowHead, this->targetLoc);
 		this->arrowHead->GetTransform()->SetPosition(sinPos + glm::vec3(0.0f, yOffset, 0.0f));
-		this->arrowHead->GetTransform()->Translate(dist + .5f, attackDir);
-		
-
+		this->arrowHead->GetTransform()->Translate(dist + .5f, this->arrowHead->GetComponent<Transform>()->GetUp());		
 	} else {
 		this->SetTouchIndicatorVisible(false);
 		this->arrowHead->SetVisible(false);
