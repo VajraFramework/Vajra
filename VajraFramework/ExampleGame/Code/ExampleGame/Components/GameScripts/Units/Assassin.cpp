@@ -262,14 +262,18 @@ void Assassin::specialUpdate() {
 	if(currentCell != this->lastHitCell) {
 		std::list<GridCell*> touchedCells;
 		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->lastHitCell, currentCell, touchedCells);
+		SINGLETONS->GetGridManager()->CheckZoneCollisions(this->GetObject()->GetId(), this->lastHitCell, currentCell);
 		for( GridCell* c : touchedCells) {
-			MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-			attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
-			attackMessage->messageData.iv1.x = c->x;
-			attackMessage->messageData.iv1.y = c->y;
-			attackMessage->messageData.iv1.z = c->z;
-			//attackMessage->messageData.fv1 = this->specialStartPos;
-			ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
+			if(this->lastHitCell != c) {
+				// Attack the cell	
+				MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+				attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
+				attackMessage->messageData.iv1.x = c->x;
+				attackMessage->messageData.iv1.y = c->y;
+				attackMessage->messageData.iv1.z = c->z;
+				//attackMessage->messageData.fv1 = this->specialStartPos;
+				ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
+			}
 		}
 		this->lastHitCell = currentCell;
 	}
