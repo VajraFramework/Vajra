@@ -44,6 +44,7 @@ void Renderer::init() {
 	}
 
 	this->hasTransperancy = false;
+	this->isOverlay       = false;
 }
 
 void Renderer::destroy() {

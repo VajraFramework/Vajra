@@ -29,6 +29,9 @@ public:
 	inline void SetShaderName(std::string shaderName_) { this->shaderName = shaderName_; }
 
 	inline bool HasTransperancy()                         { return this->hasTransperancy;             }
+	inline bool IsOverlay()                               { return this->isOverlay;                   }
+
+	inline void SetIsOverlay      (bool isOverlay_)       { this->isOverlay = isOverlay_;             }
 
 protected:
 	void addToRenderList();
@@ -44,6 +47,7 @@ private:
 
 	std::string shaderName;
 	bool hasTransperancy;
+	bool isOverlay;
 };
 
 #endif // RENDERER_H
