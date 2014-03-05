@@ -149,7 +149,7 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 
 	HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration heap_gameobjectsWithTransperancy_out(CompareTrGos);
 	if (camera != nullptr) {
-		g_current_cameraPosition = ((GameObject*)camera->GetObject())->GetTransform()->GetPosition();
+		g_current_cameraPosition = ((GameObject*)camera->GetObject())->GetTransform()->GetPositionWorld();
 	}
 
 	glm::vec3 left_bottom;
@@ -182,27 +182,34 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 	/*
 	 * Now, render all the transperant game objects in the order of decreasing distance from the camera
 	 */
+	{
+		// Also switch off WRITING to the depth buffer for drawing transperant objects:
+		glDepthMask(GL_FALSE);
 
-	while (!heap_gameobjectsWithTransperancy_out.empty()) {
-		TrGo trgo = heap_gameobjectsWithTransperancy_out.top();
+		while (!heap_gameobjectsWithTransperancy_out.empty()) {
+			TrGo trgo = heap_gameobjectsWithTransperancy_out.top();
 
-		trgo.renderlist->Prepare();
+			trgo.renderlist->Prepare();
 
-		if (camera != nullptr) {
-			g_current_camera = camera;
-			camera->WriteLookAt();
+			if (camera != nullptr) {
+				g_current_camera = camera;
+				camera->WriteLookAt();
+			}
+			if (directionalLight != nullptr) {
+				directionalLight->WriteLightPropertiesToShader();
+			}
+			for (DirectionalLight* additionalLight : additionalLights) {
+				// TODO [Cleanup] Change additionalLight->WriteLightStuff() to use messages sent to additionalLight instead, maybe
+				additionalLight->WriteLightPropertiesToShader();
+			}
+
+			trgo.renderlist->Draw_one_gameobject(trgo.gameobject);
+
+			heap_gameobjectsWithTransperancy_out.pop();
 		}
-		if (directionalLight != nullptr) {
-			directionalLight->WriteLightPropertiesToShader();
-		}
-		for (DirectionalLight* additionalLight : additionalLights) {
-			// TODO [Cleanup] Change additionalLight->WriteLightStuff() to use messages sent to additionalLight instead, maybe
-			additionalLight->WriteLightPropertiesToShader();
-		}
 
-		trgo.renderlist->Draw_one_gameobject(trgo.gameobject);
-
-		heap_gameobjectsWithTransperancy_out.pop();
+		// Switch WRITING to the depth buffer back on:
+		glDepthMask(GL_TRUE);
 	}
 }
 

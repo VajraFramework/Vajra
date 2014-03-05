@@ -267,6 +267,7 @@ void Thief::createTargets() {
 	for( GridCell* c : this->legalTargets ) {
 		GameObject* indicator = new GameObject(ENGINE->GetSceneGraph3D());
 		SpriteRenderer* spriteRenderer = indicator->AddComponent<SpriteRenderer>();
+		spriteRenderer->SetHasTransperancy(true);
 		std::vector<std::string> pathsToTextures;
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_cyan.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);

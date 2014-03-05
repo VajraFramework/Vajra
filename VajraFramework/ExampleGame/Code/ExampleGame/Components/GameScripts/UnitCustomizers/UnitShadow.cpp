@@ -33,6 +33,7 @@ void UnitShadow::start() {
 	// Create a little shadow prefab and child it to the parent game object:
 	this->littleShadow = new GameObject(ENGINE->GetSceneGraph3D());
 	SpriteRenderer* spriteRenderer = this->littleShadow->AddComponent<SpriteRenderer>();
+	spriteRenderer->SetHasTransperancy(true);
 	std::vector<std::string> pathsToTextures;
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "littleShadow.png");
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);

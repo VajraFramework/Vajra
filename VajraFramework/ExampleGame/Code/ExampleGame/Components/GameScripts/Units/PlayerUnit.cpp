@@ -58,6 +58,7 @@ void PlayerUnit::init() {
 
 	this->touchIndicatorRef = new GameObject(ENGINE->GetSceneGraph3D());
 	SpriteRenderer* spriteRenderer = this->touchIndicatorRef->AddComponent<SpriteRenderer>();
+	spriteRenderer->SetHasTransperancy(true);
 	std::vector<std::string> pathsToTextures;
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Indicator_03.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Fail_01.png");
@@ -310,7 +311,7 @@ void PlayerUnit::SetTouchIndicatorLocation(GridCell* c) {
 
 void PlayerUnit::SetTouchIndicatorLocation(glm::vec3 target) {
 	this->touchIndicatorRef->GetTransform()->SetPosition(target);
-	this->touchIndicatorRef->GetTransform()->Translate(0.01f , YAXIS);
+	this->touchIndicatorRef->GetTransform()->Translate(0.05f , YAXIS);
 
 }
 
