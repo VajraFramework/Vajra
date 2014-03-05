@@ -241,19 +241,20 @@ void Assassin::aimSpecial(int touchId){
 		}
 
 		this->arrowTail->GetTransform()->SetScale(1.0f, dist, 1.0f);
-	
+		float yOffset = touchedCell->y * 0.05 + .01f;
 
 		Transform* trans = this->arrowTail->GetComponent<Transform>();
 		this->GridPlaneLookAt(this->arrowTail, this->targetLoc);
 
-		trans->SetPosition(sinPos + glm::vec3(0.0f, .1f, 0.0f));
+		trans->SetPosition(sinPos + glm::vec3(0.0f, yOffset, 0.0f));
 		trans->Translate(dist * .5f, attackDir);
 
 		// Arrow Head
 		this->arrowHead->SetVisible(true);
 		this->GridPlaneLookAt(this->arrowHead, this->targetLoc);
-		this->arrowHead->GetTransform()->SetPosition(sinPos + glm::vec3(0.0f, .1f, 0.0f));
+		this->arrowHead->GetTransform()->SetPosition(sinPos + glm::vec3(0.0f, yOffset, 0.0f));
 		this->arrowHead->GetTransform()->Translate(dist + .5f, attackDir);
+		
 
 	} else {
 		this->SetTouchIndicatorVisible(false);
