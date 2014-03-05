@@ -45,7 +45,7 @@ public:
 	void TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::vec3 finalScale, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 	void TweenScale(ObjectIdType gameObjectId, glm::vec3 finalScale, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 
-	void TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool cancelCurrentTween, bool looping, bool continuousUpdates, std::string tweenName,
+	void TweenToNumber(float fromNumber, float toNumber, float timePeriod, InterpolationType_t interpolationType, bool cancelCurrentTween, bool looping, bool continuousUpdates, std::string tweenName,
 					   NumberTweenAffliationSceneGraph affiliation,
 					   MessageData1S1I1F* userParams,
 					   void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName, MessageData1S1I1F* userParams));
@@ -170,9 +170,11 @@ public:
 	float fromNumber;
 	float toNumber;
 	//
-	float currentNumber;
+	float currentTime;
 
 	std::string tweenName;
+
+	InterpolationType_t interpolationType;
 
 	NumberTweenAffliationSceneGraph affiliation;
 
@@ -194,7 +196,8 @@ private:
 	inline void Resume() { this->isPaused = false; }
 
 	OnGoingNumberTweenDetails() {
-		this->totalTime = this->fromNumber = this->toNumber = this->currentNumber = 0.0f;
+		this->totalTime = this->fromNumber = this->toNumber = this->currentTime = 0.0f;
+		this->interpolationType = INTERPOLATION_TYPE_LINEAR;
 		this->continuousUpdates = false;
 		this->looping = false;
 		this->callback = 0;

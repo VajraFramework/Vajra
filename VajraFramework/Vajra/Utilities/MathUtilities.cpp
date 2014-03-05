@@ -104,6 +104,52 @@ void lerp(float& destination, const float a, const float b, const float interp) 
 	destination = a * (1 - interp) + b * interp;
 }
 
+void cubicerp(float& destination, const float a, const float b, float interp, const float totalTime) {
+	interp /= (totalTime / 2.0f);
+	if (interp < 1) {
+		destination = (b - a) / 2.0f * interp * interp * interp + a;
+	} else {
+		interp -= 2.0f;
+		destination = (b - a) / 2.0f * (interp * interp * interp + 2.0f) + a;
+	}
+}
+
+void cubicinverseerp(float& destination, const float a, const float b, float interp, const float totalTime) {
+	interp /= (totalTime / 2.0f);
+	if (interp < 1) {
+		interp -= 2.0f;
+		destination = (b - a) / 2.0f * (interp * interp * interp + 2.0f) + a;
+	} else {
+		destination = (b - a) / 2.0f * interp * interp * interp + a;
+	}
+}
+
+void sineerp(float& destination, const float a, const float b, float interp, const float totalTime) {
+	destination = -(b - a) / 2.0f * (cos(PI * interp / totalTime) - 1.0f) + a;
+}
+
+void exponentialerp(float& destination, const float a, const float b, float interp, const float totalTime) {
+	if (interp == 0) { destination = a; return; }
+	if (interp >= totalTime) { destination = b; return; }
+	interp /= (totalTime / 2.0f);
+	if (interp < 1.0f) {
+		destination = (b - a) / 2.0f * pow(2, 10.0f * (interp - 1)) + a;
+	} else {
+		destination = (b - a) / 2.0f * (-pow(2, -10.0f * (interp - 1)) + 2) + a;
+	}
+}
+
+void overshooterp(float& destination, const float a, const float b, float interp, const float totalTime) {
+	float s = 1.70158f;
+	interp /= (totalTime / 2.0f);
+	if (interp < 1.0f) {
+			destination = (b - a) / 2.0f * (interp * interp *(((s*=(1.525f))+1) * interp - s)) + a;
+	} else {
+		float postFix = interp -= 2;
+		destination = (b - a) / 2.0f *((postFix)* interp *(((s*=(1.525f))+1)* interp + s) + 2) + a;
+	}
+}
+
 void slerp(glm::quat& destination, const glm::quat a, const glm::quat b, float interp) {
 	destination = glm::slerp(a, b, interp);
 }

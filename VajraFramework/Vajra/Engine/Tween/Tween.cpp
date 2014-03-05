@@ -151,7 +151,7 @@ void Tween::TweenScale(ObjectIdType gameObjectId, glm::vec3 initialScale, glm::v
 	}
 }
 
-void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bool cancelCurrentTween, bool looping, bool continuousUpdates, std::string tweenName,
+void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, InterpolationType_t interpolationType, bool cancelCurrentTween, bool looping, bool continuousUpdates, std::string tweenName,
 						  NumberTweenAffliationSceneGraph affiliation,
 						  MessageData1S1I1F* userParams,
 						  void (*callback)(float fromNumber, float toNumber, float currentNumber, std::string tweenName, MessageData1S1I1F* userParams)) {
@@ -172,9 +172,10 @@ void Tween::TweenToNumber(float fromNumber, float toNumber, float timePeriod, bo
 	}
 	ASSERT(newNumberTween != nullptr, "Number tween not nullptr");
 	newNumberTween->fromNumber                = fromNumber;
-	newNumberTween->currentNumber             = fromNumber;
 	newNumberTween->toNumber                  = toNumber;
+	newNumberTween->currentTime               = 0.0f;
 	newNumberTween->totalTime                 = timePeriod;
+	newNumberTween->interpolationType         = interpolationType;
 	newNumberTween->affiliation               = affiliation;
 	newNumberTween->callback                  = callback;
 	newNumberTween->userParams                = userParams;
@@ -427,7 +428,7 @@ void OnGoingTransformTweenDetails::ResetTween() {
 }
 
 void OnGoingNumberTweenDetails::ResetTween() {
-	this->currentNumber = this->fromNumber;
+	this->currentTime = 0.0f;
 }
 
 
@@ -500,15 +501,34 @@ bool OnGoingNumberTweenDetails::StepTween(float deltaTime) {
 		return true;
 	}
 
-	float newNumber = this->currentNumber + deltaTime * (this->toNumber - this->fromNumber) / this->totalTime;
-	this->currentNumber = newNumber;
-	if (newNumber > this->toNumber || this->continuousUpdates) {
+	// float newNumber = this->currentNumber + deltaTime * (this->toNumber - this->fromNumber) / this->totalTime;
+	float newNumber;
+
+	switch (this->interpolationType) {
+	case INTERPOLATION_TYPE_LINEAR:
+		lerp(newNumber, this->fromNumber, this->toNumber, this->currentTime); break;
+	case INTERPOLATION_TYPE_CUBIC:
+		cubicerp(newNumber, this->fromNumber, this->toNumber, this->currentTime, this->totalTime); break;
+	case INTERPOLATION_TYPE_CUBIC_INVERSE:
+		cubicinverseerp(newNumber, this->fromNumber, this->toNumber, this->currentTime, this->totalTime); break;
+	case INTERPOLATION_TYPE_SINE:
+		sineerp(newNumber, this->fromNumber, this->toNumber, this->currentTime, this->totalTime); break;
+	case INTERPOLATION_TYPE_EXPONENTIAL:
+		exponentialerp(newNumber, this->fromNumber, this->toNumber, this->currentTime, this->totalTime); break;
+	case INTERPOLATION_TYPE_OVERSHOOT:
+		overshooterp(newNumber, this->fromNumber, this->toNumber, this->currentTime, this->totalTime); break;
+	default:
+		ASSERT(0, "Valid interpolation type, %d", this->interpolationType); break;
+	}
+
+	this->currentTime += deltaTime;
+	if (this->currentTime > this->totalTime || this->continuousUpdates) {
 		ASSERT(this->callback != 0, "Callback not 0");
 		clamp(newNumber, this->fromNumber, this->toNumber);
 		this->callback(this->fromNumber, this->toNumber, newNumber, this->tweenName, this->userParams);
 	}
 
-	if (newNumber >= this->toNumber) {
+	if (this->currentTime >= this->totalTime) {
 		if (this->looping) {
 			this->ResetTween();
 		} else {

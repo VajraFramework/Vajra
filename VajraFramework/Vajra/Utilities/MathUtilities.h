@@ -50,7 +50,24 @@ glm::vec3 QuaternionUpVector(glm::quat q);
 glm::vec3 QuaternionForwardVector(glm::quat q);
 
 // Interpolation Functions:
+enum InterpolationType_t {
+	INTERPOLATION_TYPE_LINEAR,
+	INTERPOLATION_TYPE_CUBIC,
+	INTERPOLATION_TYPE_CUBIC_INVERSE,
+	INTERPOLATION_TYPE_SINE,
+	INTERPOLATION_TYPE_EXPONENTIAL,
+	INTERPOLATION_TYPE_OVERSHOOT,
+	INTERPOLATION_TYPE_PARABOLA,
+	//
+	INTERPOLATION_TYPE_NUM_INTERPOLATION_TYPES,
+};
+
 void lerp(float& destination, const float a, const float b, const float interp);
+void cubicerp(float& destination, const float a, const float b, float interp, const float totalTime);
+void cubicinverseerp(float& destination, const float a, const float b, float interp, const float totalTime);
+void sineerp(float& destination, const float a, const float b, float interp, const float totalTime);
+void exponentialerp(float& destination, const float a, const float b, float interp, const float totalTime);
+void overshooterp(float& destination, const float a, const float b, float interp, const float totalTime);
 void slerp(glm::quat& destination, const glm::quat a, const glm::quat b, float interp);
 void catmullromerp(float& destination, const float p0, const float p1, const float p2, const float p3, const float interp);
 void parabolaerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const float parabola_a, const float interp);
