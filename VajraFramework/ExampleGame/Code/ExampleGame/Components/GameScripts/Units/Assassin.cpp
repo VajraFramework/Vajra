@@ -174,6 +174,7 @@ void Assassin::cancelSpecial() {
 	this->arrowTail->SetVisible(false);
 	ENGINE->GetTween()->CancelNumberTween("dash");
 	ENGINE->GetTween()->CancelPostitionTween(this->gameObjectRef->GetId());
+	this->specialUpdate();
 	this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
 }
 
@@ -272,7 +273,6 @@ void Assassin::specialUpdate() {
 	GridCell* currentCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld());
 	if(currentCell != this->lastHitCell) {
 		std::list<GridCell*> touchedCells;
-		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->lastHitCell, currentCell, touchedCells);
 		SINGLETONS->GetGridManager()->CheckZoneCollisions(this->GetObject()->GetId(), this->lastHitCell, currentCell);
 		for( GridCell* c : touchedCells) {
 			if(this->lastHitCell != c) {
