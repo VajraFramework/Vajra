@@ -36,6 +36,7 @@ public:
 
 	void OnTransitionZoneEntered(GridCell* newTarget);
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
+	virtual void cancelSpecial();
 protected:
 	void onSelectedTouch();
 	void onNavTouch(int touchId, GridCell* touchedCell);
@@ -47,7 +48,6 @@ protected:
 	virtual void trySpecial(int /* touchId */) = 0;
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
-	virtual void cancelSpecial();
 	virtual void touchedCellChanged(GridCell* prevTouchedCell);
 	virtual void aimSpecial(int touchId) = 0;
 	InputState inputState;

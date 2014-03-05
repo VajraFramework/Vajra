@@ -171,7 +171,9 @@ void Assassin::cancelSpecial() {
 	PlayerUnit::cancelSpecial();
 	this->arrowHead->SetVisible(false);
 	this->arrowTail->SetVisible(false);
-	this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
+	ENGINE->GetTween()->CancelNumberTween("dash");
+	ENGINE->GetTween()->CancelPostitionTween(this->gameObjectRef->GetId());
+	this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
 }
 
 void Assassin::onGridCellChanged(ObjectIdType id, int gridX, int gridZ) {
@@ -277,14 +279,5 @@ void Assassin::specialUpdate() {
 			}
 		}
 		this->lastHitCell = currentCell;
-	}
-}
-
-
-void Assassin::stopSpecial() {
-	if (this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
-		ENGINE->GetTween()->CancelNumberTween("dash");
-		ENGINE->GetTween()->CancelPostitionTween(this->gameObjectRef->GetId());
-		this->onSpecialEnd();
 	}
 }

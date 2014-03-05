@@ -20,7 +20,8 @@ public:
 
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
-	void stopSpecial();
+	
+	virtual void cancelSpecial();
 
 protected:
 	// @Override 
@@ -30,7 +31,6 @@ protected:
 	virtual void trySpecial(int /* touchId */ );
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
-	virtual void cancelSpecial();
 	virtual void aimSpecial(int /* touchId */ );
 	void onGridCellChanged(ObjectIdType id, int gridX, int gridZ);
 private:

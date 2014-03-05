@@ -174,7 +174,7 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 				this->gameObjectRef->AddChild_maintainTransform(gObj->GetId());
 				
 				if(gObj->GetComponent<Assassin>()) {
-					gObj->GetComponent<Assassin>()->stopSpecial();
+					gObj->GetComponent<Assassin>()->cancelSpecial();
 				}
 				
 				// If it's a unit that's moving, stop it:
