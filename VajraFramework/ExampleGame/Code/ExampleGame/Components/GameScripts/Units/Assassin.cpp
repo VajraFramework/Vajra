@@ -145,12 +145,12 @@ void Assassin::startSpecial() {
 									  this->targetLoc,
 									  tweenTime,
 									  false,
-									  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+									  INTERPOLATION_TYPE_LINEAR,
 									  false,
 									  assassinTweenCallback);
 	MessageData1S1I1F* userParams = new MessageData1S1I1F();
  	userParams->i = this->GetObject()->GetId();
-	ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, tweenTime, true, false, true, "dash", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, assassinNumberTweenCallback);
+	ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, tweenTime, INTERPOLATION_TYPE_LINEAR, true, false, true, "dash", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, assassinNumberTweenCallback);
 	
 	this->startTouchIndicatorPulse();
 	this->arrowHead->SetVisible(false);
