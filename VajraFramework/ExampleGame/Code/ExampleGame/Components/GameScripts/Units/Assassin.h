@@ -20,6 +20,8 @@ public:
 
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
+	
+	virtual void cancelSpecial();
 
 protected:
 	// @Override 
@@ -29,9 +31,7 @@ protected:
 	virtual void trySpecial(int /* touchId */ );
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
-	virtual void cancelSpecial();
 	virtual void aimSpecial(int /* touchId */ );
-
 	void onGridCellChanged(ObjectIdType id, int gridX, int gridZ);
 private:
 	void init();
@@ -42,6 +42,14 @@ private:
 	GameObject* arrowHead;
 	GameObject* arrowTail;
 	GridCell* targetedCell;
+	glm::vec3 targetLoc;
+
+	GridCell* lastHitCell;
+	void specialUpdate();
+
+	friend void assassinTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
+	friend void assassinNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* userParams);
+	
 };
 
 #endif //ASSASSIN_UNIT_H

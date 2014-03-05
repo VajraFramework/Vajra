@@ -114,7 +114,11 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 	if(ENGINE->GetSceneGraph3D()->IsPaused()) {
 		return;
 	}
-	if(this->shadyCamRef->IsMoving() || this->shadyCamRef->GetCameraMode() == ShadyCamera::CameraMode::CameraMode_Overview) {
+	if(this->shadyCamRef->IsMoving()) {
+		return;
+	}
+	if(this->shadyCamRef->GetCameraMode() == ShadyCamera::CameraMode::CameraMode_Overview) {
+		this->tryUnitSwitch(touchIndex);
 		return;
 	}
 #ifdef DEBUG_GRID
@@ -436,7 +440,7 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ, 
 		}
 		gNav->SetCurrentCell(destCell);
 
-		this->checkZoneCollisions(id, startCell, destCell);
+		this->CheckZoneCollisions(id, startCell, destCell);
 		this->checkRoomCollisions(id, startCell, destCell);
 	}
 }
@@ -470,7 +474,7 @@ bool GridManager::checkUnitCollisions(ObjectIdType id, GridCell* destCell, int e
 	return false;
 }
 
-void GridManager::checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
+void GridManager::CheckZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell) {
 	// Get all of the zones that touch either the start or destination cell
 	std::list<GridZone*> startZones, destZones;
 	this->grid->GetZones(startZones, startCell);

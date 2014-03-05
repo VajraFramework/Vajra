@@ -108,7 +108,7 @@ void Thief::startSpecial() {
 	this->targetIndicatorsRef.erase(this->targetedCell);
 	delete selectedTargetIndicator;
 
-	this->SetTouchIndicatorCell(this->targetedCell);
+	this->SetTouchIndicatorLocation(this->targetedCell);
 	this->startTouchIndicatorPulse();
 	this->SetTouchIndicatorSprite(THIEF_SPECIAL);
 	this->SetTouchIndicatorVisible(true);

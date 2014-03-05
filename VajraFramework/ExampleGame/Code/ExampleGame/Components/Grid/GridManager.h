@@ -48,6 +48,8 @@ public:
 
 	inline void SetShadyCamera(ShadyCamera* shadyCam) { this->shadyCamRef = shadyCam; }
 	inline ShadyCamera* GetShadyCamera() { return this->shadyCamRef; }
+
+	void CheckZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell);
 	/****************
 	// TODO [Implement]
 	std::list<GridCell> GetNeighbors(GridCell* cel, bool diagonals, bool sameRoom);
@@ -79,7 +81,7 @@ private:
 	void gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ, int elevation);
 	void removeNavigatorFromGrid(ObjectIdType id, int elevation);
 	bool checkUnitCollisions(ObjectIdType id, GridCell* destCell, int elevation);
-	void checkZoneCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell);
+	
 	void checkRoomCollisions(ObjectIdType id, GridCell* startCell, GridCell* destCell);
 
 	void tryUnitSwitch(int touchIndex);
