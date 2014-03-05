@@ -139,6 +139,7 @@ void Assassin::startSpecial() {
 	float tweenTime = glm::distance(this->gameObjectRef->GetTransform()->GetPositionWorld(), this->targetLoc) / GetFloatGameConstant(GAME_CONSTANT_assassin_attack_speed);
 	ASSERT(tweenTime > 0, "tweenTime is greater than zero");
 	this->lastHitCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld());
+	this->specialStartPos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
 									  this->gameObjectRef->GetTransform()->GetPositionWorld(),
 									  this->targetLoc,
@@ -281,7 +282,7 @@ void Assassin::specialUpdate() {
 				attackMessage->messageData.iv1.x = c->x;
 				attackMessage->messageData.iv1.y = c->y;
 				attackMessage->messageData.iv1.z = c->z;
-				//attackMessage->messageData.fv1 = this->specialStartPos;
+				attackMessage->messageData.fv1 = this->specialStartPos;
 				ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
 			}
 		}
