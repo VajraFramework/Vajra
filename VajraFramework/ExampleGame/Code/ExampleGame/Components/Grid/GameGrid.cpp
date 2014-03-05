@@ -254,25 +254,21 @@ void GameGrid::AddGridZone(ObjectIdType zoneId) {
 	if (gObj != nullptr) {
 		GridZone* zone = gObj->GetComponent<GridZone>();
 		if (zone != nullptr) {
-			for (auto iter = this->gridZones.begin(); iter != this->gridZones.end(); ++iter) {
-				if (*iter == zoneId) {
-					// This zone is already in our list
-					return;
-				}
-			}
-
-			int west, east, south, north;
-			zone->GetZoneBounds(west, east, south, north);
-			for (int x = west; x <= east; ++x) {
-				for (int z = south; z <= north; ++z) {
-					if (this->isWithinGrid(x, z)) {
-						this->gridCells[x][z]->AddZoneToCell(zoneId);
+			auto iter = std::find(this->gridZones.begin(), this->gridZones.end(), zoneId);
+			if (iter == this->gridZones.end()) {
+				int west, east, south, north;
+				zone->GetZoneBounds(west, east, south, north);
+				for (int x = west; x <= east; ++x) {
+					for (int z = south; z <= north; ++z) {
+						if (this->isWithinGrid(x, z)) {
+							this->gridCells[x][z]->AddZoneToCell(zoneId);
+						}
 					}
 				}
-			}
 
-			// Add the id to the list
-			this->gridZones.push_back(zoneId);
+				// Add the id to the list
+				this->gridZones.push_back(zoneId);
+			}
 		}
 	}
 }
