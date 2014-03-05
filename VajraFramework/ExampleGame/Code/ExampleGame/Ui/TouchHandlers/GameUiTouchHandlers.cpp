@@ -220,7 +220,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 										  glm::vec3(tut->GetTransform()->GetPosition().x, -768.0f, tut->GetTransform()->GetPosition().z),
 										  0.01f,
 										  false,
-										  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+										  INTERPOLATION_TYPE_LINEAR,
 										  false,
 										  onTutorialTweenOutComplete);
 		return;
@@ -374,7 +374,7 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 									  glm::vec3(tut->GetTransform()->GetPosition().x, 0.0f, tut->GetTransform()->GetPosition().z),
 									  0.01f,
 									  false,
-									  TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+									  INTERPOLATION_TYPE_LINEAR,
 									  false,
 									  onTutorialTweenInComplete);
 }

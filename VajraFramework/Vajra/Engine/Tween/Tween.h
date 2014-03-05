@@ -22,11 +22,6 @@ enum TransformTweenTarget {
 	TRANSFORM_TWEEN_TARGET_NUM_TARGETS
 };
 
-enum TweenTranslationCurveType {
-	TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
-	TWEEN_TRANSLATION_CURVE_TYPE_PARABOLA,
-};
-
 enum NumberTweenAffliationSceneGraph {
 	NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D,
 	NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui,
@@ -36,8 +31,8 @@ class Tween : public Object {
 public:
 	~Tween();
 
-	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, bool cancelCurrentTween = true, TweenTranslationCurveType curveType = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
-	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, bool cancelCurrentTween = true, TweenTranslationCurveType curveType = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 initialPosition, glm::vec3 finalPosition, float time, bool cancelCurrentTween = true, InterpolationType_t interpolationType = INTERPOLATION_TYPE_LINEAR, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
+	void TweenPosition(ObjectIdType gameObjectId, glm::vec3 finalPosition, float time, bool cancelCurrentTween = true, InterpolationType_t interpolationType = INTERPOLATION_TYPE_LINEAR, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 
 	void TweenOrientation(ObjectIdType gameObjectId, glm::quat initialOrientation, glm::quat finalOrientation, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
 	void TweenOrientation(ObjectIdType gameObjectId, glm::quat finalOrientation, float time, bool cancelCurrentTween = true, bool looping = false, void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName) = 0);
@@ -99,7 +94,7 @@ private:
 														float time,
 														void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName),
 														bool looping,
-														TweenTranslationCurveType curveType = TWEEN_TRANSLATION_CURVE_TYPE_LINEAR);
+														InterpolationType_t interpolationType = INTERPOLATION_TYPE_LINEAR);
 	void createNewTransformTween(ObjectIdType gameObjectId, TransformTweenTarget transformTweenTarget, glm::quat from_q, glm::quat to_q,
 														float time,
 														void (*callback)(ObjectIdType gameObjectId, std::string tweenClipName),
@@ -132,7 +127,8 @@ public:
 	glm::quat current_q;
 
 	TransformTweenTarget tweenTarget;
-	TweenTranslationCurveType curveType;
+
+	InterpolationType_t interpolationType;
 
 	ObjectIdType gameObjectId;
 
@@ -153,6 +149,7 @@ private:
 
 	OnGoingTransformTweenDetails() {
 		this->currentTime = 0.0f;
+		this->interpolationType = INTERPOLATION_TYPE_LINEAR;
 		this->looping = false;
 		this->callback = 0;
 		this->isPaused = false;

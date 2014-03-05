@@ -177,7 +177,7 @@ void TriggerMovingBlocker::startTranslation(bool transformed) {
 				finalPosition,
 				tweenTime,
 				true,
-				TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+				INTERPOLATION_TYPE_LINEAR,
 				false,
 				movingBlockerTweenCallback
 			);
@@ -202,7 +202,7 @@ void TriggerMovingBlocker::startTranslation(bool transformed) {
 				finalPosition,
 				tweenTime,
 				true,
-				TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+				INTERPOLATION_TYPE_LINEAR,
 				false,
 				movingBlockerTweenCallback
 			);

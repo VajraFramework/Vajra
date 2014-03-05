@@ -106,7 +106,7 @@ void lerp(float& destination, const float a, const float b, const float interp) 
 
 void cubicerp(float& destination, const float a, const float b, float interp, const float totalTime) {
 	interp /= (totalTime / 2.0f);
-	if (interp < 1) {
+	if (interp < 1.0f) {
 		destination = (b - a) / 2.0f * interp * interp * interp + a;
 	} else {
 		interp -= 2.0f;
@@ -193,12 +193,96 @@ void lerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, const fl
 	lerp(destination.z, a.z, b.z, interp);
 }
 
+void cubicerp        (glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, float interp, const float totalTime) {
+	cubicerp(destination.x, a.x, b.x, interp, totalTime);
+	cubicerp(destination.y, a.y, b.y, interp, totalTime);
+	cubicerp(destination.z, a.z, b.z, interp, totalTime);
+}
+
+void cubicinverseerp (glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, float interp, const float totalTime) {
+	cubicinverseerp(destination.x, a.x, b.x, interp, totalTime);
+	cubicinverseerp(destination.y, a.y, b.y, interp, totalTime);
+	cubicinverseerp(destination.z, a.z, b.z, interp, totalTime);
+}
+
+void sineerp         (glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, float interp, const float totalTime) {
+	sineerp(destination.x, a.x, b.x, interp, totalTime);
+	sineerp(destination.y, a.y, b.y, interp, totalTime);
+	sineerp(destination.z, a.z, b.z, interp, totalTime);
+}
+
+void exponentialerp  (glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, float interp, const float totalTime) {
+	exponentialerp(destination.x, a.x, b.x, interp, totalTime);
+	exponentialerp(destination.y, a.y, b.y, interp, totalTime);
+	exponentialerp(destination.z, a.z, b.z, interp, totalTime);
+}
+
+void overshooterp    (glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, float interp, const float totalTime) {
+	overshooterp(destination.x, a.x, b.x, interp, totalTime);
+	overshooterp(destination.y, a.y, b.y, interp, totalTime);
+	overshooterp(destination.z, a.z, b.z, interp, totalTime);
+}
+
 void lerp(glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, const float interp) {
 	lerp(destination.x, a.x, b.x, interp);
 	lerp(destination.y, a.y, b.y, interp);
 	lerp(destination.z, a.z, b.z, interp);
 	lerp(destination.w, a.w, b.w, interp);
 }
+
+void cubicerp        (glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, float interp, const float totalTime) {
+	cubicerp(destination.x, a.x, b.x, interp, totalTime);
+	cubicerp(destination.y, a.y, b.y, interp, totalTime);
+	cubicerp(destination.z, a.z, b.z, interp, totalTime);
+	cubicerp(destination.w, a.w, b.w, interp, totalTime);
+}
+
+void cubicinverseerp (glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, float interp, const float totalTime) {
+	cubicinverseerp(destination.x, a.x, b.x, interp, totalTime);
+	cubicinverseerp(destination.y, a.y, b.y, interp, totalTime);
+	cubicinverseerp(destination.z, a.z, b.z, interp, totalTime);
+	cubicinverseerp(destination.w, a.w, b.w, interp, totalTime);
+}
+
+void sineerp         (glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, float interp, const float totalTime) {
+	sineerp(destination.x, a.x, b.x, interp, totalTime);
+	sineerp(destination.y, a.y, b.y, interp, totalTime);
+	sineerp(destination.z, a.z, b.z, interp, totalTime);
+	sineerp(destination.w, a.w, b.w, interp, totalTime);
+}
+
+void exponentialerp  (glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, float interp, const float totalTime) {
+	exponentialerp(destination.x, a.x, b.x, interp, totalTime);
+	exponentialerp(destination.y, a.y, b.y, interp, totalTime);
+	exponentialerp(destination.z, a.z, b.z, interp, totalTime);
+	exponentialerp(destination.w, a.w, b.w, interp, totalTime);
+}
+
+void overshooterp    (glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, float interp, const float totalTime) {
+	overshooterp(destination.x, a.x, b.x, interp, totalTime);
+	overshooterp(destination.y, a.y, b.y, interp, totalTime);
+	overshooterp(destination.z, a.z, b.z, interp, totalTime);
+	overshooterp(destination.w, a.w, b.w, interp, totalTime);
+}
+
+void parabolaerp     (glm::vec4& destination, const glm::vec4 a, const glm::vec4 b, const float parabola_a, const float interp) {
+	float parabolaBaseLength = glm::distance(a, b);
+	float maxHeightOfParabola = 4.0f * parabola_a * square(parabolaBaseLength / 2.0f);
+
+	lerp(destination.x, a.x, b.x, interp);
+	lerp(destination.z, a.z, b.z, interp);
+	float parabola_y = (parabolaBaseLength * interp) - (parabolaBaseLength / 2.0f);
+	destination.y = a.y + maxHeightOfParabola -
+						  (4.0f * parabola_a *
+						  square(parabola_y));
+
+	// Adjust for when the parabolic path connects points that are at different heights -- like when jumping onto a ledge:
+	destination.y += (b.y - a.y) * interp;
+
+	destination.w = a.w;
+}
+
+
 
 float DistanceFromPlaneToPoint(glm::vec4 plane, glm::vec3 point) {
 	return (plane.x * point.x + plane.y * point.y + plane.z * point.z + plane.w);

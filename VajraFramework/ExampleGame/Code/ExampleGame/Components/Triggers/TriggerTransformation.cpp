@@ -121,7 +121,7 @@ void TriggerTransformation::startTranslation(bool transformed) {
 				finalPosition,
 				tweenTime,
 				true,
-				TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+				INTERPOLATION_TYPE_LINEAR,
 				false,
 				nullptr
 			);
@@ -146,7 +146,7 @@ void TriggerTransformation::startTranslation(bool transformed) {
 				finalPosition,
 				tweenTime,
 				true,
-				TWEEN_TRANSLATION_CURVE_TYPE_LINEAR,
+				INTERPOLATION_TYPE_LINEAR,
 				false,
 				nullptr
 			);

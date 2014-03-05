@@ -140,7 +140,7 @@ void ShadyCamera::moveTo_internal_overTime(glm::vec3 newPos, float time) {
 	if (dist > ROUNDING_ERROR) {
 		this->isMoving = true;
 		ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(), curPos, newPos,
-				time, true, TWEEN_TRANSLATION_CURVE_TYPE_LINEAR, false, shadyCameraTweenCallback);
+				time, true, INTERPOLATION_TYPE_CUBIC, false, shadyCameraTweenCallback);
 	}
 }
 
