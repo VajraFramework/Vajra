@@ -22,6 +22,7 @@ public:
 
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 
+	virtual void cancelSpecial();
 protected:
 	// @Override 
 	virtual bool isSpecialTouch(int /* touchId */);
@@ -30,7 +31,6 @@ protected:
 	virtual void trySpecial(int /* touchId */) {}
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
-	virtual void cancelSpecial();
 
 	virtual void aimSpecial(int /* touchId */);
 private:
