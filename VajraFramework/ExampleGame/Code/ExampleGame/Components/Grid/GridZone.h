@@ -56,10 +56,11 @@ private:
 	void init();
 	void destroy();
 
-	//bool updateCenterPoint();  // Return true if center point has changed.
-	//bool updateFacing();       // Return true if facing has changed.
-	//void updateZoneBounds();
-	//void onTransformChanged();
+	bool updateCenterPoint();  // Return true if center point has changed.
+	bool updateFacing();       // Return true if facing has changed.
+	void updateZoneBounds();
+	void sendCellEvents();
+	void onTransformChanged();
 	void updateVisualizer();
 	void handleCameraModeChanged();
 

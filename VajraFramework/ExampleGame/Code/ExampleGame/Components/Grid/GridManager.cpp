@@ -54,6 +54,8 @@ void GridManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 #endif
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED_CELL, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED_CELL, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_KILLED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_LOADED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_UNLOADED, this->GetTypeId(), false);
@@ -87,6 +89,12 @@ void GridManager::HandleMessage(MessageChunk messageChunk) {
 #endif
 		case MESSAGE_TYPE_GRID_CELL_CHANGED:
 			gridCellChangedHandler(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z, messageChunk->messageData.iv1.y);
+			break;
+		case MESSAGE_TYPE_GRID_ZONE_ENTERED_CELL:
+			this->addZoneToCell(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
+			break;
+		case MESSAGE_TYPE_GRID_ZONE_EXITED_CELL:
+			this->removeZoneFromCell(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
 			break;
 		case MESSAGE_TYPE_UNIT_KILLED:
 			this->removeNavigatorFromGrid(messageChunk->GetSenderId(), messageChunk->messageData.iv1.y);
@@ -442,6 +450,50 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ, 
 
 		this->CheckZoneCollisions(id, startCell, destCell);
 		this->checkRoomCollisions(id, startCell, destCell);
+	}
+}
+
+void GridManager::addZoneToCell(ObjectIdType zoneId, int gridX, int gridZ) {
+	GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(zoneId);
+	GridZone* zone = gObj->GetComponent<GridZone>();
+	ASSERT(zone != nullptr, "Object %d has GridZone component", zoneId);
+	if (zone != nullptr) {
+		GridCell* cell = this->grid->GetCell(gridX, gridZ);
+		if (cell != nullptr) {
+			cell->AddZoneToCell(zoneId);
+			for (int y = 0; y < NUM_ELEVATIONS; ++y) {
+				ObjectIdType occId = cell->GetOccupantIdAtElevation(y);
+				GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+				if (occupant != nullptr) {
+					MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+					collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED);
+					collisionMessage->messageData.iv1.x = occId;
+					ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, zoneId, occId);
+				}
+			}
+		}
+	}
+}
+
+void GridManager::removeZoneFromCell(ObjectIdType zoneId, int gridX, int gridZ) {
+	GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(zoneId);
+	GridZone* zone = gObj->GetComponent<GridZone>();
+	ASSERT(zone != nullptr, "Object %d has GridZone component", zoneId);
+	if (zone != nullptr) {
+		GridCell* cell = this->grid->GetCell(gridX, gridZ);
+		if (cell != nullptr) {
+			cell->RemoveZoneFromCell(zoneId);
+			for (int y = 0; y < NUM_ELEVATIONS; ++y) {
+				ObjectIdType occId = cell->GetOccupantIdAtElevation(y);
+				GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+				if (occupant != nullptr) {
+					MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+					collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED);
+					collisionMessage->messageData.iv1.x = occId;
+					ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, zoneId, occId);
+				}
+			}
+		}
 	}
 }
 

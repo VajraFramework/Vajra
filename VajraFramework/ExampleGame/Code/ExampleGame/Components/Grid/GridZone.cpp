@@ -36,9 +36,9 @@ void GridZone::HandleMessage(MessageChunk messageChunk) {
 
 	switch (messageChunk->GetMessageType()) {
 
-	/*case MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT:
+	case MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT:
 		this->onTransformChanged();
-		break;*/
+		break;
 
 	case MESSAGE_TYPE_CAMERA_MODE_CHANGED: {
 		this->handleCameraModeChanged();
@@ -50,40 +50,10 @@ void GridZone::HandleMessage(MessageChunk messageChunk) {
 }
 
 void GridZone::GetZoneBounds(int& west, int& east, int& south, int& north) {
-	Transform* trans = this->GetObject()->GetComponent<Transform>();
-	SINGLETONS->GetGridManager()->GetGrid()->GetCoordinates(this->centerX, this->centerZ, trans->GetPositionWorld());
-
-	this->facing = QuaternionForwardVector(trans->GetOrientationWorld());
-
-	// Determine the rough orientation of the object.
-	if (abs(this->facing.z) >= abs(this->facing.x)) {
-		if (this->facing.z <= 0.0f) {
-			west  = this->centerX + this->relativeWestBound;
-			east  = this->centerX + this->relativeEastBound;
-			south = this->centerZ + this->relativeSouthBound;
-			north = this->centerZ + this->relativeNorthBound;
-		}
-		else {
-			west  = this->centerX - this->relativeEastBound;
-			east  = this->centerX - this->relativeWestBound;
-			south = this->centerZ - this->relativeNorthBound;
-			north = this->centerZ - this->relativeSouthBound;
-		}
-	}
-	else {
-		if (this->facing.x <= 0.0f) {
-			west  = this->centerX - this->relativeNorthBound;
-			east  = this->centerX - this->relativeSouthBound;
-			south = this->centerZ + this->relativeWestBound;
-			north = this->centerZ + this->relativeEastBound;
-		}
-		else {
-			west  = this->centerX + this->relativeSouthBound;
-			east  = this->centerX + this->relativeNorthBound;
-			south = this->centerZ - this->relativeEastBound;
-			north = this->centerZ - this->relativeWestBound;
-		}
-	}
+	west  = this->trueWestBound;
+	east  = this->trueEastBound;
+	south = this->trueSouthBound;
+	north = this->trueNorthBound;
 }
 
 void GridZone::SetZoneBounds(int xMin, int zMin, int xMax, int zMax) {
@@ -104,8 +74,7 @@ void GridZone::SetZoneBounds(int xMin, int zMin, int xMax, int zMax) {
 		this->relativeNorthBound = zMin;
 	}
 
-	//this->updateZoneBounds();
-	this->updateVisualizer();
+	this->sendCellEvents();
 }
 
 bool GridZone::IsCellWithinZone(GridCell* cell) {
@@ -119,7 +88,7 @@ bool GridZone::IsCellWithinZone(GridCell* cell) {
 
 	return false;
 }
-/*
+
 bool GridZone::updateCenterPoint() {
 	Transform* trans = this->GetObject()->GetComponent<Transform>();
 
@@ -166,8 +135,48 @@ bool GridZone::updateFacing() {
 }
 
 void GridZone::updateZoneBounds() {
-	int currWestBound, currEastBound, currSouthBound, currNorthBound;
-	this->GetZoneBounds(currWestBound, currEastBound, currSouthBound, currNorthBound);
+	if (this->updateCenterPoint() || this->updateFacing()) {
+		// Determine the rough orientation of the object.
+		if (abs(this->facing.z) >= abs(this->facing.x)) {
+			if (this->facing.z <= 0.0f) {
+				this->trueWestBound  = this->centerX + this->relativeWestBound;
+				this->trueEastBound  = this->centerX + this->relativeEastBound;
+				this->trueSouthBound = this->centerZ + this->relativeSouthBound;
+				this->trueNorthBound = this->centerZ + this->relativeNorthBound;
+			}
+			else {
+				this->trueWestBound  = this->centerX - this->relativeEastBound;
+				this->trueEastBound  = this->centerX - this->relativeWestBound;
+				this->trueSouthBound = this->centerZ - this->relativeNorthBound;
+				this->trueNorthBound = this->centerZ - this->relativeSouthBound;
+			}
+		}
+		else {
+			if (this->facing.x <= 0.0f) {
+				this->trueWestBound  = this->centerX - this->relativeNorthBound;
+				this->trueEastBound  = this->centerX - this->relativeSouthBound;
+				this->trueSouthBound = this->centerZ + this->relativeWestBound;
+				this->trueNorthBound = this->centerZ + this->relativeEastBound;
+			}
+			else {
+				this->trueWestBound  = this->centerX + this->relativeSouthBound;
+				this->trueEastBound  = this->centerX + this->relativeNorthBound;
+				this->trueSouthBound = this->centerZ - this->relativeEastBound;
+				this->trueNorthBound = this->centerZ - this->relativeWestBound;
+			}
+		}
+
+		this->updateVisualizer();
+	}
+}
+
+void GridZone::sendCellEvents() {
+	int prevWest  = this->trueWestBound;
+	int prevEast  = this->trueEastBound;
+	int prevSouth = this->trueSouthBound;
+	int prevNorth = this->trueNorthBound;
+
+	this->updateZoneBounds();
 
 	// Don't send messages unless the zone has been added to the grid.
 	GameGrid* grid = SINGLETONS->GetGridManager()->GetGrid();
@@ -176,8 +185,8 @@ void GridZone::updateZoneBounds() {
 
 		// Get list of cells that the zone occupied before.
 		std::list<int> oldCells;
-		for (int x = this->trueWestBound; x <= this->trueEastBound; ++x) {
-			for (int z = this->trueSouthBound; z <= this->trueNorthBound; ++z) {
+		for (int x = prevWest; x <= prevEast; ++x) {
+			for (int z = prevSouth; z <= prevNorth; ++z) {
 				oldCells.push_back(x * gridWidth + z);
 			}
 		}
@@ -185,8 +194,8 @@ void GridZone::updateZoneBounds() {
 
 		// Get list of cells that the zone occupies now.
 		std::list<int> newCells;
-		for (int x = currWestBound; x <= currEastBound; ++x) {
-			for (int z = currSouthBound; z <= currNorthBound; ++z) {
+		for (int x = this->trueWestBound; x <= this->trueEastBound; ++x) {
+			for (int z = this->trueSouthBound; z <= this->trueNorthBound; ++z) {
 				newCells.push_back(x * gridWidth + z);
 			}
 		}
@@ -228,20 +237,12 @@ void GridZone::updateZoneBounds() {
 			ENGINE->GetMessageHub()->SendMulticastMessage(enteredCellMessage, this->GetObject()->GetId());
 		}
 	}
-
-	// Update internal bounds
-	this->trueWestBound  = currWestBound;
-	this->trueEastBound  = currEastBound;
-	this->trueSouthBound = currSouthBound;
-	this->trueNorthBound = currNorthBound;
 }
 
 void GridZone::onTransformChanged() {
-	if (this->updateCenterPoint() || this->updateFacing()) {
-		this->updateZoneBounds();
-	}
+	this->sendCellEvents();
 }
-*/
+
 void GridZone::handleCameraModeChanged() {
 	if (this->visualizerObjectRef == nullptr) {
 		return;
@@ -316,13 +317,14 @@ void GridZone::init() {
 	this->trueEastBound      = -1;
 	this->trueSouthBound     = -1;
 	this->trueNorthBound     = -1;
-	//this->onTransformChanged();
 
 	this->visualizerObjectRef = nullptr;
 	this->displayVisualizerInGameMode = true;
 	this->displayVisualizerInOverviewMode = true;
 
-	//this->addSubscriptionToMessageType(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT, this->GetTypeId(), true);
+	this->updateZoneBounds();
+
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT, this->GetTypeId(), true);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_CAMERA_MODE_CHANGED, this->GetTypeId(), false);
 }
 
