@@ -173,6 +173,8 @@ void PlayerUnit::onSpecialEnd() {
 	this->SwitchActionState(UNIT_ACTION_STATE_POST_SPECIAL);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	this->touchIndicatorRef->SetVisible(false);
+	this->touchStartPos = glm::vec2();
+	this->touchNearUnit = false;
 }
 
 void PlayerUnit::cancelSpecial() {
@@ -180,6 +182,8 @@ void PlayerUnit::cancelSpecial() {
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	this->touchIndicatorRef->SetVisible(false);
+	this->touchStartPos = glm::vec2();
+	this->touchNearUnit = false;
 }
 
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
