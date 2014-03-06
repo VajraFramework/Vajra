@@ -161,11 +161,7 @@ void Assassin::onSpecialEnd() {
 	PlayerUnit::onSpecialEnd();
 	this->arrowHead->SetVisible(false);
 	this->arrowTail->SetVisible(false);
-	this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
-	//this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
-	//this->gridNavRef->SetGridPosition(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
-	//(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
-	//this->gameObjectRef->GetTransform()->SetPosition(this->targetLoc);
+	this->gridNavRef->SetGridPosition(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
 }
 
 void Assassin::cancelSpecial() {
