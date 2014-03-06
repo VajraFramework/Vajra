@@ -832,6 +832,16 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetRequiredUnitType(ConvertStringToString(argv[0]));
 			return;
 		}
+		if (propertyName == "AddAllowedUnitType") {
+			if ((int)argv.size() < 1) { return; }
+			component->AddAllowedUnitType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "AllowAllUnitTypesUpTo") {
+			if ((int)argv.size() < 1) { return; }
+			component->AllowAllUnitTypesUpTo(ConvertStringToString(argv[0]));
+			return;
+		}
 		if (propertyName == "SetDecalType") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetDecalType(ConvertStringToString(argv[0]));
