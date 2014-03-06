@@ -161,7 +161,9 @@ void Assassin::onSpecialEnd() {
 	PlayerUnit::onSpecialEnd();
 	this->arrowHead->SetVisible(false);
 	this->arrowTail->SetVisible(false);
-	this->gridNavRef->SetGridPosition(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
+	
+	this->gridNavRef->SetGridPosition(this->targetedCell);
+	this->gameObjectRef->GetTransform()->SetPosition(this->targetLoc);
 }
 
 void Assassin::cancelSpecial() {
