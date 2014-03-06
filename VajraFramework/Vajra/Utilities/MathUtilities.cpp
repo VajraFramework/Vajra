@@ -143,10 +143,12 @@ void overshooterp(float& destination, const float a, const float b, float interp
 	float s = 1.70158f;
 	interp /= (totalTime / 2.0f);
 	if (interp < 1.0f) {
-			destination = (b - a) / 2.0f * (interp * interp *(((s*=(1.525f))+1) * interp - s)) + a;
+		s*=1.525f;
+		destination = (b - a) / 2.0f * (interp * interp *(((s)+1) * interp - s)) + a;
 	} else {
 		float postFix = interp -= 2;
-		destination = (b - a) / 2.0f *((postFix)* interp *(((s*=(1.525f))+1)* interp + s) + 2) + a;
+		s*=1.525f;
+		destination = (b - a) / 2.0f *((postFix)* interp *(((s)+1)* interp + s) + 2) + a;
 	}
 }
 
