@@ -67,8 +67,9 @@ void PlayerUnit::init() {
 	
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 
-	this->touchIndicatorRef->SetVisible(false);
+	this->touchIndicatorRef->SetVisible(true);
 	this->touchIndicatorRef->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+	this->touchIndicatorRef->GetTransform()->SetScale(glm::vec3(0));
 
 	this->currentTouchedCell = NULL;
 
