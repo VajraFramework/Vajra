@@ -1,0 +1,56 @@
+<prefab>
+	<gameobject>
+		<component name="Transform">
+		</component>
+		
+		<component name="GridZone">
+			<property name="SetZoneBounds">
+				<field>-1</field>
+				<field>-1</field>
+				<field>1</field>
+				<field>1</field>
+			</property>
+		</component>
+		
+		<component name="TriggerMovingBlocker">
+			<property name="SetChangeOnEnterCell">
+				<field>false</field>
+			</property>
+			
+			<property name="SetChangeWalkability">
+				<field>true</field>
+			</property>
+			
+			<property name="SetChangeVisibility">
+				<field>false</field>
+			</property>
+			
+			<property name="SetTranslation">
+				<field>0.0</field>
+				<field>0.0</field>
+				<field>-3.0</field>
+			</property>
+			
+			<property name="SetTransitTime">
+				<field>3.0</field>
+			</property>
+		</component>
+		
+		<gameobject>
+			<component name="Transform">
+				<property name="Translate">
+					<field>0.0</field>
+					<field>-0.22</field>
+					<field>0.0</field>
+				</property>
+			</component>
+		
+			<component name="MeshRenderer">
+				<property name="InitMesh">
+					<field>models/SD_Interactive_Elevator_01.model</field>
+				</property>
+			</component>
+		</gameobject>
+	</gameobject>
+</prefab>
+
