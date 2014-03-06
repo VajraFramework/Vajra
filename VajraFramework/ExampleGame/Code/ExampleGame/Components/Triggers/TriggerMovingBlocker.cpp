@@ -45,15 +45,16 @@ TriggerMovingBlocker::~TriggerMovingBlocker() {
 }
 
 void TriggerMovingBlocker::init() {
+	this->changeOnEnterCell = true;
 	this->changeWalkability = true;
 	this->changeVisibility  = true;
 	this->translation       = ZERO_VEC3;
 	this->transitTime       = 1.0f;
-	this->isPassable        = false;
+	this->setCellsPassable  = false;
 	this->isInTransit       = false;
-	this->currentCell       = nullptr;
 
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED_CELL, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED_CELL, this->GetTypeId(), false);
 }
 
 void TriggerMovingBlocker::destroy() {
@@ -81,8 +82,16 @@ void TriggerMovingBlocker::HandleMessage(MessageChunk messageChunk) {
 	Triggerable::HandleMessage(messageChunk);
 
 	switch (messageChunk->GetMessageType()) {
-		case MESSAGE_TYPE_FRAME_EVENT:
-			this->update();
+		case MESSAGE_TYPE_GRID_ZONE_ENTERED_CELL:
+			if (messageChunk->GetSenderId() == this->GetObject()->GetId()) {
+				this->onZoneEnteredCell(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
+			}
+			break;
+
+		case MESSAGE_TYPE_GRID_ZONE_EXITED_CELL:
+			if (messageChunk->GetSenderId() == this->GetObject()->GetId()) {
+				this->onZoneExitedCell(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
+			}
 			break;
 	}
 }
@@ -99,53 +108,15 @@ void TriggerMovingBlocker::SetDecalType(std::string decalType) {
 	Triggerable::SetDecalType(decalType);
 }
 
-void TriggerMovingBlocker::update() {
-	if (this->isInTransit) {
-		Transform* trans = this->GetObject()->GetComponent<Transform>();
-		GridCell* newCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(trans->GetPositionWorld());
-
-		if (newCell != this->currentCell) {
-			if (this->isPassable) {
-				if (this->currentCell != nullptr) {
-					int gX = this->currentCell->x;
-					int gZ = this->currentCell->z;
-					int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetCellGroundLevel(gX, gZ);
-					if (this->changeWalkability) {
-						SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gX, gZ, elevation, this->isPassable);
-					}
-					if (this->changeVisibility) {
-						SINGLETONS->GetGridManager()->GetGrid()->SetCellVisibleAtElevation(gX, gZ, elevation, this->isPassable);
-					}
-				}
-			}
-			else {
-				if (newCell != nullptr) {
-					int gX = newCell->x;
-					int gZ = newCell->z;
-					int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetCellGroundLevel(gX, gZ);
-					if (this->changeWalkability) {
-						SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gX, gZ, elevation, this->isPassable);
-					}
-					if (this->changeVisibility) {
-						SINGLETONS->GetGridManager()->GetGrid()->SetCellVisibleAtElevation(gX, gZ, elevation, this->isPassable);
-					}
-				}
-			}
-			this->currentCell = newCell;
-		}
-	}
-}
-
 void TriggerMovingBlocker::onSwitchToggled(bool switchState) {
 	this->startTransformation(switchState);
 }
 
 void TriggerMovingBlocker::startTransformation(bool transformed) {
 	if (transformed != this->isToggled) {
-		Transform* trans = this->GetObject()->GetComponent<Transform>();
-		this->currentCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(trans->GetPositionWorld());
 		this->startTranslation(transformed);
-		this->isPassable = !this->isPassable;
+		this->changeOnEnterCell = !this->changeOnEnterCell;
+		this->setCellsPassable = !this->setCellsPassable;
 		this->isInTransit = true;
 	}
 }
@@ -168,9 +139,6 @@ void TriggerMovingBlocker::startTranslation(bool transformed) {
 			}
 
 			float tweenTime = this->transitTime;
-
-			Transform* trans = this->GetObject()->GetComponent<Transform>();
-			this->currentCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(trans->GetPositionWorld());
 
 			ENGINE->GetTween()->TweenPosition(
 				myId,
@@ -210,6 +178,30 @@ void TriggerMovingBlocker::startTranslation(bool transformed) {
 		else {
 			// Well that's strange. Just cancel the tween.
 			ENGINE->GetTween()->CancelPostitionTween(myId);
+		}
+	}
+}
+
+void TriggerMovingBlocker::onZoneEnteredCell(int gridX, int gridZ) {
+	if (this->changeOnEnterCell) {
+		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetCellGroundLevel(gridX, gridZ);
+		if (this->changeWalkability) {
+			SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gridX, gridZ, elevation, this->setCellsPassable);
+		}
+		if (this->changeVisibility) {
+			SINGLETONS->GetGridManager()->GetGrid()->SetCellVisibleAtElevation(gridX, gridZ, elevation, this->setCellsPassable);
+		}
+	}
+}
+
+void TriggerMovingBlocker::onZoneExitedCell(int gridX, int gridZ) {
+	if (!this->changeOnEnterCell) {
+		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetCellGroundLevel(gridX, gridZ);
+		if (this->changeWalkability) {
+			SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gridX, gridZ, elevation, this->setCellsPassable);
+		}
+		if (this->changeVisibility) {
+			SINGLETONS->GetGridManager()->GetGrid()->SetCellVisibleAtElevation(gridX, gridZ, elevation, this->setCellsPassable);
 		}
 	}
 }
