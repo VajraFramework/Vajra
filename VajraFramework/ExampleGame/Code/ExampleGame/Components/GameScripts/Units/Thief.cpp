@@ -77,10 +77,10 @@ void Thief::destroy() {
 }
 
 void Thief::amendTouchIndicatorPaths(std::vector<std::string>& pathsToTextures) {
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_cyan.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_04.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_yellow.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_yellowcyan.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_01.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_02.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_03.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_04.png");
 	
 }
 
@@ -165,16 +165,16 @@ void Thief::aimSpecial(int touchId) {
 
 	if(this->targetIndicatorsRef[prevTargetCell] && this->targetIndicatorsRef[this->targetedCell]) {
 		if(this->targetedCell != prevTargetCell) {
-			this->scaleUpIndicator(this->targetedCell);
 			this->scaleDownIndicator(prevTargetCell);
+			this->scaleUpIndicator(this->targetedCell);
 		}
 	} else if(this->targetIndicatorsRef[prevTargetCell]) {
 		GridCell* nearCell = this->getNearCellTowardsUnit(touchId);
 		if(nearCell != nullptr) {
 			if(this->targetIndicatorsRef[nearCell]) {
 				if(nearCell != prevTargetCell) {
-					this->scaleUpIndicator(nearCell);
 					this->scaleDownIndicator(prevTargetCell);
+					this->scaleUpIndicator(nearCell);
 				}
 			} else {
 				this->scaleDownIndicator(prevTargetCell);
@@ -237,21 +237,6 @@ void Thief::updateLegalTagets() {
 				}
 			}
 		}
-		/*
-		if(cellElevation == elevation) { // is the cell on the same height
-			if(this->gridNavRef->CanReachDestination(c, GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units)) && SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(currentCell, c, elevation) ) {
-				this->legalTargets.push_back(c);
-			}
-		}
-		else if(cellElevation <= elevation + 1) { // is the cell below it
-			if(SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, cellElevation)) {
-				float dist = glm::distance(glm::vec2(c->x, c->z), glm::vec2(currentCell->x, currentCell->z));
-				if(dist <= GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units) + cellElevation * GetFloatGameConstant(GAME_CONSTANT_jump_elevation_multiplier)) {
-					this->legalTargets.push_back(c);
-				}
-			}
-		}
-		*/
 	}
 	this->createTargets();
 	this->updateTargets();
@@ -286,7 +271,6 @@ void Thief::createTargets() {
 		std::vector<std::string> pathsToTextures;
 		this->amendTouchIndicatorPaths(pathsToTextures);
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
-		//indicator->GetTransform()->SetPosition(c->center);
 		indicator->GetTransform()->SetScale( glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)));
 		indicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 		this->targetIndicatorsRef[c] = indicator;

@@ -37,6 +37,8 @@ public:
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 	virtual void cancelSpecial();
 protected:
+	GameObject* touchIndicatorRef;
+
 	void onSelectedTouch();
 	void onNavTouch(int touchId, GridCell* touchedCell);
 
@@ -62,18 +64,17 @@ protected:
 	void SetTouchIndicatorLocation(GridCell*);
 	void SetTouchIndicatorLocation(glm::vec3);
 	void TouchIndicatorLookAt(GridCell* /*target*/);
-
 	void GridPlaneLookAt(GameObject* /*plane*/, GridCell* /*target*/);
 	void GridPlaneLookAt(GameObject* /*plane*/, glm::vec3 /*target*/);
 
 	void SetTouchIndicatorVisible(bool /*visibilty*/);	
 
 	inline GridCell* GetCurrentTouchedCell() { return this->currentTouchedCell; }
+	
 private:
 	void init();
 	void destroy();
 
-	GameObject* touchIndicatorRef;
 	GridCell* currentTouchedCell;
 
 	UnitColorScheme colorScheme;
