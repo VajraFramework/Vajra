@@ -18,6 +18,11 @@
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
 
+#define THIEF_SPECIAL_WAY_LOW 0
+#define THIEF_SPECIAL_LOW 1
+#define THIEF_SPECIAL_MID 2
+#define THIEF_SPECIAL_HIGH 3
+
 // Tween callbacks
 void thiefTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName */) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
@@ -64,10 +69,19 @@ Thief::~Thief() {
 
 void Thief::init() {
 	this->unitType = UnitType::UNIT_TYPE_THIEF;
+	this->createTouchIndicator();
 }
 
 void Thief::destroy() {
 	this->deleteTargets();
+}
+
+void Thief::amendTouchIndicatorPaths(std::vector<std::string>& pathsToTextures) {
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_cyan.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_04.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_yellow.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_yellowcyan.png");
+	
 }
 
 bool Thief::isSpecialTouch(int touchId) {
@@ -110,7 +124,7 @@ void Thief::startSpecial() {
 
 	this->SetTouchIndicatorLocation(this->targetedCell);
 	this->startTouchIndicatorPulse();
-	this->SetTouchIndicatorSprite(THIEF_SPECIAL);
+	this->SetTouchIndicatorSprite(PLAYER_NUM_TOUCH_IMAGES + this->textureIndexForElevation(this->targetedCell->y));
 	this->SetTouchIndicatorVisible(true);
 	
 	float jumpDist = glm::distance(this->targetedCell->center, this->gameObjectRef->GetTransform()->GetPosition());
@@ -240,6 +254,7 @@ void Thief::updateLegalTagets() {
 		*/
 	}
 	this->createTargets();
+	this->updateTargets();
 	this->tweenInTargets();
 }
 
@@ -269,15 +284,43 @@ void Thief::createTargets() {
 		SpriteRenderer* spriteRenderer = indicator->AddComponent<SpriteRenderer>();
 		spriteRenderer->SetHasTransperancy(true);
 		std::vector<std::string> pathsToTextures;
-		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_cyan.png");
+		this->amendTouchIndicatorPaths(pathsToTextures);
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
-		indicator->GetTransform()->SetPosition(c->center);
+		//indicator->GetTransform()->SetPosition(c->center);
 		indicator->GetTransform()->SetScale( glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)));
 		indicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 		this->targetIndicatorsRef[c] = indicator;
 	}
 }
 
+void Thief::updateTargets() {
+	// TODO [Implement] update legal target cells
+
+	for( GridCell* c : this->legalTargets ) {
+		ASSERT(targetIndicatorsRef[c] != nullptr, "target indicator for cell is not null");
+		if(c->center != targetIndicatorsRef[c]->GetTransform()->GetPosition()) {
+			targetIndicatorsRef[c]->GetTransform()->SetPosition(c->center);
+			
+			targetIndicatorsRef[c]->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(textureIndexForElevation(c->y));
+
+		}
+	}
+}
+
+int Thief::textureIndexForElevation(int cellElevation) {
+	int currentElevation = this->gridNavRef->GetCurrentCell()->y;
+	int spriteToUse = THIEF_SPECIAL_MID; // default it to mid
+	if(currentElevation > cellElevation) {
+		if(currentElevation == cellElevation + 1) {
+			spriteToUse = THIEF_SPECIAL_LOW;
+		} else {
+			spriteToUse = THIEF_SPECIAL_WAY_LOW;
+		}
+	} else if(currentElevation < cellElevation) {
+		spriteToUse = THIEF_SPECIAL_HIGH;
+	} 
+	return spriteToUse;
+}
 void Thief::deleteTargets() {
 	this->targetIndicatorsRef.clear();
 }

@@ -25,6 +25,8 @@ public:
 
 protected:
 	// @Override 
+	virtual void amendTouchIndicatorPaths(std::vector<std::string>& pathsToTextures);
+
 	virtual bool isSpecialTouch(int /* touchId */);
 	virtual void onSpecialTouch(int /* touchId */);
 

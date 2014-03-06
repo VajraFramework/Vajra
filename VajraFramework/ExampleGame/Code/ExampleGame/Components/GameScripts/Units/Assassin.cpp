@@ -56,6 +56,7 @@ Assassin::~Assassin() {
 
 void Assassin::init() {
 	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
+	this->createTouchIndicator();
 	this->lastHitCell = nullptr;
 	{
 		// create the arrow tail
@@ -96,6 +97,10 @@ void Assassin::HandleMessage(MessageChunk messageChunk) {
 		default:
 			break;
 	}
+}
+
+void Assassin::amendTouchIndicatorPaths(std::vector<std::string>& pathsToTextures) {
+
 }
 
 bool Assassin::isSpecialTouch(int touchId) {

@@ -46,34 +46,14 @@ PlayerUnit::~PlayerUnit() {
 }
 
 void PlayerUnit::init() {
-	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
 	this->inputState = InputState::INPUT_STATE_NONE;
 	this->touchNearUnit = false;
 	this->unitHasTouchFocus = false;
 	this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
 	this->gridNavRef->SetTurnSpeedDegrees(TURN_SPEED_DEG);
 	this->gridNavRef->SetMaxNavigableUnitType(LAST_PLAYER_UNIT_TYPE);
-
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION, this->GetTypeId(), false);
-
-	this->touchIndicatorRef = new GameObject(ENGINE->GetSceneGraph3D());
-	SpriteRenderer* spriteRenderer = this->touchIndicatorRef->AddComponent<SpriteRenderer>();
-	spriteRenderer->SetHasTransperancy(true);
-	std::vector<std::string> pathsToTextures;
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Indicator_03.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Fail_01.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_Arrow_05.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_cyan.png");
-	
-	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
-
-	this->touchIndicatorRef->SetVisible(true);
-	this->touchIndicatorRef->GetTransform()->Rotate(90.0f inRadians, XAXIS);
-	this->touchIndicatorRef->GetTransform()->SetScale(glm::vec3(0));
-
 	this->currentTouchedCell = NULL;
-
-
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 }
 
@@ -98,6 +78,24 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 		default:
 			break;
 	}
+}
+
+void PlayerUnit::createTouchIndicator() {
+	this->touchIndicatorRef = new GameObject(ENGINE->GetSceneGraph3D());
+	SpriteRenderer* spriteRenderer = this->touchIndicatorRef->AddComponent<SpriteRenderer>();
+	spriteRenderer->SetHasTransperancy(true);
+	std::vector<std::string> pathsToTextures;
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Indicator_03.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Fail_01.png");
+	
+	// Let the Thief and Assassin add their own images to the path
+	this->amendTouchIndicatorPaths(pathsToTextures);
+	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
+
+	this->touchIndicatorRef->SetVisible(true);
+	this->touchIndicatorRef->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+	this->touchIndicatorRef->GetTransform()->SetScale(glm::vec3(0));
+
 }
 
 void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
