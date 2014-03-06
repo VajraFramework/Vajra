@@ -27,8 +27,14 @@ public:
 	//[[PROPERTY]]//
 	virtual void SetActivateWhenUnitsInZone(bool b);
 	//[[PROPERTY]]//
-	void SetRequiredUnitType(std::string typeStr);
-	inline void SetRequiredUnitType(UnitType uType);
+	void SetRequiredUnitType(std::string typeStr);    // Only allows the specified unit type
+	void SetRequiredUnitType(UnitType uType);
+	//[[PROPERTY]]//
+	void AddAllowedUnitType(std::string typeStr);     // Also allow the specified unit type
+	void AddAllowedUnitType(UnitType uType);
+	//[[PROPERTY]]//
+	void AllowAllUnitTypesUpTo(std::string typeStr);  // Set all units up to the specified type as allowed
+	void AllowAllUnitTypesUpTo(UnitType uType);
 	//[[PROPERTY]]//
 	void SetDecalType(std::string decalType);
 
@@ -43,9 +49,7 @@ private:
 	void init();
 	void destroy();
 
-	UnitType requiredUnitType;
+	unsigned long long unitTypeBitMask;
 };
-
-void UnitInGridZoneSwitch::SetRequiredUnitType(UnitType uType)  { this->requiredUnitType = uType; }
 
 #endif // UNITINGRIDZONESWITCH_H
