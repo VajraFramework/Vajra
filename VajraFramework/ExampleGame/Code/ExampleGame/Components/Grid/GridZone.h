@@ -34,15 +34,33 @@ public:
 protected:
 	GridZoneType zoneType;
 
-	int westBound;
-	int eastBound;
-	int southBound;
-	int northBound;
+	// Coordinates of the zone's center
+	int centerX, centerZ;
+
+	// Rough direction of the object's facing
+	glm::vec3 facing;
+
+	// Stored as relative to object position
+	int relativeWestBound;
+	int relativeEastBound;
+	int relativeSouthBound;
+	int relativeNorthBound;
+
+	// Stored as absolute grid indices
+	int trueWestBound;
+	int trueEastBound;
+	int trueSouthBound;
+	int trueNorthBound;
 
 private:
 	void init();
 	void destroy();
 
+	bool updateCenterPoint();  // Return true if center point has changed.
+	bool updateFacing();       // Return true if facing has changed.
+	void updateZoneBounds();
+	void sendCellEvents();
+	void onTransformChanged();
 	void updateVisualizer();
 	void handleCameraModeChanged();
 

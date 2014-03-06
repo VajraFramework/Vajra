@@ -25,6 +25,8 @@ public:
 	//[[PROPERTY]]//
 	virtual void SetToggleState(bool toggle);
 	//[[PROPERTY]]//
+	inline void SetChangeOnEnterCell(bool changeOnEnter);
+	//[[PROPERTY]]//
 	inline void SetChangeWalkability(bool changeWalkable);
 	//[[PROPERTY]]//
 	inline void SetChangeVisibility(bool changeVisible);
@@ -45,7 +47,6 @@ public:
 	void SetDecalType(std::string decalType);
 
 protected:
-	virtual void update();
 	virtual void onSwitchToggled(bool switchState);
 
 private:
@@ -54,20 +55,22 @@ private:
 
 	void startTransformation(bool transformed);
 	void startTranslation(bool transformed);
-	//void setCellPassable(GridCell* cell, bool passable);
+	void onZoneEnteredCell(int gridX, int gridZ);
+	void onZoneExitedCell(int gridX, int gridZ);
 
+	bool changeOnEnterCell; // If false, changes the terrain when exiting a cell
 	bool changeWalkability;
 	bool changeVisibility;
+	bool setCellsPassable;
+
 	glm::vec3 translation;
 	float transitTime;
-	bool isPassable;
 	bool isInTransit;
-
-	GridCell* currentCell;
 
 	friend void movingBlockerTweenCallback(ObjectIdType gameObjectId, std::string /*tweenClipName*/);
 };
 
+void TriggerMovingBlocker::SetChangeOnEnterCell(bool changeOnEnter)   { this->changeOnEnterCell = changeOnEnter;  }
 void TriggerMovingBlocker::SetChangeWalkability(bool changeWalkable)  { this->changeWalkability = changeWalkable; }
 void TriggerMovingBlocker::SetChangeVisibility(bool changeVisible)    { this->changeVisibility  = changeVisible;  }
 void TriggerMovingBlocker::SetTransitTime(float seconds)              { this->transitTime       = seconds;        }
