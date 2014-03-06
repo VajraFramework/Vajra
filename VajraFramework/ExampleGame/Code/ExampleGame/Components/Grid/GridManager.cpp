@@ -223,7 +223,15 @@ void GridManager::SwitchSelectedUnit() {
 	}
 	if(this->playerUnits.find(uType) != this->playerUnits.end()) {
 		GridCell* gc = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->playerUnits[uType])->GetComponent<GridNavigator>()->GetCurrentCell();
-		this->selectUnitInCell(gc);
+		this->deselectUnit();
+		this->selectedUnitId = this->playerUnits[uType];
+
+		MessageChunk unitChangedMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		unitChangedMessage->SetMessageType(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
+		unitChangedMessage->messageData.iv1.x = gc->x;
+		unitChangedMessage->messageData.iv1.y = uType;
+		unitChangedMessage->messageData.iv1.z = gc->z;
+		ENGINE->GetMessageHub()->SendMulticastMessage(unitChangedMessage, this->GetObject()->GetId());
 	}
 }
 /*

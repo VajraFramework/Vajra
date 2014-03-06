@@ -14,7 +14,7 @@ class MessageData1S1I1F;
 
 class PlayerUnit : public BaseUnit {
 
-#define MOVE_SPEED 3.25f
+#define MOVE_SPEED 2.75f
 #define TURN_SPEED_DEG 1000.0f
 #define NEAR_TOUCH_DIST 1.5f 
 	
