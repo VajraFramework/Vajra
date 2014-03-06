@@ -265,22 +265,12 @@
   <units>
 		<playerUnit id="69302" prefab="Assassin" x="19" z="7" rotation="180">
       </playerUnit>
-		<playerUnit id="70788" prefab="Thief" x="16" z="8" rotation="180">
+		<playerUnit id="70788" prefab="Thief" x="15" z="7" rotation="180">
       </playerUnit>
   </units>
 
   <other>
-      <dynamicObject id="68138" prefab="GoalZone_Assassin" x="17" y="0" z="17" rotation="180">
-          <component name="GridZone">
-              <property name="SetZoneBounds">
-                  <field>-1</field>
-                  <field>-1</field>
-                  <field>1</field>
-                  <field>1</field>
-              </property>
-          </component>
-      </dynamicObject>
-      <dynamicObject id="69130" prefab="GoalZone_Thief" x="17" y="0" z="17" rotation="180">
+      <dynamicObject id="68138" prefab="GoalZone_AssassinThief" x="17" y="0" z="17" rotation="180">
           <component name="GridZone">
               <property name="SetZoneBounds">
                   <field>-1</field>
@@ -350,8 +340,6 @@
           </child>
       </parentLink>
       <winCondition id="68138">
-      </winCondition>
-      <winCondition id="69130">
       </winCondition>
   </links>
 

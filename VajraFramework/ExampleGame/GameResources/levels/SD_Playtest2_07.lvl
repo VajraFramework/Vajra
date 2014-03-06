@@ -194,9 +194,7 @@
               </property>
           </component>
       </dynamicObject>
-      <dynamicObject id="565196" prefab="GoalZone_Assassin" x="6" y="0" z="11" rotation="180">
-      </dynamicObject>
-      <dynamicObject id="565340" prefab="GoalZone_Thief" x="6" y="0" z="11" rotation="180">
+      <dynamicObject id="565196" prefab="GoalZone_AssassinThief" x="6" y="0" z="11" rotation="180">
       </dynamicObject>
       <dynamicObject id="564164" prefab="PressurePlate" x="11" y="2" z="11" rotation="180">
           <component name="BaseSwitch">
@@ -309,8 +307,6 @@
           </switch>
       </triggerLink>
       <winCondition id="565196">
-      </winCondition>
-      <winCondition id="565340">
       </winCondition>
   </links>
 
