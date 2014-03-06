@@ -5,12 +5,16 @@
 
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/Grid/GridCell.h"
+#include "ExampleGame/Components/Grid/GridConstants.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Libraries/glm/gtx/vector_angle.hpp"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
 unsigned int GridZone::componentTypeId = COMPONENT_TYPE_ID_GRID_ZONE;
@@ -31,6 +35,11 @@ void GridZone::HandleMessage(MessageChunk messageChunk) {
 	Component::HandleMessage(messageChunk);
 
 	switch (messageChunk->GetMessageType()) {
+
+	case MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT:
+		this->onTransformChanged();
+		break;
+
 	case MESSAGE_TYPE_CAMERA_MODE_CHANGED: {
 		this->handleCameraModeChanged();
 	} break;
@@ -41,63 +50,31 @@ void GridZone::HandleMessage(MessageChunk messageChunk) {
 }
 
 void GridZone::GetZoneBounds(int& west, int& east, int& south, int& north) {
-	Transform* trans = this->GetObject()->GetComponent<Transform>();
-
-	int centerX, centerZ;
-	SINGLETONS->GetGridManager()->GetGrid()->GetCoordinates(centerX, centerZ, trans->GetPositionWorld());
-
-	glm::vec3 forward = QuaternionForwardVector(trans->GetOrientationWorld());
-
-	// Determine the rough orientation of the object.
-	if (abs(forward.z) >= abs(forward.x)) {
-		if (forward.z <= 0.0f) {
-			west  = centerX + this->westBound;
-			east  = centerX + this->eastBound;
-			south = centerZ + this->southBound;
-			north = centerZ + this->northBound;
-		}
-		else {
-			west  = centerX - this->eastBound;
-			east  = centerX - this->westBound;
-			south = centerZ - this->northBound;
-			north = centerZ - this->southBound;
-		}
-	}
-	else {
-		if (forward.x <= 0.0f) {
-			west  = centerX - this->northBound;
-			east  = centerX - this->southBound;
-			south = centerZ + this->westBound;
-			north = centerZ + this->eastBound;
-		}
-		else {
-			west  = centerX + this->southBound;
-			east  = centerX + this->northBound;
-			south = centerZ - this->eastBound;
-			north = centerZ - this->westBound;
-		}
-	}
+	west  = this->trueWestBound;
+	east  = this->trueEastBound;
+	south = this->trueSouthBound;
+	north = this->trueNorthBound;
 }
 
 void GridZone::SetZoneBounds(int xMin, int zMin, int xMax, int zMax) {
 	if (xMin <= xMax) {
-		this->westBound = xMin;
-		this->eastBound = xMax;
+		this->relativeWestBound = xMin;
+		this->relativeEastBound = xMax;
 	}
 	else {
-		this->westBound = xMax;
-		this->eastBound = xMin;
+		this->relativeWestBound = xMax;
+		this->relativeEastBound = xMin;
 	}
 	if (zMin <= zMax) {
-		this->southBound = zMin;
-		this->northBound = zMax;
+		this->relativeSouthBound = zMin;
+		this->relativeNorthBound = zMax;
 	}
 	else {
-		this->southBound = zMax;
-		this->northBound = zMin;
+		this->relativeSouthBound = zMax;
+		this->relativeNorthBound = zMin;
 	}
 
-	this->updateVisualizer();
+	this->sendCellEvents();
 }
 
 bool GridZone::IsCellWithinZone(GridCell* cell) {
@@ -110,6 +87,160 @@ bool GridZone::IsCellWithinZone(GridCell* cell) {
 	}
 
 	return false;
+}
+
+bool GridZone::updateCenterPoint() {
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+
+	// Check if the object's center has moved to a different cell.
+	int newCenterX, newCenterZ;
+	SINGLETONS->GetGridManager()->GetGrid()->GetCoordinates(newCenterX, newCenterZ, trans->GetPositionWorld());
+	if ((newCenterX != this->centerX) || (newCenterZ != this->centerZ)) {
+		this->centerX = newCenterX;
+		this->centerZ = newCenterZ;
+		return true;
+	}
+	return false;
+}
+
+bool GridZone::updateFacing() {
+	Transform* trans = this->GetObject()->GetComponent<Transform>();
+
+	glm::vec3 newFacing = QuaternionForwardVector(trans->GetOrientationWorld());
+	// Convert the forward vector into a cardinal direction.
+	if (abs(newFacing.z) >= abs(newFacing.x)) {
+		if (newFacing.z <= 0.0f) {
+			newFacing = -ZAXIS;
+		}
+		else {
+			newFacing = ZAXIS;
+		}
+	}
+	else {
+		if (newFacing.x <= 0.0f) {
+			newFacing = -XAXIS;
+		}
+		else {
+			newFacing = XAXIS;
+		}
+	}
+
+	// Check if the object's facing has changed.
+	float angle = glm::angle(this->facing, newFacing);
+	if (angle >= PI / 4.0f) {
+		this->facing = newFacing;
+		return true;
+	}
+	return false;
+}
+
+void GridZone::updateZoneBounds() {
+	if (this->updateCenterPoint() || this->updateFacing()) {
+		// Determine the rough orientation of the object.
+		if (abs(this->facing.z) >= abs(this->facing.x)) {
+			if (this->facing.z <= 0.0f) {
+				this->trueWestBound  = this->centerX + this->relativeWestBound;
+				this->trueEastBound  = this->centerX + this->relativeEastBound;
+				this->trueSouthBound = this->centerZ + this->relativeSouthBound;
+				this->trueNorthBound = this->centerZ + this->relativeNorthBound;
+			}
+			else {
+				this->trueWestBound  = this->centerX - this->relativeEastBound;
+				this->trueEastBound  = this->centerX - this->relativeWestBound;
+				this->trueSouthBound = this->centerZ - this->relativeNorthBound;
+				this->trueNorthBound = this->centerZ - this->relativeSouthBound;
+			}
+		}
+		else {
+			if (this->facing.x <= 0.0f) {
+				this->trueWestBound  = this->centerX - this->relativeNorthBound;
+				this->trueEastBound  = this->centerX - this->relativeSouthBound;
+				this->trueSouthBound = this->centerZ + this->relativeWestBound;
+				this->trueNorthBound = this->centerZ + this->relativeEastBound;
+			}
+			else {
+				this->trueWestBound  = this->centerX + this->relativeSouthBound;
+				this->trueEastBound  = this->centerX + this->relativeNorthBound;
+				this->trueSouthBound = this->centerZ - this->relativeEastBound;
+				this->trueNorthBound = this->centerZ - this->relativeWestBound;
+			}
+		}
+
+		this->updateVisualizer();
+	}
+}
+
+void GridZone::sendCellEvents() {
+	int prevWest  = this->trueWestBound;
+	int prevEast  = this->trueEastBound;
+	int prevSouth = this->trueSouthBound;
+	int prevNorth = this->trueNorthBound;
+
+	this->updateZoneBounds();
+
+	// Don't send messages unless the zone has been added to the grid.
+	GameGrid* grid = SINGLETONS->GetGridManager()->GetGrid();
+	if (grid->ZoneExistsOnGrid(this->GetObject()->GetId())) {
+		int gridWidth = SINGLETONS->GetGridManager()->GetGrid()->GetGridWidth();
+
+		// Get list of cells that the zone occupied before.
+		std::list<int> oldCells;
+		for (int x = prevWest; x <= prevEast; ++x) {
+			for (int z = prevSouth; z <= prevNorth; ++z) {
+				oldCells.push_back(x * gridWidth + z);
+			}
+		}
+		oldCells.sort();
+
+		// Get list of cells that the zone occupies now.
+		std::list<int> newCells;
+		for (int x = this->trueWestBound; x <= this->trueEastBound; ++x) {
+			for (int z = this->trueSouthBound; z <= this->trueNorthBound; ++z) {
+				newCells.push_back(x * gridWidth + z);
+			}
+		}
+		newCells.sort();
+
+		// Remove the elements that are common to both lists.
+		auto oldIter = oldCells.begin();
+		auto newIter = newCells.begin();
+		while ((oldIter != oldCells.end()) && (newIter != newCells.end())) {
+			if (*oldIter < *newIter) {
+				oldIter++;
+			}
+			else if (*oldIter > *newIter) {
+				newIter++;
+			}
+			else {
+				oldIter = oldCells.erase(oldIter);
+				newIter = newCells.erase(newIter);
+			}
+		}
+
+		// Send messages based on the cells that were entered or exited.
+		for (auto iter = oldCells.begin(); iter != oldCells.end(); ++iter) {
+			int x = (*iter) / gridWidth;
+			int z = (*iter) % gridWidth;
+			MessageChunk enteredCellMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			enteredCellMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED_CELL);
+			enteredCellMessage->messageData.iv1.x = x;
+			enteredCellMessage->messageData.iv1.z = z;
+			ENGINE->GetMessageHub()->SendMulticastMessage(enteredCellMessage, this->GetObject()->GetId());
+		}
+		for (auto iter = newCells.begin(); iter != newCells.end(); ++iter) {
+			int x = (*iter) / gridWidth;
+			int z = (*iter) % gridWidth;
+			MessageChunk enteredCellMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			enteredCellMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED_CELL);
+			enteredCellMessage->messageData.iv1.x = x;
+			enteredCellMessage->messageData.iv1.z = z;
+			ENGINE->GetMessageHub()->SendMulticastMessage(enteredCellMessage, this->GetObject()->GetId());
+		}
+	}
+}
+
+void GridZone::onTransformChanged() {
+	this->sendCellEvents();
 }
 
 void GridZone::handleCameraModeChanged() {
@@ -175,15 +306,25 @@ void GridZone::init() {
 	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
 
 	this->zoneType = GRID_ZONE_TYPE_UNKNOWN;
-	this->westBound = -1;
-	this->eastBound = -1;
-	this->southBound = -1;
-	this->northBound = -1;
+	this->centerX            = -1;
+	this->centerZ            = -1;
+	this->facing             = ZAXIS;
+	this->relativeWestBound  = 0;
+	this->relativeEastBound  = 0;
+	this->relativeSouthBound = 0;
+	this->relativeNorthBound = 0;
+	this->trueWestBound      = -1;
+	this->trueEastBound      = -1;
+	this->trueSouthBound     = -1;
+	this->trueNorthBound     = -1;
 
 	this->visualizerObjectRef = nullptr;
 	this->displayVisualizerInGameMode = true;
 	this->displayVisualizerInOverviewMode = true;
 
+	this->updateZoneBounds();
+
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT, this->GetTypeId(), true);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_CAMERA_MODE_CHANGED, this->GetTypeId(), false);
 }
 
