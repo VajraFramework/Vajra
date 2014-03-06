@@ -172,14 +172,16 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 			if (gObj != nullptr) {
 
 				this->gameObjectRef->AddChild_maintainTransform(gObj->GetId());
-				
-				if(gObj->GetComponent<Assassin>()) {
-					gObj->GetComponent<Assassin>()->cancelSpecial();
-				}
-				
+			
 				// If it's a unit that's moving, stop it:
 				GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
 				if (gNav != nullptr) {
+					if(gObj->GetComponent<BaseUnit>()) {
+						if(gObj->GetComponent<BaseUnit>()->GetUnitType() == UnitType::UNIT_TYPE_ASSASSIN) {
+							gObj->GetComponent<Assassin>()->cancelSpecial();
+						}
+					}
+				
 					gNav->HaltMovement();
 					gNav->DisableNavigation();
 				}
