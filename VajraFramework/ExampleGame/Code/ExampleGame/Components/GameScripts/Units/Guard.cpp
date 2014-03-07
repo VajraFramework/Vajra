@@ -62,6 +62,25 @@ void Guard::HandleMessage(MessageChunk messageChunk) {
 	}
 }
 
+bool Guard::CanBeKilledBy(ObjectIdType id, glm::vec3 source) {
+	GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+	if (gObj != nullptr) {
+		BaseUnit* unit = gObj->GetComponent<BaseUnit>();
+		if (unit != nullptr) {
+			if ((unit->GetUnitType() >= FIRST_PLAYER_UNIT_TYPE) && (unit->GetUnitType() <= LAST_PLAYER_UNIT_TYPE)) {
+				// Guards are invincible from the front, so check the angle of the attack.
+				glm::vec3 dir = source - this->gameObjectRef->GetTransform()->GetPositionWorld();
+				glm::vec3 forward = QuaternionForwardVector(this->gameObjectRef->GetTransform()->GetOrientationWorld());
+				float angle = glm::angle(dir, forward);
+				if (angle >= INVINCIBLE_ANGLE) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
 void Guard::determineBrainState() {
 	if (this->brainState == ENEMY_BRAIN_CALM) {
 		if (this->knownPlayers.size() > 0) {
@@ -91,30 +110,6 @@ void Guard::onBrainBecameCautious() {
 
 void Guard::onBrainBecameAggressive() {
 	this->SwitchActionState(UNIT_ACTION_STATE_DOING_SPECIAL);
-}
-
-void Guard::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ, glm::vec3 source) {
-	// Did the attack hit my cell?
-	GridCell* cell = this->gridNavRef->GetCurrentCell();
-	if (cell != nullptr) {
-		if ((cell->x == gridX) && (cell->z == gridZ)) {
-			GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
-			if (gObj != nullptr) {
-				BaseUnit* unit = gObj->GetComponent<BaseUnit>();
-				if (unit != nullptr) {
-					if ((unit->GetUnitType() >= FIRST_PLAYER_UNIT_TYPE) && (unit->GetUnitType() <= LAST_PLAYER_UNIT_TYPE)) {
-						// Guards are invincible from the front, so check the angle of the attack.
-						glm::vec3 dir = source - this->gameObjectRef->GetTransform()->GetPositionWorld();
-						glm::vec3 forward = QuaternionForwardVector(this->gameObjectRef->GetTransform()->GetOrientationWorld());
-						float angle = glm::angle(dir, forward);
-						if (angle >= INVINCIBLE_ANGLE) {
-							this->Kill();
-						}
-					}
-				}
-			}
-		}
-	}
 }
 
 void Guard::cautiousUpdate() {
