@@ -122,7 +122,7 @@ void Thief::startSpecial() {
 	this->targetIndicatorsRef.erase(this->targetedCell);
 	delete selectedTargetIndicator;
 
-	this->SetTouchIndicatorLocation(this->targetedCell);
+	this->GridPlaneSetPos(this->touchIndicatorRef, this->targetedCell);
 	this->startTouchIndicatorPulse();
 	this->SetTouchIndicatorSprite(PLAYER_NUM_TOUCH_IMAGES + this->textureIndexForElevation(this->targetedCell->y));
 	this->SetTouchIndicatorVisible(true);
