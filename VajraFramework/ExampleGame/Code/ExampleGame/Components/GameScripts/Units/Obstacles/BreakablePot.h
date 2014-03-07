@@ -30,7 +30,7 @@ protected:
 	virtual void end();
 	virtual void update();
 
-	virtual void onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ);
+	virtual void onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ, glm::vec3 source);
 
 	// @Override
 	virtual void Kill();
