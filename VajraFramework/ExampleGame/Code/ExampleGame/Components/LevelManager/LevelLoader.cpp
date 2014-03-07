@@ -33,6 +33,8 @@
 
 std::map<int, ObjectIdType> LevelLoader::idsFromXml;
 
+#define DEFAULT_LOSE_CONDITION "DefaultLoseCondition"
+
 UnitType StringToUnitType(std::string str) {
 	if (str == "Assassin") {
 		return UNIT_TYPE_ASSASSIN;
@@ -478,4 +480,8 @@ void LevelLoader::loadEndConditionsFromXml(XmlNode* linkBaseNode) {
 
 		loseConditionNode = loseConditionNode->GetNextSiblingByNodeName(LOSE_CONDITION_TAG);
 	}
+
+	// Generate the default lose condition
+	GameObject* defaultLose = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + DEFAULT_LOSE_CONDITION + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
+	SINGLETONS->GetLevelManager()->AddLoseCondition(defaultLose->GetId());
 }
