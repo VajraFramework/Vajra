@@ -163,8 +163,6 @@ void Guard::onLostSightOfPlayerUnit(ObjectIdType id) {
 void Guard::onAnimationEnded(std::string animName) {
 	if (animName == UNIT_ANIMATION_CLIP_NAME_doingspecial) {
 		this->SwitchActionState(UNIT_ACTION_STATE_POST_SPECIAL);
-	}
-	else if (animName == UNIT_ANIMATION_CLIP_NAME_postspecial) {
 		if (this->targetCell != nullptr) {
 			// Attack the intended target
 			MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
@@ -175,6 +173,8 @@ void Guard::onAnimationEnded(std::string animName) {
 			attackMessage->messageData.fv1 = this->gameObjectRef->GetTransform()->GetPositionWorld();
 			ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
 		}
+	}
+	else if (animName == UNIT_ANIMATION_CLIP_NAME_postspecial) {
 		this->setBrainState(ENEMY_BRAIN_CAUTIOUS);
 	}
 }
