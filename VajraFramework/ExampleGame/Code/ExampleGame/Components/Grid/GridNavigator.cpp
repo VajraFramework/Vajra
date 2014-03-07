@@ -518,17 +518,18 @@ bool GridNavigator::canNavigateThroughCellAtElevation(GridCell* cell, int elevat
 
 			// Does the cell have an occupant?
 			ObjectIdType occId = cell->GetOccupantIdAtElevation(elevation);
-			GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
-			if (occupant == nullptr) {
-				return true;
-			}
+			if(occId != OBJECT_ID_INVALID) {
+				GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+				if (occupant == nullptr) {
+						return true;
+				}
 
-			// Does the occupant of the cell block this navigator?
-			BaseUnit* occUnit = occupant->GetComponent<BaseUnit>();
-			if (occUnit != nullptr) {
-				UnitType otherType = occUnit->GetUnitType();
-				return (otherType <= this->maxNavigableUnitType);
-				//return true;
+				// Does the occupant of the cell block this navigator?
+				BaseUnit* occUnit = occupant->GetComponent<BaseUnit>();
+				if (occUnit != nullptr) {
+					UnitType otherType = occUnit->GetUnitType();
+					return (otherType <= this->maxNavigableUnitType);
+				}
 			}
 
 		}
