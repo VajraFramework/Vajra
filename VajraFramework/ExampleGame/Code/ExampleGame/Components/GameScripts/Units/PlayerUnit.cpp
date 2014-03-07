@@ -149,7 +149,7 @@ void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {
 	if(this->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL || this->GetUnitActionState() == UNIT_ACTION_STATE_POST_SPECIAL) {
 		this->cancelSpecial();
 	}
-	this->SetTouchIndicatorLocation(newTarget);
+	this->GridPlaneSetPos(this->touchIndicatorRef,newTarget);
 	this->SwitchActionState(UNIT_ACTION_STATE_WALKING);
 	this->startTouchIndicatorPulse();
 	this->gridNavRef->SetDestination(newTarget);
@@ -193,7 +193,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 		switch(ENGINE->GetInput()->GetTouch(touchId).phase) {
 			case TouchPhase::Began:
 				this->inputState = InputState::INPUT_STATE_NAV;
-				this->SetTouchIndicatorLocation(this->currentTouchedCell);
+				this->GridPlaneSetPos(this->touchIndicatorRef,this->currentTouchedCell);
 				ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
 				ENGINE->GetTween()->CancelNumberTween("pulse");
 				ENGINE->GetTween()->TweenScale(this->touchIndicatorRef->GetId(), glm::vec3(0), glm::vec3(1),TOUCH_SCALE_TIME);
@@ -247,7 +247,7 @@ void PlayerUnit::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ) {
 }
 
 void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
-	this->SetTouchIndicatorLocation(this->currentTouchedCell);
+	this->GridPlaneSetPos(this->touchIndicatorRef,this->currentTouchedCell);
 	if(this->inputState == InputState::INPUT_STATE_NAV || this->inputState == InputState::INPUT_STATE_WAIT) {
 		if(this->gridNavRef->CanReachDestination(this->currentTouchedCell)) {
 			this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
@@ -272,8 +272,17 @@ void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
 	}
 }
 
-void PlayerUnit::TouchIndicatorLookAt(GridCell* target) {
-	this->GridPlaneLookAt(this->touchIndicatorRef, target->center);
+void PlayerUnit::GridPlaneSetPos(GameObject* plane, GridCell* targetCell) {
+	if(targetCell != nullptr) {
+		glm::vec3 target = targetCell->center;
+		target.y += this->GetYOffsetFromCell(targetCell);
+		this->GridPlaneSetPos(plane, target);
+	}
+}
+
+void PlayerUnit::GridPlaneSetPos(GameObject* plane, glm::vec3 target) {
+	plane->GetTransform()->SetPosition(target);
+	plane->GetTransform()->Translate(0.05f , YAXIS);
 }
 
 void PlayerUnit::GridPlaneLookAt(GameObject* plane, GridCell* target) {
@@ -320,20 +329,19 @@ void PlayerUnit::SetTouchIndicatorSprite(int index) {
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(index);
 }
 
-void PlayerUnit::SetTouchIndicatorLocation(GridCell* c) {
-	if(c != nullptr) {
-		glm::vec3 target = c->center;
-		target.y += c->y * 0.05;
-		this->SetTouchIndicatorLocation(target);
-	}
-}
-
-void PlayerUnit::SetTouchIndicatorLocation(glm::vec3 target) {
-	this->touchIndicatorRef->GetTransform()->SetPosition(target);
-	this->touchIndicatorRef->GetTransform()->Translate(0.05f , YAXIS);
-
-}
-
 void PlayerUnit::SetTouchIndicatorVisible(bool visibility) {
 	this->touchIndicatorRef->SetVisible(visibility);
+}
+
+float PlayerUnit::GetYOffsetFromCell(GridCell* targetCell) {
+	float offset = targetCell->y * 0.05;
+	for(auto zoneIds : targetCell->zones) {
+		GameObject* zone = ENGINE->GetSceneGraph3D()->GetGameObjectById(zoneIds);
+		if(zone != nullptr) {
+			if(zone->HasTag("PressurePlate") || zone->HasTag("Switch")) {
+				offset += .3f;
+			}
+		}
+	}
+	return offset;
 }

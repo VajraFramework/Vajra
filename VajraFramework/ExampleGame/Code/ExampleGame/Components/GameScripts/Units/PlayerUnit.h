@@ -14,7 +14,7 @@ class MessageData1S1I1F;
 
 class PlayerUnit : public BaseUnit {
 
-#define MOVE_SPEED 3.25f
+#define MOVE_SPEED 2.75f
 #define TURN_SPEED_DEG 1000.0f
 #define NEAR_TOUCH_DIST 1.5f 
 	
@@ -63,13 +63,16 @@ protected:
 
 	void startTouchIndicatorPulse();
 	void SetTouchIndicatorSprite(int /*index*/ );
-	void SetTouchIndicatorLocation(GridCell*);
-	void SetTouchIndicatorLocation(glm::vec3);
-	void TouchIndicatorLookAt(GridCell* /*target*/);
+
+	void GridPlaneSetPos(GameObject* /*plane*/, GridCell* /*target*/);
+	void GridPlaneSetPos(GameObject* /*plane*/, glm::vec3 /*target*/);
+
 	void GridPlaneLookAt(GameObject* /*plane*/, GridCell* /*target*/);
 	void GridPlaneLookAt(GameObject* /*plane*/, glm::vec3 /*target*/);
 
 	void SetTouchIndicatorVisible(bool /*visibilty*/);	
+
+	float GetYOffsetFromCell(GridCell* /*targetCell*/);
 
 	inline GridCell* GetCurrentTouchedCell() { return this->currentTouchedCell; }
 	

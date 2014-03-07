@@ -255,7 +255,7 @@ void Assassin::aimSpecial(int touchId){
 
 		// touch indicator
 		this->SetTouchIndicatorVisible(true);
-		this->SetTouchIndicatorLocation(this->targetLoc + yOffset);
+		this->GridPlaneSetPos(this->touchIndicatorRef, this->targetLoc + yOffset);
 
 		// Arrow Tail
 		this->arrowTail->SetVisible(true);
