@@ -275,15 +275,7 @@ void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
 void PlayerUnit::GridPlaneSetPos(GameObject* plane, GridCell* targetCell) {
 	if(targetCell != nullptr) {
 		glm::vec3 target = targetCell->center;
-		target.y += targetCell->y * 0.05;
-		for(auto zoneIds : targetCell->zones) {
-			GameObject* zone = ENGINE->GetSceneGraph3D()->GetGameObjectById(zoneIds);
-			if(zone != nullptr) {
-				if(zone->HasTag("PressurePlate") || zone->HasTag("Switch")) {
-					target.y += .1f;
-				}
-			}
-		}
+		target.y += this->GetYOffsetFromCell(targetCell);
 		this->GridPlaneSetPos(plane, target);
 	}
 }
@@ -339,4 +331,17 @@ void PlayerUnit::SetTouchIndicatorSprite(int index) {
 
 void PlayerUnit::SetTouchIndicatorVisible(bool visibility) {
 	this->touchIndicatorRef->SetVisible(visibility);
+}
+
+float PlayerUnit::GetYOffsetFromCell(GridCell* targetCell) {
+	float offset = targetCell->y * 0.05;
+	for(auto zoneIds : targetCell->zones) {
+		GameObject* zone = ENGINE->GetSceneGraph3D()->GetGameObjectById(zoneIds);
+		if(zone != nullptr) {
+			if(zone->HasTag("PressurePlate") || zone->HasTag("Switch")) {
+				offset += .3f;
+			}
+		}
+	}
+	return offset;
 }

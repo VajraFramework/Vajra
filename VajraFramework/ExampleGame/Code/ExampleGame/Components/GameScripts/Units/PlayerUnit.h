@@ -72,6 +72,8 @@ protected:
 
 	void SetTouchIndicatorVisible(bool /*visibilty*/);	
 
+	float GetYOffsetFromCell(GridCell* /*targetCell*/);
+
 	inline GridCell* GetCurrentTouchedCell() { return this->currentTouchedCell; }
 	
 private:

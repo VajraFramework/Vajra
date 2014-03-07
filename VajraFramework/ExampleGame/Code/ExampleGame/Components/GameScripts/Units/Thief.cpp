@@ -283,7 +283,7 @@ void Thief::updateTargets() {
 	for( GridCell* c : this->legalTargets ) {
 		ASSERT(targetIndicatorsRef[c] != nullptr, "target indicator for cell is not null");
 		if(c->center != targetIndicatorsRef[c]->GetTransform()->GetPosition()) {
-			targetIndicatorsRef[c]->GetTransform()->SetPosition(c->center);
+			this->GridPlaneSetPos(targetIndicatorsRef[c], c);
 			
 			targetIndicatorsRef[c]->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(textureIndexForElevation(c->y));
 
