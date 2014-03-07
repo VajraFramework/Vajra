@@ -18,9 +18,6 @@ public:
 
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 
-	// @Override
-	virtual void HandleMessage(MessageChunk messageChunk);
-	
 	virtual void cancelSpecial();
 
 protected:
@@ -34,7 +31,6 @@ protected:
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
 	virtual void aimSpecial(int /* touchId */ );
-	void onGridCellChanged(ObjectIdType id, int gridX, int gridZ);
 private:
 	void init();
 	void destroy();

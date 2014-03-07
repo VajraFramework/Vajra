@@ -80,23 +80,9 @@ void Assassin::init() {
 		this->arrowHead->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 		this->arrowHead->SetVisible(false);
 	}
-
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
 }
 
 void Assassin::destroy() {
-}
-
-void Assassin::HandleMessage(MessageChunk messageChunk) {
-	PlayerUnit::HandleMessage(messageChunk);
-	switch (messageChunk->GetMessageType()) {
-		case MESSAGE_TYPE_GRID_CELL_CHANGED:
-			this->onGridCellChanged(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
-			break;
-
-		default:
-			break;
-	}
 }
 
 void Assassin::amendTouchIndicatorPaths(std::vector<std::string>& /*pathsToTextures*/) {
@@ -182,25 +168,6 @@ void Assassin::cancelSpecial() {
 		ENGINE->GetTween()->CancelPostitionTween(this->gameObjectRef->GetId());
 		this->specialUpdate();
 		this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
-	}
-}
-
-void Assassin::onGridCellChanged(ObjectIdType id, int gridX, int gridZ) {
-	// If this object is the one that sent the message, broadcast an attack message as well
-	if (id == this->GetObject()->GetId()) {
-		GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(gridX, gridZ);
-		if (cell != nullptr) {
-			if (this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
-				// Send an attack message
-				MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-				attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
-				attackMessage->messageData.iv1.x = cell->x;
-				attackMessage->messageData.iv1.y = cell->y;
-				attackMessage->messageData.iv1.z = cell->z;
-				attackMessage->messageData.fv1 = this->specialStartPos;
-				ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
-			}
-		}
 	}
 }
 
