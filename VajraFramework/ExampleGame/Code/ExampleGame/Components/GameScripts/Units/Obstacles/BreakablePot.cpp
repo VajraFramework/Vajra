@@ -42,14 +42,6 @@ void BreakablePot::destroy() {
 
 void BreakablePot::HandleMessage(MessageChunk messageChunk) {
 	BaseUnit::HandleMessage(messageChunk);
-	switch(messageChunk->GetMessageType()) {
-		case MESSAGE_TYPE_UNIT_SPECIAL_HIT:
-			this->onUnitSpecialHit(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
-			break;
-
-		default:
-			break;
-	}
 }
 
 void BreakablePot::start() {
@@ -70,7 +62,7 @@ void BreakablePot::Kill() {
 	this->gameObjectRef->SetVisible(false);
 }
 
-void BreakablePot::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ) {
+void BreakablePot::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ, glm::vec3 /*source*/) {
 	GridNavigator* gNav = this->GetObject()->GetComponent<GridNavigator>();
 	if (gNav != nullptr) {
 		// Did the special hit the cell I'm in?
