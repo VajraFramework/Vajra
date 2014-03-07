@@ -276,6 +276,14 @@ void PlayerUnit::GridPlaneSetPos(GameObject* plane, GridCell* targetCell) {
 	if(targetCell != nullptr) {
 		glm::vec3 target = targetCell->center;
 		target.y += targetCell->y * 0.05;
+		for(auto zoneIds : targetCell->zones) {
+			GameObject* zone = ENGINE->GetSceneGraph3D()->GetGameObjectById(zoneIds);
+			if(zone != nullptr) {
+				if(zone->HasTag("PressurePlate") || zone->HasTag("Switch")) {
+					target.y += .1f;
+				}
+			}
+		}
 		this->GridPlaneSetPos(plane, target);
 	}
 }
