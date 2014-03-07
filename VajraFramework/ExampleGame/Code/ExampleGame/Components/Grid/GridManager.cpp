@@ -463,12 +463,14 @@ void GridManager::addZoneToCell(ObjectIdType zoneId, int gridX, int gridZ) {
 			cell->AddZoneToCell(zoneId);
 			for (int y = 0; y < NUM_ELEVATIONS; ++y) {
 				ObjectIdType occId = cell->GetOccupantIdAtElevation(y);
-				GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
-				if (occupant != nullptr) {
-					MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-					collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED);
-					collisionMessage->messageData.iv1.x = occId;
-					ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, zoneId, occId);
+				if(occId != OBJECT_ID_INVALID) {
+					GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+					if (occupant != nullptr) {
+						MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+						collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED);
+						collisionMessage->messageData.iv1.x = occId;
+						ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, zoneId, occId);
+					}
 				}
 			}
 		}
@@ -485,12 +487,14 @@ void GridManager::removeZoneFromCell(ObjectIdType zoneId, int gridX, int gridZ) 
 			cell->RemoveZoneFromCell(zoneId);
 			for (int y = 0; y < NUM_ELEVATIONS; ++y) {
 				ObjectIdType occId = cell->GetOccupantIdAtElevation(y);
-				GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
-				if (occupant != nullptr) {
-					MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-					collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED);
-					collisionMessage->messageData.iv1.x = occId;
-					ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, zoneId, occId);
+				if(occId != OBJECT_ID_INVALID) {
+					GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+					if (occupant != nullptr) {
+						MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+						collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED);
+						collisionMessage->messageData.iv1.x = occId;
+						ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, zoneId, occId);
+					}
 				}
 			}
 		}
