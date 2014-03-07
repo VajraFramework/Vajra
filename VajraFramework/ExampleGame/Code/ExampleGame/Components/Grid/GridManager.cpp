@@ -170,8 +170,15 @@ void GridManager::tryUnitSwitch(int touchIndex) {
 					glm::vec3 unitPos = go->GetTransform()->GetPosition();
 					GridCell* unitCell = this->grid->GetCell(unitPos);
 					glm::vec3 touchPos = this->TouchPositionToGridPositionAtElevation(touch.pos, unitCell->y);
+
+					// increase the distance requred to switch if the selected unit can't reach the current unit
 					if(unitCell != nullptr && !selectedUnit->GetObject()->GetComponent<GridNavigator>()->CanReachDestination(unitPos)) {
 						distToSwitch += 1.0f;
+					}
+
+					// if you touched on the cell above the unit increase the distance
+					if(unitCell->z + 1 == cell->z) {
+						distToSwitch += .45f;
 					}
 					if(glm::distance(unitPos, touchPos) <= distToSwitch) {
 						this->selectUnitInCell(unitCell);
@@ -234,23 +241,7 @@ void GridManager::SwitchSelectedUnit() {
 		ENGINE->GetMessageHub()->SendMulticastMessage(unitChangedMessage, this->GetObject()->GetId());
 	}
 }
-/*
-void GridManager::ToggleOverview() {
 
-}
-
-void GridManager::TouchOnGrid(uTouch uT) {
-
-}
-
-GRID_DIR GridManager::GetVectorDirection(glm::vec3 vec) {
-
-}
-
-std::list<GridCell> GridManager::GetNeighborsInRange(glm::vec3 pos, int range, bool includeObstructed, bool lineOfSight, bool sameElevation, GRID_DIR dir) {
-
-}
-*/
 #ifdef DEBUG_GRID
 void GridManager::debugTouchUpdate(int touchIndex) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
