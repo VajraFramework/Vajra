@@ -231,7 +231,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	}
 }
 
-void PlayerUnit::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ) {
+void PlayerUnit::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ, glm::vec3 /*source*/) {
 	// Did the attack hit my cell?
 	GridCell* cell = this->gridNavRef->GetCurrentCell();
 	if (cell != nullptr) {

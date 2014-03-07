@@ -50,7 +50,7 @@ void BaseUnit::HandleMessage(MessageChunk messageChunk) {
 	Component::HandleMessage(messageChunk);
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_UNIT_SPECIAL_HIT:
-			this->onUnitSpecialHit(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
+			this->onUnitSpecialHit(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z, messageChunk->messageData.fv1);
 			break;
 	}
 }

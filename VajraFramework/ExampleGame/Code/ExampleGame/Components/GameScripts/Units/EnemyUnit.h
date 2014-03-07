@@ -24,16 +24,20 @@ public:
 
 protected:
 	virtual void update();
-
-	virtual void determineBrainState() = 0;
-	virtual void setBrainState(EnemyBrainState bState); // Set any necessary data for brain state
-
 	virtual void idleUpdate();
 	virtual void cautiousUpdate();
 	virtual void aggressiveUpdate();
 
-	virtual void onSightedPlayerUnit(ObjectIdType /*id*/) { };
-	virtual void onLostSightOfPlayerUnit(ObjectIdType /*id*/) { };
+	virtual void determineBrainState() = 0;
+	void setBrainState(EnemyBrainState bState); // Set any necessary data for brain state
+	virtual void onBrainBecameCalm();
+	virtual void onBrainBecameCautious();
+	virtual void onBrainBecameAggressive();
+
+	virtual void Kill();
+
+	virtual void onSightedPlayerUnit(ObjectIdType /*id*/) { }
+	virtual void onLostSightOfPlayerUnit(ObjectIdType /*id*/) { }
 
 	AiRoutine* routine;
 	float alertness;

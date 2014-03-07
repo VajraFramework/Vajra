@@ -43,9 +43,7 @@ void EnemyUnit::HandleMessage(MessageChunk messageChunk) {
 }
 
 void EnemyUnit::update() {
-	if (this->isActive) {
-		this->determineBrainState();
-
+	if (this->isActive && (this->GetUnitState() == UnitState::UNIT_STATE_ALIVE)) {
 		switch (this->brainState) {
 			case ENEMY_BRAIN_CALM:
 				this->idleUpdate();
@@ -63,15 +61,42 @@ void EnemyUnit::update() {
 }
 
 void EnemyUnit::setBrainState(EnemyBrainState bState) {
-	switch (this->brainState) {
-		case ENEMY_BRAIN_CALM:
-			this->routine->ResumeSchedule();
-			break;
+	if (this->brainState != bState) {
+		switch (bState) {
+			case ENEMY_BRAIN_CALM:
+				this->onBrainBecameCalm();
+				break;
 
-		default:
-			break;
+			case ENEMY_BRAIN_CAUTIOUS:
+				this->onBrainBecameCautious();
+				break;
+
+			case ENEMY_BRAIN_AGGRESSIVE:
+				this->onBrainBecameAggressive();
+				break;
+
+			default:
+				break;
+		}
+		this->brainState = bState;
 	}
-	this->brainState = bState;
+}
+
+void EnemyUnit::onBrainBecameCalm() {
+	this->routine->ResumeSchedule();
+}
+
+void EnemyUnit::onBrainBecameCautious() {
+
+}
+
+void EnemyUnit::onBrainBecameAggressive() {
+
+}
+
+void EnemyUnit::Kill() {
+	BaseUnit::Kill();
+	this->gameObjectRef->SetVisible(false);
 }
 
 void EnemyUnit::idleUpdate() {
