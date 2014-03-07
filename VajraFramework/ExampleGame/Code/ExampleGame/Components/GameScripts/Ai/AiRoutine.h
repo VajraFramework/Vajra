@@ -7,6 +7,7 @@
 #define AIROUTINE_H
 
 #include "ExampleGame/Components/GameScripts/Ai/AiCommandParse.h"
+#include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "Vajra/Common/Components/Component.h"
 
 #include <string>
@@ -44,6 +45,7 @@ private:
 	float waitTimer;
 	float maxTick;
 	AiMarkerType currentMarkerType;
+	BaseUnit* unit;
 
 	static ComponentIdType componentTypeId;
 

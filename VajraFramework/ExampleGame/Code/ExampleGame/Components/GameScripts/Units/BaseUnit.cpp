@@ -27,9 +27,10 @@ BaseUnit::~BaseUnit() {
 }
 
 void BaseUnit::init() {
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_END  , this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START     , this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT     , this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_END       , this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT, this->GetTypeId(), false);
 
 	this->gameObjectRef = (GameObject*)this->GetObject();
 	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
@@ -47,6 +48,11 @@ void BaseUnit::destroy() {
 
 void BaseUnit::HandleMessage(MessageChunk messageChunk) {
 	Component::HandleMessage(messageChunk);
+	switch (messageChunk->GetMessageType()) {
+		case MESSAGE_TYPE_UNIT_SPECIAL_HIT:
+			this->onUnitSpecialHit(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
+			break;
+	}
 }
 
 void BaseUnit::start() {

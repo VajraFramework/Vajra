@@ -1,0 +1,19 @@
+<prefab>
+	<gameobject>
+		<component name="Transform">
+		</component>
+
+		<component name="UnitDeathSwitch">
+			<property name="SetSwitchType">
+				<field>Once</field>
+			</property>
+			<property name="AddAllowedUnitType">
+				<field>Assassin</field>
+			</property>
+			<property name="AddAllowedUnitType">
+				<field>Thief</field>
+			</property>
+		</component>
+	</gameobject>
+</prefab>
+

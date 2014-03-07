@@ -25,6 +25,8 @@ protected:
 	virtual void cautiousUpdate();
 	virtual void aggressiveUpdate();
 
+	virtual void onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ);
+
 	virtual void onSightedPlayerUnit(ObjectIdType id);
 	virtual void onLostSightOfPlayerUnit(ObjectIdType id);
 
