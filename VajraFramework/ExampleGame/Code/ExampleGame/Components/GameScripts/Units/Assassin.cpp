@@ -240,7 +240,7 @@ void Assassin::aimSpecial(int touchId){
 		if(dist > GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units)) {
 			dist = GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units);
 			this->targetLoc = sinPos + (attackDir *  dist);
-			touchedCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->targetLoc);
+			this->targetedCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->targetLoc);
 		}
 
 		dist -= 1.5f; // shorten dist so arrow heads are in the right spot
@@ -251,7 +251,7 @@ void Assassin::aimSpecial(int touchId){
 		this->gridNavRef->SetLookTarget(this->targetLoc);
 
 		// the yOffset the indicators should have
-		float yOffset = touchedCell->y * 0.05 + .01f;
+		float yOffset = this->targetedCell->y * 0.05 + .01f;
 
 		// touch indicator
 		this->SetTouchIndicatorVisible(true);
