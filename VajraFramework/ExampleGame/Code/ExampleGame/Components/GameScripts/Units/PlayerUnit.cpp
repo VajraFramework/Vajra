@@ -231,6 +231,24 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 	}
 }
 
+void PlayerUnit::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ) {
+	// Did the attack hit my cell?
+	GridCell* cell = this->gridNavRef->GetCurrentCell();
+	if (cell != nullptr) {
+		if ((cell->x == gridX) && (cell->z == gridZ)) {
+			GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+			if (gObj != nullptr) {
+				BaseUnit* unit = gObj->GetComponent<BaseUnit>();
+				if (unit != nullptr) {
+					if ((unit->GetUnitType() >= FIRST_ENEMY_UNIT_TYPE) && (unit->GetUnitType() <= LAST_ENEMY_UNIT_TYPE)) {
+						this->Kill();
+					}
+				}
+			}
+		}
+	}
+}
+
 void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
 	this->SetTouchIndicatorLocation(this->currentTouchedCell);
 	if(this->inputState == InputState::INPUT_STATE_NAV || this->inputState == InputState::INPUT_STATE_WAIT) {

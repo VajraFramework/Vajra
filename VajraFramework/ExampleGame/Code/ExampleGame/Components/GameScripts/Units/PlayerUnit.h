@@ -42,6 +42,8 @@ protected:
 	void onNavTouch(int touchId, GridCell* touchedCell);
 	inline bool getTouchNearUnit() { return this->touchNearUnit; }
 
+	virtual void onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ);
+
 	virtual bool isSpecialTouch(int /* touchId */) = 0; 
 	virtual void onSpecialTouch(int /* touchId */) = 0;
 
