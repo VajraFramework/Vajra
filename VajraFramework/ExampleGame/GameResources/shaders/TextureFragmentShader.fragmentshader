@@ -1,44 +1,56 @@
+__VERBATIM__
 #ifplatform iOS | Android
 precision mediump float;
 #endif
+__VERBATIM_END__
 
-varying vec2 uvCoords_out;
+__VARIABLES__
+
+uvCoords_out
 
 #ifdef PER_PIXEL_LIGHTING
-varying vec4 vNormal_out;
-varying vec4 DLight0Direction_out;
-varying vec4 DLight0AmbientColor_out;
-varying vec4 DLight0DiffuseColor_out;
-varying vec4 DLight0SpecularColor_out;
+vNormal_out
+DLight0Direction_out
+DLight0AmbientColor_out
+DLight0DiffuseColor_out
+DLight0SpecularColor_out
 #else
-varying vec4 lightIntensity;
+lightIntensity
 #endif
 
-uniform sampler2D myTextureSampler;
+myTextureSampler
 
 #ifdef BAKED_AMBIENT_LIGHTING
-uniform sampler2D bakedAmbientGridTextureSampler;
-
-varying vec3 modelCoordsForBakedAmbientLookup_out;
-uniform float bakedLightMapSize;
-
-float DOWN_AMBIENT_INTENSITY_FACTOR = 0.2;
-float UP_AMBIENT_INTENSITY_FACTOR = 0.2;
+bakedAmbientGridTextureSampler
+modelCoordsForBakedAmbientLookup_out
+bakedLightMapSize
 #endif
 
 
 #ifdef ADDITIONAL_LIGHTS
-uniform vec4 AdditionalLight0Direction;
-uniform vec4 AdditionalLight0Ambient;
-uniform vec4 AdditionalLight0Diffuse;
-uniform vec4 AdditionalLight1Direction;
-uniform vec4 AdditionalLight1Ambient;
-uniform vec4 AdditionalLight1Diffuse;
-uniform vec4 AdditionalLight2Direction;
-uniform vec4 AdditionalLight2Ambient;
-uniform vec4 AdditionalLight2Diffuse;
+AdditionalLight0Direction
+AdditionalLight0Ambient
+AdditionalLight0Diffuse
+AdditionalLight1Direction
+AdditionalLight1Ambient
+AdditionalLight1Diffuse
+AdditionalLight2Direction
+AdditionalLight2Ambient
+AdditionalLight2Diffuse
 #endif
 
+#ifdef SHADOWMAPS_REALTIME
+depthTextureSampler
+#endif
+
+__VARIABLES_END__
+
+__SOURCE__
+
+#ifdef BAKED_AMBIENT_LIGHTING
+float DOWN_AMBIENT_INTENSITY_FACTOR = 0.2;
+float UP_AMBIENT_INTENSITY_FACTOR = 0.2;
+#endif
 
 void main()
 {
@@ -64,6 +76,12 @@ void main()
 #endif
 #endif
 
+#ifdef SHADOWMAPS_REALTIME
+	vec4 depthMap_value = vec4(texture2D(depthTextureSampler, uvCoords_out).rgba) * lightIntensity;
+#endif
+
+	vec4 finalColor = vec4(1.0, 0.0, 0.0, 1.0);;
+
 #ifdef BAKED_AMBIENT_LIGHTING
 	vec4 color_temp = vec4(texture2D(myTextureSampler, uvCoords_out).rgba) * lightIntensity;
 
@@ -80,9 +98,17 @@ void main()
 	if (modelCoordsForBakedAmbientLookup_out.y > height_cutoof_at_pixel) {
 		down_ambient_intensity_at_point = 0.0;
 	}
-	gl_FragColor = color_temp - down_ambient_intensity_at_point * DOWN_AMBIENT_INTENSITY_FACTOR + up_ambient_intensity_at_point * UP_AMBIENT_INTENSITY_FACTOR;
+	finalColor = color_temp - down_ambient_intensity_at_point * DOWN_AMBIENT_INTENSITY_FACTOR + up_ambient_intensity_at_point * UP_AMBIENT_INTENSITY_FACTOR;
 #else
-	gl_FragColor = vec4(texture2D(myTextureSampler, uvCoords_out).rgba) * lightIntensity;
+	finalColor = vec4(texture2D(myTextureSampler, uvCoords_out).rgba) * lightIntensity;
 #endif
+	
+#ifdef SHADOWMAPS_REALTIME
+	finalColor = finalColor * 0.001 + vec4(depthMap_value.z, depthMap_value.z, depthMap_value.z, 1.0);
+#endif
+
+	gl_FragColor = finalColor;
 }
+
+__SOURCE_END__
 

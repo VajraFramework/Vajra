@@ -29,26 +29,9 @@ DLight0DiffuseColor_out
 DLight0SpecularColor_out
 #endif
 
-myTextureSampler
-
 #ifdef BAKED_AMBIENT_LIGHTING
-bakedAmbientGridTextureSampler
-bakedLightMapSize
 modelCoordsForBakedAmbientLookup_out
 #endif
-
-#ifdef ADDITIONAL_LIGHTS
-AdditionalLight0Direction
-AdditionalLight0Ambient
-AdditionalLight0Diffuse
-AdditionalLight1Direction
-AdditionalLight1Ambient
-AdditionalLight1Diffuse
-AdditionalLight2Direction
-AdditionalLight2Ambient
-AdditionalLight2Diffuse
-#endif
-
 
 __VARIABLES_END__
 

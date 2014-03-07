@@ -6,7 +6,6 @@ __VERBATIM_END__
 
 __VARIABLES__
 
-lightIntensity
 
 __VARIABLES_END__
 
@@ -15,7 +14,7 @@ __SOURCE__
 
 void main()
 {
-	gl_FragColor = lightIntensity;
+	gl_FragDepth = gl_FragCoord.z;
 }
 
 __SOURCE_END__

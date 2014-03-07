@@ -54,10 +54,14 @@ void ShaderHandles::AddShaderHandle(Shader_variable_qualifier_t qualifier,
 		ASSERT(0, "Unknown shader variable qualifier, %s", GetStringForShaderVariableQualifier(qualifier).c_str());
 	}
 
-	VERIFY(this->shaderHandles.find(variablename_id) == this->shaderHandles.end(), "Not duplicate shader variable handle");
-	this->shaderHandles[variablename_id] = newShaderHandle;
+	if (this->shaderHandles.find(variablename_id) != this->shaderHandles.end()) {
+		// Duplicate shader variable handle
+		VERIFY(qualifier == SHADER_VARIABLE_QUALIFIER_varying, "Duplicate shader variable handle has to be a varying");
 
-	FRAMEWORK->GetLogger()->dbglog("\nAdded shader variable handle for: %s", variablename_string.c_str());
+	} else {
+		this->shaderHandles[variablename_id] = newShaderHandle;
+		FRAMEWORK->GetLogger()->dbglog("\nAdded shader variable handle for: %s", variablename_string.c_str());
+	}
 }
 
 void ShaderHandles::destroy() {

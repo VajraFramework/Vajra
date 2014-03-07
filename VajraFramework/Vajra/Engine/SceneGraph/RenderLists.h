@@ -1,6 +1,9 @@
 #ifndef RENDER_LISTS_H
 #define RENDER_LISTS_H
 
+#include "Vajra/Common/Objects/Object.h"
+
+#include <functional>
 #include <map>
 #include <queue>
 #include <string>
@@ -10,6 +13,7 @@
 // Forward Declarations:
 class Camera;
 class DirectionalLight;
+class GameObject;
 class RenderList;
 
 #define USING_FRUSTUM_CULLING 1

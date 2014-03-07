@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/RenderScene/RenderScene.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneGraph/RenderLists.h"
 #include "Vajra/Engine/Ui/UiTouchManager/UiTouchManager.h"
@@ -32,7 +33,7 @@ void SceneGraphUi::draw() {
 	Camera* cameraComponent = mainCamera->GetComponent<Camera>();
 	VERIFY(cameraComponent != nullptr, "mainCamera has Camera component");
 
-	this->renderLists->Draw(cameraComponent);
+	RenderScene::RenderScene(this->renderLists, cameraComponent);
 }
 
 bool SceneGraphUi::TestTouchStart(Touch touch) {

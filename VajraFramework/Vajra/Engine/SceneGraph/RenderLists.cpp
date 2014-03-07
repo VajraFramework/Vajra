@@ -5,6 +5,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Lighting/AmbientLighting.h"
+#include "Vajra/Engine/Lighting/ShadowMap.h"
 #include "Vajra/Engine/SceneGraph/RenderLists.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
@@ -74,6 +75,9 @@ void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobje
 
 	// Pass the ambient lighting parameters to the shader:
 	ENGINE->GetAmbientLighting()->Draw();
+
+	// Pass the shadow map parameters to the shader:
+	ENGINE->GetShadowMap()->Draw();
 
 	for (ObjectIdType id : this->gameObjectIds) {
 		GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);

@@ -2,6 +2,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/RenderScene/RenderScene.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/RenderLists.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -69,7 +70,7 @@ void SceneGraph3D::draw() {
 	DirectionalLight* directionalLightComponent = mainDirectionalLight->GetComponent<DirectionalLight>();
 	VERIFY(directionalLightComponent != nullptr, "mainDirectionalLight has DirectionalLight component");
 
-	this->renderLists->Draw(cameraComponent, directionalLightComponent, additionalLights_components);
+	RenderScene::RenderScene(this->renderLists, cameraComponent, directionalLightComponent, additionalLights_components);
 }
 
 void SceneGraph3D::init() {

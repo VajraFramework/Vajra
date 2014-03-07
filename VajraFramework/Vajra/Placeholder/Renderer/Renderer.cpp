@@ -9,6 +9,7 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Timer/Timer.h"
+#include "Vajra/Engine/RenderScene/RenderScene.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/Input/Input.h"
@@ -72,6 +73,8 @@ bool setupGraphics(int w, int h, int dpi) {
     // TODO [Implement] Move this to shader specific code so that we can have only some shaders draw in wireframe mode
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 #endif
+
+    RenderScene::SetupStuff();
     
     return true;
 }

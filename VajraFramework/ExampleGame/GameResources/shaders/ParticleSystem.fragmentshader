@@ -1,16 +1,25 @@
-#ifplatform Linux | Windows
-#version 120
-#endif
-
+__VERBATIM__
 #ifplatform iOS | Android
 precision mediump float;
 #endif
+#ifplatform Linux | Windows
+#version 120
+#endif
+__VERBATIM_END__
 
-uniform sampler2D myTextureSampler;
-varying vec4 lightIntensity;
+__VARIABLES__
+
+myTextureSampler
+lightIntensity
+
+__VARIABLES_END__
+
+__SOURCE__
 
 void main()
 {
 	gl_FragColor = vec4(texture2D(myTextureSampler, gl_PointCoord.st).rgba) * lightIntensity;
 }
+
+__SOURCE_END__
 

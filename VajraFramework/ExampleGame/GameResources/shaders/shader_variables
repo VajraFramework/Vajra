@@ -53,6 +53,9 @@ attribute float pointSize
 attribute vec4 particleColor
 
 uniform sampler2D myTextureSampler
+
 uniform sampler2D bakedAmbientGridTextureSampler
 varying vec3 modelCoordsForBakedAmbientLookup_out
 uniform float bakedLightMapSize
+
+uniform sampler2D depthTextureSampler

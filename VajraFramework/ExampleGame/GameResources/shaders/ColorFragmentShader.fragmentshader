@@ -1,21 +1,29 @@
+__VERBATIM__
 #ifplatform iOS | Android
 precision mediump float;
 #endif
+__VERBATIM_END__
+
+__VARIABLES__
 
 #ifdef PER_PIXEL_LIGHTING
-varying vec4 vNormal_out;
+vNormal_out
 
-varying vec4 DLight0Direction_out;
-varying vec4 DLight0AmbientColor_out;
-varying vec4 DLight0DiffuseColor_out;
-varying vec4 DLight0SpecularColor_out;
+DLight0Direction_out
+DLight0AmbientColor_out
+DLight0DiffuseColor_out
+DLight0SpecularColor_out
 
-varying vec4 MaterialAmbientColor_out;
-varying vec4 MaterialDiffuseColor_out;
-varying vec4 MaterialSpecularColor_out;
+MaterialAmbientColor_out
+MaterialDiffuseColor_out
+MaterialSpecularColor_out
 #else
-varying vec4 lightIntensity;
+lightIntensity
 #endif
+
+__VARIABLES_END__
+
+__SOURCE__
 
 void main()
 {
@@ -34,4 +42,6 @@ void main()
 #endif
 	gl_FragColor = lightIntensity;
 }
+
+__SOURCE_END__
 
