@@ -30,6 +30,8 @@ protected:
 	virtual void end();
 	virtual void update();
 
+	virtual void onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ);
+
 	// @Override
 	virtual void Kill();
 
@@ -37,7 +39,6 @@ private:
 	void init();
 	void destroy();
 
-	void onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ);
 	void generateDeathEffect();
 	void activateDeathEffect();
 

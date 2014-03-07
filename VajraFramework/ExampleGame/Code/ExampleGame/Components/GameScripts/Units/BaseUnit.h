@@ -36,6 +36,8 @@ protected:
 	virtual void end();
 	virtual void update();
 
+	virtual void onUnitSpecialHit(ObjectIdType /*id*/, int /*gridX*/, int /*gridZ*/) { }
+
 	virtual void Kill();
 
 	UnitType unitType;

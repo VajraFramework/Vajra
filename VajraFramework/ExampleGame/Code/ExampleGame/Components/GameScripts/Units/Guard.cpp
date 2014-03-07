@@ -86,6 +86,24 @@ void Guard::idleUpdate() {
 
 }
 */
+void Guard::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ) {
+	// Did the attack hit my cell?
+	GridCell* cell = this->gridNavRef->GetCurrentCell();
+	if (cell != nullptr) {
+		if ((cell->x == gridX) && (cell->z == gridZ)) {
+			GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+			if (gObj != nullptr) {
+				BaseUnit* unit = gObj->GetComponent<BaseUnit>();
+				if (unit != nullptr) {
+					if ((unit->GetUnitType() >= FIRST_PLAYER_UNIT_TYPE) && (unit->GetUnitType() <= LAST_PLAYER_UNIT_TYPE)) {
+						this->Kill();
+					}
+				}
+			}
+		}
+	}
+}
+
 void Guard::cautiousUpdate() {
 	float dt = ENGINE->GetTimer()->GetDeltaFrameTime();
 

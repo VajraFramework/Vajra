@@ -31,6 +31,7 @@
 #include "ExampleGame/Components/Switches/BaseSwitch.h"
 #include "ExampleGame/Components/Switches/GridZoneSwitch.h"
 #include "ExampleGame/Components/Switches/MultiplexSwitch.h"
+#include "ExampleGame/Components/Switches/UnitDeathSwitch.h"
 #include "ExampleGame/Components/Switches/UnitInGridZoneSwitch.h"
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/Components/Triggers/TriggerElevationChange.h"
@@ -221,6 +222,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "MultiplexSwitch") {
 		MultiplexSwitch* component = gameObject->GetComponent<MultiplexSwitch>();
 		if (component == nullptr) { component = gameObject->AddComponent<MultiplexSwitch>(); }
+		return component;
+	}
+	
+	if (componentName == "UnitDeathSwitch") {
+		UnitDeathSwitch* component = gameObject->GetComponent<UnitDeathSwitch>();
+		if (component == nullptr) { component = gameObject->AddComponent<UnitDeathSwitch>(); }
 		return component;
 	}
 	
@@ -799,6 +806,42 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetResetTime") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetResetTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "UnitDeathSwitch") {
+		UnitDeathSwitch* component = gameObject->GetComponent<UnitDeathSwitch>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetSwitchType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetSwitchType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetResetTime") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetResetTime(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
+		if (propertyName == "SetRequiredDeaths") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetRequiredDeaths(StringUtilities::ConvertStringToInt(argv[0]));
+			return;
+		}
+		if (propertyName == "SetRequiredUnitType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetRequiredUnitType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "AddAllowedUnitType") {
+			if ((int)argv.size() < 1) { return; }
+			component->AddAllowedUnitType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "AllowAllUnitTypesUpTo") {
+			if ((int)argv.size() < 1) { return; }
+			component->AllowAllUnitTypesUpTo(ConvertStringToString(argv[0]));
 			return;
 		}
 		return;

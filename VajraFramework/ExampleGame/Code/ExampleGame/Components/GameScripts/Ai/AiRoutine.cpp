@@ -60,7 +60,8 @@ void AiRoutine::Follow() {
 }
 
 void AiRoutine::init() {
-
+	this->unit = this->GetObject()->GetComponent<BaseUnit>();
+	ASSERT(this->unit != nullptr, "AiRoutine attached to object %d with BaseUnit component", this->GetObject()->GetId());
 }
 
 void AiRoutine::destroy() {
@@ -91,13 +92,16 @@ void AiRoutine::ResumeSchedule() {
 	if (dist > ROUNDING_ERROR) {
 		this->currentMarkerType = AI_MARKER_WALK;
 		gNav->SetDestination(newMark.Position);
+		this->unit->SwitchActionState(UNIT_ACTION_STATE_WALKING);
 	}
 	else if (angle > ROUNDING_ERROR) {
 		this->currentMarkerType = AI_MARKER_LOOK;
 		gNav->SetLookTarget(newMark.Orientation);
+		this->unit->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 	}
 	else {
 		this->currentMarkerType = AI_MARKER_WAIT;
 		this->waitTimer = newMark.WaitTime;
+		this->unit->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 	}
 }
