@@ -99,7 +99,7 @@ void Assassin::HandleMessage(MessageChunk messageChunk) {
 	}
 }
 
-void Assassin::amendTouchIndicatorPaths(std::vector<std::string>& pathsToTextures) {
+void Assassin::amendTouchIndicatorPaths(std::vector<std::string>& /*pathsToTextures*/) {
 
 }
 
