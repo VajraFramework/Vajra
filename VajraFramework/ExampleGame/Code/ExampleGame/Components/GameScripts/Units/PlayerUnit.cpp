@@ -141,8 +141,6 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 
 void PlayerUnit::OnDeselect() {
 	this->inputState = InputState::INPUT_STATE_NONE;
-	ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
-	ENGINE->GetTween()->CancelNumberTween("pulse");
 }
 
 void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {

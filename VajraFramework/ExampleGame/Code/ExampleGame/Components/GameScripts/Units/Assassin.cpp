@@ -174,7 +174,7 @@ void Assassin::onSpecialEnd() {
 }
 
 void Assassin::cancelSpecial() {
-	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL || this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_POST_SPECIAL) {
+	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_PRE_SPECIAL || this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL || this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_POST_SPECIAL) {
 		PlayerUnit::cancelSpecial();
 		this->arrowHead->SetVisible(false);
 		this->arrowTail->SetVisible(false);
