@@ -166,8 +166,8 @@ void Assassin::cancelSpecial() {
 		this->arrowTail->SetVisible(false);
 		ENGINE->GetTween()->CancelNumberTween("dash");
 		ENGINE->GetTween()->CancelPostitionTween(this->gameObjectRef->GetId());
-		this->specialUpdate();
-		this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
+		//this->specialUpdate();
+		//this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
 	}
 }
 
@@ -244,23 +244,59 @@ void Assassin::aimSpecial(int touchId){
 }
 
 void Assassin::specialUpdate() {
-	GridCell* currentCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld());
+	glm::vec3 position = this->gameObjectRef->GetTransform()->GetPositionWorld();
+	GridCell* currentCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(position);
 	if(currentCell != this->lastHitCell && this->lastHitCell != nullptr) {
 		std::list<GridCell*> touchedCells;
 		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->lastHitCell, currentCell, touchedCells);
 		SINGLETONS->GetGridManager()->CheckZoneCollisions(this->GetObject()->GetId(), this->lastHitCell, currentCell);
 		for(GridCell* c : touchedCells) {
 			if(this->lastHitCell != c) {
-				// Attack the cell	
-				MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-				attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
-				attackMessage->messageData.iv1.x = c->x;
-				attackMessage->messageData.iv1.y = c->y;
-				attackMessage->messageData.iv1.z = c->z;
-				attackMessage->messageData.fv1 = this->specialStartPos;
-				ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
+				bool shouldAttack = true;
+				bool shouldStop = false;
+				// Check if the new cell is legal before moving into it.
+				int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(position.y);
+				ObjectIdType occId = c->GetOccupantIdAtElevation(elevation);
+				if (occId != OBJECT_ID_INVALID) {
+					// If the cell is occupied, the Assassin can only move there if he can kill the occupant.
+					GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+					if (occupant != nullptr) {
+						BaseUnit* unit = occupant->GetComponent<BaseUnit>();
+						if (unit != nullptr) {
+							if (!unit->CanBeKilledBy(this->GetObject()->GetId(), this->specialStartPos)) {
+								shouldAttack = false;
+								if ((unit->GetUnitType() > LAST_PLAYER_UNIT_TYPE) || (c == this->targetedCell)) {
+									// Stop the assassin's attack unless the occupant is another player unit and
+									// the cell isn't the assassin's final destination
+									shouldStop = true;
+								}
+							}
+						}
+					}
+				}
+
+				if (shouldAttack) {
+					this->sendAttackMessage(c->x, c->z, elevation);
+				}
+				if (shouldStop) {
+					this->cancelSpecial();
+					break;
+				}
+				currentCell = c;
+				this->lastHitCell = c;
 			}
 		}
-		this->lastHitCell = currentCell;
+		//this->lastHitCell = currentCell;
 	}
+}
+
+void Assassin::sendAttackMessage(int gridX, int gridZ, int elevation) {
+	// Attack the cell
+	MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	attackMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_ENTER_AND_ATTACK);
+	attackMessage->messageData.iv1.x = gridX;
+	attackMessage->messageData.iv1.y = elevation;
+	attackMessage->messageData.iv1.z = gridZ;
+	attackMessage->messageData.fv1 = this->specialStartPos;
+	ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
 }
