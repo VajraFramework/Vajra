@@ -32,35 +32,53 @@ GameObject* GetFakeCameraObject() {
 }
 
 void RenderScene::SetupStuff() {
+	
+	return;
 
 	// Create a frame buffer object:
 	glGenFramebuffers(1, &g_fbo_id);
 	glBindFramebuffer(GL_FRAMEBUFFER, g_fbo_id);
+	
+	// Create a render buffer
+	GLuint renderBuffer;
+    glGenRenderbuffers(1, &renderBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
 
 	// Create a depth texture:
     glGenTextures(1, &ENGINE->GetShadowMap()->depthTexture);
     checkGlError("glGenTextures");
 	glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, ENGINE->GetShadowMap()->depthTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, DEPTH_TEXTURE_W, DEPTH_TEXTURE_H, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, DEPTH_TEXTURE_W, DEPTH_TEXTURE_H, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
     checkGlError("glTexImage2D");
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+	// TODO [Hack] Absolutely! check for extensions
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC_EXT, GL_LEQUAL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_EXT, GL_NONE);
 
 
 	// glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH,  DEPTH_TEXTURE_W);
 	// glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, DEPTH_TEXTURE_H);
 
 	// glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthTexture, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, ENGINE->GetShadowMap()->depthTexture, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ENGINE->GetShadowMap()->depthTexture, 0);
+    checkGlError("glFramebufferTexture2D");
+	
+	// Allocate 16-bit depth buffer
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, DEPTH_TEXTURE_W, DEPTH_TEXTURE_H);
+    checkGlError("glRenderBufferStorage");
+	
+	// Attach the render buffer as depth buffer - will be ignored
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+							  GL_RENDERBUFFER, renderBuffer);
+    checkGlError("glFramebufferRenderbuffer");
 
 	// No color output in the bound framebuffer, only depth.
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
+	// glDrawBuffer(GL_NONE);
+	// glReadBuffer(GL_NONE);
 
 
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
@@ -125,7 +143,7 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 							  std::vector<DirectionalLight*> additionalLights) {
 
 
-
+#if 0
 	std::vector<DirectionalLight*> emptyVector;
 
 	// TODO [Implement] Position the camera at the position and orientation of the light:
@@ -165,6 +183,8 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 	//
 	// Switch blend back on:
     glEnable(GL_BLEND);
+	
+#endif
 
 	/*
 	 * Draw again, this time to the screen:

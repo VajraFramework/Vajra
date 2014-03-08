@@ -20,7 +20,7 @@ void main()
 
 
 
-	gl_FragDepth = gl_FragCoord.z;
+	// gl_FragDepth = gl_FragCoord.z;
 
 
 	/*
@@ -41,8 +41,8 @@ void main()
 	*/
 
 
-	float number = gl_FragCoord.w * 10.0;
-	gl_FragColor = vec4(number, number, number, 1.0);
+	// float number = gl_FragCoord.w * 10.0;
+	// gl_FragColor = vec4(number, number, number, 1.0);
 }
 
 __SOURCE_END__

@@ -19,9 +19,6 @@ Shader_variable_qualifier_t GetShaderVariableQualifierFromString(std::string s) 
 
 Shader_variable_datatype_t GetShaderVariableDatatypeFromString(std::string s) {
 
-	if (s == "sampler2DShadow") {
-		return SHADER_VARIABLE_DATATYPE_sampler2DShadow;
-	}
 	if (s == "float") {
 		return SHADER_VARIABLE_DATATYPE_float;
 	}
@@ -210,7 +207,6 @@ std::string GetStringForShaderVariableQualifier(Shader_variable_qualifier_t t) {
 std::string GetStringForShaderVariableDatatype(Shader_variable_datatype_t t) {
 	switch (t) {
 
-	case SHADER_VARIABLE_DATATYPE_sampler2DShadow: return "sampler2DShadow";
 	case SHADER_VARIABLE_DATATYPE_float: return "float";
 	case SHADER_VARIABLE_DATATYPE_sampler2D: return "sampler2D";
 	case SHADER_VARIABLE_DATATYPE_vec2: return "vec2";

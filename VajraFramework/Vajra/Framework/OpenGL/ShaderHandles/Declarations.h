@@ -16,7 +16,6 @@ enum Shader_variable_qualifier_t {
 };
 
 enum Shader_variable_datatype_t {
-	SHADER_VARIABLE_DATATYPE_sampler2DShadow,
 	SHADER_VARIABLE_DATATYPE_float,
 	SHADER_VARIABLE_DATATYPE_sampler2D,
 	SHADER_VARIABLE_DATATYPE_vec2,

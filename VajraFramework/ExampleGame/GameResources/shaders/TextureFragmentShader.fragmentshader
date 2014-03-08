@@ -103,7 +103,8 @@ void main()
 	
 #ifdef SHADOWMAPS_REALTIME
 	// float visibility = 0.001;
-	float visibility = shadow2D( depthTextureSampler, vec3(ShadowCoord.xy, (ShadowCoord.z)/ShadowCoord.w) ).r;
+	float visibility = texture2D( depthTextureSampler, ShadowCoord.xy).r - ShadowCoord.z;
+	visibility = clamp (visibility * 50.0 + 1.0, 0.0, 1.0);
 
 	// vec2 uv_into_pixelspace = vec2(gl_FragCoord.x / 1024.0, gl_FragCoord.y / 768.0);
 	// vec4 depthMap_value = vec4(texture2D(depthTextureSampler, uv_into_pixelspace).rgba);
@@ -111,7 +112,7 @@ void main()
 	// finalColor = finalColor * 0.001 + vec4(depthMap_value.x, depthMap_value.x, depthMap_value.x, 1.0);
 
 	// finalColor = finalColor * visibility * 0.001 + ShadowCoord;
-	finalColor = finalColor * (visibility + 0.5f); // + finalColor;
+	finalColor = finalColor * (visibility + 0.5); // + finalColor;
 	// float number = ShadowCoord.y / ShadowCoord.w;
 	// finalColor = finalColor * number; // + vec4(number, number, number, 1.0);
 
