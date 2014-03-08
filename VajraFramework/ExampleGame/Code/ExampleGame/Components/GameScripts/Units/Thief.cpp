@@ -14,6 +14,8 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
+#include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
@@ -33,6 +35,8 @@ void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNum
 		if(thief != nullptr) {
 			if (currentNumber == toNumber) {
 				thief->onSpecialEnd();
+			} else if(currentNumber == fromNumber) {
+				thief->beginPoof(thief->endPoofId);
 			} else {
 				go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, currentNumber, 0.0f));
 			}
@@ -44,9 +48,10 @@ void thiefTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
 	ASSERT(go != nullptr, "Game object id passed into thiefTweenCallback is not valid");
 	if(go != nullptr) {
-		Thief* pUnit = go->GetComponent<Thief>();
-		ASSERT(pUnit != nullptr, "Game object passed into thiefTweenCallback doesn't have a player unit");
-		if(pUnit != nullptr) {
+		Thief* thief = go->GetComponent<Thief>();
+		ASSERT(thief != nullptr, "Game object passed into thiefTweenCallback doesn't have a player unit");
+		if(thief != nullptr) {
+			thief->beginPoof(thief->startPoofId);
 			MessageData1S1I1F* userParams = new MessageData1S1I1F();
  			userParams->i = gameObjectId;
 			ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 1.5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "vault", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, thiefNumberTweenCallback);
@@ -69,6 +74,7 @@ Thief::~Thief() {
 void Thief::init() {
 	this->unitType = UnitType::UNIT_TYPE_THIEF;
 	this->createTouchIndicator();
+	this->createPoofEffects();
 }
 
 void Thief::destroy() {
@@ -288,6 +294,29 @@ void Thief::updateTargets() {
 			targetIndicatorsRef[c]->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(textureIndexForElevation(c->y));
 
 		}
+	}
+}
+
+void Thief::createPoofEffects() {
+	GameObject* startPoof = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "dustexplosion.prefab", ENGINE->GetSceneGraph3D());
+	this->startPoofId = startPoof->GetId();
+
+
+	GameObject* endPoof = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "dustexplosion.prefab", ENGINE->GetSceneGraph3D());
+	this->endPoofId = endPoof->GetId();
+}
+
+void Thief::beginPoof(ObjectIdType poofId) {
+	GameObject* poofObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(poofId);
+	if (poofObj != nullptr) {
+		// Move the effect to this object's position
+		Transform* myTrans = this->gameObjectRef->GetTransform();
+		Transform* effectTrans = poofObj->GetTransform();
+		effectTrans->SetPosition(myTrans->GetPositionWorld());
+
+		ParticleSystem* poofParticleSystem = poofObj->GetComponent<ParticleSystem>();
+		VERIFY(poofParticleSystem != nullptr, "poof effect prefab has a particle system on it");
+		poofParticleSystem->Play();
 	}
 }
 

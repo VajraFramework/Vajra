@@ -58,6 +58,12 @@ private:
 	std::vector<GridCell*> legalTargets;
 	std::map<GridCell* /*cell*/, GameObject*> targetIndicatorsRef;
 
+	// poof effects
+	void createPoofEffects();
+	void beginPoof(ObjectIdType /*poofId*/);
+	ObjectIdType startPoofId;
+	ObjectIdType endPoofId;
+
 	friend void thiefTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
 	friend void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams);
 	
