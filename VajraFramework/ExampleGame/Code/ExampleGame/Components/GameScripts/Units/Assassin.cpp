@@ -253,8 +253,22 @@ void Assassin::specialUpdate() {
 	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(position.y);
 	if ((currentCell != this->lastHitCell) && (this->lastHitCell != nullptr)) {
 		// The assassin should attack the cell as he enters it.
-		this->sendAttackMessage(currentCell->x, currentCell->z, elevation);
-		//SINGLETONS->GetGridManager()->CheckZoneCollisions(this->GetObject()->GetId(), this->lastHitCell, currentCell);
+		ObjectIdType occId = currentCell->GetOccupantIdAtElevation(elevation);
+		if (occId == OBJECT_ID_INVALID) {
+			this->sendAttackMessage(currentCell->x, currentCell->z, elevation);
+		}
+		else if (occId != this->GetObject()->GetId()) {
+			GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+			if (occupant != nullptr) {
+				BaseUnit* unit = occupant->GetComponent<BaseUnit>();
+				if (unit != nullptr) {
+					// If the assassin can't kill the occupant but can pass through the cell, don't send an attack message
+					if (unit->CanBeKilledBy(this->GetObject()->GetId(), this->specialStartPos)) {
+						this->sendAttackMessage(currentCell->x, currentCell->z, elevation);
+					}
+				}
+			}
+		}
 		this->lastHitCell = currentCell;
 	}
 
