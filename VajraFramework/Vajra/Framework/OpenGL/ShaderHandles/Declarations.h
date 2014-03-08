@@ -16,6 +16,7 @@ enum Shader_variable_qualifier_t {
 };
 
 enum Shader_variable_datatype_t {
+	SHADER_VARIABLE_DATATYPE_sampler2DShadow,
 	SHADER_VARIABLE_DATATYPE_float,
 	SHADER_VARIABLE_DATATYPE_sampler2D,
 	SHADER_VARIABLE_DATATYPE_vec2,
@@ -71,6 +72,8 @@ enum Shader_variable_variablename_id_t {
 	SHADER_VARIABLE_VARIABLENAME_modelCoordsForBakedAmbientLookup_out,
 	SHADER_VARIABLE_VARIABLENAME_bakedLightMapSize,
 	SHADER_VARIABLE_VARIABLENAME_depthTextureSampler,
+	SHADER_VARIABLE_VARIABLENAME_depthBiasMVPMatrix,
+	SHADER_VARIABLE_VARIABLENAME_ShadowCoord,
 	SHADER_VARIABLE_VARIABLENAME_invalid,
 };
 

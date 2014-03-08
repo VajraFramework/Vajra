@@ -10,6 +10,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
+#include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 
 #include <algorithm>
 #include <functional>
@@ -39,6 +40,8 @@ public:
 	inline std::string GetShaderName() { return this->shaderName; }
 	void AddGameObjectId(ObjectIdType id);
 	void RemoveGameObjectId(ObjectIdType id);
+
+	bool IsDepthPass();
 
 private:
 	std::string shaderName;
@@ -71,13 +74,22 @@ void RenderList::Prepare() {
 	FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet(this->GetShaderName());
 }
 
+bool RenderList::IsDepthPass() {
+	ShaderSet* shaderSet = FRAMEWORK->GetOpenGLWrapper()->GetShaderSetByName(this->GetShaderName());
+	VERIFY(shaderSet != nullptr, "Got shader set for renderlist with shader name, %s", this->GetShaderName().c_str());
+	return shaderSet->IsDepthPass();
+}
+
 void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out) {
 
-	// Pass the ambient lighting parameters to the shader:
-	ENGINE->GetAmbientLighting()->Draw();
+	if (!this->IsDepthPass()) {
 
-	// Pass the shadow map parameters to the shader:
-	ENGINE->GetShadowMap()->Draw();
+		// Pass the ambient lighting parameters to the shader:
+		ENGINE->GetAmbientLighting()->Draw();
+
+		// Pass the shadow map parameters to the shader:
+		ENGINE->GetShadowMap()->Draw();
+	}
 
 	for (ObjectIdType id : this->gameObjectIds) {
 		GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
@@ -138,12 +150,13 @@ RenderLists::~RenderLists() {
 }
 
 
-void RenderLists::Draw(Camera* camera) {
+void RenderLists::Draw(Camera* camera, bool isDepthPass) {
 	std::vector<DirectionalLight*> emptyVector;
-	this->Draw(camera, nullptr, emptyVector);
+	this->Draw(camera, nullptr, emptyVector, isDepthPass);
 }
 
-void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights) {
+void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights, bool isDepthPass) {
+
 
 	/*
 	 * We draw the scene in render-list-iterations
@@ -162,44 +175,19 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 	this->Begin();
 	while (this->PrepareCurrentRenderList()) {
 
-		if (camera != nullptr) {
-			g_current_camera = camera;
-			// TODO [Cleanup] Change mainCamera->cameraComponent->WriteLookAt() to use messages sent to mainCamera instead, maybe
-			camera->WriteLookAt();
-		}
-		if (directionalLight != nullptr) {
-			// TODO [Cleanup] Change directionalLight->WriteLightStuff() to use messages sent to mainDirectionalLight instead, maybe
-			directionalLight->WriteLightPropertiesToShader();
-		}
-		for (DirectionalLight* additionalLight : additionalLights) {
-			// TODO [Cleanup] Change additionalLight->WriteLightStuff() to use messages sent to additionalLight instead, maybe
-			additionalLight->WriteLightPropertiesToShader();
-		}
 
-		// Render all the renderable game objects in the current render list:
-		this->RenderGameObjectsInCurrentList(&heap_gameobjectsWithTransperancy_out);
-
-		this->Next();
-	}
-
-
-	/*
-	 * Now, render all the transperant game objects in the order of decreasing distance from the camera
-	 */
-	{
-		// Also switch off WRITING to the depth buffer for drawing transperant objects:
-		glDepthMask(GL_FALSE);
-
-		while (!heap_gameobjectsWithTransperancy_out.empty()) {
-			TrGo trgo = heap_gameobjectsWithTransperancy_out.top();
-
-			trgo.renderlist->Prepare();
+		// If we are drawing a depth pass, process only those renderlists which are depth passes:
+		bool currentRenderlistIsDepthPass = this->renderLists[this->currentRenderListIdx]->IsDepthPass();
+		if (!(isDepthPass ^ currentRenderlistIsDepthPass)) {
 
 			if (camera != nullptr) {
 				g_current_camera = camera;
+				// TODO [Cleanup] Change mainCamera->cameraComponent->WriteLookAt() to use messages sent to mainCamera instead, maybe
 				camera->WriteLookAt();
 			}
+
 			if (directionalLight != nullptr) {
+				// TODO [Cleanup] Change directionalLight->WriteLightStuff() to use messages sent to mainDirectionalLight instead, maybe
 				directionalLight->WriteLightPropertiesToShader();
 			}
 			for (DirectionalLight* additionalLight : additionalLights) {
@@ -207,13 +195,49 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 				additionalLight->WriteLightPropertiesToShader();
 			}
 
-			trgo.renderlist->Draw_one_gameobject(trgo.gameobject);
+			// Render all the renderable game objects in the current render list:
+			this->RenderGameObjectsInCurrentList(&heap_gameobjectsWithTransperancy_out);
 
-			heap_gameobjectsWithTransperancy_out.pop();
 		}
 
-		// Switch WRITING to the depth buffer back on:
-		glDepthMask(GL_TRUE);
+		this->Next();
+	}
+
+	/*
+	 * Now, render all the transperant game objects in the order of decreasing distance from the camera
+	 */
+	{
+		// No transperant objects in depth pass:
+		if (!isDepthPass) {
+
+			// Also switch off WRITING to the depth buffer for drawing transperant objects:
+			glDepthMask(GL_FALSE);
+
+			while (!heap_gameobjectsWithTransperancy_out.empty()) {
+				TrGo trgo = heap_gameobjectsWithTransperancy_out.top();
+
+				trgo.renderlist->Prepare();
+
+				if (camera != nullptr) {
+					g_current_camera = camera;
+					camera->WriteLookAt();
+				}
+				if (directionalLight != nullptr) {
+					directionalLight->WriteLightPropertiesToShader();
+				}
+				for (DirectionalLight* additionalLight : additionalLights) {
+					// TODO [Cleanup] Change additionalLight->WriteLightStuff() to use messages sent to additionalLight instead, maybe
+					additionalLight->WriteLightPropertiesToShader();
+				}
+
+				trgo.renderlist->Draw_one_gameobject(trgo.gameobject);
+
+				heap_gameobjectsWithTransperancy_out.pop();
+			}
+
+			// Switch WRITING to the depth buffer back on:
+			glDepthMask(GL_TRUE);
+		}
 	}
 }
 
@@ -253,23 +277,55 @@ void RenderLists::destroy() {
 }
 
 void RenderLists::addGameObjectIdToRenderList(ObjectIdType id, std::string shaderName) {
+	bool found = false;
 	for (RenderList* renderList : this->renderLists) {
 		if (renderList->GetShaderName() == shaderName) {
 			renderList->AddGameObjectId(id);
-			return;
+			found = true;
+			break;
 		}
 	}
-	FRAMEWORK->GetLogger()->dbglog("\nWARNING: Trying to add game object id %d to render list %s. No such shader render list", id, shaderName.c_str());
+	if (!found) {
+		FRAMEWORK->GetLogger()->dbglog("\nWARNING: Trying to add game object id %d to render list %s. No such shader render list", id, shaderName.c_str());
+		ASSERT(0, "No such shader render list %s", shaderName.c_str());
+	}
+	// TODO [Hack] Do this better:
+	// Also add the game object to depth pass render lists:
+	if (shaderName == "bntshdr") {
+		this->addGameObjectIdToRenderList(id, "dbtshdr");
+	} else if (shaderName == "bncshdr") {
+		this->addGameObjectIdToRenderList(id, "dbcshdr");
+	} else if (shaderName == "clrshdr") {
+		this->addGameObjectIdToRenderList(id, "dpcshdr");
+	} else if (shaderName == "txrshdr") {
+		this->addGameObjectIdToRenderList(id, "dptshdr");
+	}
 }
 
 void RenderLists::removeGameObjectIdToRenderList(ObjectIdType id, std::string shaderName) {
+	bool found = false;
 	for (RenderList* renderList : this->renderLists) {
 		if (renderList->GetShaderName() == shaderName) {
 			renderList->RemoveGameObjectId(id);
-			return;
+			found = true;
+			break;
 		}
 	}
-	FRAMEWORK->GetLogger()->dbglog("\nWARNING: Trying to remove game object id %d to render list %s. No such shader render list", id, shaderName.c_str());
+	if (!found) {
+		FRAMEWORK->GetLogger()->dbglog("\nWARNING: Trying to remove game object id %d to render list %s. No such shader render list", id, shaderName.c_str());
+		ASSERT(0, "No such shader render list %s", shaderName.c_str());
+	}
+	// TODO [Hack] Do this better:
+	// Also remove the game object from depth pass render lists:
+	if (shaderName == "bntshdr") {
+		this->removeGameObjectIdToRenderList(id, "dbtshdr");
+	} else if (shaderName == "bncshdr") {
+		this->removeGameObjectIdToRenderList(id, "dbcshdr");
+	} else if (shaderName == "clrshdr") {
+		this->removeGameObjectIdToRenderList(id, "dpcshdr");
+	} else if (shaderName == "txrshdr") {
+		this->removeGameObjectIdToRenderList(id, "dptshdr");
+	}
 }
 
 

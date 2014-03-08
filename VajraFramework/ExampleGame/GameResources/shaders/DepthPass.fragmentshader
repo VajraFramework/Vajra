@@ -4,6 +4,8 @@ precision mediump float;
 #endif
 __VERBATIM_END__
 
+invPersMatrix
+
 __VARIABLES__
 
 
@@ -14,7 +16,33 @@ __SOURCE__
 
 void main()
 {
+
+
+
+
 	gl_FragDepth = gl_FragCoord.z;
+
+
+	/*
+	vec4 ndcPos;
+	ndcPos.xy = ((2.0 * gl_FragCoord.xy) - (2.0 * viewport.xy)) / (viewport.zw) - 1;
+	ndcPos.z = (2.0 * gl_FragCoord.z - gl_DepthRange.near - gl_DepthRange.far) /
+    	(gl_DepthRange.far - gl_DepthRange.near);
+	ndcPos.w = 1.0;
+ 
+	vec4 clipPos = ndcPos / gl_FragCoord.w;
+	vec4 eyePos = invPersMatrix * clipPos;
+
+
+	// float ndcPos_z = (2.0 * gl_FragCoord.z - gl_DepthRange.near - gl_DepthRange.far) / (gl_DepthRange.far - gl_DepthRange.near);
+
+	// float number = (gl_FragCoord.w) / gl_FragCoord.z * 10.0;
+	float number = eyePos.z;
+	*/
+
+
+	float number = gl_FragCoord.w * 10.0;
+	gl_FragColor = vec4(number, number, number, 1.0);
 }
 
 __SOURCE_END__

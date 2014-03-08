@@ -7,11 +7,16 @@
 #include <memory>
 #include <string>
 
+// Forward Declarations:
+class Camera;
+
 class ShadowMap : public Object {
 public:
 	~ShadowMap();
 
 	void Draw();
+
+	void SetDepthCamera(Camera* camera) { this->depthCamera = camera; }
 
 	// TODO [Hack] Make this private:
     GLuint depthTexture;
@@ -20,6 +25,8 @@ private:
 	ShadowMap();
 	void init();
 	void destroy();
+
+	Camera* depthCamera;
 
 
 	friend class Engine;

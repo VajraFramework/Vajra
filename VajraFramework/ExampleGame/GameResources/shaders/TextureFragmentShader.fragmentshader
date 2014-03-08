@@ -41,6 +41,7 @@ AdditionalLight2Diffuse
 
 #ifdef SHADOWMAPS_REALTIME
 depthTextureSampler
+ShadowCoord
 #endif
 
 __VARIABLES_END__
@@ -48,7 +49,7 @@ __VARIABLES_END__
 __SOURCE__
 
 #ifdef BAKED_AMBIENT_LIGHTING
-float DOWN_AMBIENT_INTENSITY_FACTOR = 0.2;
+float DOWN_AMBIENT_INTENSITY_FACTOR = 0.05;
 float UP_AMBIENT_INTENSITY_FACTOR = 0.2;
 #endif
 
@@ -76,9 +77,6 @@ void main()
 #endif
 #endif
 
-#ifdef SHADOWMAPS_REALTIME
-	vec4 depthMap_value = vec4(texture2D(depthTextureSampler, uvCoords_out).rgba) * lightIntensity;
-#endif
 
 	vec4 finalColor = vec4(1.0, 0.0, 0.0, 1.0);;
 
@@ -104,7 +102,25 @@ void main()
 #endif
 	
 #ifdef SHADOWMAPS_REALTIME
-	finalColor = finalColor * 0.001 + vec4(depthMap_value.z, depthMap_value.z, depthMap_value.z, 1.0);
+	// float visibility = 0.001;
+	float visibility = shadow2D( depthTextureSampler, vec3(ShadowCoord.xy, (ShadowCoord.z)/ShadowCoord.w) ).r;
+
+	// vec2 uv_into_pixelspace = vec2(gl_FragCoord.x / 1024.0, gl_FragCoord.y / 768.0);
+	// vec4 depthMap_value = vec4(texture2D(depthTextureSampler, uv_into_pixelspace).rgba);
+
+	// finalColor = finalColor * 0.001 + vec4(depthMap_value.x, depthMap_value.x, depthMap_value.x, 1.0);
+
+	// finalColor = finalColor * visibility * 0.001 + ShadowCoord;
+	finalColor = finalColor * (visibility + 0.5f); // + finalColor;
+	// float number = ShadowCoord.y / ShadowCoord.w;
+	// finalColor = finalColor * number; // + vec4(number, number, number, 1.0);
+
+	// finalColor = finalColor * 0.001 + texture2D(depthTextureSampler, vec2(gl_FragCoord.x / 1024.0, gl_FragCoord.y / 768.0));
+
+	// finalColor = finalColor * 0.001 + vec4(ShadowCoord.z, ShadowCoord.z, ShadowCoord.z, 1.0);
+
+	finalColor.a = 1.0;
+
 #endif
 
 	gl_FragColor = finalColor;

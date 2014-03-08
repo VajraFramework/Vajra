@@ -44,7 +44,7 @@ int main( void ) {
 	int width  = 1024;
 	int height = 768;
 	// Open a window and create its OpenGL context
-	if( !glfwOpenWindow(width, height, 0,0,0,0, 32,0, GLFW_WINDOW) )
+	if( !glfwOpenWindow(width, height, 32,32,32, 0, 32,0, GLFW_WINDOW) )
 	{
 		fprintf( stderr, "Failed to open GLFW window.\n" );
 		glfwTerminate();

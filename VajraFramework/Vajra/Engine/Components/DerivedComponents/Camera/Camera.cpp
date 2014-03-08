@@ -43,11 +43,13 @@ void Camera::updateMatrices() {
 	switch (this->cameraType) {
 
 	case CAMERA_TYPE_ORTHO: {
-			this->projMatrix = glm::ortho(0.0f, width, -height, 0.0f, 0.1f, 8000.0f);
+			this->projMatrix = glm::ortho(this->ortho_bounds_x_min, this->ortho_bounds_x_max,
+										  this->ortho_bounds_y_min, this->ortho_bounds_y_max,
+										  this->ortho_bounds_z_min, this->ortho_bounds_z_max);
 		} break;
 
 	case CAMERA_TYPE_PERSPECTIVE: {
-			this->projMatrix = glm::perspective(this->fov, aspecRatio, 0.1f, 500.0f);
+			this->projMatrix = glm::perspective(this->fov, aspecRatio, 0.3f, 100.0f);
 		} break;
 
 	default: {
@@ -195,6 +197,17 @@ void Camera::init() {
 	this->projMatrix = IDENTITY_MATRIX;
 
 	this->fov = 60.0f inRadians;
+
+	float width  = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
+	float height = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
+	// Sane default values:
+	this->ortho_bounds_x_min = 0.0f;
+	this->ortho_bounds_x_max = width;
+	this->ortho_bounds_y_min = -height;
+	this->ortho_bounds_y_max = 0.0f;
+	this->ortho_bounds_z_min = -500.0f;
+	this->ortho_bounds_z_max = 500.0f;
+
 	if (gameObject != nullptr) {
 		this->updateMatrices();
 	}

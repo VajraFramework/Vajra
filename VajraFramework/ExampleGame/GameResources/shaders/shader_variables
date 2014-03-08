@@ -58,4 +58,6 @@ uniform sampler2D bakedAmbientGridTextureSampler
 varying vec3 modelCoordsForBakedAmbientLookup_out
 uniform float bakedLightMapSize
 
-uniform sampler2D depthTextureSampler
+uniform sampler2DShadow depthTextureSampler
+uniform mat4 depthBiasMVPMatrix
+varying vec4 ShadowCoord

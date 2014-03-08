@@ -37,8 +37,8 @@ class RenderLists {
 public:
 	~RenderLists();
 
-	void Draw(Camera* camera);
-	void Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights);
+	void Draw(Camera* camera, bool isDepthPass);
+	void Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights, bool isDepthPass);
 
 private:
 	RenderLists();

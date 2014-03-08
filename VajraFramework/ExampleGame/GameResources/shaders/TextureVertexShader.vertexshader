@@ -33,6 +33,11 @@ DLight0SpecularColor_out
 modelCoordsForBakedAmbientLookup_out
 #endif
 
+#ifdef SHADOWMAPS_REALTIME
+depthBiasMVPMatrix
+ShadowCoord
+#endif
+
 __VARIABLES_END__
 
 
@@ -54,6 +59,10 @@ void main()
 	modelCoordsForBakedAmbientLookup_out.x = gl_Position.x;
 	modelCoordsForBakedAmbientLookup_out.y = gl_Position.y;
 	modelCoordsForBakedAmbientLookup_out.z = gl_Position.z;
+#endif
+
+#ifdef SHADOWMAPS_REALTIME
+	ShadowCoord = depthBiasMVPMatrix * gl_Position;
 #endif
 
 	float yAmt = gl_Position.y;
@@ -81,6 +90,7 @@ void main()
 	// Temp using variables:
 	lightIntensity = lightIntensity + DLight0SpecularColor;
 #endif
+
 
 }
 __SOURCE_END__

@@ -16,18 +16,19 @@
 // Forward Declarations:
 GLuint loadShader(GLenum shaderType, const char* pSource);
 
-ShaderSet::ShaderSet(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_) {
-	this->init(inShaderSpecificationName, hasTransperancy_, isOverlay_);
+ShaderSet::ShaderSet(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_, bool isDepthPass_) {
+	this->init(inShaderSpecificationName, hasTransperancy_, isOverlay_, isDepthPass_);
 }
 
 ShaderSet::~ShaderSet() {
 	this->destroy();
 }
 
-void ShaderSet::init(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_) {
+void ShaderSet::init(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_, bool isDepthPass_) {
 
 	this->hasTransperancy = hasTransperancy_;
 	this->isOverlay       = isOverlay_;
+	this->isDepthPass = isDepthPass_;
 
     FRAMEWORK->GetLogger()->dbglog("\nCreating ShaderProgram shader specification file %s", \
                                 inShaderSpecificationName.c_str());
