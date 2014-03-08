@@ -43,6 +43,7 @@ private:
 	glm::vec3 targetLoc;
 
 	GridCell* lastHitCell;
+	GridCell* lastCheckedCell;
 	void specialUpdate();
 	void sendAttackMessage(int gridX, int gridZ, int elevation);
 
