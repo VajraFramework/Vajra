@@ -31,7 +31,6 @@ void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNum
 	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
 	if(go != nullptr) {
 		Thief* thief = go->GetComponent<Thief>();
-		thief->beginPoof(thief->endPoofId);
 		ASSERT(thief != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
 		if(thief != nullptr) {
 			if(tweenClipName == "vaultWait") {

@@ -102,7 +102,7 @@ void ParticleSystem::InitParticleSystem() {
 		//
 		particle->reset(this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
 		//
-		this->deadParticles.push_back(particle);
+		this->dormantParticles.push_back(particle);
 	}
 
 	// TODO [Hack] Figure this out better
@@ -157,11 +157,14 @@ void ParticleSystem::stepSimulation(float deltaTime) {
 	if (this->isPlaying) {
 		this->spawnParticles(deltaTime);
 		this->stepParticles (deltaTime);
-		if (this->isLooping) {
-			this->cleanupDeadParticles();
-		} else {
+		//
+		this->cleanupDeadParticles();
+
+		if (!this->isLooping) {
 			if (this->aliveParticles.empty()) {
 				this->raiseSpentEvent();
+				this->reclaimDeadParticles();
+				this->isPlaying = false;
 			}
 		}
 
@@ -185,14 +188,14 @@ void ParticleSystem::spawnParticles(float deltaTime) {
 
 	// Spawn new particles:
 	unsigned int numParticlesToAdd = ceil(this->numParticlesPerSecond * temp_timeSinceLastBatchSpawn);
-	if (this->deadParticles.size() < numParticlesToAdd) {
-		numParticlesToAdd = this->deadParticles.size();
+	if (this->dormantParticles.size() < numParticlesToAdd) {
+		numParticlesToAdd = this->dormantParticles.size();
 	}
 	numParticlesToAdd = std::min((unsigned int)(this->maxNumParticles - this->aliveParticles.size()), (unsigned int)numParticlesToAdd);
 	std::deque<Particle*> particlesToAdd;
 	for (unsigned int i = 0; i < numParticlesToAdd; ++i) {
-		particlesToAdd.push_back(this->deadParticles.front());
-		this->deadParticles.pop_front();
+		particlesToAdd.push_back(this->dormantParticles.front());
+		this->dormantParticles.pop_front();
 	}
 	while (!particlesToAdd.empty()) {
 		Particle* particle = particlesToAdd.front();
@@ -224,10 +227,27 @@ void ParticleSystem::cleanupDeadParticles() {
 		}
 	}
 
+	std::list<Particle*>* particle_list_to_cleanup_into;
+	if (this->isLooping) {
+		particle_list_to_cleanup_into = &this->dormantParticles;
+	} else {
+		particle_list_to_cleanup_into = &this->deadParticles;
+	}
 	while (!particlesToCleanup.empty()) {
-		this->deadParticles.push_back(particlesToCleanup.front());
+		particle_list_to_cleanup_into->push_back(particlesToCleanup.front());
 		particlesToCleanup.pop_front();
 	}
+}
+
+void ParticleSystem::reclaimDeadParticles() {
+	while (!this->deadParticles.empty()) {
+		Particle* particle = this->deadParticles.front();
+		particle->reset(this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
+		this->deadParticles.pop_front();
+		this->dormantParticles.push_back(particle);
+	}
+	// TODO [Hack] Make it so that the next time Play() is called we are ready to spawn particles
+	this->timeSinceLastBatchSpawn = MAXIMUM_TIME_BETWEEN_BATCH_SPAWNS_seconds + 1.0f;
 }
 
 void ParticleSystem::init() {

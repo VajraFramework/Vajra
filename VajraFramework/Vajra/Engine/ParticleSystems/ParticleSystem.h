@@ -57,6 +57,7 @@ public:
 	void SetLooping(bool looping);
 
 	inline bool GetIsPlaying() { return this->isPlaying; }
+
 protected:
 	// @Override
 	virtual void start();
@@ -74,6 +75,7 @@ private:
 	void spawnParticles(float deltaTime);
 	void stepParticles (float deltaTime);
 	void cleanupDeadParticles();
+	void reclaimDeadParticles();
 	//
 	void raiseSpentEvent();
 
@@ -93,6 +95,7 @@ private:
 	//
 	std::list<Particle*> aliveParticles;
 	std::list<Particle*> deadParticles;
+	std::list<Particle*> dormantParticles;
 
 	std::string name;
 	unsigned int numParticlesPerSecond;
