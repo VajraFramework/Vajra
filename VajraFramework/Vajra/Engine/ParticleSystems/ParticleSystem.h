@@ -56,6 +56,7 @@ public:
 	//[[PROPERTY]]//
 	void SetLooping(bool looping);
 
+	inline bool GetIsPlaying() { return this->isPlaying; }
 protected:
 	// @Override
 	virtual void start();
