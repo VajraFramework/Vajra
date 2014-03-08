@@ -86,8 +86,9 @@ void Assassin::init() {
 void Assassin::destroy() {
 }
 
-void Assassin::amendTouchIndicatorPaths(std::vector<std::string>& /*pathsToTextures*/) {
-
+void Assassin::amendTouchIndicatorPaths(std::vector<std::string>& pathsToTextures) {
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_TouchIndicator_Success_01.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_TouchIndicator_Fail_01.png");
 }
 
 bool Assassin::isSpecialTouch(int touchId) {

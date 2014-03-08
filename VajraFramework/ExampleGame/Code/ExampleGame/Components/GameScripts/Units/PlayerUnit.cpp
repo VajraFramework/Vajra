@@ -85,9 +85,6 @@ void PlayerUnit::createTouchIndicator() {
 	SpriteRenderer* spriteRenderer = this->touchIndicatorRef->AddComponent<SpriteRenderer>();
 	spriteRenderer->SetHasTransperancy(true);
 	std::vector<std::string> pathsToTextures;
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Indicator_03.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Fail_01.png");
-
 	// Let the Thief and Assassin add their own images to the path
 	this->amendTouchIndicatorPaths(pathsToTextures);
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);

@@ -153,7 +153,12 @@ private:
 		this->looping = false;
 		this->callback = 0;
 		this->isPaused = false;
+
+		this->canceled = false;
 	}
+
+	bool canceled;
+
 	friend class Tween;
 };
 
@@ -185,6 +190,7 @@ public:
 
 	bool isPaused;
 
+
 private:
 	bool StepTween(float deltaTime);
 	void ResetTween();
@@ -200,8 +206,11 @@ private:
 		this->callback = 0;
 		this->userParams = nullptr;
 		this->isPaused = false;
+
+		this->canceled = false;
 	}
 
+	bool canceled;
 
 	friend class Tween;
 };
