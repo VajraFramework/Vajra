@@ -31,12 +31,11 @@ void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNum
 	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
 	if(go != nullptr) {
 		Thief* thief = go->GetComponent<Thief>();
+		thief->beginPoof(thief->endPoofId);
 		ASSERT(thief != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
 		if(thief != nullptr) {
 			if (currentNumber == toNumber) {
 				thief->onSpecialEnd();
-			} else if(currentNumber == fromNumber) {
-				thief->beginPoof(thief->endPoofId);
 			} else {
 				go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, currentNumber, 0.0f));
 			}
@@ -298,25 +297,27 @@ void Thief::updateTargets() {
 }
 
 void Thief::createPoofEffects() {
-	GameObject* startPoof = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "dustexplosion.prefab", ENGINE->GetSceneGraph3D());
+	GameObject* startPoof = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "thiefPoof.prefab", ENGINE->GetSceneGraph3D());
 	this->startPoofId = startPoof->GetId();
 
 
-	GameObject* endPoof = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "dustexplosion.prefab", ENGINE->GetSceneGraph3D());
+	GameObject* endPoof = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "thiefPoof.prefab", ENGINE->GetSceneGraph3D());
 	this->endPoofId = endPoof->GetId();
 }
 
 void Thief::beginPoof(ObjectIdType poofId) {
 	GameObject* poofObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(poofId);
 	if (poofObj != nullptr) {
-		// Move the effect to this object's position
-		Transform* myTrans = this->gameObjectRef->GetTransform();
-		Transform* effectTrans = poofObj->GetTransform();
-		effectTrans->SetPosition(myTrans->GetPositionWorld());
-
 		ParticleSystem* poofParticleSystem = poofObj->GetComponent<ParticleSystem>();
 		VERIFY(poofParticleSystem != nullptr, "poof effect prefab has a particle system on it");
-		poofParticleSystem->Play();
+		if(!poofParticleSystem->GetIsPlaying()) {
+			poofParticleSystem->Play();
+			
+			// Move the effect to this object's position
+			Transform* myTrans = this->gameObjectRef->GetTransform();
+			Transform* effectTrans = poofObj->GetTransform();
+			effectTrans->SetPosition(myTrans->GetPositionWorld());
+		}
 	}
 }
 
