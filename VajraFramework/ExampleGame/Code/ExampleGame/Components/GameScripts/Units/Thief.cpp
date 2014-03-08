@@ -26,7 +26,7 @@
 #define THIEF_SPECIAL_HIGH 3
 
 // Tween callbacks
-void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string /*tweenClipName*/, MessageData1S1I1F* userParams) {
+void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
 	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
 	if(go != nullptr) {
@@ -34,10 +34,19 @@ void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNum
 		thief->beginPoof(thief->endPoofId);
 		ASSERT(thief != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
 		if(thief != nullptr) {
-			if (currentNumber == toNumber) {
-				thief->onSpecialEnd();
-			} else {
-				go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, currentNumber, 0.0f));
+			if(tweenClipName == "vaultWait") {
+				thief->beginPoof(thief->endPoofId);
+				go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f, 0.0f));
+				MessageData1S1I1F* params = new MessageData1S1I1F();
+ 				params->i = userParams->i;
+				// this tween should go from 1 - 0 over .5 seconds
+				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 1.5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "vault", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, thiefNumberTweenCallback);
+			} else if(tweenClipName == "vault") {
+				if (currentNumber == toNumber) {
+					thief->onSpecialEnd();
+				} else {
+					go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, currentNumber, 0.0f));
+				}
 			}
 		}
 	}
@@ -53,7 +62,7 @@ void thiefTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName
 			thief->beginPoof(thief->startPoofId);
 			MessageData1S1I1F* userParams = new MessageData1S1I1F();
  			userParams->i = gameObjectId;
-			ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 1.5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "vault", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, thiefNumberTweenCallback);
+			ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 0.2f, INTERPOLATION_TYPE_LINEAR, true, false, false, "vaultWait", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, thiefNumberTweenCallback);
 		}
 	}
 }
