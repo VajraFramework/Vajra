@@ -258,33 +258,38 @@ void Assassin::specialUpdate() {
 		this->lastHitCell = currentCell;
 	}
 
-	// TODO [Implement] Perform some look-ahead so the assassin doesn't actually enter a cell he's not supposed to
-	glm::vec3 forward = QuaternionForwardVector(this->gameObjectRef->GetTransform()->GetOrientationWorld());
+	// Perform some look-ahead so the assassin doesn't actually enter a cell he's not supposed to
+	glm::vec3 forward = QuaternionForwardVector(this->gameObjectRef->GetTransform()->GetOrientation());
 	glm::vec3 lookAhead = position + forward;
 	GridCell* aheadCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(lookAhead);
 	if ((aheadCell != this->lastCheckedCell) && (this->lastCheckedCell != nullptr)) {
 		std::list<GridCell*> touchedCells;
-		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(currentCell, aheadCell, touchedCells);
+		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(position, lookAhead, touchedCells);
 		for (GridCell* c : touchedCells) {
 			bool shouldStop = false;
 			// Check if the new cell is legal before moving into it.
 			int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(position.y);
-			ObjectIdType occId = c->GetOccupantIdAtElevation(elevation);
-			if (occId != OBJECT_ID_INVALID) {
-				// If the cell is occupied, the Assassin can only move there if he can kill the occupant.
-				GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
-				if (occupant != nullptr) {
-					BaseUnit* unit = occupant->GetComponent<BaseUnit>();
-					if (unit != nullptr) {
-						if (!unit->CanBeKilledBy(this->GetObject()->GetId(), this->specialStartPos)) {
-							if ((unit->GetUnitType() > LAST_PLAYER_UNIT_TYPE) || (c == this->targetedCell)) {
-								// Stop the assassin's attack unless the occupant is another player unit and
-								// the cell isn't the assassin's final destination
-								shouldStop = true;
+			if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, elevation)) {
+				ObjectIdType occId = c->GetOccupantIdAtElevation(elevation);
+				if ((occId != OBJECT_ID_INVALID) && (occId != this->GetObject()->GetId())) {
+					// If the cell is occupied, the Assassin can only move there if he can kill the occupant.
+					GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+					if (occupant != nullptr) {
+						BaseUnit* unit = occupant->GetComponent<BaseUnit>();
+						if (unit != nullptr) {
+							if (!unit->CanBeKilledBy(this->GetObject()->GetId(), this->specialStartPos)) {
+								if ((unit->GetUnitType() > LAST_PLAYER_UNIT_TYPE) || (c == this->targetedCell)) {
+									// Stop the assassin's attack unless the occupant is another player unit and
+									// the cell isn't the assassin's final destination
+									shouldStop = true;
+								}
 							}
 						}
 					}
 				}
+			}
+			else {
+				shouldStop = true;
 			}
 			if (shouldStop) {
 				this->cancelSpecial();
