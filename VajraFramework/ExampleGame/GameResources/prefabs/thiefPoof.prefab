@@ -6,8 +6,8 @@
 				<field>50</field>
 			</property>
 			<property name="SetParticleSpeed">
-				<field>0.75</field>
-				<field>0.75</field>
+				<field>2.5</field>
+				<field>0.25</field>
 			</property>
 			<property name="SetParticleVelocityDirection">
 				<field>0.0</field>
@@ -15,11 +15,11 @@
 				<field>0.0</field>
 			</property>
 			<property name="SetParticleVelocityDirectionRandomness">
-				<field>0.5</field>
+				<field>0.1</field>
 			</property>
 			<property name="SetParticleSize">
-				<field>32</field>
-				<field>16</field>
+				<field>20</field>
+				<field>40</field>
 			</property>
 			<property name="SetParticleLifespan">
 				<field>.5</field>
@@ -30,13 +30,13 @@
 			<property name="SetParticleInitialColor">
 				<field>1.0</field>
 				<field>1.0</field>
-				<field>1.0</field>
+				<field>0.0</field>
 				<field>1.0</field>
 			</property>
 			<property name="SetParticleFinalColor">
 				<field>1.0</field>
 				<field>1.0</field>
-				<field>1.0</field>
+				<field>0.0</field>
 				<field>0.25</field>
 			</property>
 			<property name="SetLooping">

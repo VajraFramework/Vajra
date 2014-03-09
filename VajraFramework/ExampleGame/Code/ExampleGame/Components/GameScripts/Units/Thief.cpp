@@ -25,6 +25,8 @@
 #define THIEF_SPECIAL_MID 2
 #define THIEF_SPECIAL_HIGH 3
 
+
+#define UP_TWEEN_TIME .2f
 // Tween callbacks
 void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
@@ -39,7 +41,7 @@ void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNum
 				MessageData1S1I1F* params = new MessageData1S1I1F();
  				params->i = userParams->i;
 				// this tween should go from 1 - 0 over .5 seconds
-				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "vault", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, thiefNumberTweenCallback);
+				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, UP_TWEEN_TIME, INTERPOLATION_TYPE_LINEAR, true, false, true, "vault", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, thiefNumberTweenCallback);
 			} else if(tweenClipName == "vault") {
 				if (currentNumber == toNumber) {
 					thief->onSpecialEnd();
@@ -146,7 +148,7 @@ void Thief::startSpecial() {
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
 									  this->gameObjectRef->GetTransform()->GetPosition(),
 									  this->gameObjectRef->GetTransform()->GetPosition() + glm::vec3(0.0f, 1.0f, 0.0f),
-									  .5f,
+									  UP_TWEEN_TIME,
 									  false,
 									  INTERPOLATION_TYPE_PARABOLA,
 									  false,
@@ -326,10 +328,11 @@ void Thief::beginPoof(ObjectIdType poofId) {
 		if(!poofParticleSystem->GetIsPlaying()) {
 			poofParticleSystem->Play();
 			
+			printf("HERE");
 			// Move the effect to this object's position
 			Transform* myTrans = this->gameObjectRef->GetTransform();
 			Transform* effectTrans = poofObj->GetTransform();
-			effectTrans->SetPosition(myTrans->GetPositionWorld());
+			effectTrans->SetPosition(SINGLETONS->GetGridManager()->GetGrid()->GetCell(myTrans->GetPositionWorld())->center);
 		}
 	}
 }
