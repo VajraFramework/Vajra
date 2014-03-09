@@ -429,14 +429,14 @@
 		<playerUnit id="80662" prefab="Assassin" x="36" z="7" rotation="180">
       </playerUnit>
 		<enemyUnit id="78322" prefab="SentryEnemy" x="35" z="32" rotation="0">
-			<aiCommand>START_35_32_NORTH</aiCommand>
+			<aiCommand>START_35_32_SOUTH</aiCommand>
 			<aiCommand>LOOK_WEST</aiCommand>
 			<aiCommand>WALK_WEST_5</aiCommand>
 			<aiCommand>LOOK_EAST</aiCommand>
 			<aiCommand>WALK_EAST_5</aiCommand>
       </enemyUnit>
 		<enemyUnit id="79330" prefab="SentryEnemy" x="39" z="26" rotation="180">
-			<aiCommand>START_39_26_SOUTH</aiCommand>
+			<aiCommand>START_39_26_NORTH</aiCommand>
 			<aiCommand>LOOK_EAST</aiCommand>
 			<aiCommand>WALK_EAST_2</aiCommand>
 			<aiCommand>LOOK_SOUTH</aiCommand>
@@ -447,7 +447,7 @@
 			<aiCommand>WALK_NORTH_3</aiCommand>
       </enemyUnit>
 		<enemyUnit id="79228" prefab="SentryEnemy" x="37" z="32" rotation="0">
-			<aiCommand>START_37_32_NORTH</aiCommand>
+			<aiCommand>START_37_32_SOUTH</aiCommand>
 			<aiCommand>LOOK_EAST</aiCommand>
 			<aiCommand>WALK_EAST_5</aiCommand>
 			<aiCommand>LOOK_WEST</aiCommand>
@@ -455,6 +455,7 @@
       </enemyUnit>
 		<enemyUnit id="81494" prefab="SentryEnemy" x="33" z="21" rotation="90">
 			<aiCommand>START_33_21_EAST</aiCommand>
+			<aiCommand>LOOK_NORTH</aiCommand>
 			<aiCommand>LOOK_WEST</aiCommand>
 			<aiCommand>WALK_WEST_4</aiCommand>
 			<aiCommand>LOOK_SOUTH</aiCommand>
@@ -465,10 +466,10 @@
 			<aiCommand>WALK_NORTH_3</aiCommand>
 			<aiCommand>LOOK_EAST</aiCommand>
 			<aiCommand>WALK_EAST_3</aiCommand>
-			<aiCommand>LOOK_WEST</aiCommand>
       </enemyUnit>
 		<enemyUnit id="78524" prefab="SentryEnemy" x="39" z="21" rotation="270">
 			<aiCommand>START_39_21_WEST</aiCommand>
+			<aiCommand>LOOK_NORTH</aiCommand>
 			<aiCommand>LOOK_EAST</aiCommand>
 			<aiCommand>WALK_EAST_4</aiCommand>
 			<aiCommand>LOOK_SOUTH</aiCommand>
@@ -479,10 +480,9 @@
 			<aiCommand>WALK_NORTH_3</aiCommand>
 			<aiCommand>LOOK_WEST</aiCommand>
 			<aiCommand>WALK_WEST_3</aiCommand>
-			<aiCommand>LOOK_EAST</aiCommand>
       </enemyUnit>
 		<enemyUnit id="78366" prefab="SentryEnemy" x="36" z="10" rotation="180">
-			<aiCommand>START_36_10_SOUTH</aiCommand>
+			<aiCommand>START_36_10_NORTH</aiCommand>
 			<aiCommand>LOOK_WEST</aiCommand>
 			<aiCommand>WALK_WEST_6</aiCommand>
 			<aiCommand>LOOK_EAST</aiCommand>
@@ -492,7 +492,7 @@
 			<aiCommand>LOOK_NORTH</aiCommand>
       </enemyUnit>
 		<enemyUnit id="78542" prefab="SentryEnemy" x="33" z="26" rotation="180">
-			<aiCommand>START_33_26_SOUTH</aiCommand>
+			<aiCommand>START_33_26_NORTH</aiCommand>
 			<aiCommand>LOOK_WEST</aiCommand>
 			<aiCommand>WALK_WEST_2</aiCommand>
 			<aiCommand>LOOK_SOUTH</aiCommand>
