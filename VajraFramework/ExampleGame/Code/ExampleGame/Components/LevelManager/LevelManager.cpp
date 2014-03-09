@@ -88,7 +88,7 @@ bool LevelManager::TryLoadNextLevel() {
 }
 
 void LevelManager::StartLevel() {
-	ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_START);
+	ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_SCENE_START);
 }
 
 void LevelManager::loadLevel_internal() {

@@ -72,7 +72,7 @@ GameUiTouchHandlers::GameUiTouchHandlers() : UiTouchHandlers() {
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_CREATED_TUTORIAL);
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_ON_END_CONDITIONS_MET);
-	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_LEVEL_START);
+	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SCENE_START);
 }
 
 GameUiTouchHandlers::~GameUiTouchHandlers() {
@@ -253,8 +253,8 @@ MessageType stringToMessageType(std::string msgString) {
 		return MESSAGE_TYPE_SELECTED_UNIT_CHANGED;
 	} else if(msgString == "MESSAGE_TYPE_LEVEL_LOADED") {
 		return MESSAGE_TYPE_LEVEL_LOADED;
-	} else if(msgString == "MESSAGE_TYPE_LEVEL_START") {
-		return MESSAGE_TYPE_LEVEL_START;
+	} else if(msgString == "MESSAGE_TYPE_SCENE_START") {
+		return MESSAGE_TYPE_SCENE_START;
 	}
 	ASSERT(true, "stringToMessageType has reached the end without returning a message. Did you add a case for %s?", msgString.c_str());
 	return MESSAGE_TYPE_UNSPECIFIED;
