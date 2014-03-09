@@ -63,6 +63,8 @@ private:
 	void init();
 	void destroy();
 
+	virtual void start();
+	
 	void onLevelLoaded();
 	void onLevelUnloaded();
 	

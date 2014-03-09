@@ -23,6 +23,7 @@ public:
 
 protected:
 	// @Override
+	virtual void start();
 	virtual void update();
 
 private:
