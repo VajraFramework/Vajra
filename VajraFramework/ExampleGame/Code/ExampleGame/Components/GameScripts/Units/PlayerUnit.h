@@ -34,6 +34,7 @@ public:
 	void OnDeselect();
 
 	void OnTransitionZoneEntered(GridCell* newTarget);
+	virtual bool CanBeKilledBy(ObjectIdType id, glm::vec3 source);
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 	virtual void cancelSpecial();
 protected:
@@ -45,8 +46,6 @@ protected:
 	void createTouchIndicator();
 	virtual void amendTouchIndicatorPaths(std::vector<std::string>& pathsToTextures) = 0;
 	inline bool getTouchNearUnit() { return this->touchNearUnit; }
-
-	virtual void onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ, glm::vec3 source);
 
 	virtual bool isSpecialTouch(int /* touchId */) = 0; 
 	virtual void onSpecialTouch(int /* touchId */) = 0;
