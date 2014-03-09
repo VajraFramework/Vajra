@@ -156,8 +156,9 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	// PRE MENU
 	UiObject* preMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PRE_GAME_MENU]);
 	if(preMenu) {
-		if(uiObject->GetName() == "preMenuImage") {
-			preMenu->SetVisible(false);
+		if(uiObject->GetName() == "preMenu") {
+			UiElement* preMenuBackground = (UiElement*)ObjectRegistry::GetObjectByName("preMenu");
+			SINGLETONS->GetMenuManager()->TweenOutUiObject(preMenuBackground);
 			SINGLETONS->GetLevelManager()->StartLevel();
 
 		}
@@ -226,15 +227,15 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	} else if(uiObject->GetName() == TUTORIAL_EXIT_BTN) {
 		// tween in the tutorial
 		UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TUTORIAL_MENU]);
-		
-		ENGINE->GetTween()->TweenPosition(tut->GetId(),
+		SINGLETONS->GetMenuManager()->TweenOutUiObject(tut);
+		/*ENGINE->GetTween()->TweenPosition(tut->GetId(),
 										  tut->GetTransform()->GetPosition(),
 										  glm::vec3(tut->GetTransform()->GetPosition().x, -768.0f, tut->GetTransform()->GetPosition().z),
 										  0.01f,
 										  false,
 										  INTERPOLATION_TYPE_LINEAR,
 										  false,
-										  onTutorialTweenOutComplete);
+										  onTutorialTweenOutComplete);*/
 		return;
 	}
 }
@@ -360,6 +361,13 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 	UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TUTORIAL_MENU]);
 	tut->SetClickable(false);
 
+	// Delete the old tutorial if it is still around
+	Object* dynamicTutorial = ObjectRegistry::GetObjectByName(DYNAMIC_TUTORIAL_ELEMENT);
+	if(dynamicTutorial != nullptr) {
+		delete dynamicTutorial;
+		dynamicTutorial = nullptr;
+	}
+
 	// Load the textures for the tutorial
 	this->dynamicTutorialElement = new UiElement(ENGINE->GetSceneGraphUi());
 	tut->AddChild(this->dynamicTutorialElement->GetId());
@@ -387,14 +395,15 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 	this->dynamicTutorialElement->SetVisible(true);
 	
 	// tween in the tutorial
-	ENGINE->GetTween()->TweenPosition(tut->GetId(),
+	SINGLETONS->GetMenuManager()->TweenInUiObject(tut);
+	/*ENGINE->GetTween()->TweenPosition(tut->GetId(),
 									  tut->GetTransform()->GetPosition(),
 									  glm::vec3(tut->GetTransform()->GetPosition().x, 0.0f, tut->GetTransform()->GetPosition().z),
 									  0.01f,
 									  false,
 									  INTERPOLATION_TYPE_LINEAR,
 									  false,
-									  onTutorialTweenInComplete);
+									  onTutorialTweenInComplete);*/
 }
 
 void GameUiTouchHandlers::nextTutorialImage() {

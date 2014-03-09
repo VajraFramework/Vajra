@@ -7,9 +7,10 @@
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
 
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
-#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/Tween/Tween.h"
@@ -21,7 +22,7 @@
 ComponentIdType MenuManager::componentTypeId = COMPONENT_TYPE_ID_LEVEL_MANAGER;
 
 #define MIN_LOAD_TIME 0.3f
-
+#define BACKDROP "popUpBack"
 void menuManagerNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* /*userParams*/) {
 	SINGLETONS->GetMenuManager()->hideLoadScreen();
 
@@ -78,7 +79,9 @@ void MenuManager::LoadMainMenu(std::string screenToShow /* = "startMenu"*/) {
 	this->mainMenuTouchHandler->createMissionMenu();
 	SINGLETONS->GetLevelManager()->currentLevelIndex = -1;
 	ENGINE->GetSceneGraph3D()->Pause();
-	
+
+	this->backdrop = (UiElement*)ObjectRegistry::GetObjectByName(BACKDROP);
+
 	UiElement* screen = (UiElement*)ObjectRegistry::GetObjectByName(screenToShow);
 	VERIFY(screen != nullptr, "screen to show is not null");
 	screen->SetVisible(true);
@@ -89,6 +92,8 @@ void MenuManager::LoadGameMenu(std::string screenToShow /*= "inGame"*/) {
 	std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
 	this->gameUiTouchHandler = new GameUiTouchHandlers();
 	UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), this->gameUiTouchHandler);
+
+	this->backdrop = (UiElement*)ObjectRegistry::GetObjectByName(BACKDROP);
 
 	UiElement* screen = (UiElement*)ObjectRegistry::GetObjectByName(screenToShow);
 	VERIFY(screen != nullptr, "screen to show is not null");
@@ -108,6 +113,40 @@ void MenuManager::LoadLevel(int levelIndex) {
 		this->LoadMainMenu();
 	}
 
+}
+
+glm::vec3 screenCenter = glm::vec3(256.0f, -192.0f, 0.0f);
+glm::vec3 offScreen = glm::vec3(256.0f, -768.0f, 0.0f);
+
+void MenuManager::TweenOutUiObject(UiObject* element) {
+	if(element != nullptr) {
+		this->backdrop->SetVisible(false);
+		element->GetTransform()->SetPosition(screenCenter);
+		screenCenter.z = element->GetZOrder();
+		offScreen.z = element->GetZOrder();
+		ENGINE->GetTween()->TweenPosition(element->GetId(),
+										  screenCenter,
+										  offScreen,
+										  0.5f,
+										  false,
+										  INTERPOLATION_TYPE_LINEAR);
+	}
+}
+
+void MenuManager::TweenInUiObject(UiObject* element) {
+	if(element != nullptr) {
+		this->backdrop->SetVisible(true);
+		element->GetTransform()->SetPosition(offScreen);
+		screenCenter.z = element->GetZOrder();
+		offScreen.z = element->GetZOrder();
+		ENGINE->GetTween()->TweenPosition(element->GetId(),
+										  offScreen,
+										  screenCenter,
+										  0.5f,
+										  false,
+										  INTERPOLATION_TYPE_LINEAR);
+	}
+	
 }
 
 void MenuManager::unloadPreviousScene() {
@@ -137,8 +176,9 @@ void MenuManager::hideLoadScreen() {
 	}
 	ENGINE->GetSceneGraph3D()->Resume();
 	if(this->gameUiTouchHandler != nullptr) {
-		UiElement* preMenuScreen = (UiElement*)ObjectRegistry::GetObjectByName("preMenu");
+		UiObject* preMenuScreen = (UiObject*)ObjectRegistry::GetObjectByName("preMenu");
 		VERIFY(preMenuScreen != nullptr, "preMenuScreen to show is not null");
 		preMenuScreen->SetVisible(true);
+		this->TweenInUiObject(preMenuScreen);
 	}
 }

@@ -1,5 +1,12 @@
 <uiscene widthPixels="1024" heightPixels="768">
-
+	<uielement name="popUpBack" clickable="true">
+		<dimensions>
+			<position x="0" y="768"></position>
+			<size widthPixels="1024" heightPixels="768"></size>
+			<zorder>1</zorder>
+		</dimensions>
+		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
+	</uielement>
 	
 	<uielement name="splashScreen" visible="true" clickable="false">
 		<dimensions>

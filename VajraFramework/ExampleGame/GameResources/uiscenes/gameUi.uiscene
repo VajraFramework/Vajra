@@ -1,11 +1,19 @@
 <uiscene widthPixels="1024" heightPixels="768">
-	<uielement name="tutorialScreen" clickable="true">
+	<uielement name="popUpBack" clickable="true">
 		<dimensions>
-			<position x="0" y="768"></position>
+			<position x="0" y="0"></position>
 			<size widthPixels="1024" heightPixels="768"></size>
 			<zorder>1</zorder>
 		</dimensions>
 		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
+	</uielement>
+
+	<uielement name="tutorialScreen" clickable="true" visible="false">
+		<dimensions>
+			<position x="0" y="0"></position>
+			<size widthPixels="0" heightPixels="0"></size>
+			<zorder>1</zorder>
+		</dimensions>
 		<uielement name="closeTutorial" clickable="true">
 			<dimensions>
 				<position x="128" y="128"></position>
@@ -43,19 +51,11 @@
 
 	<uielement name="preMenu" clickable="true">
 		<dimensions>
-			<position xwrto="LEFT" ywrto="TOP" x="0" y="0"></position>
-			<size widthPixels="1024" heightPixels="768"></size>
-			<zorder>1</zorder>
+			<position xwrto="CENTER" ywrto="CENTER" x="-256" y="-192"></position>
+			<size widthPixels="512" heightPixels="384"></size>
+			<zorder>2</zorder>
 		</dimensions>
-		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
-		<uielement name="preMenuImage" clickable="true">
-			<dimensions>
-				<position xwrto="CENTER" ywrto="CENTER" x="-256" y="-192"></position>
-				<size widthPixels="512" heightPixels="384"></size>
-				<zorder>2</zorder>
-			</dimensions>
-			<color r="0.0" g="1.0" b="0.0" a="1.0"></color>
-		</uielement>
+		<color r="0.0" g="1.0" b="0.0" a="1.0"></color>
 	</uielement>
 
 	<uielement name="inGame" clickable="false">
