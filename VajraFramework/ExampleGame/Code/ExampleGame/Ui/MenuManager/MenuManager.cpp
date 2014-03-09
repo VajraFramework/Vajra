@@ -115,11 +115,16 @@ void MenuManager::LoadLevel(int levelIndex) {
 
 }
 
-glm::vec3 screenCenter = glm::vec3(256.0f, -192.0f, 0.0f);
-glm::vec3 offScreen = glm::vec3(256.0f, -768.0f, 0.0f);
+
 
 void MenuManager::TweenOutUiObject(UiObject* element) {
 	if(element != nullptr) {
+		float halfWidth = ((float)element->GetWidth()) / 2.0f;
+		float halfHeight = ((float)element->GetHeight()) / 2.0f;
+
+		glm::vec3 screenCenter = glm::vec3(halfWidth, -halfHeight, 0.0f);
+		glm::vec3 offScreen = glm::vec3(halfWidth, -768.0f, 0.0f);
+
 		this->backdrop->SetVisible(false);
 		element->GetTransform()->SetPosition(screenCenter);
 		screenCenter.z = element->GetZOrder();
@@ -135,6 +140,12 @@ void MenuManager::TweenOutUiObject(UiObject* element) {
 
 void MenuManager::TweenInUiObject(UiObject* element) {
 	if(element != nullptr) {
+		float halfWidth = ((float)element->GetWidth()) / 2.0f;
+		float halfHeight = ((float)element->GetHeight()) / 2.0f;
+
+		glm::vec3 screenCenter = glm::vec3(halfWidth, -halfHeight, 0.0f);
+		glm::vec3 offScreen = glm::vec3(halfWidth, -768.0f, 0.0f);
+
 		this->backdrop->SetVisible(true);
 		element->GetTransform()->SetPosition(offScreen);
 		screenCenter.z = element->GetZOrder();
