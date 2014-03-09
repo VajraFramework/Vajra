@@ -11,17 +11,37 @@
           </component>
 
           <component name="Transform">
+          </component>
+      </gameobject>
+      <gameobject>
+          <component name="MeshRenderer">
+              <property name="InitMesh">
+                  <field>models/SD_House_Base_3Way_01.model</field>
+              </property>
+          </component>
+
+          <component name="Transform">
               <property name="Translate">
                   <field>0</field>
+                  <field>4</field>
+                  <field>0</field>
+              </property>
+              <property name="Rotate">
                   <field>0</field>
                   <field>0</field>
+                  <field>0</field>
+              </property>
+              <property name="Scale">
+                  <field>1</field>
+                  <field>1</field>
+                  <field>1</field>
               </property>
           </component>
       </gameobject>
       <gameobject>
           <component name="MeshRenderer">
               <property name="InitMesh">
-                  <field>models/SD_House_Mid_3Way_01.model</field>
+                  <field>models/SD_House_Base_3Way_01.model</field>
               </property>
           </component>
 
@@ -31,20 +51,15 @@
                   <field>2</field>
                   <field>0</field>
               </property>
-          </component>
-      </gameobject>
-      <gameobject>
-          <component name="MeshRenderer">
-              <property name="InitMesh">
-                  <field>models/SD_House_Mid_3Way_01.model</field>
+              <property name="Rotate">
+                  <field>0</field>
+                  <field>0</field>
+                  <field>0</field>
               </property>
-          </component>
-
-          <component name="Transform">
-              <property name="Translate">
-                  <field>0</field>
-                  <field>4</field>
-                  <field>0</field>
+              <property name="Scale">
+                  <field>1</field>
+                  <field>1</field>
+                  <field>1</field>
               </property>
           </component>
       </gameobject>
@@ -59,7 +74,17 @@
               <property name="Translate">
                   <field>0</field>
                   <field>6</field>
+                  <field>0.03446579</field>
+              </property>
+              <property name="Rotate">
                   <field>0</field>
+                  <field>0</field>
+                  <field>0</field>
+              </property>
+              <property name="Scale">
+                  <field>1</field>
+                  <field>1</field>
+                  <field>1</field>
               </property>
           </component>
       </gameobject>

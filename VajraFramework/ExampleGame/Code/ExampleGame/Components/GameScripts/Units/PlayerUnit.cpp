@@ -46,33 +46,14 @@ PlayerUnit::~PlayerUnit() {
 }
 
 void PlayerUnit::init() {
-	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
 	this->inputState = InputState::INPUT_STATE_NONE;
 	this->touchNearUnit = false;
 	this->unitHasTouchFocus = false;
 	this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
 	this->gridNavRef->SetTurnSpeedDegrees(TURN_SPEED_DEG);
 	this->gridNavRef->SetMaxNavigableUnitType(LAST_PLAYER_UNIT_TYPE);
-
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION, this->GetTypeId(), false);
-
-	this->touchIndicatorRef = new GameObject(ENGINE->GetSceneGraph3D());
-	SpriteRenderer* spriteRenderer = this->touchIndicatorRef->AddComponent<SpriteRenderer>();
-	spriteRenderer->SetHasTransperancy(true);
-	std::vector<std::string> pathsToTextures;
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Indicator_03.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Fail_01.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_Arrow_05.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_cyan.png");
-	
-	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
-
-	this->touchIndicatorRef->SetVisible(false);
-	this->touchIndicatorRef->GetTransform()->Rotate(90.0f inRadians, XAXIS);
-
 	this->currentTouchedCell = NULL;
-
-
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 }
 
@@ -97,6 +78,21 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 		default:
 			break;
 	}
+}
+
+void PlayerUnit::createTouchIndicator() {
+	this->touchIndicatorRef = new GameObject(ENGINE->GetSceneGraph3D());
+	SpriteRenderer* spriteRenderer = this->touchIndicatorRef->AddComponent<SpriteRenderer>();
+	spriteRenderer->SetHasTransperancy(true);
+	std::vector<std::string> pathsToTextures;
+	// Let the Thief and Assassin add their own images to the path
+	this->amendTouchIndicatorPaths(pathsToTextures);
+	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
+
+	this->touchIndicatorRef->SetVisible(true);
+	this->touchIndicatorRef->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+	this->touchIndicatorRef->GetTransform()->SetScale(glm::vec3(0));
+
 }
 
 void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
@@ -142,22 +138,31 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 
 void PlayerUnit::OnDeselect() {
 	this->inputState = InputState::INPUT_STATE_NONE;
-	ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
-	ENGINE->GetTween()->CancelNumberTween("pulse");
-	this->SetTouchIndicatorVisible(false);
-				
 }
 
 void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {
 	if(this->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL || this->GetUnitActionState() == UNIT_ACTION_STATE_POST_SPECIAL) {
 		this->cancelSpecial();
 	}
-	this->SetTouchIndicatorLocation(newTarget);
+	this->GridPlaneSetPos(this->touchIndicatorRef,newTarget);
 	this->SwitchActionState(UNIT_ACTION_STATE_WALKING);
 	this->startTouchIndicatorPulse();
 	this->gridNavRef->SetDestination(newTarget);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	this->touchIndicatorRef->SetVisible(true);
+}
+
+bool PlayerUnit::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
+	GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+	if (gObj != nullptr) {
+		BaseUnit* unit = gObj->GetComponent<BaseUnit>();
+		if (unit != nullptr) {
+			if ((unit->GetUnitType() >= FIRST_ENEMY_UNIT_TYPE) && (unit->GetUnitType() <= LAST_ENEMY_UNIT_TYPE)) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 void PlayerUnit::onSelectedTouch() {
@@ -174,6 +179,8 @@ void PlayerUnit::onSpecialEnd() {
 	this->SwitchActionState(UNIT_ACTION_STATE_POST_SPECIAL);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	this->touchIndicatorRef->SetVisible(false);
+	this->touchStartPos = glm::vec2();
+	this->touchNearUnit = false;
 }
 
 void PlayerUnit::cancelSpecial() {
@@ -181,6 +188,8 @@ void PlayerUnit::cancelSpecial() {
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	this->touchIndicatorRef->SetVisible(false);
+	this->touchStartPos = glm::vec2();
+	this->touchNearUnit = false;
 }
 
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
@@ -192,7 +201,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 		switch(ENGINE->GetInput()->GetTouch(touchId).phase) {
 			case TouchPhase::Began:
 				this->inputState = InputState::INPUT_STATE_NAV;
-				this->SetTouchIndicatorLocation(this->currentTouchedCell);
+				this->GridPlaneSetPos(this->touchIndicatorRef,this->currentTouchedCell);
 				ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
 				ENGINE->GetTween()->CancelNumberTween("pulse");
 				ENGINE->GetTween()->TweenScale(this->touchIndicatorRef->GetId(), glm::vec3(0), glm::vec3(1),TOUCH_SCALE_TIME);
@@ -228,7 +237,7 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 }
 
 void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
-	this->SetTouchIndicatorLocation(this->currentTouchedCell);
+	this->GridPlaneSetPos(this->touchIndicatorRef,this->currentTouchedCell);
 	if(this->inputState == InputState::INPUT_STATE_NAV || this->inputState == InputState::INPUT_STATE_WAIT) {
 		if(this->gridNavRef->CanReachDestination(this->currentTouchedCell)) {
 			this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
@@ -253,8 +262,17 @@ void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
 	}
 }
 
-void PlayerUnit::TouchIndicatorLookAt(GridCell* target) {
-	this->GridPlaneLookAt(this->touchIndicatorRef, target->center);
+void PlayerUnit::GridPlaneSetPos(GameObject* plane, GridCell* targetCell) {
+	if(targetCell != nullptr) {
+		glm::vec3 target = targetCell->center;
+		target.y += this->GetYOffsetFromCell(targetCell);
+		this->GridPlaneSetPos(plane, target);
+	}
+}
+
+void PlayerUnit::GridPlaneSetPos(GameObject* plane, glm::vec3 target) {
+	plane->GetTransform()->SetPosition(target);
+	plane->GetTransform()->Translate(0.05f , YAXIS);
 }
 
 void PlayerUnit::GridPlaneLookAt(GameObject* plane, GridCell* target) {
@@ -301,20 +319,19 @@ void PlayerUnit::SetTouchIndicatorSprite(int index) {
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(index);
 }
 
-void PlayerUnit::SetTouchIndicatorLocation(GridCell* c) {
-	if(c != nullptr) {
-		glm::vec3 target = c->center;
-		target.y += c->y * 0.05;
-		this->SetTouchIndicatorLocation(target);
-	}
-}
-
-void PlayerUnit::SetTouchIndicatorLocation(glm::vec3 target) {
-	this->touchIndicatorRef->GetTransform()->SetPosition(target);
-	this->touchIndicatorRef->GetTransform()->Translate(0.05f , YAXIS);
-
-}
-
 void PlayerUnit::SetTouchIndicatorVisible(bool visibility) {
 	this->touchIndicatorRef->SetVisible(visibility);
+}
+
+float PlayerUnit::GetYOffsetFromCell(GridCell* targetCell) {
+	float offset = targetCell->y * 0.05;
+	for(auto zoneIds : targetCell->zones) {
+		GameObject* zone = ENGINE->GetSceneGraph3D()->GetGameObjectById(zoneIds);
+		if(zone != nullptr) {
+			if(zone->HasTag("PressurePlate") || zone->HasTag("Switch")) {
+				offset += .3f;
+			}
+		}
+	}
+	return offset;
 }

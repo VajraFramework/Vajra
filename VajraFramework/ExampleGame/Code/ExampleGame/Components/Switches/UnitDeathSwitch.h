@@ -1,31 +1,29 @@
 //
-//  UnitInGridZoneSwitch.h
-//  Created by Matt Kaufmann on 02/20/14.
+//  UnitDeathSwitch.h
+//  Created by Matt Kaufmann on 03/06/14.
 //
 
-#ifndef UNITINGRIDZONESWITCH_H
-#define UNITINGRIDZONESWITCH_H
+#ifndef UNITDEATHSWITCH_H
+#define UNITDEATHSWITCH_H
 
 #include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
-#include "ExampleGame/Components/Switches/GridZoneSwitch.h"
+#include "ExampleGame/Components/Switches/BaseSwitch.h"
 
 //[[COMPONENT]]//
-class UnitInGridZoneSwitch : public GridZoneSwitch {
+class UnitDeathSwitch : public BaseSwitch {
 public:
-	UnitInGridZoneSwitch();
-	UnitInGridZoneSwitch(Object* object_);
-	virtual ~UnitInGridZoneSwitch();
+	UnitDeathSwitch();
+	UnitDeathSwitch(Object* object_);
+	virtual ~UnitDeathSwitch();
 
-	static inline ComponentIdType GetTypeId() { return GridZoneSwitch::GetTypeId(); }
+	static inline ComponentIdType GetTypeId() { return BaseSwitch::GetTypeId(); }
 
 	//[[PROPERTY]]//
 	virtual void SetSwitchType(std::string typeStr);
 	//[[PROPERTY]]//
 	virtual void SetResetTime(float t);
 	//[[PROPERTY]]//
-	virtual void SetRequiredOccupants(unsigned int num);
-	//[[PROPERTY]]//
-	virtual void SetActivateWhenUnitsInZone(bool b);
+	inline void SetRequiredDeaths(unsigned int numDeaths);
 	//[[PROPERTY]]//
 	void SetRequiredUnitType(std::string typeStr);    // Only allows the specified unit type
 	void SetRequiredUnitType(UnitType uType);
@@ -35,21 +33,25 @@ public:
 	//[[PROPERTY]]//
 	void AllowAllUnitTypesUpTo(std::string typeStr);  // Set all units up to the specified type as allowed
 	void AllowAllUnitTypesUpTo(UnitType uType);
-	//[[PROPERTY]]//
-	void SetDecalType(std::string decalType);
 
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
 
 protected:
 	// @Override
-	virtual bool doesObjectCountAsOccupant(ObjectIdType id);  // This method can be used to filter out specific objects
+	//virtual bool isConditionMet();
+
+	void onUnitWasKilled(ObjectIdType id);
+	bool doesUnitDeathCount(ObjectIdType id);
 
 private:
 	void init();
 	void destroy();
 
+	unsigned int requiredDeaths;
 	unsigned long long unitTypeBitMask;
 };
 
-#endif // UNITINGRIDZONESWITCH_H
+void UnitDeathSwitch::SetRequiredDeaths(unsigned int numDeaths)  { this->requiredDeaths = numDeaths; }
+
+#endif // UNITDEATHSWITCH_H

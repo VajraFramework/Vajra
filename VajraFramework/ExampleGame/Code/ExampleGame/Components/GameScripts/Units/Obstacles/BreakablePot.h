@@ -23,6 +23,8 @@ public:
 	//[[PROPERTY]]//
 	inline void SetDeathEffect(std::string prefabName);
 
+	virtual bool CanBeKilledBy(ObjectIdType id, glm::vec3 source);
+
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 
 protected:
@@ -37,7 +39,6 @@ private:
 	void init();
 	void destroy();
 
-	void onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ);
 	void generateDeathEffect();
 	void activateDeathEffect();
 

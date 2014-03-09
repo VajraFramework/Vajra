@@ -30,21 +30,7 @@ void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tween
 			// Update the grid cells
 			triggerComp->setCellsInGridZonePassable(true);
 
-			// Unchild all units in zone
-			for (auto iter = triggerComp->unitsInZone.begin(); iter != triggerComp->unitsInZone.end(); ++iter) {
-				GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
-				ASSERT(gObj != nullptr, "Object exists with id %d", *iter);
-				if (gObj != nullptr) {
-					gObj->GetParentSceneGraph()->GetRootGameObject()->AddChild_maintainTransform(*iter);
-
-				}
-
-				// Re-enable the navigators.
-				GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
-				if (gNav != nullptr) {
-					gNav->EnableNavigation();
-				}
-			}
+			triggerComp->unchildObjectsFromElevator();
 
 			// Navigators need to update their pathfinding
 			MessageChunk gridNavMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
@@ -73,8 +59,6 @@ void TriggerElevationChange::init() {
 	this->elevationChange = 1;
 	this->transitTime     = 1.0f;
 
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED, this->GetTypeId(), true);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED, this->GetTypeId(), true);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT, this->GetTypeId(), true);
 }
 
@@ -90,14 +74,6 @@ void TriggerElevationChange::HandleMessage(MessageChunk messageChunk) {
 	Triggerable::HandleMessage(messageChunk);
 
 	switch (messageChunk->GetMessageType()) {
-		case MESSAGE_TYPE_GRID_ZONE_ENTERED:
-			this->onUnitEnteredZone(messageChunk->messageData.iv1.x);
-			break;
-
-		case MESSAGE_TYPE_GRID_ZONE_EXITED:
-			this->onUnitExitedZone(messageChunk->messageData.iv1.x);
-			break;
-
 		case MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT:
 			for (auto iter = this->unitsInZone.begin(); iter != this->unitsInZone.end(); ++iter) {
 				// If it's the selected unit the camera should follow it up
@@ -164,27 +140,7 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 	// Check if there's already a tween going on.
 	OnGoingTransformTweenDetails* translationDetails = ENGINE->GetTween()->GetOnGoingTransformTweenDetails(myId, TRANSFORM_TWEEN_TARGET_POSITION);
 	if (translationDetails == nullptr) {
-		// Child all units in zone to this object before tweening.
-		for (auto iter = this->unitsInZone.begin(); iter != this->unitsInZone.end(); ++iter) {
-
-			GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
-			ASSERT(gObj != nullptr, "Object exists with id %d", *iter);
-			if (gObj != nullptr) {
-
-				this->gameObjectRef->AddChild_maintainTransform(gObj->GetId());
-				
-				if(gObj->GetComponent<Assassin>()) {
-					gObj->GetComponent<Assassin>()->cancelSpecial();
-				}
-				
-				// If it's a unit that's moving, stop it:
-				GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
-				if (gNav != nullptr) {
-					gNav->HaltMovement();
-					gNav->DisableNavigation();
-				}
-			}
-		}
+		this->childObjectsToElevator();
 
 		glm::vec3 finalPosition = this->GetObject()->GetComponent<Transform>()->GetPosition();
 		if (raised) {
@@ -280,4 +236,69 @@ void TriggerElevationChange::changeCellElevations(bool raised) {
 			grid->ChangeCellGroundLevel(x, z, diff);
 		}
 	}
+}
+
+void TriggerElevationChange::childObjectsToElevator() {
+	// Find all occupants of the cells covered by the elevator and child them to it.
+	GridZone* zone = this->GetObject()->GetComponent<GridZone>();
+	if (zone != nullptr) {
+		int west, east, south, north;
+		zone->GetZoneBounds(west, east, south, north);
+		for (int x = west; x <= east; ++x) {
+			for (int z = south; z <= north; ++z) {
+				GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(x, z);
+				if (cell != nullptr) {
+					for (int y = 0; y < NUM_ELEVATIONS; ++y) {
+						ObjectIdType occId = cell->GetOccupantIdAtElevation(y);
+						if (occId != OBJECT_ID_INVALID) {
+							// Just to be safe, make sure that the object is actually positioned within the zone bounds.
+							GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+							if (gObj != nullptr) {
+								glm::vec3 pos = gObj->GetTransform()->GetPositionWorld();
+								GridCell* actualCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(pos);
+								if (actualCell != nullptr) {
+									if ((actualCell->x >= west) && (actualCell->x <= east) && (actualCell->z >= south) && (actualCell->z <= north)) {
+										this->unitsInZone.push_back(occId);
+										this->gameObjectRef->AddChild_maintainTransform(occId);
+
+										// If it's a unit that's moving, stop it:
+										GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
+										if (gNav != nullptr) {
+											if(gObj->GetComponent<BaseUnit>()) {
+												if(gObj->GetComponent<BaseUnit>()->GetUnitType() == UnitType::UNIT_TYPE_ASSASSIN) {
+													gObj->GetComponent<Assassin>()->cancelSpecial();
+												}
+											}
+
+											gNav->HaltMovement();
+											gNav->DisableNavigation();
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void TriggerElevationChange::unchildObjectsFromElevator() {
+	// Unchild all units in zone
+	for (auto iter = this->unitsInZone.begin(); iter != this->unitsInZone.end(); ++iter) {
+		GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
+		ASSERT(gObj != nullptr, "Object exists with id %d", *iter);
+		if (gObj != nullptr) {
+			gObj->GetParentSceneGraph()->GetRootGameObject()->AddChild_maintainTransform(*iter);
+
+		}
+
+		// Re-enable the navigators.
+		GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
+		if (gNav != nullptr) {
+			gNav->EnableNavigation();
+		}
+	}
+	this->unitsInZone.clear();
 }

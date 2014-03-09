@@ -79,6 +79,9 @@ private:
 	void placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ);
 	void placeZoneOnGrid(ObjectIdType id);
 	void gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ, int elevation);
+	void gridCellEnterAttackHandler(ObjectIdType id, int gridX, int gridZ, int elevation, glm::vec3 source);
+	void addZoneToCell(ObjectIdType zoneId, int gridX, int gridZ);
+	void removeZoneFromCell(ObjectIdType zoneId, int gridX, int gridZ);
 	void removeNavigatorFromGrid(ObjectIdType id, int elevation);
 	bool checkUnitCollisions(ObjectIdType id, GridCell* destCell, int elevation);
 	

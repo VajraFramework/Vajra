@@ -42,14 +42,22 @@ void BreakablePot::destroy() {
 
 void BreakablePot::HandleMessage(MessageChunk messageChunk) {
 	BaseUnit::HandleMessage(messageChunk);
-	switch(messageChunk->GetMessageType()) {
-		case MESSAGE_TYPE_UNIT_SPECIAL_HIT:
-			this->onUnitSpecialHit(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
-			break;
+}
 
-		default:
-			break;
+bool BreakablePot::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
+	GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+	ASSERT(gObj != nullptr, "GameObject exists with id %d", id);
+	if (gObj != nullptr) {
+		BaseUnit* unit = gObj->GetComponent<BaseUnit>();
+		if (unit != nullptr) {
+			// Was it the assassin who attacked me?
+			if (unit->GetUnitType() == UNIT_TYPE_ASSASSIN) {
+				// Pots are destroyed by the assassin's attack.
+				return true;
+			}
+		}
 	}
+	return false;
 }
 
 void BreakablePot::start() {
@@ -68,30 +76,6 @@ void BreakablePot::Kill() {
 	BaseUnit::Kill();
 	this->activateDeathEffect();
 	this->gameObjectRef->SetVisible(false);
-}
-
-void BreakablePot::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ) {
-	GridNavigator* gNav = this->GetObject()->GetComponent<GridNavigator>();
-	if (gNav != nullptr) {
-		// Did the special hit the cell I'm in?
-		GridCell* cell = gNav->GetCurrentCell();
-		if (cell != nullptr) {
-			if ((cell->x == gridX) && (cell->z == gridZ)) {
-				GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
-				ASSERT(gObj != nullptr, "GameObject exists with id %d", id);
-				if (gObj != nullptr) {
-					BaseUnit* unit = gObj->GetComponent<BaseUnit>();
-					if (unit != nullptr) {
-						// Was it the assassin who attacked me?
-						if (unit->GetUnitType() == UNIT_TYPE_ASSASSIN) {
-							// Pots are destroyed by the assassin's attack.
-							this->Kill();
-						}
-					}
-				}
-			}
-		}
-	}
 }
 
 void BreakablePot::generateDeathEffect() {

@@ -25,6 +25,8 @@ public:
 	virtual void cancelSpecial();
 protected:
 	// @Override 
+	virtual void amendTouchIndicatorPaths(std::vector<std::string>& pathsToTextures);
+
 	virtual bool isSpecialTouch(int /* touchId */);
 	virtual void onSpecialTouch(int /* touchId */);
 
@@ -43,9 +45,12 @@ private:
 	void tweenOutTargets();
 
 	void createTargets();
+	void updateTargets();
 	void deleteTargets();
 
 	GridCell* targetedCell;
+
+	int textureIndexForElevation(int cellElevation);
 
 	void scaleUpIndicator(GridCell* /*cell*/);
 	void scaleDownIndicator(GridCell* /*cell*/);

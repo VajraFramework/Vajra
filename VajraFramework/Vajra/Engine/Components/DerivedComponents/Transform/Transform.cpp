@@ -244,10 +244,18 @@ void Transform::updateModelMatrixCumulative() {
 	// Update our picture of position, orientation, and scale in world space as well:
 	glm::vec4 worldPosition = this->modelMatrixCumulative * ZERO_VEC4_POSITION;
 	this->positionWorld    = glm::vec3(worldPosition.x, worldPosition.y, worldPosition.z);
+	//
 	this->scaleWorld.x     = this->modelMatrixCumulative[0][0];
 	this->scaleWorld.y     = this->modelMatrixCumulative[1][1];
 	this->scaleWorld.z     = this->modelMatrixCumulative[2][2];
-	this->orientationWorld = glm::normalize(glm::quat_cast(this->modelMatrixCumulative));
+	//
+	glm::vec4 forward_world = this->modelMatrixCumulative * glm::vec4(ZAXIS.x, ZAXIS.y, ZAXIS.z, 0.0f);
+	glm::vec4 up_world      = this->modelMatrixCumulative * glm::vec4(YAXIS.x, YAXIS.y, YAXIS.z, 0.0f);
+	if (forward_world != ZERO_VEC4_DIRECTION && up_world != ZERO_VEC4_DIRECTION) {
+		forward_world = glm::normalize(forward_world);
+		up_world      = glm::normalize(up_world);
+		this->orientationWorld = QuaternionFromLookVectors(glm::vec3(forward_world.x, forward_world.y, forward_world.z), glm::vec3(up_world.x, up_world.y, up_world.z));
+	}
 
 	this->rippleMatrixUpdates();
 }

@@ -40,6 +40,32 @@ void UnitInGridZoneSwitch::SetRequiredUnitType(std::string typeStr) {
 	this->SetRequiredUnitType(ConvertStringToUnitType(typeStr));
 }
 
+void UnitInGridZoneSwitch::SetRequiredUnitType(UnitType uType)  {
+	unsigned long long unitBit = 1;
+	unitBit = unitBit << (int)uType;
+	this->unitTypeBitMask = unitBit;
+}
+
+void UnitInGridZoneSwitch::AddAllowedUnitType(std::string typeStr) {
+	this->AddAllowedUnitType(ConvertStringToUnitType(typeStr));
+}
+
+void UnitInGridZoneSwitch::AddAllowedUnitType(UnitType uType) {
+	unsigned long long unitBit = 1;
+	unitBit = unitBit << (int)uType;
+	this->unitTypeBitMask = this->unitTypeBitMask | unitBit;
+}
+
+void UnitInGridZoneSwitch::AllowAllUnitTypesUpTo(std::string typeStr) {
+	this->AllowAllUnitTypesUpTo(ConvertStringToUnitType(typeStr));
+}
+
+void UnitInGridZoneSwitch::AllowAllUnitTypesUpTo(UnitType uType) {
+	unsigned long long unitBits = 1;
+	unitBits = unitBits << ((int)uType + 1);
+	this->unitTypeBitMask = unitBits - 1;
+}
+
 void UnitInGridZoneSwitch::HandleMessage(MessageChunk messageChunk) {
 	GridZoneSwitch::HandleMessage(messageChunk);
 }
@@ -50,7 +76,9 @@ bool UnitInGridZoneSwitch::doesObjectCountAsOccupant(ObjectIdType id) {
 	if (gObj != nullptr) {
 		BaseUnit* unit = gObj->GetComponent<BaseUnit>();
 		if (unit != nullptr) {
-			return (unit->GetUnitType() == this->requiredUnitType);
+			unsigned long long unitBit = 1;
+			unitBit = unitBit << (int)unit->GetUnitType();
+			return ((unitBit & this->unitTypeBitMask) != 0);
 		}
 	}
 	return false;
@@ -61,7 +89,7 @@ void UnitInGridZoneSwitch::SetDecalType(std::string decalType) {
 }
 
 void UnitInGridZoneSwitch::init() {
-	this->requiredUnitType = UNIT_TYPE_UNKNOWN;
+	this->unitTypeBitMask  = 0;
 }
 
 void UnitInGridZoneSwitch::destroy() {

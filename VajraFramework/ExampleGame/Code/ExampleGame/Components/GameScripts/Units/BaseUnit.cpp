@@ -27,9 +27,10 @@ BaseUnit::~BaseUnit() {
 }
 
 void BaseUnit::init() {
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_END  , this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START     , this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT     , this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_END       , this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT, this->GetTypeId(), false);
 
 	this->gameObjectRef = (GameObject*)this->GetObject();
 	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
@@ -47,6 +48,11 @@ void BaseUnit::destroy() {
 
 void BaseUnit::HandleMessage(MessageChunk messageChunk) {
 	Component::HandleMessage(messageChunk);
+	switch (messageChunk->GetMessageType()) {
+		case MESSAGE_TYPE_UNIT_SPECIAL_HIT:
+			this->onUnitSpecialHit(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z, messageChunk->messageData.fv1);
+			break;
+	}
 }
 
 void BaseUnit::start() {
@@ -68,6 +74,20 @@ void BaseUnit::SwitchActionState(UnitActionState newState) {
 		messageChunk->messageData.iv1.x = oldState;
 		messageChunk->messageData.iv1.y = newState;
 		ENGINE->GetMessageHub()->SendPointcastMessage(messageChunk, this->GetObject()->GetId(), this->GetObject()->GetId());
+	}
+}
+
+void BaseUnit::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ, glm::vec3 source) {
+	// First check if the attack hit my cell
+	GridCell* cell = this->gridNavRef->GetCurrentCell();
+	if (cell != nullptr) {
+		if ((cell->x == gridX) && (cell->z == gridZ)) {
+			// Check if the attacker can kill me
+			if (this->CanBeKilledBy(id, source)) {
+				// I'm dead
+				this->Kill();
+			}
+		}
 	}
 }
 

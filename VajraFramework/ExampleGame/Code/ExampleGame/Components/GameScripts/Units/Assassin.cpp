@@ -20,7 +20,6 @@
 // Tween callbacks
 void assassinTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName */) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
-	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
 	if(go != nullptr) {
 		Assassin* pUnit = go->GetComponent<Assassin>();
 		ASSERT(pUnit != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
@@ -34,7 +33,6 @@ void assassinTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipN
 
 void assassinNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* userParams) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
-	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
 	if(go != nullptr) {
 		Assassin* pUnit = go->GetComponent<Assassin>();
 		ASSERT(pUnit != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
@@ -58,14 +56,16 @@ Assassin::~Assassin() {
 
 void Assassin::init() {
 	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
-
+	this->createTouchIndicator();
+	this->lastHitCell = nullptr;
+	this->lastCheckedCell = nullptr;
 	{
 		// create the arrow tail
 		this->arrowTail = new GameObject(ENGINE->GetSceneGraph3D());
 		SpriteRenderer* spriteRenderer = this->arrowTail->AddComponent<SpriteRenderer>();
 		spriteRenderer->SetHasTransperancy(true);
 		std::vector<std::string> pathsToTextures;
-		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_ArrowStem_magenta_02.png");
+		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_ArrowStem_03.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 		this->arrowTail->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 		this->arrowTail->SetVisible(false);
@@ -76,28 +76,19 @@ void Assassin::init() {
 		SpriteRenderer* spriteRenderer = this->arrowHead->AddComponent<SpriteRenderer>();
 		spriteRenderer->SetHasTransperancy(true);
 		std::vector<std::string> pathsToTextures;
-		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_Arrow_magenta_03.png");
+		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_Arrow_06.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 		this->arrowHead->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 		this->arrowHead->SetVisible(false);
 	}
-
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED, this->GetTypeId(), false);
 }
 
 void Assassin::destroy() {
 }
 
-void Assassin::HandleMessage(MessageChunk messageChunk) {
-	PlayerUnit::HandleMessage(messageChunk);
-	switch (messageChunk->GetMessageType()) {
-		case MESSAGE_TYPE_GRID_CELL_CHANGED:
-			this->onGridCellChanged(messageChunk->GetSenderId(), messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z);
-			break;
-
-		default:
-			break;
-	}
+void Assassin::amendTouchIndicatorPaths(std::vector<std::string>& pathsToTextures) {
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_TouchIndicator_Success_01.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_TouchIndicator_Fail_01.png");
 }
 
 bool Assassin::isSpecialTouch(int touchId) {
@@ -141,6 +132,7 @@ void Assassin::startSpecial() {
 	float tweenTime = glm::distance(this->gameObjectRef->GetTransform()->GetPositionWorld(), this->targetLoc) / GetFloatGameConstant(GAME_CONSTANT_assassin_attack_speed);
 	ASSERT(tweenTime > 0, "tweenTime is greater than zero");
 	this->lastHitCell = this->gridNavRef->GetCurrentCell();
+	this->lastCheckedCell = this->lastHitCell;
 	this->specialStartPos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
 									  this->gameObjectRef->GetTransform()->GetPositionWorld(),
@@ -163,39 +155,23 @@ void Assassin::onSpecialEnd() {
 	PlayerUnit::onSpecialEnd();
 	this->arrowHead->SetVisible(false);
 	this->arrowTail->SetVisible(false);
-	this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
-	//this->gridNavRef->SetMovementSpeed(MOVE_SPEED);
-	//this->gridNavRef->SetGridPosition(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
-	//(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
+	
+	//this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
+	
+	//this->gridNavRef->SetGridPosition(this->targetedCell);
 	//this->gameObjectRef->GetTransform()->SetPosition(this->targetLoc);
 }
 
 void Assassin::cancelSpecial() {
-	PlayerUnit::cancelSpecial();
-	this->arrowHead->SetVisible(false);
-	this->arrowTail->SetVisible(false);
-	ENGINE->GetTween()->CancelNumberTween("dash");
-	ENGINE->GetTween()->CancelPostitionTween(this->gameObjectRef->GetId());
-	this->specialUpdate();
-	this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
-}
-
-void Assassin::onGridCellChanged(ObjectIdType id, int gridX, int gridZ) {
-	// If this object is the one that sent the message, broadcast an attack message as well
-	if (id == this->GetObject()->GetId()) {
-		GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(gridX, gridZ);
-		if (cell != nullptr) {
-			if (this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
-				// Send an attack message
-				MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-				attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
-				attackMessage->messageData.iv1.x = cell->x;
-				attackMessage->messageData.iv1.y = cell->y;
-				attackMessage->messageData.iv1.z = cell->z;
-				attackMessage->messageData.fv1 = this->specialStartPos;
-				ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
-			}
-		}
+	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_PRE_SPECIAL || this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL || this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_POST_SPECIAL) {
+		PlayerUnit::cancelSpecial();
+		this->SwitchActionState(UNIT_ACTION_STATE_POST_SPECIAL);
+		this->arrowHead->SetVisible(false);
+		this->arrowTail->SetVisible(false);
+		ENGINE->GetTween()->CancelNumberTween("dash");
+		ENGINE->GetTween()->CancelPostitionTween(this->gameObjectRef->GetId());
+		//this->specialUpdate();
+		//this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
 	}
 }
 
@@ -235,7 +211,7 @@ void Assassin::aimSpecial(int touchId){
 		if(dist > GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units)) {
 			dist = GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units);
 			this->targetLoc = sinPos + (attackDir *  dist);
-			touchedCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->targetLoc);
+			this->targetedCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->targetLoc);
 		}
 
 		dist -= 1.5f; // shorten dist so arrow heads are in the right spot
@@ -246,11 +222,11 @@ void Assassin::aimSpecial(int touchId){
 		this->gridNavRef->SetLookTarget(this->targetLoc);
 
 		// the yOffset the indicators should have
-		float yOffset = touchedCell->y * 0.05 + .01f;
+		float yOffset = this->targetedCell->y * 0.05 + .01f;
 
 		// touch indicator
 		this->SetTouchIndicatorVisible(true);
-		this->SetTouchIndicatorLocation(this->targetLoc + yOffset);
+		this->GridPlaneSetPos(this->touchIndicatorRef, this->targetLoc + yOffset);
 
 		// Arrow Tail
 		this->arrowTail->SetVisible(true);
@@ -272,23 +248,78 @@ void Assassin::aimSpecial(int touchId){
 }
 
 void Assassin::specialUpdate() {
-	GridCell* currentCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld());
-	if(currentCell != this->lastHitCell) {
-		std::list<GridCell*> touchedCells;
-		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(this->lastHitCell, currentCell, touchedCells);
-		SINGLETONS->GetGridManager()->CheckZoneCollisions(this->GetObject()->GetId(), this->lastHitCell, currentCell);
-		for( GridCell* c : touchedCells) {
-			if(this->lastHitCell != c) {
-				// Attack the cell	
-				MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-				attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
-				attackMessage->messageData.iv1.x = c->x;
-				attackMessage->messageData.iv1.y = c->y;
-				attackMessage->messageData.iv1.z = c->z;
-				attackMessage->messageData.fv1 = this->specialStartPos;
-				ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
+	glm::vec3 position = this->gameObjectRef->GetTransform()->GetPositionWorld();
+	GridCell* currentCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(position);
+	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(position.y);
+	if ((currentCell != this->lastHitCell) && (this->lastHitCell != nullptr)) {
+		// The assassin should attack the cell as he enters it.
+		ObjectIdType occId = currentCell->GetOccupantIdAtElevation(elevation);
+		if (occId == OBJECT_ID_INVALID) {
+			this->sendAttackMessage(currentCell->x, currentCell->z, elevation);
+		}
+		else if (occId != this->GetObject()->GetId()) {
+			GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+			if (occupant != nullptr) {
+				BaseUnit* unit = occupant->GetComponent<BaseUnit>();
+				if (unit != nullptr) {
+					// If the assassin can't kill the occupant but can pass through the cell, don't send an attack message
+					if (unit->CanBeKilledBy(this->GetObject()->GetId(), this->specialStartPos)) {
+						this->sendAttackMessage(currentCell->x, currentCell->z, elevation);
+					}
+				}
 			}
 		}
 		this->lastHitCell = currentCell;
 	}
+
+	// Perform some look-ahead so the assassin doesn't actually enter a cell he's not supposed to
+	glm::vec3 forward = QuaternionForwardVector(this->gameObjectRef->GetTransform()->GetOrientation());
+	glm::vec3 lookAhead = position + forward;
+	GridCell* aheadCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(lookAhead);
+	if ((aheadCell != this->lastCheckedCell) && (this->lastCheckedCell != nullptr)) {
+		std::list<GridCell*> touchedCells;
+		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(position, lookAhead, touchedCells);
+		for (GridCell* c : touchedCells) {
+			bool shouldStop = false;
+			// Check if the new cell is legal before moving into it.
+			int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(position.y);
+			if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, elevation)) {
+				ObjectIdType occId = c->GetOccupantIdAtElevation(elevation);
+				if ((occId != OBJECT_ID_INVALID) && (occId != this->GetObject()->GetId())) {
+					// If the cell is occupied, the Assassin can only move there if he can kill the occupant.
+					GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+					if (occupant != nullptr) {
+						BaseUnit* unit = occupant->GetComponent<BaseUnit>();
+						if (unit != nullptr) {
+							if (!unit->CanBeKilledBy(this->GetObject()->GetId(), this->specialStartPos)) {
+								if ((unit->GetUnitType() > LAST_PLAYER_UNIT_TYPE) || (c == this->targetedCell)) {
+									// Stop the assassin's attack unless the occupant is another player unit and
+									// the cell isn't the assassin's final destination
+									shouldStop = true;
+								}
+							}
+						}
+					}
+				}
+			}
+			else {
+				shouldStop = true;
+			}
+			if (shouldStop) {
+				this->cancelSpecial();
+				break;
+			}
+		}
+	}
+}
+
+void Assassin::sendAttackMessage(int gridX, int gridZ, int elevation) {
+	// Attack the cell
+	MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	attackMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_ENTER_AND_ATTACK);
+	attackMessage->messageData.iv1.x = gridX;
+	attackMessage->messageData.iv1.y = elevation;
+	attackMessage->messageData.iv1.z = gridZ;
+	attackMessage->messageData.fv1 = this->specialStartPos;
+	ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
 }

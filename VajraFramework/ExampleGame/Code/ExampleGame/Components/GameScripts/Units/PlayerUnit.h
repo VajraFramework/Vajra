@@ -14,14 +14,13 @@ class MessageData1S1I1F;
 
 class PlayerUnit : public BaseUnit {
 
-#define MOVE_SPEED 2.5f
+#define MOVE_SPEED 2.75f
 #define TURN_SPEED_DEG 1000.0f
 #define NEAR_TOUCH_DIST 1.5f 
 	
 #define GOOD_TOUCH 0
 #define BAD_TOUCH  1
-#define ASSASSIN_SPECIAL 2
-#define THIEF_SPECIAL 3
+#define PLAYER_NUM_TOUCH_IMAGES 2
 
 public:
 	PlayerUnit();
@@ -34,12 +33,19 @@ public:
 	void OnTouch(int touchId, GridCell* touchedCell);
 	void OnDeselect();
 
-	void OnTransitionZoneEntered(GridCell* newTarget);
+	// @Override
+	virtual void OnTransitionZoneEntered(GridCell* newTarget);
+	virtual bool CanBeKilledBy(ObjectIdType id, glm::vec3 source);
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 	virtual void cancelSpecial();
 protected:
+	GameObject* touchIndicatorRef;
+
 	void onSelectedTouch();
 	void onNavTouch(int touchId, GridCell* touchedCell);
+
+	void createTouchIndicator();
+	virtual void amendTouchIndicatorPaths(std::vector<std::string>& pathsToTextures) = 0;
 	inline bool getTouchNearUnit() { return this->touchNearUnit; }
 
 	virtual bool isSpecialTouch(int /* touchId */) = 0; 
@@ -57,21 +63,23 @@ protected:
 
 	void startTouchIndicatorPulse();
 	void SetTouchIndicatorSprite(int /*index*/ );
-	void SetTouchIndicatorLocation(GridCell*);
-	void SetTouchIndicatorLocation(glm::vec3);
-	void TouchIndicatorLookAt(GridCell* /*target*/);
+
+	void GridPlaneSetPos(GameObject* /*plane*/, GridCell* /*target*/);
+	void GridPlaneSetPos(GameObject* /*plane*/, glm::vec3 /*target*/);
 
 	void GridPlaneLookAt(GameObject* /*plane*/, GridCell* /*target*/);
 	void GridPlaneLookAt(GameObject* /*plane*/, glm::vec3 /*target*/);
 
 	void SetTouchIndicatorVisible(bool /*visibilty*/);	
 
+	float GetYOffsetFromCell(GridCell* /*targetCell*/);
+
 	inline GridCell* GetCurrentTouchedCell() { return this->currentTouchedCell; }
+	
 private:
 	void init();
 	void destroy();
 
-	GameObject* touchIndicatorRef;
 	GridCell* currentTouchedCell;
 
 	UnitColorScheme colorScheme;
