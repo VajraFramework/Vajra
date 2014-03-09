@@ -112,13 +112,15 @@ void main()
 	// finalColor = finalColor * 0.001 + vec4(depthMap_value.x, depthMap_value.x, depthMap_value.x, 1.0);
 
 	// finalColor = finalColor * visibility * 0.001 + ShadowCoord;
-	finalColor = finalColor * (visibility + 0.5); // + finalColor;
+	finalColor = finalColor * (visibility + 0.3); // + finalColor;
 	// float number = ShadowCoord.y / ShadowCoord.w;
-	// finalColor = finalColor * number; // + vec4(number, number, number, 1.0);
+	// finalColor = finalColor * number * 0.001 + vec4(number, number, number, 1.0);
 
 	// finalColor = finalColor * 0.001 + texture2D(depthTextureSampler, vec2(gl_FragCoord.x / 1024.0, gl_FragCoord.y / 768.0));
 
 	// finalColor = finalColor * 0.001 + vec4(ShadowCoord.z, ShadowCoord.z, ShadowCoord.z, 1.0);
+
+	// finalColor = finalColor * 0.001 + vec4(ShadowCoord.x, ShadowCoord.x, ShadowCoord.x, 1.0);
 
 	finalColor.a = 1.0;
 

@@ -14,8 +14,6 @@ ShadowMap::~ShadowMap() {
 
 void ShadowMap::Draw() {
 	
-	return;
-
 	Camera* camera = this->depthCamera;
 
 	ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();

@@ -42,9 +42,6 @@ void RenderScene::SetupStuff() {
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &g_default_fbo);
 #endif
 
-	
-	return;
-
 	// Create a frame buffer object:
 	glGenFramebuffers(1, &g_fbo_id);
 	glBindFramebuffer(GL_FRAMEBUFFER, g_fbo_id);
@@ -61,19 +58,11 @@ void RenderScene::SetupStuff() {
     glBindTexture(GL_TEXTURE_2D, ENGINE->GetShadowMap()->depthTexture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, DEPTH_TEXTURE_W, DEPTH_TEXTURE_H, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
     checkGlError("glTexImage2D");
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_CLAMP_TO_EDGE);
-	// TODO [Hack] Absolutely! check for extensions
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC_EXT, GL_LEQUAL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_EXT, GL_NONE);
 
-
-	// glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH,  DEPTH_TEXTURE_W);
-	// glFramebufferParameteri(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, DEPTH_TEXTURE_H);
-
-	// glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthTexture, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ENGINE->GetShadowMap()->depthTexture, 0);
     checkGlError("glFramebufferTexture2D");
 	
@@ -86,11 +75,6 @@ void RenderScene::SetupStuff() {
 							  GL_RENDERBUFFER, renderBuffer);
     checkGlError("glFramebufferRenderbuffer");
 
-	// No color output in the bound framebuffer, only depth.
-	// glDrawBuffer(GL_NONE);
-	// glReadBuffer(GL_NONE);
-
-
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 		ASSERT(0, "Framebuffer OK");
 	}
@@ -102,42 +86,6 @@ void RenderScene::CleanupStuff() {
 	// TODO [Implement] Call this from somewhere:
 	// Free up the frame buffer object:
 	glDeleteFramebuffers(1, &g_fbo_id);
-}
-
-void DEBUG_DrawShadowMap() {
-#if 0
-	// Render only on a corner of the window (or we we won't see the real rendering...)
-	glViewport(0,0,128,128);
-
-	// Use our shader
-	glUseProgram(quad_programID);
-
-	// Bind our texture in Texture Unit 0
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, ENGINE->GetShadowMap()->depthTexture);
-	// Set our "renderedTexture" sampler to user Texture Unit 0
-	glUniform1i(texID, 0);
-
-	glUniform1f(timeID, (float)(glfwGetTime()*10.0f) );
-
-	// 1rst attribute buffer : vertices
-	glEnableVertexAttribArray(quad_vertexPosition_modelspaceID);
-	glBindBuffer(GL_ARRAY_BUFFER, quad_vertexbuffer);
-	glVertexAttribPointer(
-		quad_vertexPosition_modelspaceID, // attribute
-		3,                                // size
-		GL_FLOAT,                         // type
-		GL_FALSE,                         // normalized?
-		0,                                // stride
-		(void*)0                          // array buffer offset
-	);
-
-	// Draw the triangles !
-	// You have to disable GL_COMPARE_R_TO_TEXTURE above in order to see anything !
-	glDrawArrays(GL_TRIANGLES, 0, 6); // From index 0 to 6 -> 2 triangles
-	glDisableVertexAttribArray(quad_vertexPosition_modelspaceID);
-#endif
-
 }
 
 void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera) {
@@ -155,9 +103,11 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera) {
 void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 							  DirectionalLight* directionalLight,
 							  std::vector<DirectionalLight*> additionalLights) {
+	
+#ifdef PLATFORM_IOS
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &g_default_fbo);
+#endif
 
-
-#if 0
 	std::vector<DirectionalLight*> emptyVector;
 
 	// TODO [Implement] Position the camera at the position and orientation of the light:
@@ -171,8 +121,6 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 	fakeCamera->SetCameraType(CAMERA_TYPE_ORTHO);
 	fakeCamera->SetOrthoBounds(-10.0f, 50.0f, -10.0f, 50.0f, -10.5f, 100.0f);
 	ENGINE->GetSceneGraph3D()->SetMainCameraId(fakeCameraObject->GetId());
-	// Setup more camera properties here:
-	// ```````````````````````````````````````````````````````````````````````````````````````````````````
 
 	ENGINE->GetShadowMap()->SetDepthCamera(fakeCamera);
 
@@ -198,11 +146,7 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 	// Switch blend back on:
     glEnable(GL_BLEND);
 	
-#endif
 	
-#ifdef PLATFORM_IOS
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &g_default_fbo);
-#endif
 
 	/*
 	 * Draw again, this time to the screen:
@@ -210,8 +154,7 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 	ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetObject()->GetId());
 	glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
     glViewport(0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
-	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	renderLists->Draw(camera, directionalLight, additionalLights, false);
 
-	DEBUG_DrawShadowMap();
 }
