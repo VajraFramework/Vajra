@@ -444,7 +444,9 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ, 
 	if (!didUnitsCollide) {
 		// Move the unit to the destination cell
 		if (startCell != nullptr) {
-			startCell->SetOccupantIdAtElevation(OBJECT_ID_INVALID, elevation);
+			if (startCell->GetOccupantIdAtElevation(elevation) == id) {
+				startCell->SetOccupantIdAtElevation(OBJECT_ID_INVALID, elevation);
+			}
 		}
 		if (destCell != nullptr) {
 			destCell->SetOccupantIdAtElevation(id, elevation);
