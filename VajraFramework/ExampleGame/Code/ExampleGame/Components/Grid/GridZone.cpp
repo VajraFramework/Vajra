@@ -109,19 +109,19 @@ bool GridZone::updateFacing() {
 	glm::vec3 newFacing = QuaternionForwardVector(trans->GetOrientationWorld());
 	// Convert the forward vector into a cardinal direction.
 	if (abs(newFacing.z) >= abs(newFacing.x)) {
-		if (newFacing.z <= 0.0f) {
-			newFacing = -ZAXIS;
+		if (newFacing.z >= 0.0f) {
+			newFacing = ZAXIS;
 		}
 		else {
-			newFacing = ZAXIS;
+			newFacing = -ZAXIS;
 		}
 	}
 	else {
-		if (newFacing.x <= 0.0f) {
-			newFacing = -XAXIS;
+		if (newFacing.x >= 0.0f) {
+			newFacing = XAXIS;
 		}
 		else {
-			newFacing = XAXIS;
+			newFacing = -XAXIS;
 		}
 	}
 
@@ -138,7 +138,7 @@ void GridZone::updateZoneBounds() {
 	if (this->updateCenterPoint() || this->updateFacing()) {
 		// Determine the rough orientation of the object.
 		if (abs(this->facing.z) >= abs(this->facing.x)) {
-			if (this->facing.z <= 0.0f) {
+			if (this->facing.z >= 0.0f) {
 				this->trueWestBound  = this->centerX + this->relativeWestBound;
 				this->trueEastBound  = this->centerX + this->relativeEastBound;
 				this->trueSouthBound = this->centerZ + this->relativeSouthBound;
@@ -152,7 +152,7 @@ void GridZone::updateZoneBounds() {
 			}
 		}
 		else {
-			if (this->facing.x <= 0.0f) {
+			if (this->facing.x >= 0.0f) {
 				this->trueWestBound  = this->centerX - this->relativeNorthBound;
 				this->trueEastBound  = this->centerX - this->relativeSouthBound;
 				this->trueSouthBound = this->centerZ + this->relativeWestBound;
