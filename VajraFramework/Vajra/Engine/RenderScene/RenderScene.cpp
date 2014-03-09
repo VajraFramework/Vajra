@@ -18,8 +18,8 @@ static GLint g_default_fbo;
 #define SCREEN_FRAME_BUFFER 0
 #endif
 
-#define DEPTH_TEXTURE_W 1024
-#define DEPTH_TEXTURE_H 1024
+#define DEPTH_TEXTURE_W 4096
+#define DEPTH_TEXTURE_H 4096
 
 ObjectIdType g_fakeCameraObject_id = OBJECT_ID_INVALID;
 

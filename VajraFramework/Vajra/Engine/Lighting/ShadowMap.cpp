@@ -36,12 +36,11 @@ void ShadowMap::Draw() {
 
 		glm::mat4 depthMvpMatrix = depthProjectionMatrix * depthViewMatrix * depthModelMatrix;
 
-		float bias = 0.5f;
 		glm::mat4 biasMatrix(
-					bias, 0.0, 0.0, 0.0,
-					0.0, bias, 0.0, 0.0,
-					0.0, 0.0, bias, 0.0,
-					bias, bias, bias, 1.0
+					0.5f, 0.0, 0.0, 0.0,
+					0.0, 0.5f, 0.0, 0.0,
+					0.0, 0.0, 0.5f, 0.0,
+					0.5f, 0.5f, 0.5f, 1.0
 				);
 
 
