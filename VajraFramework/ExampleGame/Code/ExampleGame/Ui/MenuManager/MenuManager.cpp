@@ -136,4 +136,9 @@ void MenuManager::hideLoadScreen() {
 		this->loadScreen->SetVisible(false);
 	}
 	ENGINE->GetSceneGraph3D()->Resume();
+	if(this->gameUiTouchHandler != nullptr) {
+		UiElement* preMenuScreen = (UiElement*)ObjectRegistry::GetObjectByName("preMenu");
+		VERIFY(preMenuScreen != nullptr, "preMenuScreen to show is not null");
+		preMenuScreen->SetVisible(true);
+	}
 }

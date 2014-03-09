@@ -45,6 +45,7 @@ public:
 	inline int GetCurrentLevelIndex() { return this->currentLevelIndex; }
 
 	//void LoadLevelFromAsset(std::string assetName); // Once we've got the loading process worked out, switch to using an asset
+	void StartLevel();
 
 	void AddWinCondition(ObjectIdType switchId);
 	void AddLoseCondition(ObjectIdType switchId);

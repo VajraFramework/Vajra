@@ -34,6 +34,7 @@
 
 #define IN_GAME_MENU "inGame"
 #define PAUSE_MENU "pauseMenu"
+#define PRE_GAME_MENU "preMenu"
 #define POST_GAME_MENU "postGame"
 #define TUTORIAL_MENU "tutorialScreen"
 
@@ -71,6 +72,7 @@ GameUiTouchHandlers::GameUiTouchHandlers() : UiTouchHandlers() {
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_CREATED_TUTORIAL);
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_ON_END_CONDITIONS_MET);
+	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_LEVEL_START);
 }
 
 GameUiTouchHandlers::~GameUiTouchHandlers() {
@@ -151,6 +153,16 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		return;
 	}
 #endif
+	// PRE MENU
+	UiObject* preMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PRE_GAME_MENU]);
+	if(preMenu) {
+		if(uiObject->GetName() == "preMenuImage") {
+			preMenu->SetVisible(false);
+			SINGLETONS->GetLevelManager()->StartLevel();
+
+		}
+	}
+
 	// PAUSE MENU
 	UiObject* pauseMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[PAUSE_MENU]);
 	if(pauseMenu->IsVisible()) {
@@ -241,6 +253,8 @@ MessageType stringToMessageType(std::string msgString) {
 		return MESSAGE_TYPE_SELECTED_UNIT_CHANGED;
 	} else if(msgString == "MESSAGE_TYPE_LEVEL_LOADED") {
 		return MESSAGE_TYPE_LEVEL_LOADED;
+	} else if(msgString == "MESSAGE_TYPE_LEVEL_START") {
+		return MESSAGE_TYPE_LEVEL_START;
 	}
 	ASSERT(true, "stringToMessageType has reached the end without returning a message. Did you add a case for %s?", msgString.c_str());
 	return MESSAGE_TYPE_UNSPECIFIED;
@@ -316,6 +330,10 @@ void GameUiTouchHandlers::setupTutorial(std::string levelName) {
 }
 
 void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
+	if(this->tutorials[index].msgType != messageChunk->GetMessageType()) {
+		return;
+	}
+	
 	switch(this->tutorials[index].msgType) {
 		// TODO [Implement] this message type when it's needed
 		/*

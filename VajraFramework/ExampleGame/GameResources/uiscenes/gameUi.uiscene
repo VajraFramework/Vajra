@@ -41,6 +41,23 @@
 		<color r="0.0" g="0.0" b="0.0" a="0.0"></color>
 	</uielement>
 
+	<uielement name="preMenu" clickable="true">
+		<dimensions>
+			<position xwrto="LEFT" ywrto="TOP" x="0" y="0"></position>
+			<size widthPixels="1024" heightPixels="768"></size>
+			<zorder>1</zorder>
+		</dimensions>
+		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
+		<uielement name="preMenuImage" clickable="true">
+			<dimensions>
+				<position xwrto="CENTER" ywrto="CENTER" x="-256" y="-192"></position>
+				<size widthPixels="512" heightPixels="384"></size>
+				<zorder>2</zorder>
+			</dimensions>
+			<color r="0.0" g="1.0" b="0.0" a="1.0"></color>
+		</uielement>
+	</uielement>
+
 	<uielement name="inGame" clickable="false">
 	<dimensions>
 		<position x="0" y="0"></position>
