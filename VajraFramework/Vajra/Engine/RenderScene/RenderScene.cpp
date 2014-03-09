@@ -11,7 +11,12 @@
 
 static GLuint g_fbo_id;
 
+#ifdef PLATFORM_IOS
+static GLint g_default_fbo;
+#define SCREEN_FRAME_BUFFER g_default_fbo
+#else
 #define SCREEN_FRAME_BUFFER 0
+#endif
 
 #define DEPTH_TEXTURE_W 1024
 #define DEPTH_TEXTURE_H 1024
@@ -32,6 +37,11 @@ GameObject* GetFakeCameraObject() {
 }
 
 void RenderScene::SetupStuff() {
+	
+#ifdef PLATFORM_IOS
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &g_default_fbo);
+#endif
+
 	
 	return;
 
@@ -133,6 +143,10 @@ void DEBUG_DrawShadowMap() {
 void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera) {
 
 	ENGINE->GetShadowMap()->SetDepthCamera(camera);
+	
+#ifdef PLATFORM_IOS
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &g_default_fbo);
+#endif
 
 	glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
 	renderLists->Draw(camera, false);
@@ -175,8 +189,8 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 	// Switch off blend for depth pass:
     glDisable(GL_BLEND);
     //
-    glViewport(0, 0, DEPTH_TEXTURE_W, DEPTH_TEXTURE_H);
 	glBindFramebuffer(GL_FRAMEBUFFER, g_fbo_id);
+    glViewport(0, 0, DEPTH_TEXTURE_W, DEPTH_TEXTURE_H);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	renderLists->Draw(fakeCamera, nullptr /* no lights in depth pass */, emptyVector /* no lights in depth pass */, true);
 	// renderLists->Draw(camera, nullptr /* no lights in depth pass */, emptyVector /* no lights in depth pass */, true);
@@ -185,14 +199,18 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
     glEnable(GL_BLEND);
 	
 #endif
+	
+#ifdef PLATFORM_IOS
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &g_default_fbo);
+#endif
 
 	/*
 	 * Draw again, this time to the screen:
 	 */
 	ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetObject()->GetId());
-    glViewport(0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
 	glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glViewport(0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
+	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	renderLists->Draw(camera, directionalLight, additionalLights, false);
 
 	DEBUG_DrawShadowMap();
