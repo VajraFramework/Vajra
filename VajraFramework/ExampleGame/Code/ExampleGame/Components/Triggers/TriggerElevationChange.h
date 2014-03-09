@@ -50,6 +50,8 @@ private:
 	void startPositionTween(bool raised);
 	void setCellsInGridZonePassable(bool pass);
 	void changeCellElevations(bool raised);
+	void childObjectsToElevator();
+	void unchildObjectsFromElevator();
 
 	int elevationChange;  // The amount of elevation change when this trigger activates
 	float transitTime;

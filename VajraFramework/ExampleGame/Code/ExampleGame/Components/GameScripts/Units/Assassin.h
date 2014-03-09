@@ -18,9 +18,6 @@ public:
 
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 
-	// @Override
-	virtual void HandleMessage(MessageChunk messageChunk);
-	
 	virtual void cancelSpecial();
 
 protected:
@@ -34,7 +31,6 @@ protected:
 	virtual void startSpecial();
 	virtual void onSpecialEnd();
 	virtual void aimSpecial(int /* touchId */ );
-	void onGridCellChanged(ObjectIdType id, int gridX, int gridZ);
 private:
 	void init();
 	void destroy();
@@ -47,7 +43,9 @@ private:
 	glm::vec3 targetLoc;
 
 	GridCell* lastHitCell;
+	GridCell* lastCheckedCell;
 	void specialUpdate();
+	void sendAttackMessage(int gridX, int gridZ, int elevation);
 
 	friend void assassinTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
 	friend void assassinNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* userParams);
