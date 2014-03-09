@@ -152,6 +152,19 @@ void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {
 	this->touchIndicatorRef->SetVisible(true);
 }
 
+bool PlayerUnit::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
+	GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+	if (gObj != nullptr) {
+		BaseUnit* unit = gObj->GetComponent<BaseUnit>();
+		if (unit != nullptr) {
+			if ((unit->GetUnitType() >= FIRST_ENEMY_UNIT_TYPE) && (unit->GetUnitType() <= LAST_ENEMY_UNIT_TYPE)) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 void PlayerUnit::onSelectedTouch() {
 	this->inputState = InputState::INPUT_STATE_WAIT;
 }
@@ -219,24 +232,6 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				break;
 			default:
 				break;
-		}
-	}
-}
-
-void PlayerUnit::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ, glm::vec3 /*source*/) {
-	// Did the attack hit my cell?
-	GridCell* cell = this->gridNavRef->GetCurrentCell();
-	if (cell != nullptr) {
-		if ((cell->x == gridX) && (cell->z == gridZ)) {
-			GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
-			if (gObj != nullptr) {
-				BaseUnit* unit = gObj->GetComponent<BaseUnit>();
-				if (unit != nullptr) {
-					if ((unit->GetUnitType() >= FIRST_ENEMY_UNIT_TYPE) && (unit->GetUnitType() <= LAST_ENEMY_UNIT_TYPE)) {
-						this->Kill();
-					}
-				}
-			}
 		}
 	}
 }
