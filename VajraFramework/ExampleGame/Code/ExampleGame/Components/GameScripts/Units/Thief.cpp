@@ -34,17 +34,17 @@ void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNum
 		ASSERT(thief != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
 		if(thief != nullptr) {
 			if(tweenClipName == "vaultWait") {
-				thief->beginPoof(thief->endPoofId);
 				go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f, 0.0f));
+				thief->beginPoof(thief->endPoofId);
 				MessageData1S1I1F* params = new MessageData1S1I1F();
  				params->i = userParams->i;
 				// this tween should go from 1 - 0 over .5 seconds
-				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 1.5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "vault", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, thiefNumberTweenCallback);
+				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "vault", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, thiefNumberTweenCallback);
 			} else if(tweenClipName == "vault") {
 				if (currentNumber == toNumber) {
 					thief->onSpecialEnd();
 				} else {
-					go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, currentNumber, 0.0f));
+					go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f - currentNumber, 0.0f));
 				}
 			}
 		}
