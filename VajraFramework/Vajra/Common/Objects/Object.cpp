@@ -43,6 +43,12 @@ void Object::destroy() {
 	this->destroyAllChildren();
 	this->removeAllComponents();
 
+	Object* parent = ObjectRegistry::GetObjectById(this->GetParentId());
+	if (parent != nullptr) {
+		parent->removeChild_internal(this->GetId());
+	}
+	this->removeParent_internal();
+
 	ObjectRegistry::RemoveObject(this);
 	if (this->name != "") {
 		ObjectRegistry::RemoveObjectByName(this);
@@ -180,6 +186,8 @@ void Object::destroyAllChildren() {
 		ObjectIdType childId = this->children.front();
 		Object* child = ObjectRegistry::GetObjectById(childId);
 		if (child != 0) {
+			// Remove the child's parent here so that the child's destructor doesn't try to remove itself from us again and mess with the oterator we are currently iterating with:
+			child->removeParent_internal();
 			delete child;
 		}
 		this->children.pop_front();
