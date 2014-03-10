@@ -44,6 +44,10 @@ void ParticleSystemRenderer::HandleMessage(MessageChunk messageChunk) {
 }
 
 void ParticleSystemRenderer::Draw() {
+	if (!this->particleSystemRef->GetIsPlaying()) {
+		return;
+	}
+
 	// TODO [Hack] Figure out if this can be done better. Disabling writing to the depth buffer to prevent particles from occluding each other incorrectly
 	glDepthMask(false);
 

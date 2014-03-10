@@ -103,6 +103,10 @@ void ParticleSystem::SetAccelerationDirection(float x, float y, float z) {
 	ASSERT(this->accelerationDirection != ZERO_VEC3, "Particle acceleration not zero vector");
 }
 
+void ParticleSystem::SetOverallLifespan(float overallLifespanInSeconds_) {
+	this->overallLifespanInSeconds = overallLifespanInSeconds_;
+}
+
 void ParticleSystem::SetName(std::string name_) {
 	this->name = name_;
 }
@@ -174,16 +178,19 @@ void ParticleSystem::updateShaderAttributeVectors() {
 void ParticleSystem::stepSimulation(float deltaTime) {
 	if (this->isPlaying) {
 
+		this->currentOverallLifespanInSeconds += deltaTime;
+
 		this->spawnParticles(deltaTime);
 		this->stepParticles (deltaTime);
 		//
 		this->cleanupDeadParticles();
 
 		if (!this->isLooping) {
-			if (this->aliveParticles.empty()) {
+			if (this->aliveParticles.empty() || this->currentOverallLifespanInSeconds >= this->overallLifespanInSeconds) {
 				this->raiseSpentEvent();
 				this->reclaimDeadParticles();
 				this->isPlaying = false;
+				this->currentOverallLifespanInSeconds = 0.0f;
 			}
 		}
 
@@ -261,7 +268,7 @@ void ParticleSystem::cleanupDeadParticles() {
 void ParticleSystem::reclaimDeadParticles() {
 	while (!this->deadParticles.empty()) {
 		Particle* particle = this->deadParticles.front();
-		particle->reset(this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
+		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
 		this->deadParticles.pop_front();
 		this->dormantParticles.push_back(particle);
 	}
@@ -302,7 +309,7 @@ void ParticleSystem::init() {
 	this->accelerationAmount              = 0.0f;
 	this->accelerationDirection           = -1.0f * YAXIS;
 	//
-	this->overallLifespanInSeconds        = 1.0f;
+	this->overallLifespanInSeconds        = 1000.0f;
 	this->currentOverallLifespanInSeconds = 0.0f;
 
 	this->isInited  = false;

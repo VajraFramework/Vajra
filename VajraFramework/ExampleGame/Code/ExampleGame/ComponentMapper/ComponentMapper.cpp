@@ -538,6 +538,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetEmissionVolume(ConvertStringToString(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]), StringUtilities::ConvertStringToFloat(argv[3]));
 			return;
 		}
+		if (propertyName == "SetOverallLifespan") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetOverallLifespan(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
 		if (propertyName == "SetName") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetName(ConvertStringToString(argv[0]));

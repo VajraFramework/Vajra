@@ -48,6 +48,8 @@ public:
 	//[[PROPERTY]]//
 	void SetEmissionVolume(std::string emissionVolumeType_, float radius_x, float radius_y, float radius_z);
 	//[[PROPERTY]]//
+	void SetOverallLifespan(float overallLifespanInSeconds_);
+	//[[PROPERTY]]//
 	void SetName(std::string name_);
 	//[[PROPERTY]]//
 	void InitParticleSystem();
