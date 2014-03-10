@@ -34,7 +34,8 @@ public:
 
 	//[[PROPERTY]]//
 	inline void SetMovementSpeed(float speed);
-	inline void SetTurnSpeedDegrees(float /* degreesPerSecond */);
+	//[[PROPERTY]]//
+	inline void SetTurnSpeedDegrees(float degreesPerSecond);
 	inline void SetTurnSpeedRadians(float /* radiansPerSecond */);
 	inline void SetCurrentCell(GridCell* cell) { this->currentCell = cell;            }
 	void SetIsTraveling(bool isTraveling_);

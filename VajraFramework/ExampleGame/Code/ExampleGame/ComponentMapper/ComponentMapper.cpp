@@ -671,6 +671,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetMovementSpeed(StringUtilities::ConvertStringToFloat(argv[0]));
 			return;
 		}
+		if (propertyName == "SetTurnSpeedDegrees") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTurnSpeedDegrees(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
 		if (propertyName == "SetGridPosition") {
 			if ((int)argv.size() < 2) { return; }
 			component->SetGridPosition(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
