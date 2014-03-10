@@ -42,11 +42,15 @@ void AiPerception::init() {
 	this->fieldOfVision = 45.0f inRadians;
 	this->visionAcuity  = 1.0f;
 
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
 }
 
 void AiPerception::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+}
+
+void AiPerception::start() {
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
 
 void AiPerception::gatherInformation() {

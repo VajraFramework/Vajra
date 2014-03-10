@@ -81,6 +81,7 @@ public:
 	void ReturnToCellCenter();  // Use this method if you want to stop a unit's movement but have it end at the center of a cell.
 
 protected:
+	virtual void start();
 	virtual void update();
 
 private:
