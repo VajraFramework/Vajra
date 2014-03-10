@@ -25,4 +25,4 @@ private:
 };
 
 
-#endif SHADOW_MAP_UPDATE_LISTENER_H
+#endif // SHADOW_MAP_UPDATE_LISTENER_H
