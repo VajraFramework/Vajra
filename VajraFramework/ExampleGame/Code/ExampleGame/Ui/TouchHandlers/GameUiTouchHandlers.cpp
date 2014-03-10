@@ -386,14 +386,6 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 	tut->SetVisible(true);
 	// tween in the tutorial
 	SINGLETONS->GetMenuManager()->TweenInUiObject(tut);
-	/*ENGINE->GetTween()->TweenPosition(tut->GetId(),
-									  tut->GetTransform()->GetPosition(),
-									  glm::vec3(tut->GetTransform()->GetPosition().x, 0.0f, tut->GetTransform()->GetPosition().z),
-									  0.01f,
-									  false,
-									  INTERPOLATION_TYPE_LINEAR,
-									  false,
-									  onTutorialTweenInComplete);*/
 }
 
 void GameUiTouchHandlers::nextTutorialImage() {
@@ -420,5 +412,6 @@ void GameUiTouchHandlers::onLevelEnd(bool /*success*/) {
 	ENGINE->GetSceneGraph3D()->Pause();
 	UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
 	postMenu->SetVisible(true);
+	SINGLETONS->GetMenuManager()->TweenInUiObject(postMenu);
 	this->tutorials.clear();
 }
