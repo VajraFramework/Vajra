@@ -109,19 +109,19 @@ bool GridZone::updateFacing() {
 	glm::vec3 newFacing = QuaternionForwardVector(trans->GetOrientationWorld());
 	// Convert the forward vector into a cardinal direction.
 	if (abs(newFacing.z) >= abs(newFacing.x)) {
-		if (newFacing.z <= 0.0f) {
-			newFacing = -ZAXIS;
+		if (newFacing.z >= 0.0f) {
+			newFacing = ZAXIS;
 		}
 		else {
-			newFacing = ZAXIS;
+			newFacing = -ZAXIS;
 		}
 	}
 	else {
-		if (newFacing.x <= 0.0f) {
-			newFacing = -XAXIS;
+		if (newFacing.x >= 0.0f) {
+			newFacing = XAXIS;
 		}
 		else {
-			newFacing = XAXIS;
+			newFacing = -XAXIS;
 		}
 	}
 
@@ -138,7 +138,7 @@ void GridZone::updateZoneBounds() {
 	if (this->updateCenterPoint() || this->updateFacing()) {
 		// Determine the rough orientation of the object.
 		if (abs(this->facing.z) >= abs(this->facing.x)) {
-			if (this->facing.z <= 0.0f) {
+			if (this->facing.z >= 0.0f) {
 				this->trueWestBound  = this->centerX + this->relativeWestBound;
 				this->trueEastBound  = this->centerX + this->relativeEastBound;
 				this->trueSouthBound = this->centerZ + this->relativeSouthBound;
@@ -152,7 +152,7 @@ void GridZone::updateZoneBounds() {
 			}
 		}
 		else {
-			if (this->facing.x <= 0.0f) {
+			if (this->facing.x >= 0.0f) {
 				this->trueWestBound  = this->centerX - this->relativeNorthBound;
 				this->trueEastBound  = this->centerX - this->relativeSouthBound;
 				this->trueSouthBound = this->centerZ + this->relativeWestBound;
@@ -297,9 +297,13 @@ void GridZone::updateVisualizer() {
 
 	int x_min, x_max, z_min, z_max;
 	this->GetZoneBounds(x_min, x_max, z_min, z_max);
+	glm::vec3 offset = ZERO_VEC3;
+	offset.x = (this->relativeWestBound + this->relativeEastBound) * 0.5f;
+	offset.y = 0.01f;
+	offset.z = -(this->relativeSouthBound + this->relativeNorthBound) * 0.5f;
+	this->visualizerObjectRef->GetTransform()->SetPosition(offset);
 	this->visualizerObjectRef->GetTransform()->SetScale(x_max - x_min + 1, z_max - z_min + 1, z_max - z_min + 1);
 	this->visualizerObjectRef->GetTransform()->SetOrientation(-90.0f inRadians, this->visualizerObjectRef->GetTransform()->GetLeft());
-	this->visualizerObjectRef->GetTransform()->Translate(0.01f, YAXIS);
 }
 
 void GridZone::init() {

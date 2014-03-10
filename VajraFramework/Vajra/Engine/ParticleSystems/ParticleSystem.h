@@ -2,6 +2,7 @@
 #define PARTICLE_SYSTEM_H
 
 #include "Vajra/Common/Components/Component.h"
+#include "Vajra/Engine/ParticleSystems/Definitions.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 #include "Libraries/glm/glm.hpp"
@@ -44,6 +45,8 @@ public:
 	void SetAccelerationAmount(float accelerationAmount_);
 	//[[PROPERTY]]//
 	void SetAccelerationDirection(float x, float y, float z);
+	//[[PROPERTY]]//
+	void SetEmissionVolume(std::string emissionVolumeType_, float radius_x, float radius_y, float radius_z);
 	//[[PROPERTY]]//
 	void SetName(std::string name_);
 	//[[PROPERTY]]//
@@ -112,6 +115,13 @@ private:
 	float particleVelocityDirectionRandomness;
 	float accelerationAmount;
 	glm::vec3 accelerationDirection;
+	EmissionVolumeType_t emissionVolumeType;
+	float emission_volume_radius_x;
+	float emission_volume_radius_y;
+	float emission_volume_radius_z;
+	//
+	float overallLifespanInSeconds;
+	float currentOverallLifespanInSeconds;
 
 	float timeSinceLastBatchSpawn;
 	float minimumTimeBetweenBatchSpawns;

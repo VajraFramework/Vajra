@@ -94,6 +94,8 @@ void BaseUnit::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ, glm::vec3
 void BaseUnit::Kill() {
 	this->unitState = UnitState::UNIT_STATE_DEAD;
 
+	this->gridNavRef->DisableNavigation();
+
 	glm::vec3 pos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 
 	// broadcast a message about unit death

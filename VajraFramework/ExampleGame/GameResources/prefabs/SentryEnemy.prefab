@@ -18,13 +18,18 @@
 				<field>true</field>
 			</property>
 			<property name="AddAnimationClip">
-				<field>animations/SD_Guard_mesh.skeletalanimation#special_posing</field>
+				<field>animations/SD_Guard_mesh.skeletalanimation#block</field>
+				<field>0.25f</field>
+				<field>false</field>
+			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Guard_mesh.skeletalanimation#block_idle</field>
 				<field>0.25f</field>
 				<field>false</field>
 			</property>
 			<property name="AddAnimationClip">
 				<field>animations/SD_Guard_mesh.skeletalanimation#special_action</field>
-				<field>0.25f</field>
+				<field>1.5f</field>
 				<field>false</field>
 			</property>
 			<property name="AddAnimationClip">
@@ -33,7 +38,7 @@
 				<field>false</field>
 			</property>
 			<property name="PlayAnimationClip">
-				<field>walking</field>
+				<field>idle</field>
 			</property>
 		</component>
 

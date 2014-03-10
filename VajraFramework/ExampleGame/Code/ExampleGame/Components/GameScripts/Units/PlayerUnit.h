@@ -33,7 +33,8 @@ public:
 	void OnTouch(int touchId, GridCell* touchedCell);
 	void OnDeselect();
 
-	void OnTransitionZoneEntered(GridCell* newTarget);
+	// @Override
+	virtual void OnTransitionZoneEntered(GridCell* newTarget);
 	virtual bool CanBeKilledBy(ObjectIdType id, glm::vec3 source);
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 	virtual void cancelSpecial();

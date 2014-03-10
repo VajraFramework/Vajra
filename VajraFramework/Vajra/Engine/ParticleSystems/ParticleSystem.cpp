@@ -71,6 +71,24 @@ void ParticleSystem::SetParticleVelocityDirection(float x, float y, float z) {
 	ASSERT(this->particleVelocityDirection != ZERO_VEC3, "Particle direction not zero vector");
 }
 
+void ParticleSystem::SetEmissionVolume(std::string emissionVolumeType_, float radius_x, float radius_y, float radius_z) {
+	if (emissionVolumeType_ == "point") {
+		this->emissionVolumeType = EMISSION_VOLUME_TYPE_POINT;
+	} else if (emissionVolumeType_ == "square") {
+		this->emissionVolumeType = EMISSION_VOLUME_TYPE_SQUARE;
+	} else if (emissionVolumeType_ == "circle_circle") {
+		this->emissionVolumeType = EMISSION_VOLUME_TYPE_CIRCLE_CIRCLE;
+	} else if (emissionVolumeType_ == "circle_surface") {
+		this->emissionVolumeType = EMISSION_VOLUME_TYPE_CIRCLE_SURFACE;
+	} else if (emissionVolumeType_ == "ellipsoid") {
+		this->emissionVolumeType = EMISSION_VOLUME_TYPE_ELLIPSOID;
+	}
+
+	this->emission_volume_radius_x = radius_x;
+	this->emission_volume_radius_y = radius_y;
+	this->emission_volume_radius_z = radius_z;
+}
+
 void ParticleSystem::SetParticleVelocityDirectionRandomness(float randomness) {
 	clamp(randomness, 0.0f, 1.0f);
 	this->particleVelocityDirectionRandomness = randomness;
@@ -100,7 +118,7 @@ void ParticleSystem::InitParticleSystem() {
 		particle->totalLifespanInSeconds = this->particleLifespanInSeconds;
 		particle->initialColor = this->particleInitialColor; particle->finalColor = this->particleFinalColor;
 		//
-		particle->reset(this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
+		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
 		//
 		this->dormantParticles.push_back(particle);
 	}
@@ -155,6 +173,7 @@ void ParticleSystem::updateShaderAttributeVectors() {
 
 void ParticleSystem::stepSimulation(float deltaTime) {
 	if (this->isPlaying) {
+
 		this->spawnParticles(deltaTime);
 		this->stepParticles (deltaTime);
 		//
@@ -199,7 +218,7 @@ void ParticleSystem::spawnParticles(float deltaTime) {
 	}
 	while (!particlesToAdd.empty()) {
 		Particle* particle = particlesToAdd.front();
-		particle->reset(this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
+		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
 		particlesToAdd.pop_front();
 		this->aliveParticles.push_back(particle);
 	}
@@ -264,6 +283,11 @@ void ParticleSystem::init() {
 	this->minimumTimeBetweenBatchSpawns = 0.0f;
 
 	// Assign default values for all properties:
+	this->emissionVolumeType              = EMISSION_VOLUME_TYPE_POINT;
+	this->emission_volume_radius_x        = 0.0f;
+	this->emission_volume_radius_y        = 0.0f;
+	this->emission_volume_radius_z        = 0.0f;
+	//
 	this->numParticlesPerSecond           = 10.0f;
 	this->maxNumParticles                 = 50.0f;
 	this->particleInitialSpeed            = 0.1f;
@@ -277,6 +301,9 @@ void ParticleSystem::init() {
 	this->particleVelocityDirectionRandomness       = 1.0f;
 	this->accelerationAmount              = 0.0f;
 	this->accelerationDirection           = -1.0f * YAXIS;
+	//
+	this->overallLifespanInSeconds        = 1.0f;
+	this->currentOverallLifespanInSeconds = 0.0f;
 
 	this->isInited  = false;
 	this->isPlaying = false;
@@ -302,3 +329,4 @@ void ParticleSystem::Pause() {
 void ParticleSystem::SetLooping(bool looping) {
 	this->isLooping = looping;
 }
+

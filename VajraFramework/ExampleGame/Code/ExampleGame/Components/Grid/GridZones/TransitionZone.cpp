@@ -3,7 +3,7 @@
 //  Created by Matt Kaufmann on 01/31/14.
 //
 
-#include "ExampleGame/Components/GameScripts/Units/PlayerUnit.h"
+#include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZones/TransitionZone.h"
@@ -161,8 +161,8 @@ void TransitionZone::onUnitEnteredZone(ObjectIdType id) {
 		target = destCell2;
 	}
 
-	PlayerUnit* pU = gObj->GetComponent<PlayerUnit>();
-	ASSERT(pU != nullptr, "gameObject has a PlayerUnit component");
+	BaseUnit* pU = gObj->GetComponent<BaseUnit>();
+	ASSERT(pU != nullptr, "gameObject has a BaseUnit component");
 	if(pU != nullptr) {
 		pU->OnTransitionZoneEntered(target);
 	}
