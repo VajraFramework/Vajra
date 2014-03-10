@@ -122,8 +122,11 @@ void MenuManager::TweenOutUiObject(UiObject* element) {
 		float halfWidth = ((float)element->GetWidth()) / 2.0f;
 		float halfHeight = ((float)element->GetHeight()) / 2.0f;
 
-		glm::vec3 screenCenter = glm::vec3(halfWidth, -halfHeight, 0.0f);
-		glm::vec3 offScreen = glm::vec3(halfWidth, -768.0f, 0.0f);
+		float halfScreenWidth = ((float)FRAMEWORK->GetDeviceProperties()->GetWidthPixels()) / 2.0f;
+		float halfScreenHeight= ((float)FRAMEWORK->GetDeviceProperties()->GetHeightPixels()) / 2.0f;
+		
+		glm::vec3 screenCenter = glm::vec3(halfScreenWidth - halfWidth, -halfScreenHeight + halfHeight, 0.0f);
+		glm::vec3 offScreen = glm::vec3(halfScreenWidth - halfWidth, -768.0f, 0.0f);
 
 		this->backdrop->SetVisible(false);
 		element->GetTransform()->SetPosition(screenCenter);
@@ -142,9 +145,12 @@ void MenuManager::TweenInUiObject(UiObject* element) {
 	if(element != nullptr) {
 		float halfWidth = ((float)element->GetWidth()) / 2.0f;
 		float halfHeight = ((float)element->GetHeight()) / 2.0f;
-
-		glm::vec3 screenCenter = glm::vec3(halfWidth, -halfHeight, 0.0f);
-		glm::vec3 offScreen = glm::vec3(halfWidth, -768.0f, 0.0f);
+		
+		float halfScreenWidth = ((float)FRAMEWORK->GetDeviceProperties()->GetWidthPixels()) / 2.0f;
+		float halfScreenHeight= ((float)FRAMEWORK->GetDeviceProperties()->GetHeightPixels()) / 2.0f;
+		
+		glm::vec3 screenCenter = glm::vec3(halfScreenWidth - halfWidth, -halfScreenHeight + halfHeight, 0.0f);
+		glm::vec3 offScreen = glm::vec3(halfScreenWidth - halfWidth, -768.0f, 0.0f);
 
 		this->backdrop->SetVisible(true);
 		element->GetTransform()->SetPosition(offScreen);
@@ -175,7 +181,7 @@ void MenuManager::showLoadScreen() {
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "loading.png");
 		this->loadScreen->InitSprite(FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels(), "ustshdr", pathsToTextures, false);
 		this->loadScreen->SetPosition(0.0f, 0.0f);
-		this->loadScreen->SetZOrder(5);
+		this->loadScreen->SetZOrder(10);
 	}
 	this->loadScreen->SetVisible(true);
 	this->loadStartTime = ENGINE->GetTimer()->GetHighResAbsoluteTime();

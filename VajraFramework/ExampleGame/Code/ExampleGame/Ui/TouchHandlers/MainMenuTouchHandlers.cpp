@@ -50,7 +50,7 @@ void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch /* tou
 void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch */) {
 	ASSERT(this->missionRoot != nullptr, "The mission root is not null");
 	if(this->missionRoot != nullptr && this->missionRoot->IsVisible()) {
-		int levelToLoad = 0;
+		int levelToLoad = -1;
 		for(ObjectIdType id : this->missionRoot->GetChildren()){
 			if(uiObject->GetId() != id) {
 				GameObject* child = ENGINE->GetSceneGraphUi()->GetGameObjectById(id);
@@ -65,7 +65,8 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch
 		}
 	}
 	if (uiObject->GetName() == "play") {
-		uiObject->SetVisible(false);
+		UiElement* preMenuBackground = (UiElement*)ObjectRegistry::GetObjectByName(START_MENU);
+		preMenuBackground->SetVisible(false);
 		this->missionRoot->SetVisible(true);
 	} else if(uiObject->GetName() == "options") {
 		UiObject* startMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[START_MENU]);

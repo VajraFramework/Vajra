@@ -7,36 +7,21 @@
 		</dimensions>
 		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
 	</uielement>
-	
-	<uielement name="splashScreen" visible="true" clickable="false">
-		<dimensions>
-			<position xwrto="LEFT" ywrto="TOP" x="0" y="0"></position>
-			<size widthPixels="1024" heightPixels="768"></size>
-			<zorder>-6</zorder>
-		</dimensions>
-		<image name="splash.png" hasTransperancy="false"> </image>
-	</uielement>
-
 
 	<uielement name="startMenu" visible="false" clickable="false">
 	<dimensions>
 		<position x="0" y="0"></position>
 		<size widthPixels="1024" heightPixels="768"></size>
 		<zorder>0</zorder>
-		<color r="0.5" g="0.5" b="0.6" a="1.0"></color>
 	</dimensions>
-
+	<image name="SD_Main_Menu.png" hasTransperancy="false"> </image>
 		<uielement name="play" visible="true" clickable="true">
 			<dimensions>
-				<position xwrto="RIGHT" ywrto="TOP" x="64" y="128"></position>
-				<size widthPixels="256" heightPixels="128"></size>
+				<position xwrto="LEFT" ywrto="TOP" x="425" y="385"></position>
+				<size widthPixels="185" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
-			<text>
-				<font type="calibiri.fontspec" size="64.0"></font>
-				Play
-			</text>
-			<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+			<color r="1.0" g="1.0" b="1.0" a="0.0"></color>
 		</uielement>
 	</uielement>
 
@@ -66,8 +51,17 @@
 		<dimensions>
 			<position xwrto="LEFT" ywrto="TOP" x="0" y="0"></position>
 			<size widthPixels="1024" heightPixels="768"></size>
-			<zorder>-6</zorder>
+			<zorder>1</zorder>
 		</dimensions>
+		<image name="SD_LevelSelection_Background.png" hasTransperancy="false"> </image>
+		<uielement name="missionNavBar" visible="true" clickable="false">
+			<dimensions>
+				<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
+				<size widthPixels="1024" heightPixels="71"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<image name="SD_LevelSelection_NavBar.png" hasTransperancy="false"> </image>
+		</uielement>
 	</uielement>
 	
 </uiscene>
