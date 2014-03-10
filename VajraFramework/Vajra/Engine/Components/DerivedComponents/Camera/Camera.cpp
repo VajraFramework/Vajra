@@ -73,6 +73,23 @@ void Camera::HandleMessage(MessageChunk messageChunk) {
 	}
 }
 
+void Camera::SetOrthoBounds(float x_min, float x_max, float y_min, float y_max, float z_min, float z_max) {
+	this->ortho_bounds_x_min = x_min;
+	this->ortho_bounds_x_max = x_max;
+	this->ortho_bounds_y_min = y_min;
+	this->ortho_bounds_y_max = y_max;
+	this->ortho_bounds_z_min = z_min;
+	this->ortho_bounds_z_max = z_max;
+
+	this->updateMatrices();
+}
+
+void Camera::SetCameraType(CameraType_t cameraType_) {
+	this->cameraType = cameraType_;
+
+	this->updateMatrices();
+}
+
 void Camera::WriteLookAt() {
 	// TODO [Implement] Camera::WriteLookAt(), will be needed when the shader starts looking for the eyePosition (example: for specular lighting)
 }

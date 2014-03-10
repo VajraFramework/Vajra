@@ -49,14 +49,14 @@ void Engine::init() {
 	this->ambientLighting = new AmbientLighting();
 	this->ambientLighting->init();
 
-	this->shadowMap = new ShadowMap();
-	this->shadowMap->init();
-
 	this->sceneGraph3D = new SceneGraph3D();
 	this->sceneGraph3D->init();
 
 	this->sceneGraphUi = new SceneGraphUi();
 	this->sceneGraphUi->init();
+
+	this->shadowMap = new ShadowMap();
+	this->shadowMap->init();
 
 	this->debugDrawer = new DebugDrawer();
 	this->debugDrawer->init();

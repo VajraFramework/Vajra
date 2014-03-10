@@ -27,20 +27,6 @@ static GLint g_default_fbo;
  */
 // #define DRAWING_DEPTH_BUFFER_CONTENTS
 
-ObjectIdType g_fakeCameraObject_id = OBJECT_ID_INVALID;
-
-// TODO [Hack] Do this better:
-GameObject* GetFakeCameraObject() {
-	GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(g_fakeCameraObject_id);
-	if (gameObject == nullptr) {
-		gameObject = new GameObject(ENGINE->GetSceneGraph3D());
-		gameObject->AddComponent<Camera>();
-		//
-		g_fakeCameraObject_id = gameObject->GetId();
-	}
-
-	return gameObject;
-}
 
 void RenderScene::SetupStuff() {
 	
@@ -95,8 +81,6 @@ void RenderScene::CleanupStuff() {
 
 void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera) {
 
-	ENGINE->GetShadowMap()->SetDepthCamera(camera);
-	
 #ifdef PLATFORM_IOS
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &g_default_fbo);
 #endif
@@ -116,20 +100,11 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 
 	std::vector<DirectionalLight*> emptyVector;
 
-	// TODO [Implement] Position the camera at the position and orientation of the light:
-	GameObject* fakeCameraObject = GetFakeCameraObject();
-	fakeCameraObject->GetTransform()->SetPosition(-8.0f, 34.0f, 1.0f);
-	fakeCameraObject->GetTransform()->LookAt(8.0f, 0.0f, -20.0f);
-	Camera* fakeCamera = fakeCameraObject->GetComponent<Camera>();
-	fakeCamera->SetCameraType(CAMERA_TYPE_ORTHO);
-	fakeCamera->SetOrthoBounds(-10.0f, 50.0f, -10.0f, 50.0f, -10.5f, 100.0f);
-
-	ENGINE->GetShadowMap()->SetDepthCamera(fakeCamera);
-
 	{
 		// Switch off blend for depth pass:
     	glDisable(GL_BLEND);
 
+		Camera* depthCamera = ENGINE->GetShadowMap()->GetDepthCamera();
 #if defined(DRAWING_DEPTH_BUFFER_CONTENTS)
     	glViewport(0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
 		glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
@@ -138,13 +113,13 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 		/*
 	 	 * Draw to the depth buffer:
 	 	 */
-		ENGINE->GetSceneGraph3D()->SetMainCameraId(fakeCameraObject->GetId());
 		glBindFramebuffer(GL_FRAMEBUFFER, g_depth_fbo_id);
     	glViewport(0, 0, DEPTH_TEXTURE_W, DEPTH_TEXTURE_H);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 #endif
 		// Depth pass draw:
-		renderLists->Draw(fakeCamera, nullptr /* no lights in depth pass */, emptyVector /* no lights in depth pass */, true);
+		ENGINE->GetSceneGraph3D()->SetMainCameraId(depthCamera->GetObject()->GetId());
+		renderLists->Draw(depthCamera, nullptr /* no lights in depth pass */, emptyVector /* no lights in depth pass */, true);
 
 		// Switch blend back on:
     	glEnable(GL_BLEND);

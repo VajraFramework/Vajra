@@ -16,7 +16,7 @@ public:
 
 	void Draw();
 
-	void SetDepthCamera(Camera* camera) { this->depthCamera = camera; }
+	Camera* GetDepthCamera();
 
 	// TODO [Hack] Make this private:
     GLuint depthTexture;
@@ -26,8 +26,10 @@ private:
 	void init();
 	void destroy();
 
-	Camera* depthCamera;
+	ObjectIdType depthCameraId;
 
+	void createDepthCamera();
+	void adjustDepthCamera();
 
 	friend class Engine;
 };

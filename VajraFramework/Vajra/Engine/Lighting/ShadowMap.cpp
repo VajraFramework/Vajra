@@ -1,6 +1,9 @@
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
+#include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Lighting/ShadowMap.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 
@@ -12,9 +15,40 @@ ShadowMap::~ShadowMap() {
 	this->destroy();
 }
 
+Camera* ShadowMap::GetDepthCamera() {
+	GameObject* cameraObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->depthCameraId);
+	if (cameraObject == nullptr) {
+		this->createDepthCamera();
+		cameraObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->depthCameraId);
+	}
+	VERIFY(cameraObject != nullptr, "Depth camera object present");
+	Camera* camera = cameraObject->GetComponent<Camera>();
+	VERIFY(camera != nullptr, "Depth camera object has camera component");
+
+	return camera;
+}
+
+void ShadowMap::createDepthCamera() {
+	GameObject* depthCameraObject = new GameObject(ENGINE->GetSceneGraph3D());
+	Camera* depthCamera = depthCameraObject->AddComponent<Camera>();
+
+	depthCameraObject->GetTransform()->SetPosition(10.0f, 0.0f, -4.0f);
+	depthCameraObject->GetTransform()->Rotate(150.0f inRadians, YAXIS);
+	depthCameraObject->GetTransform()->Rotate(-80.0f inRadians, XAXIS);
+	depthCameraObject->GetTransform()->Translate(-20.0f, depthCameraObject->GetTransform()->GetForward());
+
+	depthCamera->SetCameraType(CAMERA_TYPE_ORTHO);
+	depthCamera->SetOrthoBounds(-20.0f, 20.0f, -20.0f, 20.0f, -10.5f, 100.0f);
+
+	this->depthCameraId = depthCameraObject->GetId();
+}
+
+void ShadowMap::adjustDepthCamera() {
+}
+
 void ShadowMap::Draw() {
 	
-	Camera* camera = this->depthCamera;
+	Camera* depthCamera = this->GetDepthCamera();
 
 	ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
 	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_depthTextureSampler)) {
@@ -27,11 +61,9 @@ void ShadowMap::Draw() {
 	}
 
 	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_depthBiasMVPMatrix)) {
-		GameObject* cameraObject = (GameObject*)camera->GetObject();
-		ASSERT(cameraObject->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
 
-		glm::mat4 depthProjectionMatrix = camera->GetProjMatrix();
-		glm::mat4 depthViewMatrix = camera->GetViewMatrix();
+		glm::mat4 depthProjectionMatrix = depthCamera->GetProjMatrix();
+		glm::mat4 depthViewMatrix = depthCamera->GetViewMatrix();
 		glm::mat4 depthModelMatrix = glm::mat4(1.0);
 
 		glm::mat4 depthMvpMatrix = depthProjectionMatrix * depthViewMatrix * depthModelMatrix;
@@ -43,7 +75,6 @@ void ShadowMap::Draw() {
 					0.5f, 0.5f, 0.5f, 1.0
 				);
 
-
 		glm::mat4 depthBiasMvpMatrix = biasMatrix * depthMvpMatrix;
 
 		GLint depthBiasMvpMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_depthBiasMVPMatrix);
@@ -52,7 +83,9 @@ void ShadowMap::Draw() {
 }
 
 void ShadowMap::init() {
+	this->createDepthCamera();
 }
 
 void ShadowMap::destroy() {
 }
+
