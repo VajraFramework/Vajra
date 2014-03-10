@@ -55,12 +55,16 @@ void GridNavigator::init() {
 	this->ignoreEverything = false;
 	this->navigationEnabled = true;
 
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
 }
 
 void GridNavigator::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+}
+
+void GridNavigator::start() {
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH, this->GetTypeId(), false);
 }
 
 GridCell* GridNavigator::GetDestination() {

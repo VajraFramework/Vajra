@@ -30,6 +30,7 @@ public:
 	inline void SetVisionAcuity(float acuity);
 
 protected:
+	virtual void start();
 	virtual void update();
 
 private:
