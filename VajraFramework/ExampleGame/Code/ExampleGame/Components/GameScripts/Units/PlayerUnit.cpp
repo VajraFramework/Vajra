@@ -85,9 +85,6 @@ void PlayerUnit::createTouchIndicator() {
 	SpriteRenderer* spriteRenderer = this->touchIndicatorRef->AddComponent<SpriteRenderer>();
 	spriteRenderer->SetHasTransperancy(true);
 	std::vector<std::string> pathsToTextures;
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Indicator_03.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Touch_Fail_01.png");
-
 	// Let the Thief and Assassin add their own images to the path
 	this->amendTouchIndicatorPaths(pathsToTextures);
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
@@ -153,6 +150,19 @@ void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {
 	this->gridNavRef->SetDestination(newTarget);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	this->touchIndicatorRef->SetVisible(true);
+}
+
+bool PlayerUnit::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
+	GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+	if (gObj != nullptr) {
+		BaseUnit* unit = gObj->GetComponent<BaseUnit>();
+		if (unit != nullptr) {
+			if ((unit->GetUnitType() >= FIRST_ENEMY_UNIT_TYPE) && (unit->GetUnitType() <= LAST_ENEMY_UNIT_TYPE)) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 void PlayerUnit::onSelectedTouch() {
@@ -222,24 +232,6 @@ void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
 				break;
 			default:
 				break;
-		}
-	}
-}
-
-void PlayerUnit::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ, glm::vec3 /*source*/) {
-	// Did the attack hit my cell?
-	GridCell* cell = this->gridNavRef->GetCurrentCell();
-	if (cell != nullptr) {
-		if ((cell->x == gridX) && (cell->z == gridZ)) {
-			GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
-			if (gObj != nullptr) {
-				BaseUnit* unit = gObj->GetComponent<BaseUnit>();
-				if (unit != nullptr) {
-					if ((unit->GetUnitType() >= FIRST_ENEMY_UNIT_TYPE) && (unit->GetUnitType() <= LAST_ENEMY_UNIT_TYPE)) {
-						this->Kill();
-					}
-				}
-			}
 		}
 	}
 }

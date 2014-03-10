@@ -77,8 +77,24 @@ void BaseUnit::SwitchActionState(UnitActionState newState) {
 	}
 }
 
+void BaseUnit::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ, glm::vec3 source) {
+	// First check if the attack hit my cell
+	GridCell* cell = this->gridNavRef->GetCurrentCell();
+	if (cell != nullptr) {
+		if ((cell->x == gridX) && (cell->z == gridZ)) {
+			// Check if the attacker can kill me
+			if (this->CanBeKilledBy(id, source)) {
+				// I'm dead
+				this->Kill();
+			}
+		}
+	}
+}
+
 void BaseUnit::Kill() {
 	this->unitState = UnitState::UNIT_STATE_DEAD;
+
+	this->gridNavRef->DisableNavigation();
 
 	glm::vec3 pos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 

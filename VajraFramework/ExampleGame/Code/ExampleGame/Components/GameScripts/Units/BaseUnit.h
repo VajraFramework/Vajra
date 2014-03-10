@@ -10,6 +10,7 @@
 #include "Vajra/Common/Components/Component.h"
 
 // Forward Declarations:
+class GridCell;
 class GridNavigator;
 class GameObject;
 
@@ -29,6 +30,9 @@ public:
 
 	void SwitchActionState(UnitActionState newState);
 
+	virtual void OnTransitionZoneEntered(GridCell* /*newTarget*/) { }
+	virtual bool CanBeKilledBy(ObjectIdType /*id*/, glm::vec3 /*source*/) { return true; }
+
 	static inline ComponentIdType GetTypeId()  { return componentTypeId; }
 
 protected:
@@ -36,7 +40,7 @@ protected:
 	virtual void end();
 	virtual void update();
 
-	virtual void onUnitSpecialHit(ObjectIdType /*id*/, int /*gridX*/, int /*gridZ*/, glm::vec3 /*source*/) { }
+	virtual void onUnitSpecialHit(ObjectIdType /*id*/, int /*gridX*/, int /*gridZ*/, glm::vec3 /*source*/);
 
 	virtual void Kill();
 

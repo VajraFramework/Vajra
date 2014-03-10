@@ -21,6 +21,8 @@ public:
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
 
+	virtual bool CanBeKilledBy(ObjectIdType id, glm::vec3 source);
+
 protected:
 	virtual void determineBrainState();
 
@@ -30,8 +32,6 @@ protected:
 	virtual void onBrainBecameCalm();
 	virtual void onBrainBecameCautious();
 	virtual void onBrainBecameAggressive();
-
-	virtual void onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ, glm::vec3 source);
 
 	virtual void onSightedPlayerUnit(ObjectIdType id);
 	virtual void onLostSightOfPlayerUnit(ObjectIdType id);

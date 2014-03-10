@@ -250,21 +250,9 @@ bool Tween::IsTweening_number(std::string tweenName) {
 }
 
 void Tween::cancelOngoingTransformTween(ObjectIdType gameObjectId, TransformTweenTarget tweenTarget) {
-
-	switch (tweenTarget) {
-	case TRANSFORM_TWEEN_TARGET_POSITION: {
-		this->ongoingPositionTweens.erase(gameObjectId);
-	} break;
-
-	case TRANSFORM_TWEEN_TARGET_ORIENTATION: {
-		this->ongoingOrientationTweens.erase(gameObjectId);
-	} break;
-
-	case TRANSFORM_TWEEN_TARGET_SCALE: {
-		this->ongoingScaleTweens.erase(gameObjectId);
-	} break;
-
-	default: ASSERT(0, "Unknown TransformTweenTarget %d", tweenTarget);
+	OnGoingTransformTweenDetails* tweenDetails = this->GetOnGoingTransformTweenDetails(gameObjectId, tweenTarget);
+	if (tweenDetails != nullptr) {
+		tweenDetails->canceled = true;
 	}
 }
 
@@ -284,7 +272,10 @@ void Tween::resumeOngoingTransformTween(ObjectIdType gameObjectId, TransformTwee
 
 
 void Tween::cancelOngoingNumberTween(std::string tweenName) {
-	this->ongoingNumberTweens.erase(tweenName);
+	OnGoingNumberTweenDetails* tweenDetails = this->GetOnGoingNumberTweenDetails(tweenName);
+	if (tweenDetails != nullptr) {
+		tweenDetails->canceled = true;
+	}
 }
 
 void Tween::pauseOngoingNumberTween(std::string tweenName) {
@@ -440,6 +431,11 @@ bool OnGoingTransformTweenDetails::StepTween(float deltaTime) {
 		return true;
 	}
 
+	if (this->canceled) {
+		// Tween was canceled -- have it remove itself:
+		return false;
+	}
+
 	float curTime = this->currentTime + deltaTime;
 	float interp = curTime / this->totalTime;
 	clamp(interp, 0.0f, 1.0f);
@@ -530,6 +526,11 @@ bool OnGoingNumberTweenDetails::StepTween(float deltaTime) {
 	if (this->isPaused) {
 		// Tween still in progress, but paused
 		return true;
+	}
+
+	if (this->canceled) {
+		// Tween was canceled -- have it remove itself:
+		return false;
 	}
 
 	// float newNumber = this->currentNumber + deltaTime * (this->toNumber - this->fromNumber) / this->totalTime;
