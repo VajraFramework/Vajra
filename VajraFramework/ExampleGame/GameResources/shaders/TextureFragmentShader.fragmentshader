@@ -167,33 +167,8 @@ void main()
 	if (depth_value < fragment_depth) {
 		visibility -= 0.25;
 	}
-
-#ifdef NOTHING
-	float visibility = 1.0;
-	//
-	float local_visibility = texture2D( depthTextureSampler, ShadowCoord.xy + pcf0/PCF_DIVIDE ).r - ShadowCoord.z;
-	local_visibility = clamp (local_visibility * 50.0 + 1.0, 0.0, 1.0);
-	visibility -= 0.25 * (1.0 - local_visibility);
-	//
-	local_visibility = texture2D( depthTextureSampler, ShadowCoord.xy + pcf1/PCF_DIVIDE ).r - ShadowCoord.z;
-	local_visibility = clamp (local_visibility * 50.0 + 1.0, 0.0, 1.0);
-	visibility -= 0.25 * (1.0 - local_visibility);
-	//
-	local_visibility = texture2D( depthTextureSampler, ShadowCoord.xy + pcf2/PCF_DIVIDE ).r - ShadowCoord.z;
-	local_visibility = clamp (local_visibility * 50.0 + 1.0, 0.0, 1.0);
-	visibility -= 0.25 * (1.0 - local_visibility);
-	//
-	local_visibility = texture2D( depthTextureSampler, ShadowCoord.xy + pcf3/PCF_DIVIDE ).r - ShadowCoord.z;
-	local_visibility = clamp (local_visibility * 50.0 + 1.0, 0.0, 1.0);
-	visibility -= 0.25 * (1.0 - local_visibility);
-#endif
 #endif
 
-
-	// vec2 uv_into_pixelspace = vec2(gl_FragCoord.x / 1024.0, gl_FragCoord.y / 768.0);
-	// vec4 depthMap_value = vec4(texture2D(depthTextureSampler, uv_into_pixelspace).rgba);
-
-	// finalColor = finalColor * 0.001 + vec4(depthMap_value.x, depthMap_value.x, depthMap_value.x, 1.0);
 
 	// finalColor = finalColor * visibility * 0.001 + ShadowCoord;
 

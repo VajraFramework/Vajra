@@ -9,7 +9,7 @@
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Utilities/OpenGLIncludes.h"
 
-static GLuint g_fbo_id;
+static GLuint g_depth_fbo_id;
 
 #ifdef PLATFORM_IOS
 static GLint g_default_fbo;
@@ -20,6 +20,12 @@ static GLint g_default_fbo;
 
 #define DEPTH_TEXTURE_W 2048
 #define DEPTH_TEXTURE_H 2048
+
+/*
+ * Note that when using this to be able to see anything
+ * the DRAWING_DEPTH_BUFFER_CONTENTS flag should also be set in the preprocessor_variables for the shaders
+ */
+// #define DRAWING_DEPTH_BUFFER_CONTENTS
 
 ObjectIdType g_fakeCameraObject_id = OBJECT_ID_INVALID;
 
@@ -43,8 +49,8 @@ void RenderScene::SetupStuff() {
 #endif
 
 	// Create a frame buffer object:
-	glGenFramebuffers(1, &g_fbo_id);
-	glBindFramebuffer(GL_FRAMEBUFFER, g_fbo_id);
+	glGenFramebuffers(1, &g_depth_fbo_id);
+	glBindFramebuffer(GL_FRAMEBUFFER, g_depth_fbo_id);
 	
 	// Create a render buffer
 	GLuint renderBuffer;
@@ -71,8 +77,7 @@ void RenderScene::SetupStuff() {
     checkGlError("glRenderBufferStorage");
 	
 	// Attach the render buffer as depth buffer - will be ignored
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-							  GL_RENDERBUFFER, renderBuffer);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBuffer);
     checkGlError("glFramebufferRenderbuffer");
 
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
@@ -85,7 +90,7 @@ void RenderScene::CleanupStuff() {
 
 	// TODO [Implement] Call this from somewhere:
 	// Free up the frame buffer object:
-	glDeleteFramebuffers(1, &g_fbo_id);
+	glDeleteFramebuffers(1, &g_depth_fbo_id);
 }
 
 void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera) {
@@ -100,6 +105,7 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera) {
 	renderLists->Draw(camera, false);
 }
 
+
 void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 							  DirectionalLight* directionalLight,
 							  std::vector<DirectionalLight*> additionalLights) {
@@ -113,48 +119,48 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 	// TODO [Implement] Position the camera at the position and orientation of the light:
 	GameObject* fakeCameraObject = GetFakeCameraObject();
 	fakeCameraObject->GetTransform()->SetPosition(-8.0f, 34.0f, 1.0f);
-	// fakeCameraObject->GetTransform()->SetOrientation(180.0f inRadians, YAXIS);
-	// fakeCameraObject->GetTransform()->Rotate(-85.0f inRadians, XAXIS);
-	// fakeCameraObject->GetTransform()->Rotate(25.0f inRadians, YAXIS);
 	fakeCameraObject->GetTransform()->LookAt(8.0f, 0.0f, -20.0f);
 	Camera* fakeCamera = fakeCameraObject->GetComponent<Camera>();
 	fakeCamera->SetCameraType(CAMERA_TYPE_ORTHO);
 	fakeCamera->SetOrthoBounds(-10.0f, 50.0f, -10.0f, 50.0f, -10.5f, 100.0f);
-	ENGINE->GetSceneGraph3D()->SetMainCameraId(fakeCameraObject->GetId());
 
 	ENGINE->GetShadowMap()->SetDepthCamera(fakeCamera);
 
-	/*
-	 * DEBUG: 2 lines below
-	 */
-    // glViewport(0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
-	// glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
+	{
+		// Switch off blend for depth pass:
+    	glDisable(GL_BLEND);
 
-	/*
-	 * Draw to the depth buffer:
-	 */
+#if defined(DRAWING_DEPTH_BUFFER_CONTENTS)
+    	glViewport(0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
+		glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
+#else
 
-	// Switch off blend for depth pass:
-    glDisable(GL_BLEND);
-    //
-	glBindFramebuffer(GL_FRAMEBUFFER, g_fbo_id);
-    glViewport(0, 0, DEPTH_TEXTURE_W, DEPTH_TEXTURE_H);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	renderLists->Draw(fakeCamera, nullptr /* no lights in depth pass */, emptyVector /* no lights in depth pass */, true);
-	// renderLists->Draw(camera, nullptr /* no lights in depth pass */, emptyVector /* no lights in depth pass */, true);
-	//
-	// Switch blend back on:
-    glEnable(GL_BLEND);
+		/*
+	 	 * Draw to the depth buffer:
+	 	 */
+		ENGINE->GetSceneGraph3D()->SetMainCameraId(fakeCameraObject->GetId());
+		glBindFramebuffer(GL_FRAMEBUFFER, g_depth_fbo_id);
+    	glViewport(0, 0, DEPTH_TEXTURE_W, DEPTH_TEXTURE_H);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+#endif
+		// Depth pass draw:
+		renderLists->Draw(fakeCamera, nullptr /* no lights in depth pass */, emptyVector /* no lights in depth pass */, true);
+
+		// Switch blend back on:
+    	glEnable(GL_BLEND);
+	}
 	
-	
 
-	/*
-	 * Draw again, this time to the screen:
-	 */
-	ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetObject()->GetId());
-	glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
-    glViewport(0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
-	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	renderLists->Draw(camera, directionalLight, additionalLights, false);
+	{
+#if !defined(DRAWING_DEPTH_BUFFER_CONTENTS)
+		/*
+	 	 * Draw again, this time to the screen:
+	 	 */
+		ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetObject()->GetId());
+		glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
+    	glViewport(0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
+		renderLists->Draw(camera, directionalLight, additionalLights, false);
+#endif
+	}
 
 }
