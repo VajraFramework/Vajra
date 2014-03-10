@@ -222,23 +222,23 @@ void Assassin::aimSpecial(int touchId){
 		this->gridNavRef->SetLookTarget(this->targetLoc);
 
 		// the yOffset the indicators should have
-		float yOffset = this->targetedCell->y * 0.05 + .01f;
+		glm::vec3 offset = this->GetOffsetFromCell(this->gridNavRef->GetCurrentCell(), .5f);
 
 		// touch indicator
 		this->SetTouchIndicatorVisible(true);
-		this->GridPlaneSetPos(this->touchIndicatorRef, this->targetLoc + yOffset);
+		this->GridPlaneSetPos(this->touchIndicatorRef, this->targetLoc + this->GetOffsetFromCell(this->targetedCell));
 
 		// Arrow Tail
 		this->arrowTail->SetVisible(true);
 		this->GridPlaneLookAt(this->arrowTail, this->targetLoc);
 		this->arrowTail->GetTransform()->SetScale(1.0f, dist, 1.0f);
-		this->arrowTail->GetComponent<Transform>()->SetPosition(sinPos + glm::vec3(0.0f, yOffset, 0.0f));
+		this->arrowTail->GetComponent<Transform>()->SetPosition(sinPos + offset); 
 		this->arrowTail->GetComponent<Transform>()->Translate(dist * .5f, this->arrowTail->GetComponent<Transform>()->GetUp());
 		
 		// Arrow Head
 		this->arrowHead->SetVisible(true);
 		this->GridPlaneLookAt(this->arrowHead, this->targetLoc);
-		this->arrowHead->GetTransform()->SetPosition(sinPos + glm::vec3(0.0f, yOffset, 0.0f));
+		this->arrowHead->GetTransform()->SetPosition(sinPos + offset); 
 		this->arrowHead->GetTransform()->Translate(dist + .5f, this->arrowHead->GetComponent<Transform>()->GetUp());		
 	} else {
 		this->SetTouchIndicatorVisible(false);
