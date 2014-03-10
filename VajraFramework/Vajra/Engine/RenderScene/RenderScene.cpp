@@ -18,8 +18,8 @@ static GLint g_default_fbo;
 #define SCREEN_FRAME_BUFFER 0
 #endif
 
-#define DEPTH_TEXTURE_W 4096
-#define DEPTH_TEXTURE_H 4096
+#define DEPTH_TEXTURE_W 2048
+#define DEPTH_TEXTURE_H 2048
 
 ObjectIdType g_fakeCameraObject_id = OBJECT_ID_INVALID;
 
@@ -154,7 +154,7 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 	ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetObject()->GetId());
 	glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
     glViewport(0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	renderLists->Draw(camera, directionalLight, additionalLights, false);
 
 }
