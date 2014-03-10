@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Lighting/ShadowMap.h"
+#include "Vajra/Engine/Lighting/ShadowMapUpdateListener.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
@@ -31,19 +32,37 @@ Camera* ShadowMap::GetDepthCamera() {
 void ShadowMap::createDepthCamera() {
 	GameObject* depthCameraObject = new GameObject(ENGINE->GetSceneGraph3D());
 	Camera* depthCamera = depthCameraObject->AddComponent<Camera>();
+	this->depthCameraId = depthCameraObject->GetId();
+
+	this->adjustDepthCamera();
+}
+
+void ShadowMap::adjustDepthCamera() {
+	GameObject* depthCameraObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->depthCameraId);
+	if (depthCameraObject == nullptr) {
+		this->createDepthCamera();
+	}
+
+	VERIFY(depthCameraObject != nullptr, "Depth camera object present");
+	Camera* depthCamera = depthCameraObject->GetComponent<Camera>();
+	VERIFY(depthCamera != nullptr, "Depth camera object has camera component");
 
 	depthCameraObject->GetTransform()->SetPosition(10.0f, 0.0f, -4.0f);
+	depthCameraObject->GetTransform()->SetOrientation(IDENTITY_QUATERNION);
 	depthCameraObject->GetTransform()->Rotate(150.0f inRadians, YAXIS);
 	depthCameraObject->GetTransform()->Rotate(-80.0f inRadians, XAXIS);
 	depthCameraObject->GetTransform()->Translate(-20.0f, depthCameraObject->GetTransform()->GetForward());
 
 	depthCamera->SetCameraType(CAMERA_TYPE_ORTHO);
 	depthCamera->SetOrthoBounds(-20.0f, 20.0f, -20.0f, 20.0f, -10.5f, 100.0f);
-
-	this->depthCameraId = depthCameraObject->GetId();
 }
 
-void ShadowMap::adjustDepthCamera() {
+void ShadowMap::mainCameraChanged() {
+	this->adjustDepthCamera();
+}
+
+void ShadowMap::mainDirectionalLightChanged() {
+	this->adjustDepthCamera();
 }
 
 void ShadowMap::Draw() {
@@ -84,6 +103,8 @@ void ShadowMap::Draw() {
 
 void ShadowMap::init() {
 	this->createDepthCamera();
+
+	this->AddComponent<ShadowMapUpdateListener>();
 }
 
 void ShadowMap::destroy() {

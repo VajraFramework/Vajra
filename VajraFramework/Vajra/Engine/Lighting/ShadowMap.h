@@ -18,6 +18,7 @@ public:
 
 	Camera* GetDepthCamera();
 
+
 	// TODO [Hack] Make this private:
     GLuint depthTexture;
 
@@ -31,7 +32,11 @@ private:
 	void createDepthCamera();
 	void adjustDepthCamera();
 
+	void mainCameraChanged();
+	void mainDirectionalLightChanged();
+
 	friend class Engine;
+	friend class ShadowMapUpdateListener;
 };
 
 

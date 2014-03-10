@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 
@@ -68,6 +69,13 @@ void Camera::HandleMessage(MessageChunk messageChunk) {
 
 	case MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT:
 		this->updateMatrices();
+
+		// Broadcast a camera changed event:
+		MessageChunk message = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		message->SetMessageType(MESSAGE_TYPE_CAMERA_CHANGED);
+		message->messageData.iv1.x = this->GetObject()->GetId();
+		ENGINE->GetMessageHub()->SendMulticastMessage(message, this->GetObject()->GetId());
+
 		break;
 
 	}
