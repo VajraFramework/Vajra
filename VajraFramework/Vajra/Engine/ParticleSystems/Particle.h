@@ -1,9 +1,11 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 
+#include "Vajra/Engine/ParticleSystems/Definitions.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 #include "Libraries/glm/glm.hpp"
+
 
 struct Particle {
 public:
@@ -26,7 +28,7 @@ public:
 	//
 	float totalLifespanInSeconds;
 
-	void reset(glm::vec3 direction, float randomness);
+	void reset(EmissionVolumeType_t emissionVolumeType, float emission_radius_x, float emission_radius_y, float emission_radius_z, glm::vec3 direction, float randomness);
 	void stepSimulation(float deltaTime, glm::vec3 accelerationDirection, float accelerationAmount);
 
 private:
