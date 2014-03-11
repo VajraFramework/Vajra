@@ -42,6 +42,7 @@ private:
 	GridCell* targetedCell;
 	glm::vec3 targetLoc;
 
+	glm::vec3 lastPosition;
 	GridCell* lastHitCell;
 	GridCell* lastCheckedCell;
 	void specialUpdate();

@@ -556,13 +556,15 @@ bool OnGoingNumberTweenDetails::StepTween(float deltaTime) {
 	}
 
 	this->currentTime += deltaTime;
-	if (this->currentTime > this->totalTime || this->continuousUpdates) {
+	bool tweenGotOver = (this->currentTime >= this->totalTime);
+	if (tweenGotOver || this->continuousUpdates) {
 		ASSERT(this->callback != 0, "Callback not 0");
 		clamp(newNumber, this->fromNumber, this->toNumber);
+		if (tweenGotOver) { newNumber = this->toNumber; }
 		this->callback(this->fromNumber, this->toNumber, newNumber, this->tweenName, this->userParams);
 	}
 
-	if (this->currentTime >= this->totalTime) {
+	if (tweenGotOver) {
 		if (this->looping) {
 			this->ResetTween();
 		} else {

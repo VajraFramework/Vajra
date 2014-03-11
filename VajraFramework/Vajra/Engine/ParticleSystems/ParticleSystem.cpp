@@ -71,6 +71,24 @@ void ParticleSystem::SetParticleVelocityDirection(float x, float y, float z) {
 	ASSERT(this->particleVelocityDirection != ZERO_VEC3, "Particle direction not zero vector");
 }
 
+void ParticleSystem::SetEmissionVolume(std::string emissionVolumeType_, float radius_x, float radius_y, float radius_z) {
+	if (emissionVolumeType_ == "point") {
+		this->emissionVolumeType = EMISSION_VOLUME_TYPE_POINT;
+	} else if (emissionVolumeType_ == "square") {
+		this->emissionVolumeType = EMISSION_VOLUME_TYPE_SQUARE;
+	} else if (emissionVolumeType_ == "circle_circle") {
+		this->emissionVolumeType = EMISSION_VOLUME_TYPE_CIRCLE_CIRCLE;
+	} else if (emissionVolumeType_ == "circle_surface") {
+		this->emissionVolumeType = EMISSION_VOLUME_TYPE_CIRCLE_SURFACE;
+	} else if (emissionVolumeType_ == "ellipsoid") {
+		this->emissionVolumeType = EMISSION_VOLUME_TYPE_ELLIPSOID;
+	}
+
+	this->emission_volume_radius_x = radius_x;
+	this->emission_volume_radius_y = radius_y;
+	this->emission_volume_radius_z = radius_z;
+}
+
 void ParticleSystem::SetParticleVelocityDirectionRandomness(float randomness) {
 	clamp(randomness, 0.0f, 1.0f);
 	this->particleVelocityDirectionRandomness = randomness;
@@ -83,6 +101,10 @@ void ParticleSystem::SetAccelerationAmount(float accelerationAmount_) {
 void ParticleSystem::SetAccelerationDirection(float x, float y, float z) {
 	this->accelerationDirection = glm::vec3(x, y, z);
 	ASSERT(this->accelerationDirection != ZERO_VEC3, "Particle acceleration not zero vector");
+}
+
+void ParticleSystem::SetOverallLifespan(float overallLifespanInSeconds_) {
+	this->overallLifespanInSeconds = overallLifespanInSeconds_;
 }
 
 void ParticleSystem::SetName(std::string name_) {
@@ -100,9 +122,9 @@ void ParticleSystem::InitParticleSystem() {
 		particle->totalLifespanInSeconds = this->particleLifespanInSeconds;
 		particle->initialColor = this->particleInitialColor; particle->finalColor = this->particleFinalColor;
 		//
-		particle->reset(this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
+		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
 		//
-		this->deadParticles.push_back(particle);
+		this->dormantParticles.push_back(particle);
 	}
 
 	// TODO [Hack] Figure this out better
@@ -155,13 +177,20 @@ void ParticleSystem::updateShaderAttributeVectors() {
 
 void ParticleSystem::stepSimulation(float deltaTime) {
 	if (this->isPlaying) {
+
+		this->currentOverallLifespanInSeconds += deltaTime;
+
 		this->spawnParticles(deltaTime);
 		this->stepParticles (deltaTime);
-		if (this->isLooping) {
-			this->cleanupDeadParticles();
-		} else {
-			if (this->aliveParticles.empty()) {
+		//
+		this->cleanupDeadParticles();
+
+		if (!this->isLooping) {
+			if (this->aliveParticles.empty() || this->currentOverallLifespanInSeconds >= this->overallLifespanInSeconds) {
 				this->raiseSpentEvent();
+				this->reclaimDeadParticles();
+				this->isPlaying = false;
+				this->currentOverallLifespanInSeconds = 0.0f;
 			}
 		}
 
@@ -185,18 +214,18 @@ void ParticleSystem::spawnParticles(float deltaTime) {
 
 	// Spawn new particles:
 	unsigned int numParticlesToAdd = ceil(this->numParticlesPerSecond * temp_timeSinceLastBatchSpawn);
-	if (this->deadParticles.size() < numParticlesToAdd) {
-		numParticlesToAdd = this->deadParticles.size();
+	if (this->dormantParticles.size() < numParticlesToAdd) {
+		numParticlesToAdd = this->dormantParticles.size();
 	}
 	numParticlesToAdd = std::min((unsigned int)(this->maxNumParticles - this->aliveParticles.size()), (unsigned int)numParticlesToAdd);
 	std::deque<Particle*> particlesToAdd;
 	for (unsigned int i = 0; i < numParticlesToAdd; ++i) {
-		particlesToAdd.push_back(this->deadParticles.front());
-		this->deadParticles.pop_front();
+		particlesToAdd.push_back(this->dormantParticles.front());
+		this->dormantParticles.pop_front();
 	}
 	while (!particlesToAdd.empty()) {
 		Particle* particle = particlesToAdd.front();
-		particle->reset(this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
+		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
 		particlesToAdd.pop_front();
 		this->aliveParticles.push_back(particle);
 	}
@@ -224,10 +253,27 @@ void ParticleSystem::cleanupDeadParticles() {
 		}
 	}
 
+	std::list<Particle*>* particle_list_to_cleanup_into;
+	if (this->isLooping) {
+		particle_list_to_cleanup_into = &this->dormantParticles;
+	} else {
+		particle_list_to_cleanup_into = &this->deadParticles;
+	}
 	while (!particlesToCleanup.empty()) {
-		this->deadParticles.push_back(particlesToCleanup.front());
+		particle_list_to_cleanup_into->push_back(particlesToCleanup.front());
 		particlesToCleanup.pop_front();
 	}
+}
+
+void ParticleSystem::reclaimDeadParticles() {
+	while (!this->deadParticles.empty()) {
+		Particle* particle = this->deadParticles.front();
+		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
+		this->deadParticles.pop_front();
+		this->dormantParticles.push_back(particle);
+	}
+	// TODO [Hack] Make it so that the next time Play() is called we are ready to spawn particles
+	this->timeSinceLastBatchSpawn = MAXIMUM_TIME_BETWEEN_BATCH_SPAWNS_seconds + 1.0f;
 }
 
 void ParticleSystem::init() {
@@ -244,6 +290,11 @@ void ParticleSystem::init() {
 	this->minimumTimeBetweenBatchSpawns = 0.0f;
 
 	// Assign default values for all properties:
+	this->emissionVolumeType              = EMISSION_VOLUME_TYPE_POINT;
+	this->emission_volume_radius_x        = 0.0f;
+	this->emission_volume_radius_y        = 0.0f;
+	this->emission_volume_radius_z        = 0.0f;
+	//
 	this->numParticlesPerSecond           = 10.0f;
 	this->maxNumParticles                 = 50.0f;
 	this->particleInitialSpeed            = 0.1f;
@@ -257,6 +308,9 @@ void ParticleSystem::init() {
 	this->particleVelocityDirectionRandomness       = 1.0f;
 	this->accelerationAmount              = 0.0f;
 	this->accelerationDirection           = -1.0f * YAXIS;
+	//
+	this->overallLifespanInSeconds        = 1000.0f;
+	this->currentOverallLifespanInSeconds = 0.0f;
 
 	this->isInited  = false;
 	this->isPlaying = false;
@@ -282,3 +336,4 @@ void ParticleSystem::Pause() {
 void ParticleSystem::SetLooping(bool looping) {
 	this->isLooping = looping;
 }
+

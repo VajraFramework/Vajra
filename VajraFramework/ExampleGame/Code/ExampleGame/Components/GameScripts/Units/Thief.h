@@ -35,6 +35,8 @@ protected:
 	virtual void onSpecialEnd();
 
 	virtual void aimSpecial(int /* touchId */);
+
+	virtual void start();
 private:
 	void init();
 	void destroy();
@@ -47,6 +49,7 @@ private:
 	void createTargets();
 	void updateTargets();
 	void deleteTargets();
+	void setIndicators();
 
 	GridCell* targetedCell;
 
@@ -55,8 +58,19 @@ private:
 	void scaleUpIndicator(GridCell* /*cell*/);
 	void scaleDownIndicator(GridCell* /*cell*/);
 	GridCell* getNearCellTowardsUnit(int touchId);
+
+	bool tweenInFinished;
+	std::list<GridCell*> cellsInRange;
 	std::vector<GridCell*> legalTargets;
-	std::map<GridCell* /*cell*/, GameObject*> targetIndicatorsRef;
+	std::map<GridCell* /*cell*/, GameObject*> activeTargetIndicators;
+	std::vector<GameObject*> targetIndicators;
+
+	// poof effects
+	void createPoofEffects();
+	void beginPoof(ObjectIdType /*poofId*/);
+	ObjectIdType startPoofId;
+	ObjectIdType endPoofId;
+
 	friend void thiefTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
 	friend void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams);
 	
