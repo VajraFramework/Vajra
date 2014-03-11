@@ -72,7 +72,7 @@ protected:
 
 	void SetTouchIndicatorVisible(bool /*visibilty*/);	
 
-	float GetYOffsetFromCell(GridCell* /*targetCell*/);
+	glm::vec3 GetOffsetFromCell(GridCell* /*targetCell*/, float additionalOffset = 0);
 
 	inline GridCell* GetCurrentTouchedCell() { return this->currentTouchedCell; }
 	

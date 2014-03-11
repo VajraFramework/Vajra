@@ -4,8 +4,11 @@
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+
 #include "Libraries/glm/gtx/vector_angle.hpp"
+
 #include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
+#include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -88,7 +91,6 @@ void PlayerUnit::createTouchIndicator() {
 	// Let the Thief and Assassin add their own images to the path
 	this->amendTouchIndicatorPaths(pathsToTextures);
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
-
 	this->touchIndicatorRef->SetVisible(true);
 	this->touchIndicatorRef->GetTransform()->Rotate(90.0f inRadians, XAXIS);
 	this->touchIndicatorRef->GetTransform()->SetScale(glm::vec3(0));
@@ -265,7 +267,7 @@ void PlayerUnit::touchedCellChanged(GridCell* /*prevTouchedCell*/) {
 void PlayerUnit::GridPlaneSetPos(GameObject* plane, GridCell* targetCell) {
 	if(targetCell != nullptr) {
 		glm::vec3 target = targetCell->center;
-		target.y += this->GetYOffsetFromCell(targetCell);
+		target += this->GetOffsetFromCell(targetCell);
 		this->GridPlaneSetPos(plane, target);
 	}
 }
@@ -323,8 +325,8 @@ void PlayerUnit::SetTouchIndicatorVisible(bool visibility) {
 	this->touchIndicatorRef->SetVisible(visibility);
 }
 
-float PlayerUnit::GetYOffsetFromCell(GridCell* targetCell) {
-	float offset = targetCell->y * 0.05;
+glm::vec3 PlayerUnit::GetOffsetFromCell(GridCell* targetCell, float additionalOffset) {
+	float offset = targetCell->y + 0.05 + additionalOffset;
 	for(auto zoneIds : targetCell->zones) {
 		GameObject* zone = ENGINE->GetSceneGraph3D()->GetGameObjectById(zoneIds);
 		if(zone != nullptr) {
@@ -333,5 +335,7 @@ float PlayerUnit::GetYOffsetFromCell(GridCell* targetCell) {
 			}
 		}
 	}
-	return offset;
+	glm::vec3 towardsCam = ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject()->GetComponent<Transform>()->GetPosition() - targetCell->center;
+
+	return glm::vec3(0.0f, 0.66f, 0.33f) * offset;
 }

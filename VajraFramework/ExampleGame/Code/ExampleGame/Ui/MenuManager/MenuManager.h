@@ -22,6 +22,9 @@ public:
 	void LoadGameMenu(std::string defaultScreen = "inGame");
 
 	void LoadLevel(int /*levelIndex*/);
+
+	void TweenOutUiObject(UiObject*);
+	void TweenInUiObject(UiObject*);
 private:
 	void init();
 	void destroy();
@@ -34,7 +37,7 @@ private:
 	float loadStartTime;
 
 	UiElement* loadScreen;
-
+	UiElement*	backdrop;
 	MainMenuTouchHandlers* mainMenuTouchHandler;
 	GameUiTouchHandlers* gameUiTouchHandler;
 

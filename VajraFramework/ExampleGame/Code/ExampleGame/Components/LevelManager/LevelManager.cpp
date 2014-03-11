@@ -87,6 +87,10 @@ bool LevelManager::TryLoadNextLevel() {
 	return false;
 }
 
+void LevelManager::StartLevel() {
+	ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_SCENE_START);
+}
+
 void LevelManager::loadLevel_internal() {
 	ASSERT(this->levelToLoad < (int)this->levelData.size(), "level number is less than the number of levels");
 	if(this->levelToLoad < (int)this->levelData.size()) {
