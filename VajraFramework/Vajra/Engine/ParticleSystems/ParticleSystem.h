@@ -28,6 +28,8 @@ public:
 	//[[PROPERTY]]//
 	void SetParticleSpeed(float particleInitialSpeed, float particleFinalSpeed);
 	//[[PROPERTY]]//
+	void SetParticleinitialSpeedRandomness(float initial_speed1, float initial_speed2, float speed_randomness);
+	//[[PROPERTY]]//
 	void SetParticleSize(float initialParticleSizePixels, float finalParticleSizePixels);
 	//[[PROPERTY]]//
 	void SetParticleLifespan(float particleLifespanInSeconds);
@@ -105,8 +107,10 @@ private:
 	std::string name;
 	unsigned int numParticlesPerSecond;
 	unsigned int maxNumParticles;
-	float particleInitialSpeed;
+	float particleInitialSpeed1;
+	float particleInitialSpeed2;
 	float particleFinalSpeed;
+	float particleInitialSpeedRandomness;
 	float initialParticleSizePixels;
 	float finalParticleSizePixels;
 	float particleLifespanInSeconds;

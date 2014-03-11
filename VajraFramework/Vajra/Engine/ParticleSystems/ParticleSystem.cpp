@@ -41,8 +41,15 @@ void ParticleSystem::SetNumberOfParticles(unsigned int numParticlesPerSecond_, u
 }
 
 void ParticleSystem::SetParticleSpeed(float particleInitialSpeed_, float particleFinalSpeed_) {
-	this->particleInitialSpeed = particleInitialSpeed_;
+	this->particleInitialSpeed1 = particleInitialSpeed_;
+	this->particleInitialSpeed2 = particleInitialSpeed_;
 	this->particleFinalSpeed = particleFinalSpeed_;
+}
+
+void ParticleSystem::SetParticleinitialSpeedRandomness(float initial_speed1, float initial_speed2, float speed_randomness) {
+	this->particleInitialSpeed1 = initial_speed1;
+	this->particleInitialSpeed2 = initial_speed2;
+	this->particleInitialSpeedRandomness = speed_randomness;
 }
 
 void ParticleSystem::SetParticleSize(float initialParticleSizePixels_, float finalParticleSizePixels_) {
@@ -119,7 +126,8 @@ void ParticleSystem::InitParticleSystem() {
 	unsigned int numParticlesToCreate = this->maxNumParticles + this->numParticlesPerSecond;
 	for (unsigned int i = 0; i < numParticlesToCreate; ++i) {
 		Particle* particle = new Particle();
-		particle->initialSpeed = this->particleInitialSpeed; particle->finalSpeed = this->particleFinalSpeed;
+		particle->initialSpeed = this->particleInitialSpeed1 + randf() * this->particleInitialSpeedRandomness * (this->particleInitialSpeed2 - this->particleInitialSpeed1);
+		particle->finalSpeed = this->particleFinalSpeed;
 		particle->initialSizePixels = this->initialParticleSizePixels; particle->finalSizePixels = this->finalParticleSizePixels;
 		particle->totalLifespanInSeconds = this->particleLifespanInSeconds;
 		particle->initialColor = this->particleInitialColor; particle->finalColor = this->particleFinalColor;
@@ -299,8 +307,10 @@ void ParticleSystem::init() {
 	//
 	this->numParticlesPerSecond           = 10.0f;
 	this->maxNumParticles                 = 50.0f;
-	this->particleInitialSpeed            = 0.1f;
+	this->particleInitialSpeed1           = 0.1f;
+	this->particleInitialSpeed2           = 0.1f;
 	this->particleFinalSpeed              = 0.01f;
+	this->particleInitialSpeedRandomness  = 0.0f;
 	this->initialParticleSizePixels       = 16;
 	this->finalParticleSizePixels         = 32;
 	this->particleLifespanInSeconds       = 3.0f;

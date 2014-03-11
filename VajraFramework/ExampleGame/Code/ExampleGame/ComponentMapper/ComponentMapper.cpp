@@ -488,6 +488,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetParticleSpeed(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]));
 			return;
 		}
+		if (propertyName == "SetParticleinitialSpeedRandomness") {
+			if ((int)argv.size() < 3) { return; }
+			component->SetParticleinitialSpeedRandomness(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			return;
+		}
 		if (propertyName == "SetParticleSize") {
 			if ((int)argv.size() < 2) { return; }
 			component->SetParticleSize(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]));
