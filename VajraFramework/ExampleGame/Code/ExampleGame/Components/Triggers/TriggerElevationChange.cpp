@@ -28,6 +28,9 @@ void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tween
 		ASSERT(triggerComp != nullptr, "elevationChangeNumberTweenCallback: Object %d has TriggerElevationChange component", gameObjectId);
 		if (triggerComp != nullptr) {
 			// Update the grid cells
+			if (!triggerComp->reversed) {
+				triggerComp->changeCellElevations(triggerComp->isToggled);
+			}
 			triggerComp->setCellsInGridZonePassable(true);
 
 			triggerComp->unchildObjectsFromElevator();
@@ -58,6 +61,7 @@ void TriggerElevationChange::init() {
 
 	this->elevationChange = 1;
 	this->transitTime     = 1.0f;
+	this->reversed        = false;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT, this->GetTypeId(), true);
 }
@@ -128,7 +132,6 @@ void TriggerElevationChange::onUnitExitedZone(ObjectIdType id) {
 void TriggerElevationChange::startTransition(bool raised) {
 	if (raised != this->isToggled) {
 		this->startPositionTween(raised);
-		this->changeCellElevations(raised);
 		this->setCellsInGridZonePassable(false);
 	}
 }
@@ -161,6 +164,8 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 			false,
 			elevationChangeTweenCallback
 		);
+
+		reversed = false;
 	}
 	else {
 		// Reverse the current tween
@@ -190,6 +195,8 @@ void TriggerElevationChange::startPositionTween(bool raised) {
 			// Well that's strange. Just cancel the tween.
 			ENGINE->GetTween()->CancelPostitionTween(myId);
 		}
+
+		reversed = !reversed;
 	}
 }
 

@@ -83,7 +83,7 @@ void GridZoneSwitch::onUnitEnteredZone(ObjectIdType id) {
 		}
 	}
 	else {
-		FRAMEWORK->GetLogger()->dbglog("Object %d is already in zone: %d", id, this->GetObject()->GetId());
+		FRAMEWORK->GetLogger()->dbglog("\nObject %d is already in zone: %d", id, this->GetObject()->GetId());
 	}
 }
 
@@ -95,6 +95,9 @@ void GridZoneSwitch::onUnitExitedZone(ObjectIdType id) {
 		if (this->occupants.size() < this->requiredOccupants) {
 			this->setConditionState(!this->activateWhenUnitsInZone);
 		}
+	}
+	else {
+		FRAMEWORK->GetLogger()->dbglog("\nObject %d is not in grid zone: %d", id, this->GetObject()->GetId());
 	}
 }
 
