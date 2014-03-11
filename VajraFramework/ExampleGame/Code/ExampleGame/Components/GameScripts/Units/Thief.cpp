@@ -8,51 +8,66 @@
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 
+#include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
+#include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
-
 
 #define THIEF_SPECIAL_WAY_LOW 0
 #define THIEF_SPECIAL_LOW 1
 #define THIEF_SPECIAL_MID 2
 #define THIEF_SPECIAL_HIGH 3
 
+
+#define UP_TWEEN_TIME .3f
+#define DOWN_TWEEN_TIME .1f
 // Tween callbacks
-void thiefTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName */) {
-	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
-	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
-	if(go != nullptr) {
-		Thief* pUnit = go->GetComponent<Thief>();
-		ASSERT(pUnit != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
-		if(pUnit != nullptr) {
-			pUnit->onSpecialEnd();
-		}
-	}
-
-	
-}
-
-void thiefNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* /*userParams*/) {
-	/*GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
+void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
+	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
 	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
 	if(go != nullptr) {
 		Thief* thief = go->GetComponent<Thief>();
 		ASSERT(thief != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
 		if(thief != nullptr) {
-			if(tweenClipName == "targetsIn") {
-				for(GameObject* go : thief->targetIndicatorsRef ) {
+			if(tweenClipName == "vaultWait") {
+				go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f, 0.0f));
+				thief->beginPoof(thief->endPoofId);
+				MessageData1S1I1F* params = new MessageData1S1I1F();
+ 				params->i = userParams->i;
+				// this tween should go from 1 - 0 over .5 seconds
 
+				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, DOWN_TWEEN_TIME, INTERPOLATION_TYPE_LINEAR, true, false, true, "vault", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, thiefNumberTweenCallback);
+			} else if(tweenClipName == "vault") {
+				if (currentNumber == toNumber) {
+					thief->onSpecialEnd();
+				} else {
+					go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f - currentNumber, 0.0f));
 				}
-				
 			}
 		}
-	}*/
+	}
+}
+
+void thiefTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName */) {
+	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
+	ASSERT(go != nullptr, "Game object id passed into thiefTweenCallback is not valid");
+	if(go != nullptr) {
+		Thief* thief = go->GetComponent<Thief>();
+		ASSERT(thief != nullptr, "Game object passed into thiefTweenCallback doesn't have a player unit");
+		if(thief != nullptr) 
+			thief->beginPoof(thief->startPoofId);{
+			MessageData1S1I1F* userParams = new MessageData1S1I1F();
+ 			userParams->i = gameObjectId;
+			ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 0.05f, INTERPOLATION_TYPE_LINEAR, true, false, false, "vaultWait", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, thiefNumberTweenCallback);
+		}
+	}
 }
 
 Thief::Thief() : PlayerUnit() {
@@ -70,6 +85,7 @@ Thief::~Thief() {
 void Thief::init() {
 	this->unitType = UnitType::UNIT_TYPE_THIEF;
 	this->createTouchIndicator();
+	this->createPoofEffects();
 }
 
 void Thief::destroy() {
@@ -128,32 +144,35 @@ void Thief::startSpecial() {
 	this->startTouchIndicatorPulse();
 	this->SetTouchIndicatorSprite(PLAYER_NUM_TOUCH_IMAGES + this->textureIndexForElevation(this->targetedCell->y));
 	this->SetTouchIndicatorVisible(true);
-	
+
 	float jumpDist = glm::distance(this->targetedCell->center, this->gameObjectRef->GetTransform()->GetPosition());
 	float jumpTweenTime = jumpDist / GetFloatGameConstant(GAME_CONSTANT_jump_speed_in_units_per_second);
+	glm::vec3 jumpOffset = this->gameObjectRef->GetTransform()->GetForward() * .2f + glm::vec3(0.0f, 1.0f, 0.0f);
+
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
 									  this->gameObjectRef->GetTransform()->GetPosition(),
-									  this->targetedCell->center,
-									  jumpTweenTime,
+									  this->gameObjectRef->GetTransform()->GetPosition() + jumpOffset,
+									  UP_TWEEN_TIME,
 									  false,
 									  INTERPOLATION_TYPE_PARABOLA,
 									  false,
 									  thiefTweenCallback);
- 
 }
 
 void Thief::onSpecialEnd() {
-	PlayerUnit::onSpecialEnd();
-	this->gridNavRef->SetGridPosition(this->targetedCell);
+	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
+		PlayerUnit::onSpecialEnd();
+		this->gridNavRef->SetGridPosition(this->targetedCell);
 
-	// Broadcast an attack message
-	MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-	attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
-	attackMessage->messageData.iv1.x = this->targetedCell->x;
-	attackMessage->messageData.iv1.y = this->targetedCell->y;
-	attackMessage->messageData.iv1.z = this->targetedCell->z;
-	attackMessage->messageData.fv1 = this->specialStartPos;
-	ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
+		// Broadcast an attack message
+		MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
+		attackMessage->messageData.iv1.x = this->targetedCell->x;
+		attackMessage->messageData.iv1.y = this->targetedCell->y;
+		attackMessage->messageData.iv1.z = this->targetedCell->z;
+		attackMessage->messageData.fv1 = this->specialStartPos;
+		ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
+	}
 }
 
 void Thief::cancelSpecial() {
@@ -292,6 +311,31 @@ void Thief::updateTargets() {
 			
 			targetIndicatorsRef[c]->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(textureIndexForElevation(c->y));
 
+		}
+	}
+}
+
+void Thief::createPoofEffects() {
+	GameObject* startPoof = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "thiefPoof.prefab", ENGINE->GetSceneGraph3D());
+	this->startPoofId = startPoof->GetId();
+
+
+	GameObject* endPoof = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "thiefPoof.prefab", ENGINE->GetSceneGraph3D());
+	this->endPoofId = endPoof->GetId();
+}
+
+void Thief::beginPoof(ObjectIdType poofId) {
+	GameObject* poofObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(poofId);
+	if (poofObj != nullptr) {
+		ParticleSystem* poofParticleSystem = poofObj->GetComponent<ParticleSystem>();
+		VERIFY(poofParticleSystem != nullptr, "poof effect prefab has a particle system on it");
+		if(!poofParticleSystem->GetIsPlaying()) {
+			poofParticleSystem->Play();
+			
+			// Move the effect to this object's position
+			Transform* myTrans = this->gameObjectRef->GetTransform();
+			Transform* effectTrans = poofObj->GetTransform();
+			effectTrans->SetPosition(myTrans->GetPosition());
 		}
 	}
 }
