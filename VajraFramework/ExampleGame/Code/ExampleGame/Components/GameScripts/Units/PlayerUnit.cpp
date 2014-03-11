@@ -335,7 +335,7 @@ glm::vec3 PlayerUnit::GetOffsetFromCell(GridCell* targetCell, float additionalOf
 			}
 		}
 	}
-	glm::vec3 towardsCam = ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject()->GetComponent<Transform>()->GetPosition() - targetCell->center;
+	//glm::vec3 towardsCam = ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject()->GetComponent<Transform>()->GetPosition() - targetCell->center;
 
 	return glm::vec3(0.0f, 0.66f, 0.33f) * offset;
 }

@@ -29,7 +29,7 @@
 #define UP_TWEEN_TIME .3f
 #define DOWN_TWEEN_TIME .1f
 // Tween callbacks
-void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
+void thiefNumberTweenCallback(float /*fromNumber*/, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
 	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
 	if(go != nullptr) {
@@ -145,8 +145,8 @@ void Thief::startSpecial() {
 	this->SetTouchIndicatorSprite(PLAYER_NUM_TOUCH_IMAGES + this->textureIndexForElevation(this->targetedCell->y));
 	this->SetTouchIndicatorVisible(true);
 
-	float jumpDist = glm::distance(this->targetedCell->center, this->gameObjectRef->GetTransform()->GetPosition());
-	float jumpTweenTime = jumpDist / GetFloatGameConstant(GAME_CONSTANT_jump_speed_in_units_per_second);
+	//float jumpDist = glm::distance(this->targetedCell->center, this->gameObjectRef->GetTransform()->GetPosition());
+	//float jumpTweenTime = jumpDist / GetFloatGameConstant(GAME_CONSTANT_jump_speed_in_units_per_second);
 	glm::vec3 jumpOffset = this->gameObjectRef->GetTransform()->GetForward() * .2f + glm::vec3(0.0f, 1.0f, 0.0f);
 
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
