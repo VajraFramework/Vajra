@@ -36,20 +36,20 @@ void thiefNumberTweenCallback(float /*fromNumber*/, float toNumber, float curren
 		Thief* thief = go->GetComponent<Thief>();
 		ASSERT(thief != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
 		if(thief != nullptr) {
-			if(tweenClipName == "vaultWait") {
-				go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f, 0.0f));
-				thief->beginPoof(thief->endPoofId);
-				MessageData1S1I1F* params = new MessageData1S1I1F();
- 				params->i = userParams->i;
-				// this tween should go from 1 - 0 over .5 seconds
-
-				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, DOWN_TWEEN_TIME, INTERPOLATION_TYPE_LINEAR, true, false, true, "vault", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, thiefNumberTweenCallback);
-			} else if(tweenClipName == "vault") {
+			if(tweenClipName == "vault") {
 				if (currentNumber == toNumber) {
 					thief->onSpecialEnd();
 				} else {
 					go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f - currentNumber, 0.0f));
 				}
+			}else if(tweenClipName == "vaultWait") {
+				go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f, 0.0f));
+				thief->beginPoof(thief->endPoofId);
+				MessageData1S1I1F* params = new MessageData1S1I1F();
+ 				params->i = userParams->i;
+				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, DOWN_TWEEN_TIME, INTERPOLATION_TYPE_LINEAR, true, false, true, "vault", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, thiefNumberTweenCallback);
+			} else if(tweenClipName == "tweenInFinished") {
+				thief->tweenInFinished = true;
 			}
 		}
 	}
@@ -83,6 +83,7 @@ Thief::~Thief() {
 }
 
 void Thief::init() {
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
 	this->unitType = UnitType::UNIT_TYPE_THIEF;
 	this->createTouchIndicator();
 	this->createPoofEffects();
@@ -90,6 +91,10 @@ void Thief::init() {
 
 void Thief::destroy() {
 	this->deleteTargets();
+}
+
+void Thief::start() {
+	this->createTargets();
 }
 
 void Thief::amendTouchIndicatorPaths(std::vector<std::string>& pathsToTextures) {
@@ -109,7 +114,9 @@ bool Thief::isSpecialTouch(int touchId) {
 			this->targetedCell = nullptr;
 			this->SetTouchIndicatorVisible(false);
 			this->gridNavRef->HaltMovement();
-			this->updateLegalTagets();
+			this->setIndicators();
+			this->updateTargets();
+			this->tweenInTargets();
 			return true;
 		}
 	}
@@ -126,7 +133,7 @@ void Thief::onSpecialTouch(int touchId) {
 			this->cancelSpecial();
 		}
 		this->tweenOutTargets();
-	} else if(touch.phase == TouchPhase::Moved) {
+	} else {
 		this->aimSpecial(touchId);
 	}
 }
@@ -137,9 +144,7 @@ void Thief::startSpecial() {
 	this->gridNavRef->DisableNavigation();
 
 	// Remove the indicator at the selected position
-	GameObject* selectedTargetIndicator = this->targetIndicatorsRef[this->targetedCell];
-	this->targetIndicatorsRef.erase(this->targetedCell);
-	delete selectedTargetIndicator;
+	this->activeTargetIndicators[this->targetedCell]->SetVisible(false);
 
 	this->GridPlaneSetPos(this->touchIndicatorRef, this->targetedCell);
 	this->startTouchIndicatorPulse();
@@ -166,6 +171,11 @@ void Thief::onSpecialEnd() {
 		this->gridNavRef->SetGridPosition(this->targetedCell);
 		this->gridNavRef->EnableNavigation();
 
+		for( GridCell* c : this->legalTargets ) {
+			ASSERT(activeTargetIndicators[c] != nullptr, "target indicator for cell is not null");
+			activeTargetIndicators[c]->SetVisible(false);
+			
+		}
 		// Broadcast an attack message
 		MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		attackMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_ENTER_AND_ATTACK);
@@ -184,18 +194,30 @@ void Thief::cancelSpecial() {
 	
 }
 void Thief::aimSpecial(int touchId) {
+	if(tweenInFinished) {
+		this->updateTargets();
+	}
+
 	GridCell* prevTargetCell = this->targetedCell;
 	this->targetedCell = this->GetCurrentTouchedCell();
 
-	if(this->targetIndicatorsRef[prevTargetCell] && this->targetIndicatorsRef[this->targetedCell]) {
+	if(std::find(this->legalTargets.begin(), this->legalTargets.end(), prevTargetCell) == this->legalTargets.end()){
+		prevTargetCell = nullptr;
+	}
+	
+	if(std::find(this->legalTargets.begin(), this->legalTargets.end(), this->targetedCell) == this->legalTargets.end()){
+		this->targetedCell = nullptr;
+	}
+
+	if(this->activeTargetIndicators[prevTargetCell] && this->activeTargetIndicators[this->targetedCell]) {
 		if(this->targetedCell != prevTargetCell) {
 			this->scaleDownIndicator(prevTargetCell);
 			this->scaleUpIndicator(this->targetedCell);
 		}
-	} else if(this->targetIndicatorsRef[prevTargetCell]) {
+	} else if(this->activeTargetIndicators[prevTargetCell]) {
 		GridCell* nearCell = this->getNearCellTowardsUnit(touchId);
 		if(nearCell != nullptr) {
-			if(this->targetIndicatorsRef[nearCell]) {
+			if(this->activeTargetIndicators[nearCell]) {
 				if(nearCell != prevTargetCell) {
 					this->scaleDownIndicator(prevTargetCell);
 					this->scaleUpIndicator(nearCell);
@@ -207,12 +229,12 @@ void Thief::aimSpecial(int touchId) {
 		} else {
 			this->scaleDownIndicator(prevTargetCell);
 		}
-	} else if(this->targetIndicatorsRef[this->targetedCell]) {
+	} else if(this->activeTargetIndicators[this->targetedCell]) {
 		this->scaleUpIndicator(this->targetedCell);
 	} else {
 		GridCell* nearCell = this->getNearCellTowardsUnit(touchId);
 		if(nearCell != nullptr) {
-			if(this->targetIndicatorsRef[nearCell]) {
+			if(this->activeTargetIndicators[nearCell]) {
 				this->scaleUpIndicator(nearCell);
 			}
 			this->targetedCell = nearCell;
@@ -224,62 +246,30 @@ void Thief::aimSpecial(int touchId) {
 }
 
 void Thief::updateLegalTagets() {
-	this->legalTargets.clear();
-	this->deleteTargets();
-	GridCell* currentCell = this->gridNavRef->GetCurrentCell();
-	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(currentCell->center.y);
 	
-	std::list<GridCell*> cellsInRange;
-	SINGLETONS->GetGridManager()->GetGrid()->GetNeighborCells(cellsInRange, this->gridNavRef->GetCurrentCell(), 
-															  GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units) 
-															  + elevation * GetFloatGameConstant(GAME_CONSTANT_jump_elevation_multiplier));
-
-	for ( GridCell* c : cellsInRange) {
-		int cellElevation = 0;
-		for(int i = 0; i < NUM_ELEVATIONS; ++i) {
-			if(SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, i)) {
-				cellElevation = i;
-				break;
-			}
-			
-		}
-
-		// The thief can jump to a maximum of one elevation level above her
-		if (cellElevation <= (elevation + 1)) {
-			if ((cellElevation > elevation) || (SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(currentCell, c, elevation))) {
-				if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, cellElevation)) {
-					int elevationDiff = elevation - cellElevation;
-					if (elevationDiff < 0) {
-						elevationDiff = 0;
-					}
-
-					float maxRange = fmax(GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units) + elevationDiff * GetFloatGameConstant(GAME_CONSTANT_jump_elevation_multiplier), 1.0f);
-					float dist = SINGLETONS->GetGridManager()->GetGrid()->GetGroundDistanceBetweenCells(currentCell, c);
-					if (dist <= maxRange) {
-						this->legalTargets.push_back(c);
-					}
-				}
-			}
-		}
-	}
-	this->createTargets();
-	this->updateTargets();
-	this->tweenInTargets();
 }
 
 void Thief::tweenInTargets() {
 	glm::vec3 pos;
-	for(auto contents : this->targetIndicatorsRef ) {
+	tweenInFinished = false;
+	MessageData1S1I1F* params = new MessageData1S1I1F();
+	params->i = this->gameObjectRef->GetId();
+	ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, GetFloatGameConstant(GAME_CONSTANT_target_tween_time), INTERPOLATION_TYPE_LINEAR, true, false, true, "tweenInFinished", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, thiefNumberTweenCallback);
+	
+	for(auto contents : this->activeTargetIndicators ) {
 		if(contents.second != nullptr) {
-			pos = contents.second->GetTransform()->GetPosition();
-			ENGINE->GetTween()->TweenPosition(contents.second->GetId(), pos, pos + glm::vec3(0.0f, GetFloatGameConstant(GAME_CONSTANT_target_indicator_offset), 0.0f), GetFloatGameConstant(GAME_CONSTANT_target_tween_time));
+			this->GridPlaneSetPos(activeTargetIndicators[contents.first], contents.first);
+			pos = activeTargetIndicators[contents.first]->GetTransform()->GetPosition();
+			//pos = contents.first->center;
+			ENGINE->GetTween()->TweenScale(contents.second->GetId(), glm::vec3(0), glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)), GetFloatGameConstant(GAME_CONSTANT_target_tween_time));
+			//ENGINE->GetTween()->TweenPosition(contents.second->GetId(), pos - glm::vec3(0.0f, 1.5f, 0.0f), pos, GetFloatGameConstant(GAME_CONSTANT_target_tween_time));
 		}
 	}
 }
 
 void Thief::tweenOutTargets() {
 	glm::vec3 pos;
-	for(auto contents : this->targetIndicatorsRef ) {
+	for(auto contents : this->activeTargetIndicators ) {
 		if(contents.second != nullptr) {
 			pos = contents.second->GetTransform()->GetPosition();
 			ENGINE->GetTween()->TweenScale(contents.second->GetId(), glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)), glm::vec3(0), GetFloatGameConstant(GAME_CONSTANT_target_tween_time));
@@ -288,7 +278,7 @@ void Thief::tweenOutTargets() {
 }
 
 void Thief::createTargets() {
-	for( GridCell* c : this->legalTargets ) {
+	for(int i = 0; i < 60; ++i) {
 		GameObject* indicator = new GameObject(ENGINE->GetSceneGraph3D());
 		SpriteRenderer* spriteRenderer = indicator->AddComponent<SpriteRenderer>();
 		spriteRenderer->SetHasTransperancy(true);
@@ -300,20 +290,70 @@ void Thief::createTargets() {
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 		indicator->GetTransform()->SetScale( glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)));
 		indicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
-		this->targetIndicatorsRef[c] = indicator;
+		indicator->SetVisible(false);
+		targetIndicators.push_back(indicator);
+	}
+}
+
+void Thief::setIndicators() {
+	this->activeTargetIndicators.clear();
+	this->legalTargets.clear();
+	this->cellsInRange.clear();
+	SINGLETONS->GetGridManager()->GetGrid()->GetNeighborCells(this->cellsInRange, this->gridNavRef->GetCurrentCell(), 5);
+	int i = 0;
+	for( GridCell* c : this->cellsInRange ) {
+		if(c != nullptr) {
+			this->activeTargetIndicators[c] = this->targetIndicators[i];
+			i++;
+		}
 	}
 }
 
 void Thief::updateTargets() {
-	// TODO [Implement] update legal target cells
-
 	for( GridCell* c : this->legalTargets ) {
-		ASSERT(targetIndicatorsRef[c] != nullptr, "target indicator for cell is not null");
-		if(c->center != targetIndicatorsRef[c]->GetTransform()->GetPosition()) {
-			this->GridPlaneSetPos(targetIndicatorsRef[c], c);
-			
-			targetIndicatorsRef[c]->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(textureIndexForElevation(c->y));
+		ASSERT(activeTargetIndicators[c] != nullptr, "target indicator for cell is not null");
+		activeTargetIndicators[c]->SetVisible(false);
+		
+	}
+	this->legalTargets.clear();
+	GridCell* currentCell = this->gridNavRef->GetCurrentCell();
+	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(currentCell->center.y);
+	for ( GridCell* c : cellsInRange) {
+		if(c != currentCell) {
+			int cellElevation = 0;
+			for(int i = 0; i < NUM_ELEVATIONS; ++i) {
+				if(SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, i)) {
+					cellElevation = i;
+					break;
+				}
+				
+			}
 
+			// The thief can jump to a maximum of one elevation level above her
+			if (cellElevation <= (elevation + 1)) {
+				if ((cellElevation > elevation) || (SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(currentCell, c, elevation))) {
+					if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, cellElevation)) {
+						int elevationDiff = elevation - cellElevation;
+		
+						float maxRange = fmax((GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units) + elevationDiff), 1.0f);
+						float dist = SINGLETONS->GetGridManager()->GetGrid()->GetGroundDistanceBetweenCells(currentCell, c);
+						if (dist <= maxRange) {
+							this->legalTargets.push_back(c);
+						}
+					}
+				}
+			}
+		}
+	}
+	for( GridCell* c : this->legalTargets ) {
+		if(activeTargetIndicators.find(c) != activeTargetIndicators.end() && activeTargetIndicators[c] != nullptr) {
+			GameObject* obj = activeTargetIndicators[c];
+			if(c->center != obj->GetTransform()->GetPosition()) {
+				this->GridPlaneSetPos(activeTargetIndicators[c], c);
+				activeTargetIndicators[c]->SetVisible(true);
+				activeTargetIndicators[c]->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(textureIndexForElevation(c->y));
+
+			}
 		}
 	}
 }
@@ -358,12 +398,12 @@ int Thief::textureIndexForElevation(int cellElevation) {
 	return spriteToUse;
 }
 void Thief::deleteTargets() {
-	this->targetIndicatorsRef.clear();
+	this->activeTargetIndicators.clear();
 }
 
 void Thief::scaleUpIndicator(GridCell* cell) {
-	if(cell != nullptr && this->targetIndicatorsRef[cell] != nullptr) {
-		ENGINE->GetTween()->TweenScale(this->targetIndicatorsRef[cell]->GetId(), 
+	if(cell != nullptr && this->activeTargetIndicators[cell] != nullptr) {
+		ENGINE->GetTween()->TweenScale(this->activeTargetIndicators[cell]->GetId(), 
 									   glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)),
 									   glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale_hover)), 
 									   GetFloatGameConstant(GAME_CONSTANT_target_tween_time));		
@@ -371,8 +411,8 @@ void Thief::scaleUpIndicator(GridCell* cell) {
 }
 
 void Thief::scaleDownIndicator(GridCell* cell) {
-	if(cell != nullptr && this->targetIndicatorsRef[cell] != nullptr) {
-		ENGINE->GetTween()->TweenScale(this->targetIndicatorsRef[cell]->GetId(), 
+	if(cell != nullptr && this->activeTargetIndicators[cell] != nullptr) {
+		ENGINE->GetTween()->TweenScale(this->activeTargetIndicators[cell]->GetId(), 
 									   glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale_hover)),
 									   glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)), 
 									   GetFloatGameConstant(GAME_CONSTANT_target_tween_time));		
