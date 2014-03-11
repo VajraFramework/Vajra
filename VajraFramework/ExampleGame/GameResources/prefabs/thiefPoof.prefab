@@ -6,29 +6,38 @@
 				<field>50</field>
 			</property>
 			<property name="SetParticleSpeed">
-				<field>2.5</field>
+				<field>0.5</field>
 				<field>0.25</field>
+			</property>			
+			<property name="SetEmissionVolume">
+				<field>ellipsoid</field>
+				<field>0.3</field>
+				<field>1.0</field>
+				<field>0.3</field>
+			</property>
+			<property name="SetOverallLifespan">
+				<field>0.5</field>
 			</property>
 			<property name="SetParticleVelocityDirection">
 				<field>0.0</field>
-				<field>1.0</field>
+				<field>0.1</field>
 				<field>0.0</field>
 			</property>
 			<property name="SetParticleVelocityDirectionRandomness">
 				<field>0.1</field>
 			</property>
 			<property name="SetParticleSize">
-				<field>20</field>
 				<field>40</field>
+				<field>10</field>
 			</property>
 			<property name="SetOverallLifespan">
 				<field>0.5</field>
 			</property>
 			<property name="SetParticleLifespan">
-				<field>.5</field>
+				<field>1.0</field>
 			</property>
 			<property name="SetParticleTexture">
-				<field>pictures/SD_ClayDust_01.png</field>
+				<field>pictures/white.png</field>
 			</property>
 			<property name="SetParticleInitialColor">
 				<field>1.0</field>
@@ -40,7 +49,7 @@
 				<field>1.0</field>
 				<field>1.0</field>
 				<field>0.0</field>
-				<field>0.25</field>
+				<field>1.0f</field>
 			</property>
 			<property name="SetLooping">
 				<field>false</field>

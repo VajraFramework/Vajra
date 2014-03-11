@@ -26,7 +26,8 @@
 #define THIEF_SPECIAL_HIGH 3
 
 
-#define UP_TWEEN_TIME .2f
+#define UP_TWEEN_TIME .3f
+#define DOWN_TWEEN_TIME .1f
 // Tween callbacks
 void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
@@ -41,7 +42,8 @@ void thiefNumberTweenCallback(float fromNumber, float toNumber, float currentNum
 				MessageData1S1I1F* params = new MessageData1S1I1F();
  				params->i = userParams->i;
 				// this tween should go from 1 - 0 over .5 seconds
-				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, UP_TWEEN_TIME, INTERPOLATION_TYPE_LINEAR, true, false, true, "vault", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, thiefNumberTweenCallback);
+
+				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, DOWN_TWEEN_TIME, INTERPOLATION_TYPE_LINEAR, true, false, true, "vault", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, thiefNumberTweenCallback);
 			} else if(tweenClipName == "vault") {
 				if (currentNumber == toNumber) {
 					thief->onSpecialEnd();
@@ -60,10 +62,9 @@ void thiefTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName
 		Thief* thief = go->GetComponent<Thief>();
 		ASSERT(thief != nullptr, "Game object passed into thiefTweenCallback doesn't have a player unit");
 		if(thief != nullptr) {
-			thief->beginPoof(thief->startPoofId);
 			MessageData1S1I1F* userParams = new MessageData1S1I1F();
  			userParams->i = gameObjectId;
-			ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 0.2f, INTERPOLATION_TYPE_LINEAR, true, false, false, "vaultWait", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, thiefNumberTweenCallback);
+			ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 0.05f, INTERPOLATION_TYPE_LINEAR, true, false, false, "vaultWait", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, thiefNumberTweenCallback);
 		}
 	}
 }
@@ -143,11 +144,15 @@ void Thief::startSpecial() {
 	this->SetTouchIndicatorSprite(PLAYER_NUM_TOUCH_IMAGES + this->textureIndexForElevation(this->targetedCell->y));
 	this->SetTouchIndicatorVisible(true);
 	
+	this->beginPoof(this->startPoofId);
+
 	float jumpDist = glm::distance(this->targetedCell->center, this->gameObjectRef->GetTransform()->GetPosition());
 	float jumpTweenTime = jumpDist / GetFloatGameConstant(GAME_CONSTANT_jump_speed_in_units_per_second);
+	glm::vec3 jumpOffset = this->gameObjectRef->GetTransform()->GetForward() * .2f + glm::vec3(0.0f, 1.0f, 0.0f);
+
 	ENGINE->GetTween()->TweenPosition(this->gameObjectRef->GetId(),
 									  this->gameObjectRef->GetTransform()->GetPosition(),
-									  this->gameObjectRef->GetTransform()->GetPosition() + glm::vec3(0.0f, 1.0f, 0.0f),
+									  this->gameObjectRef->GetTransform()->GetPosition() + jumpOffset,
 									  UP_TWEEN_TIME,
 									  false,
 									  INTERPOLATION_TYPE_PARABOLA,
@@ -328,11 +333,10 @@ void Thief::beginPoof(ObjectIdType poofId) {
 		if(!poofParticleSystem->GetIsPlaying()) {
 			poofParticleSystem->Play();
 			
-			printf("HERE");
 			// Move the effect to this object's position
 			Transform* myTrans = this->gameObjectRef->GetTransform();
 			Transform* effectTrans = poofObj->GetTransform();
-			effectTrans->SetPosition(SINGLETONS->GetGridManager()->GetGrid()->GetCell(myTrans->GetPositionWorld())->center);
+			effectTrans->SetPosition(glm::vec3(0.0f, 0.5f, 0.0f) + SINGLETONS->GetGridManager()->GetGrid()->GetCell(myTrans->GetPositionWorld())->center);
 		}
 	}
 }
