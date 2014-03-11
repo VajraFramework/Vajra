@@ -31,14 +31,21 @@ void Particle::reset(EmissionVolumeType_t emissionVolumeType, float emission_rad
 
 	case EMISSION_VOLUME_TYPE_CIRCLE_SURFACE: {
 		float theta = randf() * 2.0f * PI;
-		position = glm::vec3(randf() * emission_radius_x * cos(theta), 0.0f, randf() * emission_radius_x * sin(theta));
+		position = glm::vec3(randf() * emission_radius_x * cos(theta), 0.01f, randf() * emission_radius_x * sin(theta));
 		direction = YAXIS;
 	} break;
 
 	case EMISSION_VOLUME_TYPE_CIRCLE_CIRCLE: {
 		float theta = randf() * 2.0f * PI;
-		position = glm::vec3(emission_radius_x * cos(theta), 0.0f, emission_radius_x * sin(theta));
+		position = glm::vec3(emission_radius_x * cos(theta), 0.01f, emission_radius_x * sin(theta));
 		direction = YAXIS;
+	} break;
+
+	case EMISSION_VOLUME_TYPE_CIRCLE_CIRCLE_OUTWARD: {
+		float theta = randf() * 2.0f * PI;
+		position = glm::vec3(emission_radius_x * cos(theta), 0.01f, emission_radius_x * sin(theta));
+		direction = position;
+		direction = glm::normalize(direction);
 	} break;
 
 	case EMISSION_VOLUME_TYPE_ELLIPSOID: {
@@ -54,7 +61,7 @@ void Particle::reset(EmissionVolumeType_t emissionVolumeType, float emission_rad
 	} break;
 
 	case EMISSION_VOLUME_TYPE_SQUARE: {
-		this->position = glm::vec3(randf() * 2.0f * emission_radius_x - emission_radius_x, 0.0f, randf() * 2.0f * emission_radius_z - emission_radius_z);
+		this->position = glm::vec3(randf() * 2.0f * emission_radius_x - emission_radius_x, 0.01f, randf() * 2.0f * emission_radius_z - emission_radius_z);
 		direction = YAXIS;
 	} break;
 

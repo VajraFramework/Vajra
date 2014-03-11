@@ -78,6 +78,8 @@ void ParticleSystem::SetEmissionVolume(std::string emissionVolumeType_, float ra
 		this->emissionVolumeType = EMISSION_VOLUME_TYPE_SQUARE;
 	} else if (emissionVolumeType_ == "circle_circle") {
 		this->emissionVolumeType = EMISSION_VOLUME_TYPE_CIRCLE_CIRCLE;
+	} else if (emissionVolumeType_ == "circle_circle_outward") {
+		this->emissionVolumeType = EMISSION_VOLUME_TYPE_CIRCLE_CIRCLE_OUTWARD;
 	} else if (emissionVolumeType_ == "circle_surface") {
 		this->emissionVolumeType = EMISSION_VOLUME_TYPE_CIRCLE_SURFACE;
 	} else if (emissionVolumeType_ == "ellipsoid") {

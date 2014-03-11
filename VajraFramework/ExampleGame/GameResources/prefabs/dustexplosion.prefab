@@ -6,8 +6,8 @@
 				<field>50</field>
 			</property>
 			<property name="SetParticleSpeed">
-				<field>0.75</field>
-				<field>0.75</field>
+				<field>3.75</field>
+				<field>-0.75</field>
 			</property>
 			<property name="SetEmissionVolume">
 				<field>ellipsoid</field>
@@ -21,6 +21,14 @@
 			<property name="SetParticleVelocityDirection">
 				<field>0.0</field>
 				<field>1.0</field>
+				<field>0.0</field>
+			</property>
+			<property name="SetAccelerationAmount">
+				<field>20.0</field>
+			</property>
+			<property name="SetAccelerationDirection">
+				<field>0.0</field>
+				<field>-1.0</field>
 				<field>0.0</field>
 			</property>
 			<property name="SetParticleVelocityDirectionRandomness">
