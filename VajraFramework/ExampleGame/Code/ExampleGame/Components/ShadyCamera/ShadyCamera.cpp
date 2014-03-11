@@ -77,7 +77,7 @@ void ShadyCamera::destroy() {
 	this->gameObjectRef = nullptr;
 }
 
-void ShadyCamera::loadCameraData(GridCell* startUnitCell, glm::vec3 overviewPos, glm::vec3 startPos, bool useStartPos) {
+void ShadyCamera::loadCameraData(GridCell* startUnitCell, glm::vec3 overviewPos, glm::vec3 /*startPos*/, bool /*useStartPos*/) {
 
 	this->overviewPos = overviewPos;
 	Transform* camTransform = this->gameObjectRef->GetTransform();
