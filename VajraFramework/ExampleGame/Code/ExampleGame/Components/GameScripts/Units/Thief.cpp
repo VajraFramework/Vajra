@@ -134,6 +134,7 @@ void Thief::onSpecialTouch(int touchId) {
 void Thief::startSpecial() {
 	PlayerUnit::startSpecial();
 	this->gridNavRef->SetGridPosition(nullptr);
+	this->gridNavRef->DisableNavigation();
 
 	// Remove the indicator at the selected position
 	GameObject* selectedTargetIndicator = this->targetIndicatorsRef[this->targetedCell];
@@ -163,10 +164,11 @@ void Thief::onSpecialEnd() {
 	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
 		PlayerUnit::onSpecialEnd();
 		this->gridNavRef->SetGridPosition(this->targetedCell);
+		this->gridNavRef->EnableNavigation();
 
 		// Broadcast an attack message
 		MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-		attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
+		attackMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_ENTER_AND_ATTACK);
 		attackMessage->messageData.iv1.x = this->targetedCell->x;
 		attackMessage->messageData.iv1.y = this->targetedCell->y;
 		attackMessage->messageData.iv1.z = this->targetedCell->z;
@@ -178,6 +180,7 @@ void Thief::onSpecialEnd() {
 void Thief::cancelSpecial() {
 	PlayerUnit::cancelSpecial();
 	this->tweenOutTargets();
+	this->gridNavRef->EnableNavigation();
 	
 }
 void Thief::aimSpecial(int touchId) {
