@@ -61,7 +61,8 @@ void thiefTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipName
 	if(go != nullptr) {
 		Thief* thief = go->GetComponent<Thief>();
 		ASSERT(thief != nullptr, "Game object passed into thiefTweenCallback doesn't have a player unit");
-		if(thief != nullptr) {
+		if(thief != nullptr) 
+			thief->beginPoof(thief->startPoofId);{
 			MessageData1S1I1F* userParams = new MessageData1S1I1F();
  			userParams->i = gameObjectId;
 			ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 0.05f, INTERPOLATION_TYPE_LINEAR, true, false, false, "vaultWait", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, thiefNumberTweenCallback);
@@ -143,8 +144,6 @@ void Thief::startSpecial() {
 	this->startTouchIndicatorPulse();
 	this->SetTouchIndicatorSprite(PLAYER_NUM_TOUCH_IMAGES + this->textureIndexForElevation(this->targetedCell->y));
 	this->SetTouchIndicatorVisible(true);
-	
-	this->beginPoof(this->startPoofId);
 
 	float jumpDist = glm::distance(this->targetedCell->center, this->gameObjectRef->GetTransform()->GetPosition());
 	float jumpTweenTime = jumpDist / GetFloatGameConstant(GAME_CONSTANT_jump_speed_in_units_per_second);
@@ -336,7 +335,7 @@ void Thief::beginPoof(ObjectIdType poofId) {
 			// Move the effect to this object's position
 			Transform* myTrans = this->gameObjectRef->GetTransform();
 			Transform* effectTrans = poofObj->GetTransform();
-			effectTrans->SetPosition(glm::vec3(0.0f, 0.5f, 0.0f) + SINGLETONS->GetGridManager()->GetGrid()->GetCell(myTrans->GetPositionWorld())->center);
+			effectTrans->SetPosition(myTrans->GetPosition());
 		}
 	}
 }
