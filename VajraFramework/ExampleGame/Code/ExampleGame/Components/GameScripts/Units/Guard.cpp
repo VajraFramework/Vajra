@@ -22,9 +22,11 @@
 // Wait time for guards to attack
 #define GUARD_ATTACK_TIME 1.0f
 // Range within which guards will attack players
-#define ATTACK_RANGE 1.5f
+#define ATTACK_RANGE 2.5f
+// Angle at which the guard's attack can hit the player
+#define ATTACK_ANGLE (15.0f inRadians)
 // Guards can't be harmed if attacked from the front
-#define INVINCIBLE_ANGLE (PI / 3.5f)
+#define INVINCIBLE_ANGLE (50.0f inRadians)
 
 Guard::Guard() : EnemyUnit() {
 	this->init();
@@ -42,8 +44,7 @@ void Guard::init() {
 	this->numPlayerUnitsSpotted = 0;
 	this->cooldownTimer = GUARD_COOLDOWN_TIME;
 	this->attackTimer = GUARD_ATTACK_TIME;
-	this->isTargetInRange = false;
-	this->targetCell = nullptr;
+	this->targetId = OBJECT_ID_INVALID;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_ANIMATION_ENDED_EVENT, this->GetTypeId(), true);
 }
@@ -91,9 +92,6 @@ void Guard::determineBrainState() {
 		if (this->cooldownTimer <= 0.0f) {
 			this->setBrainState(ENEMY_BRAIN_CALM);
 		}
-		else if (this->isTargetInRange) {
-			this->setBrainState(ENEMY_BRAIN_AGGRESSIVE);
-		}
 	}
 }
 
@@ -104,8 +102,8 @@ void Guard::onBrainBecameCalm() {
 void Guard::onBrainBecameCautious() {
 	this->attackTimer = GUARD_ATTACK_TIME;
 	this->cooldownTimer = GUARD_COOLDOWN_TIME;
-	this->isTargetInRange = false;
-	this->SwitchActionState(UNIT_ACTION_STATE_PRE_SPECIAL);
+	this->SwitchActionState(UNIT_ACTION_STATE_PRE_BLOCK);
+	this->gridNavRef->HaltMovement();
 }
 
 void Guard::onBrainBecameAggressive() {
@@ -121,29 +119,46 @@ void Guard::cautiousUpdate() {
 		this->cooldownTimer = GUARD_COOLDOWN_TIME;
 	}
 	else {
+		this->targetId = OBJECT_ID_INVALID;
 		this->cooldownTimer -= dt;
 		if (this->cooldownTimer <= 0.0f) {
 			this->setBrainState(ENEMY_BRAIN_CALM);
 		}
 	}
 
-	if (this->attackTimer <= 0.0f) {
-		glm::vec3 myLocation = this->GetObject()->GetComponent<Transform>()->GetPositionWorld();
-		for (auto iter = this->knownPlayers.begin(); iter != this->knownPlayers.end(); ++iter) {
-			GameObject* playerObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
-			glm::vec3 unitLocation = playerObj->GetTransform()->GetPositionWorld();
-			float distance = glm::distance(myLocation, unitLocation);
-			if (distance <= ATTACK_RANGE) {
-				isTargetInRange = true;
-				this->setBrainState(ENEMY_BRAIN_AGGRESSIVE);
-				this->targetCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(unitLocation);
-			}
+	glm::vec3 myLocation = this->GetObject()->GetComponent<Transform>()->GetPositionWorld();
+	float minDistance = 100.0f;
+	GameObject* targetObj = nullptr;
+	for (auto iter = this->knownPlayers.begin(); iter != this->knownPlayers.end(); ++iter) {
+		GameObject* playerObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
+		glm::vec3 unitLocation = playerObj->GetTransform()->GetPositionWorld();
+		float distance = glm::distance(myLocation, unitLocation);
+		if (distance < minDistance) {
+			this->targetId = *iter;
+			targetObj = playerObj;
+			minDistance = distance;
+		}
+	}
+
+	if (targetObj != nullptr) {
+		// Turn to face towards the target
+		this->gridNavRef->SetLookTarget(targetObj->GetTransform()->GetPositionWorld());
+
+		// Attack the target if it's in range or it's doing a special.
+		BaseUnit* targetUnit = targetObj->GetComponent<BaseUnit>();
+		if (((minDistance <= ATTACK_RANGE) && (this->GetUnitActionState() == UNIT_ACTION_STATE_BLOCK_IDLE))
+				|| (targetUnit->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL)) {
+			this->setBrainState(ENEMY_BRAIN_AGGRESSIVE);
 		}
 	}
 }
 
 void Guard::aggressiveUpdate() {
-
+	// Keep turning towards the target
+	GameObject* targetObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->targetId);
+	if (targetObj != nullptr) {
+		this->gridNavRef->SetLookTarget(targetObj->GetTransform()->GetPositionWorld());
+	}
 }
 
 void Guard::onSightedPlayerUnit(ObjectIdType id) {
@@ -161,20 +176,41 @@ void Guard::onLostSightOfPlayerUnit(ObjectIdType id) {
 }
 
 void Guard::onAnimationEnded(std::string animName) {
-	if (animName == UNIT_ANIMATION_CLIP_NAME_doingspecial) {
+	if (animName == UNIT_ANIMATION_CLIP_NAME_block) {
+		this->SwitchActionState(UNIT_ACTION_STATE_BLOCK_IDLE);
+	}
+	else if (animName == UNIT_ANIMATION_CLIP_NAME_doingspecial) {
 		this->SwitchActionState(UNIT_ACTION_STATE_POST_SPECIAL);
-		if (this->targetCell != nullptr) {
-			// Attack the intended target
-			MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-			attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
-			attackMessage->messageData.iv1.x = this->targetCell->x;
-			attackMessage->messageData.iv1.y = this->targetCell->y;
-			attackMessage->messageData.iv1.z = this->targetCell->z;
-			attackMessage->messageData.fv1 = this->gameObjectRef->GetTransform()->GetPositionWorld();
-			ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
-		}
+		this->performAttack();
 	}
 	else if (animName == UNIT_ANIMATION_CLIP_NAME_postspecial) {
 		this->setBrainState(ENEMY_BRAIN_CAUTIOUS);
+	}
+}
+
+void Guard::performAttack() {
+	GameObject* targetObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->targetId);
+	if (targetObj != nullptr) {
+		// Verify that the target is within reach
+		glm::vec3 myPosition = this->gameObjectRef->GetTransform()->GetPositionWorld();
+		glm::vec3 targetPosition = targetObj->GetTransform()->GetPositionWorld();
+		float dist = glm::distance(targetPosition, myPosition);
+		glm::vec3 forward = QuaternionForwardVector(this->gameObjectRef->GetTransform()->GetOrientationWorld());
+		float angle = glm::angle(forward, targetPosition - myPosition);
+		if ((dist <= ATTACK_RANGE) && (angle <= ATTACK_ANGLE)) {
+			GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(targetPosition);
+			if (cell != nullptr) {
+				int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(myPosition.y);
+
+				// Attack the intended target
+				MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+				attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
+				attackMessage->messageData.iv1.x = cell->x;
+				attackMessage->messageData.iv1.y = elevation;
+				attackMessage->messageData.iv1.z = cell->z;
+				attackMessage->messageData.fv1 = this->gameObjectRef->GetTransform()->GetPositionWorld();
+				ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
+			}
+		}
 	}
 }
