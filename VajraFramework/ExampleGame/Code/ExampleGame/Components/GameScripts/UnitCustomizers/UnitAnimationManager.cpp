@@ -76,6 +76,14 @@ void UnitAnimationManager::onUnitActionStateChanged(UnitActionState oldState, Un
 		animclipToPlay = UNIT_ANIMATION_CLIP_NAME_postspecial;
 	} break;	
 
+	case UNIT_ACTION_STATE_PRE_BLOCK: {
+		animclipToPlay = UNIT_ANIMATION_CLIP_NAME_block;
+	} break;
+
+	case UNIT_ACTION_STATE_BLOCK_IDLE: {
+		animclipToPlay = UNIT_ANIMATION_CLIP_NAME_block_idle;
+	} break;
+
 	default: {
 		ASSERT(0, "Valid unit action state %d", newState);
 	} break;

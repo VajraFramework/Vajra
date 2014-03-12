@@ -38,6 +38,8 @@ protected:
 
 	virtual void onAnimationEnded(std::string animName);
 
+	void performAttack();
+
 private:
 	void init();
 	void destroy();
@@ -48,9 +50,7 @@ private:
 	std::list<ObjectIdType> knownPlayers;
 	float cooldownTimer;
 	float attackTimer;  // Cooldown time between attacks
-	bool isTargetInRange;
-	//ObjectIdType targetId;
-	GridCell* targetCell;
+	ObjectIdType targetId;
 };
 
 #endif // GUARD_H

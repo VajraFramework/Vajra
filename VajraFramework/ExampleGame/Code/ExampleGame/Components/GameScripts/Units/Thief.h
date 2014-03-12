@@ -42,6 +42,8 @@ private:
 	void destroy();
 	
 	void updateLegalTagets();
+	void checkLegalAttack();
+	void sendAttackMessage(int gridX, int gridZ, int elevation);
 
 	void tweenInTargets();
 	void tweenOutTargets();
