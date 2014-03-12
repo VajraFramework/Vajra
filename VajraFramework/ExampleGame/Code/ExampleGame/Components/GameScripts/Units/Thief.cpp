@@ -334,7 +334,9 @@ void Thief::updateTargets() {
 				if ((cellElevation > elevation) || (SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(currentCell, c, elevation))) {
 					if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, cellElevation)) {
 						int elevationDiff = elevation - cellElevation;
-		
+						if(elevationDiff < 0){
+							elevationDiff = 0;
+						}
 						float maxRange = fmax((GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units) + elevationDiff), 1.0f);
 						float dist = SINGLETONS->GetGridManager()->GetGrid()->GetGroundDistanceBetweenCells(currentCell, c);
 						if (dist <= maxRange) {
