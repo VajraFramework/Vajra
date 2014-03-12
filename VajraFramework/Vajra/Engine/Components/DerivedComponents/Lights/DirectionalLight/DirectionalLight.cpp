@@ -98,7 +98,7 @@ void DirectionalLight::WriteLightPropertiesToShader() {
 	Shader_variable_variablename_id_t directionHandle = GetDirectionHandleBasedOnLightTypeAndId(this->lightType, this->lightId);
 	if (currentShaderSet->HasHandle(directionHandle)) {
 		glUniform4f(currentShaderSet->GetHandle(directionHandle),
-												forward.x, forward.y, forward.z, 0.0f);
+												-1.0f * forward.x, -1.0f * forward.y, -1.0f * forward.z, 0.0f);
 	}
 	//
 	Shader_variable_variablename_id_t ambientHandle = GetAmbientHandleBasedOnLightTypeAndId(this->lightType, this->lightId);

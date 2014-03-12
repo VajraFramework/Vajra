@@ -18,6 +18,8 @@ public:
 
 	Camera* GetDepthCamera();
 
+	void SetOrthoBounds(float left, float right, float bottom, float top, float near, float far);
+
 
 	// TODO [Hack] Make this private:
     GLuint depthTexture;
@@ -34,6 +36,13 @@ private:
 
 	void mainCameraChanged();
 	void mainDirectionalLightChanged();
+
+	float ortho_bounds_left;
+	float ortho_bounds_right;
+	float ortho_bounds_bottom;
+	float ortho_bounds_top;
+	float ortho_bounds_near;
+	float ortho_bounds_far;
 
 	friend class Engine;
 	friend class ShadowMapUpdateListener;

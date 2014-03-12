@@ -1,9 +1,11 @@
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
+#include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Lighting/ShadowMap.h"
 #include "Vajra/Engine/Lighting/ShadowMapUpdateListener.h"
+#include "Vajra/Engine/RenderScene/RenderScene.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
@@ -37,6 +39,8 @@ void ShadowMap::createDepthCamera() {
 	this->adjustDepthCamera();
 }
 
+#define DISTANCE_TO_PULL_DEPTH_CAMERA_BACK 30.0f
+
 void ShadowMap::adjustDepthCamera() {
 	GameObject* depthCameraObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->depthCameraId);
 	if (depthCameraObject == nullptr) {
@@ -47,17 +51,44 @@ void ShadowMap::adjustDepthCamera() {
 	Camera* depthCamera = depthCameraObject->GetComponent<Camera>();
 	VERIFY(depthCamera != nullptr, "Depth camera object has camera component");
 
-	depthCameraObject->GetTransform()->SetPosition(10.0f, 0.0f, -4.0f);
-	depthCameraObject->GetTransform()->SetOrientation(IDENTITY_QUATERNION);
-	depthCameraObject->GetTransform()->Rotate(150.0f inRadians, YAXIS);
-	depthCameraObject->GetTransform()->Rotate(-80.0f inRadians, XAXIS);
-	depthCameraObject->GetTransform()->Translate(-20.0f, depthCameraObject->GetTransform()->GetForward());
+	{
+		Camera* mainCamera = ENGINE->GetSceneGraph3D()->GetMainCamera();
+		if (mainCamera != nullptr) {
+
+			// TODO [Implement] Ensure type safety here
+			glm::vec3 mainCameraPosition = ((GameObject*)mainCamera->GetObject())->GetTransform()->GetPositionWorld();
+			// TODO [Hack] Assuming game plays out at y = 0.0f, fix it by adding a "point of focus/interest" to camera:
+			depthCameraObject->GetTransform()->SetPosition(mainCameraPosition.x, 0.0f, mainCameraPosition.z);
+		}
+	}
+
+	{
+		DirectionalLight* mainLight = ENGINE->GetSceneGraph3D()->GetMainDirectionalLight();
+		if (mainLight != nullptr) {
+			// TODO [Implement] Ensure type safety here
+			glm::quat mainLightOrientation = ((GameObject*)mainLight->GetObject())->GetTransform()->GetOrientationWorld();
+			depthCameraObject->GetTransform()->SetOrientation(mainLightOrientation);
+
+		}
+	}
+
+	depthCameraObject->GetTransform()->Translate(-DISTANCE_TO_PULL_DEPTH_CAMERA_BACK, depthCameraObject->GetTransform()->GetForward());
 
 	depthCamera->SetCameraType(CAMERA_TYPE_ORTHO);
-	depthCamera->SetOrthoBounds(-20.0f, 20.0f, -20.0f, 20.0f, -10.5f, 100.0f);
+	depthCamera->SetOrthoBounds(this->ortho_bounds_left, this->ortho_bounds_right, this->ortho_bounds_bottom, this->ortho_bounds_top, this->ortho_bounds_near, this->ortho_bounds_far);
 }
 
 void ShadowMap::mainCameraChanged() {
+
+#ifdef DRAWING_DEPTH_BUFFER_CONTENTS
+	// TODO [Hack] Prevent infinite loop when using the depth camera as the main camera (for debug purposes, to look at the depth map)
+	static bool once = false;
+	if (once) {
+		return;
+	}
+	once = true;
+#endif
+
 	this->adjustDepthCamera();
 }
 
@@ -104,9 +135,24 @@ void ShadowMap::Draw() {
 void ShadowMap::init() {
 	this->createDepthCamera();
 
+	this->ortho_bounds_left = -20.0f;
+	this->ortho_bounds_right = 20.0f;
+	this->ortho_bounds_bottom = -20.0f;
+	this->ortho_bounds_top = 20.0f;
+	this->ortho_bounds_near = -20.0f;
+	this->ortho_bounds_far = 20.0f;
+
 	this->AddComponent<ShadowMapUpdateListener>();
 }
 
 void ShadowMap::destroy() {
 }
 
+void ShadowMap::SetOrthoBounds(float left, float right, float bottom, float top, float near, float far) {
+	this->ortho_bounds_left   = left;
+	this->ortho_bounds_right  = right;
+	this->ortho_bounds_bottom = bottom;
+	this->ortho_bounds_top    = top;
+	this->ortho_bounds_near   = near;
+	this->ortho_bounds_far    = far;
+}

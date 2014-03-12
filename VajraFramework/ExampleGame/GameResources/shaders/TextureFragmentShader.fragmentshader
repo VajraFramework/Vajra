@@ -73,7 +73,7 @@ vec2 pcf3 = vec2(0.5, -1.5) / PCF_DIVIDE;
 void main()
 {
 #ifdef PER_PIXEL_LIGHTING
-	float cosTheta = clamp( dot( vNormal_out, DLight0Direction_out ), 0.0, 1.0 );
+	float cosTheta = clamp( dot( vNormal_out, -1.0 * DLight0Direction_out ), 0.0, 1.0 );
 	vec4 lightIntensity = DLight0DiffuseColor_out * cosTheta;
 	lightIntensity = lightIntensity + DLight0AmbientColor_out;
 	// Temp using variables:
@@ -126,10 +126,7 @@ void main()
 
 #ifdef SHADOWMAPS_REALTIME_NO_FILTERING
 	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy).r;
-	// if (depth_value < fragment_depth) {
-		// visibility = 0.0;
-	// }
-	visibility = depth_value / fragment_depth * 20.0;
+	visibility = clamp((depth_value - fragment_depth) * 10000.0, 0.0, 1.0);
 #endif
 
 #ifdef SHADOWMAPS_REALTIME_POISSON_FILTERING
@@ -154,44 +151,21 @@ void main()
 #ifdef SHADOWMAPS_REALTIME_PCF_FILTERING
 	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + pcf0).r;
 	visibility -= clamp((fragment_depth - depth_value) * 10000.0, 0.0, 0.25);
-	// if (depth_value < fragment_depth) {
-		// visibility -= 0.25;
-	// }
-	// visibility = depth_value / fragment_depth * 20.0;
+	//
 	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + pcf1).r;
 	visibility -= clamp((fragment_depth - depth_value) * 10000.0, 0.0, 0.25);
-	// if (depth_value < fragment_depth) {
-		// visibility -= 0.25;
-	// }
-	// visibility = depth_value / fragment_depth * 20.0;
+	//
 	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + pcf1).r;
 	visibility -= clamp((fragment_depth - depth_value) * 10000.0, 0.0, 0.25);
-	// if (depth_value < fragment_depth) {
-		// visibility -= 0.25;
-	// }
-	// visibility = depth_value / fragment_depth * 20.0;
+	//
 	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + pcf1).r;
 	visibility -= clamp((fragment_depth - depth_value) * 10000.0, 0.0, 0.25);
-	// if (depth_value < fragment_depth) {
-		// visibility -= 0.25;
-	// }
-	// visibility = depth_value / fragment_depth * 20.0;
 #endif
 
 
-	// finalColor = finalColor * visibility * 0.001 + ShadowCoord;
 
 	visibility = clamp(visibility + 0.5, 0.0, 1.0);
 	finalColor = finalColor * (visibility + 0.0); // + finalColor;
-	// float number = ShadowCoord.y / ShadowCoord.w;
-	// finalColor = finalColor * number * 0.001 + vec4(number, number, number, 1.0);
-
-	// finalColor = finalColor * 0.001 + texture2D(depthTextureSampler, vec2(gl_FragCoord.x / 1024.0, gl_FragCoord.y / 768.0));
-
-	// finalColor = finalColor * 0.001 + vec4(ShadowCoord.z, ShadowCoord.z, ShadowCoord.z, 1.0);
-
-	// finalColor = finalColor * 0.001 + vec4(ShadowCoord.x, ShadowCoord.x, ShadowCoord.x, 1.0);
-
 	finalColor.a = 1.0;
 
 #endif

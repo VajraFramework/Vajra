@@ -2,12 +2,8 @@ __VARIABLES__
 vPosition
 vNormal
 
-#ifdef SKEW_GEOMETRY
 modelMatrix
 vpMatrix
-#else
-mvpMatrix
-#endif
 
 modelInverseTransposeMatrix
 
@@ -38,6 +34,12 @@ MaterialAmbientColor_out
 MaterialDiffuseColor_out
 MaterialSpecularColor_out
 #endif
+
+#ifdef SHADOWMAPS_REALTIME
+depthBiasMVPMatrix
+ShadowCoord
+#endif
+
 __VARIABLES_END__
 
 
@@ -53,12 +55,13 @@ vec4 ySkew = vec4(0.0, 0.0, 0.0, 0.0);
 
 void main()
 {
-#ifdef SKEW_GEOMETRY
 	gl_Position = modelMatrix * vPosition;
+
 	float yAmt = gl_Position.y;
-	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
-#else
-	gl_Position = mvpMatrix * vPosition;
+	vec4 skewed_position = (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
+	gl_Position = vpMatrix * skewed_position;
+#ifdef SHADOWMAPS_REALTIME
+	ShadowCoord = depthBiasMVPMatrix * skewed_position;
 #endif
 
 #ifdef PER_PIXEL_LIGHTING

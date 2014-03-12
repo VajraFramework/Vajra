@@ -21,11 +21,6 @@ static GLint g_default_fbo;
 #define DEPTH_TEXTURE_W 2048
 #define DEPTH_TEXTURE_H 2048
 
-/*
- * Note that when using this to be able to see anything
- * the DRAWING_DEPTH_BUFFER_CONTENTS flag should also be set in the preprocessor_variables for the shaders
- */
-// #define DRAWING_DEPTH_BUFFER_CONTENTS
 
 
 void RenderScene::SetupStuff() {

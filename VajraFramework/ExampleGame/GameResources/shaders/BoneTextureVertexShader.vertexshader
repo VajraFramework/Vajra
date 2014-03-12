@@ -86,12 +86,12 @@ void main()
 	modelCoordsForBakedAmbientLookup_out.z = gl_Position.z;
 #endif
 
-#ifdef SHADOWMAPS_REALTIME
-	ShadowCoord = depthBiasMVPMatrix * gl_Position;
-#endif
-
 	float yAmt = gl_Position.y;
-	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
+	vec4 skewed_position = (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
+	gl_Position = vpMatrix * skewed_position;
+#ifdef SHADOWMAPS_REALTIME
+	ShadowCoord = depthBiasMVPMatrix * skewed_position;
+#endif
 
 
 #ifdef PER_PIXEL_LIGHTING

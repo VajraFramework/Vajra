@@ -8,6 +8,12 @@ class Camera;
 class DirectionalLight;
 class RenderLists;
 
+/*
+ * Note that when using this to be able to see anything
+ * the DRAWING_DEPTH_BUFFER_CONTENTS flag should also be set in the preprocessor_variables for the shaders
+ */
+// #define DRAWING_DEPTH_BUFFER_CONTENTS
+
 namespace RenderScene {
 
 void SetupStuff();
