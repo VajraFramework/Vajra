@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -30,6 +31,14 @@ DirectionalLight::~DirectionalLight() {
 
 void DirectionalLight::HandleMessage(MessageChunk messageChunk) {
 	switch (messageChunk->GetMessageType()) {
+
+	case MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT: {
+		// Broadcast a directional light changed event:
+		MessageChunk message = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		message->SetMessageType(MESSAGE_TYPE_DIRECTIONAL_LIGHT_CHANGED);
+		message->messageData.iv1.x = this->GetObject()->GetId();
+		ENGINE->GetMessageHub()->SendMulticastMessage(message, this->GetObject()->GetId());
+	} break;
 
 	default:
 		FRAMEWORK->GetLogger()->dbglog("\nDirectionalLight got unnecessary msg of type %d", messageChunk->GetMessageType());
@@ -89,7 +98,7 @@ void DirectionalLight::WriteLightPropertiesToShader() {
 	Shader_variable_variablename_id_t directionHandle = GetDirectionHandleBasedOnLightTypeAndId(this->lightType, this->lightId);
 	if (currentShaderSet->HasHandle(directionHandle)) {
 		glUniform4f(currentShaderSet->GetHandle(directionHandle),
-												forward.x, forward.y, forward.z, 0.0f);
+												-1.0f * forward.x, -1.0f * forward.y, -1.0f * forward.z, 0.0f);
 	}
 	//
 	Shader_variable_variablename_id_t ambientHandle = GetAmbientHandleBasedOnLightTypeAndId(this->lightType, this->lightId);
@@ -164,6 +173,8 @@ void DirectionalLight::init() {
 	}
 
 	this->intensity = 1.0f;
+
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT, this->GetTypeId(), true);
 }
 
 void DirectionalLight::destroy() {

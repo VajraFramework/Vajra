@@ -7,8 +7,10 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Lighting/ShadowMap.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Timer/Timer.h"
+#include "Vajra/Engine/RenderScene/RenderScene.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/Input/Input.h"
@@ -66,12 +68,17 @@ bool setupGraphics(int w, int h, int dpi) {
     glEnable(GL_POINT_SPRITE);
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 #endif
+	
+	// glEnable(GL_CULL_FACE);
+	// glCullFace(GL_BACK);
 
 
 #if PLATFORM_DESKTOP
     // TODO [Implement] Move this to shader specific code so that we can have only some shaders draw in wireframe mode
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 #endif
+
+    RenderScene::SetupStuff();
     
     return true;
 }
@@ -119,9 +126,24 @@ bool renderFrame() {
 
 #endif
 
+
     ENGINE->DoFrame();
 
-    // printFrameTimeStats();
+#if 0
+ 	Camera* depthCamera = ENGINE->GetShadowMap()->GetDepthCamera();
+	if (depthCamera != nullptr) {
+		if (ENGINE->GetSceneGraph3D()->GetMainCamera() != nullptr) {
+			GameObject* depthCameraObject = (GameObject*)depthCamera->GetObject();
+			glm::vec3 forward = depthCameraObject->GetTransform()->GetForward();
+			glm::vec3 firstPoint = depthCameraObject->GetTransform()->GetPosition();
+			glm::vec3 secondPoint = firstPoint + 100.0f * forward;
+			DebugDraw::DrawArrow(firstPoint, secondPoint);
+			DebugDraw::DrawCube(firstPoint, 5.0f);
+		}
+	}
+#endif
+
+   // printFrameTimeStats();
 
 
     return true;

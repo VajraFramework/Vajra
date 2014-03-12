@@ -11,7 +11,7 @@
 
 class ShaderSet {
 public:
-	ShaderSet(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_);
+	ShaderSet(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_, bool isDepthPass_);
 	~ShaderSet();
 
 	inline GLuint GetShaderProgram() { return this->shaderProgram; }
@@ -21,9 +21,10 @@ public:
 
 	inline bool HasTransperancy() { return this->hasTransperancy; }
 	inline bool IsOverlay()       { return this->isOverlay;       }
+	inline bool IsDepthPass()     { return this->isDepthPass;     }
 
 private:
-	void init(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_);
+	void init(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_, bool isDepthPass_);
 	void destroy();
 
 	// Utility Functions:
@@ -48,6 +49,8 @@ private:
 
 	bool hasTransperancy;
 	bool isOverlay;
+
+	bool isDepthPass;
 };
 
 #endif // SHADERSET_H

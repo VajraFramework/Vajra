@@ -14,6 +14,7 @@ GameObject* DecalGenerator::GetDecalFromDecalType(std::string decalType, SceneGr
 	std::vector<std::string> pathsToTextures;
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + decalType);
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
+	spriteRenderer->SetHasTransperancy(true);
 	decal->GetTransform()->Translate( 1.0f, YAXIS);
 	decal->GetTransform()->Translate(-1.0f, decal->GetTransform()->GetForward());
 	decal->GetTransform()->Rotate(45.0f inRadians, XAXIS);

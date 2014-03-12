@@ -1,0 +1,29 @@
+__VERBATIM__
+#ifplatform iOS | Android
+precision mediump float;
+#endif
+__VERBATIM_END__
+
+invPersMatrix
+
+__VARIABLES__
+
+
+__VARIABLES_END__
+
+__SOURCE__
+
+
+void main()
+{
+
+#ifdef DRAWING_DEPTH_BUFFER_CONTENTS
+	float number = gl_FragCoord.w * 10.0;
+#else
+	float number = gl_FragCoord.z;
+#endif
+	gl_FragColor = vec4(number, number, number, 1.0);
+}
+
+__SOURCE_END__
+

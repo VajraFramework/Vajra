@@ -16,18 +16,19 @@
 // Forward Declarations:
 GLuint loadShader(GLenum shaderType, const char* pSource);
 
-ShaderSet::ShaderSet(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_) {
-	this->init(inShaderSpecificationName, hasTransperancy_, isOverlay_);
+ShaderSet::ShaderSet(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_, bool isDepthPass_) {
+	this->init(inShaderSpecificationName, hasTransperancy_, isOverlay_, isDepthPass_);
 }
 
 ShaderSet::~ShaderSet() {
 	this->destroy();
 }
 
-void ShaderSet::init(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_) {
+void ShaderSet::init(std::string inShaderSpecificationName, bool hasTransperancy_, bool isOverlay_, bool isDepthPass_) {
 
 	this->hasTransperancy = hasTransperancy_;
 	this->isOverlay       = isOverlay_;
+	this->isDepthPass = isDepthPass_;
 
     FRAMEWORK->GetLogger()->dbglog("\nCreating ShaderProgram shader specification file %s", \
                                 inShaderSpecificationName.c_str());
@@ -94,6 +95,9 @@ void ShaderSet::createShaderProgram() {
     }
 }
 
+#define VERBATIM_REGION_STRING "__VERBATIM__"
+#define VERBATIM_REGION_END_STRING "__VERBATIM_END__"
+
 #define VARIABLES_STRING "__VARIABLES__"
 #define VARIABLES_END_STRING "__VARIABLES_END__"
 //
@@ -155,21 +159,57 @@ void ShaderSet::createVShader() {
 void ShaderSet::createFShader() {
     std::string path = FRAMEWORK->GetFileSystemUtils()->GetDeviceShaderResourcesPath() + this->fshaderSrcName;
 
-    std::ifstream fshadersrcFile(path.c_str());
-    VERIFY_LOG(fshadersrcFile.good(), "Successfully opened fragment shader src file %s for reading", path.c_str());
+	std::string buffer;
+    {
+    	std::ifstream fshadersrcFile(path.c_str());
+    	VERIFY_LOG(fshadersrcFile.good(), "Successfully opened vertex shader src file %s for reading", path.c_str());
+    	while (fshadersrcFile.good()) {
+    		std::string line;
+    		std::getline(fshadersrcFile, line);
+    		buffer += line + "\n";
+    	}
+    	buffer = ShaderSetCreationHelper::CleanupShaderSourceForPreprocessorDirectives(buffer);
+    }
+    std::istringstream fshader_cleanedupSource(buffer);
+
+
+    // TODO [Implement] Move this parsing somewhere else
 
     std::string fshaderSourceBuffer;
 
-    // TODO [Implement] Move this parsing somewhere else
-	{
-		std::string buffer;
+    ReadTextFileTillStringToken(fshader_cleanedupSource, VERBATIM_REGION_STRING);
+    {
 		do {
-			std::getline(fshadersrcFile, buffer);
-			fshaderSourceBuffer += buffer + "\n";
-		} while (fshadersrcFile.good());
+			std::getline(fshader_cleanedupSource, buffer);
+			if (buffer != "" && buffer != VERBATIM_REGION_END_STRING) {
+				fshaderSourceBuffer += buffer + "\n";
+			}
+		} while (buffer != VERBATIM_REGION_END_STRING && fshader_cleanedupSource.good());
     }
 
-	fshaderSourceBuffer = ShaderSetCreationHelper::CleanupShaderSourceForPreprocessorDirectives(fshaderSourceBuffer);
+    ReadTextFileTillStringToken(fshader_cleanedupSource, VARIABLES_STRING);
+    {
+		do {
+			std::getline(fshader_cleanedupSource, buffer);
+			if (buffer != "" && buffer != VARIABLES_END_STRING) {
+				this->variablesUsed.push_back(buffer);
+				fshaderSourceBuffer += ShaderSetCreationHelper::GetVariableDeclarationForVariableName(buffer) + "\n";
+			}
+		} while (buffer != VARIABLES_END_STRING && fshader_cleanedupSource.good());
+    }
+
+    ReadTextFileTillStringToken(fshader_cleanedupSource, SOURCE_STRING);
+    {
+		std::string buffer;
+		do {
+			std::getline(fshader_cleanedupSource, buffer);
+			if (buffer != SOURCE_END_STRING) {
+				fshaderSourceBuffer += buffer + "\n";
+			}
+		} while (buffer != SOURCE_END_STRING && fshader_cleanedupSource.good());
+    }
+
+    fshaderSourceBuffer = ShaderSetCreationHelper::CleanupShaderSourceForPreprocessorDirectives(fshaderSourceBuffer);
 
     FRAMEWORK->GetLogger()->dbglog("\nDone reading fragment shader source:\n%s", fshaderSourceBuffer.c_str());
 

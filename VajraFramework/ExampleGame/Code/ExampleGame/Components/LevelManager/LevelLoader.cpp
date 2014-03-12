@@ -25,6 +25,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Lighting/AmbientLighting.h"
+#include "Vajra/Engine/Lighting/ShadowMap.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
@@ -108,7 +109,7 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
 		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
 		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(-30.0f  inRadians, 1.0f, 0.0f, 0.0f);
+		dlight->GetTransform()->Rotate(50.0f  inRadians, 1.0f, 0.0f, 0.0f);
 		dlight->GetTransform()->Rotate(-225.0f inRadians, 0.0f, 1.0f, 0.0f);
 		//
 		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -123,7 +124,7 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
 		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
 		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(-30.0f  inRadians, 1.0f, 0.0f, 0.0f);
+		dlight->GetTransform()->Rotate(30.0f  inRadians, 1.0f, 0.0f, 0.0f);
 		dlight->GetTransform()->Rotate(-45.0f inRadians, 0.0f, 1.0f, 0.0f);
 		//
 		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -138,7 +139,7 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
 		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
 		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(-30.0f  inRadians, 1.0f, 0.0f, 0.0f);
+		dlight->GetTransform()->Rotate(30.0f  inRadians, 1.0f, 0.0f, 0.0f);
 		dlight->GetTransform()->Rotate(45.0f inRadians, 0.0f, 1.0f, 0.0f);
 		//
 		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -153,7 +154,7 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
 		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
 		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(-30.0f  inRadians, 1.0f, 0.0f, 0.0f);
+		dlight->GetTransform()->Rotate(30.0f  inRadians, 1.0f, 0.0f, 0.0f);
 		dlight->GetTransform()->Rotate(-135.0f inRadians, 0.0f, 1.0f, 0.0f);
 		//
 		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -161,6 +162,10 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 		dlightComponent->SetIntensity(0.35f);
 		dlightComponent->SetLightType(ADDITIONAL_LIGHT_STRING);
 	}
+
+
+	// Set up depth camera properties for real time shadows:
+	ENGINE->GetShadowMap()->SetOrthoBounds(-20.0f, 30.0f, -30.0f, 20.0f, 0.0f, 60.0f);
 
 
 	if (lightMapName != "") {

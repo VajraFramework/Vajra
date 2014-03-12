@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 
@@ -43,11 +44,13 @@ void Camera::updateMatrices() {
 	switch (this->cameraType) {
 
 	case CAMERA_TYPE_ORTHO: {
-			this->projMatrix = glm::ortho(0.0f, width, -height, 0.0f, 0.1f, 8000.0f);
+			this->projMatrix = glm::ortho(this->ortho_bounds_x_min, this->ortho_bounds_x_max,
+										  this->ortho_bounds_y_min, this->ortho_bounds_y_max,
+										  this->ortho_bounds_z_min, this->ortho_bounds_z_max);
 		} break;
 
 	case CAMERA_TYPE_PERSPECTIVE: {
-			this->projMatrix = glm::perspective(this->fov, aspecRatio, 0.1f, 500.0f);
+			this->projMatrix = glm::perspective(this->fov, aspecRatio, 0.3f, 100.0f);
 		} break;
 
 	default: {
@@ -66,9 +69,33 @@ void Camera::HandleMessage(MessageChunk messageChunk) {
 
 	case MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT:
 		this->updateMatrices();
+
+		// Broadcast a camera changed event:
+		MessageChunk message = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		message->SetMessageType(MESSAGE_TYPE_CAMERA_CHANGED);
+		message->messageData.iv1.x = this->GetObject()->GetId();
+		ENGINE->GetMessageHub()->SendMulticastMessage(message, this->GetObject()->GetId());
+
 		break;
 
 	}
+}
+
+void Camera::SetOrthoBounds(float x_min, float x_max, float y_min, float y_max, float z_min, float z_max) {
+	this->ortho_bounds_x_min = x_min;
+	this->ortho_bounds_x_max = x_max;
+	this->ortho_bounds_y_min = y_min;
+	this->ortho_bounds_y_max = y_max;
+	this->ortho_bounds_z_min = z_min;
+	this->ortho_bounds_z_max = z_max;
+
+	this->updateMatrices();
+}
+
+void Camera::SetCameraType(CameraType_t cameraType_) {
+	this->cameraType = cameraType_;
+
+	this->updateMatrices();
 }
 
 void Camera::WriteLookAt() {
@@ -195,6 +222,17 @@ void Camera::init() {
 	this->projMatrix = IDENTITY_MATRIX;
 
 	this->fov = 60.0f inRadians;
+
+	float width  = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
+	float height = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
+	// Sane default values:
+	this->ortho_bounds_x_min = 0.0f;
+	this->ortho_bounds_x_max = width;
+	this->ortho_bounds_y_min = -height;
+	this->ortho_bounds_y_max = 0.0f;
+	this->ortho_bounds_z_min = -500.0f;
+	this->ortho_bounds_z_max = 500.0f;
+
 	if (gameObject != nullptr) {
 		this->updateMatrices();
 	}

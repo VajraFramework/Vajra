@@ -1,12 +1,23 @@
+__VERBATIM__
 #ifplatform iOS | Android
 precision mediump float;
 #endif
+__VERBATIM_END__
 
-varying vec2 uvCoords_out;
-uniform sampler2D myTextureSampler;
+__VARIABLES__
+
+uvCoords_out
+myTextureSampler
+
+__VARIABLES_END__
+
+__SOURCE__
+
 
 void main()
 {
 	gl_FragColor = vec4(texture2D(myTextureSampler, uvCoords_out).rgba);
 }
+
+__SOURCE_END__
 

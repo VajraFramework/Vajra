@@ -64,10 +64,14 @@ void Transform::Draw() {
 		glUniformMatrix4fv(vpMatrixHandle, 1, GL_FALSE, glm::value_ptr(vpMatrix));
 	}
     //
-	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix)) {
-		glm::mat4 modelInverseTransposeMatrix = glm::inverseTranspose(this->modelMatrixCumulative);
-		GLint mitMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix);
-    	glUniformMatrix4fv(mitMatrixHandle, 1, GL_FALSE, glm::value_ptr(modelInverseTransposeMatrix));
+	// TODO [Hack] Do this better, maybe
+	// Don't use modelInverseTransposeMatrix during depth pass:
+	if (!currentShaderSet->IsDepthPass()) {
+		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix)) {
+			glm::mat4 modelInverseTransposeMatrix = glm::inverseTranspose(this->modelMatrixCumulative);
+			GLint mitMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix);
+    		glUniformMatrix4fv(mitMatrixHandle, 1, GL_FALSE, glm::value_ptr(modelInverseTransposeMatrix));
+		}
 	}
 }
 
