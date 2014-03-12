@@ -157,6 +157,10 @@ void RenderLists::Draw(Camera* camera, bool isDepthPass) {
 
 void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights, bool isDepthPass) {
 
+	/*
+	 * Switch off blend for opaque objects:
+	 */
+    glDisable(GL_BLEND);
 
 	/*
 	 * We draw the scene in render-list-iterations
@@ -206,6 +210,12 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 	/*
 	 * Now, render all the transperant game objects in the order of decreasing distance from the camera
 	 */
+	
+	/*
+	 * Switch on blend for opaque objects:
+	 */
+    glEnable(GL_BLEND);
+	
 	{
 		// No transperant objects in depth pass:
 		if (!isDepthPass) {

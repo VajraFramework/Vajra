@@ -110,9 +110,9 @@ void main()
 	float height_cutoof_at_pixel = baked_ambient_value.b * 10.0;
 
 	// TODO [Hack] Not applying ambient occlusion to heights above 2.0, change this to be read from the blue channel of the baked map instead:
-	if (modelCoordsForBakedAmbientLookup_out.y > height_cutoof_at_pixel) {
-		down_ambient_intensity_at_point = 0.0;
-	}
+	// if (modelCoordsForBakedAmbientLookup_out.y > height_cutoof_at_pixel) {
+		// down_ambient_intensity_at_point = 0.0;
+	// }
 	finalColor = color_temp - down_ambient_intensity_at_point * DOWN_AMBIENT_INTENSITY_FACTOR + up_ambient_intensity_at_point * UP_AMBIENT_INTENSITY_FACTOR;
 #else
 	finalColor = vec4(texture2D(myTextureSampler, uvCoords_out).rgba) * lightIntensity;
@@ -126,9 +126,10 @@ void main()
 
 #ifdef SHADOWMAPS_REALTIME_NO_FILTERING
 	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy).r;
-	if (depth_value < fragment_depth) {
-		visibility = 0.0;
-	}
+	// if (depth_value < fragment_depth) {
+		// visibility = 0.0;
+	// }
+	visibility = depth_value / fragment_depth * 20.0;
 #endif
 
 #ifdef SHADOWMAPS_REALTIME_POISSON_FILTERING
@@ -152,21 +153,29 @@ void main()
 
 #ifdef SHADOWMAPS_REALTIME_PCF_FILTERING
 	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + pcf0).r;
-	if (depth_value < fragment_depth) {
-		visibility -= 0.25;
-	}
+	visibility -= clamp((fragment_depth - depth_value) * 10000.0, 0.0, 0.25);
+	// if (depth_value < fragment_depth) {
+		// visibility -= 0.25;
+	// }
+	// visibility = depth_value / fragment_depth * 20.0;
 	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + pcf1).r;
-	if (depth_value < fragment_depth) {
-		visibility -= 0.25;
-	}
+	visibility -= clamp((fragment_depth - depth_value) * 10000.0, 0.0, 0.25);
+	// if (depth_value < fragment_depth) {
+		// visibility -= 0.25;
+	// }
+	// visibility = depth_value / fragment_depth * 20.0;
 	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + pcf1).r;
-	if (depth_value < fragment_depth) {
-		visibility -= 0.25;
-	}
+	visibility -= clamp((fragment_depth - depth_value) * 10000.0, 0.0, 0.25);
+	// if (depth_value < fragment_depth) {
+		// visibility -= 0.25;
+	// }
+	// visibility = depth_value / fragment_depth * 20.0;
 	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + pcf1).r;
-	if (depth_value < fragment_depth) {
-		visibility -= 0.25;
-	}
+	visibility -= clamp((fragment_depth - depth_value) * 10000.0, 0.0, 0.25);
+	// if (depth_value < fragment_depth) {
+		// visibility -= 0.25;
+	// }
+	// visibility = depth_value / fragment_depth * 20.0;
 #endif
 
 

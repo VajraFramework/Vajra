@@ -67,6 +67,9 @@ bool setupGraphics(int w, int h, int dpi) {
     glEnable(GL_POINT_SPRITE);
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 #endif
+	
+	// glEnable(GL_CULL_FACE);
+	// glCullFace(GL_BACK);
 
 
 #if PLATFORM_DESKTOP
