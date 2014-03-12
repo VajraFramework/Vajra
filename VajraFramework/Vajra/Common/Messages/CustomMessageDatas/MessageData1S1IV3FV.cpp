@@ -10,6 +10,7 @@ MessageData1S1IV3FV::~MessageData1S1IV3FV() {
 }
 
 void MessageData1S1IV3FV::init() {
+	this->s = " ";
 	this->iv1 = glm::ivec3(-1, -1, -1);
 }
 
