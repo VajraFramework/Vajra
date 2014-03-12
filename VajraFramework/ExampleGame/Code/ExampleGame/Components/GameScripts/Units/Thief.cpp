@@ -31,7 +31,7 @@
 // Tween callbacks
 void thiefNumberTweenCallback(float /*fromNumber*/, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
-	ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
+	//ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
 	if(go != nullptr) {
 		Thief* thief = go->GetComponent<Thief>();
 		ASSERT(thief != nullptr, "Game object passed into playerUnitNuumberTweenCallback doesn't have a player unit");
@@ -43,10 +43,11 @@ void thiefNumberTweenCallback(float /*fromNumber*/, float toNumber, float curren
 					go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f - currentNumber, 0.0f));
 				}
 			}else if(tweenClipName == "vaultWait") {
-				go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f, 0.0f));
+				//go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f, 0.0f));
 				thief->beginPoof(thief->endPoofId);
 				MessageData1S1I1F* params = new MessageData1S1I1F();
  				params->i = userParams->i;
+ 				thief->checkLegalAttack();
 				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, DOWN_TWEEN_TIME, INTERPOLATION_TYPE_LINEAR, true, false, true, "vault", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, thiefNumberTweenCallback);
 			} else if(tweenClipName == "tweenInFinished") {
 				thief->tweenInFinished = true;
@@ -140,7 +141,7 @@ void Thief::onSpecialTouch(int touchId) {
 
 void Thief::startSpecial() {
 	PlayerUnit::startSpecial();
-	this->gridNavRef->SetGridPosition(nullptr);
+	//this->gridNavRef->SetGridPosition(nullptr);
 	this->gridNavRef->DisableNavigation();
 
 	// Remove the indicator at the selected position
@@ -176,14 +177,6 @@ void Thief::onSpecialEnd() {
 			activeTargetIndicators[c]->SetVisible(false);
 			
 		}
-		// Broadcast an attack message
-		MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-		attackMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_ENTER_AND_ATTACK);
-		attackMessage->messageData.iv1.x = this->targetedCell->x;
-		attackMessage->messageData.iv1.y = this->targetedCell->y;
-		attackMessage->messageData.iv1.z = this->targetedCell->z;
-		attackMessage->messageData.fv1 = this->specialStartPos;
-		ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
 	}
 }
 
@@ -247,6 +240,52 @@ void Thief::aimSpecial(int touchId) {
 
 void Thief::updateLegalTagets() {
 	
+}
+
+void Thief::checkLegalAttack() {
+	//bool attackIsLegal = true;
+	if (this->targetedCell != nullptr) {
+		GridCell* originCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->specialStartPos);
+		std::list<GridCell*> touchedCells;
+		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(originCell, this->targetedCell, touchedCells);
+		int elevation;
+		for (auto iter = touchedCells.rbegin(); iter != touchedCells.rend(); ++iter) {
+			GridCell* cell = *iter;
+			elevation = SINGLETONS->GetGridManager()->GetGrid()->GetCellGroundLevel(cell->x, cell->z);
+			if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(cell->x, cell->z, elevation)) {
+				ObjectIdType occId = cell->GetOccupantIdAtElevation(elevation);
+				if (occId != OBJECT_ID_INVALID) {
+					GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+					if (occupant != nullptr) {
+						BaseUnit* unit = occupant->GetComponent<BaseUnit>();
+						if (unit != nullptr) {
+							if (!unit->CanBeKilledBy(this->GetObject()->GetId(), this->specialStartPos)) {
+								continue;
+							}
+						}
+					}
+				}
+			}
+			else {
+				continue;
+			}
+			this->targetedCell = cell;
+			break;
+		}
+		this->gameObjectRef->GetTransform()->SetPosition(this->targetedCell->center + glm::vec3(0.0f, 1.0f, 0.0f));
+		this->sendAttackMessage(this->targetedCell->x, this->targetedCell->z, elevation);
+	}
+}
+
+void Thief::sendAttackMessage(int gridX, int gridZ, int elevation) {
+	// Attack the cell
+	MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	attackMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_ENTER_AND_ATTACK);
+	attackMessage->messageData.iv1.x = gridX;
+	attackMessage->messageData.iv1.y = elevation;
+	attackMessage->messageData.iv1.z = gridZ;
+	attackMessage->messageData.fv1 = this->specialStartPos;
+	ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
 }
 
 void Thief::tweenInTargets() {
