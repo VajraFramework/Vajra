@@ -28,6 +28,23 @@
 		58F60D52185133F90036DDDE /* libVajraStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60D51185133F90036DDDE /* libVajraStaticLibrary.a */; };
 		58F60E6318515E990036DDDE /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60E6218515E990036DDDE /* OpenAL.framework */; };
 		B383FD0C187B4B0000999890 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B383FB72187B4AFF00999890 /* .gitignore */; };
+		B392DE6918CFA8FA0065B2B3 /* animations in Resources */ = {isa = PBXBuildFile; fileRef = B392DE5818CFA8FA0065B2B3 /* animations */; };
+		B392DE6A18CFA8FA0065B2B3 /* armatures in Resources */ = {isa = PBXBuildFile; fileRef = B392DE5918CFA8FA0065B2B3 /* armatures */; };
+		B392DE6B18CFA8FA0065B2B3 /* audio in Resources */ = {isa = PBXBuildFile; fileRef = B392DE5A18CFA8FA0065B2B3 /* audio */; };
+		B392DE6C18CFA8FA0065B2B3 /* ComponentSpecifications in Resources */ = {isa = PBXBuildFile; fileRef = B392DE5B18CFA8FA0065B2B3 /* ComponentSpecifications */; };
+		B392DE6D18CFA8FA0065B2B3 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B392DE5C18CFA8FA0065B2B3 /* fonts */; };
+		B392DE6E18CFA8FA0065B2B3 /* fonts_ios_READONLY in Resources */ = {isa = PBXBuildFile; fileRef = B392DE5D18CFA8FA0065B2B3 /* fonts_ios_READONLY */; };
+		B392DE6F18CFA8FA0065B2B3 /* gameconstants in Resources */ = {isa = PBXBuildFile; fileRef = B392DE5E18CFA8FA0065B2B3 /* gameconstants */; };
+		B392DE7018CFA8FA0065B2B3 /* levels in Resources */ = {isa = PBXBuildFile; fileRef = B392DE5F18CFA8FA0065B2B3 /* levels */; };
+		B392DE7118CFA8FA0065B2B3 /* logging in Resources */ = {isa = PBXBuildFile; fileRef = B392DE6018CFA8FA0065B2B3 /* logging */; };
+		B392DE7218CFA8FA0065B2B3 /* models in Resources */ = {isa = PBXBuildFile; fileRef = B392DE6118CFA8FA0065B2B3 /* models */; };
+		B392DE7318CFA8FA0065B2B3 /* pictures in Resources */ = {isa = PBXBuildFile; fileRef = B392DE6218CFA8FA0065B2B3 /* pictures */; };
+		B392DE7418CFA8FA0065B2B3 /* pictures_ios_READONLY in Resources */ = {isa = PBXBuildFile; fileRef = B392DE6318CFA8FA0065B2B3 /* pictures_ios_READONLY */; };
+		B392DE7518CFA8FA0065B2B3 /* prefabs in Resources */ = {isa = PBXBuildFile; fileRef = B392DE6418CFA8FA0065B2B3 /* prefabs */; };
+		B392DE7618CFA8FA0065B2B3 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = B392DE6518CFA8FA0065B2B3 /* shaders */; };
+		B392DE7718CFA8FA0065B2B3 /* tags in Resources */ = {isa = PBXBuildFile; fileRef = B392DE6618CFA8FA0065B2B3 /* tags */; };
+		B392DE7818CFA8FA0065B2B3 /* tutorials in Resources */ = {isa = PBXBuildFile; fileRef = B392DE6718CFA8FA0065B2B3 /* tutorials */; };
+		B392DE7918CFA8FA0065B2B3 /* uiscenes in Resources */ = {isa = PBXBuildFile; fileRef = B392DE6818CFA8FA0065B2B3 /* uiscenes */; };
 		B3A149EE18CA2591007EC14A /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3A1496A18CA2591007EC14A /* AndroidWrapper.cpp */; };
 		B3A149EF18CA2591007EC14A /* ComponentMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3A1496D18CA2591007EC14A /* ComponentMapper.cpp */; };
 		B3A149F018CA2591007EC14A /* Decal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3A1497318CA2591007EC14A /* Decal.cpp */; };
@@ -80,23 +97,6 @@
 		B3A14A1F18CA2591007EC14A /* GameUiTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3A149E618CA2591007EC14A /* GameUiTouchHandlers.cpp */; };
 		B3A14A2018CA2591007EC14A /* MainMenuTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3A149E818CA2591007EC14A /* MainMenuTouchHandlers.cpp */; };
 		B3A14A2118CA2591007EC14A /* TestUiSceneTouchHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3A149EA18CA2591007EC14A /* TestUiSceneTouchHandlers.cpp */; };
-		B3BB555D18B6B1F6005A7BA1 /* animations in Resources */ = {isa = PBXBuildFile; fileRef = B3BB554C18B6B1F6005A7BA1 /* animations */; };
-		B3BB555E18B6B1F6005A7BA1 /* armatures in Resources */ = {isa = PBXBuildFile; fileRef = B3BB554D18B6B1F6005A7BA1 /* armatures */; };
-		B3BB555F18B6B1F6005A7BA1 /* audio in Resources */ = {isa = PBXBuildFile; fileRef = B3BB554E18B6B1F6005A7BA1 /* audio */; };
-		B3BB556018B6B1F6005A7BA1 /* ComponentSpecifications in Resources */ = {isa = PBXBuildFile; fileRef = B3BB554F18B6B1F6005A7BA1 /* ComponentSpecifications */; };
-		B3BB556118B6B1F6005A7BA1 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B3BB555018B6B1F6005A7BA1 /* fonts */; };
-		B3BB556218B6B1F6005A7BA1 /* fonts_ios_READONLY in Resources */ = {isa = PBXBuildFile; fileRef = B3BB555118B6B1F6005A7BA1 /* fonts_ios_READONLY */; };
-		B3BB556318B6B1F6005A7BA1 /* gameconstants in Resources */ = {isa = PBXBuildFile; fileRef = B3BB555218B6B1F6005A7BA1 /* gameconstants */; };
-		B3BB556418B6B1F6005A7BA1 /* levels in Resources */ = {isa = PBXBuildFile; fileRef = B3BB555318B6B1F6005A7BA1 /* levels */; };
-		B3BB556518B6B1F6005A7BA1 /* logging in Resources */ = {isa = PBXBuildFile; fileRef = B3BB555418B6B1F6005A7BA1 /* logging */; };
-		B3BB556618B6B1F6005A7BA1 /* models in Resources */ = {isa = PBXBuildFile; fileRef = B3BB555518B6B1F6005A7BA1 /* models */; };
-		B3BB556718B6B1F6005A7BA1 /* pictures in Resources */ = {isa = PBXBuildFile; fileRef = B3BB555618B6B1F6005A7BA1 /* pictures */; };
-		B3BB556818B6B1F6005A7BA1 /* pictures_ios_READONLY in Resources */ = {isa = PBXBuildFile; fileRef = B3BB555718B6B1F6005A7BA1 /* pictures_ios_READONLY */; };
-		B3BB556918B6B1F6005A7BA1 /* prefabs in Resources */ = {isa = PBXBuildFile; fileRef = B3BB555818B6B1F6005A7BA1 /* prefabs */; };
-		B3BB556A18B6B1F6005A7BA1 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = B3BB555918B6B1F6005A7BA1 /* shaders */; };
-		B3BB556B18B6B1F6005A7BA1 /* tags in Resources */ = {isa = PBXBuildFile; fileRef = B3BB555A18B6B1F6005A7BA1 /* tags */; };
-		B3BB556C18B6B1F6005A7BA1 /* tutorials in Resources */ = {isa = PBXBuildFile; fileRef = B3BB555B18B6B1F6005A7BA1 /* tutorials */; };
-		B3BB556D18B6B1F6005A7BA1 /* uiscenes in Resources */ = {isa = PBXBuildFile; fileRef = B3BB555C18B6B1F6005A7BA1 /* uiscenes */; };
 		BA97CF0118971D9000942107 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDAF18971D8F00942107 /* CMakeLists.txt */; };
 		BA97CF0218971D9000942107 /* func_common.inl in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDB818971D8F00942107 /* func_common.inl */; };
 		BA97CF0318971D9000942107 /* func_exponential.inl in Resources */ = {isa = PBXBuildFile; fileRef = BA97CDBA18971D8F00942107 /* func_exponential.inl */; };
@@ -374,6 +374,23 @@
 		B383FD08187B4B0000999890 /* OpenGLIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLIncludes.h; sourceTree = "<group>"; };
 		B383FD09187B4B0000999890 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		B383FD0B187B4B0000999890 /* VajraToAndroidJavaInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VajraToAndroidJavaInterface.h; sourceTree = "<group>"; };
+		B392DE5818CFA8FA0065B2B3 /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = animations; sourceTree = "<group>"; };
+		B392DE5918CFA8FA0065B2B3 /* armatures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = armatures; sourceTree = "<group>"; };
+		B392DE5A18CFA8FA0065B2B3 /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audio; sourceTree = "<group>"; };
+		B392DE5B18CFA8FA0065B2B3 /* ComponentSpecifications */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ComponentSpecifications; sourceTree = "<group>"; };
+		B392DE5C18CFA8FA0065B2B3 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		B392DE5D18CFA8FA0065B2B3 /* fonts_ios_READONLY */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts_ios_READONLY; sourceTree = "<group>"; };
+		B392DE5E18CFA8FA0065B2B3 /* gameconstants */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gameconstants; sourceTree = "<group>"; };
+		B392DE5F18CFA8FA0065B2B3 /* levels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = levels; sourceTree = "<group>"; };
+		B392DE6018CFA8FA0065B2B3 /* logging */ = {isa = PBXFileReference; lastKnownFileType = folder; path = logging; sourceTree = "<group>"; };
+		B392DE6118CFA8FA0065B2B3 /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
+		B392DE6218CFA8FA0065B2B3 /* pictures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures; sourceTree = "<group>"; };
+		B392DE6318CFA8FA0065B2B3 /* pictures_ios_READONLY */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures_ios_READONLY; sourceTree = "<group>"; };
+		B392DE6418CFA8FA0065B2B3 /* prefabs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = prefabs; sourceTree = "<group>"; };
+		B392DE6518CFA8FA0065B2B3 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
+		B392DE6618CFA8FA0065B2B3 /* tags */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tags; sourceTree = "<group>"; };
+		B392DE6718CFA8FA0065B2B3 /* tutorials */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tutorials; sourceTree = "<group>"; };
+		B392DE6818CFA8FA0065B2B3 /* uiscenes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = uiscenes; sourceTree = "<group>"; };
 		B3A1496A18CA2591007EC14A /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
 		B3A1496B18CA2591007EC14A /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
 		B3A1496D18CA2591007EC14A /* ComponentMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComponentMapper.cpp; sourceTree = "<group>"; };
@@ -482,23 +499,6 @@
 		B3A149E918CA2591007EC14A /* MainMenuTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuTouchHandlers.h; sourceTree = "<group>"; };
 		B3A149EA18CA2591007EC14A /* TestUiSceneTouchHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestUiSceneTouchHandlers.cpp; sourceTree = "<group>"; };
 		B3A149EB18CA2591007EC14A /* TestUiSceneTouchHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUiSceneTouchHandlers.h; sourceTree = "<group>"; };
-		B3BB554C18B6B1F6005A7BA1 /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = animations; sourceTree = "<group>"; };
-		B3BB554D18B6B1F6005A7BA1 /* armatures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = armatures; sourceTree = "<group>"; };
-		B3BB554E18B6B1F6005A7BA1 /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audio; sourceTree = "<group>"; };
-		B3BB554F18B6B1F6005A7BA1 /* ComponentSpecifications */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ComponentSpecifications; sourceTree = "<group>"; };
-		B3BB555018B6B1F6005A7BA1 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
-		B3BB555118B6B1F6005A7BA1 /* fonts_ios_READONLY */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts_ios_READONLY; sourceTree = "<group>"; };
-		B3BB555218B6B1F6005A7BA1 /* gameconstants */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gameconstants; sourceTree = "<group>"; };
-		B3BB555318B6B1F6005A7BA1 /* levels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = levels; sourceTree = "<group>"; };
-		B3BB555418B6B1F6005A7BA1 /* logging */ = {isa = PBXFileReference; lastKnownFileType = folder; path = logging; sourceTree = "<group>"; };
-		B3BB555518B6B1F6005A7BA1 /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
-		B3BB555618B6B1F6005A7BA1 /* pictures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures; sourceTree = "<group>"; };
-		B3BB555718B6B1F6005A7BA1 /* pictures_ios_READONLY */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures_ios_READONLY; sourceTree = "<group>"; };
-		B3BB555818B6B1F6005A7BA1 /* prefabs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = prefabs; sourceTree = "<group>"; };
-		B3BB555918B6B1F6005A7BA1 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
-		B3BB555A18B6B1F6005A7BA1 /* tags */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tags; sourceTree = "<group>"; };
-		B3BB555B18B6B1F6005A7BA1 /* tutorials */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tutorials; sourceTree = "<group>"; };
-		B3BB555C18B6B1F6005A7BA1 /* uiscenes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = uiscenes; sourceTree = "<group>"; };
 		BA97CDAF18971D8F00942107 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		BA97CDB018971D8F00942107 /* common.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = common.hpp; sourceTree = "<group>"; };
 		BA97CDB218971D8F00942107 /* _detail.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _detail.hpp; sourceTree = "<group>"; };
@@ -1705,23 +1705,23 @@
 		B39E6C5718AC372900E8F86F /* GameResources */ = {
 			isa = PBXGroup;
 			children = (
-				B3BB554C18B6B1F6005A7BA1 /* animations */,
-				B3BB554D18B6B1F6005A7BA1 /* armatures */,
-				B3BB554E18B6B1F6005A7BA1 /* audio */,
-				B3BB554F18B6B1F6005A7BA1 /* ComponentSpecifications */,
-				B3BB555018B6B1F6005A7BA1 /* fonts */,
-				B3BB555118B6B1F6005A7BA1 /* fonts_ios_READONLY */,
-				B3BB555218B6B1F6005A7BA1 /* gameconstants */,
-				B3BB555318B6B1F6005A7BA1 /* levels */,
-				B3BB555418B6B1F6005A7BA1 /* logging */,
-				B3BB555518B6B1F6005A7BA1 /* models */,
-				B3BB555618B6B1F6005A7BA1 /* pictures */,
-				B3BB555718B6B1F6005A7BA1 /* pictures_ios_READONLY */,
-				B3BB555818B6B1F6005A7BA1 /* prefabs */,
-				B3BB555918B6B1F6005A7BA1 /* shaders */,
-				B3BB555A18B6B1F6005A7BA1 /* tags */,
-				B3BB555B18B6B1F6005A7BA1 /* tutorials */,
-				B3BB555C18B6B1F6005A7BA1 /* uiscenes */,
+				B392DE5818CFA8FA0065B2B3 /* animations */,
+				B392DE5918CFA8FA0065B2B3 /* armatures */,
+				B392DE5A18CFA8FA0065B2B3 /* audio */,
+				B392DE5B18CFA8FA0065B2B3 /* ComponentSpecifications */,
+				B392DE5C18CFA8FA0065B2B3 /* fonts */,
+				B392DE5D18CFA8FA0065B2B3 /* fonts_ios_READONLY */,
+				B392DE5E18CFA8FA0065B2B3 /* gameconstants */,
+				B392DE5F18CFA8FA0065B2B3 /* levels */,
+				B392DE6018CFA8FA0065B2B3 /* logging */,
+				B392DE6118CFA8FA0065B2B3 /* models */,
+				B392DE6218CFA8FA0065B2B3 /* pictures */,
+				B392DE6318CFA8FA0065B2B3 /* pictures_ios_READONLY */,
+				B392DE6418CFA8FA0065B2B3 /* prefabs */,
+				B392DE6518CFA8FA0065B2B3 /* shaders */,
+				B392DE6618CFA8FA0065B2B3 /* tags */,
+				B392DE6718CFA8FA0065B2B3 /* tutorials */,
+				B392DE6818CFA8FA0065B2B3 /* uiscenes */,
 			);
 			name = GameResources;
 			path = ../../../GameResources;
@@ -2542,7 +2542,7 @@
 				BA97CF7018971D9000942107 /* normal.inl in Resources */,
 				BA97CF3B18971D9000942107 /* type_mat3x3.inl in Resources */,
 				BA97CF6218971D9000942107 /* inertia.inl in Resources */,
-				B3BB556018B6B1F6005A7BA1 /* ComponentSpecifications in Resources */,
+				B392DE6C18CFA8FA0065B2B3 /* ComponentSpecifications in Resources */,
 				BA97CF5618971D9000942107 /* color_space_YCoCg.inl in Resources */,
 				BA97CF0518971D9000942107 /* func_integer.inl in Resources */,
 				BA97CF7618971D9000942107 /* polar_coordinates.inl in Resources */,
@@ -2552,8 +2552,8 @@
 				58F247071850F5C90066E804 /* Main_iPhone.storyboard in Resources */,
 				BA97CF2818971D9000942107 /* func_packing.inl in Resources */,
 				BA97CF5118971D9000942107 /* ulp.inl in Resources */,
-				B3BB556818B6B1F6005A7BA1 /* pictures_ios_READONLY in Resources */,
-				B3BB556118B6B1F6005A7BA1 /* fonts in Resources */,
+				B392DE7418CFA8FA0065B2B3 /* pictures_ios_READONLY in Resources */,
+				B392DE6D18CFA8FA0065B2B3 /* fonts in Resources */,
 				BA97CF3818971D9000942107 /* type_mat2x3.inl in Resources */,
 				BA97CF5818971D9000942107 /* component_wise.inl in Resources */,
 				BA97CF6718971D9000942107 /* log_base.inl in Resources */,
@@ -2565,8 +2565,8 @@
 				BA97CF2718971D9000942107 /* func_noise.inl in Resources */,
 				BA97CF5C18971D9000942107 /* extented_min_max.inl in Resources */,
 				BA97CF1618971D9000942107 /* type_mat2x4.inl in Resources */,
-				B3BB555D18B6B1F6005A7BA1 /* animations in Resources */,
-				B3BB556318B6B1F6005A7BA1 /* gameconstants in Resources */,
+				B392DE6918CFA8FA0065B2B3 /* animations in Resources */,
+				B392DE6F18CFA8FA0065B2B3 /* gameconstants in Resources */,
 				BA97CF3018971D9000942107 /* intrinsic_matrix.inl in Resources */,
 				BA97CF7518971D9000942107 /* perpendicular.inl in Resources */,
 				BA97CF0F18971D9000942107 /* intrinsic_trigonometric.inl in Resources */,
@@ -2576,7 +2576,7 @@
 				BA97CF5018971D9000942107 /* type_ptr.inl in Resources */,
 				BA97CF6918971D9000942107 /* matrix_interpolation.inl in Resources */,
 				BA97CF7418971D9000942107 /* orthonormalize.inl in Resources */,
-				B3BB555F18B6B1F6005A7BA1 /* audio in Resources */,
+				B392DE6B18CFA8FA0065B2B3 /* audio in Resources */,
 				BA97CF2018971D9000942107 /* type_vec3.inl in Resources */,
 				BA97CF7118971D9000942107 /* normalize_dot.inl in Resources */,
 				BA97CF2318971D9000942107 /* func_exponential.inl in Resources */,
@@ -2594,7 +2594,7 @@
 				BA97CF0D18971D9000942107 /* intrinsic_geometric.inl in Resources */,
 				BA97CF0918971D9000942107 /* func_trigonometric.inl in Resources */,
 				BA97CF2D18971D9000942107 /* intrinsic_exponential.inl in Resources */,
-				B3BB556C18B6B1F6005A7BA1 /* tutorials in Resources */,
+				B392DE7818CFA8FA0065B2B3 /* tutorials in Resources */,
 				BA97CF4218971D9000942107 /* type_vec2.inl in Resources */,
 				BA97CF5B18971D9000942107 /* extend.inl in Resources */,
 				BA97CF4D18971D9000942107 /* random.inl in Resources */,
@@ -2604,7 +2604,7 @@
 				BA97CF4818971D9000942107 /* matrix_inverse.inl in Resources */,
 				BA97CF5418971D9000942107 /* closest_point.inl in Resources */,
 				BA97CF6E18971D9000942107 /* multiple.inl in Resources */,
-				B3BB556918B6B1F6005A7BA1 /* prefabs in Resources */,
+				B392DE7518CFA8FA0065B2B3 /* prefabs in Resources */,
 				BA97CF3418971D9000942107 /* type_gentype.inl in Resources */,
 				BA97CF3318971D9000942107 /* precision.inl in Resources */,
 				BA97CF0E18971D9000942107 /* intrinsic_matrix.inl in Resources */,
@@ -2620,7 +2620,7 @@
 				BA97CF5218971D9000942107 /* associated_min_max.inl in Resources */,
 				BA97CF4018971D9000942107 /* type_vec.inl in Resources */,
 				BA97CF4718971D9000942107 /* matrix_access.inl in Resources */,
-				B3BB556418B6B1F6005A7BA1 /* levels in Resources */,
+				B392DE7018CFA8FA0065B2B3 /* levels in Resources */,
 				BA97CF4E18971D9000942107 /* reciprocal.inl in Resources */,
 				BA97CF4618971D9000942107 /* epsilon.inl in Resources */,
 				BA97CF5318971D9000942107 /* bit.inl in Resources */,
@@ -2632,9 +2632,9 @@
 				BA97CF6B18971D9000942107 /* matrix_operation.inl in Resources */,
 				BA97CF1418971D9000942107 /* type_mat2x2.inl in Resources */,
 				BA97CF8718971D9000942107 /* vector_angle.inl in Resources */,
-				B3BB556518B6B1F6005A7BA1 /* logging in Resources */,
+				B392DE7118CFA8FA0065B2B3 /* logging in Resources */,
 				BA97CF0A18971D9000942107 /* func_vector_relational.inl in Resources */,
-				B3BB556D18B6B1F6005A7BA1 /* uiscenes in Resources */,
+				B392DE7918CFA8FA0065B2B3 /* uiscenes in Resources */,
 				BA97CF1918971D9000942107 /* type_mat3x4.inl in Resources */,
 				BA97CF1D18971D9000942107 /* type_vec.inl in Resources */,
 				BA97CF3D18971D9000942107 /* type_mat4x2.inl in Resources */,
@@ -2650,26 +2650,26 @@
 				BA97CF3E18971D9000942107 /* type_mat4x3.inl in Resources */,
 				BA97CF0718971D9000942107 /* func_noise.inl in Resources */,
 				58F246FE1850F5C90066E804 /* InfoPlist.strings in Resources */,
-				B3BB556B18B6B1F6005A7BA1 /* tags in Resources */,
+				B392DE7718CFA8FA0065B2B3 /* tags in Resources */,
 				BA97CF3918971D9000942107 /* type_mat2x4.inl in Resources */,
 				BA97CF4418971D9000942107 /* type_vec4.inl in Resources */,
 				BA97CF5D18971D9000942107 /* fast_exponential.inl in Resources */,
 				BA97CF6618971D9000942107 /* io.inl in Resources */,
 				BA97CF2218971D9000942107 /* func_common.inl in Resources */,
 				BA97CF4C18971D9000942107 /* quaternion.inl in Resources */,
-				B3BB556718B6B1F6005A7BA1 /* pictures in Resources */,
+				B392DE7318CFA8FA0065B2B3 /* pictures in Resources */,
 				BA97CF5E18971D9000942107 /* fast_square_root.inl in Resources */,
 				BA97CF8418971D9000942107 /* transform2.inl in Resources */,
 				BA97CF6018971D9000942107 /* gradient_paint.inl in Resources */,
 				BA97CF7318971D9000942107 /* optimum_pow.inl in Resources */,
 				BA97CF0318971D9000942107 /* func_exponential.inl in Resources */,
-				B3BB555E18B6B1F6005A7BA1 /* armatures in Resources */,
+				B392DE6A18CFA8FA0065B2B3 /* armatures in Resources */,
 				BA97CF8018971D9000942107 /* spline.inl in Resources */,
 				BA97CF4118971D9000942107 /* type_vec1.inl in Resources */,
 				BA97CF6418971D9000942107 /* integer.inl in Resources */,
 				BA97CF1818971D9000942107 /* type_mat3x3.inl in Resources */,
-				B3BB556218B6B1F6005A7BA1 /* fonts_ios_READONLY in Resources */,
-				B3BB556A18B6B1F6005A7BA1 /* shaders in Resources */,
+				B392DE6E18CFA8FA0065B2B3 /* fonts_ios_READONLY in Resources */,
+				B392DE7618CFA8FA0065B2B3 /* shaders in Resources */,
 				BA97CF6A18971D9000942107 /* matrix_major_storage.inl in Resources */,
 				BA97CF0618971D9000942107 /* func_matrix.inl in Resources */,
 				BA97CF0B18971D9000942107 /* intrinsic_common.inl in Resources */,
@@ -2685,7 +2685,7 @@
 				BA97CF5A18971D9000942107 /* euler_angles.inl in Resources */,
 				BA97CF1B18971D9000942107 /* type_mat4x3.inl in Resources */,
 				BA97CF3718971D9000942107 /* type_mat2x2.inl in Resources */,
-				B3BB556618B6B1F6005A7BA1 /* models in Resources */,
+				B392DE7218CFA8FA0065B2B3 /* models in Resources */,
 				BA97CF7818971D9000942107 /* quaternion.inl in Resources */,
 				BA97CF7E18971D9000942107 /* simd_quat.inl in Resources */,
 				BA97CF8218971D9000942107 /* string_cast.inl in Resources */,
