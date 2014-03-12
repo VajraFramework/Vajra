@@ -55,6 +55,7 @@ private:
 
 	int elevationChange;  // The amount of elevation change when this trigger activates
 	float transitTime;
+	bool reversed;
 
 	std::list<ObjectIdType> unitsInZone;
 
