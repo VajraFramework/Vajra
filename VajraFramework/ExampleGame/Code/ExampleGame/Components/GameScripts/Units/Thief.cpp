@@ -335,6 +335,11 @@ void Thief::createTargets() {
 }
 
 void Thief::setIndicators() {
+	for(auto pair : this->activeTargetIndicators) {
+		if(pair.second != nullptr) {
+			pair.second->SetVisible(false);
+		}
+	}
 	this->activeTargetIndicators.clear();
 	this->legalTargets.clear();
 	this->cellsInRange.clear();
