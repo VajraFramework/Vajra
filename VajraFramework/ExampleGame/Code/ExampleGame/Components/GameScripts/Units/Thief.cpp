@@ -31,6 +31,7 @@
 #define DOWN_TWEEN_TIME .1f
 // Tween callbacks
 void thiefNumberTweenCallback(float /*fromNumber*/, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
+	FRAMEWORK->GetLogger()->dbglog("\nthiefNumberTweenCallback: %s: %f", tweenClipName.c_str(), currentNumber);
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
 	//ASSERT(go != nullptr, "Game object id passed into playerUnitNuumberTweenCallback is not valid");
 	if(go != nullptr) {

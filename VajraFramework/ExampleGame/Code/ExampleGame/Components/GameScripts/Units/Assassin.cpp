@@ -31,7 +31,8 @@ void assassinTweenCallback(ObjectIdType gameObjectId , std::string /* tweenClipN
 	
 }
 
-void assassinNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* userParams) {
+void assassinNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float currentNumber, std::string /*tweenClipName*/, MessageData1S1I1F* userParams) {
+	FRAMEWORK->GetLogger()->dbglog("\nassassinNumberTweenCallback: %f", currentNumber);
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
 	if(go != nullptr) {
 		Assassin* pUnit = go->GetComponent<Assassin>();
