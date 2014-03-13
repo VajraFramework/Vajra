@@ -94,7 +94,7 @@ void MenuManager::LoadGameMenu(std::string screenToShow /*= "inGame"*/) {
 	UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), this->gameUiTouchHandler);
 
 	this->backdrop = (UiElement*)ObjectRegistry::GetObjectByName(BACKDROP);
-
+	this->backdrop->SetVisible(false);
 	UiElement* screen = (UiElement*)ObjectRegistry::GetObjectByName(screenToShow);
 	VERIFY(screen != nullptr, "screen to show is not null");
 	screen->SetVisible(true);
@@ -130,9 +130,6 @@ void MenuManager::TweenOutUiObject(UiObject* element) {
 
 		this->backdrop->SetVisible(false);
 
-		screenCenter.z = element->GetZOrder();
-		offScreen.z = element->GetZOrder();
-
 		element->GetTransform()->SetPosition(screenCenter);
 
 		ENGINE->GetTween()->TweenPosition(element->GetId(),
@@ -157,9 +154,7 @@ void MenuManager::TweenInUiObject(UiObject* element) {
 
 		this->backdrop->SetVisible(true);
 
-		screenCenter.z = element->GetZOrder();
-		offScreen.z = element->GetZOrder();
-
+		
 		element->GetTransform()->SetPosition(offScreen);
 
 		ENGINE->GetTween()->TweenPosition(element->GetId(),

@@ -35,7 +35,8 @@
 #define IN_GAME_MENU "inGame"
 #define PAUSE_MENU "pauseMenu"
 #define PRE_GAME_MENU "preMenu"
-#define POST_GAME_MENU "postGame"
+#define POST_GAME_WIN_MENU "postWinGame"
+#define POST_GAME_LOSE_MENU "postLoseGame"
 #define TUTORIAL_MENU "tutorialScreen"
 
 #define TUTORIAL_EXIT_BTN "closeTutorial"
@@ -204,22 +205,22 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	}
 	
 	// END MENU
-	UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
+	UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_WIN_MENU]);
 	//ASSERT(postMenu != nullptr, "postMenu still around");
-	if(postMenu == nullptr) {
-		FRAMEWORK->GetLogger()->dbglog("\n TOUCH: %s \n", uiObject->GetName().c_str());
+	if(postMenu != nullptr && !postMenu->IsVisible()) {
+		postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_LOSE_MENU]);
 	}
 	if(postMenu != nullptr && postMenu->IsVisible()) {
 		if (uiObject->GetName() == "continue") {
 			postMenu->SetVisible(false);
 			SINGLETONS->GetMenuManager()->LoadLevel(SINGLETONS->GetLevelManager()->GetCurrentLevelIndex() + 1);
 			return;
-		} else if (uiObject->GetName() == "restart_post") {
+		} else if (uiObject->GetName() == "restart_postWin" || uiObject->GetName() == "restart_postLose") {
 			postMenu->SetVisible(false);
 			this->tutorials.clear();
 			SINGLETONS->GetMenuManager()->LoadLevel(SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
 			return;
-		} else if (uiObject->GetName() == "mission_post") {
+		} else if (uiObject->GetName() == "mission_postWin" || uiObject->GetName() == "mission_postLose") {
 			postMenu->SetVisible(false);
 			this->returnToMissionSelect();
 			return;
@@ -408,9 +409,14 @@ void GameUiTouchHandlers::nextTutorialImage() {
 	}
 }
 
-void GameUiTouchHandlers::onLevelEnd(bool /*success*/) {
+void GameUiTouchHandlers::onLevelEnd(bool success) {
 	ENGINE->GetSceneGraph3D()->Pause();
-	UiObject* postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_MENU]);
+	UiObject* postMenu;
+	if(success){
+		 postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_WIN_MENU]);
+	} else {
+		 postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_LOSE_MENU]);
+	}
 	postMenu->SetVisible(true);
 	SINGLETONS->GetMenuManager()->TweenInUiObject(postMenu);
 	this->tutorials.clear();
