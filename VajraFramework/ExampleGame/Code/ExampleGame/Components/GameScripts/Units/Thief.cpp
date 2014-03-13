@@ -41,9 +41,9 @@ void thiefNumberTweenCallback(float /*fromNumber*/, float toNumber, float curren
 			if(tweenClipName == "vault") {
 				if (currentNumber == toNumber) {
 					thief->onSpecialEnd();
-				} else {
+				}/* else {
 					go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f - currentNumber, 0.0f));
-				}
+				}*/
 			}else if(tweenClipName == "vaultWait") {
 				MessageData1S1I1F* params = new MessageData1S1I1F();
  				params->i = userParams->i;
@@ -185,6 +185,8 @@ void Thief::onSpecialEnd() {
 void Thief::cancelSpecial() {
 	PlayerUnit::cancelSpecial();
 	this->tweenOutTargets();
+	// Place the thief on the ground.
+	this->gameObjectRef->GetTransform()->SetPosition(this->gridNavRef->GetCurrentCell()->center);
 	this->gridNavRef->EnableNavigation();
 	
 }
