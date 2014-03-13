@@ -1,3 +1,4 @@
+#include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
 #include "ExampleGame/Components/GameScripts/Units/Thief.h"
 #include "ExampleGame/Components/Grid/GameGrid.h"
 #include "ExampleGame/Components/Grid/GridCell.h"
@@ -386,7 +387,16 @@ void Thief::updateTargets() {
 						float maxRange = fmax((GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units) + elevationDiff), 1.0f);
 						float dist = SINGLETONS->GetGridManager()->GetGrid()->GetGroundDistanceBetweenCells(currentCell, c);
 						if (dist <= maxRange) {
-							this->legalTargets.push_back(c);
+							ObjectIdType id = c->GetOccupantIdAtElevation(c->y);
+							if(id == OBJECT_ID_INVALID) {
+								this->legalTargets.push_back(c);
+							} else {
+								GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+								EnemyUnit* eu = go->GetComponent<EnemyUnit>();
+								if(eu != nullptr && eu->CanBeKilledBy(this->GetObject()->GetId(), this->gridNavRef->GetCurrentCell()->center)) {
+									this->legalTargets.push_back(c);						
+								}
+							}
 						}
 					}
 				}
