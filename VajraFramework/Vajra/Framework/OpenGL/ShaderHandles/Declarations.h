@@ -73,6 +73,7 @@ enum Shader_variable_variablename_id_t {
 	SHADER_VARIABLE_VARIABLENAME_depthTextureSampler,
 	SHADER_VARIABLE_VARIABLENAME_depthBiasMVPMatrix,
 	SHADER_VARIABLE_VARIABLENAME_ShadowCoord,
+	SHADER_VARIABLE_VARIABLENAME_scrolling_uv_offset,
 	SHADER_VARIABLE_VARIABLENAME_invalid,
 };
 

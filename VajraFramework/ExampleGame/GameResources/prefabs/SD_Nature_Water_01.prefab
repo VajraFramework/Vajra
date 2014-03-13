@@ -1,8 +1,11 @@
 <prefab>
   <gameobject>
-      <component name="MeshRenderer">
+      <component name="WaterRenderer">
           <property name="InitMesh">
               <field>models/SD_Nature_Water_01.model</field>
+          </property>
+          <property name="SetScrollingUVs">
+              <field>0.5</field>
           </property>
       </component>
 
