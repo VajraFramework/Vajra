@@ -100,7 +100,8 @@ void main()
 	vec4 finalColor = vec4(1.0, 0.0, 0.0, 1.0);;
 
 	// vec2 scrolled_uvs = vec2(uvCoords_out.x + sin(uvCoords_out.y / 0.125 * 3.1415) / 40.0, uvCoords_out.y + scrolling_uv_offset);
-	vec2 scrolled_uvs = vec2(uvCoords_out.x, uvCoords_out.y + scrolling_uv_offset);
+	vec2 scrolled_uvs = vec2(uvCoords_out.x + sin(uvCoords_out.y * 6.283) / 20.0, uvCoords_out.y + scrolling_uv_offset);
+	// vec2 scrolled_uvs = vec2(uvCoords_out.x + sin(gl_FragCoord.x) / 100.0, uvCoords_out.y + scrolling_uv_offset);
 
 #ifdef BAKED_AMBIENT_LIGHTING
 	vec4 color_temp = vec4(texture2D(myTextureSampler, scrolled_uvs).rgba) * lightIntensity;
