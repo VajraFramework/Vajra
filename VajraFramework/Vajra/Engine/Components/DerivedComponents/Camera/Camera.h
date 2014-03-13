@@ -41,7 +41,9 @@ public:
 	CameraType_t GetCameraType() { return this->cameraType; }
 	//[[PROPERTY]]//
 	inline void SetCameraType(int cameraTypeInt);
-	void SetCameraType(CameraType_t cameraType_) { this->cameraType = cameraType_; }
+	void SetCameraType(CameraType_t cameraType_);
+
+	void SetOrthoBounds(float x_min, float x_max, float y_min, float y_max, float z_min, float z_max);
 
 	inline glm::mat4& GetViewMatrix() { return this->viewMatrix; }
 	inline glm::mat4& GetProjMatrix() { return this->projMatrix; }
@@ -73,6 +75,10 @@ private:
 	// field of view
 	float fov;
 
+	float ortho_bounds_x_min, ortho_bounds_x_max;
+	float ortho_bounds_y_min, ortho_bounds_y_max;
+	float ortho_bounds_z_min, ortho_bounds_z_max;
+
 	static unsigned int componentTypeId;
 
 };
@@ -93,5 +99,6 @@ void Camera::SetFOV(float value) {
 void Camera::SetCameraType(int cameraTypeInt) {
 	this->SetCameraType(cameraTypeInt);
 }
+
 
 #endif // CAMERA_H

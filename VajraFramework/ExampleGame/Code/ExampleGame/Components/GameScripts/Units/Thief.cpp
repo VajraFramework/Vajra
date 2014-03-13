@@ -43,8 +43,6 @@ void thiefNumberTweenCallback(float /*fromNumber*/, float toNumber, float curren
 					go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f - currentNumber, 0.0f));
 				}
 			}else if(tweenClipName == "vaultWait") {
-				//go->GetTransform()->SetPosition(thief->targetedCell->center + glm::vec3(0.0f, 1.0f, 0.0f));
-				thief->beginPoof(thief->endPoofId);
 				MessageData1S1I1F* params = new MessageData1S1I1F();
  				params->i = userParams->i;
  				thief->checkLegalAttack();
@@ -274,6 +272,7 @@ void Thief::checkLegalAttack() {
 		}
 		this->gameObjectRef->GetTransform()->SetPosition(this->targetedCell->center + glm::vec3(0.0f, 1.0f, 0.0f));
 		this->sendAttackMessage(this->targetedCell->x, this->targetedCell->z, elevation);
+		this->beginPoof(this->endPoofId);
 	}
 }
 

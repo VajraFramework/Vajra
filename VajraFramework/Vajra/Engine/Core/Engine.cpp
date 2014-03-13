@@ -4,6 +4,7 @@
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/Lighting/AmbientLighting.h"
+#include "Vajra/Engine/Lighting/ShadowMap.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
@@ -53,6 +54,9 @@ void Engine::init() {
 
 	this->sceneGraphUi = new SceneGraphUi();
 	this->sceneGraphUi->init();
+
+	this->shadowMap = new ShadowMap();
+	this->shadowMap->init();
 
 	this->debugDrawer = new DebugDrawer();
 	this->debugDrawer->init();
@@ -182,6 +186,9 @@ void Engine::destroy() {
 	}
 	if (this->ambientLighting != nullptr) {
 		delete this->ambientLighting;
+	}
+	if (this->shadowMap != nullptr) {
+		delete this->shadowMap;
 	}
 	if (this->profiler != nullptr) {
 		delete this->profiler;

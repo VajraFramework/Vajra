@@ -253,28 +253,36 @@ void MeshAsset::Draw() {
                           3, GL_FLOAT, GL_FALSE, 0, 0);
     checkGlError("glVertexAttribPointer");
     //
-    GLint normalHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vNormal);
-    glEnableVertexAttribArray(normalHandle);
-    glBindBuffer(GL_ARRAY_BUFFER, this->vboNormals); checkGlError("glBindBuffer");
-    glVertexAttribPointer(normalHandle,
-                          3, GL_FLOAT, GL_FALSE, 0, 0);
-    checkGlError("glVertexAttribPointer");
-    //
-    this->material->WriteMaterialToShader();
-    if (this->material->HasTexture()) {
-    	this->material->GetTextureAsset()->Draw(0);
-
-		GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
-    	glEnableVertexAttribArray(textureCoordsHandle);
-    	glBindBuffer(GL_ARRAY_BUFFER, this->vboTextureCoords); checkGlError("glBindBuffer");
-    	glVertexAttribPointer(textureCoordsHandle,
-    			2, GL_FLOAT, GL_FALSE, 0, 0);
+    // TODO [Hack] Do this better, maybe:
+    // No normals in depth pass:
+    if (!currentShaderSet->IsDepthPass()) {
+    	GLint normalHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vNormal);
+    	glEnableVertexAttribArray(normalHandle);
+    	glBindBuffer(GL_ARRAY_BUFFER, this->vboNormals); checkGlError("glBindBuffer");
+    	glVertexAttribPointer(normalHandle,
+                          	3, GL_FLOAT, GL_FALSE, 0, 0);
     	checkGlError("glVertexAttribPointer");
+    }
+    //
+    // TODO [Hack] Do this better, maybe:
+    // No materials in depth pass:
+    if (!currentShaderSet->IsDepthPass()) {
+    	this->material->WriteMaterialToShader();
+    	if (this->material->HasTexture()) {
+    		this->material->GetTextureAsset()->Draw(0);
 
-    } else {
-    	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in)) {
 			GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
-			glDisableVertexAttribArray(textureCoordsHandle);
+    		glEnableVertexAttribArray(textureCoordsHandle);
+    		glBindBuffer(GL_ARRAY_BUFFER, this->vboTextureCoords); checkGlError("glBindBuffer");
+    		glVertexAttribPointer(textureCoordsHandle,
+    				2, GL_FLOAT, GL_FALSE, 0, 0);
+    		checkGlError("glVertexAttribPointer");
+
+    	} else {
+    		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in)) {
+				GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
+				glDisableVertexAttribArray(textureCoordsHandle);
+    		}
     	}
     }
     //

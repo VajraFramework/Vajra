@@ -44,6 +44,12 @@ boneWeights
 boneTransforms
 otherBoneTransforms
 interp
+
+#ifdef SHADOWMAPS_REALTIME
+depthBiasMVPMatrix
+ShadowCoord
+#endif
+
 __VARIABLES_END__
 
 
@@ -52,6 +58,9 @@ __SOURCE__
 #ifdef SKEW_GEOMETRY
 vec4 zSkew = vec4(0.0, 0.0, -.5, 0.0);
 vec4 ySkew = vec4(0.0, -0.5, 0.0, 0.0);
+#else
+vec4 zSkew = vec4(0.0, 0.0, 0.0, 0.0);
+vec4 ySkew = vec4(0.0, 0.0, 0.0, 0.0);
 #endif
 
 void main()
@@ -75,12 +84,13 @@ void main()
 	posL.z = posL0.z + (posL1.z - posL0.z) * interp.x;
 	posL.w = posL0.w + (posL1.w - posL0.w) * interp.x;
 
-#ifdef SKEW_GEOMETRY
 	gl_Position = modelMatrix * posL;
+
 	float yAmt = gl_Position.y;
-	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
-#else
-	gl_Position = mvpMatrix * vPosition;
+	vec4 skewed_position = (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
+	gl_Position = vpMatrix * skewed_position;
+#ifdef SHADOWMAPS_REALTIME
+	ShadowCoord = depthBiasMVPMatrix * skewed_position;
 #endif
 
 #ifdef PER_PIXEL_LIGHTING

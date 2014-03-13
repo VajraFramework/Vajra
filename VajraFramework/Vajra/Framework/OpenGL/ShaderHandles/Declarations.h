@@ -70,6 +70,9 @@ enum Shader_variable_variablename_id_t {
 	SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler,
 	SHADER_VARIABLE_VARIABLENAME_modelCoordsForBakedAmbientLookup_out,
 	SHADER_VARIABLE_VARIABLENAME_bakedLightMapSize,
+	SHADER_VARIABLE_VARIABLENAME_depthTextureSampler,
+	SHADER_VARIABLE_VARIABLENAME_depthBiasMVPMatrix,
+	SHADER_VARIABLE_VARIABLENAME_ShadowCoord,
 	SHADER_VARIABLE_VARIABLENAME_invalid,
 };
 

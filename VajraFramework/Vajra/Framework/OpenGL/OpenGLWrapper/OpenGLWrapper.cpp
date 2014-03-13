@@ -25,9 +25,9 @@ void OpenGLWrapper::PrintGLVersion() {
 #endif // PLATFORM_IOS
 }
 
-void OpenGLWrapper::CreateShaderSet(std::string shaderName, std::string shaderSpecificationName, bool hasTransperancy, bool isOverlay) {
+void OpenGLWrapper::CreateShaderSet(std::string shaderName, std::string shaderSpecificationName, bool hasTransperancy, bool isOverlay, bool isDepthPass) {
 
-    ShaderSet* shaderSet = new ShaderSet(shaderSpecificationName, hasTransperancy, isOverlay);
+    ShaderSet* shaderSet = new ShaderSet(shaderSpecificationName, hasTransperancy, isOverlay, isDepthPass);
 
     VERIFY(this->shaderSets.find(shaderName) == this->shaderSets.end(), "Not duplicate shader set");
     this->shaderSets[shaderName] = shaderSet;
@@ -43,6 +43,12 @@ void OpenGLWrapper::SetCurrentShaderSet(std::string shaderName) {
     //
     glUseProgram(this->currentShaderSet->GetShaderProgram());
     checkGlError("glUseProgram");
+}
+
+ShaderSet* OpenGLWrapper::GetShaderSetByName(std::string shaderName) {
+	auto it = this->shaderSets.find(shaderName);
+	VERIFY(it != this->shaderSets.end(), "Shader set %s found", shaderName.c_str());
+	return it->second;
 }
 
 void OpenGLWrapper::GetAllAvailableShaderNames(std::vector<std::string>& out_shaderNames) {
@@ -82,17 +88,22 @@ void OpenGLWrapper::init() {
 
     ShaderSetCreationHelper::LoadPreprocessorVariables();
 
-	this->CreateShaderSet("simshdr", "SimplestShader.shaderspec", false, false);
-	this->CreateShaderSet("txrshdr", "TextureShader.shaderspec", false, false);
-	this->CreateShaderSet("clrshdr", "ColorShader.shaderspec", true, false);
-	this->CreateShaderSet("bncshdr", "BoneColorShader.shaderspec", false, false);
-	this->CreateShaderSet("bntshdr", "BoneTextureShader.shaderspec", false, false);
-	this->CreateShaderSet("sptshdr", "SpriteTextureShader.shaderspec", true, true);
-	this->CreateShaderSet("spcshdr", "SpriteColorShader.shaderspec", false, false);
-	this->CreateShaderSet("ustshdr", "UiSpriteTextureShader.shaderspec", true, true);
-	this->CreateShaderSet("uscshdr", "UiSpriteColorShader.shaderspec", false, false);
-	this->CreateShaderSet("prtshdr", "ParticleSystem.shaderspec", true, false);
-
+	this->CreateShaderSet("simshdr", "SimplestShader.shaderspec", false, false, false);
+	this->CreateShaderSet("txrshdr", "TextureShader.shaderspec", false, false, false);
+	this->CreateShaderSet("clrshdr", "ColorShader.shaderspec", true, false, false);
+	this->CreateShaderSet("bncshdr", "BoneColorShader.shaderspec", false, false, false);
+	this->CreateShaderSet("bntshdr", "BoneTextureShader.shaderspec", false, false, false);
+	this->CreateShaderSet("sptshdr", "SpriteTextureShader.shaderspec", true, true, false);
+	this->CreateShaderSet("spcshdr", "SpriteColorShader.shaderspec", false, false, false);
+	this->CreateShaderSet("ustshdr", "UiSpriteTextureShader.shaderspec", true, true, false);
+	this->CreateShaderSet("uscshdr", "UiSpriteColorShader.shaderspec", false, false, false);
+	this->CreateShaderSet("prtshdr", "ParticleSystem.shaderspec", true, false, false);
+	//
+	// Depth pass shaders:
+	this->CreateShaderSet("dbtshdr", "DepthBoneTexturePass.shaderspec", false, false, true);
+	this->CreateShaderSet("dbcshdr", "DepthBoneColorPass.shaderspec", false, false, true);
+	this->CreateShaderSet("dpcshdr", "DepthColorPass.shaderspec", false, false, true);
+	this->CreateShaderSet("dptshdr", "DepthTexturePass.shaderspec", false, false, true);
 }
 
 void OpenGLWrapper::destroy() {

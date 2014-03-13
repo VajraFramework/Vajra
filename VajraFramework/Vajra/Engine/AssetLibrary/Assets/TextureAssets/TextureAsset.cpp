@@ -42,22 +42,22 @@ void TextureAsset::Draw(GLint drawAsTextureUnit) {
 	case 0: {
 		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_myTextureSampler)) {
 			GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_myTextureSampler);
-			glUniform1i(textureHandle, drawAsTextureUnit);
 
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, this->textureGLHandle);
 			checkGlError("glBindTexture");
+			glUniform1i(textureHandle, drawAsTextureUnit);
 		}
 	} break;
 
 	case 1: {
 		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler)) {
 			GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler);
-			glUniform1i(textureHandle, drawAsTextureUnit);
 
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, this->textureGLHandle);
 			checkGlError("glBindTexture");
+			glUniform1i(textureHandle, drawAsTextureUnit);
 		}
 	} break;
 
