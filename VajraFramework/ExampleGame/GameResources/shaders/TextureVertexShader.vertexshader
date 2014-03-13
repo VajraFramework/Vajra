@@ -29,26 +29,14 @@ DLight0DiffuseColor_out
 DLight0SpecularColor_out
 #endif
 
-myTextureSampler
-
 #ifdef BAKED_AMBIENT_LIGHTING
-bakedAmbientGridTextureSampler
-bakedLightMapSize
 modelCoordsForBakedAmbientLookup_out
 #endif
 
-#ifdef ADDITIONAL_LIGHTS
-AdditionalLight0Direction
-AdditionalLight0Ambient
-AdditionalLight0Diffuse
-AdditionalLight1Direction
-AdditionalLight1Ambient
-AdditionalLight1Diffuse
-AdditionalLight2Direction
-AdditionalLight2Ambient
-AdditionalLight2Diffuse
+#ifdef SHADOWMAPS_REALTIME
+depthBiasMVPMatrix
+ShadowCoord
 #endif
-
 
 __VARIABLES_END__
 
@@ -74,7 +62,11 @@ void main()
 #endif
 
 	float yAmt = gl_Position.y;
-	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
+	vec4 skewed_position = (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
+	gl_Position = vpMatrix * skewed_position;
+#ifdef SHADOWMAPS_REALTIME
+	ShadowCoord = depthBiasMVPMatrix * skewed_position;
+#endif
 
 	uvCoords_out = uvCoords_in;
 
@@ -98,6 +90,7 @@ void main()
 	// Temp using variables:
 	lightIntensity = lightIntensity + DLight0SpecularColor;
 #endif
+
 
 }
 __SOURCE_END__

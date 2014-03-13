@@ -16,10 +16,13 @@ public:
 	
 	void PrintGLVersion();
 	
-	void CreateShaderSet(std::string shaderName, std::string shaderSpecificationName, bool hasTransperancy, bool isOverlay);
+	void CreateShaderSet(std::string shaderName, std::string shaderSpecificationName, bool hasTransperancy, bool isOverlay, bool isDepthPass);
 	//
 	void SetCurrentShaderSet(std::string shaderName);
 	inline ShaderSet* GetCurrentShaderSet() { return this->currentShaderSet; }
+
+	ShaderSet* GetShaderSetByName(std::string shaderName);
+
 
 	void GetAllAvailableShaderNames(std::vector<std::string>& out_shaderNames);
 

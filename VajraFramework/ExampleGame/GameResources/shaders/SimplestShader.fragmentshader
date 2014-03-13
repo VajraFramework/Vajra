@@ -1,9 +1,19 @@
+__VERBATIM__
 #ifplatform iOS | Android
 precision mediump float;
 #endif
+__VERBATIM_END__
+
+__VARIABLES__
+
+__VARIABLES_END__
+
+__SOURCE__
+
 
 void main()
 {
 	gl_FragColor = vec4(0.5, 1.0, 0.0, 1.0);
 }
+__SOURCE_END__
 

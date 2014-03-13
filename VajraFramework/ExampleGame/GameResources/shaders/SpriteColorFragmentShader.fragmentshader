@@ -1,11 +1,22 @@
+__VERBATIM__
 #ifplatform iOS | Android
 precision mediump float;
 #endif
+__VERBATIM_END__
 
-varying vec4 lightIntensity;
+__VARIABLES__
+
+lightIntensity
+
+__VARIABLES_END__
+
+__SOURCE__
+
 
 void main()
 {
 	gl_FragColor = lightIntensity;
 }
+
+__SOURCE_END__
 

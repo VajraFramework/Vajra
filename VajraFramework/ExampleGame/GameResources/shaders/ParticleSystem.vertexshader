@@ -1,19 +1,13 @@
 __VARIABLES__
 vPosition
 
-#ifdef SKEW_GEOMETRY
 modelMatrix
 vpMatrix
-#else
-mvpMatrix
-#endif
 
 pointSize
 
 particleColor
 lightIntensity
-
-myTextureSampler
 
 __VARIABLES_END__
 
@@ -30,13 +24,12 @@ vec4 ySkew = vec4(0.0, 0.0, 0.0, 0.0);
 
 void main()
 {
-#ifdef SKEW_GEOMETRY
 	gl_Position = modelMatrix * vPosition;
+
 	float yAmt = gl_Position.y;
-	gl_Position = vpMatrix * (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
-#else
-	gl_Position = mvpMatrix * vPosition;
-#endif
+	vec4 skewed_position = (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
+	gl_Position = vpMatrix * skewed_position;
+
 	gl_PointSize = pointSize;
 	lightIntensity = particleColor;
 }
