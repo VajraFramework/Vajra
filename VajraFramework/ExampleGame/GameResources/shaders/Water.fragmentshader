@@ -1,0 +1,182 @@
+__VERBATIM__
+#ifplatform iOS | Android
+precision mediump float;
+#endif
+__VERBATIM_END__
+
+__VARIABLES__
+
+uvCoords_out
+
+#ifdef PER_PIXEL_LIGHTING
+vNormal_out
+DLight0Direction_out
+DLight0AmbientColor_out
+DLight0DiffuseColor_out
+DLight0SpecularColor_out
+#else
+lightIntensity
+#endif
+
+myTextureSampler
+
+#ifdef BAKED_AMBIENT_LIGHTING
+bakedAmbientGridTextureSampler
+modelCoordsForBakedAmbientLookup_out
+bakedLightMapSize
+#endif
+
+
+#ifdef ADDITIONAL_LIGHTS
+AdditionalLight0Direction
+AdditionalLight0Ambient
+AdditionalLight0Diffuse
+AdditionalLight1Direction
+AdditionalLight1Ambient
+AdditionalLight1Diffuse
+AdditionalLight2Direction
+AdditionalLight2Ambient
+AdditionalLight2Diffuse
+#endif
+
+#ifdef SHADOWMAPS_REALTIME
+depthTextureSampler
+ShadowCoord
+#endif
+
+scrolling_uv_offset
+
+__VARIABLES_END__
+
+__SOURCE__
+
+#ifdef BAKED_AMBIENT_LIGHTING
+float DOWN_AMBIENT_INTENSITY_FACTOR = 0.05;
+float UP_AMBIENT_INTENSITY_FACTOR = 0.2;
+#endif
+
+#ifdef SHADOWMAPS_REALTIME_POISSON_FILTERING
+float POISSON_DIVIDE = 700.0;
+vec2 poison0 = vec2( -0.94201624, -0.39906216 ) / POISSON_DIVIDE;
+vec2 poison1 = vec2( 0.94558609, -0.76890725 ) / POISSON_DIVIDE;
+vec2 poison2 = vec2( -0.094184101, -0.92938870 ) / POISSON_DIVIDE;
+vec2 poison3 = vec2( 0.34495938, 0.29387760 ) / POISSON_DIVIDE;
+#endif
+
+#ifdef SHADOWMAPS_REALTIME_PCF_FILTERING
+float PCF_DIVIDE = 2000.0;
+vec2 pcf0 = vec2(-1.5, 0.5) / PCF_DIVIDE;
+vec2 pcf1 = vec2(0.5, 0.5) / PCF_DIVIDE;
+vec2 pcf2 = vec2(-1.5, -1.5) / PCF_DIVIDE;
+vec2 pcf3 = vec2(0.5, -1.5) / PCF_DIVIDE;
+#endif
+
+
+void main()
+{
+#ifdef PER_PIXEL_LIGHTING
+	float cosTheta = clamp( dot( vNormal_out, -1.0 * DLight0Direction_out ), 0.0, 1.0 );
+	vec4 lightIntensity = DLight0DiffuseColor_out * cosTheta;
+	lightIntensity = lightIntensity + DLight0AmbientColor_out;
+	// Temp using variables:
+	lightIntensity = lightIntensity + DLight0SpecularColor_out;
+
+#ifdef ADDITIONAL_LIGHTS
+	cosTheta = clamp( dot( vNormal_out, AdditionalLight0Direction ), 0.0, 1.0 );
+	lightIntensity = lightIntensity + AdditionalLight0Diffuse * cosTheta;
+	lightIntensity = lightIntensity + AdditionalLight0Ambient;
+	//
+	cosTheta = clamp( dot( vNormal_out, AdditionalLight1Direction ), 0.0, 1.0 );
+	lightIntensity = lightIntensity + AdditionalLight1Diffuse * cosTheta;
+	lightIntensity = lightIntensity + AdditionalLight1Ambient;
+	//
+	cosTheta = clamp( dot( vNormal_out, AdditionalLight2Direction ), 0.0, 1.0 );
+	lightIntensity = lightIntensity + AdditionalLight2Diffuse * cosTheta;
+	lightIntensity = lightIntensity + AdditionalLight2Ambient;
+#endif
+#endif
+
+
+	vec4 finalColor = vec4(1.0, 0.0, 0.0, 1.0);;
+
+	// vec2 scrolled_uvs = vec2(uvCoords_out.x + sin(uvCoords_out.y / 0.125 * 3.1415) / 40.0, uvCoords_out.y + scrolling_uv_offset);
+	vec2 scrolled_uvs = vec2(uvCoords_out.x + sin(uvCoords_out.y * 6.283) / 20.0, uvCoords_out.y + scrolling_uv_offset);
+	// vec2 scrolled_uvs = vec2(uvCoords_out.x + sin(gl_FragCoord.x) / 100.0, uvCoords_out.y + scrolling_uv_offset);
+
+#ifdef BAKED_AMBIENT_LIGHTING
+	vec4 color_temp = vec4(texture2D(myTextureSampler, scrolled_uvs).rgba) * lightIntensity;
+
+	vec2 uv_into_bakedmap = modelCoordsForBakedAmbientLookup_out.xz;
+	// Adjust uv into bakedmap according to the size of exported map:
+	uv_into_bakedmap.x = (uv_into_bakedmap.x + 0.5) / bakedLightMapSize;
+	uv_into_bakedmap.y = -1.0 * (uv_into_bakedmap.y - 0.5) / bakedLightMapSize;
+	vec4 baked_ambient_value = texture2D(bakedAmbientGridTextureSampler, uv_into_bakedmap);
+	float down_ambient_intensity_at_point = baked_ambient_value.r;
+	float up_ambient_intensity_at_point = baked_ambient_value.g;
+	float height_cutoof_at_pixel = baked_ambient_value.b * 10.0;
+
+	// TODO [Hack] Not applying ambient occlusion to heights above 2.0, change this to be read from the blue channel of the baked map instead:
+	// if (modelCoordsForBakedAmbientLookup_out.y > height_cutoof_at_pixel) {
+		// down_ambient_intensity_at_point = 0.0;
+	// }
+	finalColor = color_temp - down_ambient_intensity_at_point * DOWN_AMBIENT_INTENSITY_FACTOR + up_ambient_intensity_at_point * UP_AMBIENT_INTENSITY_FACTOR;
+#else
+	finalColor = vec4(texture2D(myTextureSampler, scrolled_uvs).rgba) * lightIntensity;
+#endif
+	
+#ifdef SHADOWMAPS_REALTIME
+	float visibility = 1.0;
+	float bias = 0.002;
+	float fragment_depth = ShadowCoord.z / ShadowCoord.w - bias;
+	float depth_value = 0.0;
+
+#ifdef SHADOWMAPS_REALTIME_NO_FILTERING
+	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy).r;
+	visibility = clamp((depth_value - fragment_depth) * 10000.0, 0.0, 1.0);
+#endif
+
+#ifdef SHADOWMAPS_REALTIME_POISSON_FILTERING
+	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + poison0).r;
+	if (depth_value < fragment_depth) {
+		visibility -= 0.25;
+	}
+	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + poison1).r;
+	if (depth_value < fragment_depth) {
+		visibility -= 0.25;
+	}
+	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + poison2).r;
+	if (depth_value < fragment_depth) {
+		visibility -= 0.25;
+	}
+	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + poison3).r;
+	if (depth_value < fragment_depth) {
+		visibility -= 0.25;
+	}
+#endif
+
+#ifdef SHADOWMAPS_REALTIME_PCF_FILTERING
+	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + pcf0).r;
+	visibility -= clamp((fragment_depth - depth_value) * 10000.0, 0.0, 0.25);
+	//
+	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + pcf1).r;
+	visibility -= clamp((fragment_depth - depth_value) * 10000.0, 0.0, 0.25);
+	//
+	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + pcf1).r;
+	visibility -= clamp((fragment_depth - depth_value) * 10000.0, 0.0, 0.25);
+	//
+	depth_value = texture2D( depthTextureSampler, ShadowCoord.xy + pcf1).r;
+	visibility -= clamp((fragment_depth - depth_value) * 10000.0, 0.0, 0.25);
+#endif
+
+
+
+	visibility = clamp(visibility + 0.5, 0.0, 1.0);
+	finalColor = finalColor * (visibility + 0.0); // + finalColor;
+
+#endif
+
+	gl_FragColor = finalColor;
+}
+
+__SOURCE_END__
+
