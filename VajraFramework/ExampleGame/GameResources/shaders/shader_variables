@@ -63,3 +63,4 @@ uniform mat4 depthBiasMVPMatrix
 varying vec4 ShadowCoord
 
 uniform float scrolling_uv_offset
+uniform sampler2D secondaryTexture

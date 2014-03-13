@@ -38,6 +38,10 @@ GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
     // bind it
     glBindTexture(GL_TEXTURE_2D, myTexture);
     checkGlError("glBindTexture");
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
     // stretch it
 #ifdef USING_MIPMAPS
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
@@ -80,6 +84,7 @@ GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
     glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
     glGenerateMipmap(GL_TEXTURE_2D);
 #endif
+
 
     FRAMEWORK->GetLogger()->dbglog("\nmyTexture (GL Handle): %d", myTexture);
 

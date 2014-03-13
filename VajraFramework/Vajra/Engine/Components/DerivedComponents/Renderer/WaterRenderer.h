@@ -1,7 +1,11 @@
 #ifndef WATER_RENDERER_H
 #define WATER_RENDERER_H
 
+#include "Vajra/Engine/AssetLibrary/Assets/TextureAssets/TextureAsset.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
+
+#include <memory>
+#include <string>
 
 // Forward Declarations:
 class Object;
@@ -22,6 +26,9 @@ public:
 	//[[PROPERTY]]//
 	void SetScrollingUVs(float uvScrollSpeed);
 
+	//[[PROPERTY]]//
+	void SetSecondaryTexture(std::string pathToTexture);
+
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
 
@@ -38,6 +45,8 @@ private:
 	float scrollingUVsOffset;
 
 	float scrollingUVs_speed;
+
+	std::shared_ptr<TextureAsset> secondaryTexture;
 };
 
 #endif // WATER_RENDERER_H

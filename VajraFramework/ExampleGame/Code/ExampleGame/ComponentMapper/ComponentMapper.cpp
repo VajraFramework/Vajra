@@ -395,6 +395,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetScrollingUVs(StringUtilities::ConvertStringToFloat(argv[0]));
 			return;
 		}
+		if (propertyName == "SetSecondaryTexture") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetSecondaryTexture(ConvertStringToString(argv[0]));
+			return;
+		}
 		return;
 	}
 	

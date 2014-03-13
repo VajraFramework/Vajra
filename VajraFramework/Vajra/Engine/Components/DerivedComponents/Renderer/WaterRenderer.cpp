@@ -1,3 +1,4 @@
+#include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/WaterRenderer.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Timer/Timer.h"
@@ -24,6 +25,10 @@ void WaterRenderer::SetScrollingUVs(float uvScrollSpeed) {
 	this->scrollingUVs_speed = uvScrollSpeed;
 }
 
+void WaterRenderer::SetSecondaryTexture(std::string pathToTexture) {
+	this->secondaryTexture = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(pathToTexture);
+}
+
 void WaterRenderer::HandleMessage(MessageChunk messageChunk) {
 	MeshRenderer::HandleMessage(messageChunk);
 
@@ -45,6 +50,10 @@ void WaterRenderer::Draw() {
 	}
 
 	MeshRenderer::Draw();
+
+	if (this->secondaryTexture) {
+		this->secondaryTexture->Draw(3);
+	}
 }
 
 

@@ -61,11 +61,27 @@ void TextureAsset::Draw(GLint drawAsTextureUnit) {
 		}
 	} break;
 
+	case 2: {
+		ASSERT(0, "Whoa. This is where the depth texture plugs in for shadows");
+	} break;
+
+	case 3: {
+		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_secondaryTexture)) {
+			GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_secondaryTexture);
+
+			glActiveTexture(GL_TEXTURE3);
+			glBindTexture(GL_TEXTURE_2D, this->textureGLHandle);
+			checkGlError("glBindTexture");
+			glUniform1i(textureHandle, drawAsTextureUnit);
+		}
+	} break;
+
 	default: {
 		FRAMEWORK->GetLogger()->dbglog("\nValid texture unit %d", drawAsTextureUnit);
 	} break;
 
 	}
+
 }
 
 AssetType TextureAsset::GetAssetType() {

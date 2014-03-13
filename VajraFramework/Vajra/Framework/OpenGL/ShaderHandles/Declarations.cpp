@@ -189,6 +189,9 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "scrolling_uv_offset") {
 		return SHADER_VARIABLE_VARIABLENAME_scrolling_uv_offset;
 	}
+	if (s == "secondaryTexture") {
+		return SHADER_VARIABLE_VARIABLENAME_secondaryTexture;
+	}
 	if (s == "invalid") {
 		return SHADER_VARIABLE_VARIABLENAME_invalid;
 	}
@@ -273,6 +276,7 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_depthBiasMVPMatrix: return "depthBiasMVPMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_ShadowCoord: return "ShadowCoord";
 	case SHADER_VARIABLE_VARIABLENAME_scrolling_uv_offset: return "scrolling_uv_offset";
+	case SHADER_VARIABLE_VARIABLENAME_secondaryTexture: return "secondaryTexture";
 	case SHADER_VARIABLE_VARIABLENAME_invalid: return "invalid";
 	// default: DO NOT ADD A DEFAULT HERE. It'll help catch the case where the enum is extended but not handled here
 	}
