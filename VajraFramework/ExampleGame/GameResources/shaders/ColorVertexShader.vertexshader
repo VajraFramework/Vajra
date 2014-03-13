@@ -35,11 +35,6 @@ MaterialDiffuseColor_out
 MaterialSpecularColor_out
 #endif
 
-#ifdef SHADOWMAPS_REALTIME
-depthBiasMVPMatrix
-ShadowCoord
-#endif
-
 __VARIABLES_END__
 
 
@@ -60,9 +55,6 @@ void main()
 	float yAmt = gl_Position.y;
 	vec4 skewed_position = (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
 	gl_Position = vpMatrix * skewed_position;
-#ifdef SHADOWMAPS_REALTIME
-	ShadowCoord = depthBiasMVPMatrix * skewed_position;
-#endif
 
 #ifdef PER_PIXEL_LIGHTING
 	vNormal_out = modelInverseTransposeMatrix * vNormal;

@@ -5,6 +5,7 @@
 #include "ExampleGame/GameConstants/GameConstants.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -80,16 +81,11 @@ void ShadyCamera::destroy() {
 void ShadyCamera::loadCameraData(GridCell* startUnitCell, glm::vec3 overviewPos, glm::vec3 /*startPos*/, bool /*useStartPos*/) {
 
 	this->overviewPos = overviewPos;
-	Transform* camTransform = this->gameObjectRef->GetTransform();
-	/*if(useStartPos) {
-		camTransform->SetPosition(startPos);
-		this->MoveGameCamToRoom(startUnitCell->x, startUnitCell->z);
-	} else {*/
-		
+	
 	this->setCurrentRoomCenter(SINGLETONS->GetGridManager()->GetGrid()->GetRoomCenter(startUnitCell->x, startUnitCell->z));
-	this->gameCamPos = this->currentRoomCenter + this->gameCamOffset;		
-	camTransform->SetPosition(gameCamPos);
-
+	this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(startUnitCell->y));
+	this->updateGameCamPos();
+	this->gameObjectRef->GetTransform()->SetPosition(this->gameCamPos);
 	//}
 	// We only want to subscribe to messages once we set up the inital camera data 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_PINCH_GESTURE, this->GetTypeId(), false);
