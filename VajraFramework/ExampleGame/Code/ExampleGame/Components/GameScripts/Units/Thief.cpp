@@ -4,6 +4,7 @@
 #include "ExampleGame/Components/Grid/GridConstants.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/GameConstants/GameConstants.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
@@ -175,6 +176,8 @@ void Thief::onSpecialEnd() {
 			activeTargetIndicators[c]->SetVisible(false);
 			
 		}
+		SINGLETONS->GetGridManager()->GetShadyCamera()->MoveGameCamToRoom(this->gridNavRef->GetCurrentCell()->x, this->gridNavRef->GetCurrentCell()->z);
+		
 	}
 }
 
