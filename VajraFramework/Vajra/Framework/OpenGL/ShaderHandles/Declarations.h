@@ -74,8 +74,6 @@ enum Shader_variable_variablename_id_t {
 	SHADER_VARIABLE_VARIABLENAME_depthBiasMVPMatrix,
 	SHADER_VARIABLE_VARIABLENAME_ShadowCoord,
 	SHADER_VARIABLE_VARIABLENAME_scrolling_uv_offset,
-	SHADER_VARIABLE_VARIABLENAME_scrolling_uv_bound_min,
-	SHADER_VARIABLE_VARIABLENAME_scrolling_uv_bound_max,
 	SHADER_VARIABLE_VARIABLENAME_invalid,
 };
 

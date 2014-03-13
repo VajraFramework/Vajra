@@ -391,8 +391,8 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			return;
 		}
 		if (propertyName == "SetScrollingUVs") {
-			if ((int)argv.size() < 3) { return; }
-			component->SetScrollingUVs(StringUtilities::ConvertStringToFloat(argv[0]), StringUtilities::ConvertStringToFloat(argv[1]), StringUtilities::ConvertStringToFloat(argv[2]));
+			if ((int)argv.size() < 1) { return; }
+			component->SetScrollingUVs(StringUtilities::ConvertStringToFloat(argv[0]));
 			return;
 		}
 		return;

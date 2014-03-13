@@ -20,7 +20,7 @@ public:
 	void InitMesh(std::string urlOfMesh);
 
 	//[[PROPERTY]]//
-	void SetScrollingUVs(float uvScrollSpeed, float uv_bound_min_, float uv_bound_max_);
+	void SetScrollingUVs(float uvScrollSpeed);
 
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
@@ -38,7 +38,6 @@ private:
 	float scrollingUVsOffset;
 
 	float scrollingUVs_speed;
-	float uv_bound_min, uv_bound_max;
 };
 
 #endif // WATER_RENDERER_H

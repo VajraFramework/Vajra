@@ -45,8 +45,6 @@ ShadowCoord
 #endif
 
 scrolling_uv_offset
-scrolling_uv_bound_min
-scrolling_uv_bound_max
 
 __VARIABLES_END__
 
@@ -101,8 +99,8 @@ void main()
 
 	vec4 finalColor = vec4(1.0, 0.0, 0.0, 1.0);;
 
+	// vec2 scrolled_uvs = vec2(uvCoords_out.x + sin(uvCoords_out.y / 0.125 * 3.1415) / 40.0, uvCoords_out.y + scrolling_uv_offset);
 	vec2 scrolled_uvs = vec2(uvCoords_out.x, uvCoords_out.y + scrolling_uv_offset);
-	scrolled_uvs.y = mod(scrolled_uvs.y, scrolling_uv_bound_max - scrolling_uv_bound_min);
 
 #ifdef BAKED_AMBIENT_LIGHTING
 	vec4 color_temp = vec4(texture2D(myTextureSampler, scrolled_uvs).rgba) * lightIntensity;

@@ -20,10 +20,8 @@ void WaterRenderer::InitMesh(std::string urlOfMesh) {
 	MeshRenderer::InitMesh(urlOfMesh);
 }
 
-void WaterRenderer::SetScrollingUVs(float uvScrollSpeed, float uv_bound_min_, float uv_bound_max_) {
+void WaterRenderer::SetScrollingUVs(float uvScrollSpeed) {
 	this->scrollingUVs_speed = uvScrollSpeed;
-	this->uv_bound_min       = uv_bound_min_;
-	this->uv_bound_max       = uv_bound_max_;
 }
 
 void WaterRenderer::HandleMessage(MessageChunk messageChunk) {
@@ -45,14 +43,6 @@ void WaterRenderer::Draw() {
 		GLint scrolling_uv_offset_handle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_scrolling_uv_offset);
 		glUniform1f(scrolling_uv_offset_handle, this->scrollingUVsOffset);
 	}
-	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_scrolling_uv_bound_min)) {
-		GLint scrolling_uv_offset_handle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_scrolling_uv_bound_min);
-		glUniform1f(scrolling_uv_offset_handle, this->uv_bound_min);
-	}
-	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_scrolling_uv_bound_max)) {
-		GLint scrolling_uv_offset_handle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_scrolling_uv_bound_max);
-		glUniform1f(scrolling_uv_offset_handle, this->uv_bound_max);
-	}
 
 	MeshRenderer::Draw();
 }
@@ -63,11 +53,9 @@ void WaterRenderer::scrollUVs() {
 }
 
 void WaterRenderer::init() {
-	this->scrollingUVsOffset = 0.0f;
+	this->scrollingUVsOffset  = 0.0f;
 
-	this->scrollingUVs_speed = 0.1f;
-	this->uv_bound_min       = 0.0f;
-	this->uv_bound_max       = 0.0f;
+	this->scrollingUVs_speed  = 0.1f;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
