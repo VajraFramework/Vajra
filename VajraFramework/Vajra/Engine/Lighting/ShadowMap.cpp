@@ -33,7 +33,7 @@ Camera* ShadowMap::GetDepthCamera() {
 
 void ShadowMap::createDepthCamera() {
 	GameObject* depthCameraObject = new GameObject(ENGINE->GetSceneGraph3D());
-	Camera* depthCamera = depthCameraObject->AddComponent<Camera>();
+	//Camera* depthCamera = depthCameraObject->AddComponent<Camera>();
 	this->depthCameraId = depthCameraObject->GetId();
 
 	this->adjustDepthCamera();
