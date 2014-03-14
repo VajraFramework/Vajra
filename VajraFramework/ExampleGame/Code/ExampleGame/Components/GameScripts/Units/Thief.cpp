@@ -1,3 +1,4 @@
+#include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
 #include "ExampleGame/Components/GameScripts/Units/Thief.h"
 #include "ExampleGame/Components/Grid/GameGrid.h"
 #include "ExampleGame/Components/Grid/GridCell.h"
@@ -101,7 +102,7 @@ void Thief::start() {
 void Thief::amendTouchIndicatorPaths(std::vector<std::string>& pathsToTextures) {
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_TouchIndicator_Success_01.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_TouchIndicator_Fail_01.png");
-	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_TouchIndicator_Success_01.png");
+	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_06.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_05.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_01.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_03.png");
@@ -327,7 +328,7 @@ void Thief::createTargets() {
 		SpriteRenderer* spriteRenderer = indicator->AddComponent<SpriteRenderer>();
 		spriteRenderer->SetHasTransperancy(true);
 		std::vector<std::string> pathsToTextures;
-		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_TouchIndicator_Success_01.png");
+		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_06.png");
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_05.png");
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_01.png");
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_03.png");
@@ -383,13 +384,19 @@ void Thief::updateTargets() {
 				if ((cellElevation > elevation) || (SINGLETONS->GetGridManager()->GetGrid()->HasLineOfSight(currentCell, c, elevation))) {
 					if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, cellElevation)) {
 						int elevationDiff = elevation - cellElevation;
-						if(elevationDiff < 0){
-							elevationDiff = 0;
-						}
 						float maxRange = fmax((GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units) + elevationDiff), 1.0f);
 						float dist = SINGLETONS->GetGridManager()->GetGrid()->GetGroundDistanceBetweenCells(currentCell, c);
 						if (dist <= maxRange) {
-							this->legalTargets.push_back(c);
+							ObjectIdType id = c->GetOccupantIdAtElevation(c->y);
+							if(id == OBJECT_ID_INVALID) {
+								this->legalTargets.push_back(c);
+							} else {
+								GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+								EnemyUnit* eu = go->GetComponent<EnemyUnit>();
+								if(eu != nullptr && eu->CanBeKilledBy(this->GetObject()->GetId(), this->gridNavRef->GetCurrentCell()->center)) {
+									this->legalTargets.push_back(c);						
+								}
+							}
 						}
 					}
 				}

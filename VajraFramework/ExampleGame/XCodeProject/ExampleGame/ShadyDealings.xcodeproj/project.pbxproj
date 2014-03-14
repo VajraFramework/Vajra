@@ -215,16 +215,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		58F246EC1850F5C90066E804 /* ExampleGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		58F246EC1850F5C90066E804 /* Shady Dealings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shady Dealings.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F246EF1850F5C90066E804 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		58F246F11850F5C90066E804 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		58F246F31850F5C90066E804 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		58F246F51850F5C90066E804 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		58F246F71850F5C90066E804 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		58F246FB1850F5C90066E804 /* ExampleGame-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ExampleGame-Info.plist"; sourceTree = "<group>"; };
+		58F246FB1850F5C90066E804 /* ShadyDealings-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ShadyDealings-Info.plist"; sourceTree = "<group>"; };
 		58F246FD1850F5C90066E804 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		58F246FF1850F5C90066E804 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
-		58F247011850F5C90066E804 /* ExampleGame-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ExampleGame-Prefix.pch"; sourceTree = "<group>"; };
+		58F247011850F5C90066E804 /* ShadyDealings-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ShadyDealings-Prefix.pch"; sourceTree = "<group>"; };
 		58F247021850F5C90066E804 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		58F247031850F5C90066E804 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		58F247061850F5C90066E804 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
@@ -232,9 +232,9 @@
 		58F2470F1850F5C90066E804 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		58F247101850F5C90066E804 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		58F247121850F5C90066E804 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		58F247181850F5C90066E804 /* ExampleGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		58F247181850F5C90066E804 /* ShadyDealingsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShadyDealingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F247191850F5C90066E804 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		58F247211850F5C90066E804 /* ExampleGameTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ExampleGameTests-Info.plist"; sourceTree = "<group>"; };
+		58F247211850F5C90066E804 /* ShadyDealingsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ShadyDealingsTests-Info.plist"; sourceTree = "<group>"; };
 		58F247231850F5C90066E804 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		58F247251850F5C90066E804 /* ExampleGameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExampleGameTests.m; sourceTree = "<group>"; };
 		58F2472F1850F6390066E804 /* libVajraStaticLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVajraStaticLibrary.a; path = ../../../XCodeProject/VajraStaticLibrary/Built/iphonesimulator/libVajraStaticLibrary.a; sourceTree = "<group>"; };
@@ -793,8 +793,8 @@
 		58F246ED1850F5C90066E804 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				58F246EC1850F5C90066E804 /* ExampleGame.app */,
-				58F247181850F5C90066E804 /* ExampleGameTests.xctest */,
+				58F246EC1850F5C90066E804 /* Shady Dealings.app */,
+				58F247181850F5C90066E804 /* ShadyDealingsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -838,10 +838,10 @@
 		58F246FA1850F5C90066E804 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				58F246FB1850F5C90066E804 /* ExampleGame-Info.plist */,
+				58F246FB1850F5C90066E804 /* ShadyDealings-Info.plist */,
 				58F246FC1850F5C90066E804 /* InfoPlist.strings */,
 				58F246FF1850F5C90066E804 /* main.mm */,
-				58F247011850F5C90066E804 /* ExampleGame-Prefix.pch */,
+				58F247011850F5C90066E804 /* ShadyDealings-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -858,7 +858,7 @@
 		58F247201850F5C90066E804 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				58F247211850F5C90066E804 /* ExampleGameTests-Info.plist */,
+				58F247211850F5C90066E804 /* ShadyDealingsTests-Info.plist */,
 				58F247221850F5C90066E804 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -2388,9 +2388,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		58F246EB1850F5C90066E804 /* ExampleGame */ = {
+		58F246EB1850F5C90066E804 /* ShadyDealings */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 58F247291850F5C90066E804 /* Build configuration list for PBXNativeTarget "ExampleGame" */;
+			buildConfigurationList = 58F247291850F5C90066E804 /* Build configuration list for PBXNativeTarget "ShadyDealings" */;
 			buildPhases = (
 				58F60D50185131190036DDDE /* ShellScript */,
 				58F246E81850F5C90066E804 /* Sources */,
@@ -2401,14 +2401,14 @@
 			);
 			dependencies = (
 			);
-			name = ExampleGame;
+			name = ShadyDealings;
 			productName = ExampleGame;
-			productReference = 58F246EC1850F5C90066E804 /* ExampleGame.app */;
+			productReference = 58F246EC1850F5C90066E804 /* Shady Dealings.app */;
 			productType = "com.apple.product-type.application";
 		};
-		58F247171850F5C90066E804 /* ExampleGameTests */ = {
+		58F247171850F5C90066E804 /* ShadyDealingsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 58F2472C1850F5C90066E804 /* Build configuration list for PBXNativeTarget "ExampleGameTests" */;
+			buildConfigurationList = 58F2472C1850F5C90066E804 /* Build configuration list for PBXNativeTarget "ShadyDealingsTests" */;
 			buildPhases = (
 				58F247141850F5C90066E804 /* Sources */,
 				58F247151850F5C90066E804 /* Frameworks */,
@@ -2419,9 +2419,9 @@
 			dependencies = (
 				58F2471E1850F5C90066E804 /* PBXTargetDependency */,
 			);
-			name = ExampleGameTests;
+			name = ShadyDealingsTests;
 			productName = ExampleGameTests;
-			productReference = 58F247181850F5C90066E804 /* ExampleGameTests.xctest */;
+			productReference = 58F247181850F5C90066E804 /* ShadyDealingsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -2441,7 +2441,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 58F246E71850F5C90066E804 /* Build configuration list for PBXProject "ExampleGame" */;
+			buildConfigurationList = 58F246E71850F5C90066E804 /* Build configuration list for PBXProject "ShadyDealings" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -2454,8 +2454,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				58F246EB1850F5C90066E804 /* ExampleGame */,
-				58F247171850F5C90066E804 /* ExampleGameTests */,
+				58F246EB1850F5C90066E804 /* ShadyDealings */,
+				58F247171850F5C90066E804 /* ShadyDealingsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -2697,7 +2697,7 @@
 /* Begin PBXTargetDependency section */
 		58F2471E1850F5C90066E804 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 58F246EB1850F5C90066E804 /* ExampleGame */;
+			target = 58F246EB1850F5C90066E804 /* ShadyDealings */;
 			targetProxy = 58F2471D1850F5C90066E804 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -2827,19 +2827,19 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "ExampleGame/ExampleGame-Prefix.pch";
+				GCC_PREFIX_HEADER = "ExampleGame/ShadyDealings-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 					PLATFORM_IOS,
 				);
-				INFOPLIST_FILE = "ExampleGame/ExampleGame-Info.plist";
+				INFOPLIST_FILE = "ExampleGame/ShadyDealings-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../lib/ios/iphonesimulator,
 					../../lib/ios/iphoneos,
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Shady Dealings";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "./ExampleGame/ ../../include ../../Code/ ../../include/Libraries/";
 				WRAPPER_EXTENSION = app;
@@ -2855,18 +2855,18 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "ExampleGame/ExampleGame-Prefix.pch";
+				GCC_PREFIX_HEADER = "ExampleGame/ShadyDealings-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					PLATFORM_IOS,
 					GLM_FORCE_RADIANS,
 				);
-				INFOPLIST_FILE = "ExampleGame/ExampleGame-Info.plist";
+				INFOPLIST_FILE = "ExampleGame/ShadyDealings-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../lib/ios/iphonesimulator,
 					../../lib/ios/iphoneos,
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Shady Dealings";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "./ExampleGame/ ../../include ../../Code/ ../../include/Libraries/";
 				WRAPPER_EXTENSION = app;
@@ -2889,8 +2889,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "ExampleGameTests/ExampleGameTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "ExampleGameTests/ShadyDealingsTests-Info.plist";
+				PRODUCT_NAME = ShadyDealingsTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -2908,8 +2908,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ExampleGame/ExampleGame-Prefix.pch";
-				INFOPLIST_FILE = "ExampleGameTests/ExampleGameTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "ExampleGameTests/ShadyDealingsTests-Info.plist";
+				PRODUCT_NAME = ShadyDealingsTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -2918,7 +2918,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		58F246E71850F5C90066E804 /* Build configuration list for PBXProject "ExampleGame" */ = {
+		58F246E71850F5C90066E804 /* Build configuration list for PBXProject "ShadyDealings" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				58F247271850F5C90066E804 /* Debug */,
@@ -2927,7 +2927,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		58F247291850F5C90066E804 /* Build configuration list for PBXNativeTarget "ExampleGame" */ = {
+		58F247291850F5C90066E804 /* Build configuration list for PBXNativeTarget "ShadyDealings" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				58F2472A1850F5C90066E804 /* Debug */,
@@ -2936,7 +2936,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		58F2472C1850F5C90066E804 /* Build configuration list for PBXNativeTarget "ExampleGameTests" */ = {
+		58F2472C1850F5C90066E804 /* Build configuration list for PBXNativeTarget "ShadyDealingsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				58F2472D1850F5C90066E804 /* Debug */,

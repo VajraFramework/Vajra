@@ -77,6 +77,7 @@ public:
 	void DisableNavigation();
 	void EnableNavigation();
 	void HaltMovement();
+	inline bool IsEnabled() { return this->navigationEnabled; }
 
 	void ReturnToCellCenter();  // Use this method if you want to stop a unit's movement but have it end at the center of a cell.
 

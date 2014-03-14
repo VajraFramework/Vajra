@@ -143,12 +143,20 @@ void TransitionZone::onUnitEnteredZone(ObjectIdType id) {
 
 	GridCell* unitCell = gNav->GetCurrentCell();
 	GridRoom* unitRoom = SINGLETONS->GetGridManager()->GetGrid()->GetRoom(unitCell);
-
 	int destCellX1, destCellZ1, destCellX2, destCellZ2;
 	this->GetBothDestinationCoordinates(destCellX1, destCellZ1, destCellX2, destCellZ2);
 	GridCell* destCell1 = SINGLETONS->GetGridManager()->GetGrid()->GetCell(destCellX1, destCellZ1);
 	GridCell* destCell2 = SINGLETONS->GetGridManager()->GetGrid()->GetCell(destCellX2, destCellZ2);
 	GridRoom* destRoom1 = SINGLETONS->GetGridManager()->GetGrid()->GetRoom(destCell1);
+
+
+	if (unitRoom == nullptr) {
+		if(glm::distance(unitCell->center, destCell1->center) < glm::distance(unitCell->center, destCell2->center)) {
+			unitRoom = SINGLETONS->GetGridManager()->GetGrid()->GetRoom(destCell1);
+		} else {
+			unitRoom = SINGLETONS->GetGridManager()->GetGrid()->GetRoom(destCell2);
+		}
+	}
 
 	GridCell* target;
 	if (unitRoom != destRoom1) {

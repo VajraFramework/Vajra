@@ -114,7 +114,7 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 		//
 		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
 		dlightComponent->SetDiffuseColorInts(255, 194, 194, 255);
-		dlightComponent->SetIntensity(0.8f);
+		dlightComponent->SetIntensity(0.85f);
 		dlightComponent->SetLightType(MAIN_LIGHT_STRING);
 	}
 
@@ -129,7 +129,7 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 		//
 		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
 		dlightComponent->SetDiffuseColorInts(108, 126, 201, 255);
-		dlightComponent->SetIntensity(0.15f);
+		dlightComponent->SetIntensity(0.45f);
 		dlightComponent->SetLightType(ADDITIONAL_LIGHT_STRING);
 	}
 
@@ -144,7 +144,7 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 		//
 		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
 		dlightComponent->SetDiffuseColorInts(255, 187, 69, 255);
-		dlightComponent->SetIntensity(0.35f);
+		dlightComponent->SetIntensity(0.75);
 		dlightComponent->SetLightType(ADDITIONAL_LIGHT_STRING);
 	}
 
@@ -159,7 +159,7 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 		//
 		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
 		dlightComponent->SetDiffuseColorInts(121, 175, 204, 255);
-		dlightComponent->SetIntensity(0.35f);
+		dlightComponent->SetIntensity(0.65);
 		dlightComponent->SetLightType(ADDITIONAL_LIGHT_STRING);
 	}
 
