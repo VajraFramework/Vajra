@@ -92,7 +92,7 @@ void PlayerUnit::createTouchIndicator() {
 	this->amendTouchIndicatorPaths(pathsToTextures);
 	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 	this->touchIndicatorRef->SetVisible(true);
-	this->touchIndicatorRef->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+	this->touchIndicatorRef->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
 	this->touchIndicatorRef->GetTransform()->SetScale(glm::vec3(0));
 
 }
@@ -297,8 +297,8 @@ void PlayerUnit::GridPlaneLookAt(GameObject* plane, glm::vec3 target) {
 
 	// Since the plane is normally facing the the -ZAXIS we have to do this
 	trans->SetOrientation(0, YAXIS);
-	trans->Rotate(90.0f inRadians, XAXIS);
-	trans->Rotate(angle, YAXIS);
+	trans->Rotate(-90.0f inRadians, XAXIS);
+	trans->Rotate(180.0f inRadians + angle, YAXIS);
 }
 void PlayerUnit::setTouchNearUnit() {
 	glm::vec3 gridPos = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(touchStartPos, this->gridNavRef->GetCurrentCell()->y);
