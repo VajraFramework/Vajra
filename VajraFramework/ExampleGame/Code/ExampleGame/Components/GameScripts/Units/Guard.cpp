@@ -63,12 +63,16 @@ void Guard::HandleMessage(MessageChunk messageChunk) {
 	}
 }
 
-bool Guard::CanBeKilledBy(ObjectIdType id, glm::vec3 source) {
+bool Guard::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
 	GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 	if (gObj != nullptr) {
 		BaseUnit* unit = gObj->GetComponent<BaseUnit>();
 		if (unit != nullptr) {
 			if ((unit->GetUnitType() >= FIRST_PLAYER_UNIT_TYPE) && (unit->GetUnitType() <= LAST_PLAYER_UNIT_TYPE)) {
+				// Guards can only be killed if they are unaware.
+				auto iter = std::find(this->knownPlayers.begin(), this->knownPlayers.end(), id);
+				return (iter == this->knownPlayers.end());
+				/*
 				// Guards are invincible from the front, so check the angle of the attack.
 				glm::vec3 dir = source - this->gameObjectRef->GetTransform()->GetPositionWorld();
 				glm::vec3 forward = QuaternionForwardVector(this->gameObjectRef->GetTransform()->GetOrientationWorld());
@@ -76,6 +80,7 @@ bool Guard::CanBeKilledBy(ObjectIdType id, glm::vec3 source) {
 				if (angle >= INVINCIBLE_ANGLE) {
 					return true;
 				}
+				*/
 			}
 		}
 	}
