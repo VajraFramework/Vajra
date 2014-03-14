@@ -16,7 +16,7 @@ class DirectionalLight;
 class GameObject;
 class RenderList;
 
-#define USING_FRUSTUM_CULLING 0
+#define USING_FRUSTUM_CULLING 1
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -25,6 +25,11 @@ class TrGo {
 public:
 	RenderList* renderlist;
 	GameObject* gameobject;
+};
+
+enum DistanceFromCameraCompareType {
+	DISTANCE_FROM_CAMERA_COMPARE_TYPE_perspective,
+	DISTANCE_FROM_CAMERA_COMPARE_TYPE_ortho_z,
 };
 
 bool CompareTrGos(TrGo t1, TrGo t2);
@@ -37,8 +42,8 @@ class RenderLists {
 public:
 	~RenderLists();
 
-	void Draw(Camera* camera, bool isDepthPass);
-	void Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights, bool isDepthPass);
+	void Draw(Camera* camera, bool isDepthPass, DistanceFromCameraCompareType compareType);
+	void Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights, bool isDepthPass, DistanceFromCameraCompareType compareType);
 
 private:
 	RenderLists();
