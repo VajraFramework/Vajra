@@ -70,7 +70,7 @@ void Decal::update() {
 
 void Decal::updatePosition() {
 	if (this->decalObjectRef != nullptr) {
-		this->decalObjectRef->GetTransform()->SetPosition(this->gameObjectRef->GetTransform()->GetPositionWorld());
+		this->decalObjectRef->GetTransform()->SetPositionWorld(this->gameObjectRef->GetTransform()->GetPositionWorld());
 		this->decalObjectRef->GetTransform()->Translate(2.0f, YAXIS);
 	}
 }
