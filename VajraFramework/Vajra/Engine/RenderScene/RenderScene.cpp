@@ -80,8 +80,6 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera) {
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &g_default_fbo);
 #endif
 
-	glDisable(GL_CULL_FACE);
-
 	glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
 	renderLists->Draw(camera, false);
 }
@@ -91,9 +89,6 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 							  DirectionalLight* directionalLight,
 							  std::vector<DirectionalLight*> additionalLights) {
 
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	
 #ifdef PLATFORM_IOS
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &g_default_fbo);
 #endif
