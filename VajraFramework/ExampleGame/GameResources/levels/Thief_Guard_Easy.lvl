@@ -134,15 +134,13 @@
       <roomData>
           <room x="28" z="9" width="17" height="11">
           </room>
-          <room x="28" z="21" width="17" height="11">
+          <room x="28" z="22" width="17" height="11">
           </room>
       </roomData>
   </grid>
 
   <static>
 		<staticObject id="11924" prefab="SD_Column_01" x="35" y="0.0" z="18" width="1" height="1" rotation="180">
-      </staticObject>
-		<staticObject id="14450" prefab="SD_Column_01" x="41" y="2.0" z="13" width="1" height="1" rotation="180">
       </staticObject>
 		<staticObject id="12066" prefab="SD_Column_01" x="31" y="2.0" z="13" width="1" height="1" rotation="180">
       </staticObject>
@@ -156,23 +154,25 @@
       </staticObject>
 		<staticObject id="10630" prefab="SD_Column_01" x="38" y="0.0" z="32" width="1" height="1" rotation="180">
       </staticObject>
+		<staticObject id="14450" prefab="SD_Column_01" x="41" y="2.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
 		<staticObject id="14970" prefab="SD_Fountain_01" x="35" y="0.5.0" z="28" width="3" height="3" rotation="180">
       </staticObject>
 		<staticObject id="13984" prefab="SD_Hedge_Straight_01" x="41" y="0.0" z="8" width="1" height="1" rotation="180">
       </staticObject>
 		<staticObject id="14674" prefab="SD_Hedge_Straight_01" x="31" y="0.0" z="8" width="1" height="1" rotation="180">
       </staticObject>
-		<staticObject id="11274" prefab="SD_HighWall_Corner_01" x="45" y="0.0" z="13" width="1" height="1" rotation="180">
-      </staticObject>
 		<staticObject id="13150" prefab="SD_HighWall_Corner_01" x="27" y="0.0" z="13" width="1" height="1" rotation="180">
-      </staticObject>
-		<staticObject id="12758" prefab="SD_HighWall_Corner_01" x="45" y="0.0" z="19" width="1" height="1" rotation="180">
       </staticObject>
 		<staticObject id="13998" prefab="SD_HighWall_Corner_01" x="38" y="0.0" z="19" width="1" height="1" rotation="180">
       </staticObject>
 		<staticObject id="12152" prefab="SD_HighWall_Corner_01" x="27" y="0.0" z="19" width="1" height="1" rotation="180">
       </staticObject>
 		<staticObject id="10784" prefab="SD_HighWall_Corner_01" x="34" y="0.0" z="19" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="11274" prefab="SD_HighWall_Corner_01" x="45" y="0.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="12758" prefab="SD_HighWall_Corner_01" x="45" y="0.0" z="19" width="1" height="1" rotation="180">
       </staticObject>
 		<staticObject id="13172" prefab="SD_HighWall_End_01" x="34" y="0.0" z="33" width="1" height="1" rotation="270">
       </staticObject>
@@ -188,11 +188,11 @@
       </staticObject>
 		<staticObject id="13542" prefab="SD_HighWall_Straight_1x5_01" x="28" y="0.0" z="19" width="5" height="1" rotation="180">
       </staticObject>
-		<staticObject id="15110" prefab="SD_HighWall_Straight_1x5_01" x="45" y="0.0" z="14" width="1" height="5" rotation="90">
-      </staticObject>
 		<staticObject id="11706" prefab="SD_HighWall_Straight_1x5_01" x="27" y="0.0" z="14" width="1" height="5" rotation="90">
       </staticObject>
 		<staticObject id="13474" prefab="SD_HighWall_Straight_1x5_01" x="40" y="0.0" z="19" width="5" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="15110" prefab="SD_HighWall_Straight_1x5_01" x="45" y="0.0" z="14" width="1" height="5" rotation="90">
       </staticObject>
 		<staticObject id="14470" prefab="SD_HighWall_Straight_1x9_01" x="39" y="0.0" z="33" width="9" height="1" rotation="180">
       </staticObject>
@@ -212,19 +212,19 @@
       </staticObject>
 		<staticObject id="14540" prefab="SD_Medium_House_End_01" x="45" y="0.0" z="27" width="3" height="3" rotation="270">
       </staticObject>
-		<staticObject id="11670" prefab="SD_Medium_House_End_01" x="42" y="0.0" z="8" width="3" height="3" rotation="90">
-      </staticObject>
 		<staticObject id="12044" prefab="SD_Medium_House_End_01" x="25" y="0.0" z="27" width="3" height="3" rotation="90">
       </staticObject>
 		<staticObject id="13412" prefab="SD_Medium_House_End_01" x="28" y="0.0" z="8" width="3" height="3" rotation="90">
       </staticObject>
-		<staticObject id="13576" prefab="SD_Medium_House_Straight_01" x="42" y="0.0" z="11" width="3" height="3" rotation="90">
+		<staticObject id="11670" prefab="SD_Medium_House_End_01" x="42" y="0.0" z="8" width="3" height="3" rotation="90">
       </staticObject>
 		<staticObject id="14160" prefab="SD_Medium_House_Straight_01" x="45" y="0.0" z="24" width="3" height="3" rotation="90">
       </staticObject>
 		<staticObject id="13956" prefab="SD_Medium_House_Straight_01" x="25" y="0.0" z="30" width="3" height="3" rotation="90">
       </staticObject>
 		<staticObject id="14608" prefab="SD_Medium_House_Straight_01" x="28" y="0.0" z="11" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="13576" prefab="SD_Medium_House_Straight_01" x="42" y="0.0" z="11" width="3" height="3" rotation="90">
       </staticObject>
 		<staticObject id="11812" prefab="SD_Nature_TallTree_01" x="29" y="0.0" z="32" width="1" height="1" rotation="180">
       </staticObject>
