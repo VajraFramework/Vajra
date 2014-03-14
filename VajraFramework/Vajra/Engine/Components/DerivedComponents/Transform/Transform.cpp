@@ -107,6 +107,14 @@ void Transform::SetPosition(glm::vec3 newPosition) {
 	this->setPosition(newPosition);
 }
 
+void Transform::SetPositionWorld(float x, float y, float z) {
+	this->setPositionWorld(glm::vec3(x, y, z));
+}
+
+void Transform::SetPositionWorld(glm::vec3 newPosition) {
+	this->setPositionWorld(newPosition);
+}
+
 void Transform::SetOrientation(float angleInRadians, float x, float y, float z) {
 	this->setOrientation(glm::angleAxis(angleInRadians, \
 										glm::vec3(x, y, z)));
@@ -197,6 +205,20 @@ void Transform::LookAt(glm::vec3 point) {
 
 void Transform::setPosition(glm::vec3 newPosition) {
 	this->position = newPosition;
+
+	// TODO [Implement] : call this only once at the end of draining all msgs in this frame, maybe
+	this->updateModelMatrix();
+}
+
+void Transform::setPositionWorld(glm::vec3 newPosition) {
+	glm::vec3 translation = newPosition - this->positionWorld;
+
+	GameObject* parent = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->GetObject()->GetParentId());
+	if (parent != nullptr) {
+		translation = translation * glm::inverse(parent->GetTransform()->GetOrientationWorld());
+	}
+
+	this->position = this->position + translation;
 
 	// TODO [Implement] : call this only once at the end of draining all msgs in this frame, maybe
 	this->updateModelMatrix();
