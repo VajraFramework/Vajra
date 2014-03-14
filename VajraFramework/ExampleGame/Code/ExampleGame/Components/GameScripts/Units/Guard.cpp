@@ -45,8 +45,11 @@ void Guard::init() {
 	this->cooldownTimer = GUARD_COOLDOWN_TIME;
 	this->attackTimer = GUARD_ATTACK_TIME;
 	this->targetId = OBJECT_ID_INVALID;
+	this->weaponObjId = OBJECT_ID_INVALID;
+	this->shieldObjId = OBJECT_ID_INVALID;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_ANIMATION_ENDED_EVENT, this->GetTypeId(), true);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), true);
 }
 
 void Guard::destroy() {
@@ -61,6 +64,24 @@ void Guard::HandleMessage(MessageChunk messageChunk) {
 			this->onAnimationEnded(messageChunk->messageData.s);
 			break;
 	}
+}
+
+void Guard::SwitchActionState(UnitActionState newState) {
+	if(newState != this->GetUnitActionState()) {
+		UnitActionState oldState = this->GetUnitActionState();
+		MessageChunk messageChunk = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		messageChunk->SetMessageType(MESSAGE_TYPE_UNIT_ACTION_STATE_CHANGED);
+		messageChunk->messageData.iv1.x = oldState;
+		messageChunk->messageData.iv1.y = newState;
+		if (this->weaponObjId != OBJECT_ID_INVALID) {
+			ENGINE->GetMessageHub()->SendPointcastMessage(messageChunk, this->weaponObjId, this->GetObject()->GetId());
+		}
+		if (this->shieldObjId != OBJECT_ID_INVALID) {
+			ENGINE->GetMessageHub()->SendPointcastMessage(messageChunk, this->shieldObjId, this->GetObject()->GetId());
+		}
+	}
+
+	BaseUnit::SwitchActionState(newState);
 }
 
 bool Guard::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
@@ -85,6 +106,21 @@ bool Guard::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
 		}
 	}
 	return false;
+}
+
+void Guard::start() {
+	std::list<ObjectIdType> childIds = this->gameObjectRef->GetChildren();
+	for (ObjectIdType childId : childIds) {
+		GameObject* childObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(childId);
+		if (childObj != nullptr) {
+			if (childObj->HasTag("Weapon")) {
+				this->weaponObjId = childId;
+			}
+			if (childObj->HasTag("Shield")) {
+				this->shieldObjId = childId;
+			}
+		}
+	}
 }
 
 void Guard::determineBrainState() {
