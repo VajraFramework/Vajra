@@ -16,7 +16,7 @@ class DirectionalLight;
 class GameObject;
 class RenderList;
 
-#define USING_FRUSTUM_CULLING 1
+#define USING_FRUSTUM_CULLING 0
 
 ////////////////////////////////////////////////////////////////////////////////
 

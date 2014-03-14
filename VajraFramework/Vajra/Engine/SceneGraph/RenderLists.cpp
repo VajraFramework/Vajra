@@ -21,8 +21,10 @@ static glm::vec3 g_current_cameraPosition = glm::vec3(0.0f, 0.0f, 0.0f);
 static Camera* g_current_camera = nullptr;
 
 bool CompareTrGos(TrGo t1, TrGo t2) {
-	float t1_distanceFromCamera = glm::distance(g_current_cameraPosition, t1.gameobject->GetTransform()->GetPositionWorld());
-	float t2_distanceFromCamera = glm::distance(g_current_cameraPosition, t2.gameobject->GetTransform()->GetPositionWorld());
+	//float t1_distanceFromCamera = glm::distance(g_current_cameraPosition, t1.gameobject->GetTransform()->GetPositionWorld());
+	//float t2_distanceFromCamera = glm::distance(g_current_cameraPosition, t2.gameobject->GetTransform()->GetPositionWorld());
+	float t1_distanceFromCamera = g_current_cameraPosition.z - t1.gameobject->GetTransform()->GetPositionWorld().z; //glm::distance(g_current_cameraPosition, t1.gameobject->GetTransform()->GetPositionWorld());
+	float t2_distanceFromCamera = g_current_cameraPosition.z - t2.gameobject->GetTransform()->GetPositionWorld().z;//glm::distance(g_current_cameraPosition, t2.gameobject->GetTransform()->GetPositionWorld());
 	return (t1_distanceFromCamera < t2_distanceFromCamera);
 }
 

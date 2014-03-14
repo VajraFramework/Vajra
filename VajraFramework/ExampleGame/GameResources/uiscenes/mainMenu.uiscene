@@ -53,7 +53,6 @@
 			<size widthPixels="1024" heightPixels="768"></size>
 			<zorder>1</zorder>
 		</dimensions>
-		<image name="SD_LevelSelection_Background.png" hasTransperancy="false"> </image>
 		<uielement name="missionNavBar" visible="true" clickable="false">
 			<dimensions>
 				<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
@@ -61,6 +60,38 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<image name="SD_LevelSelection_NavBar.png" hasTransperancy="false"> </image>
+		</uielement>
+
+		<uielement name="parallax" visible="true" clickable="true">
+			<dimensions>
+				<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
+				<size widthPixels="1024" heightPixels="768"></size>
+				<zorder>5</zorder>
+			</dimensions>
+			<uielement name="parallaxBack" visible="true" clickable="false">
+				<dimensions>
+					<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
+					<size widthPixels="1536" heightPixels="768"></size>
+					<zorder>1</zorder>
+				</dimensions>
+				<image name="SD_Paralax_Back_01.png" hasTransperancy="true"> </image>
+			</uielement>
+			<uielement name="parallaxMid" visible="true" clickable="false">
+				<dimensions>
+					<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
+					<size widthPixels="2048" heightPixels="768"></size>
+					<zorder>2</zorder>
+				</dimensions>
+				<image name="SD_Paralax_Mid_01.png" hasTransperancy="true"> </image>
+			</uielement>
+				<uielement name="parallaxFront" visible="true" clickable="false">
+				<dimensions>
+					<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
+					<size widthPixels="3072" heightPixels="768"></size>
+					<zorder>3</zorder>
+				</dimensions>
+				<image name="SD_Paralax_Front_01.png" hasTransperancy="true"> </image>
+			</uielement>
 		</uielement>
 	</uielement>
 	
