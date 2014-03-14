@@ -5,6 +5,7 @@
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
+#include "Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -44,8 +45,8 @@ void UnitAnimationManager::HandleMessage(MessageChunk messageChunk) {
 void UnitAnimationManager::onAnimationEndMessage(MessageChunk messageChunk) {
 	if (messageChunk->messageData.s == UNIT_ANIMATION_CLIP_NAME_postspecial) {
 		BaseUnit* thisBaseUnit = this->GetObject()->GetComponent<BaseUnit>();
-		VERIFY(thisBaseUnit != nullptr, "UnitAnimationManager's parent game object has a BaseUnit component");
-		if(thisBaseUnit->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_POST_SPECIAL) {
+		//VERIFY(thisBaseUnit != nullptr, "UnitAnimationManager's parent game object has a BaseUnit component");
+		if((thisBaseUnit != nullptr) && (thisBaseUnit->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_POST_SPECIAL)) {
 			thisBaseUnit->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 		}
 	}
@@ -94,12 +95,20 @@ void UnitAnimationManager::onUnitActionStateChanged(UnitActionState oldState, Un
 	if (bakedSkeletalAnimation != nullptr && animclipToPlay != "") {
 		bakedSkeletalAnimation->PlayAnimationClip(animclipToPlay);
 	}
+	RigidAnimation* rigidAnimation = this->gameObjectRef->GetComponent<RigidAnimation>();
+	if (rigidAnimation != nullptr && animclipToPlay != "") {
+		rigidAnimation->PlayAnimationClip(animclipToPlay);
+	}
 }
 
 void UnitAnimationManager::start() {
 	BakedSkeletalAnimation* bakedSkeletalAnimation = this->gameObjectRef->GetComponent<BakedSkeletalAnimation>();
 	if (bakedSkeletalAnimation != nullptr) {
 		bakedSkeletalAnimation->PlayAnimationClip(UNIT_ANIMATION_CLIP_NAME_idle);
+	}
+	RigidAnimation* rigidAnimation = this->gameObjectRef->GetComponent<RigidAnimation>();
+	if (rigidAnimation != nullptr) {
+		rigidAnimation->PlayAnimationClip(UNIT_ANIMATION_CLIP_NAME_idle);
 	}
 }
 
