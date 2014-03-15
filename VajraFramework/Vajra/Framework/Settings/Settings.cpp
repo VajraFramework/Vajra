@@ -59,10 +59,24 @@ bool Settings::readSettingsFromDisk() {
 
 	delete parser;
 
+	file.close();
+
 	return true;
 }
 
 void Settings::flushSettingsToDisk() {
+	std::ofstream file;
+	GetSettingsFileHandleForWriting(file);
+
+	file << "<settings>" << std::endl;
+
+	for (auto it : this->settings) {
+		file << "\t<setting name=\"" << getSettingTypeNameForSettingType(it.first) << "\" value=\"" << getSettingLevelNameForSettingLevel(it.second) << "\">";
+		file << "</setting>" << std::endl;
+	}
+	file << "</settings>" << std::endl;
+
+	file.close();
 }
 
 void Settings::init() {
