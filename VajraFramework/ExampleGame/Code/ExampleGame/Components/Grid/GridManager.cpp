@@ -623,9 +623,16 @@ void GridManager::CheckZoneCollisions(ObjectIdType id, GridCell* startCell, Grid
 
 		MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED);
-		collisionMessage->messageData.iv1.x = startCell->x;
-		collisionMessage->messageData.iv1.y = startCell->y;
-		collisionMessage->messageData.iv1.z = startCell->z;
+		if (startCell != nullptr) {
+			collisionMessage->messageData.iv1.x = startCell->x;
+			collisionMessage->messageData.iv1.y = startCell->y;
+			collisionMessage->messageData.iv1.z = startCell->z;
+		}
+		else {
+			collisionMessage->messageData.iv1.x = -1;
+			collisionMessage->messageData.iv1.y = -1;
+			collisionMessage->messageData.iv1.z = -1;
+		}
 		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, destZoneObjId, id);
 	}
 }
