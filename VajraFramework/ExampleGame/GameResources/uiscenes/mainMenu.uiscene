@@ -23,6 +23,15 @@
 			</dimensions>
 			<color r="1.0" g="1.0" b="1.0" a="0.0"></color>
 		</uielement>
+		<uielement name="options" visible="true" clickable="true">
+			<dimensions>
+				<position xwrto="LEFT" ywrto="TOP" x="425" y="465"></position>
+				<size widthPixels="185" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<color r="1.0" g="1.0" b="1.0" a="0.0"></color>
+		</uielement>
+
 	</uielement>
 
 	<uielement name="optionsMenu" visible="false" clickable="true">
@@ -34,9 +43,9 @@
 
 		<uielement name="back" clickable="true" visible="true">
 			<dimensions>
-				<position x="430" y="300"></position>
-				<size widthPixels="320" heightPixels="160"></size>
-				<zorder>0</zorder>
+				<position x="430" y="500"></position>
+				<size widthPixels="150" heightPixels="64"></size>
+				<zorder>1</zorder>
 			</dimensions>
 			<text>
 				<font type="calibiri.fontspec" size="64.0"></font>
