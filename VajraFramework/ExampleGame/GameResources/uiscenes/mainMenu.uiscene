@@ -17,11 +17,11 @@
 	<image name="SD_Main_Menu.png" hasTransperancy="false"> </image>
 		<uielement name="play" visible="true" clickable="true">
 			<dimensions>
-				<position xwrto="LEFT" ywrto="TOP" x="425" y="385"></position>
+				<position xwrto="LEFT" ywrto="TOP" x="425" y="450"></position>
 				<size widthPixels="185" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
-			<color r="1.0" g="1.0" b="1.0" a="0.0"></color>
+			<image name="SD_Play_Button.png" hasTransperancy="false"> </image>
 		</uielement>
 	</uielement>
 

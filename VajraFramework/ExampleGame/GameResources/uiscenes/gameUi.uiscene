@@ -84,34 +84,37 @@
 
 	<uielement name="pauseMenu" clickable="false" visible="false">
 		<dimensions>
-			<position xwrto="LEFT" ywrto="TOP" x="0" y="0"></position>
-			<size widthPixels="1024" heightPixels="768"></size>
+			<position xwrto="CENTER" ywrto="CENTER" x="-246.5" y="-185"></position>
+			<size widthPixels="495" heightPixels="370"></size>
 			<zorder>1</zorder>
 		</dimensions>
-		<image name="SD_PauseMenu.png" hasTransperancy="true"> </image>
+		<image name="SD_Pause_Menu.png" hasTransperancy="true"> </image>
 
 		<uielement name="resume" clickable="true" visible="true">
 			<dimensions>
-				<position x="426" y="267"></position>
+				<position x="162" y="68"></position>
 				<size widthPixels="170" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
+			<image name="SD_Resume_Button.png" hasTransperancy="false"> </image>
 		</uielement>
 
 		<uielement name="restart_pause" clickable="true" visible="true">
 			<dimensions>
-				<position x="426" y="347"></position>
+				<position x="162" y="146"></position>
 				<size widthPixels="170" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
+			<image name="SD_Restart_Button.png" hasTransperancy="false"> </image>
 		</uielement>
 
 		<uielement name="mission_from_pause" clickable="true" visible="true">
 			<dimensions>
-				<position x="426" y="427"></position>
+				<position x="162" y="223"></position>
 				<size widthPixels="170" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
+			<image name="SD_Menu_Button.png" hasTransperancy="false"> </image>
 		</uielement>
 	</uielement>	
 
