@@ -31,6 +31,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/ParserTags.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
+#include "Vajra/Framework/Settings/Settings.h"
 
 std::map<int, ObjectIdType> LevelLoader::idsFromXml;
 
@@ -99,75 +100,6 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 		lightMapName = lightmapNode->GetAttributeValueS(NAME_ATTRIBUTE);
 	}
 
-	delete parser;
-
-	idsFromXml.clear();
-	
-	{
-		// Add main directional light:
-		GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
-		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
-		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
-		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(50.0f  inRadians, 1.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(-225.0f inRadians, 0.0f, 1.0f, 0.0f);
-		//
-		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
-		dlightComponent->SetDiffuseColorInts(255, 194, 194, 255);
-		dlightComponent->SetIntensity(0.85f);
-		dlightComponent->SetLightType(MAIN_LIGHT_STRING);
-	}
-
-	{
-		// Add additional light:
-		GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
-		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
-		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
-		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(30.0f  inRadians, 1.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(-45.0f inRadians, 0.0f, 1.0f, 0.0f);
-		//
-		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
-		dlightComponent->SetDiffuseColorInts(108, 126, 201, 255);
-		dlightComponent->SetIntensity(0.45f);
-		dlightComponent->SetLightType(ADDITIONAL_LIGHT_STRING);
-	}
-
-	{
-		// Add additional light:
-		GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
-		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
-		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
-		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(30.0f  inRadians, 1.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(45.0f inRadians, 0.0f, 1.0f, 0.0f);
-		//
-		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
-		dlightComponent->SetDiffuseColorInts(255, 187, 69, 255);
-		dlightComponent->SetIntensity(0.75);
-		dlightComponent->SetLightType(ADDITIONAL_LIGHT_STRING);
-	}
-
-	{
-		// Add additional light:
-		GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
-		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
-		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
-		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(30.0f  inRadians, 1.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(-135.0f inRadians, 0.0f, 1.0f, 0.0f);
-		//
-		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
-		dlightComponent->SetDiffuseColorInts(121, 175, 204, 255);
-		dlightComponent->SetIntensity(0.65);
-		dlightComponent->SetLightType(ADDITIONAL_LIGHT_STRING);
-	}
-
-
-	// Set up depth camera properties for real time shadows:
-	ENGINE->GetShadowMap()->SetOrthoBounds(-20.0f, 30.0f, -30.0f, 20.0f, 0.0f, 60.0f);
-
-
 	if (lightMapName != "") {
 		std::string pathToAmbientLightMap = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + lightMapName;
 		ENGINE->GetAmbientLighting()->SetBakedAmbientLightTexture(
@@ -177,6 +109,12 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	} else {
 		ENGINE->GetAmbientLighting()->ResetBakedAmbientLightTexture();
 	}
+
+	delete parser;
+
+	idsFromXml.clear();
+	
+	LevelLoader::adjustLighting();
 }
 
 LevelType LevelLoader::stringToLevelType(std::string type) {
@@ -489,4 +427,95 @@ void LevelLoader::loadEndConditionsFromXml(XmlNode* linkBaseNode) {
 	// Generate the default lose condition
 	GameObject* defaultLose = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + DEFAULT_LOSE_CONDITION + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
 	SINGLETONS->GetLevelManager()->AddLoseCondition(defaultLose->GetId());
+}
+
+void LevelLoader::adjustLighting() {
+
+	/*
+	 * Read in settings:
+	 */
+	float BRIGHTNESS_MULTIPLIER = 1.0f;
+	SettingLevel_t brightness_level = FRAMEWORK->GetSettings()->GetSetting(SETTING_TYPE_brightness);
+	switch (brightness_level) {
+	case SETTING_LEVEL_off   : BRIGHTNESS_MULTIPLIER = 0.0f; break;
+	case SETTING_LEVEL_low   : BRIGHTNESS_MULTIPLIER = 0.3f; break;
+	case SETTING_LEVEL_medium: BRIGHTNESS_MULTIPLIER = 0.6f; break;
+	case SETTING_LEVEL_high  : BRIGHTNESS_MULTIPLIER = 1.0f; break;
+	default                  : BRIGHTNESS_MULTIPLIER = 0.6f; break;
+	}
+
+	SettingLevel_t ambientLighting_level = FRAMEWORK->GetSettings()->GetSetting(SETTING_TYPE_ambient_lighting);
+
+	{
+		// Add main directional light:
+		GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
+		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
+		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
+		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
+		dlight->GetTransform()->Rotate(50.0f  inRadians, 1.0f, 0.0f, 0.0f);
+		dlight->GetTransform()->Rotate(-225.0f inRadians, 0.0f, 1.0f, 0.0f);
+		//
+		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
+		dlightComponent->SetDiffuseColorInts(255, 194, 194, 255);
+		dlightComponent->SetIntensity(0.85f * BRIGHTNESS_MULTIPLIER);
+		dlightComponent->SetLightType(MAIN_LIGHT_STRING);
+	}
+
+	{
+		// Add additional light:
+		GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
+		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
+		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
+		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
+		dlight->GetTransform()->Rotate(30.0f  inRadians, 1.0f, 0.0f, 0.0f);
+		dlight->GetTransform()->Rotate(-45.0f inRadians, 0.0f, 1.0f, 0.0f);
+		//
+		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
+		dlightComponent->SetDiffuseColorInts(108, 126, 201, 255);
+		dlightComponent->SetIntensity(0.45f * BRIGHTNESS_MULTIPLIER);
+		dlightComponent->SetLightType(ADDITIONAL_LIGHT_STRING);
+	}
+
+	{
+		// Add additional light:
+		GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
+		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
+		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
+		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
+		dlight->GetTransform()->Rotate(30.0f  inRadians, 1.0f, 0.0f, 0.0f);
+		dlight->GetTransform()->Rotate(45.0f inRadians, 0.0f, 1.0f, 0.0f);
+		//
+		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
+		dlightComponent->SetDiffuseColorInts(255, 187, 69, 255);
+		dlightComponent->SetIntensity(0.75 * BRIGHTNESS_MULTIPLIER);
+		dlightComponent->SetLightType(ADDITIONAL_LIGHT_STRING);
+	}
+
+	{
+		// Add additional light:
+		GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
+		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
+		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
+		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
+		dlight->GetTransform()->Rotate(30.0f  inRadians, 1.0f, 0.0f, 0.0f);
+		dlight->GetTransform()->Rotate(-135.0f inRadians, 0.0f, 1.0f, 0.0f);
+		//
+		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
+		dlightComponent->SetDiffuseColorInts(121, 175, 204, 255);
+		dlightComponent->SetIntensity(0.65 * BRIGHTNESS_MULTIPLIER);
+		dlightComponent->SetLightType(ADDITIONAL_LIGHT_STRING);
+	}
+
+
+	// Set up depth camera properties for real time shadows:
+	ENGINE->GetShadowMap()->SetOrthoBounds(-20.0f, 30.0f, -30.0f, 20.0f, 0.0f, 60.0f);
+
+
+	switch (ambientLighting_level) {
+	case SETTING_LEVEL_off   : ENGINE->GetAmbientLighting()->ResetBakedAmbientLightTexture(); break;
+	case SETTING_LEVEL_low   : ENGINE->GetAmbientLighting()->SetIntensity(INTENSITY_low);     break;
+	case SETTING_LEVEL_medium: ENGINE->GetAmbientLighting()->SetIntensity(INTENSITY_medium);  break;
+	case SETTING_LEVEL_high  : ENGINE->GetAmbientLighting()->SetIntensity(INTENSITY_high);    break;
+	default                  : ENGINE->GetAmbientLighting()->SetIntensity(INTENSITY_medium);  break;
+	}
 }

@@ -38,7 +38,7 @@ GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
     checkGlError("glBindTexture");
     // stretch it
 #ifdef USING_MIPMAPS
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
     checkGlError("glTexParameteri");
 #else
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

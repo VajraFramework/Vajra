@@ -15,14 +15,21 @@ XmlParser::~XmlParser() {
 	this->destroy();
 }
 
-void XmlParser::ParseXmlFile(std::string filePath) {
-	FRAMEWORK->GetLogger()->dbglog("\nParsing xml file: %s", filePath.c_str());
+void XmlParser::ParseXmlFile(std::ifstream& file) {
+	FRAMEWORK->GetLogger()->dbglog("\nParsing xml file");
 
 	this->xmlTree = new XmlTree();
 
+	this->parseXmlFile_internal(file);
+}
+
+void XmlParser::ParseXmlFile(std::string filePath) {
+	FRAMEWORK->GetLogger()->dbglog("\nParsing xml file: %s", filePath.c_str());
+
 	std::ifstream file(filePath.c_str());
 	ASSERT(file.good(), "Successfully opened xml file at path %s for reading", filePath.c_str());
-	this->parseXmlFile_internal(file);
+
+	this->ParseXmlFile(file);
 }
 
 void XmlParser::init() {

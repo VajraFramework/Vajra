@@ -9,6 +9,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
+#include "Vajra/Framework/Settings/Settings.h"
 
 ShadowMap::ShadowMap() {
 	// Don't call init here
@@ -132,7 +133,18 @@ void ShadowMap::Draw() {
 	}
 }
 
+void ShadowMap::loadSettings() {
+	SettingLevel_t shadowsSetting = FRAMEWORK->GetSettings()->GetSetting(SETTING_TYPE_shadows);
+	switch (shadowsSetting) {
+	case SETTING_LEVEL_low   : this->depthMap_width = this->depthMap_height = 1024; break;
+	case SETTING_LEVEL_medium: this->depthMap_width = this->depthMap_height = 2048; break;
+	case SETTING_LEVEL_high  : this->depthMap_width = this->depthMap_height = 2048; break;
+	default                  : this->depthMap_width = this->depthMap_height = 2048; break;
+	}
+}
+
 void ShadowMap::init() {
+
 	this->createDepthCamera();
 
 	this->ortho_bounds_left = -20.0f;
@@ -142,7 +154,13 @@ void ShadowMap::init() {
 	this->ortho_bounds_near = -20.0f;
 	this->ortho_bounds_far = 20.0f;
 
+	this->depthMap_width  = 2048;
+	this->depthMap_height = 2048;
+
 	this->AddComponent<ShadowMapUpdateListener>();
+
+	// Load global settings from the settings file:
+	this->loadSettings();
 }
 
 void ShadowMap::destroy() {
@@ -155,4 +173,9 @@ void ShadowMap::SetOrthoBounds(float left, float right, float bottom, float top,
 	this->ortho_bounds_top    = top;
 	this->ortho_bounds_near   = near;
 	this->ortho_bounds_far    = far;
+}
+
+void ShadowMap::GetDepthMapResolution(unsigned int& out_width, unsigned int& out_height) {
+	out_width  = this->depthMap_width;
+	out_height = this->depthMap_height;
 }

@@ -55,11 +55,11 @@ void SpriteRenderer::initPlane(unsigned int width, unsigned int height, std::str
 	//
 	this->indices.clear();
 	this->indices.push_back(0);
+	this->indices.push_back(2);
 	this->indices.push_back(1);
-	this->indices.push_back(2);
 	this->indices.push_back(0);
-	this->indices.push_back(2);
 	this->indices.push_back(3);
+	this->indices.push_back(2);
 
 	this->SetShaderName(shaderName_);
 

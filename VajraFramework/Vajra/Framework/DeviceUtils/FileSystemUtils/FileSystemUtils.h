@@ -23,6 +23,7 @@
 #endif
 #define RESOURCES_FOLDER_NAME_UISCENES            "uiscenes/"
 #define RESOURCES_FOLDER_NAME_PREFABS             "prefabs/"
+#define RESOURCES_FOLDER_NAME_SETTINGS            "settings/"
 #define RESOURCES_FOLDER_NAME_TAGS                "tags/"
 #define RESOURCES_FOLDER_NAME_CONSTANTS           "gameconstants/"
 
@@ -41,6 +42,7 @@ public:
     inline const std::string GetDeviceUiScenesResourcesFolderName()  const { return RESOURCES_FOLDER_NAME_UISCENES;   }
     inline const std::string GetDevicePrefabsResourcesFolderName()   const { return RESOURCES_FOLDER_NAME_PREFABS;    }
     inline const std::string GetDevicePrefabsTagsFolderName()        const { return RESOURCES_FOLDER_NAME_TAGS;       }
+    inline const std::string GetDeviceSettingsResourcesFolderName()  const { return RESOURCES_FOLDER_NAME_SETTINGS;   }
     inline const std::string GetDevicePrefabsConstantsFolderName()   const { return RESOURCES_FOLDER_NAME_CONSTANTS;  }
     
     inline const std::string GetDeviceBaseResourcesPath()      const { return this->deviceBaseResourcesPath;          }
@@ -54,6 +56,7 @@ public:
     inline const std::string GetDeviceFontResourcesPath()      const { return this->deviceFontResourcesPath;          }
     inline const std::string GetDeviceUiScenesResourcesPath()  const { return this->deviceUiScenesResourcesPath;      }
     inline const std::string GetDevicePrefabsResourcesPath()   const { return this->devicePrefabsResourcesPath;       }
+    inline const std::string GetDeviceSettingsResourcesPath()  const { return this->deviceSettingsResourcesPath;      }
     inline const std::string GetDeviceTagsResourcesPath()      const { return this->deviceTagsResourcesPath;          }
     inline const std::string GetDeviceConstantsResourcesPath() const { return this->deviceConstantsResourcesPath;     }
     
@@ -73,6 +76,7 @@ private:
     std::string deviceFontResourcesPath;
     std::string deviceUiScenesResourcesPath;
     std::string devicePrefabsResourcesPath;
+    std::string deviceSettingsResourcesPath;
     std::string deviceTagsResourcesPath;
     std::string deviceConstantsResourcesPath;
     
