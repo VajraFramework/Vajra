@@ -36,7 +36,7 @@ MainMenuTouchHandlers::MainMenuTouchHandlers() {
 	missionStartX.push_back(-2032.0f);
 }
 
-void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch touch) {
+void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /*touch*/) {
 	if(uiObject->GetName() == PARALLAX) {
 		for(ObjectIdType id : uiObject->GetChildren()){
 			ENGINE->GetTween()->CancelPostitionTween(id);
@@ -59,7 +59,7 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 			float xDiff = touch.pos.x - touch.prevPos.x;
 			this->parallaxScroll(uiObject, xDiff, true);
 		}
-		for(int i = 0; i < this->currentLevelButtons[this->currentMission].size(); i++) {
+		for(int i = 0; i < (int)this->currentLevelButtons[this->currentMission].size(); i++) {
 			if(this->currentLevelButtons[this->currentMission][i] == uiObject) {
 				std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
 				int levelOffset = 0;
@@ -106,7 +106,7 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 				}
 			}
 		} else if(screenX < this->missionStartX[this->currentMission]) { // RIGHT
-			if(this->currentMission < this->missionStartX.size() - 1) {
+			if(this->currentMission < (int)this->missionStartX.size() - 1) {
 				if(std::abs(dist) > std::abs(this->missionStartX[this->currentMission + 1] - screenX)) {
 					this->currentMission++;
 				}

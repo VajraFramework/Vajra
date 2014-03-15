@@ -110,7 +110,7 @@ void LevelManager::LoadLevelFromData(LevelData levelData) {
 
 LevelData LevelManager::GetLevelData(int index) 
 { 
-	if(index < this->levelData.size()) {
+	if(index < (int)this->levelData.size()) {
 		return this->levelData[index];
 	}
 	ASSERT(false, "index passed into GetLevelData is valid");
@@ -118,7 +118,7 @@ LevelData LevelManager::GetLevelData(int index)
 }
 
 int LevelManager::GetNumLevelsInMission(int mission) {
-	if(mission < this->levelsPerMission.size()) {
+	if(mission < (int)this->levelsPerMission.size()) {
 		return this->levelsPerMission[mission];
 	}
 	ASSERT(false, "mission passed into GetNumLevelsInMission is valid");
