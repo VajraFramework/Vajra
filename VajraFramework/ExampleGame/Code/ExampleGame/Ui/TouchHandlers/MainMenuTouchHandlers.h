@@ -13,8 +13,17 @@ public:
 	virtual void OnTouchUpHandlers  (UiObject* uiObject, Touch touch);
 private:
 	void createMissionMenu();
-	UiElement* missionRoot;
+	float startTouchX;
+	float currentScreenX;
 
+	std::vector<std::vector<UiObject*>> currentLevelButtons;
+	UiElement* missionRoot;
+	
+	int currentMission;
+	void parallaxScroll(UiObject* parallaxRoot, float touchX, bool touchEnd = false);
+	void scrollToCurrentMission();
+
+	std::vector<int> missionStartX;
 	friend class MenuManager;
 };
 
