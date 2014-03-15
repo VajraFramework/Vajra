@@ -9,6 +9,8 @@
 #include "ExampleGame/Components/Grid/GridZone.h"
 #include "Libraries/glm/glm.hpp"
 
+class GridCell;
+
 //[[COMPONENT]]//
 class TransitionZone : public GridZone {
 public:
@@ -40,7 +42,7 @@ private:
 	void init();
 	void destroy();
 
-	void onUnitEnteredZone(ObjectIdType id);
+	void onUnitEnteredZone(ObjectIdType id, GridCell* startCell);
 
 	int destX1, destZ1;	// Coordinates of first destination relative to object's position
 	int destX2, destZ2; // Coordinates of second destination relative to object's position
