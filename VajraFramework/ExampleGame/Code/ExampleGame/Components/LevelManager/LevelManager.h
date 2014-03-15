@@ -30,6 +30,11 @@ public:
 	std::string description;
 	LevelType type;
 	bool hasTutorial;
+	int mission;
+	int parallaxScreen;
+	float pinX;
+	float pinY;
+
 };
 
 //[[COMPONENT]]//
@@ -51,6 +56,7 @@ public:
 	void AddLoseCondition(ObjectIdType switchId);
 
 	inline int NumLevels() { return this->levelData.size(); }
+	LevelData GetLevelData(int index);
 private:
 	void init();
 	void destroy();

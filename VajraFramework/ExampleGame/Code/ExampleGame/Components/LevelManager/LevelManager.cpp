@@ -108,6 +108,15 @@ void LevelManager::LoadLevelFromData(LevelData levelData) {
 	}
 }
 
+LevelData LevelManager::GetLevelData(int index) 
+{ 
+	if(index < this->levelData.size()) {
+		return this->levelData[index];
+	}
+	ASSERT(false, "index passed into GetLevelData is valid");
+	return this->levelData[0];
+}
+
 void LevelManager::AddWinCondition(ObjectIdType switchId) {
 	Triggerable* victoryTrigger = this->winner->GetComponent<Triggerable>();
 	victoryTrigger->SubscribeToSwitchObject(switchId);
