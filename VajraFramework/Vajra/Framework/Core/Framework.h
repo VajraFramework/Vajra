@@ -6,6 +6,7 @@ class DeviceProperties;
 class FileSystemUtils;
 class Logger;
 class OpenGLWrapper;
+class Settings;
 
 class Framework {
 public:
@@ -15,6 +16,7 @@ public:
     inline DeviceProperties* GetDeviceProperties() { return this->deviceProperties; }
     inline FileSystemUtils*  GetFileSystemUtils()  { return this->fileSystemUtils;  }
 	inline OpenGLWrapper*    GetOpenGLWrapper()    { return this->openGLWrapper;    }
+	inline Settings*         GetSettings()         { return this->settings;         }
 
 private:
 	// Make this a singleton:
@@ -22,11 +24,13 @@ private:
 	static Framework* singleton;
 	//
 	void init();
+	void destroy();
 
 	Logger* logger;
 	DeviceProperties* deviceProperties;
     FileSystemUtils* fileSystemUtils;
 	OpenGLWrapper* openGLWrapper;
+	Settings* settings;
 };
 
 #define FRAMEWORK Framework::GetInstance()
