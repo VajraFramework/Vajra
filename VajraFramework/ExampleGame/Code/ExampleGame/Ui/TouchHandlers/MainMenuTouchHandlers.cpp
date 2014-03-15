@@ -1,6 +1,7 @@
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
 
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
 #include "Vajra/Engine/Ui/UiElement/UiElement.h"
@@ -20,6 +21,10 @@
 #define START_MENU "startMenu"
 #define OPTIONS_MENU "optionsMenu"
 #define MISSION_MENU "missionMenu"
+#define PARALLAX "parallax"
+#define PARALLAX_FRONT "parallaxFront"
+#define PARALLAX_MIDDLE "parallaxMid"
+#define PARALLAX_BACK "parallaxBack"
 
 MainMenuTouchHandlers::MainMenuTouchHandlers() {
 	this->missionRoot = nullptr;
@@ -36,20 +41,17 @@ void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /* tou
 
 }
 
-void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch /* touch */) {
-	if (uiObject->GetName() == "play") {
-		// Do something
-
-	} else {
-		// Do something
-
+void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch) {
+	if(uiObject->GetName() == PARALLAX) {
+		float xDiff = touch.pos.x - touch.prevPos.x; 
+		this->parallaxScroll(uiObject, xDiff);
 	}
-
 }
 
 void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch */) {
 	ASSERT(this->missionRoot != nullptr, "The mission root is not null");
 	if(this->missionRoot != nullptr && this->missionRoot->IsVisible()) {
+		return;
 		int levelToLoad = -1;
 		for(ObjectIdType id : this->missionRoot->GetChildren()){
 			if(uiObject->GetId() != id) {
@@ -80,12 +82,23 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch
 		startMenu->SetVisible(true);
 		optionsMenu->SetVisible(false);
 		
-	}else {
-		// Do something
-
 	}
 }
 
+void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff) {
+	for(ObjectIdType id : parallaxRoot->GetChildren()){
+		UiObject* object = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(id);
+		float moveAmt = 0;
+		if(object->GetName() == PARALLAX_FRONT) {
+			moveAmt = xDiff;
+		} else if(object->GetName() == PARALLAX_MIDDLE) {
+			moveAmt = xDiff * .5f;
+		} else if(object->GetName() == PARALLAX_BACK) {
+			moveAmt = xDiff * .1f;
+		}
+		object->GetTransform()->Translate(moveAmt, XAXIS);
+	}
+}
 void MainMenuTouchHandlers::createMissionMenu() {
 	this->missionRoot = (UiElement*)ObjectRegistry::GetObjectByName("missionMenu");
 	float margin = 32.0f;
@@ -95,7 +108,7 @@ void MainMenuTouchHandlers::createMissionMenu() {
 	float buttonWidth = (buttonZoneWidth - margin * (numPerRow + 1)) / numPerRow;	
 	float buttonHeight = (buttonZoneHeight - margin * (numPerRow + 1)) / numPerRow;
 	
-	for(int i = 0; i < numPerRow; ++i) {
+	/*for(int i = 0; i < numPerRow; ++i) {
 		for(int j = 0; j < numPerRow; ++j) {
 			int levelNum = j + i * numPerRow;
 			if(levelNum >= SINGLETONS->GetLevelManager()->NumLevels()) {
@@ -111,5 +124,5 @@ void MainMenuTouchHandlers::createMissionMenu() {
 			uiElement->SetPosition(j * buttonWidth + margin * (1+j), i * buttonHeight + margin * (1+i));
 			uiElement->SetZOrder(2);
 		}
-	}
+	}*/
 }

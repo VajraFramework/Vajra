@@ -14,7 +14,7 @@ public:
 private:
 	void createMissionMenu();
 	UiElement* missionRoot;
-
+	void parallaxScroll(UiObject* parallaxRoot, float xDiff);
 	friend class MenuManager;
 };
 

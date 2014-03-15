@@ -81,7 +81,7 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera) {
 #endif
 
 	glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
-	renderLists->Draw(camera, false);
+	renderLists->Draw(camera, false, DISTANCE_FROM_CAMERA_COMPARE_TYPE_ortho_z);
 }
 
 
@@ -117,7 +117,7 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 #endif
 		// Depth pass draw:
 		ENGINE->GetSceneGraph3D()->SetMainCameraId(depthCamera->GetObject()->GetId());
-		renderLists->Draw(depthCamera, nullptr /* no lights in depth pass */, emptyVector /* no lights in depth pass */, true);
+		renderLists->Draw(depthCamera, nullptr /* no lights in depth pass */, emptyVector /* no lights in depth pass */, true, DISTANCE_FROM_CAMERA_COMPARE_TYPE_perspective);
 
 		// Switch blend back on:
     	glEnable(GL_BLEND);
@@ -132,7 +132,7 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 		ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetObject()->GetId());
 		glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
     	glViewport(0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
-		renderLists->Draw(camera, directionalLight, additionalLights, false);
+		renderLists->Draw(camera, directionalLight, additionalLights, false, DISTANCE_FROM_CAMERA_COMPARE_TYPE_perspective);
 #endif
 	}
 
