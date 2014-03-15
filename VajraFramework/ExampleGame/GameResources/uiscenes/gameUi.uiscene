@@ -3,7 +3,7 @@
 		<dimensions>
 			<position x="0" y="0"></position>
 			<size widthPixels="1024" heightPixels="768"></size>
-			<zorder>-1</zorder>
+			<zorder>1</zorder>
 		</dimensions>
 		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
 	</uielement>
@@ -39,14 +39,14 @@
 		<dimensions>
 			<position xwrto="LEFT" ywrto="TOP" x="0" y="0"></position>
 			<size widthPixels="495" heightPixels="370"></size>
-			<zorder>2</zorder>
+			<zorder>10</zorder>
 		</dimensions>
 		<image name="SD_Start_Menu.png" hasTransperancy="true"></image>
 		<uielement name="preMenuStart" clickable="true">
 			<dimensions>
 				<position xwrto="LEFT" ywrto="TOP" x="164" y="222"></position>
 				<size widthPixels="162" heightPixels="55"></size>
-				<zorder>2</zorder>
+				<zorder>11</zorder>
 			</dimensions>
 			<image name="SD_Start_Button.png" hasTransperancy="false"></image>	
 		</uielement>

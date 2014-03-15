@@ -130,6 +130,9 @@ void MenuManager::TweenOutUiObject(UiObject* element) {
 
 		this->backdrop->SetVisible(false);
 
+		screenCenter.z = element->GetZOrder();
+		offScreen.z = element->GetZOrder();
+
 		element->GetTransform()->SetPosition(screenCenter);
 
 		ENGINE->GetTween()->TweenPosition(element->GetId(),
@@ -153,7 +156,9 @@ void MenuManager::TweenInUiObject(UiObject* element) {
 		glm::vec3 offScreen = glm::vec3(halfScreenWidth - halfWidth, -768.0f, 0.0f);
 
 		this->backdrop->SetVisible(true);
-
+		
+		screenCenter.z = element->GetZOrder();
+		offScreen.z = element->GetZOrder();
 		
 		element->GetTransform()->SetPosition(offScreen);
 
@@ -182,7 +187,7 @@ void MenuManager::showLoadScreen() {
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "loading.png");
 		this->loadScreen->InitSprite(FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels(), "ustshdr", pathsToTextures, false);
 		this->loadScreen->SetPosition(0.0f, 0.0f);
-		this->loadScreen->SetZOrder(10);
+		this->loadScreen->SetZOrder(50);
 	}
 	this->loadScreen->SetVisible(true);
 	this->loadStartTime = ENGINE->GetTimer()->GetHighResAbsoluteTime();
