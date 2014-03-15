@@ -41,18 +41,106 @@
 		<zorder>0</zorder>
 	</dimensions>
 
-		<uielement name="back" clickable="true" visible="true">
+		<uielement name="brightness_label" clickable="false" visible="true">
+			<image name="derp_brightness.png" hasTransperancy="false"> </image>
 			<dimensions>
-				<position x="430" y="500"></position>
-				<size widthPixels="150" heightPixels="64"></size>
+				<position xwrto="LEFT" x="300" ywrto="TOP" y="60"></position>
+				<size widthPixels="120" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
-			<text>
-				<font type="calibiri.fontspec" size="64.0"></font>
-				Back
-			</text>
-			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
 		</uielement>
+		<uielement name="brightness_setting" clickable="true" visible="true">
+			<image name="derp_off.png" hasTransperancy="false"> </image>
+			<image name="derp_low.png" hasTransperancy="false"> </image>
+			<image name="derp_medium.png" hasTransperancy="false"> </image>
+			<image name="derp_high.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="RIGHT" x="300" ywrto="TOP" y="70"></position>
+				<size widthPixels="120" heightPixels="40"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+
+		<uielement name="ambientlighting_label" clickable="false" visible="true">
+			<image name="derp_ambientlighting.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="LEFT" x="300" ywrto="TOP" y="130"></position>
+				<size widthPixels="120" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+		<uielement name="ambientlighting_setting" clickable="true" visible="true">
+			<image name="derp_off.png" hasTransperancy="false"> </image>
+			<image name="derp_low.png" hasTransperancy="false"> </image>
+			<image name="derp_medium.png" hasTransperancy="false"> </image>
+			<image name="derp_high.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="RIGHT" x="300" ywrto="TOP" y="140"></position>
+				<size widthPixels="120" heightPixels="40"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+
+		<uielement name="shadows_label" clickable="false" visible="true">
+			<image name="derp_shadows.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="LEFT" x="300" ywrto="TOP" y="200"></position>
+				<size widthPixels="120" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+		<uielement name="shadows_setting" clickable="true" visible="true">
+			<image name="derp_off.png" hasTransperancy="false"> </image>
+			<image name="derp_low.png" hasTransperancy="false"> </image>
+			<image name="derp_medium.png" hasTransperancy="false"> </image>
+			<image name="derp_high.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="RIGHT" x="300" ywrto="TOP" y="210"></position>
+				<size widthPixels="120" heightPixels="40"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+
+		<uielement name="texturesampling_label" clickable="false" visible="true">
+			<image name="derp_texturesampling.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="LEFT" x="300" ywrto="TOP" y="270"></position>
+				<size widthPixels="120" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+		<uielement name="texturesampling_setting" clickable="true" visible="true">
+			<image name="derp_off.png" hasTransperancy="false"> </image>
+			<image name="derp_low.png" hasTransperancy="false"> </image>
+			<image name="derp_medium.png" hasTransperancy="false"> </image>
+			<image name="derp_high.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="RIGHT" x="300" ywrto="TOP" y="280"></position>
+				<size widthPixels="120" heightPixels="40"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+
+
+
+
+		<uielement name="back" clickable="true" visible="true">
+			<image name="derp_backbutton.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="LEFT" x="230" ywrto="BOTTOM" y="200"></position>
+				<size widthPixels="120" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+		<uielement name="save_settings" clickable="true" visible="true">
+			<image name="derp_savebutton.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="RIGHT" x="230" ywrto="BOTTOM" y="200"></position>
+				<size widthPixels="120" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+
 
 	</uielement>
 
