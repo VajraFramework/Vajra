@@ -1,0 +1,18 @@
+<prefab>
+  <gameobject>
+      <component name="Transform">
+      </component>
+
+	  <component name="WaterRenderer">
+		  <property name="InitMesh">
+			  <field>models/SD_Nature_Water_02.model</field>
+		  </property>
+		  <property name="SetScrollingUVs">
+			  <field>0.5</field>
+		  </property>
+		  <property name="SetSecondaryTexture">
+			  <field>pictures/SD_Water_2.png</field>
+		  </property>
+	  </component>
+  </gameobject>
+</prefab>

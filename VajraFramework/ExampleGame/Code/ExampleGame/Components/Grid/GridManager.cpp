@@ -355,7 +355,7 @@ void GridManager::placeStaticObjectOnGrid(ObjectIdType id, int westBound, int so
 
 	// Set the object's position in the world.
 	GameObject* staticObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
-	staticObj->GetTransform()->SetPosition(centerX, 0.0f, -centerZ);
+	staticObj->GetTransform()->SetPositionWorld(centerX, 0.0f, -centerZ);
 /*
  * TODO [Implement] Add this back in once we add culling of static geometry
  *
@@ -399,7 +399,7 @@ void GridManager::placeUnitOnGrid(ObjectIdType id, int cellX, int cellZ) {
 			this->gridCellChangedHandler(id, cellX, cellZ, elevation);
 
 			Transform* trans = obj->GetTransform();
-			trans->SetPosition(destCell->center);
+			trans->SetPositionWorld(destCell->center);
 		}
 	}
 }

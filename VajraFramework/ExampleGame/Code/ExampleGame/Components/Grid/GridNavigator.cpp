@@ -101,7 +101,7 @@ void GridNavigator::SetGridPosition(glm::vec3 loc) {
 void GridNavigator::SetGridPosition(GridCell* cell) {
 	if (cell != nullptr) {
 		Transform* myTransform = this->GetObject()->GetComponent<Transform>();
-		myTransform->SetPosition(cell->center);
+		myTransform->SetPositionWorld(cell->center);
 	}
 	if (this->currentCell != cell) {
 		this->changeCell(cell);
