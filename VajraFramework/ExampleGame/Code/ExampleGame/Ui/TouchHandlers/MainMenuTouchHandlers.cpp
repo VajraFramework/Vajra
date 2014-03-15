@@ -30,7 +30,7 @@
 MainMenuTouchHandlers::MainMenuTouchHandlers() {
 	this->missionRoot = nullptr;
 	this->currentScreenX = 0;
-	this->currentMission = 0;
+	this->currentMission = 2;
 	missionStartX.push_back(-32.0f);
 	missionStartX.push_back(-1160.0f);
 	missionStartX.push_back(-2032.0f);
@@ -89,6 +89,22 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 	float frontTransAmt = 0;
 	if(touchEnd) {
 		UiObject* pScreen = (UiObject*)ObjectRegistry::GetObjectByName(PARALLAX_FRONT);
+		float screenX = pScreen->GetTransform()->GetPositionWorld().x;
+		float dist = this->missionStartX[this->currentMission] - screenX;
+		
+		if(screenX > this->missionStartX[this->currentMission]) { // LEFT
+			if(this->currentMission > 0) {
+				if(std::abs(dist) > std::abs(this->missionStartX[this->currentMission - 1] - screenX)) {
+					this->currentMission--;
+				}
+			}
+		} else if(screenX < this->missionStartX[this->currentMission]) { // RIGHT
+			if(this->currentMission < this->missionStartX.size() - 1) {
+				if(std::abs(dist) > std::abs(this->missionStartX[this->currentMission + 1] - screenX)) {
+					this->currentMission++;
+				}
+			}
+		}
 		frontTransAmt = this->missionStartX[this->currentMission] - pScreen->GetTransform()->GetPositionWorld().x; 
 	}
 	for(ObjectIdType id : parallaxRoot->GetChildren()){
@@ -126,7 +142,7 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 						object->GetId(),
 						pos,
 						glm::vec3(moveAmt, pos.y, pos.z),
-						frontTransAmt / 1024.0f,
+						frontTransAmt / 2048.0f,
 						false,
 						INTERPOLATION_TYPE_LINEAR);
 			}
