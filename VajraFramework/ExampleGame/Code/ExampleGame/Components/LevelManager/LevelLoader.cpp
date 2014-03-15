@@ -440,8 +440,9 @@ void LevelLoader::loadLinkDataFromXml  (XmlNode* linkBaseNode) {
 			if (triggerComp != nullptr) {
 				XmlNode* switchNode = triggerLinkNode->GetFirstChildByNodeName(SWITCH_TAG);
 				while (switchNode != nullptr) {
-					ObjectIdType switchId = switchNode->GetAttributeValueI(ID_ATTRIBUTE);
-					triggerComp->SubscribeToSwitchObject(idsFromXml[switchId]);
+					int switchXmlId = switchNode->GetAttributeValueI(ID_ATTRIBUTE);
+					ObjectIdType switchId = idsFromXml[switchXmlId];
+					triggerComp->SubscribeToSwitchObject(switchId);
 
 					switchNode = switchNode->GetNextSiblingByNodeName(SWITCH_TAG);
 				}
@@ -476,18 +477,18 @@ void LevelLoader::loadEndConditionsFromXml(XmlNode* linkBaseNode) {
 	XmlNode* winConditionNode = linkBaseNode->GetFirstChildByNodeName(WIN_CONDITION_TAG);
 	//ASSERT(winConditionNode != nullptr, "Level has a win condition");
 	while (winConditionNode != nullptr) {
-		ObjectIdType switchId = winConditionNode->GetAttributeValueI(ID_ATTRIBUTE);
-
-		SINGLETONS->GetLevelManager()->AddWinCondition(idsFromXml[switchId]);
+		int switchXmlId = winConditionNode->GetAttributeValueI(ID_ATTRIBUTE);
+		ObjectIdType switchId = idsFromXml[switchXmlId];
+		SINGLETONS->GetLevelManager()->AddWinCondition(switchId);
 
 		winConditionNode = winConditionNode->GetNextSiblingByNodeName(WIN_CONDITION_TAG);
 	}
 
 	XmlNode* loseConditionNode = linkBaseNode->GetFirstChildByNodeName(LOSE_CONDITION_TAG);
 	while (loseConditionNode != nullptr) {
-		ObjectIdType switchId = loseConditionNode->GetAttributeValueI(ID_ATTRIBUTE);
-
-		SINGLETONS->GetLevelManager()->AddLoseCondition(idsFromXml[switchId]);
+		int switchXmlId = loseConditionNode->GetAttributeValueI(ID_ATTRIBUTE);
+		ObjectIdType switchId = idsFromXml[switchXmlId];
+		SINGLETONS->GetLevelManager()->AddLoseCondition(switchId);
 
 		loseConditionNode = loseConditionNode->GetNextSiblingByNodeName(LOSE_CONDITION_TAG);
 	}
