@@ -58,7 +58,7 @@ void GridZoneSwitch::HandleMessage(MessageChunk messageChunk) {
 			break;
 
 		case MESSAGE_TYPE_GRID_ZONE_EXITED:
-			this->onUnitExitedZone(messageChunk->messageData.iv1.x);
+			this->onUnitExitedZone(messageChunk->GetSenderId());
 			break;
 	}
 }
