@@ -192,7 +192,7 @@ LevelType LevelLoader::stringToLevelType(std::string type) {
 	ASSERT(0, "%s is a valid level type", type.c_str());
 	return LevelType::NO_TYPE;
 }
-void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData) {
+void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData, std::vector<int>* levelsPerMission) {
 	// Load the tutorials
 	std::vector<std::string> levelsWithTutorials;
 	LevelLoader::LoadTutorialLevelNames(&levelsWithTutorials);
@@ -208,7 +208,7 @@ void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData) {
 	XmlNode* rootLevelListNode = xmlTree->GetRootNode();
 	ASSERT(rootLevelListNode != nullptr, "Got valid tutoral node from xml tree for tutorial file %s", levelListXmlPath);
 
-	int missionNumber = 0;
+	int missionNum = 0;
 	for(XmlNode* missionNode : rootLevelListNode->GetChildren()) {
 		FRAMEWORK->GetLogger()->dbglog("\n Loaded mission data for game");
 		for(XmlNode* levelDataNode : missionNode->GetChildren()) {
@@ -217,13 +217,14 @@ void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData) {
 			data.path = levelDataNode->GetAttributeValueS(PATH_PROPERTY);
 			data.type = LevelLoader::stringToLevelType(levelDataNode->GetAttributeValueS(TYPE_PROPERTY));
 			data.hasTutorial = std::find(levelsWithTutorials.begin(), levelsWithTutorials.end(), data.name) != levelsWithTutorials.end();
-			data.mission = missionNumber;
+			data.mission = missionNum;
 			data.pinX = levelDataNode->GetAttributeValueF("x");
 			data.pinY = levelDataNode->GetAttributeValueF("y");
 			data.parallaxScreen = levelDataNode->GetAttributeValueF("parallaxScreen");
 			levelData->push_back(data);
 		}
-		missionNode++;
+		levelsPerMission->push_back(missionNode->GetChildren().size());
+		missionNum++;
 	}
 	delete parser;
 }

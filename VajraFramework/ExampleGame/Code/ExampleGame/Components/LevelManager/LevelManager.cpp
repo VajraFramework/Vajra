@@ -117,6 +117,14 @@ LevelData LevelManager::GetLevelData(int index)
 	return this->levelData[0];
 }
 
+int LevelManager::GetNumLevelsInMission(int mission) {
+	if(mission < this->levelsPerMission.size()) {
+		return this->levelsPerMission[mission];
+	}
+	ASSERT(false, "mission passed into GetNumLevelsInMission is valid");
+	return -1;
+}
+
 void LevelManager::AddWinCondition(ObjectIdType switchId) {
 	Triggerable* victoryTrigger = this->winner->GetComponent<Triggerable>();
 	victoryTrigger->SubscribeToSwitchObject(switchId);
@@ -143,7 +151,7 @@ void LevelManager::init() {
 	this->levelToLoad = -1;
 
 	// load the list of levels with a tutorial
-	LevelLoader::LoadLevelData(&this->levelData);
+	LevelLoader::LoadLevelData(&this->levelData, &this->levelsPerMission);
 }
 
 void LevelManager::destroy() {

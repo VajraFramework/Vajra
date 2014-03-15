@@ -30,7 +30,7 @@
 MainMenuTouchHandlers::MainMenuTouchHandlers() {
 	this->missionRoot = nullptr;
 	this->currentScreenX = 0;
-	this->currentMission = 2;
+	this->currentMission = 0;
 	missionStartX.push_back(-32.0f);
 	missionStartX.push_back(-1160.0f);
 	missionStartX.push_back(-2032.0f);
@@ -59,17 +59,24 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 			float xDiff = touch.pos.x - touch.prevPos.x;
 			this->parallaxScroll(uiObject, xDiff, true);
 		}
-		for(int i = 0; i < this->currentLevelButtons.size(); i++) {
-			if(this->currentLevelButtons[i] == uiObject) {
+		for(int i = 0; i < this->currentLevelButtons[this->currentMission].size(); i++) {
+			if(this->currentLevelButtons[this->currentMission][i] == uiObject) {
 				std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
-				SINGLETONS->GetMenuManager()->LoadLevel(i);
+				int levelOffset = 0;
+				for(int j = 0; j < this->currentMission; ++j) {
+					levelOffset += SINGLETONS->GetLevelManager()->GetNumLevelsInMission(j);
+				}
+				SINGLETONS->GetMenuManager()->LoadLevel(i + levelOffset);
+				return;
 			}
 		}
 	}
 	if (uiObject->GetName() == "play") {
 		UiElement* preMenuBackground = (UiElement*)ObjectRegistry::GetObjectByName(START_MENU);
 		preMenuBackground->SetVisible(false);
-		this->missionRoot->SetVisible(true);
+		this->missionRoot->SetVisible(true);	
+		this->scrollToCurrentMission();
+		
 	} else if(uiObject->GetName() == "options") {
 		UiObject* startMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[START_MENU]);
 		UiObject* optionsMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[OPTIONS_MENU]);
@@ -103,6 +110,12 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 				if(std::abs(dist) > std::abs(this->missionStartX[this->currentMission + 1] - screenX)) {
 					this->currentMission++;
 				}
+			}
+		}
+		for(int j = 0; j < SINGLETONS->GetLevelManager()->GetNumMissions(); j++) {
+			bool isVisible = j == this->currentMission;
+			for(int i = 0; i < SINGLETONS->GetLevelManager()->GetNumLevelsInMission(j); i++) {
+				this->currentLevelButtons[j][i]->SetVisible(isVisible);
 			}
 		}
 		frontTransAmt = this->missionStartX[this->currentMission] - pScreen->GetTransform()->GetPositionWorld().x; 
@@ -151,8 +164,14 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 }
 
 void MainMenuTouchHandlers::scrollToCurrentMission() {
+	for(int j = 0; j < SINGLETONS->GetLevelManager()->GetNumMissions(); j++) {
+		for(int i = 0; i < SINGLETONS->GetLevelManager()->GetNumLevelsInMission(j); i++) {
+			this->currentLevelButtons[j][i]->SetVisible(false);
+		}
+	}
 	UiObject* parallaxRoot = (UiObject*)ObjectRegistry::GetObjectByName(PARALLAX);
 	this->parallaxScroll(parallaxRoot, 0, true);
+	
 }
 void MainMenuTouchHandlers::createMissionMenu() {
 	this->missionRoot = (UiElement*)ObjectRegistry::GetObjectByName("missionMenu");
@@ -168,47 +187,30 @@ void MainMenuTouchHandlers::createMissionMenu() {
 	ASSERT(pScreen != nullptr, "parallaxBack is not null");
 	parallaxScreens.push_back(pScreen);
 
-	float missionXOffset = this->missionStartX[this->currentMission];
-	for(int i = 0; i < SINGLETONS->GetLevelManager()->NumLevels(); i++) {
-		UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
-		ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
-		this->missionRoot->AddChild(uiElement->GetId());
-		std::vector<std::string> imagePaths;
-		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelection_Level1_Marker.png");
-		uiElement->InitSprite(67, 118, "ustshdr", imagePaths, true);
-		uiElement->SetTouchHandlers(this);
-		uiElement->SetClickable(true);
-		uiElement->SetVisible(false);
-
-		LevelData levelData = SINGLETONS->GetLevelManager()->GetLevelData(i);
-		uiElement->SetPosition(levelData.pinX + missionXOffset, levelData.pinY);
-		uiElement->SetZOrder(10);
-		this->currentLevelButtons.push_back((UiObject*)uiElement);
-
-		int screenIndex = levelData.parallaxScreen;
-		if(screenIndex < 3) {
-			parallaxScreens[screenIndex]->AddChild(uiElement->GetId());
-		}
-	}
-
-	this->scrollToCurrentMission();
-	/*for(int i = 0; i < numPerRow; ++i) {
-		for(int j = 0; j < numPerRow; ++j) {
-			int levelNum = j + i * numPerRow;
-			if(levelNum >= SINGLETONS->GetLevelManager()->NumLevels()) {
-				break;
-			}
+	for(int j = 0; j < SINGLETONS->GetLevelManager()->GetNumMissions(); j++) {
+		float missionXOffset = this->missionStartX[j];
+		std::vector<UiObject*> levelPips;
+		this->currentLevelButtons.push_back(levelPips);
+		for(int i = 0; i < SINGLETONS->GetLevelManager()->GetNumLevelsInMission(j); i++) {
 			UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
 			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
 			this->missionRoot->AddChild(uiElement->GetId());
 			std::vector<std::string> imagePaths;
 			imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelection_Level1_Marker.png");
-			uiElement->InitSprite(67, 118, "ustshdr", imagePaths, false);
+			uiElement->InitSprite(67, 118, "ustshdr", imagePaths, true);
 			uiElement->SetTouchHandlers(this);
 			uiElement->SetClickable(true);
 			uiElement->SetVisible(false);
-			uiElement->SetPosition(j * buttonWidth + margin * (1+j), i * buttonHeight + margin * (1+i));
+
+			LevelData levelData = SINGLETONS->GetLevelManager()->GetLevelData(i);
+			uiElement->SetPosition(levelData.pinX - missionXOffset, levelData.pinY);
 			uiElement->SetZOrder(10);
+			this->currentLevelButtons[j].push_back((UiObject*)uiElement);
+
+			int screenIndex = levelData.parallaxScreen;
+			if(screenIndex < 3) {
+				parallaxScreens[screenIndex]->AddChild(uiElement->GetId());
+			}
 		}
-	}*/
+	}
 }

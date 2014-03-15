@@ -16,7 +16,7 @@ private:
 	float startTouchX;
 	float currentScreenX;
 
-	std::vector<UiObject*> currentLevelButtons;
+	std::vector<std::vector<UiObject*>> currentLevelButtons;
 	UiElement* missionRoot;
 	
 	int currentMission;
