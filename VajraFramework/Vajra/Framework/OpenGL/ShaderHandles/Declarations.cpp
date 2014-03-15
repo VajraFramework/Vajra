@@ -177,6 +177,9 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "bakedLightMapSize") {
 		return SHADER_VARIABLE_VARIABLENAME_bakedLightMapSize;
 	}
+	if (s == "baked_ambient_intensity") {
+		return SHADER_VARIABLE_VARIABLENAME_baked_ambient_intensity;
+	}
 	if (s == "depthTextureSampler") {
 		return SHADER_VARIABLE_VARIABLENAME_depthTextureSampler;
 	}
@@ -272,6 +275,7 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler: return "bakedAmbientGridTextureSampler";
 	case SHADER_VARIABLE_VARIABLENAME_modelCoordsForBakedAmbientLookup_out: return "modelCoordsForBakedAmbientLookup_out";
 	case SHADER_VARIABLE_VARIABLENAME_bakedLightMapSize: return "bakedLightMapSize";
+	case SHADER_VARIABLE_VARIABLENAME_baked_ambient_intensity: return "baked_ambient_intensity";
 	case SHADER_VARIABLE_VARIABLENAME_depthTextureSampler: return "depthTextureSampler";
 	case SHADER_VARIABLE_VARIABLENAME_depthBiasMVPMatrix: return "depthBiasMVPMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_ShadowCoord: return "ShadowCoord";

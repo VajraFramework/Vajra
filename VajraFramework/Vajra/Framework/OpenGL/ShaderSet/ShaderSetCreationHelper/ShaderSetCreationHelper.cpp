@@ -2,6 +2,7 @@
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSetCreationHelper/ShaderSetCreationHelper.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
+#include "Vajra/Framework/Settings/Settings.h"
 #include "Vajra/Utilities/StringUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
 
@@ -21,6 +22,8 @@ static bool gInited = false;
 static std::map<std::string /* variableName */, std::string /* variable declaration */> gVariableDeclarations;
 static std::map<std::string /* variableName */, std::string /* variable qualifier */> gVariableQualifiers;
 static std::map<std::string /* variableName */, std::string /* variable datatype */> gVariableDatatypes;
+
+static std::map<std::string /* variable name */, bool> preprocessorVariables;
 
 bool evaluatePlatformsLine(std::string line) {
 	std::vector<std::string> targetPlatforms = StringUtilities::SplitStringIntoTokensOnDelimiter(line, '|', true);
@@ -104,18 +107,27 @@ std::string GetVariableDatatypeForVariableName(std::string variableName) {
 	return gVariableDatatypes[variableName];
 }
 
+bool allTheSurroundingIfdefsPass(std::vector<bool>& ifdefs) {
+	for (bool ifdef : ifdefs) {
+		if (!ifdef) {
+			return false;
+		}
+	}
+	return true;
+}
+
 std::string CleanupShaderSourceForPreprocessorDirectives(std::string shaderSource) {
 	std::string cleanedupShaderSource;
 	std::istringstream iss(shaderSource);
 
-	std::stack<bool> ifdefs;
-	ifdefs.push(true);
+	std::vector<bool> ifdefs;
+	ifdefs.push_back(true);
 
 	std::string line;
 	while (iss.good()) {
 		std::getline(iss, line);
 		if (line.find("#") == std::string::npos || line.find("version") != std::string::npos) {
-			if (ifdefs.top()) {
+			if (allTheSurroundingIfdefsPass(ifdefs)) {
 				cleanedupShaderSource += line + "\n";
 			}
 
@@ -124,28 +136,28 @@ std::string CleanupShaderSourceForPreprocessorDirectives(std::string shaderSourc
 			line = StringUtilities::EraseStringFromString(line, "#");
 			if (line.find("ifplatform") != std::string::npos) {
 				line = StringUtilities::EraseStringFromString(line, "ifplatform");
-				ifdefs.push(evaluatePlatformsLine(line));
+				ifdefs.push_back(evaluatePlatformsLine(line));
 
 			} else if (line.find("ifnplatform") != std::string::npos) {
 				line = StringUtilities::EraseStringFromString(line, "ifplatform");
-				ifdefs.push(!evaluatePlatformsLine(line));
+				ifdefs.push_back(!evaluatePlatformsLine(line));
 
 			} else if (line.find("ifdef") != std::string::npos) {
 				line = StringUtilities::EraseStringFromString(line, "ifdef");
-				ifdefs.push(evaluateIfdefLine(line));
+				ifdefs.push_back(evaluateIfdefLine(line));
 
 			} else if (line.find("ifndef") != std::string::npos) {
 				line = StringUtilities::EraseStringFromString(line, "ifdef");
-				ifdefs.push(!evaluateIfdefLine(line));
+				ifdefs.push_back(!evaluateIfdefLine(line));
 
 			} else if (line.find("else") != std::string::npos) {
-				bool topOfStack = ifdefs.top();
-				ifdefs.pop();
-				ifdefs.push(!topOfStack);
+				bool topOfStack = ifdefs.back();
+				ifdefs.pop_back();
+				ifdefs.push_back(!topOfStack);
 
 			} else if (line.find("endif") != std::string::npos) {
 				ASSERT(!ifdefs.empty(), "Properly matched number of if / endif pairs");
-				ifdefs.pop();
+				ifdefs.pop_back();
 
 			} else {
 				ASSERT(0, "Recognized preprocessor directive: %s", line.c_str());
@@ -153,13 +165,45 @@ std::string CleanupShaderSourceForPreprocessorDirectives(std::string shaderSourc
 		}
 	}
 
-	ifdefs.pop();
+	ifdefs.pop_back();
 	ASSERT(ifdefs.empty(), "Properly matched number of if / endif pairs");
 
 	return cleanedupShaderSource;
 }
 
-std::map<std::string /* variable name */, bool> preprocessorVariables;
+void adjustPreprocessorVariablesFromSettings() {
+	SettingLevel_t shadowmap_level = FRAMEWORK->GetSettings()->GetSetting(SETTING_TYPE_shadows);
+
+	switch (shadowmap_level) {
+
+	case SETTING_LEVEL_off: {
+		ASSERT(preprocessorVariables.find("SHADOWMAPS_REALTIME") != preprocessorVariables.end(), "preprocessorVariables has and entry for SHADOWMAPS_REALTIME");
+		preprocessorVariables["SHADOWMAPS_REALTIME"] = false;
+	} break;
+
+	case SETTING_LEVEL_low: {
+		preprocessorVariables["SHADOWMAPS_REALTIME_NO_FILTERING"] = true;
+		preprocessorVariables["SHADOWMAPS_REALTIME_POISSON_FILTERING"] = false;
+		preprocessorVariables["SHADOWMAPS_REALTIME_PCF_FILTERING"] = false;
+	} break;
+
+	case SETTING_LEVEL_medium: {
+		preprocessorVariables["SHADOWMAPS_REALTIME_NO_FILTERING"] = true;
+		preprocessorVariables["SHADOWMAPS_REALTIME_POISSON_FILTERING"] = false;
+		preprocessorVariables["SHADOWMAPS_REALTIME_PCF_FILTERING"] = false;
+	} break;
+
+	case SETTING_LEVEL_high: {
+		preprocessorVariables["SHADOWMAPS_REALTIME_NO_FILTERING"] = false;
+		preprocessorVariables["SHADOWMAPS_REALTIME_POISSON_FILTERING"] = false;
+		preprocessorVariables["SHADOWMAPS_REALTIME_PCF_FILTERING"] = true;
+	} break;
+
+	default: {
+	} break;
+	}
+}
+
 void LoadPreprocessorVariables() {
 	std::string filePath = FRAMEWORK->GetFileSystemUtils()->GetDeviceShaderResourcesPath() + "preprocessor_variables";
 	std::ifstream file(filePath.c_str());
@@ -173,7 +217,11 @@ void LoadPreprocessorVariables() {
 			preprocessorVariables[StringUtilities::EraseStringFromString(buffer, "!")] = false;
 		}
 	}
+
 	file.close();
+
+	// Read the global settings from the settings file which can override this:
+	adjustPreprocessorVariablesFromSettings();
 }
 
 bool IsPreprocessorVariableDefined(std::string variableName) {

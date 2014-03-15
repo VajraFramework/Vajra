@@ -25,8 +25,8 @@ void Framework::init() {
 	this->logger            = new Logger();
     this->deviceProperties  = new DeviceProperties();
     this->fileSystemUtils   = new FileSystemUtils();
-	this->openGLWrapper     = new OpenGLWrapper();
 	this->settings          = new Settings();
+	this->openGLWrapper     = new OpenGLWrapper();
 }
 
 void Framework::destroy() {
