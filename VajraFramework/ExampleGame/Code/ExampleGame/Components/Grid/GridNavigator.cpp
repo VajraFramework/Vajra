@@ -101,7 +101,7 @@ void GridNavigator::SetGridPosition(glm::vec3 loc) {
 void GridNavigator::SetGridPosition(GridCell* cell) {
 	if (cell != nullptr) {
 		Transform* myTransform = this->GetObject()->GetComponent<Transform>();
-		myTransform->SetPosition(cell->center);
+		myTransform->SetPositionWorld(cell->center);
 	}
 	if (this->currentCell != cell) {
 		this->changeCell(cell);
@@ -207,7 +207,8 @@ void GridNavigator::SetLookTarget(glm::quat orient) {
 void GridNavigator::SetTargetForward(glm::vec3 forward) {
 	if (forward != ZERO_VEC3) {
 		forward = glm::normalize(forward);
-		float angle = glm::angle(forward, this->getTransform()->GetForward());
+		// Don't use glm's vector angle function because it never returns an angle greater than PI/2
+		float angle = acos(glm::clamp(glm::dot(forward, this->getTransform()->GetForward()), -1.0f, 1.0f));
 
 		if (angle > ROUNDING_ERROR) {
 			this->targetForward = forward;
@@ -373,12 +374,13 @@ void GridNavigator::updateFacing() {
 	float turnAmount = this->turningSpeed * dt;
 	Transform* trans = getTransform(); // Store the reference locally to save on function calls.
 
-	if (this->targetForward == trans->GetForward()) {
+	glm::vec3 currForward = QuaternionForwardVector(trans->GetOrientationWorld());
+	// Don't use glm's vector angle function because it never returns an angle greater than PI/2
+	float angle = acos(glm::clamp(glm::dot(this->targetForward, currForward), -1.0f, 1.0f));
+	if (angle < ROUNDING_ERROR) {
 		this->isTurning = false;
 		return;
 	}
-
-	float angle = glm::angle(this->targetForward, trans->GetForward());
 
 	glm::vec3 axis = YAXIS;
 	if (angle < PI) {

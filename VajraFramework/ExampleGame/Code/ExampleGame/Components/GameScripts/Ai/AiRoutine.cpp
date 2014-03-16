@@ -87,7 +87,8 @@ void AiRoutine::ResumeSchedule() {
 	glm::vec3 newForward = QuaternionForwardVector(newMark.Orientation);
 
 	float dist = glm::distance(prevMark.Position, newMark.Position);
-	float angle = glm::angle(oldForward, newForward);
+	// Don't use glm's vector angle function because it never returns an angle greater than PI/2
+	float angle = acos(glm::clamp(glm::dot(oldForward, newForward), -1.0f, 1.0f));
 	GridNavigator* gNav = this->GetObject()->GetComponent<GridNavigator>();
 	if (dist > ROUNDING_ERROR) {
 		this->currentMarkerType = AI_MARKER_WALK;

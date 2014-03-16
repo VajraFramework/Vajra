@@ -171,7 +171,12 @@ void Thief::onSpecialEnd() {
 	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
 		PlayerUnit::onSpecialEnd();
 		this->gridNavRef->SetGridPosition(this->targetedCell);
-		this->gridNavRef->EnableNavigation();
+		// Todo [HACK] Make the Thief work with elevators
+		glm::vec3 position = this->gameObjectRef->GetTransform()->GetPositionWorld();
+		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(position.y);
+		if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(this->targetedCell->x, this->targetedCell->z, elevation)) {
+			this->gridNavRef->EnableNavigation();
+		}
 
 		for( GridCell* c : this->legalTargets ) {
 			ASSERT(activeTargetIndicators[c] != nullptr, "target indicator for cell is not null");
@@ -187,7 +192,7 @@ void Thief::cancelSpecial() {
 	PlayerUnit::cancelSpecial();
 	this->tweenOutTargets();
 	// Place the thief on the ground.
-	this->gameObjectRef->GetTransform()->SetPosition(this->gridNavRef->GetCurrentCell()->center);
+	this->gameObjectRef->GetTransform()->SetPositionWorld(this->gridNavRef->GetCurrentCell()->center);
 	this->gridNavRef->EnableNavigation();
 	
 }
@@ -277,7 +282,7 @@ void Thief::checkLegalAttack() {
 			this->targetedCell = cell;
 			break;
 		}
-		this->gameObjectRef->GetTransform()->SetPosition(this->targetedCell->center + glm::vec3(0.0f, 1.0f, 0.0f));
+		this->gameObjectRef->GetTransform()->SetPositionWorld(this->targetedCell->center + glm::vec3(0.0f, 1.0f, 0.0f));
 		this->sendAttackMessage(this->targetedCell->x, this->targetedCell->z, elevation);
 		this->beginPoof(this->endPoofId);
 	}

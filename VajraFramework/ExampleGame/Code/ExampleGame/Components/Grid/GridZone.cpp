@@ -126,7 +126,8 @@ bool GridZone::updateFacing() {
 	}
 
 	// Check if the object's facing has changed.
-	float angle = glm::angle(this->facing, newFacing);
+	// Don't use glm's vector angle function because it never returns an angle greater than PI/2
+	float angle = acos(glm::clamp(glm::dot(this->facing, newFacing), -1.0f, 1.0f));
 	if (angle >= PI / 4.0f) {
 		this->facing = newFacing;
 		return true;

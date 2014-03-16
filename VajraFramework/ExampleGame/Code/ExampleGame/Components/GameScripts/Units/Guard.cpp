@@ -97,7 +97,8 @@ bool Guard::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
 				// Guards are invincible from the front, so check the angle of the attack.
 				glm::vec3 dir = source - this->gameObjectRef->GetTransform()->GetPositionWorld();
 				glm::vec3 forward = QuaternionForwardVector(this->gameObjectRef->GetTransform()->GetOrientationWorld());
-				float angle = glm::angle(dir, forward);
+				// Don't use glm's vector angle function because it never returns an angle greater than PI/2
+				float angle = acos(glm::clamp(glm::dot(dir, forward), -1.0f, 1.0f));
 				if (angle >= INVINCIBLE_ANGLE) {
 					return true;
 				}
@@ -237,7 +238,8 @@ void Guard::performAttack() {
 		glm::vec3 targetPosition = targetObj->GetTransform()->GetPositionWorld();
 		float dist = glm::distance(targetPosition, myPosition);
 		glm::vec3 forward = QuaternionForwardVector(this->gameObjectRef->GetTransform()->GetOrientationWorld());
-		float angle = glm::angle(forward, targetPosition - myPosition);
+		// Don't use glm's vector angle function because it never returns an angle greater than PI/2
+		float angle = acos(glm::clamp(glm::dot(forward, targetPosition - myPosition), -1.0f, 1.0f));
 		if ((dist <= ATTACK_RANGE) && (angle <= ATTACK_ANGLE)) {
 			GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(targetPosition);
 			if (cell != nullptr) {

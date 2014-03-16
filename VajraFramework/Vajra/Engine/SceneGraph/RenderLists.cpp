@@ -20,7 +20,13 @@
 static glm::vec3 g_current_cameraPosition = glm::vec3(0.0f, 0.0f, 0.0f);
 static Camera* g_current_camera = nullptr;
 
-bool CompareTrGos(TrGo t1, TrGo t2) {
+bool CompareTrGos_ortho_z(TrGo t1, TrGo t2) {
+	float t1_distanceFromCamera = g_current_cameraPosition.z - t1.gameobject->GetTransform()->GetPositionWorld().z;
+	float t2_distanceFromCamera = g_current_cameraPosition.z - t2.gameobject->GetTransform()->GetPositionWorld().z;
+	return (t1_distanceFromCamera < t2_distanceFromCamera);
+}
+
+bool CompareTrGos_perspective(TrGo t1, TrGo t2) {
 	float t1_distanceFromCamera = glm::distance(g_current_cameraPosition, t1.gameobject->GetTransform()->GetPositionWorld());
 	float t2_distanceFromCamera = glm::distance(g_current_cameraPosition, t2.gameobject->GetTransform()->GetPositionWorld());
 	return (t1_distanceFromCamera < t2_distanceFromCamera);
@@ -112,11 +118,15 @@ void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobje
 void RenderList::Draw_one_gameobject(GameObject* gameObject) {
 
 #if USING_FRUSTUM_CULLING
-	if (g_current_camera != nullptr) {
-		// TODO [Hack] Get tolerance radius from the model files instead, maybe
-		float toleranceRadius = 4.0f;
-		if (!g_current_camera->IsPointInFrustum(gameObject->GetTransform()->GetPositionWorld(), toleranceRadius)) {
-			return;
+	// TODO [Hack] This can go away when all renderers support getting their drawable bounds
+	// No frustum culling for scenegraph ui:
+	if (gameObject->GetParentSceneGraph() != (SceneGraph*)ENGINE->GetSceneGraphUi()) {
+		if (g_current_camera != nullptr) {
+			// TODO [Hack] Get tolerance radius from the model files instead, maybe
+			float toleranceRadius = 4.0f;
+			if (!g_current_camera->IsPointInFrustum(gameObject->GetTransform()->GetPositionWorld(), toleranceRadius)) {
+				return;
+			}
 		}
 	}
 #endif
@@ -150,12 +160,12 @@ RenderLists::~RenderLists() {
 }
 
 
-void RenderLists::Draw(Camera* camera, bool isDepthPass) {
+void RenderLists::Draw(Camera* camera, bool isDepthPass, DistanceFromCameraCompareType compareType) {
 	std::vector<DirectionalLight*> emptyVector;
-	this->Draw(camera, nullptr, emptyVector, isDepthPass);
+	this->Draw(camera, nullptr, emptyVector, isDepthPass, compareType);
 }
 
-void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights, bool isDepthPass) {
+void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights, bool isDepthPass, DistanceFromCameraCompareType compareType) {
 
 	/*
 	 * Switch off blend for opaque objects:
@@ -168,7 +178,15 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 	 * However, transperancy doesn't like to play along.
 	 */
 
-	HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration heap_gameobjectsWithTransperancy_out(CompareTrGos);
+	HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out;
+	if (compareType == DISTANCE_FROM_CAMERA_COMPARE_TYPE_perspective) {
+		heap_gameobjectsWithTransperancy_out = new HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration(CompareTrGos_perspective);
+	} else if (compareType == DISTANCE_FROM_CAMERA_COMPARE_TYPE_ortho_z) {
+		heap_gameobjectsWithTransperancy_out = new HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration(CompareTrGos_ortho_z);
+	} else {
+		ASSERT(0, "Valid compare type, %d", compareType);
+	}
+
 	if (camera != nullptr) {
 		g_current_cameraPosition = ((GameObject*)camera->GetObject())->GetTransform()->GetPositionWorld();
 	}
@@ -200,7 +218,7 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 			}
 
 			// Render all the renderable game objects in the current render list:
-			this->RenderGameObjectsInCurrentList(&heap_gameobjectsWithTransperancy_out);
+			this->RenderGameObjectsInCurrentList(heap_gameobjectsWithTransperancy_out);
 
 		}
 
@@ -223,8 +241,8 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 			// Also switch off WRITING to the depth buffer for drawing transperant objects:
 			glDepthMask(GL_FALSE);
 
-			while (!heap_gameobjectsWithTransperancy_out.empty()) {
-				TrGo trgo = heap_gameobjectsWithTransperancy_out.top();
+			while (!heap_gameobjectsWithTransperancy_out->empty()) {
+				TrGo trgo = heap_gameobjectsWithTransperancy_out->top();
 
 				trgo.renderlist->Prepare();
 
@@ -242,13 +260,15 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 
 				trgo.renderlist->Draw_one_gameobject(trgo.gameobject);
 
-				heap_gameobjectsWithTransperancy_out.pop();
+				heap_gameobjectsWithTransperancy_out->pop();
 			}
 
 			// Switch WRITING to the depth buffer back on:
 			glDepthMask(GL_TRUE);
 		}
 	}
+
+	delete heap_gameobjectsWithTransperancy_out;
 }
 
 void RenderLists::Begin() {
