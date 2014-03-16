@@ -39,7 +39,7 @@ LIBDIR = -L/usr/lib
 
 # Link against prebuilt Vajra static library:
 LIB_FLAGS = $(PREBUILT_VAJRA_LIBRARIES_PATH)/libVajra.a
-LIB_FLAGS += -lglfw -lopengl32 -glu32 -lgdi32 -lglew32 -lz
+LIB_FLAGS += -lglfw3 -lglfw3dll -lopengl32 -glu32 -lgdi32 -lglew32 -lz
 LIB_FLAGS += $(PREBUILT_VAJRA_LIBRARIES_PATH)/OpenAL32.lib
 
 BUILDDIR = ./DesktopProject/Build

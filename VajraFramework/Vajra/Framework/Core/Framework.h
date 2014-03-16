@@ -6,6 +6,7 @@ class DeviceProperties;
 class FileSystemUtils;
 class Logger;
 class OpenGLWrapper;
+class GLFWwindow;
 
 class Framework {
 public:
@@ -15,6 +16,9 @@ public:
     inline DeviceProperties* GetDeviceProperties() { return this->deviceProperties; }
     inline FileSystemUtils*  GetFileSystemUtils()  { return this->fileSystemUtils;  }
 	inline OpenGLWrapper*    GetOpenGLWrapper()    { return this->openGLWrapper;    }
+
+	static GLFWwindow* GetGLFWWindow() { return Framework::window; }
+	static void SetGLFWWindow(GLFWwindow* window_) { Framework::window = window_; }
 
 private:
 	// Make this a singleton:
@@ -27,6 +31,8 @@ private:
 	DeviceProperties* deviceProperties;
     FileSystemUtils* fileSystemUtils;
 	OpenGLWrapper* openGLWrapper;
+
+	static GLFWwindow* window;
 };
 
 #define FRAMEWORK Framework::GetInstance()

@@ -5,6 +5,7 @@
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 
 Framework* Framework::singleton = nullptr;
+GLFWwindow* Framework::window = nullptr;
 
 Framework::Framework() {
 	// Singletons don't call init() in constructor, they call it in GetInstance()

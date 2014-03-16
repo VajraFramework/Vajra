@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
+#include "Vajra/Utilities/OpenGLIncludes.h"
 
 Material::Material() {
 	this->init();

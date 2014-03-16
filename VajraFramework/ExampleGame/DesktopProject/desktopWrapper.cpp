@@ -6,7 +6,9 @@
 #include <GL/glew.h>
 
 // Include GLFW
-#include <GL/glfw.h>
+// #include <GL/glfw.h>
+#define GLFW_INCLUDE_GLU
+#include <GLFW/glfw3.h>
 
 // Include GLM
 #include "Libraries/glm/glm.hpp"
@@ -19,6 +21,7 @@ using namespace glm;
 #include "Vajra/Engine/Profiler/Profiler.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -26,7 +29,13 @@ using namespace glm;
 
 #include <fstream>
 
+void error_callback(int /* error */, const char* description) {
+    fputs(description, stderr);
+}
+
 int main( void ) {
+
+	glfwSetErrorCallback(error_callback);
 
 	// Initialize GLFW
 	if( !glfwInit() )
@@ -44,24 +53,44 @@ int main( void ) {
 	int width  = 1024;
 	int height = 768;
 	// Open a window and create its OpenGL context
-	if( !glfwOpenWindow(width, height, 32,32,32, 0, 32,0, GLFW_WINDOW) )
-	{
+	GLFWwindow* window = glfwCreateWindow(width, height, "Vajra", nullptr, nullptr);
+	if(window == nullptr) {
 		fprintf( stderr, "Failed to open GLFW window.\n" );
 		glfwTerminate();
 		return -1;
 	}
 
+	Framework::SetGLFWWindow(window);
+
+	glfwMakeContextCurrent(window);
+
+#if 0
+	glfwWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_OPENGL_VERSION_MINOR, 0);
+    //glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT,GL_TRUE);
+    glfwowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+    glfwWindowHint(GLFW_FSAA_SAMPLES, 4);
+    // glfwDisable( GLFW_AUTO_POLL_EVENTS );
+#endif
+
+	 // #ifdef DEBUG
+	    // glfwOpenWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+	 // #endif
+
+
 	// Initialize GLEW
-	if (glewInit() != GLEW_OK) {
+	glewExperimental=GL_TRUE;
+	int glewInitResult = glewInit();
+	if (glewInitResult != GLEW_OK) {
 		fprintf(stderr, "Failed to initialize GLEW\n");
 		return -1;
 	}
 
-	glfwSetWindowTitle( "Vajra" );
-	glfwSetWindowPos(0, 0);
+	glfwSetWindowTitle(Framework::GetGLFWWindow(), "Vajra");
+	glfwSetWindowPos(Framework::GetGLFWWindow(), 0, 0);
 
 	// Ensure we can capture the escape key being pressed below
-	glfwEnable( GLFW_STICKY_KEYS );
+	// glfwEnable( GLFW_STICKY_KEYS );
 
 	#if 0
 	// Dark blue background
@@ -120,11 +149,11 @@ int main( void ) {
 
 		if (renderFrame()) {
 			// Swap buffers
-			glfwSwapBuffers();
+			glfwSwapBuffers(Framework::GetGLFWWindow());
 		}
 
 	} // Check if the ESC key was pressed or the window was closed
-	while( glfwGetKey( GLFW_KEY_ESC ) != GLFW_PRESS && glfwGetWindowParam( GLFW_OPENED ) );
+	while(glfwGetKey(Framework::GetGLFWWindow(), GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwGetWindowAttrib(window, GLFW_FOCUSED));
 
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();

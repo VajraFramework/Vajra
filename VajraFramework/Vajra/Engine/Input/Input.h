@@ -9,7 +9,9 @@
 
 #if PLATFORM_DESKTOP
 // Include GLFW
-#include <GL/glfw.h>
+// #include <GL/glfw.h>
+#define GLFW_INCLUDE_GLU
+#include <GLFW/glfw3.h>
 #endif
 
 #include <iostream>
@@ -69,6 +71,7 @@ public:
     void cursorPosUpdate(int x, int y);
 #endif
 	friend class Engine;
+	friend void mousebuttonCallback(GLFWwindow* /* window */, int x, int y, int state);
 };
 
 #endif // INPUT_H

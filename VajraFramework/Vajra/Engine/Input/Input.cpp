@@ -12,8 +12,23 @@
 #if PLATFORM_DESKTOP
 #include "Vajra/Engine/Timer/Timer.h"
 // Global callback function for desktop input
-void cursorPosCallback(int x, int y) {
+void cursorPosCallback(GLFWwindow* /* window */, double x, double y) {
 	ENGINE->GetInput()->cursorPosUpdate(x, y);
+}
+void mousebuttonCallback(GLFWwindow* /* window */, int /* button */, int state, int /* mods */) {
+	double xpos, ypos;
+	glfwGetCursorPos(Framework::GetGLFWWindow(), &xpos, &ypos);
+	// FRAMEWORK->GetLogger()->dbglog("\nHere QWERTY %d %f %f\n", state, xpos, ypos);
+
+	if (state == GLFW_PRESS) {
+		ENGINE->GetInput()->touchDown = true;
+		ENGINE->GetInput()->AddTouch(0, xpos, ypos);
+	} else if (state == GLFW_RELEASE) {
+		if (ENGINE->GetInput()->touchDown) {
+			ENGINE->GetInput()->UpdateTouch(0, xpos, ypos, TouchPhase::Ended);
+			ENGINE->GetInput()->touchDown = false;
+		}
+	}
 }
 #endif
 
@@ -27,7 +42,8 @@ Input::~Input() {
 void Input::init() {
 	this->nextFingerId = 0;
 #if PLATFORM_DESKTOP
-	glfwSetMousePosCallback(cursorPosCallback);
+	glfwSetCursorPosCallback(Framework::GetGLFWWindow(), cursorPosCallback);
+	glfwSetMouseButtonCallback(Framework::GetGLFWWindow(), mousebuttonCallback);
 #endif
 }
 
@@ -210,8 +226,10 @@ float downTime = 0;
 const float longPress = 1.0f;
 float startX, startY;
 void Input::updateDesktopInput() {
+	glfwPollEvents();
+
 	// Grab the left click state and make it act like a single touch
-	int button = glfwGetMouseButton(GLFW_MOUSE_BUTTON_LEFT);
+	int button = glfwGetMouseButton(Framework::GetGLFWWindow(), GLFW_MOUSE_BUTTON_LEFT);
 
 #ifdef LONG_PRESS
 	if (this->frameLongPress.gestureState != GestureState::GestureState_Inactive
@@ -259,8 +277,9 @@ void Input::updateDesktopInput() {
 		}
 	}
 	//pinch
-	int pinchIn = glfwGetKey(GLFW_KEY_I);
-	int pinchOut = glfwGetKey(GLFW_KEY_O);
+	int pinchIn = glfwGetKey(Framework::GetGLFWWindow(), GLFW_KEY_I);
+	int pinchOut = glfwGetKey(Framework::GetGLFWWindow(), GLFW_KEY_O);
+
 
 	if (pinchIn == GLFW_PRESS) {
 		this->UpdatePinch(10.0f, 10.0f, GestureState::GestureState_End);

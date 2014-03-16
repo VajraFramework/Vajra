@@ -34,7 +34,7 @@ INC = $(addprefix -I, $(LOCAL_INCLUDES))
 LOCAL_CFLAGS = -g3 -O0 -Wall -Wextra -Werror -DPLATFORM_DESKTOP -DPLATFORM_WINDOWS -DDEBUG -DGLM_FORCE_RADIANS
 LOCAL_CPPFLAGS = -std=c++11 -static-libgcc -static-libstdc++
 
-LIB_FLAGS = -lglfw -lopengl32 -glu32 -lgdi32 -lglew32 -lz
+LIB_FLAGS = -lglfw3dll -lopengl32 -glu32 -lgdi32 -lglew32 -lz
 
 # Include OpenAL libraries:
 LOCAL_LIB_FLAGS += ./Libraries/openal/built/OpenAL32.lib
