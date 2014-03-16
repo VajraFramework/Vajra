@@ -95,18 +95,18 @@ private:
 
 	void changeCell(GridCell* goalCell);
 
-	float calculatePath(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outPath, bool ignoreCellOccupants = false); // Calculates a path and returns its length. Returns -1 if no path found.
-	float travelCostEstimate(GridCell* startCell, GridCell* goalCell); // Estimated distance between two cells
-	float actualTravelCost(GridCell* startCell, GridCell* goalCell);
+	float calculatePath(glm::vec3 startPosition, glm::vec3 goalPosition, std::list<glm::vec3>& outPath, bool ignoreCellOccupants = false);
+	float travelCostEstimate(glm::vec3 startPosition, glm::vec3 goalPosition); // Estimated distance between two cells
+	float actualTravelCost(glm::vec3 startPosition, glm::vec3 goalPosition);
+	void simplifyPath(std::list<glm::vec3>& outPath, bool ignoreCellOccupants = false);
 	bool canNavigateThroughCellAtElevation(GridCell* cell, int elevation, bool ignoreCellOccupants = false);
-	void simplifyPath(std::list<GridCell*>& outPath, bool ignoreCellOccupants = false);
 	void setNextWaypoint();
 	void goToNearestPassableCell();
 
 	Transform* getTransform() { return this->gameObjectRef->GetTransform(); }
 
 	GridCell* currentCell;
-	std::list<GridCell*> currentPath;
+	std::list<glm::vec3> currentPath;
 	std::list<GridCell*> currentSegment;
 	glm::vec3 targetForward;
 	bool isTraveling;
