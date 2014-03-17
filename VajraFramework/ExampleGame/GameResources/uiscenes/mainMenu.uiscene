@@ -9,12 +9,12 @@
 	</uielement>
 
 	<uielement name="startMenu" visible="false" clickable="false">
-	<dimensions>
-		<position x="0" y="0"></position>
-		<size widthPixels="1024" heightPixels="768"></size>
-		<zorder>0</zorder>
-	</dimensions>
-	<image name="SD_Main_Menu.png" hasTransperancy="false"> </image>
+		<dimensions>
+			<position xwrto="CENTER" ywrto="CENTER" x="-512" y="-384"></position>
+			<size widthPixels="1024" heightPixels="768"></size>
+			<zorder>0</zorder>
+		</dimensions>
+		<image name="SD_Main_Menu.png" hasTransperancy="false"> </image>
 		<uielement name="play" visible="true" clickable="true">
 			<dimensions>
 				<position xwrto="CENTER" ywrto="TOP" x="-90" y="450"></position>
