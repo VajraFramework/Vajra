@@ -119,15 +119,23 @@ void ShadyCamera::HandleMessage(MessageChunk messageChunk) {
 }
 
 void ShadyCamera::ZoomTo(float y) {
-	glm::vec3 newPos = this->gameObjectRef->GetTransform()->GetPosition();
+	float ratio = (y - this->gameCamPos.y) / (this->overviewPos.y - this->gameCamPos.y);
+	glm::vec3 newPos;
+	if (ratio <= 0.0f) {
+		newPos = this->gameCamPos;
+	}
+	else if (ratio >= 1.0f) {
+		newPos = this->overviewPos;
+	}
+	else {
+		newPos = (this->overviewPos * ratio) + (this->gameCamPos * (1.0f - ratio));
+	}
 	newPos.y = y;
 	this->gameObjectRef->GetTransform()->SetPosition(newPos);
 }
 
 void ShadyCamera::ZoomBy(float yOffset) {
-	glm::vec3 newPos = this->gameObjectRef->GetTransform()->GetPosition();
-	newPos.y += yOffset;
-	this->gameObjectRef->GetTransform()->SetPosition(newPos);
+	this->ZoomTo(this->gameObjectRef->GetTransform()->GetPositionWorld().y + yOffset);
 }
 
 
