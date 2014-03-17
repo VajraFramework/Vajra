@@ -17,6 +17,7 @@ GameObject* DecalGenerator::GetDecalFromDecalType(std::string decalType, SceneGr
 	spriteRenderer->SetHasTransperancy(true);
 	decal->GetTransform()->Translate( 1.0f, YAXIS);
 	decal->GetTransform()->Translate(-1.0f, decal->GetTransform()->GetForward());
+	decal->GetTransform()->Rotate(180.0f inRadians, YAXIS);
 	decal->GetTransform()->Rotate(45.0f inRadians, XAXIS);
 	decal->GetTransform()->Scale(0.6f);
 

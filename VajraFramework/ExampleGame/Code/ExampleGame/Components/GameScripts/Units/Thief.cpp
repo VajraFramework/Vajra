@@ -339,7 +339,7 @@ void Thief::createTargets() {
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_03.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 		indicator->GetTransform()->SetScale( glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)));
-		indicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+		indicator->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
 		indicator->SetVisible(false);
 		targetIndicators.push_back(indicator);
 	}

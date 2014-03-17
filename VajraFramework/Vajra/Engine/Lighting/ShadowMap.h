@@ -20,6 +20,8 @@ public:
 
 	void SetOrthoBounds(float left, float right, float bottom, float top, float near, float far);
 
+	void GetDepthMapResolution(unsigned int& out_width, unsigned int& out_height);
+
 
 	// TODO [Hack] Make this private:
     GLuint depthTexture;
@@ -30,6 +32,8 @@ private:
 	void destroy();
 
 	ObjectIdType depthCameraId;
+
+	void loadSettings();
 
 	void createDepthCamera();
 	void adjustDepthCamera();
@@ -43,6 +47,9 @@ private:
 	float ortho_bounds_top;
 	float ortho_bounds_near;
 	float ortho_bounds_far;
+
+	unsigned int depthMap_width;
+	unsigned int depthMap_height;
 
 	friend class Engine;
 	friend class ShadowMapUpdateListener;

@@ -7,12 +7,20 @@
 #include <memory>
 #include <string>
 
+enum IntensityLevel_t {
+	INTENSITY_low,
+	INTENSITY_medium,
+	INTENSITY_high,
+};
+
 class AmbientLighting : public Object {
 public:
 	~AmbientLighting();
 
 	void SetBakedAmbientLightTexture(const char* filePath, float widthInWorld_, float heightInWorld_);
 	void ResetBakedAmbientLightTexture();
+
+	void SetIntensity(IntensityLevel_t intensityLevel);
 
 	void Draw();
 
@@ -23,6 +31,7 @@ private:
 
 	float widthInWorld;
 	float heightInWorld;
+	float intensity;
 	std::shared_ptr<TextureAsset> bakedAmbientLightTextureAsset;
 
 	friend class Engine;
