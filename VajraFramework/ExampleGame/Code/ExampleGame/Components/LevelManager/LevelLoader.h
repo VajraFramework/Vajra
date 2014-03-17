@@ -19,7 +19,7 @@
 class LevelLoader {
 public:
 	static void LoadLevelFromFile(std::string levelFilename);
-	static void LoadLevelData(std::vector<LevelData>* /*levelData*/); 
+	static void LoadLevelData(std::vector<LevelData>* /*levelData*/, std::vector<int>* /*levelsPerMission*/); 
 	static void LoadTutorialData(std::string levelName);
 private:
 

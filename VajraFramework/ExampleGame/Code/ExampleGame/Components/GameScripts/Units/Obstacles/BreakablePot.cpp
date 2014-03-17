@@ -89,7 +89,7 @@ void BreakablePot::activateDeathEffect() {
 		// Move the effect to this object's position
 		Transform* myTrans = this->gameObjectRef->GetTransform();
 		Transform* effectTrans = deathEffectObj->GetTransform();
-		effectTrans->SetPosition(myTrans->GetPositionWorld());
+		effectTrans->SetPositionWorld(myTrans->GetPositionWorld());
 
 		ParticleSystem* deathEffectParticleSystem = deathEffectObj->GetComponent<ParticleSystem>();
 		VERIFY(deathEffectParticleSystem != nullptr, "Death effect prefab has a particle system on it");

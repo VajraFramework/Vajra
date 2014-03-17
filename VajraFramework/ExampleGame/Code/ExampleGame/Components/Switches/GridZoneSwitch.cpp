@@ -54,11 +54,11 @@ void GridZoneSwitch::HandleMessage(MessageChunk messageChunk) {
 
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_GRID_ZONE_ENTERED:
-			this->onUnitEnteredZone(messageChunk->messageData.iv1.x);
+			this->onUnitEnteredZone(messageChunk->GetSenderId());
 			break;
 
 		case MESSAGE_TYPE_GRID_ZONE_EXITED:
-			this->onUnitExitedZone(messageChunk->messageData.iv1.x);
+			this->onUnitExitedZone(messageChunk->GetSenderId());
 			break;
 	}
 }

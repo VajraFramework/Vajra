@@ -17,19 +17,20 @@
 	<image name="SD_Main_Menu.png" hasTransperancy="false"> </image>
 		<uielement name="play" visible="true" clickable="true">
 			<dimensions>
-				<position xwrto="LEFT" ywrto="TOP" x="425" y="385"></position>
-				<size widthPixels="185" heightPixels="64"></size>
+				<position xwrto="CENTER" ywrto="TOP" x="-90" y="450"></position>
+				<size widthPixels="180" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
-			<color r="1.0" g="1.0" b="1.0" a="0.0"></color>
+			<image name="SD_Play_Button.png" hasTransperancy="false"> </image>
 		</uielement>
 		<uielement name="options" visible="true" clickable="true">
 			<dimensions>
-				<position xwrto="LEFT" ywrto="TOP" x="425" y="465"></position>
-				<size widthPixels="185" heightPixels="64"></size>
+				<position xwrto="CENTER" ywrto="TOP" x="-65" y="540"></position>
+				<size widthPixels="130" heightPixels="50"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<color r="1.0" g="1.0" b="1.0" a="0.0"></color>
+			<image name="SD_Options_Button.png" hasTransperancy="false"> </image>
 		</uielement>
 
 	</uielement>
@@ -154,7 +155,7 @@
 			<dimensions>
 				<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
 				<size widthPixels="1024" heightPixels="71"></size>
-				<zorder>1</zorder>
+				<zorder>5</zorder>
 			</dimensions>
 			<image name="SD_LevelSelection_NavBar.png" hasTransperancy="false"> </image>
 		</uielement>
@@ -171,7 +172,7 @@
 					<size widthPixels="1536" heightPixels="768"></size>
 					<zorder>1</zorder>
 				</dimensions>
-				<image name="SD_Paralax_Back_01.png" hasTransperancy="true"> </image>
+				<image name="SD_Paralax_Back_02.png" hasTransperancy="true"> </image>
 			</uielement>
 			<uielement name="parallaxMid" visible="true" clickable="false">
 				<dimensions>
@@ -179,7 +180,7 @@
 					<size widthPixels="2048" heightPixels="768"></size>
 					<zorder>2</zorder>
 				</dimensions>
-				<image name="SD_Paralax_Mid_01.png" hasTransperancy="true"> </image>
+				<image name="SD_Paralax_Mid_02.png" hasTransperancy="true"> </image>
 			</uielement>
 				<uielement name="parallaxFront" visible="true" clickable="false">
 				<dimensions>
@@ -187,7 +188,7 @@
 					<size widthPixels="3072" heightPixels="768"></size>
 					<zorder>3</zorder>
 				</dimensions>
-				<image name="SD_Paralax_Front_01.png" hasTransperancy="true"> </image>
+				<image name="SD_Paralax_Front_02.png" hasTransperancy="true"> </image>
 			</uielement>
 		</uielement>
 	</uielement>

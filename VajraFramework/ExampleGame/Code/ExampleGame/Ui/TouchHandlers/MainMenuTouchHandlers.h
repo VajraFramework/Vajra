@@ -15,13 +15,22 @@ public:
 
 private:
 	void createMissionMenu();
-	void parallaxScroll(UiObject* parallaxRoot, float xDiff);
 
 	void displaySettings();
 	void applySettings();
+	
+	void parallaxScroll(UiObject* parallaxRoot, float touchX, bool touchEnd = false);
+	void scrollToCurrentMission();
 
+	int currentMission;
+
+	std::vector<std::vector<UiObject*>> currentLevelButtons;
 	UiElement* missionRoot;
 
+	float startTouchX;
+	float currentScreenX;
+
+	std::vector<int> missionStartX;
 	friend class MenuManager;
 };
 

@@ -36,6 +36,8 @@ public:
 	//[[PROPERTY]]//
 	void SetPosition(float x, float y, float z);
 	void SetPosition(glm::vec3 newPosition);
+	void SetPositionWorld(float x, float y, float z);
+	void SetPositionWorld(glm::vec3 newPosition);
 	//[[PROPERTY]]//
 	void SetOrientation(float angleInRadians, float x, float y, float z);
 	void SetOrientation(float angleInRadians, glm::vec3 axis);
@@ -77,6 +79,7 @@ private:
 
 	// Utility Transform Functions:
 	void setPosition(glm::vec3 newPosition);
+	void setPositionWorld(glm::vec3 newPosition);
 	void setOrientation(glm::quat newOrientation);
 	void setScale(glm::vec3 newScale);
 

@@ -104,7 +104,8 @@ float AiPerception::calculateVisualAwareness(ObjectIdType objId) {
 		// Is the AI's vision wide enough?
 		glm::vec3 direction = glm::normalize(posDiff);
 		glm::vec3 forward = myTrans->GetForward();
-		float angle = glm::angle(forward, direction);
+		// Don't use glm's vector angle function because it never returns an angle greater than PI/2
+		float angle = acos(glm::clamp(glm::dot(forward, direction), -1.0f, 1.0f));
 		if (angle > this->fieldOfVision) {
 			return 0.0f;
 		}

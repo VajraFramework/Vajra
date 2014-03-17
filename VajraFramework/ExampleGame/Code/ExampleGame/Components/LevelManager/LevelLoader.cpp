@@ -130,7 +130,7 @@ LevelType LevelLoader::stringToLevelType(std::string type) {
 	ASSERT(0, "%s is a valid level type", type.c_str());
 	return LevelType::NO_TYPE;
 }
-void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData) {
+void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData, std::vector<int>* levelsPerMission) {
 	// Load the tutorials
 	std::vector<std::string> levelsWithTutorials;
 	LevelLoader::LoadTutorialLevelNames(&levelsWithTutorials);
@@ -146,7 +146,7 @@ void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData) {
 	XmlNode* rootLevelListNode = xmlTree->GetRootNode();
 	ASSERT(rootLevelListNode != nullptr, "Got valid tutoral node from xml tree for tutorial file %s", levelListXmlPath);
 
-
+	int missionNum = 0;
 	for(XmlNode* missionNode : rootLevelListNode->GetChildren()) {
 		FRAMEWORK->GetLogger()->dbglog("\n Loaded mission data for game");
 		for(XmlNode* levelDataNode : missionNode->GetChildren()) {
@@ -155,8 +155,14 @@ void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData) {
 			data.path = levelDataNode->GetAttributeValueS(PATH_PROPERTY);
 			data.type = LevelLoader::stringToLevelType(levelDataNode->GetAttributeValueS(TYPE_PROPERTY));
 			data.hasTutorial = std::find(levelsWithTutorials.begin(), levelsWithTutorials.end(), data.name) != levelsWithTutorials.end();
+			data.mission = missionNum;
+			data.pinX = levelDataNode->GetAttributeValueF("x");
+			data.pinY = levelDataNode->GetAttributeValueF("y");
+			data.parallaxScreen = levelDataNode->GetAttributeValueF("parallaxScreen");
 			levelData->push_back(data);
 		}
+		levelsPerMission->push_back(missionNode->GetChildren().size());
+		missionNum++;
 	}
 	delete parser;
 }
@@ -372,8 +378,9 @@ void LevelLoader::loadLinkDataFromXml  (XmlNode* linkBaseNode) {
 			if (triggerComp != nullptr) {
 				XmlNode* switchNode = triggerLinkNode->GetFirstChildByNodeName(SWITCH_TAG);
 				while (switchNode != nullptr) {
-					ObjectIdType switchId = switchNode->GetAttributeValueI(ID_ATTRIBUTE);
-					triggerComp->SubscribeToSwitchObject(idsFromXml[switchId]);
+					int switchXmlId = switchNode->GetAttributeValueI(ID_ATTRIBUTE);
+					ObjectIdType switchId = idsFromXml[switchXmlId];
+					triggerComp->SubscribeToSwitchObject(switchId);
 
 					switchNode = switchNode->GetNextSiblingByNodeName(SWITCH_TAG);
 				}
@@ -408,18 +415,18 @@ void LevelLoader::loadEndConditionsFromXml(XmlNode* linkBaseNode) {
 	XmlNode* winConditionNode = linkBaseNode->GetFirstChildByNodeName(WIN_CONDITION_TAG);
 	//ASSERT(winConditionNode != nullptr, "Level has a win condition");
 	while (winConditionNode != nullptr) {
-		ObjectIdType switchId = winConditionNode->GetAttributeValueI(ID_ATTRIBUTE);
-
-		SINGLETONS->GetLevelManager()->AddWinCondition(idsFromXml[switchId]);
+		int switchXmlId = winConditionNode->GetAttributeValueI(ID_ATTRIBUTE);
+		ObjectIdType switchId = idsFromXml[switchXmlId];
+		SINGLETONS->GetLevelManager()->AddWinCondition(switchId);
 
 		winConditionNode = winConditionNode->GetNextSiblingByNodeName(WIN_CONDITION_TAG);
 	}
 
 	XmlNode* loseConditionNode = linkBaseNode->GetFirstChildByNodeName(LOSE_CONDITION_TAG);
 	while (loseConditionNode != nullptr) {
-		ObjectIdType switchId = loseConditionNode->GetAttributeValueI(ID_ATTRIBUTE);
-
-		SINGLETONS->GetLevelManager()->AddLoseCondition(idsFromXml[switchId]);
+		int switchXmlId = loseConditionNode->GetAttributeValueI(ID_ATTRIBUTE);
+		ObjectIdType switchId = idsFromXml[switchXmlId];
+		SINGLETONS->GetLevelManager()->AddLoseCondition(switchId);
 
 		loseConditionNode = loseConditionNode->GetNextSiblingByNodeName(LOSE_CONDITION_TAG);
 	}
