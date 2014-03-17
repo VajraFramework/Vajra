@@ -5,6 +5,7 @@
 
 #define SETTINGS_FILE_NAME "settings.xml"
 
+bool DoesSettingsFileExist();
 void GetSettingsFileHandleForReading(std::ifstream& file);
 void GetSettingsFileHandleForWriting(std::ofstream& file);
 

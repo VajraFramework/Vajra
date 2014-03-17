@@ -38,6 +38,10 @@ void Settings::initializeSettings() {
 }
 
 bool Settings::readSettingsFromDisk() {
+	if (!DoesSettingsFileExist()) {
+		return false;
+	}
+	
 	std::ifstream file;
 	GetSettingsFileHandleForReading(file);
 

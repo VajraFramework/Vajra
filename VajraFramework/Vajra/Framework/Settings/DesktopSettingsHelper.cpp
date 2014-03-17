@@ -1,4 +1,4 @@
-// #if defined(PLATFORM_DESKTOP)
+#if defined(PLATFORM_DESKTOP)
 
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
@@ -17,3 +17,5 @@ void GetSettingsFileHandleForWriting(std::ofstream& file) {
 	file.open(filePath);
 	ASSERT(file.good(), "Valid file handle for %s", filePath.c_str());
 }
+
+#endif
