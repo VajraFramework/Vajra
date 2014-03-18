@@ -27,6 +27,11 @@ public:
 	GameObject* gameobject;
 };
 
+enum DistanceFromCameraCompareType {
+	DISTANCE_FROM_CAMERA_COMPARE_TYPE_perspective,
+	DISTANCE_FROM_CAMERA_COMPARE_TYPE_ortho_z,
+};
+
 bool CompareTrGos(TrGo t1, TrGo t2);
 
 #define HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration std::priority_queue< TrGo, std::vector<TrGo>, std::function<bool(TrGo, TrGo)> >
@@ -37,8 +42,8 @@ class RenderLists {
 public:
 	~RenderLists();
 
-	void Draw(Camera* camera, bool isDepthPass);
-	void Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights, bool isDepthPass);
+	void Draw(Camera* camera, bool isDepthPass, DistanceFromCameraCompareType compareType);
+	void Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights, bool isDepthPass, DistanceFromCameraCompareType compareType);
 
 private:
 	RenderLists();

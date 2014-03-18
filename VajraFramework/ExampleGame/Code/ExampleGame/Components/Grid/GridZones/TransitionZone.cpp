@@ -30,7 +30,7 @@ void TransitionZone::HandleMessage(MessageChunk messageChunk) {
 	GridZone::HandleMessage(messageChunk);
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_GRID_ZONE_ENTERED:
-			this->onUnitEnteredZone(messageChunk->messageData.iv1.x);
+			this->onUnitEnteredZone(messageChunk->GetSenderId(), SINGLETONS->GetGridManager()->GetGrid()->GetCell(messageChunk->messageData.iv1.x, messageChunk->messageData.iv1.z));
 			break;
 	}
 }
@@ -134,39 +134,28 @@ void TransitionZone::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
-void TransitionZone::onUnitEnteredZone(ObjectIdType id) {
+void TransitionZone::onUnitEnteredZone(ObjectIdType id, GridCell* startCell) {
 	GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 	ASSERT(gObj != nullptr, "Object with id %d exists", id);
 
 	GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
 	ASSERT(gNav != nullptr, "Object with id %d has GridNavigator component", id);
 
-	GridCell* unitCell = gNav->GetCurrentCell();
-	GridRoom* unitRoom = SINGLETONS->GetGridManager()->GetGrid()->GetRoom(unitCell);
+	GridCell* unitCell = startCell;
+	if (unitCell == nullptr) {
+		gNav->GetCurrentCell();
+	}
+
 	int destCellX1, destCellZ1, destCellX2, destCellZ2;
 	this->GetBothDestinationCoordinates(destCellX1, destCellZ1, destCellX2, destCellZ2);
 	GridCell* destCell1 = SINGLETONS->GetGridManager()->GetGrid()->GetCell(destCellX1, destCellZ1);
 	GridCell* destCell2 = SINGLETONS->GetGridManager()->GetGrid()->GetCell(destCellX2, destCellZ2);
-	GridRoom* destRoom1 = SINGLETONS->GetGridManager()->GetGrid()->GetRoom(destCell1);
-
-
-	if (unitRoom == nullptr) {
-		if(glm::distance(unitCell->center, destCell1->center) < glm::distance(unitCell->center, destCell2->center)) {
-			unitRoom = SINGLETONS->GetGridManager()->GetGrid()->GetRoom(destCell1);
-		} else {
-			unitRoom = SINGLETONS->GetGridManager()->GetGrid()->GetRoom(destCell2);
-		}
-	}
-
 	GridCell* target;
-	if (unitRoom != destRoom1) {
-		// If the first destination and the unit are not in the same room, send the unit to that destination
-		target = destCell1;
-	}
-	else {
-		// If the first destination is in the same room, send the unit to the other one instead
-		// (Hopefully they won't be the same room)
+	// Send the unit to the destination cell further from its starting point.
+	if(glm::distance(unitCell->center, destCell1->center) < glm::distance(unitCell->center, destCell2->center)) {
 		target = destCell2;
+	} else {
+		target = destCell1;
 	}
 
 	BaseUnit* pU = gObj->GetComponent<BaseUnit>();

@@ -15,6 +15,8 @@ public:
 	~XmlParser();
 
 	void ParseXmlFile(std::string filePath);
+	void ParseXmlFile(std::ifstream& file);
+
 	void Print();
 
 	XmlTree* GetXmlTree() { return this->xmlTree; }

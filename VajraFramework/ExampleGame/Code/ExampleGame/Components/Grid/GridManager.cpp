@@ -425,7 +425,9 @@ void GridManager::placeZoneOnGrid(ObjectIdType id) {
 							if (occId != OBJECT_ID_INVALID) {
 								MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 								collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED);
-								collisionMessage->messageData.iv1.x = occId;
+								collisionMessage->messageData.iv1.x = x;
+								collisionMessage->messageData.iv1.y = y;
+								collisionMessage->messageData.iv1.z = z;
 								ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, id, occId);
 							}
 						}
@@ -518,7 +520,9 @@ void GridManager::addZoneToCell(ObjectIdType zoneId, int gridX, int gridZ) {
 					if (occupant != nullptr) {
 						MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 						collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED);
-						collisionMessage->messageData.iv1.x = occId;
+						collisionMessage->messageData.iv1.x = gridX;
+						collisionMessage->messageData.iv1.y = y;
+						collisionMessage->messageData.iv1.z = gridZ;
 						ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, zoneId, occId);
 					}
 				}
@@ -619,7 +623,16 @@ void GridManager::CheckZoneCollisions(ObjectIdType id, GridCell* startCell, Grid
 
 		MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED);
-		collisionMessage->messageData.iv1.x = id;
+		if (startCell != nullptr) {
+			collisionMessage->messageData.iv1.x = startCell->x;
+			collisionMessage->messageData.iv1.y = startCell->y;
+			collisionMessage->messageData.iv1.z = startCell->z;
+		}
+		else {
+			collisionMessage->messageData.iv1.x = -1;
+			collisionMessage->messageData.iv1.y = -1;
+			collisionMessage->messageData.iv1.z = -1;
+		}
 		ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, destZoneObjId, id);
 	}
 }

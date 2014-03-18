@@ -19,7 +19,7 @@
 class LevelLoader {
 public:
 	static void LoadLevelFromFile(std::string levelFilename);
-	static void LoadLevelData(std::vector<LevelData>* /*levelData*/); 
+	static void LoadLevelData(std::vector<LevelData>* /*levelData*/, std::vector<int>* /*levelsPerMission*/); 
 	static void LoadTutorialData(std::string levelName);
 private:
 
@@ -29,6 +29,7 @@ private:
 	static void loadOtherDataFromXml (XmlNode* otherDataNode);
 	static void loadCameraDataFromXml(XmlNode* cameraNode);
 	static void loadLinkDataFromXml  (XmlNode* linkBaseNode);
+	static void adjustLighting();
 
 	static void loadParentConnectionsFromXml(XmlNode* linkBaseNode);
 	static void loadEndConditionsFromXml(XmlNode* linkBaseNode);

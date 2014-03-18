@@ -171,7 +171,12 @@ void Thief::onSpecialEnd() {
 	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
 		PlayerUnit::onSpecialEnd();
 		this->gridNavRef->SetGridPosition(this->targetedCell);
-		this->gridNavRef->EnableNavigation();
+		// Todo [HACK] Make the Thief work with elevators
+		glm::vec3 position = this->gameObjectRef->GetTransform()->GetPositionWorld();
+		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(position.y);
+		if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(this->targetedCell->x, this->targetedCell->z, elevation)) {
+			this->gridNavRef->EnableNavigation();
+		}
 
 		for( GridCell* c : this->legalTargets ) {
 			ASSERT(activeTargetIndicators[c] != nullptr, "target indicator for cell is not null");
@@ -334,7 +339,7 @@ void Thief::createTargets() {
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_03.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
 		indicator->GetTransform()->SetScale( glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)));
-		indicator->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+		indicator->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
 		indicator->SetVisible(false);
 		targetIndicators.push_back(indicator);
 	}

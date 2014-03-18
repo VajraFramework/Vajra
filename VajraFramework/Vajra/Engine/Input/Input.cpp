@@ -146,7 +146,6 @@ void Input::UpdateTouch(int uId, float curX, float curY, TouchPhase phase) {
 	for (std::vector<Touch>::iterator it = this->asyncTouches.begin();
 			it != this->asyncTouches.end(); ++it) {
 		if (it->uId == uId) {
-			it->prevPos = it->pos;
 			it->pos.x = curX;
 			it->pos.y = curY;
 			if(it->phase != TouchPhase::Began) {

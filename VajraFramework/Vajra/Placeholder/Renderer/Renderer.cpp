@@ -69,9 +69,9 @@ bool setupGraphics(int w, int h, int dpi) {
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 #endif
 	
-	// glEnable(GL_CULL_FACE);
-	// glCullFace(GL_BACK);
-
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	
 
 #if PLATFORM_DESKTOP
     // TODO [Implement] Move this to shader specific code so that we can have only some shaders draw in wireframe mode

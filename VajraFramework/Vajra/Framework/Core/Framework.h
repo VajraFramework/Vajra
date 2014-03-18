@@ -6,6 +6,7 @@ class DeviceProperties;
 class FileSystemUtils;
 class Logger;
 class OpenGLWrapper;
+class Settings;
 class GLFWwindow;
 
 class Framework {
@@ -16,6 +17,7 @@ public:
     inline DeviceProperties* GetDeviceProperties() { return this->deviceProperties; }
     inline FileSystemUtils*  GetFileSystemUtils()  { return this->fileSystemUtils;  }
 	inline OpenGLWrapper*    GetOpenGLWrapper()    { return this->openGLWrapper;    }
+	inline Settings*         GetSettings()         { return this->settings;         }
 
 	static GLFWwindow* GetGLFWWindow() { return Framework::window; }
 	static void SetGLFWWindow(GLFWwindow* window_) { Framework::window = window_; }
@@ -26,12 +28,14 @@ private:
 	static Framework* singleton;
 	//
 	void init();
+	void destroy();
 
 	Logger* logger;
 	DeviceProperties* deviceProperties;
     FileSystemUtils* fileSystemUtils;
 	OpenGLWrapper* openGLWrapper;
-
+	Settings* settings;
+	
 	static GLFWwindow* window;
 };
 

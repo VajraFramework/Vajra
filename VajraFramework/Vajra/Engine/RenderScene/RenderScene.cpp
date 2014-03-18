@@ -18,9 +18,6 @@ static GLint g_default_fbo;
 #define SCREEN_FRAME_BUFFER 0
 #endif
 
-#define DEPTH_TEXTURE_W 2048
-#define DEPTH_TEXTURE_H 2048
-
 
 
 void RenderScene::SetupStuff() {
@@ -38,12 +35,15 @@ void RenderScene::SetupStuff() {
     glGenRenderbuffers(1, &renderBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
 
+    unsigned int depthMap_width, depthMap_height;
+    ENGINE->GetShadowMap()->GetDepthMapResolution(depthMap_width, depthMap_height);
+
 	// Create a depth texture:
     glGenTextures(1, &ENGINE->GetShadowMap()->depthTexture);
     checkGlError("glGenTextures");
 	glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, ENGINE->GetShadowMap()->depthTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, DEPTH_TEXTURE_W, DEPTH_TEXTURE_H, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthMap_width, depthMap_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
     checkGlError("glTexImage2D");
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -54,7 +54,7 @@ void RenderScene::SetupStuff() {
     checkGlError("glFramebufferTexture2D");
 	
 	// Allocate 16-bit depth buffer
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, DEPTH_TEXTURE_W, DEPTH_TEXTURE_H);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, depthMap_width, depthMap_height);
     checkGlError("glRenderBufferStorage");
 	
 	// Attach the render buffer as depth buffer - will be ignored
@@ -81,14 +81,14 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera) {
 #endif
 
 	glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
-	renderLists->Draw(camera, false);
+	renderLists->Draw(camera, false, DISTANCE_FROM_CAMERA_COMPARE_TYPE_ortho_z);
 }
 
 
 void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 							  DirectionalLight* directionalLight,
 							  std::vector<DirectionalLight*> additionalLights) {
-	
+
 #ifdef PLATFORM_IOS
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &g_default_fbo);
 #endif
@@ -108,13 +108,16 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 		/*
 	 	 * Draw to the depth buffer:
 	 	 */
+		unsigned int depthMap_width, depthMap_height;
+		ENGINE->GetShadowMap()->GetDepthMapResolution(depthMap_width, depthMap_height);
+		//
 		glBindFramebuffer(GL_FRAMEBUFFER, g_depth_fbo_id);
-    	glViewport(0, 0, DEPTH_TEXTURE_W, DEPTH_TEXTURE_H);
+    	glViewport(0, 0, depthMap_width, depthMap_height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 #endif
 		// Depth pass draw:
 		ENGINE->GetSceneGraph3D()->SetMainCameraId(depthCamera->GetObject()->GetId());
-		renderLists->Draw(depthCamera, nullptr /* no lights in depth pass */, emptyVector /* no lights in depth pass */, true);
+		renderLists->Draw(depthCamera, nullptr /* no lights in depth pass */, emptyVector /* no lights in depth pass */, true, DISTANCE_FROM_CAMERA_COMPARE_TYPE_perspective);
 
 		// Switch blend back on:
     	glEnable(GL_BLEND);
@@ -129,7 +132,7 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 		ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetObject()->GetId());
 		glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
     	glViewport(0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
-		renderLists->Draw(camera, directionalLight, additionalLights, false);
+		renderLists->Draw(camera, directionalLight, additionalLights, false, DISTANCE_FROM_CAMERA_COMPARE_TYPE_perspective);
 #endif
 	}
 

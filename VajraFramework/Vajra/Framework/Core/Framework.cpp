@@ -3,6 +3,7 @@
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
+#include "Vajra/Framework/Settings/Settings.h"
 
 Framework* Framework::singleton = nullptr;
 GLFWwindow* Framework::window = nullptr;
@@ -22,8 +23,27 @@ Framework* Framework::GetInstance() {
 }
 
 void Framework::init() {
-	this->logger = new Logger();
-    this->deviceProperties = new DeviceProperties();
-    this->fileSystemUtils = new FileSystemUtils();
-	this->openGLWrapper = new OpenGLWrapper();
+	this->logger            = new Logger();
+    this->deviceProperties  = new DeviceProperties();
+    this->fileSystemUtils   = new FileSystemUtils();
+	this->settings          = new Settings();
+	this->openGLWrapper     = new OpenGLWrapper();
+}
+
+void Framework::destroy() {
+    if (this->deviceProperties != nullptr) {
+    	delete this->deviceProperties;
+    }
+    if (this->fileSystemUtils != nullptr) {
+    	delete this->fileSystemUtils;
+    }
+	if (this->openGLWrapper != nullptr) {
+		delete this->openGLWrapper;
+	}
+	if (this->settings != nullptr) {
+		delete this->settings;
+	}
+	if (this->logger != nullptr) {
+		delete this->logger;
+	}
 }

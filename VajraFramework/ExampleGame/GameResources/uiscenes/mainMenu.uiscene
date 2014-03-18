@@ -9,20 +9,30 @@
 	</uielement>
 
 	<uielement name="startMenu" visible="false" clickable="false">
-	<dimensions>
-		<position x="0" y="0"></position>
-		<size widthPixels="1024" heightPixels="768"></size>
-		<zorder>0</zorder>
-	</dimensions>
-	<image name="SD_Main_Menu.png" hasTransperancy="false"> </image>
+		<dimensions>
+			<position xwrto="CENTER" ywrto="CENTER" x="-512" y="-384"></position>
+			<size widthPixels="1024" heightPixels="768"></size>
+			<zorder>0</zorder>
+		</dimensions>
+		<image name="SD_Main_Menu.png" hasTransperancy="false"> </image>
 		<uielement name="play" visible="true" clickable="true">
 			<dimensions>
-				<position xwrto="LEFT" ywrto="TOP" x="425" y="385"></position>
-				<size widthPixels="185" heightPixels="64"></size>
+				<position xwrto="CENTER" ywrto="TOP" x="-90" y="450"></position>
+				<size widthPixels="180" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<image name="SD_Play_Button.png" hasTransperancy="false"> </image>
+		</uielement>
+		<uielement name="options" visible="true" clickable="true">
+			<dimensions>
+				<position xwrto="CENTER" ywrto="TOP" x="-65" y="540"></position>
+				<size widthPixels="130" heightPixels="50"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<color r="1.0" g="1.0" b="1.0" a="0.0"></color>
+			<image name="SD_Options_Button.png" hasTransperancy="false"> </image>
 		</uielement>
+
 	</uielement>
 
 	<uielement name="optionsMenu" visible="false" clickable="true">
@@ -32,18 +42,106 @@
 		<zorder>0</zorder>
 	</dimensions>
 
-		<uielement name="back" clickable="true" visible="true">
+		<uielement name="brightness_label" clickable="false" visible="true">
+			<image name="derp_brightness.png" hasTransperancy="false"> </image>
 			<dimensions>
-				<position x="430" y="300"></position>
-				<size widthPixels="320" heightPixels="160"></size>
-				<zorder>0</zorder>
+				<position xwrto="LEFT" x="300" ywrto="TOP" y="60"></position>
+				<size widthPixels="120" heightPixels="64"></size>
+				<zorder>1</zorder>
 			</dimensions>
-			<text>
-				<font type="calibiri.fontspec" size="64.0"></font>
-				Back
-			</text>
-			<color r="0.7" g="0.3" b="0.5" a="1.0"></color>
 		</uielement>
+		<uielement name="brightness_setting" clickable="true" visible="true">
+			<image name="derp_off.png" hasTransperancy="false"> </image>
+			<image name="derp_low.png" hasTransperancy="false"> </image>
+			<image name="derp_medium.png" hasTransperancy="false"> </image>
+			<image name="derp_high.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="RIGHT" x="300" ywrto="TOP" y="70"></position>
+				<size widthPixels="120" heightPixels="40"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+
+		<uielement name="ambientlighting_label" clickable="false" visible="true">
+			<image name="derp_ambientlighting.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="LEFT" x="300" ywrto="TOP" y="130"></position>
+				<size widthPixels="120" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+		<uielement name="ambientlighting_setting" clickable="true" visible="true">
+			<image name="derp_off.png" hasTransperancy="false"> </image>
+			<image name="derp_low.png" hasTransperancy="false"> </image>
+			<image name="derp_medium.png" hasTransperancy="false"> </image>
+			<image name="derp_high.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="RIGHT" x="300" ywrto="TOP" y="140"></position>
+				<size widthPixels="120" heightPixels="40"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+
+		<uielement name="shadows_label" clickable="false" visible="true">
+			<image name="derp_shadows.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="LEFT" x="300" ywrto="TOP" y="200"></position>
+				<size widthPixels="120" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+		<uielement name="shadows_setting" clickable="true" visible="true">
+			<image name="derp_off.png" hasTransperancy="false"> </image>
+			<image name="derp_low.png" hasTransperancy="false"> </image>
+			<image name="derp_medium.png" hasTransperancy="false"> </image>
+			<image name="derp_high.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="RIGHT" x="300" ywrto="TOP" y="210"></position>
+				<size widthPixels="120" heightPixels="40"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+
+		<uielement name="texturesampling_label" clickable="false" visible="true">
+			<image name="derp_texturesampling.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="LEFT" x="300" ywrto="TOP" y="270"></position>
+				<size widthPixels="120" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+		<uielement name="texturesampling_setting" clickable="true" visible="true">
+			<image name="derp_off.png" hasTransperancy="false"> </image>
+			<image name="derp_low.png" hasTransperancy="false"> </image>
+			<image name="derp_medium.png" hasTransperancy="false"> </image>
+			<image name="derp_high.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="RIGHT" x="300" ywrto="TOP" y="280"></position>
+				<size widthPixels="120" heightPixels="40"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+
+
+
+
+		<uielement name="back" clickable="true" visible="true">
+			<image name="derp_backbutton.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="LEFT" x="230" ywrto="BOTTOM" y="200"></position>
+				<size widthPixels="120" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+		<uielement name="save_settings" clickable="true" visible="true">
+			<image name="derp_savebutton.png" hasTransperancy="false"> </image>
+			<dimensions>
+				<position xwrto="RIGHT" x="230" ywrto="BOTTOM" y="200"></position>
+				<size widthPixels="120" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+		</uielement>
+
 
 	</uielement>
 
@@ -53,14 +151,45 @@
 			<size widthPixels="1024" heightPixels="768"></size>
 			<zorder>1</zorder>
 		</dimensions>
-		<image name="SD_LevelSelection_Background.png" hasTransperancy="false"> </image>
 		<uielement name="missionNavBar" visible="true" clickable="false">
 			<dimensions>
 				<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
 				<size widthPixels="1024" heightPixels="71"></size>
-				<zorder>1</zorder>
+				<zorder>5</zorder>
 			</dimensions>
 			<image name="SD_LevelSelection_NavBar.png" hasTransperancy="false"> </image>
+		</uielement>
+
+		<uielement name="parallax" visible="true" clickable="true">
+			<dimensions>
+				<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
+				<size widthPixels="1024" heightPixels="768"></size>
+				<zorder>5</zorder>
+			</dimensions>
+			<uielement name="parallaxBack" visible="true" clickable="false">
+				<dimensions>
+					<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
+					<size widthPixels="1536" heightPixels="768"></size>
+					<zorder>1</zorder>
+				</dimensions>
+				<image name="SD_Paralax_Back_02.png" hasTransperancy="true"> </image>
+			</uielement>
+			<uielement name="parallaxMid" visible="true" clickable="false">
+				<dimensions>
+					<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
+					<size widthPixels="2048" heightPixels="768"></size>
+					<zorder>2</zorder>
+				</dimensions>
+				<image name="SD_Paralax_Mid_02.png" hasTransperancy="true"> </image>
+			</uielement>
+				<uielement name="parallaxFront" visible="true" clickable="false">
+				<dimensions>
+					<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
+					<size widthPixels="3072" heightPixels="768"></size>
+					<zorder>3</zorder>
+				</dimensions>
+				<image name="SD_Paralax_Front_02.png" hasTransperancy="true"> </image>
+			</uielement>
 		</uielement>
 	</uielement>
 	

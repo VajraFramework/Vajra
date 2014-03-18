@@ -22,6 +22,7 @@ void FileSystemUtils::init() {
 	this->deviceFontResourcesPath       = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_FONTS;
 	this->deviceUiScenesResourcesPath   = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_UISCENES;
 	this->devicePrefabsResourcesPath    = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_PREFABS;
+	this->deviceSettingsResourcesPath   = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_SETTINGS;
 	this->deviceTagsResourcesPath       = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_TAGS;
 	this->deviceConstantsResourcesPath  = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_CONSTANTS;
 }

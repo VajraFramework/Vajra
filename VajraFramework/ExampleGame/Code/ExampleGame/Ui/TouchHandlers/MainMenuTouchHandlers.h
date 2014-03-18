@@ -7,14 +7,30 @@ class UiElement;
 class MainMenuTouchHandlers : public UiTouchHandlers {
 public:
 	MainMenuTouchHandlers();
+
 	// @Override
 	virtual void OnTouchDownHandlers(UiObject* uiObject, Touch touch);
 	virtual void OnTouchMoveHandlers(UiObject* uiObject, Touch touch);
 	virtual void OnTouchUpHandlers  (UiObject* uiObject, Touch touch);
+
 private:
 	void createMissionMenu();
+
+	void displaySettings();
+	void applySettings();
+	
+	void parallaxScroll(UiObject* parallaxRoot, float touchX, bool touchEnd = false);
+	void scrollToCurrentMission();
+
+	int currentMission;
+
+	std::vector<std::vector<UiObject*>> currentLevelButtons;
 	UiElement* missionRoot;
 
+	float startTouchX;
+	float currentScreenX;
+
+	std::vector<int> missionStartX;
 	friend class MenuManager;
 };
 

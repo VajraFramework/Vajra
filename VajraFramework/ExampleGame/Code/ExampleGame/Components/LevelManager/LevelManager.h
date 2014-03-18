@@ -30,6 +30,11 @@ public:
 	std::string description;
 	LevelType type;
 	bool hasTutorial;
+	int mission;
+	int parallaxScreen;
+	float pinX;
+	float pinY;
+
 };
 
 //[[COMPONENT]]//
@@ -51,6 +56,10 @@ public:
 	void AddLoseCondition(ObjectIdType switchId);
 
 	inline int NumLevels() { return this->levelData.size(); }
+	LevelData GetLevelData(int index);
+
+	inline int GetNumMissions() { return this->levelsPerMission.size(); }
+	int GetNumLevelsInMission(int missionNum);
 private:
 	void init();
 	void destroy();
@@ -80,6 +89,7 @@ private:
 	Object* winner;
 	Object* loser;
 
+	std::vector<int> levelsPerMission;
 	std::vector<LevelData> levelData;
 
 	//UiElement* levelTutorial;
