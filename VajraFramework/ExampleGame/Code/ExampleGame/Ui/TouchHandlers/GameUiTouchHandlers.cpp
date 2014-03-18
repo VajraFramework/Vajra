@@ -1,6 +1,7 @@
  #include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
 #include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
+#include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
@@ -201,6 +202,17 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		return;
 	} else if(uiObject->GetName() == "changeUnit") {
 		SINGLETONS->GetGridManager()->SwitchSelectedUnit();
+		return;
+	} else if(uiObject->GetName() == "tap2zoom") {
+		// HERE
+		ShadyCamera* camera = SINGLETONS->GetGridManager()->GetShadyCamera();
+		if (camera->GetCameraMode() == ShadyCamera::CameraMode_Overview) {
+			camera->moveTo_internal_overTime(camera->gameCamPos, 1.0f);
+			camera->setCameraMode(ShadyCamera::CameraMode_Game);
+		} else if (camera->GetCameraMode() == ShadyCamera::CameraMode_Game) {
+			camera->moveTo_internal_overTime(camera->overviewPos, 1.0f);
+			camera->setCameraMode(ShadyCamera::CameraMode_Overview);
+		}
 		return;
 	}
 	
