@@ -42,7 +42,15 @@ public:
 	void FollowGameObjectDirectly(ObjectIdType unitId);
 
 	inline CameraMode GetCameraMode() {return this->camMode;}
+
+	// TODO [Hack]
+	void setCameraMode(CameraMode newMode);
+	glm::vec3 gameCamPos;
+	glm::vec3 overviewPos;
+	void moveTo_internal_overTime(glm::vec3 pos, float time);
+
 	inline bool IsMoving() { return this->isMoving; }
+
 private:
 	void init();
 	void destroy();
@@ -62,10 +70,8 @@ private:
 	float velocityThreshold;
 	float heightThreshold;
 	void onPinch();
-	void setCameraMode(CameraMode newMode);
 	void onUnitChanged();
 
-	void moveTo_internal_overTime(glm::vec3 pos, float time);
 	
 	// consts
 	float panTime;
@@ -78,8 +84,6 @@ private:
 
 	glm::vec3 gameCamOffset;
 
-	glm::vec3 gameCamPos;
-	glm::vec3 overviewPos;
 
 	glm::vec3 currentRoomCenter;
 
