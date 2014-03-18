@@ -50,10 +50,12 @@ int main( void ) {
 	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 1);
 #endif // PLATFORM_LINUX
 
+	glfwWindowHint(GLFW_DECORATED, false);
+
 	int width  = 1024;
 	int height = 768;
 	// Open a window and create its OpenGL context
-	GLFWwindow* window = glfwCreateWindow(width, height, "Vajra", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(width, height, "Vajra", glfwGetPrimaryMonitor(), nullptr);
 	if(window == nullptr) {
 		fprintf( stderr, "Failed to open GLFW window.\n" );
 		glfwTerminate();
