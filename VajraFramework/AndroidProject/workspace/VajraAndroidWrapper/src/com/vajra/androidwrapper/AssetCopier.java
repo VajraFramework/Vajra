@@ -31,6 +31,7 @@ public class AssetCopier {
 				"models",
 				"pictures",
 				"prefabs",
+				"settings",
 				"shaders",
 				"tags",
 				"tutorials",
