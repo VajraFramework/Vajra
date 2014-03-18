@@ -69,7 +69,7 @@ void Assassin::init() {
 		std::vector<std::string> pathsToTextures;
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_ArrowStem_03.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
-		this->arrowTail->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+		this->arrowTail->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
 		this->arrowTail->SetVisible(false);
 	}
 	{
@@ -80,7 +80,7 @@ void Assassin::init() {
 		std::vector<std::string> pathsToTextures;
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Assassin_Arrow_06.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
-		this->arrowHead->GetTransform()->Rotate(90.0f inRadians, XAXIS);
+		this->arrowHead->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
 		this->arrowHead->SetVisible(false);
 	}
 }
