@@ -153,7 +153,7 @@ int main( void ) {
 		}
 
 	} // Check if the ESC key was pressed or the window was closed
-	while(glfwGetKey(Framework::GetGLFWWindow(), GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwGetWindowAttrib(window, GLFW_FOCUSED));
+	while(glfwGetKey(Framework::GetGLFWWindow(), GLFW_KEY_ESCAPE ) != GLFW_PRESS);
 
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
