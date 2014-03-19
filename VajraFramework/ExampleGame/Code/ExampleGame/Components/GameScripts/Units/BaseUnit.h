@@ -28,7 +28,7 @@ public:
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
 
-	void SwitchActionState(UnitActionState newState);
+	virtual void SwitchActionState(UnitActionState newState);
 
 	virtual void OnTransitionZoneEntered(GridCell* /*newTarget*/) { }
 	virtual bool CanBeKilledBy(ObjectIdType /*id*/, glm::vec3 /*source*/) { return true; }

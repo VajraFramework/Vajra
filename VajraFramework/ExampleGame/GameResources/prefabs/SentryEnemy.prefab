@@ -77,7 +77,114 @@
 
 		<component name="UnitAnimationManager">
 		</component>
+		
+		<gameobject>
+			<tags>
+				<tag>Weapon</tag>
+			</tags>
+			
+			<component name="Transform">
+			</component>
+			
+			<component name="MeshRenderer">
+				<property name="InitMesh">
+					<field>models/SD_Guard_Spear.model</field>
+				</property>
+			</component>
 
+			<component name="RigidAnimation">
+				<property name="AddAnimationClip">
+					<field>animations/SD_Guard_Spear.animclips#idle</field>
+					<field>0.25</field>
+					<field>true</field>
+				</property>
+				<property name="AddAnimationClip">
+					<field>animations/SD_Guard_Spear.animclips#walking</field>
+					<field>1.0</field>
+					<field>true</field>
+				</property>
+				<property name="AddAnimationClip">
+					<field>animations/SD_Guard_Spear.animclips#block</field>
+					<field>2.5f</field>
+					<field>false</field>
+				</property>
+				<property name="AddAnimationClip">
+					<field>animations/SD_Guard_Spear.animclips#block_idle</field>
+					<field>1.0f</field>
+					<field>true</field>
+				</property>
+				<property name="AddAnimationClip">
+					<field>animations/SD_Guard_Spear.animclips#special_action</field>
+					<field>2.0f</field>
+					<field>false</field>
+				</property>
+				<property name="AddAnimationClip">
+					<field>animations/SD_Guard_Spear.animclips#special_end</field>
+					<field>1.5f</field>
+					<field>false</field>
+				</property>
+				<property name="PlayAnimationClip">
+					<field>idle</field>
+				</property>
+			</component>
+
+			<component name="UnitAnimationManager">
+			</component>
+		</gameobject>
+
+		<gameobject>
+			<tags>
+				<tag>Shield</tag>
+			</tags>
+		
+			<component name="Transform">
+			</component>
+			
+			<component name="MeshRenderer">
+				<property name="InitMesh">
+					<field>models/SD_Guard_Shield.model</field>
+				</property>
+			</component>
+
+			<component name="RigidAnimation">
+				<property name="AddAnimationClip">
+					<field>animations/SD_Guard_Shield.animclips#idle</field>
+					<field>0.25</field>
+					<field>true</field>
+				</property>
+				<property name="AddAnimationClip">
+					<field>animations/SD_Guard_Shield.animclips#walking</field>
+					<field>1.0</field>
+					<field>true</field>
+				</property>
+				<property name="AddAnimationClip">
+					<field>animations/SD_Guard_Shield.animclips#block</field>
+					<field>2.5f</field>
+					<field>false</field>
+				</property>
+				<property name="AddAnimationClip">
+					<field>animations/SD_Guard_Shield.animclips#block_idle</field>
+					<field>1.0f</field>
+					<field>true</field>
+				</property>
+				<property name="AddAnimationClip">
+					<field>animations/SD_Guard_Shield.animclips#special_action</field>
+					<field>2.0f</field>
+					<field>false</field>
+				</property>
+				<property name="AddAnimationClip">
+					<field>animations/SD_Guard_Shield.animclips#special_end</field>
+					<field>1.5f</field>
+					<field>false</field>
+				</property>
+				<property name="PlayAnimationClip">
+					<field>idle</field>
+				</property>
+			</component>
+
+			<component name="UnitAnimationManager">
+			</component>
+		</gameobject>
 	</gameobject>
 </prefab>
 
