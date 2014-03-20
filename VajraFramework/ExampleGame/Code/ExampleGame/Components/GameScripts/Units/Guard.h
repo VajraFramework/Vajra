@@ -21,9 +21,14 @@ public:
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
 
+	// @Override
+	virtual void SwitchActionState(UnitActionState newState);
+
 	virtual bool CanBeKilledBy(ObjectIdType id, glm::vec3 source);
 
 protected:
+	virtual void start();
+
 	virtual void determineBrainState();
 
 	virtual void cautiousUpdate();
@@ -51,6 +56,9 @@ private:
 	float cooldownTimer;
 	float attackTimer;  // Cooldown time between attacks
 	ObjectIdType targetId;
+
+	ObjectIdType weaponObjId;
+	ObjectIdType shieldObjId;
 };
 
 #endif // GUARD_H
