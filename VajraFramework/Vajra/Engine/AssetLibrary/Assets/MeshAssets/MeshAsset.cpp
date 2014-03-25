@@ -173,47 +173,47 @@ void MeshAsset::InitBoneWeightInfluencesData(
 
 void MeshAsset::MakeVBOs() {
     if (this->vertices != nullptr) {
-		glGenBuffers(1, &this->vboPositions); checkGlError("glGenBuffers");
-		glBindBuffer(GL_ARRAY_BUFFER, this->vboPositions); checkGlError("glBindBuffer");
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * this->numVertices, this->vertices, GL_STATIC_DRAW); checkGlError("glBufferData");
+		GLCALL(glGenBuffers, 1, &this->vboPositions);
+		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboPositions);
+		GLCALL(glBufferData, GL_ARRAY_BUFFER, sizeof(glm::vec3) * this->numVertices, this->vertices, GL_STATIC_DRAW);
     } else {
         FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
         return;
     }
 
     if (this->normals != nullptr) {
-		glGenBuffers(1, &this->vboNormals); checkGlError("glGenBuffers");
-		glBindBuffer(GL_ARRAY_BUFFER, this->vboNormals); checkGlError("glBindBuffer");
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * this->numVertices, this->normals, GL_STATIC_DRAW); checkGlError("glBufferData");
+		GLCALL(glGenBuffers, 1, &this->vboNormals);
+		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboNormals);
+		GLCALL(glBufferData, GL_ARRAY_BUFFER, sizeof(glm::vec3) * this->numVertices, this->normals, GL_STATIC_DRAW);
     } else {
         FRAMEWORK->GetLogger()->errlog("ERROR: Uninited normals");
         return;
     }
 
     if (this->textureCoords != nullptr) {
-		glGenBuffers(1, &this->vboTextureCoords); checkGlError("glGenBuffers");
-		glBindBuffer(GL_ARRAY_BUFFER, this->vboTextureCoords); checkGlError("glBindBuffer");
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * this->numVertices, this->textureCoords, GL_STATIC_DRAW); checkGlError("glBufferData");
+		GLCALL(glGenBuffers, 1, &this->vboTextureCoords);
+		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboTextureCoords);
+		GLCALL(glBufferData, GL_ARRAY_BUFFER, sizeof(glm::vec2) * this->numVertices, this->textureCoords, GL_STATIC_DRAW);
     } else {
         ASSERT(!this->material->HasTexture(), "Texture coords missing because model has no texture");
     }
 
     if (this->boneIndices != nullptr) {
-		glGenBuffers(1, &this->vboBoneIndices); checkGlError("glGenBuffers");
-		glBindBuffer(GL_ARRAY_BUFFER, this->vboBoneIndices); checkGlError("glBindBuffer");
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * this->numVertices, this->boneIndices, GL_STATIC_DRAW); checkGlError("glBufferData");
+		GLCALL(glGenBuffers, 1, &this->vboBoneIndices);
+		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboBoneIndices);
+		GLCALL(glBufferData, GL_ARRAY_BUFFER, sizeof(glm::vec4) * this->numVertices, this->boneIndices, GL_STATIC_DRAW);
     }
 
     if (this->boneWeights != nullptr) {
-		glGenBuffers(1, &this->vboBoneWeights); checkGlError("glGenBuffers");
-		glBindBuffer(GL_ARRAY_BUFFER, this->vboBoneWeights); checkGlError("glBindBuffer");
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * this->numVertices, this->boneWeights, GL_STATIC_DRAW); checkGlError("glBufferData");
+		GLCALL(glGenBuffers, 1, &this->vboBoneWeights);
+		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboBoneWeights);
+		GLCALL(glBufferData, GL_ARRAY_BUFFER, sizeof(glm::vec4) * this->numVertices, this->boneWeights, GL_STATIC_DRAW);
     }
 
     if (this->indices.size() != 0) {
-		glGenBuffers(1, &this->vboIndices); checkGlError("glGenBuffers");
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vboIndices); checkGlError("glBindBuffer");
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->indices.size(), &this->indices[0], GL_STATIC_DRAW); checkGlError("glBufferData");
+		GLCALL(glGenBuffers, 1, &this->vboIndices);
+		GLCALL(glBindBuffer, GL_ELEMENT_ARRAY_BUFFER, this->vboIndices);
+		GLCALL(glBufferData, GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->indices.size(), &this->indices[0], GL_STATIC_DRAW);
     } else {
         FRAMEWORK->GetLogger()->errlog("ERROR: Uninited indices");
         return;
@@ -240,28 +240,24 @@ void MeshAsset::Draw() {
         return;
     }
 
-    // glBindBuffer(GL_ARRAY_BUFFER, this->vboPositions);
-    // glEnableClientState(GL_VERTEX_ARRAY);
-    // glVertexPointer(3, GL_FLOAT, 0, 0);
+    // GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboPositions);
+    // GLCALL(glEnableClientState, GL_VERTEX_ARRAY);
+    // GLCALL(glVertexPointer, 3, GL_FLOAT, 0, 0);
 
     ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
 
     GLint positionHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vPosition);
-    glEnableVertexAttribArray(positionHandle);
-    glBindBuffer(GL_ARRAY_BUFFER, this->vboPositions); checkGlError("glBindBuffer");
-    glVertexAttribPointer(positionHandle,
-                          3, GL_FLOAT, GL_FALSE, 0, 0);
-    checkGlError("glVertexAttribPointer");
+    GLCALL(glEnableVertexAttribArray, positionHandle);
+    GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboPositions);
+    GLCALL(glVertexAttribPointer, positionHandle, 3, GL_FLOAT, GL_FALSE, 0, 0);
     //
     // TODO [Hack] Do this better, maybe:
     // No normals in depth pass:
     if (!currentShaderSet->IsDepthPass()) {
     	GLint normalHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vNormal);
-    	glEnableVertexAttribArray(normalHandle);
-    	glBindBuffer(GL_ARRAY_BUFFER, this->vboNormals); checkGlError("glBindBuffer");
-    	glVertexAttribPointer(normalHandle,
-                          	3, GL_FLOAT, GL_FALSE, 0, 0);
-    	checkGlError("glVertexAttribPointer");
+    	GLCALL(glEnableVertexAttribArray, normalHandle);
+    	GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboNormals);
+    	GLCALL(glVertexAttribPointer, normalHandle, 3, GL_FLOAT, GL_FALSE, 0, 0);
     }
     //
     // TODO [Hack] Do this better, maybe:
@@ -272,41 +268,34 @@ void MeshAsset::Draw() {
     		this->material->GetTextureAsset()->Draw(0);
 
 			GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
-    		glEnableVertexAttribArray(textureCoordsHandle);
-    		glBindBuffer(GL_ARRAY_BUFFER, this->vboTextureCoords); checkGlError("glBindBuffer");
-    		glVertexAttribPointer(textureCoordsHandle,
-    				2, GL_FLOAT, GL_FALSE, 0, 0);
-    		checkGlError("glVertexAttribPointer");
+    		GLCALL(glEnableVertexAttribArray, textureCoordsHandle);
+    		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboTextureCoords);
+    		GLCALL(glVertexAttribPointer, textureCoordsHandle, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     	} else {
     		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in)) {
 				GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
-				glDisableVertexAttribArray(textureCoordsHandle);
+				GLCALL(glDisableVertexAttribArray, textureCoordsHandle);
     		}
     	}
     }
     //
     if (this->boneIndices != nullptr) {
 		GLint boneIndicesHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneIndices);
-		glEnableVertexAttribArray(boneIndicesHandle);
-		glBindBuffer(GL_ARRAY_BUFFER, this->vboBoneIndices); checkGlError("glBindBuffer");
-		glVertexAttribPointer(boneIndicesHandle,
-							  4, GL_FLOAT, GL_FALSE, 0, 0);
-		checkGlError("glVertexAttribPointer");
+		GLCALL(glEnableVertexAttribArray, boneIndicesHandle);
+		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboBoneIndices);
+		GLCALL(glVertexAttribPointer, boneIndicesHandle, 4, GL_FLOAT, GL_FALSE, 0, 0);
     }
     //
     if (this->boneWeights != nullptr) {
 		GLint boneWeightsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneWeights);
-		glEnableVertexAttribArray(boneWeightsHandle);
-		glBindBuffer(GL_ARRAY_BUFFER, this->vboBoneWeights); checkGlError("glBindBuffer");
-		glVertexAttribPointer(boneWeightsHandle,
-							  4, GL_FLOAT, GL_FALSE, 0, 0);
-		checkGlError("glVertexAttribPointer");
+		GLCALL(glEnableVertexAttribArray, boneWeightsHandle);
+		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboBoneWeights);
+		GLCALL(glVertexAttribPointer, boneWeightsHandle, 4, GL_FLOAT, GL_FALSE, 0, 0);
     }
     //
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vboIndices); checkGlError("glBindBuffer");
-    glDrawElements(this->meshGlRenderingMode, this->indices.size(), GL_UNSIGNED_INT, (void*)0);
-    checkGlError("glDrawElements");
+    GLCALL(glBindBuffer, GL_ELEMENT_ARRAY_BUFFER, this->vboIndices);
+    GLCALL(glDrawElements, this->meshGlRenderingMode, this->indices.size(), GL_UNSIGNED_INT, (void*)0);
 
     return;
 }

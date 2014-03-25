@@ -33,25 +33,20 @@ GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
     GLuint myTexture;
 
     // make it
-    glGenTextures(1, &myTexture);
-    checkGlError("glGenTextures");
+    GLCALL(glGenTextures, 1, &myTexture);
     // bind it
-    glBindTexture(GL_TEXTURE_2D, myTexture);
-    checkGlError("glBindTexture");
+    GLCALL(glBindTexture, GL_TEXTURE_2D, myTexture);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    GLCALL(glTexParameteri, GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    GLCALL(glTexParameteri, GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     // stretch it
 #ifdef USING_MIPMAPS
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
-    checkGlError("glTexParameteri");
+    GLCALL(glTexParameteri,  GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
 #else
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    checkGlError("glTexParameteri");
+    GLCALL(glTexParameteri,  GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 #endif
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    checkGlError("glTexParameteri 2");
+    GLCALL(glTexParameteri,  GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     // technologic - I MEAN
 
     // gl color type
@@ -75,14 +70,13 @@ GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
     }
     FRAMEWORK->GetLogger()->dbglog("\nNumComponents in Texture: %d", components);
 
-    // TODO [Hack] Fix this, something wrong with glTexImage2D here, crashes with some textures
-    // glTexImage2D(GL_TEXTURE_2D, 0, components, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, *outTextureBytes);
-    glTexImage2D(GL_TEXTURE_2D, 0, glcolours, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, *outTextureBytes);
-    checkGlError("glTexImage2D");
+    // TODO [Hack] Fix this, something wrong with gl TexImage2D here, crashes with some textures
+    // GLCALL(glTexImage2D, GL_TEXTURE_2D, 0, components, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, *outTextureBytes);
+    GLCALL(glTexImage2D, GL_TEXTURE_2D, 0, glcolours, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, *outTextureBytes);
 
 #ifdef USING_MIPMAPS
-    glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
-    glGenerateMipmap(GL_TEXTURE_2D);
+    GLCALL(glHint, GL_GENERATE_MIPMAP_HINT, GL_NICEST);
+    GLCALL(glGenerateMipmap, GL_TEXTURE_2D);
 #endif
 
 

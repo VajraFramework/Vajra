@@ -36,24 +36,24 @@ void UiFontRenderer::initTextToDisplay(std::string text, unsigned int /* width *
 
 void UiFontRenderer::initVbos() {
     if (this->vertices != nullptr) {
-		glGenBuffers(1, &this->vboPositions); checkGlError("glGenBuffers");
-		glBindBuffer(GL_ARRAY_BUFFER, this->vboPositions); checkGlError("glBindBuffer");
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * this->numVertices, this->vertices, GL_STATIC_DRAW); checkGlError("glBufferData");
+		GLCALL(glGenBuffers, 1, &this->vboPositions);
+		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboPositions);
+		GLCALL(glBufferData, GL_ARRAY_BUFFER, sizeof(glm::vec3) * this->numVertices, this->vertices, GL_STATIC_DRAW);
     } else {
         FRAMEWORK->GetLogger()->errlog("ERROR: Uninited vertices");
         return;
     }
 
     if (this->textureCoords != nullptr) {
-		glGenBuffers(1, &this->vboTextureCoords); checkGlError("glGenBuffers");
-		glBindBuffer(GL_ARRAY_BUFFER, this->vboTextureCoords); checkGlError("glBindBuffer");
-		glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * this->numVertices, this->textureCoords, GL_STATIC_DRAW); checkGlError("glBufferData");
+		GLCALL(glGenBuffers, 1, &this->vboTextureCoords);
+		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboTextureCoords);
+		GLCALL(glBufferData, GL_ARRAY_BUFFER, sizeof(glm::vec2) * this->numVertices, this->textureCoords, GL_STATIC_DRAW);
     }
 
     if (this->indices.size() != 0) {
-		glGenBuffers(1, &this->vboIndices); checkGlError("glGenBuffers");
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vboIndices); checkGlError("glBindBuffer");
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->indices.size(), &this->indices[0], GL_STATIC_DRAW); checkGlError("glBufferData");
+		GLCALL(glGenBuffers, 1, &this->vboIndices);
+		GLCALL(glBindBuffer, GL_ELEMENT_ARRAY_BUFFER, this->vboIndices);
+		GLCALL(glBufferData, GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->indices.size(), &this->indices[0], GL_STATIC_DRAW);
     } else {
         FRAMEWORK->GetLogger()->errlog("ERROR: Uninited indices");
         return;
@@ -68,8 +68,7 @@ void UiFontRenderer::HandleMessage(MessageChunk /* messageChunk */) {
 void UiFontRenderer::Draw() {
 	// Write Material properties to shader
 	if (FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->HasHandle(SHADER_VARIABLE_VARIABLENAME_MaterialDiffuseColor)) {
-		glUniform4f(FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_MaterialDiffuseColor),
-					this->diffuseColor.r, this->diffuseColor.g, this->diffuseColor.b, this->diffuseColor.a);
+		GLCALL(glUniform4f, FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_MaterialDiffuseColor), this->diffuseColor.r, this->diffuseColor.g, this->diffuseColor.b, this->diffuseColor.a);
 	}
 
 	if (this->vboPositions == 0 || this->vboIndices == 0) {
@@ -80,25 +79,20 @@ void UiFontRenderer::Draw() {
 	ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
 
     GLint positionHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vPosition);
-    glEnableVertexAttribArray(positionHandle);
-    glBindBuffer(GL_ARRAY_BUFFER, this->vboPositions); checkGlError("glBindBuffer");
-    glVertexAttribPointer(positionHandle,
-                          3, GL_FLOAT, GL_FALSE, 0, 0);
-    checkGlError("glVertexAttribPointer");
+    GLCALL(glEnableVertexAttribArray, positionHandle);
+    GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboPositions);
+    GLCALL(glVertexAttribPointer, positionHandle, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     ASSERT(this->fontType->GetTextureAsset() != nullptr, "FontType has texture initialized");
 	this->fontType->GetTextureAsset()->Draw(0);
 
 	GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
-	glEnableVertexAttribArray(textureCoordsHandle);
-	glBindBuffer(GL_ARRAY_BUFFER, this->vboTextureCoords); checkGlError("glBindBuffer");
-	glVertexAttribPointer(textureCoordsHandle,
-			2, GL_FLOAT, GL_FALSE, 0, 0);
-	checkGlError("glVertexAttribPointer");
+	GLCALL(glEnableVertexAttribArray, textureCoordsHandle);
+	GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboTextureCoords);
+	GLCALL(glVertexAttribPointer, textureCoordsHandle, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vboIndices); checkGlError("glBindBuffer");
-    glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (void*)0);
-    checkGlError("glDrawElements");
+    GLCALL(glBindBuffer, GL_ELEMENT_ARRAY_BUFFER, this->vboIndices);
+    GLCALL(glDrawElements, GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (void*)0);
 }
 
 void UiFontRenderer::init() {

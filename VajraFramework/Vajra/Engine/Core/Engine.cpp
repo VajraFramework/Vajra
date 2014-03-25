@@ -12,6 +12,9 @@
 #include "Vajra/Engine/TagManager/TagManager.h"
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/Tween/Tween.h"
+#include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/OpenGL/OpenGLCounter/OpenGLCounter.h"
+#include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
 
 // static member declaration:
@@ -87,6 +90,8 @@ void Engine::DoFrame() {
 	this->updateSceneUi();
 	this->renderScene3D();
 	this->renderSceneUi();
+
+	FRAMEWORK->GetOpenGLWrapper()->GetOpenGLCounter()->switchFrames();
 
 	this->GetTimer()->endFrame();
 	this->GetProfiler()->StopExperiment("frame");

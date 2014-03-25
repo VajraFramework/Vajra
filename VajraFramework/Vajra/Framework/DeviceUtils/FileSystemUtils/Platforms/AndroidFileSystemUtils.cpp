@@ -4,7 +4,7 @@
 #ifdef PLATFORM_ANDROID
 
 FileSystemUtils::FileSystemUtils() {
-    this->init();
+	// Do not call init() here
 }
 
 FileSystemUtils::~FileSystemUtils() {

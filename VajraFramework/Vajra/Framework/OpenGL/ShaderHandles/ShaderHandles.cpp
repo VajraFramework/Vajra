@@ -35,15 +35,13 @@ void ShaderHandles::AddShaderHandle(Shader_variable_qualifier_t qualifier,
 	std::string variablename_string = GetStringForShaderVariableVariableNameId(variablename_id);
 	switch (qualifier) {
 	case SHADER_VARIABLE_QUALIFIER_attribute:
-		newShaderHandle->glHandle = glGetAttribLocation(this->shaderProgram, variablename_string.c_str());
-		checkGlError("glGetAttribLocation");
-		FRAMEWORK->GetLogger()->dbglog("\nglGetAttribLocation(\"%s\") = %u\n", variablename_string.c_str(), newShaderHandle->glHandle);
+		newShaderHandle->glHandle = glGetAttribLocation(this->shaderProgram, variablename_string.c_str()); checkGlError("glGetAttribLocation"); // GLCALL
+		FRAMEWORK->GetLogger()->dbglog("\nGLCALL glGetAttribLocation(\"%s\") = %u\n", variablename_string.c_str(), newShaderHandle->glHandle);
 		break;
 
 	case SHADER_VARIABLE_QUALIFIER_uniform:
-		newShaderHandle->glHandle = glGetUniformLocation(this->shaderProgram, variablename_string.c_str());
-		checkGlError("glGetUniformLocation");
-		FRAMEWORK->GetLogger()->dbglog("\nglGetUniformLocation(\"%s\") = %u\n", variablename_string.c_str(), newShaderHandle->glHandle);
+		newShaderHandle->glHandle = glGetUniformLocation(this->shaderProgram, variablename_string.c_str()); checkGlError("glGetUniformLocation");	// GLCALL
+		FRAMEWORK->GetLogger()->dbglog("\nGLCALL glGetUniformLocation(\"%s\") = %u\n", variablename_string.c_str(), newShaderHandle->glHandle);
 		break;
 
 	case SHADER_VARIABLE_QUALIFIER_varying:

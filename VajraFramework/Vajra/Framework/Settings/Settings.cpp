@@ -3,7 +3,7 @@
 #include "Vajra/Utilities/XmlParser/XmlParser.h"
 
 Settings::Settings() {
-	this->init();
+	// Do not call init() here
 }
 
 Settings::~Settings() {

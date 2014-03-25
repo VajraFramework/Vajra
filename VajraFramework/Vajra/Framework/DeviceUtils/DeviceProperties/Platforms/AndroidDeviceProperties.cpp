@@ -3,7 +3,7 @@
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 
 DeviceProperties::DeviceProperties() {
-	this->init();
+	// Do not call init() here
 }
 
 DeviceProperties::~DeviceProperties() {

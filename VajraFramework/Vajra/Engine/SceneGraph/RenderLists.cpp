@@ -134,7 +134,7 @@ void RenderList::Draw_one_gameobject(GameObject* gameObject) {
 	// Switch off depth buffer for game objects that are supposed to be overlaid on top of everything:
 	if (!gameObject->IsOverlay()) {
 	} else {
-		glDisable(GL_DEPTH_TEST);
+		GLCALL(glDisable, GL_DEPTH_TEST);
 	}
 
 	gameObject->Draw();
@@ -142,7 +142,7 @@ void RenderList::Draw_one_gameobject(GameObject* gameObject) {
 	// Switch on switched off depth buffer:
 	if (!gameObject->IsOverlay()) {
 	} else {
-		glEnable(GL_DEPTH_TEST);
+		GLCALL(glEnable, GL_DEPTH_TEST);
 	}
 }
 
@@ -170,7 +170,7 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 	/*
 	 * Switch off blend for opaque objects:
 	 */
-    glDisable(GL_BLEND);
+    GLCALL(glDisable, GL_BLEND);
 
 	/*
 	 * We draw the scene in render-list-iterations
@@ -232,14 +232,14 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 	/*
 	 * Switch on blend for opaque objects:
 	 */
-    glEnable(GL_BLEND);
+    GLCALL(glEnable, GL_BLEND);
 	
 	{
 		// No transperant objects in depth pass:
 		if (!isDepthPass) {
 
 			// Also switch off WRITING to the depth buffer for drawing transperant objects:
-			glDepthMask(GL_FALSE);
+			GLCALL(glDepthMask, GL_FALSE);
 
 			while (!heap_gameobjectsWithTransperancy_out->empty()) {
 				TrGo trgo = heap_gameobjectsWithTransperancy_out->top();
@@ -264,7 +264,7 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 			}
 
 			// Switch WRITING to the depth buffer back on:
-			glDepthMask(GL_TRUE);
+			GLCALL(glDepthMask, GL_TRUE);
 		}
 	}
 

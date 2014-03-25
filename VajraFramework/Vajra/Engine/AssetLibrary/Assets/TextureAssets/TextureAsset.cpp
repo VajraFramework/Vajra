@@ -29,7 +29,7 @@ void TextureAsset::destroy() {
 		free(this->textureBytes);
 	}
 	if (this->textureGLHandle != 0) {
-		glDeleteTextures(1, &(this->textureGLHandle));
+		GLCALL(glDeleteTextures, 1, &(this->textureGLHandle));
 	}
 	// TODO [Implement] Figure out if any other cleanup is necessary to free up allocated opengl texture memory
 }
@@ -43,10 +43,9 @@ void TextureAsset::Draw(GLint drawAsTextureUnit) {
 		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_myTextureSampler)) {
 			GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_myTextureSampler);
 
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, this->textureGLHandle);
-			checkGlError("glBindTexture");
-			glUniform1i(textureHandle, drawAsTextureUnit);
+			GLCALL(glActiveTexture, GL_TEXTURE0);
+			GLCALL(glBindTexture, GL_TEXTURE_2D, this->textureGLHandle);
+			GLCALL(glUniform1i, textureHandle, drawAsTextureUnit);
 		}
 	} break;
 
@@ -54,10 +53,9 @@ void TextureAsset::Draw(GLint drawAsTextureUnit) {
 		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler)) {
 			GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler);
 
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, this->textureGLHandle);
-			checkGlError("glBindTexture");
-			glUniform1i(textureHandle, drawAsTextureUnit);
+			GLCALL(glActiveTexture, GL_TEXTURE1);
+			GLCALL(glBindTexture, GL_TEXTURE_2D, this->textureGLHandle);
+			GLCALL(glUniform1i, textureHandle, drawAsTextureUnit);
 		}
 	} break;
 
@@ -69,10 +67,9 @@ void TextureAsset::Draw(GLint drawAsTextureUnit) {
 		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_secondaryTexture)) {
 			GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_secondaryTexture);
 
-			glActiveTexture(GL_TEXTURE3);
-			glBindTexture(GL_TEXTURE_2D, this->textureGLHandle);
-			checkGlError("glBindTexture");
-			glUniform1i(textureHandle, drawAsTextureUnit);
+			GLCALL(glActiveTexture, GL_TEXTURE3);
+			GLCALL(glBindTexture, GL_TEXTURE_2D, this->textureGLHandle);
+			GLCALL(glUniform1i, textureHandle, drawAsTextureUnit);
 		}
 	} break;
 
