@@ -4,6 +4,9 @@
           <property name="InitMesh">
               <field>models/SD_House_Base_3Way_01.model</field>
           </property>
+			<property name="SetIsStatic">
+				<field>true</field>
+			</property>
       </component>
 
       <component name="Transform">

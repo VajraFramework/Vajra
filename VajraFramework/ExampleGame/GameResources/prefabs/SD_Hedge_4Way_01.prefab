@@ -4,6 +4,9 @@
           <property name="InitMesh">
               <field>models/SD_Hedge_4Way_01.model</field>
           </property>
+			<property name="SetIsStatic">
+				<field>true</field>
+			</property>
       </component>
 
       <component name="Transform">
