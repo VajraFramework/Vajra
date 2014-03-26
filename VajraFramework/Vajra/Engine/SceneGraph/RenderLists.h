@@ -59,6 +59,8 @@ private:
 	void addGameObjectIdToRenderList(ObjectIdType id, std::string shaderName);
 	void removeGameObjectIdToRenderList(ObjectIdType id, std::string shaderName);
 
+	void createStaticRenderBatches();
+
 	// Utility Functions:
 	void createRenderLists();
 
