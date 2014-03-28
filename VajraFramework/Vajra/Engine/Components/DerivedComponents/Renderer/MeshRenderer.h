@@ -24,11 +24,16 @@ public:
 	//[[PROPERTY]]//
 	void InitMesh(std::string urlOfMesh);
 
+	//[[PROPERTY]]//
+	inline void SetIsStatic(bool isStatic_);
+
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
 
 	// @Override
 	virtual void Draw();
+
+	MeshAsset* GetMeshAsset() { return this->meshAsset.get(); }
 
 private:
 	void init();
@@ -36,5 +41,12 @@ private:
 
 	std::shared_ptr<MeshAsset> meshAsset;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// Inline Functions:
+
+inline void MeshRenderer::SetIsStatic(bool isStatic_) {
+	Renderer::SetIsStatic(isStatic_);
+}
 
 #endif // MESH_RENDERER_H

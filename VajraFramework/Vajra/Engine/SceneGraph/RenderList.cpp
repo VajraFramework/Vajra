@@ -1,4 +1,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/MeshRenderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/RenderBatch_static.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/Renderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
@@ -9,8 +12,9 @@
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 
-RenderList::RenderList(std::string shaderName_) {
+RenderList::RenderList(std::string shaderName_, SceneGraph* parentScenegraph) {
 	this->shaderName = shaderName_;
+	this->parentScenegraphRef = parentScenegraph;
 }
 
 void RenderList::AddGameObjectId(ObjectIdType id) {
@@ -53,7 +57,7 @@ void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobje
 	}
 
 	for (ObjectIdType id : this->gameObjectIds) {
-		GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+		GameObject* gameObject = this->parentScenegraphRef->GetGameObjectById(id);
 		if (gameObject != nullptr) {
 			if (!gameObject->HasTransperancy() && !gameObject->IsOverlay()) {
 				this->Draw_one_gameobject(gameObject, camera);
@@ -101,3 +105,42 @@ void RenderList::Draw_one_gameobject(GameObject* gameObject, Camera* camera) {
 	}
 }
 
+void RenderList::createStaticRenderBatch() {
+	/*
+	 * Loop through all the game objects in this list and group together
+	 * the ones whose renderers are marked static and share the same material as static render batches
+	 */
+
+	std::vector<ObjectIdType> staticObjects;
+
+	// Find all the objects that are marked static:
+	for (ObjectIdType id : this->gameObjectIds) {
+		// TODO [Implement] Handle materials here, but this needs materials to be full assets
+		GameObject* gameObject = this->parentScenegraphRef->GetGameObjectById(id);
+		if (gameObject != nullptr) {
+			Renderer* renderer = gameObject->GetComponent<Renderer>();
+			if (renderer != nullptr) {
+				if (renderer->IsStatic()) {
+					staticObjects.push_back(id);
+				}
+			}
+		}
+	}
+
+	if (staticObjects.empty()) {
+		// No static objects in render list
+		return;
+	}
+
+	// Remove static objects from this renderlist:
+	for (ObjectIdType id : staticObjects) {
+		this->RemoveGameObjectId(id);
+	}
+
+	// Create a new empty game object to hold all the static objects in 1 render batch:
+	GameObject* renderBatchGameObject = new GameObject(this->parentScenegraphRef);
+	RenderBatch_static* renderBatch = renderBatchGameObject->AddComponent<RenderBatch_static>();
+	renderBatch->CreateRenderBatchFromMeshes(staticObjects);
+	// renderBatchGameObject->GetTransform()->SetPosition(11.0f, 0.0f, -11.0f);
+	// renderBatchGameObject->GetTransform()->Scale(5.0f);
+}

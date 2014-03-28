@@ -30,6 +30,7 @@ private:
 	static void loadCameraDataFromXml(XmlNode* cameraNode);
 	static void loadLinkDataFromXml  (XmlNode* linkBaseNode);
 	static void adjustLighting();
+	static void postLoadLevel();
 
 	static void loadParentConnectionsFromXml(XmlNode* linkBaseNode);
 	static void loadEndConditionsFromXml(XmlNode* linkBaseNode);

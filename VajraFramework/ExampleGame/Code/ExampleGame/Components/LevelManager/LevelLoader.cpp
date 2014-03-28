@@ -115,6 +115,12 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	idsFromXml.clear();
 	
 	LevelLoader::adjustLighting();
+
+	LevelLoader::postLoadLevel();
+}
+
+void LevelLoader::postLoadLevel() {
+	ENGINE->GetSceneGraph3D()->CreateRenderBatches();
 }
 
 LevelType LevelLoader::stringToLevelType(std::string type) {

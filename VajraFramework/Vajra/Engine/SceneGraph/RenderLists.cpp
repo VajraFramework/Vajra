@@ -41,8 +41,8 @@ bool CompareTrGos_perspective(TrGo t1, TrGo t2) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-RenderLists::RenderLists() {
-	this->init();
+RenderLists::RenderLists(SceneGraph* parentScenegraph) {
+	this->init(parentScenegraph);
 }
 
 RenderLists::~RenderLists() {
@@ -183,7 +183,9 @@ void RenderLists::RenderGameObjectsInCurrentList(HEAP_OF_TRANSPERANT_GAMEOBJECTS
 	this->renderLists[this->currentRenderListIdx]->Draw(heap_gameobjectsWithTransperancy_out, g_current_camera);
 }
 
-void RenderLists::init() {
+void RenderLists::init(SceneGraph* parentScenegraph) {
+	this->parentScenegraphRef = parentScenegraph;
+
 	this->currentRenderListIdx = 0;
 	this->createRenderLists();
 }
@@ -256,7 +258,7 @@ void RenderLists::createRenderLists() {
 	FRAMEWORK->GetOpenGLWrapper()->GetAllAvailableShaderNames(shaderNames);
 
 	for (std::string shaderName : shaderNames) {
-		RenderList* newRenderList = new RenderList(shaderName);
+		RenderList* newRenderList = new RenderList(shaderName, this->parentScenegraphRef);
 		this->renderLists.push_back(newRenderList);
 	}
 

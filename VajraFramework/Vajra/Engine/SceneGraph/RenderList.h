@@ -13,10 +13,11 @@
 // Forward Declarations:
 class Camera;
 class GameObject;
+class SceneGraph;
 
 class RenderList {
 public:
-	RenderList(std::string shaderName_);
+	RenderList(std::string shaderName_, SceneGraph* parentScenegraph);
 
 	void Prepare();
 	void Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out, Camera* camera);
@@ -29,11 +30,13 @@ public:
 
 	bool IsDepthPass();
 
-	void createStaticRenderBatch() {}
+	void createStaticRenderBatch();
 
 private:
 	std::string shaderName;
 	std::vector<ObjectIdType> gameObjectIds;
+
+	SceneGraph* parentScenegraphRef;
 };
 
 #endif // RENDERLIST_H

@@ -417,6 +417,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->InitMesh(ConvertStringToString(argv[0]));
 			return;
 		}
+		if (propertyName == "SetIsStatic") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetIsStatic(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
 		return;
 	}
 	

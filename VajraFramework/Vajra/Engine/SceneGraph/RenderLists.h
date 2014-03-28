@@ -16,7 +16,8 @@ class DirectionalLight;
 class GameObject;
 class RenderList;
 
-#define USING_FRUSTUM_CULLING 1
+// TODO [Hack] Switch frustum culling back on
+#define USING_FRUSTUM_CULLING 0
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -46,8 +47,8 @@ public:
 	void Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights, bool isDepthPass, DistanceFromCameraCompareType compareType);
 
 private:
-	RenderLists();
-	void init();
+	RenderLists(SceneGraph* parentScenegraph);
+	void init(SceneGraph* parentScenegraph);
 	void destroy();
 
 	void Begin();
@@ -66,6 +67,8 @@ private:
 
 	unsigned int currentRenderListIdx;
 	std::vector<RenderList*> renderLists;
+
+	SceneGraph* parentScenegraphRef;
 
 	// friended to SceneGraph so as to not have to expose the constructor and addGameObjectIdToRenderList()
 	friend class SceneGraph;

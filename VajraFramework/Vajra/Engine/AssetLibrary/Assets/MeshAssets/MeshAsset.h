@@ -51,6 +51,12 @@ private:
 	void init();
 	void destroy();
 
+	// For static render batching:
+	inline int        getNumVertices()         { return this->numVertices;   }
+	inline glm::vec3* getVertices()            { return this->vertices;      }
+	inline glm::vec3* getNormals()             { return this->normals;       }
+	inline glm::vec2* getTextureCoords()       { return this->textureCoords; }
+	inline std::vector<unsigned int> getIndices() { return this->indices; }
 
 	GLuint vboPositions;
 	GLuint vboNormals;
@@ -85,6 +91,8 @@ private:
 	std::string shaderName;
 
 	static AssetType assetType;
+
+	friend class RenderBatch_static;
 };
 
 #endif // MESH_ASSET_H
