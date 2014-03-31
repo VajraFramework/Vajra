@@ -20,14 +20,10 @@ TextureAsset::~TextureAsset() {
 }
 
 void TextureAsset::init() {
-	this->textureBytes = nullptr;
 	this->textureGLHandle = 0;
 }
 
 void TextureAsset::destroy() {
-	if (this->textureBytes != nullptr) {
-		free(this->textureBytes);
-	}
 	if (this->textureGLHandle != 0) {
 		GLCALL(glDeleteTextures, 1, &(this->textureGLHandle));
 	}
@@ -92,8 +88,15 @@ void TextureAsset::LoadAsset() {
 
 	// TODO [Implement] Move loadGLTextureFromPNG into a Framework class/namespace
     // Load image
-    this->textureGLHandle = loadGLTextureFromPNG(this->GetFilePathToTexture().c_str(), &(this->textureBytes));
-    ASSERT(this->textureGLHandle != 0 && this->textureBytes != nullptr, "Successfully loaded texture from url %s", this->GetFilePathToTexture().c_str());
+	GLubyte* textureBytes = nullptr;
+    this->textureGLHandle = loadGLTextureFromPNG(this->GetFilePathToTexture().c_str(), &(textureBytes));
+    ASSERT(this->textureGLHandle != 0 && textureBytes != nullptr, "Successfully loaded texture from url %s", this->GetFilePathToTexture().c_str());
+
+    // Free up the texture bytes in ram now that it's in the gpu:
+	if (textureBytes != nullptr) {
+		free(textureBytes);
+	}
+	textureBytes = nullptr;
 }
 
 std::string TextureAsset::GetFilePathToTexture() {

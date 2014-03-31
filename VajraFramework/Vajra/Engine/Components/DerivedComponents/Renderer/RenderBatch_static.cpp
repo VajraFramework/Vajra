@@ -158,6 +158,20 @@ void RenderBatch_static::makeVBOs() {
         return;
     }
 
+    // Free the mesh in ram now that its in gpu memory:
+    if (this->vertices != nullptr) {
+        delete this->vertices;
+        this->vertices = nullptr;
+    }
+    if (this->normals != nullptr) {
+        delete this->normals;
+        this->normals = nullptr;
+    }
+    if (this->textureCoords != nullptr) {
+        delete this->textureCoords;
+        this->textureCoords = nullptr;
+    }
+
     FRAMEWORK->GetLogger()->errlog("\nVBOs made successfully");
 }
 
