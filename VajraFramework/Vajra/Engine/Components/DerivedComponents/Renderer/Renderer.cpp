@@ -47,6 +47,7 @@ void Renderer::init() {
 	this->isOverlay       = false;
 
 	this->isStatic = false;
+	this->isRenderBatch = false;
 }
 
 void Renderer::destroy() {

@@ -17,7 +17,7 @@ class GameObject;
 class RenderList;
 
 // TODO [Hack] Switch frustum culling back on
-#define USING_FRUSTUM_CULLING 0
+#define USING_FRUSTUM_CULLING 1
 
 ////////////////////////////////////////////////////////////////////////////////
 

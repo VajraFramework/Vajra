@@ -226,6 +226,8 @@ void RenderBatch_static::init() {
 	this->material      = nullptr;
 
     this->meshGlRenderingMode = GL_TRIANGLES;
+
+    this->SetIsRenderBatch(true);
 }
 
 void RenderBatch_static::destroy() {

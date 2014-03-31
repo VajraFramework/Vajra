@@ -79,7 +79,10 @@ void RenderList::Draw_one_gameobject(GameObject* gameObject, Camera* camera) {
 #if USING_FRUSTUM_CULLING
 	// TODO [Hack] This can go away when all renderers support getting their drawable bounds
 	// No frustum culling for scenegraph ui:
-	if (gameObject->GetParentSceneGraph() != (SceneGraph*)ENGINE->GetSceneGraphUi()) {
+	// TODO [Hack] No frustum culling for render batches, for now
+	// No frustum culling for render batches, for now:
+	if (gameObject->GetParentSceneGraph() != (SceneGraph*)ENGINE->GetSceneGraphUi() &&
+		!gameObject->GetComponent<Renderer>()->IsRenderBatch()) {
 		if (camera != nullptr) {
 			// TODO [Hack] Get tolerance radius from the model files instead, maybe
 			float toleranceRadius = 4.0f;
