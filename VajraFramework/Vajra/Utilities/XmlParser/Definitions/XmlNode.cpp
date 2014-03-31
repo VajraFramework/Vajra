@@ -28,7 +28,17 @@ void XmlNode::init() {
 }
 
 void XmlNode::destroy() {
-	// TODO [Implement] Free up allocated members
+	// Free up attributes:
+	for (XmlAttribute* attribute : this->attributes) {
+		delete attribute;
+	}
+	this->attributes.clear();
+
+	// Free up child nodes:
+	for (XmlNode* child : this->children) {
+		delete child;
+	}
+	this->children.clear();
 }
 
 void XmlNode::addAttribute(XmlAttribute* attribute) {
