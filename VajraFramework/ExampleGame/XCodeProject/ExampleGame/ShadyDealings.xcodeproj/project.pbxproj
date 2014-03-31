@@ -202,6 +202,7 @@
 		B33C692E18D225B40030F658 /* vector_query.inl in Resources */ = {isa = PBXBuildFile; fileRef = B33C68A918D225B40030F658 /* vector_query.inl */; };
 		B33C692F18D225B40030F658 /* wrap.inl in Resources */ = {isa = PBXBuildFile; fileRef = B33C68AB18D225B40030F658 /* wrap.inl */; };
 		B383FD0C187B4B0000999890 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B383FB72187B4AFF00999890 /* .gitignore */; };
+		B3A6558518EA027800696F02 /* TriggerLoot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3A6558318EA027800696F02 /* TriggerLoot.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -748,6 +749,8 @@
 		B33C6A0518D225BE0030F658 /* XmlTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlTree.h; sourceTree = "<group>"; };
 		B33C6A0618D225BE0030F658 /* XmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlParser.h; sourceTree = "<group>"; };
 		B383FB72187B4AFF00999890 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		B3A6558318EA027800696F02 /* TriggerLoot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriggerLoot.cpp; sourceTree = "<group>"; };
+		B3A6558418EA027800696F02 /* TriggerLoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggerLoot.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1099,6 +1102,8 @@
 				B309965B18D9876400B0EF31 /* TriggerTerrainBlock.h */,
 				B309965C18D9876400B0EF31 /* TriggerTransformation.cpp */,
 				B309965D18D9876400B0EF31 /* TriggerTransformation.h */,
+				B3A6558318EA027800696F02 /* TriggerLoot.cpp */,
+				B3A6558418EA027800696F02 /* TriggerLoot.h */,
 			);
 			path = Triggers;
 			sourceTree = "<group>";
@@ -2674,6 +2679,7 @@
 				B309968518D9876400B0EF31 /* BreakablePot.cpp in Sources */,
 				B309968318D9876400B0EF31 /* EnemyUnit.cpp in Sources */,
 				B30996A218D9876400B0EF31 /* GameConstants.cpp in Sources */,
+				B3A6558518EA027800696F02 /* TriggerLoot.cpp in Sources */,
 				B309968918D9876400B0EF31 /* GameGrid.cpp in Sources */,
 				B309968B18D9876400B0EF31 /* GridConstants.cpp in Sources */,
 				B309968F18D9876400B0EF31 /* GridZone.cpp in Sources */,
