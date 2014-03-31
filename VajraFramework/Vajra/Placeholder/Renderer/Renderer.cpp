@@ -69,7 +69,9 @@ bool setupGraphics(int w, int h, int dpi) {
 	GLCALL(glEnable, GL_CULL_FACE);
 	GLCALL(glCullFace, GL_BACK);
 	
+#if defined(PLATFORM_DESKTOP)
 	GLCALL(glDisable, GL_LIGHTING);
+#endif
 
 
 #if PLATFORM_DESKTOP
