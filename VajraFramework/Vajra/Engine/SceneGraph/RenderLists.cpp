@@ -266,6 +266,7 @@ void RenderLists::createRenderLists() {
 }
 
 void RenderLists::createStaticRenderBatches() {
+#if USING_STATIC_RENDER_BATCHING
 	/*
 	 * Go through all the render lists and batch together objects in the same render list
 	 * that are marked static
@@ -273,4 +274,5 @@ void RenderLists::createStaticRenderBatches() {
 	for (RenderList* renderList : this->renderLists) {
 		renderList->createStaticRenderBatch();
 	}
+#endif
 }

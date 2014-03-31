@@ -16,8 +16,8 @@ class DirectionalLight;
 class GameObject;
 class RenderList;
 
-// TODO [Hack] Switch frustum culling back on
 #define USING_FRUSTUM_CULLING 1
+#define USING_STATIC_RENDER_BATCHING 1
 
 ////////////////////////////////////////////////////////////////////////////////
 
