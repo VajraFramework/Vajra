@@ -17,7 +17,6 @@ public:
 
 	template <class T>
 	std::shared_ptr<T> GetAsset(std::string url);
-	void ReleaseAsset(std::string url);
 
 private:
 	AssetLibrary();
@@ -26,7 +25,6 @@ private:
 	void destroy();
 
 	std::map<std::string /* url */, std::shared_ptr<Asset>> allAssets;
-	std::map<std::string /* url */, int>           assetUseCount;
 
 	friend class Engine;
 };
@@ -47,13 +45,9 @@ std::shared_ptr<T> AssetLibrary::GetAsset(std::string url) {
 		// Add it to the library:
 		this->allAssets[url] = newAssetPtr;
 		it = this->allAssets.find(url);
-		ASSERT(this->assetUseCount.find(url) == this->assetUseCount.end(), "loading asset. Didn't already find use count for asset at url: %s", url.c_str());
-		this->assetUseCount[url] = 1;
 
 	} else {
 		FRAMEWORK->GetLogger()->dbglog("\nFound pre-loaded asset for url: %s", url.c_str());
-		ASSERT(this->assetUseCount.find(url) != this->assetUseCount.end(), "Found use count for asset at url: %s", url.c_str());
-		this->assetUseCount[url]++;
 	}
 	ASSERT(it != this->allAssets.end(), "\nAsset could be found/loaded in AssetLibrary for url: %s", url.c_str());
 
@@ -61,5 +55,6 @@ std::shared_ptr<T> AssetLibrary::GetAsset(std::string url) {
 	// ASSERT(it->second->GetAssetType() == T::assetType, "AssetType matches for asset found in library");
 	return std::static_pointer_cast<T>(it->second);
 }
+
 
 #endif // ASSET_LIBRARY_H
