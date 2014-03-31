@@ -1,4 +1,6 @@
 #include "Vajra/Engine/AssetLibrary/Asset.h"
+#include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
+#include "Vajra/Engine/Core/Engine.h"
 
 AssetType Asset::assetType = ASSET_TYPE_GENERIC;
 
@@ -10,5 +12,6 @@ Asset::Asset(std::string urlOfAsset) {
 }
 
 Asset::~Asset() {
+	ENGINE->GetAssetLibrary()->ReleaseAsset(this->GetUrl());
 }
 
