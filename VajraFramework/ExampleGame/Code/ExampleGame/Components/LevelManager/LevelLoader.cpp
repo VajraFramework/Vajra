@@ -40,11 +40,24 @@ std::map<int, ObjectIdType> LevelLoader::idsFromXml;
 UnitType StringToUnitType(std::string str) {
 	if (str == "Assassin") {
 		return UNIT_TYPE_ASSASSIN;
-	}
-	if (str == "Thief") {
+	} else if (str == "Thief") {
 		return UNIT_TYPE_THIEF;
 	}
 	return UNIT_TYPE_UNKNOWN;
+}
+
+LevelBonus StringToLevelBonus(std::string str) {
+	if(str == "Time") {
+		return LevelBonus::Time;
+	} else if(str == "Kills") {
+		return LevelBonus::Kills;
+	} else if(str == "Money") {
+		return LevelBonus::Money;
+	} else if(str == "Alerts"){
+		return LevelBonus::Alerts;
+	} else {
+		return LevelBonus::None;
+	}
 }
 
 void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
@@ -156,9 +169,18 @@ void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData, std::vector<i
 			data.type = LevelLoader::stringToLevelType(levelDataNode->GetAttributeValueS(TYPE_PROPERTY));
 			data.hasTutorial = std::find(levelsWithTutorials.begin(), levelsWithTutorials.end(), data.name) != levelsWithTutorials.end();
 			data.mission = missionNum;
-			data.pinX = levelDataNode->GetAttributeValueF("x");
-			data.pinY = levelDataNode->GetAttributeValueF("y");
-			data.parallaxScreen = levelDataNode->GetAttributeValueF("parallaxScreen");
+			data.bonus = LevelBonus::None;
+			for(XmlNode* child : levelDataNode->GetChildren()) {
+				if(child->GetName() == "missionScreen") {
+					data.pinX = child->GetAttributeValueF("x");
+					data.pinY = child->GetAttributeValueF("y");
+					data.parallaxScreen = child->GetAttributeValueF("parallaxScreen");
+				} else if(child->GetName() == "bonus") {
+					data.bonus = StringToLevelBonus(child->GetAttributeValueS("type"));
+					data.bonusValue = child->GetAttributeValueI("value");
+				}
+			}
+			
 			levelData->push_back(data);
 		}
 		levelsPerMission->push_back(missionNode->GetChildren().size());

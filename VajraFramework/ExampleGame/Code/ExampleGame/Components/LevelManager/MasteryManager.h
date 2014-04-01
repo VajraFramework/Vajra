@@ -23,19 +23,22 @@ public:
 	inline void AddMoney(int amt) { this->money += amt; }
 	inline void OnGuardAlert() { this->numAlerts++; }
 
-	inline void SetCurrentBonuse(LevelBonus bonus) { this->currentBonus = bonus; }
+	inline void SetCurrentBonuse(LevelBonus bonus, int bonusValue) { this->currentBonus = bonus; this->currentValue = bonusValue;}
 private:
 	void init();
 	void destroy();
 
 	virtual void start();
 
+	// Mastery Data to Track
 	float levelTime;
 	int numKills;
 	int money;
 	int numAlerts;
 
+	// Current bonus 
 	LevelBonus currentBonus;
+	int currentValue;
 
 	static ComponentIdType componentTypeId;
 };

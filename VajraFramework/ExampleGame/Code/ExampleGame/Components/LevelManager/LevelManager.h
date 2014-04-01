@@ -10,6 +10,8 @@
 
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Utilities/XmlParser/XmlParser.h"
+
+#include "ExampleGame/Components/LevelManager/MasteryManager.h"
 //#include "Vajra/Engine/Ui/UiElement/UiElement.h"
 
 #include <string>
@@ -34,6 +36,8 @@ public:
 	int parallaxScreen;
 	float pinX;
 	float pinY;
+	LevelBonus bonus;
+	int bonusValue;
 
 };
 
