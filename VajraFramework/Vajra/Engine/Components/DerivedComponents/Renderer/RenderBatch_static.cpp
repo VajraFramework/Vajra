@@ -41,7 +41,7 @@ void RenderBatch_static::CreateRenderBatchFromMeshes(std::vector<ObjectIdType> s
 
 		if (this->materialRef == nullptr) {
 			this->materialRef = mesh->material;
-} else {
+		} else {
 			// TODO [Implment] Check that all the meshes have the same material, and same texture, maybe
 		}
 
