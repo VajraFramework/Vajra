@@ -108,6 +108,22 @@ void UiFontRenderer::init() {
 }
 
 void UiFontRenderer::destroy() {
+	if (this->vertices != nullptr) {
+		delete this->vertices;
+	}
+	if (this->textureCoords != nullptr) {
+		delete this->textureCoords;
+	}
+
+    if (this->vboPositions != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboPositions);
+    }
+    if (this->vboTextureCoords != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboTextureCoords );
+    }
+    if (this->vboIndices != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboIndices);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

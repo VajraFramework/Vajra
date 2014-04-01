@@ -280,14 +280,14 @@ void MeshAsset::Draw() {
     	}
     }
     //
-    if (this->boneIndices != nullptr) {
+    if (this->vboBoneIndices != 0) {
 		GLint boneIndicesHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneIndices);
 		GLCALL(glEnableVertexAttribArray, boneIndicesHandle);
 		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboBoneIndices);
 		GLCALL(glVertexAttribPointer, boneIndicesHandle, 4, GL_FLOAT, GL_FALSE, 0, 0);
     }
     //
-    if (this->boneWeights != nullptr) {
+    if (this->vboBoneWeights != 0) {
 		GLint boneWeightsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneWeights);
 		GLCALL(glEnableVertexAttribArray, boneWeightsHandle);
 		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboBoneWeights);
@@ -311,6 +311,13 @@ void MeshAsset::init() {
     this->boneWeights = nullptr;
 
     this->meshGlRenderingMode = GL_TRIANGLES;
+
+    this->vboPositions = 0;
+    this->vboNormals = 0;
+    this->vboTextureCoords = 0;
+    this->vboIndices = 0;
+    this->vboBoneIndices = 0;
+    this->vboBoneWeights = 0;
 }
 
 void MeshAsset::destroy() {
@@ -329,6 +336,25 @@ void MeshAsset::destroy() {
     if (this->boneWeights != nullptr) {
         delete this->boneWeights;
     }
-    // TODO [Implement] Free the VBOs on MeshAsset::destroy()
 
+    if (this->vboPositions != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboPositions);
+    }
+    if (this->vboNormals != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboNormals);
+    }
+    if (this->vboTextureCoords != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboTextureCoords);
+    }
+    if (this->vboIndices != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboIndices);
+    }
+    if (this->vboBoneIndices != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboBoneIndices);
+    }
+    if (this->vboBoneWeights != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboBoneWeights);
+    }
+
+    delete this->material;
 }
