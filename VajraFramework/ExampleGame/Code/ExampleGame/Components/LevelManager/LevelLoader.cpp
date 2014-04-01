@@ -13,6 +13,7 @@
 #include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
+#include "ExampleGame/Components/LevelManager/MasteryManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Components/Switches/BaseSwitch.h"
 #include "ExampleGame/Components/Switches/MultiplexSwitch.h"

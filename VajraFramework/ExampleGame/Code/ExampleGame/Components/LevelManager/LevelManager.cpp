@@ -106,6 +106,8 @@ void LevelManager::LoadLevelFromData(LevelData levelData) {
 	if(levelData.hasTutorial) {
 		LevelLoader::LoadTutorialData(levelData.name);
 	}
+	// Set up the bonus
+	SINGLETONS->GetMasteryManager()->SetCurrentBonuse(levelData.bonus, levelData.bonusValue);
 }
 
 LevelData LevelManager::GetLevelData(int index) 

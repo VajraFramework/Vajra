@@ -24,6 +24,7 @@ void MasteryManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_500_MS_TIME_EVENT, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_KILLED, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_ON_END_CONDITIONS_MET, this->GetTypeId(), false);
 }
 
 void MasteryManager::destroy() {
@@ -55,8 +56,38 @@ void MasteryManager::HandleMessage(MessageChunk messageChunk) {
 			}
 			break;
 
+		case MESSAGE_TYPE_ON_END_CONDITIONS_MET:
+			// if the level was won
+			if(messageChunk->messageData.iv1.x >= 0) {
+				if(this->testBonusSucess()) {
+					printf("\nSUCESS");
+				} else {
+					printf("\nNO BONUS SUCESS");
+				}
+			}
+			break;
 		default:
 			break;
 
 	}
+}
+
+bool MasteryManager::testBonusSucess() {
+	switch(this->currentBonus) {
+		case Time:
+			return levelTime <= this->bonusValue;
+			break;
+		case Kills:
+			return numKills <= this->bonusValue;
+			break;
+		case Money:
+			return money >= this->bonusValue;
+			break;
+		case Alerts:
+			return numAlerts <= this->bonusValue;
+			break;	
+		default:
+			break;
+	}
+	return false;
 }
