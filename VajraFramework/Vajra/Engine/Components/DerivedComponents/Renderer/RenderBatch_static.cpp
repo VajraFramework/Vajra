@@ -39,9 +39,9 @@ void RenderBatch_static::CreateRenderBatchFromMeshes(std::vector<ObjectIdType> s
 
 		this->numVertices += mesh->getNumVertices();
 
-		if (this->material == nullptr) {
-			this->material = mesh->material;
-		} else {
+		if (this->materialRef == nullptr) {
+			this->materialRef = mesh->material;
+} else {
 			// TODO [Implment] Check that all the meshes have the same material, and same texture, maybe
 		}
 
@@ -53,7 +53,7 @@ void RenderBatch_static::CreateRenderBatchFromMeshes(std::vector<ObjectIdType> s
 
 		VERIFY(mesh->getVertices() != nullptr, "Mesh has vertices");
 		VERIFY(mesh->getNormals() != nullptr, "Mesh has normals");
-		if (this->material->HasTexture()) {
+		if (this->materialRef->HasTexture()) {
 			VERIFY(mesh->getTextureCoords() != nullptr, "Mesh has texture coords");
 		}
 		VERIFY(mesh->boneIndices == nullptr, "Mesh has no bones -- we don't support skinned animations in batched rendering yet");
@@ -88,7 +88,7 @@ void RenderBatch_static::CreateRenderBatchFromMeshes(std::vector<ObjectIdType> s
 			glm::vec4 baked_normal4 = gameObject->GetTransform()->GetModelMatrixCumulative() * glm::vec4(normal.x, normal.y, normal.z, 0.0f);
 			this->normals[vertexInBatch]  = glm::vec3(baked_normal4.x, baked_normal4.y, baked_normal4.z);
 			//
-			if (this->material->HasTexture()) {
+			if (this->materialRef->HasTexture()) {
 				this->textureCoords[vertexInBatch] = mesh->getTextureCoords()[i];
 			}
 		}
@@ -146,7 +146,7 @@ void RenderBatch_static::makeVBOs() {
 		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboTextureCoords);
 		GLCALL(glBufferData, GL_ARRAY_BUFFER, sizeof(glm::vec2) * this->numVertices, this->textureCoords, GL_STATIC_DRAW);
     } else {
-        ASSERT(!this->material->HasTexture(), "Texture coords missing because model has no texture");
+        ASSERT(!this->materialRef->HasTexture(), "Texture coords missing because model has no texture");
     }
 
     if (this->indices.size() != 0) {
@@ -180,7 +180,7 @@ void RenderBatch_static::Draw() {
         FRAMEWORK->GetLogger()->errlog("ERROR: VBOs not made");
         return;
     }
-    if (this->vboTextureCoords == 0 && this->material->HasTexture()) {
+    if (this->vboTextureCoords == 0 && this->materialRef->HasTexture()) {
         FRAMEWORK->GetLogger()->errlog("ERROR: Texture VBOs not made");
         return;
     }
@@ -205,9 +205,9 @@ void RenderBatch_static::Draw() {
     // TODO [Hack] Do this better, maybe:
     // No materials in depth pass:
     if (!currentShaderSet->IsDepthPass()) {
-    	this->material->WriteMaterialToShader();
-    	if (this->material->HasTexture()) {
-    		this->material->GetTextureAsset()->Draw(0);
+    	this->materialRef->WriteMaterialToShader();
+    	if (this->materialRef->HasTexture()) {
+    		this->materialRef->GetTextureAsset()->Draw(0);
 
 			GLint textureCoordsHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
     		GLCALL(glEnableVertexAttribArray, textureCoordsHandle);
@@ -237,7 +237,7 @@ void RenderBatch_static::init() {
 	this->vertices      = nullptr;
 	this->normals       = nullptr;
 	this->textureCoords = nullptr;
-	this->material      = nullptr;
+	this->materialRef      = nullptr;
 
     this->meshGlRenderingMode = GL_TRIANGLES;
 
@@ -254,7 +254,18 @@ void RenderBatch_static::destroy() {
     if (this->textureCoords != nullptr) {
         delete this->textureCoords;
     }
-    // TODO [Implement] Free the VBOs on RenderBatch_static::destroy()
 
+    if (this->vboPositions != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboPositions);
+    }
+    if (this->vboNormals != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboNormals);
+    }
+    if (this->vboTextureCoords != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboTextureCoords);
+    }
+    if (this->vboIndices != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboIndices);
+    }
 }
 

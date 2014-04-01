@@ -52,7 +52,7 @@ private:
 	//
 	std::vector<unsigned int> indices;
 
-	Material* material;
+	Material* materialRef;
 
 	GLenum meshGlRenderingMode;
 
