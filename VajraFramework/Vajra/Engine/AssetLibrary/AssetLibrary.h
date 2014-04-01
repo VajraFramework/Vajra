@@ -24,7 +24,7 @@ private:
 	void init();
 	void destroy();
 
-	std::map<std::string /* url */, std::shared_ptr<Asset>> allAssets;
+	std::map<std::string /* url */, std::weak_ptr<Asset>> allAssets;
 
 	friend class Engine;
 };
@@ -36,14 +36,26 @@ template <class T>
 std::shared_ptr<T> AssetLibrary::GetAsset(std::string url) {
 	url = FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() +  "/" + url;
 
+	std::shared_ptr<Asset> temp_sharedPtr;
+
 	auto it = this->allAssets.find(url);
+	//
+	if (it != this->allAssets.end()) {
+		// Found pre-loaded asset, make sure weak pointer is still valid:
+		temp_sharedPtr = it->second.lock();
+		if (!temp_sharedPtr) {
+			// Weak pointer not valid. Asset has been recyled. Force reload:
+			it = this->allAssets.end();
+		}
+	}
+	//
 	if (it == this->allAssets.end()) {
 		// Asset not found in library. Create new asset and load it:
 		FRAMEWORK->GetLogger()->dbglog("\nLoading asset at url: %s", url.c_str());
-		std::shared_ptr<Asset> newAssetPtr = std::static_pointer_cast<Asset>( std::make_shared<T>(url) );
-		newAssetPtr->LoadAsset();
+		temp_sharedPtr = std::static_pointer_cast<Asset>( std::make_shared<T>(url) );
+		temp_sharedPtr->LoadAsset();
 		// Add it to the library:
-		this->allAssets[url] = newAssetPtr;
+		this->allAssets[url] = temp_sharedPtr;					// Automatic conversion to weak pointer
 		it = this->allAssets.find(url);
 
 	} else {
@@ -53,7 +65,7 @@ std::shared_ptr<T> AssetLibrary::GetAsset(std::string url) {
 
 	// TODO [Implement] Figure out how to ensure type safety here
 	// ASSERT(it->second->GetAssetType() == T::assetType, "AssetType matches for asset found in library");
-	return std::static_pointer_cast<T>(it->second);
+	return std::static_pointer_cast<T>((std::shared_ptr<Asset>)it->second);
 }
 
 

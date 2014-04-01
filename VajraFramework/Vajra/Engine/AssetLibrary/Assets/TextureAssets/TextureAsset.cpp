@@ -17,6 +17,7 @@ TextureAsset::TextureAsset(std::string urlOfTexture) : Asset(urlOfTexture) {
 }
 
 TextureAsset::~TextureAsset() {
+	this->destroy();
 }
 
 void TextureAsset::init() {

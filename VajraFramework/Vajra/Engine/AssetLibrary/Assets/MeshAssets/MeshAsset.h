@@ -17,7 +17,7 @@ class MeshAsset : public Asset {
 public:
 	MeshAsset();
 	MeshAsset(std::string urlOfMesh);
-	~MeshAsset();
+	virtual ~MeshAsset();
 
 	// @Override
 	virtual AssetType GetAssetType();
