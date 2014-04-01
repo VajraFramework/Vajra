@@ -1,8 +1,11 @@
 #include "ExampleGame/Components/Triggers/TriggerLoot.h"
+#include "ExampleGame/GameSingletons/GameSingletons.h"
+#include "ExampleGame/Messages/Declarations.h"
 
 #include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
 #include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
@@ -16,7 +19,7 @@ void lootNumberTweenCallback(float /*fromNumber*/, float toNumber, float current
 	if(go != nullptr) {
 		TriggerLoot* loot = go->GetComponent<TriggerLoot>();
 		if(loot != nullptr) {
-			float yOffset = cos(currentNumber);
+			float yOffset = cos(currentNumber) * 1.5f;
 			go->GetTransform()->Translate(0.0f, loot->startPos.y + yOffset, 0.0f);
 			if(currentNumber == toNumber) {
 				loot->lootTweenEnd();
@@ -38,7 +41,7 @@ TriggerLoot::~TriggerLoot() {
 
 void TriggerLoot::init() {
 	// create the partile effect
-	GameObject* particleEffect = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "dustexplosion.prefab", ENGINE->GetSceneGraph3D());
+	GameObject* particleEffect = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "lootBurst.prefab", ENGINE->GetSceneGraph3D());
 	this->particleEffectId = particleEffect->GetId();
 }
 
@@ -81,5 +84,7 @@ void TriggerLoot::lootTweenEnd() {
 	}
 	// Hide the mesh
 	((GameObject*)this->GetObject())->SetVisible(false);
-}
 
+	// Send a message that the loot was collected
+	SINGLETONS->GetMasteryManager()->AddMoney(this->moneyValue);
+}
