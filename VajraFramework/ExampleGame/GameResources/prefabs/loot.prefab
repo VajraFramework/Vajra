@@ -22,6 +22,9 @@
 			<property name="SetRequiredOccupants">
 				<field>1</field>
 			</property>
+            <property name="SetResetTime">
+				<field>0.3</field>
+			</property>
 		</component>
 		
 		<gameobject>
@@ -37,7 +40,7 @@
 				</property>
 			</component>
 			
-			<component name="TriggerTransformation">
+			<component name="TriggerLoot">
 				<property name="SubscribeToParentSwitch">
 				</property>
 			</component>
