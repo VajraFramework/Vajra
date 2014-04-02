@@ -21,47 +21,45 @@ static GLint g_default_fbo;
 
 
 void RenderScene::SetupStuff() {
+
+    GLCALL(glEnable, GL_DEPTH_TEST);
 	
 #ifdef PLATFORM_IOS
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &g_default_fbo);
+	GLCALL(glGetIntegerv, GL_FRAMEBUFFER_BINDING, &g_default_fbo);
 #endif
 
 	// Create a frame buffer object:
-	glGenFramebuffers(1, &g_depth_fbo_id);
-	glBindFramebuffer(GL_FRAMEBUFFER, g_depth_fbo_id);
+	GLCALL(glGenFramebuffers, 1, &g_depth_fbo_id);
+	GLCALL(glBindFramebuffer, GL_FRAMEBUFFER, g_depth_fbo_id);
 	
 	// Create a render buffer
 	GLuint renderBuffer;
-    glGenRenderbuffers(1, &renderBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
+    GLCALL(glGenRenderbuffers, 1, &renderBuffer);
+    GLCALL(glBindRenderbuffer, GL_RENDERBUFFER, renderBuffer);
 
     unsigned int depthMap_width, depthMap_height;
     ENGINE->GetShadowMap()->GetDepthMapResolution(depthMap_width, depthMap_height);
 
 	// Create a depth texture:
-    glGenTextures(1, &ENGINE->GetShadowMap()->depthTexture);
-    checkGlError("glGenTextures");
-	glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_2D, ENGINE->GetShadowMap()->depthTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthMap_width, depthMap_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    checkGlError("glTexImage2D");
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_CLAMP_TO_EDGE);
+    GLCALL(glGenTextures, 1, &ENGINE->GetShadowMap()->depthTexture);
+	GLCALL(glActiveTexture, GL_TEXTURE2);
+    GLCALL(glBindTexture, GL_TEXTURE_2D, ENGINE->GetShadowMap()->depthTexture);
+    GLCALL(glTexImage2D, GL_TEXTURE_2D, 0, GL_RGBA, depthMap_width, depthMap_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    //
+    GLCALL(glTexParameteri, GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    GLCALL(glTexParameteri, GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    GLCALL(glTexParameteri, GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     GL_CLAMP_TO_EDGE);
+    GLCALL(glTexParameteri, GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_CLAMP_TO_EDGE);
 
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ENGINE->GetShadowMap()->depthTexture, 0);
-    checkGlError("glFramebufferTexture2D");
+	GLCALL(glFramebufferTexture2D, GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ENGINE->GetShadowMap()->depthTexture, 0);
 	
 	// Allocate 16-bit depth buffer
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, depthMap_width, depthMap_height);
-    checkGlError("glRenderBufferStorage");
+	GLCALL(glRenderbufferStorage, GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, depthMap_width, depthMap_height);
 	
 	// Attach the render buffer as depth buffer - will be ignored
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBuffer);
-    checkGlError("glFramebufferRenderbuffer");
+	GLCALL(glFramebufferRenderbuffer, GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBuffer);
 
-	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {	// GLCALL
 		ASSERT(0, "Framebuffer OK");
 	}
 }
@@ -71,16 +69,16 @@ void RenderScene::CleanupStuff() {
 
 	// TODO [Implement] Call this from somewhere:
 	// Free up the frame buffer object:
-	glDeleteFramebuffers(1, &g_depth_fbo_id);
+	GLCALL(glDeleteFramebuffers, 1, &g_depth_fbo_id);
 }
 
 void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera) {
 
 #ifdef PLATFORM_IOS
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &g_default_fbo);
+	GLCALL(glGetIntegerv, GL_FRAMEBUFFER_BINDING, &g_default_fbo);
 #endif
 
-	glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
+	GLCALL(glBindFramebuffer, GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
 	renderLists->Draw(camera, false, DISTANCE_FROM_CAMERA_COMPARE_TYPE_ortho_z);
 }
 
@@ -90,19 +88,19 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 							  std::vector<DirectionalLight*> additionalLights) {
 
 #ifdef PLATFORM_IOS
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &g_default_fbo);
+	GLCALL(glGetIntegerv, GL_FRAMEBUFFER_BINDING, &g_default_fbo);
 #endif
 
 	std::vector<DirectionalLight*> emptyVector;
 
 	{
 		// Switch off blend for depth pass:
-    	glDisable(GL_BLEND);
+    	GLCALL(glDisable, GL_BLEND);
 
 		Camera* depthCamera = ENGINE->GetShadowMap()->GetDepthCamera();
 #if defined(DRAWING_DEPTH_BUFFER_CONTENTS)
-    	glViewport(0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
-		glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
+    	GLCALL(glViewport, 0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
+		GLCALL(glBindFramebuffer, GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
 #else
 
 		/*
@@ -111,16 +109,16 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 		unsigned int depthMap_width, depthMap_height;
 		ENGINE->GetShadowMap()->GetDepthMapResolution(depthMap_width, depthMap_height);
 		//
-		glBindFramebuffer(GL_FRAMEBUFFER, g_depth_fbo_id);
-    	glViewport(0, 0, depthMap_width, depthMap_height);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		GLCALL(glBindFramebuffer, GL_FRAMEBUFFER, g_depth_fbo_id);
+    	GLCALL(glViewport, 0, 0, depthMap_width, depthMap_height);
+		GLCALL(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 #endif
 		// Depth pass draw:
 		ENGINE->GetSceneGraph3D()->SetMainCameraId(depthCamera->GetObject()->GetId());
 		renderLists->Draw(depthCamera, nullptr /* no lights in depth pass */, emptyVector /* no lights in depth pass */, true, DISTANCE_FROM_CAMERA_COMPARE_TYPE_perspective);
 
 		// Switch blend back on:
-    	glEnable(GL_BLEND);
+    	GLCALL(glEnable, GL_BLEND);
 	}
 	
 
@@ -130,8 +128,8 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 	 	 * Draw again, this time to the screen:
 	 	 */
 		ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetObject()->GetId());
-		glBindFramebuffer(GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
-    	glViewport(0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
+		GLCALL(glBindFramebuffer, GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
+    	GLCALL(glViewport, 0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
 		renderLists->Draw(camera, directionalLight, additionalLights, false, DISTANCE_FROM_CAMERA_COMPARE_TYPE_perspective);
 #endif
 	}

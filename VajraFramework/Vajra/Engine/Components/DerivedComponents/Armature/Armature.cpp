@@ -48,7 +48,7 @@ void Armature::HandleMessage(MessageChunk messageChunk) {
 void Armature::Bind() {
 #if USING_RUNTIME_COMPUTED_BONE_MATRICES
 	GLint boneTransformsHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneTransforms);
-    glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->finalBoneTransforms[0]));
+    GLCALL(glUniformMatrix4fv, boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(this->finalBoneTransforms[0]));
 #endif // USING_RUNTIME_COMPUTED_BONE_MATRICES
 }
 

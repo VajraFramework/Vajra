@@ -8,6 +8,7 @@
 #include <string>
 
 // Forward Declarations:
+class OpenGLCounter;
 class ShaderSet;
 
 class OpenGLWrapper : public Object {
@@ -23,8 +24,9 @@ public:
 
 	ShaderSet* GetShaderSetByName(std::string shaderName);
 
-
 	void GetAllAvailableShaderNames(std::vector<std::string>& out_shaderNames);
+
+	OpenGLCounter* GetOpenGLCounter() { return this->glCounter; }
 
 private:
 	OpenGLWrapper();
@@ -36,6 +38,8 @@ private:
 
 	GLuint positionHandle;
 	GLuint textureCoordsHandle;
+
+	OpenGLCounter* glCounter;
 
 	friend class Framework;
 };

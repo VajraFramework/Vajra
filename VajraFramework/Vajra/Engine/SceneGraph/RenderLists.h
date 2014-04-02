@@ -17,6 +17,7 @@ class GameObject;
 class RenderList;
 
 #define USING_FRUSTUM_CULLING 1
+#define USING_STATIC_RENDER_BATCHING 1
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -46,8 +47,8 @@ public:
 	void Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights, bool isDepthPass, DistanceFromCameraCompareType compareType);
 
 private:
-	RenderLists();
-	void init();
+	RenderLists(SceneGraph* parentScenegraph);
+	void init(SceneGraph* parentScenegraph);
 	void destroy();
 
 	void Begin();
@@ -59,11 +60,15 @@ private:
 	void addGameObjectIdToRenderList(ObjectIdType id, std::string shaderName);
 	void removeGameObjectIdToRenderList(ObjectIdType id, std::string shaderName);
 
+	void createStaticRenderBatches();
+
 	// Utility Functions:
 	void createRenderLists();
 
 	unsigned int currentRenderListIdx;
 	std::vector<RenderList*> renderLists;
+
+	SceneGraph* parentScenegraphRef;
 
 	// friended to SceneGraph so as to not have to expose the constructor and addGameObjectIdToRenderList()
 	friend class SceneGraph;

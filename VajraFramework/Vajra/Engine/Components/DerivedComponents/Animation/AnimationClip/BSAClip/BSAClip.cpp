@@ -83,7 +83,7 @@ void BakedSkeletalAnimationClip::bind() {
 
 	if (currentKeyframe != nullptr) {
 		GLint boneTransformsHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_boneTransforms);
-    	glUniformMatrix4fv(boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(currentKeyframe->bakedBoneMatrices[0]));
+    	GLCALL(glUniformMatrix4fv, boneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(currentKeyframe->bakedBoneMatrices[0]));
 	}
 
 	if (nextKeyframe == nullptr) {
@@ -92,11 +92,11 @@ void BakedSkeletalAnimationClip::bind() {
 
 	if (nextKeyframe != nullptr) {
 		GLint otherBoneTransformsHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_otherBoneTransforms);
-		glUniformMatrix4fv(otherBoneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(nextKeyframe->bakedBoneMatrices[0]));
+		GLCALL(glUniformMatrix4fv, otherBoneTransformsHandle, MAX_BONES, GL_FALSE, glm::value_ptr(nextKeyframe->bakedBoneMatrices[0]));
 	}
 
 	GLint interpolationHandle = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet()->GetHandle(SHADER_VARIABLE_VARIABLENAME_interp);
-	glUniform2f(interpolationHandle, this->interpolation, 0.0f);
+	GLCALL(glUniform2f, interpolationHandle, this->interpolation, 0.0f);
 }
 
 void BakedSkeletalAnimationClip::init() {

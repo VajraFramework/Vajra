@@ -31,21 +31,16 @@ GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
     GLuint myTexture;
 
     // make it
-    glGenTextures(1, &myTexture);
-    checkGlError("glGenTextures");
+    GLCALL(glGenTextures, 1, &myTexture);
     // bind it
-    glBindTexture(GL_TEXTURE_2D, myTexture);
-    checkGlError("glBindTexture");
+    GLCALL(glBindTexture, GL_TEXTURE_2D, myTexture);
     // stretch it
 #ifdef USING_MIPMAPS
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-    checkGlError("glTexParameteri");
+    GLCALL(glTexParameteri,  GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
 #else
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    checkGlError("glTexParameteri");
+    GLCALL(glTexParameteri,  GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 #endif
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    checkGlError("glTexParameteri 2");
+    GLCALL(glTexParameteri,  GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     // technologic - I MEAN
 
     // gl color type
@@ -69,13 +64,12 @@ GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
     }
     FRAMEWORK->GetLogger()->dbglog("\nNumComponents in Texture: %d", components);
 
-    // glTexImage2D(GL_TEXTURE_2D, 0, components, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, *outTextureBytes);
-    glTexImage2D(GL_TEXTURE_2D, 0, glcolours, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, *outTextureBytes);
-    checkGlError("glTexImage2D");
+    // GLCALL(glTexImage2D, GL_TEXTURE_2D, 0, components, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, *outTextureBytes);
+    GLCALL(glTexImage2D, GL_TEXTURE_2D, 0, glcolours, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, *outTextureBytes);
 
 #ifdef USING_MIPMAPS
-    glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
-    glGenerateMipmap(GL_TEXTURE_2D);
+    GLCALL(glHint, GL_GENERATE_MIPMAP_HINT, GL_NICEST);
+    GLCALL(glGenerateMipmap, GL_TEXTURE_2D);
 #endif
 
     FRAMEWORK->GetLogger()->dbglog("\nmyTexture (GL Handle): %d", myTexture);

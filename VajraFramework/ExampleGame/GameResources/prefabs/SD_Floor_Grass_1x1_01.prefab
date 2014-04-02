@@ -8,6 +8,9 @@
               <property name="InitMesh">
                   <field>models/SD_Floor_Grass_1x1_01.model</field>
               </property>
+			<property name="SetIsStatic">
+				<field>true</field>
+			</property>
           </component>
 
           <component name="Transform">

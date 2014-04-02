@@ -4,6 +4,9 @@
           <property name="InitMesh">
               <field>models/SD_Fence_Straight_1x2_01.model</field>
           </property>
+			<property name="SetIsStatic">
+				<field>true</field>
+			</property>
       </component>
 
       <component name="Transform">
