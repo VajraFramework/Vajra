@@ -66,7 +66,7 @@ void TriggerLoot::onSwitchToggled(bool switchState) {
 	// Perform a position tween
 	MessageData1S1I1F* params = new MessageData1S1I1F();
 	params->i = this->GetObject()->GetId();
-	ENGINE->GetTween()->TweenToNumber(0.0f, 1.8f, .3f, INTERPOLATION_TYPE_LINEAR, true, false, true, "lootBounce", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, lootNumberTweenCallback);
+	ENGINE->GetTween()->TweenToNumber(0.0f, 1.8f, .3f, INTERPOLATION_TYPE_LINEAR, true, false, true, "lootBounce" + params->i, NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, lootNumberTweenCallback);
 }
 
 void TriggerLoot::lootTweenEnd() {
