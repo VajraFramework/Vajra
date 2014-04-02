@@ -8,6 +8,7 @@
 
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
+#include "ExampleGame/Components/LevelManager/MasteryManager.h"
 #include "ExampleGame/Ui/MenuManager/MenuManager.h"
 
 #include "Vajra/Common/Objects/Object.h"
@@ -19,12 +20,15 @@ public:
 	GameSingletons();
 	~GameSingletons();
 
-	inline Object* GetLevelManagerObject() { return this->levelManagerObj;  }
-	inline LevelManager* GetLevelManager() { return this->levelManagerComp; }
-	inline Object* GetGridManagerObject()  { return this->gridManagerObj;   }
-	inline GridManager* GetGridManager()   { return this->gridManagerComp;  }
-	inline Object* GetMenuManagerObject()  { return this->menuManagerObj;   }
-	inline MenuManager* GetMenuManager()   { return this->menuManagerComp;  }
+	inline Object* GetLevelManagerObject()       { return this->levelManagerObj;  }
+	inline LevelManager* GetLevelManager()       { return this->levelManagerComp; }
+	inline Object* GetGridManagerObject()        { return this->gridManagerObj;   }
+	inline GridManager* GetGridManager()         { return this->gridManagerComp;  }
+	inline Object* GetMenuManagerObject()        { return this->menuManagerObj;   }
+	inline MenuManager* GetMenuManager()         { return this->menuManagerComp;  }
+	inline Object* GetMasteryManagerObject()     { return this->masteryManagerObj;   }
+	inline MasteryManager* GetMasteryManager()   { return this->masteryManagerComp;  }
+
 private:
 	void init();
 	void destroy();
@@ -37,6 +41,8 @@ private:
 	GridManager* gridManagerComp;
 	Object* menuManagerObj;
 	MenuManager* menuManagerComp;
+	Object* masteryManagerObj; 
+	MasteryManager* masteryManagerComp;
 };
 
 #define SINGLETONS GameSingletons::GetInstance()

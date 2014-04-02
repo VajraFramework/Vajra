@@ -138,10 +138,12 @@ void Guard::determineBrainState() {
 }
 
 void Guard::onBrainBecameCalm() {
+	EnemyUnit::onBrainBecameCalm();
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 }
 
 void Guard::onBrainBecameCautious() {
+	EnemyUnit::onBrainBecameCautious();
 	this->attackTimer = GUARD_ATTACK_TIME;
 	this->cooldownTimer = GUARD_COOLDOWN_TIME;
 	this->SwitchActionState(UNIT_ACTION_STATE_PRE_BLOCK);
@@ -149,6 +151,7 @@ void Guard::onBrainBecameCautious() {
 }
 
 void Guard::onBrainBecameAggressive() {
+	EnemyUnit::onBrainBecameAggressive();
 	this->SwitchActionState(UNIT_ACTION_STATE_DOING_SPECIAL);
 }
 
