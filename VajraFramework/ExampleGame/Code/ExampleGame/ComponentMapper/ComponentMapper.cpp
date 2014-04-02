@@ -711,6 +711,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetDeathEffect(ConvertStringToString(argv[0]));
 			return;
 		}
+		if (propertyName == "SetHasPotLoot") {
+			if ((int)argv.size() < 0) { return; }
+			component->SetHasPotLoot();
+			return;
+		}
 		return;
 	}
 	
@@ -1039,6 +1044,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetMoneyValue") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetMoneyValue(StringUtilities::ConvertStringToInt(argv[0]));
+			return;
+		}
+		if (propertyName == "SetActive") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetActive(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		return;

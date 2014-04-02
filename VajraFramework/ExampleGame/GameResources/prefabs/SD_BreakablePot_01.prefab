@@ -7,8 +7,9 @@
 			<property name="SetDeathEffect">
 				<field>dustexplosion.prefab</field>
 			</property>
+			<property name="SetHasPotLoot"></property>
 		</component>
-	
+		
 		<component name="MeshRenderer">
 		  <property name="InitMesh">
 			  <field>models/SD_BreakablePot_01.model</field>

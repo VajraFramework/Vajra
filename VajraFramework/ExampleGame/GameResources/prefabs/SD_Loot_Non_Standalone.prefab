@@ -1,0 +1,25 @@
+<prefab>	
+	<gameobject>
+		<component name="MeshRenderer">
+			<property name="InitMesh">
+				<field>models/SD_Interactive_PressurePlate_01.model</field>
+			</property>
+		</component>
+		
+		<component name="Transform">
+			<property name="Scale">
+				<field>0.4f</field>
+			</property>
+		</component>
+		
+		<component name="TriggerLoot">
+			<property name="SetActive">
+				<field>false</field>
+			</property>
+			<property name="SetMoneyValue">
+				<field>5</field>
+			</property>
+		</component>
+	</gameobject>
+</prefab>
+

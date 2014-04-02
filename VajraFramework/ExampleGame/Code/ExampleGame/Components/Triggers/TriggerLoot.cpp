@@ -19,7 +19,7 @@ void lootNumberTweenCallback(float /*fromNumber*/, float toNumber, float current
 	if(go != nullptr) {
 		TriggerLoot* loot = go->GetComponent<TriggerLoot>();
 		if(loot != nullptr) {
-			float yOffset = cos(currentNumber) * 1.5f;
+			float yOffset = cos(currentNumber) * .5f;
 			go->GetTransform()->Translate(0.0f, loot->startPos.y + yOffset, 0.0f);
 			if(currentNumber == toNumber) {
 				loot->lootTweenEnd();
@@ -43,6 +43,7 @@ void TriggerLoot::init() {
 	// create the partile effect
 	GameObject* particleEffect = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "lootBurst.prefab", ENGINE->GetSceneGraph3D());
 	this->particleEffectId = particleEffect->GetId();
+	this->active = true;
 }
 
 void TriggerLoot::destroy() {
@@ -61,12 +62,24 @@ void TriggerLoot::SetMoneyValue(int v) {
 	this->moneyValue = v;
 }
 
+void TriggerLoot::SetActive(bool active) { 
+	this->active = active; 
+}
+
 void TriggerLoot::onSwitchToggled(bool switchState) {
-	this->startPos = this->GetObject()->GetComponent<Transform>()->GetPosition();
-	// Perform a position tween
-	MessageData1S1I1F* params = new MessageData1S1I1F();
-	params->i = this->GetObject()->GetId();
-	ENGINE->GetTween()->TweenToNumber(0.0f, 1.8f, .3f, INTERPOLATION_TYPE_LINEAR, true, false, true, "lootBounce" + params->i, NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, lootNumberTweenCallback);
+	if(this->active) {
+		this->startPos = this->GetObject()->GetComponent<Transform>()->GetPositionWorld();
+		// Perform a position tween
+		MessageData1S1I1F* params = new MessageData1S1I1F();
+		params->i = this->GetObject()->GetId();
+		ENGINE->GetTween()->TweenToNumber(0.0f, 1.8f, 0.3f, INTERPOLATION_TYPE_LINEAR, true, false, true, "lootBounce" + std::to_string(params->i), NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, lootNumberTweenCallback);
+	}
+}
+
+void TriggerLoot::ForceLootGrab() {
+	this->active = true;
+	((GameObject*)this->GetObject())->SetVisible(true);
+	this->onSwitchToggled(true);
 }
 
 void TriggerLoot::lootTweenEnd() {

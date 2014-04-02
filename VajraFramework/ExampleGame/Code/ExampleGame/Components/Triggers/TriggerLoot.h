@@ -22,6 +22,10 @@ public:
 	//[[PROPERTY]]//
 	void SetMoneyValue(int v);
 
+	//[[PROPERTY]]//
+	void SetActive(bool active);
+
+	void ForceLootGrab();
 protected:
 	virtual void onSwitchToggled(bool switchState);
 
@@ -34,6 +38,7 @@ private:
 	glm::vec3 startPos;
 	int moneyValue;
 
+	bool active;
 	void lootTweenEnd();
 
 	friend void lootNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams);
