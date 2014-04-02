@@ -28,6 +28,8 @@ public:
 	void AddGameObjectToRenderLists(GameObject* gameObject);
 	void RemoveGameObjectFromRenderLiset(GameObject* gameObject);
 	
+	void CreateRenderBatches();
+
 	Camera* GetMainCamera();
 	void SetMainCameraId(ObjectIdType id);
 
@@ -60,7 +62,7 @@ protected:
 GameObject* SceneGraph::GetGameObjectById(ObjectIdType id) {
 	GameObject* gameObject = (GameObject*)(ObjectRegistry::GetObjectById(id));
 	if (gameObject != nullptr) {
-		ASSERT(gameObject->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
+		VERIFY(gameObject->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
 	} else {
 		FRAMEWORK->GetLogger()->dbglog("Warning: GameObject of id %d not found", id);
 	}

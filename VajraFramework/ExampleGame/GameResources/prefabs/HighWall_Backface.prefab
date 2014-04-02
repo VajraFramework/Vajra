@@ -4,6 +4,9 @@
 			<property name="InitMesh">
 				<field>models/SD_HighWall_Backface.model</field>
 			</property>
+			<property name="SetIsStatic">
+				<field>true</field>
+			</property>
 		</component>
 
 		<component name="Transform">

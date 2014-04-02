@@ -49,37 +49,34 @@ bool setupGraphics(int w, int h, int dpi) {
     ENGINE->GetSceneGraph3D()->Initialize();
     ENGINE->GetSceneGraphUi()->Initialize();
 
-    glViewport(0, 0, w, h);
-    checkGlError("glViewport");
+    GLCALL(glViewport, 0, 0, w, h);
 
-    glEnable(GL_DEPTH_TEST);
-    glDepthMask(true);
+    GLCALL(glEnable, GL_DEPTH_TEST);
+    GLCALL(glDepthMask, true);
 
-    glEnable(GL_TEXTURE_2D);
-    checkGlError("glEnable(GL_TEXTURE_2D)");
+    GLCALL(glEnable, GL_TEXTURE_2D);
     //
-    glActiveTexture(GL_TEXTURE0);
-    checkGlError("glActiveTexture");
+    GLCALL(glActiveTexture, GL_TEXTURE0);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GLCALL(glEnable, GL_BLEND);
+    GLCALL(glBlendFunc, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 #if PLATFORM_DESKTOP
-    glEnable(GL_POINT_SPRITE);
-    glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+    GLCALL(glEnable, GL_POINT_SPRITE);
+    GLCALL(glEnable, GL_VERTEX_PROGRAM_POINT_SIZE);
 #endif
 	
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	GLCALL(glEnable, GL_CULL_FACE);
+	GLCALL(glCullFace, GL_BACK);
 	
 #if defined(PLATFORM_DESKTOP)
-	glDisable(GL_LIGHTING);
+	GLCALL(glDisable, GL_LIGHTING);
 #endif
 
 
 #if PLATFORM_DESKTOP
     // TODO [Implement] Move this to shader specific code so that we can have only some shaders draw in wireframe mode
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // GLCALL(glPolygonMode, GL_FRONT_AND_BACK, GL_LINE);
 #endif
 
     RenderScene::SetupStuff();
@@ -97,8 +94,8 @@ bool renderFrame() {
 	}
 #endif
 
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);                   checkGlError("glClearColor");
-    glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);    checkGlError("glClear");
+    GLCALL(glClearColor, 0.0f, 0.0f, 0.0f, 0.0f);
+    GLCALL(glClear,  GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
     // float deltaTime = ENGINE->GetTimer()->GetDeltaFrameTime();
 

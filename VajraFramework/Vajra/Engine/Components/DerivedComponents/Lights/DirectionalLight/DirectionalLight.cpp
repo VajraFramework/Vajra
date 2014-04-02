@@ -97,19 +97,16 @@ void DirectionalLight::WriteLightPropertiesToShader() {
 
 	Shader_variable_variablename_id_t directionHandle = GetDirectionHandleBasedOnLightTypeAndId(this->lightType, this->lightId);
 	if (currentShaderSet->HasHandle(directionHandle)) {
-		glUniform4f(currentShaderSet->GetHandle(directionHandle),
-												-1.0f * forward.x, -1.0f * forward.y, -1.0f * forward.z, 0.0f);
+		GLCALL(glUniform4f, currentShaderSet->GetHandle(directionHandle), -1.0f * forward.x, -1.0f * forward.y, -1.0f * forward.z, 0.0f);
 	}
 	//
 	Shader_variable_variablename_id_t ambientHandle = GetAmbientHandleBasedOnLightTypeAndId(this->lightType, this->lightId);
 	if (currentShaderSet->HasHandle(ambientHandle)) {
-		glUniform4f(currentShaderSet->GetHandle(ambientHandle),
-				this->ambientColor.r * this->intensity, this->ambientColor.g * this->intensity, this->ambientColor.b * this->intensity, this->ambientColor.a * this->intensity);
+		GLCALL(glUniform4f, currentShaderSet->GetHandle(ambientHandle), this->ambientColor.r * this->intensity, this->ambientColor.g * this->intensity, this->ambientColor.b * this->intensity, this->ambientColor.a * this->intensity);
 	}
 	Shader_variable_variablename_id_t diffuseHandle = GetDiffuseHandleBasedOnLightTypeAndId(this->lightType, this->lightId);
 	if (currentShaderSet->HasHandle(diffuseHandle)) {
-		glUniform4f(currentShaderSet->GetHandle(diffuseHandle),
-				this->diffuseColor.r * this->intensity, this->diffuseColor.g * this->intensity, this->diffuseColor.b * this->intensity, this->diffuseColor.a * this->intensity);
+		GLCALL(glUniform4f, currentShaderSet->GetHandle(diffuseHandle), this->diffuseColor.r * this->intensity, this->diffuseColor.g * this->intensity, this->diffuseColor.b * this->intensity, this->diffuseColor.a * this->intensity);
 	}
 
 	// TODO [Hack] Removing specular lights for now

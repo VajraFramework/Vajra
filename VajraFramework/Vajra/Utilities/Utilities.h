@@ -45,6 +45,10 @@ void ASSERT_LOG_internal(const char* file, int lineNumber, const char* functionN
 void printGLString(const char *name, GLenum s);
 void checkGlError(const char* op);
 
+void countGlCall(const char* glFunctionName);
+
+#define GLCALL(glFunctionName, ...) glFunctionName(__VA_ARGS__); checkGlError(#glFunctionName); countGlCall(#glFunctionName)
+
 void printFrameTimeStats();
 
 void printGlmMat4(glm::mat4 m);

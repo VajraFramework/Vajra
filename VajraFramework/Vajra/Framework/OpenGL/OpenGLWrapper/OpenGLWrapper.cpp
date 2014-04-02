@@ -1,13 +1,14 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Framework/OpenGL/OpenGLCounter/OpenGLCounter.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSetCreationHelper/ShaderSetCreationHelper.h"
 #include "Vajra/Utilities/Utilities.h"
 
 OpenGLWrapper::OpenGLWrapper() {
-    this->init();
+	// Do not call init() here
 }
 
 OpenGLWrapper::~OpenGLWrapper() {
@@ -41,8 +42,7 @@ void OpenGLWrapper::SetCurrentShaderSet(std::string shaderName) {
 	VERIFY(this->shaderSets.find(shaderName) != this->shaderSets.end(), "Shader set %s has been created", shaderName.c_str());
     this->currentShaderSet = this->shaderSets[shaderName];
     //
-    glUseProgram(this->currentShaderSet->GetShaderProgram());
-    checkGlError("glUseProgram");
+    GLCALL(glUseProgram, this->currentShaderSet->GetShaderProgram());
 }
 
 ShaderSet* OpenGLWrapper::GetShaderSetByName(std::string shaderName) {
@@ -82,7 +82,8 @@ void OpenGLWrapper::GetAllAvailableShaderNames(std::vector<std::string>& out_sha
 void OpenGLWrapper::init() {
     FRAMEWORK->GetLogger()->dbglog("In OpenGLWrapper::init()\n");
 
-    glEnable(GL_DEPTH_TEST);
+    this->glCounter =
+    		new OpenGLCounter();
 
     this->currentShaderSet = nullptr;
 
@@ -108,4 +109,5 @@ void OpenGLWrapper::init() {
 }
 
 void OpenGLWrapper::destroy() {
+	delete this->glCounter;
 }

@@ -61,7 +61,7 @@ void SceneGraph::UnloadCurrentScene() {
 	this->root->destroyAllChildren();
 
 	delete this->renderLists; 
-	this->renderLists = new RenderLists();
+	this->renderLists = new RenderLists(this);
 }
 
 void SceneGraph::Pause() {
@@ -78,9 +78,13 @@ void SceneGraph::Resume() {
 	ENGINE->GetTween()->ResumeNumberTweensByAffiliation(NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D);
 }
 
+void SceneGraph::CreateRenderBatches() {
+	this->renderLists->createStaticRenderBatches();
+}
+
 void SceneGraph::init() {
 	this->root = nullptr;
-	this->renderLists = new RenderLists();
+	this->renderLists = new RenderLists(this);
 	this->isPaused = false;
 }
 

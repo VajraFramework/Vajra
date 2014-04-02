@@ -25,7 +25,6 @@ private:
 
 	static AssetType assetType;
 
-	GLubyte* textureBytes;
 	GLuint textureGLHandle;
 };
 

@@ -52,16 +52,16 @@ void Transform::Draw() {
 	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_mvpMatrix)) {
 		glm::mat4 mvpMatrix = camera->GetProjMatrix() * camera->GetViewMatrix() * this->modelMatrixCumulative;
 		GLint mvpMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_mvpMatrix);
-		glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, glm::value_ptr(mvpMatrix));
+		GLCALL(glUniformMatrix4fv, mvpMatrixHandle, 1, GL_FALSE, glm::value_ptr(mvpMatrix));
 	} 
 	else if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_modelMatrix)) {
 		glm::mat4 modelMatric = this->modelMatrixCumulative;
 		GLint modelMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_modelMatrix);
-		glUniformMatrix4fv(modelMatrixHandle, 1, GL_FALSE, glm::value_ptr(modelMatric));
+		GLCALL(glUniformMatrix4fv, modelMatrixHandle, 1, GL_FALSE, glm::value_ptr(modelMatric));
 
     	glm::mat4 vpMatrix = camera->GetProjMatrix() * camera->GetViewMatrix();
 		GLint vpMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vpMatrix);
-		glUniformMatrix4fv(vpMatrixHandle, 1, GL_FALSE, glm::value_ptr(vpMatrix));
+		GLCALL(glUniformMatrix4fv, vpMatrixHandle, 1, GL_FALSE, glm::value_ptr(vpMatrix));
 	}
     //
 	// TODO [Hack] Do this better, maybe
@@ -70,7 +70,7 @@ void Transform::Draw() {
 		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix)) {
 			glm::mat4 modelInverseTransposeMatrix = glm::inverseTranspose(this->modelMatrixCumulative);
 			GLint mitMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix);
-    		glUniformMatrix4fv(mitMatrixHandle, 1, GL_FALSE, glm::value_ptr(modelInverseTransposeMatrix));
+    		GLCALL(glUniformMatrix4fv, mitMatrixHandle, 1, GL_FALSE, glm::value_ptr(modelInverseTransposeMatrix));
 		}
 	}
 }

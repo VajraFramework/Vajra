@@ -23,10 +23,18 @@ Framework* Framework::GetInstance() {
 
 void Framework::init() {
 	this->logger            = new Logger();
+
     this->deviceProperties  = new DeviceProperties();
+    this->deviceProperties->init();
+
     this->fileSystemUtils   = new FileSystemUtils();
+    this->fileSystemUtils->init();
+
 	this->settings          = new Settings();
+	this->settings->init();
+
 	this->openGLWrapper     = new OpenGLWrapper();
+	this->openGLWrapper->init();
 }
 
 void Framework::destroy() {

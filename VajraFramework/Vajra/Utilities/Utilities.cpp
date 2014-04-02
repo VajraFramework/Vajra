@@ -2,6 +2,8 @@
 #include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Framework/OpenGL/OpenGLCounter/OpenGLCounter.h"
+#include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Utilities/Utilities.h"
 
 #include <assert.h>
@@ -67,14 +69,20 @@ void ASSERT_LOG_internal(const char* file, int lineNumber, const char* functionN
 
 
 void printGLString(const char *name, GLenum s) {
-    const char *v = (const char *) glGetString(s);
+    const char *v = (const char *) glGetString(s);		// GLCALL
     FRAMEWORK->GetLogger()->dbglog("GL %s = %s\n", name, v);
 }
 
 void checkGlError(const char* op) {
+#ifdef DEBUG
     for (GLint error = glGetError(); error; error = glGetError()) {
         FRAMEWORK->GetLogger()->errlog("\nGLERROR: after %s() glError (0x%x)\n", op, error);
     }
+#endif // DEBUG
+}
+
+void countGlCall(const char* glFunctionName) {
+	FRAMEWORK->GetOpenGLWrapper()->GetOpenGLCounter()->CountGlCall(glFunctionName);
 }
 
 void printFrameTimeStats() {

@@ -8,6 +8,9 @@
               <property name="InitMesh">
                   <field>models/SD_House_Base_Corner_01.model</field>
               </property>
+			<property name="SetIsStatic">
+				<field>true</field>
+			</property>
           </component>
 
           <component name="Transform">
@@ -23,6 +26,9 @@
               <property name="InitMesh">
                   <field>models/SD_House_Mid_Corner_01.model</field>
               </property>
+			<property name="SetIsStatic">
+				<field>true</field>
+			</property>
           </component>
 
           <component name="Transform">
@@ -38,6 +44,9 @@
               <property name="InitMesh">
                   <field>models/SD_House_Mid_Corner_01.model</field>
               </property>
+			<property name="SetIsStatic">
+				<field>true</field>
+			</property>
           </component>
 
           <component name="Transform">

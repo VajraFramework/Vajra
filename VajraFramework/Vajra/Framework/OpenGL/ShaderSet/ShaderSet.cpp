@@ -65,29 +65,27 @@ void ShaderSet::createShaderProgram() {
 
 	FRAMEWORK->GetLogger()->dbglog("\nLinking Shaders");
 
-    this->shaderProgram = glCreateProgram();
+    this->shaderProgram = glCreateProgram();  // GLCALL
     if (this->shaderProgram) {
-        glAttachShader(this->shaderProgram, this->compiledVShader);
-        checkGlError("glAttachShader");
-        glAttachShader(this->shaderProgram, this->compiledFShader);
-        checkGlError("glAttachShader");
-        glLinkProgram(this->shaderProgram);
+        GLCALL(glAttachShader, this->shaderProgram, this->compiledVShader);
+        GLCALL(glAttachShader, this->shaderProgram, this->compiledFShader);
+        GLCALL(glLinkProgram, this->shaderProgram);
         GLint linkStatus = GL_FALSE;
-        glGetProgramiv(this->shaderProgram, GL_LINK_STATUS, &linkStatus);
+        GLCALL(glGetProgramiv, this->shaderProgram, GL_LINK_STATUS, &linkStatus);
 
         if (linkStatus != GL_TRUE) {
             GLint bufLength = 0;
-            glGetProgramiv(this->shaderProgram, GL_INFO_LOG_LENGTH, &bufLength);
+            GLCALL(glGetProgramiv, this->shaderProgram, GL_INFO_LOG_LENGTH, &bufLength);
             FRAMEWORK->GetLogger()->dbglog("\nLink error info_log bufLength: %d", bufLength);
             if (bufLength) {
                 char* buf = (char*) malloc(bufLength);
                 if (buf) {
-                    glGetProgramInfoLog(this->shaderProgram, bufLength, NULL, buf);
+                    GLCALL(glGetProgramInfoLog, this->shaderProgram, bufLength, NULL, buf);
                     FRAMEWORK->GetLogger()->errlog("Could not link program:\n%s\n", buf);
                     free(buf);
                 }
             }
-            glDeleteProgram(this->shaderProgram);
+            GLCALL(glDeleteProgram, this->shaderProgram);
             this->shaderProgram = 0;
 
             VERIFY(0, "Shader linking failed");
@@ -237,27 +235,27 @@ void ShaderSet::createHandles() {
 
 // Shader Loading & Compilation Helper Functions:
 GLuint loadShader(GLenum shaderType, const char* pSource) {
-    GLuint shader = glCreateShader(shaderType);
+    GLuint shader = glCreateShader(shaderType);  // GLCALL
     if (shader) {
-        glShaderSource(shader, 1, &pSource, NULL);
-        glCompileShader(shader);
+        GLCALL(glShaderSource, shader, 1, &pSource, NULL);
+        GLCALL(glCompileShader, shader);
         GLint compiled = 0;
-        glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+        GLCALL(glGetShaderiv, shader, GL_COMPILE_STATUS, &compiled);
 
         if (!compiled) {
             FRAMEWORK->GetLogger()->dbglog("\nCould not compile shader");
             GLint infoLen = 0;
-            glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
+            GLCALL(glGetShaderiv, shader, GL_INFO_LOG_LENGTH, &infoLen);
             FRAMEWORK->GetLogger()->dbglog("\ninfoLen: %d", infoLen);
             if (infoLen) {
                 char* buf = (char*) malloc(infoLen);
                 if (buf) {
-                    glGetShaderInfoLog(shader, infoLen, NULL, buf);
+                    GLCALL(glGetShaderInfoLog, shader, infoLen, NULL, buf);
                     FRAMEWORK->GetLogger()->dbglog("Could not compile shader %d:\n%s\n",
                             shaderType, buf);
                     free(buf);
                 }
-                glDeleteShader(shader);
+                GLCALL(glDeleteShader, shader);
                 shader = 0;
             }
         }

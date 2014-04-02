@@ -4,6 +4,9 @@
 			<property name="InitMesh">
 				<field>models/SD_LowWall_Straight.model</field>
 			</property>
+			<property name="SetIsStatic">
+				<field>true</field>
+			</property>
 		</component>
 
 		<component name="Transform">

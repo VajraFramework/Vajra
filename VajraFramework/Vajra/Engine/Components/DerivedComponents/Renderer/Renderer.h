@@ -30,8 +30,13 @@ public:
 
 	inline bool HasTransperancy()                         { return this->hasTransperancy;             }
 	inline bool IsOverlay()                               { return this->isOverlay;                   }
-
 	inline void SetIsOverlay      (bool isOverlay_)       { this->isOverlay = isOverlay_;             }
+
+	inline bool IsStatic() { return this->isStatic; }
+	inline void SetIsStatic(bool isStatic_) { this->isStatic = isStatic_; }
+
+	inline bool IsRenderBatch() { return this->isRenderBatch; }
+	inline void SetIsRenderBatch(bool isRenderBatch_) { this->isRenderBatch = isRenderBatch_; }
 
 protected:
 	void addToRenderList();
@@ -48,6 +53,10 @@ private:
 	std::string shaderName;
 	bool hasTransperancy;
 	bool isOverlay;
+
+	bool isStatic;
+
+	bool isRenderBatch;
 };
 
 #endif // RENDERER_H

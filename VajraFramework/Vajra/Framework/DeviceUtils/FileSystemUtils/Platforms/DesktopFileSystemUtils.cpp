@@ -3,7 +3,7 @@
 #ifdef PLATFORM_DESKTOP
 
 FileSystemUtils::FileSystemUtils() {
-    this->init();
+	// Do not call init() here
 }
 
 FileSystemUtils::~FileSystemUtils() {

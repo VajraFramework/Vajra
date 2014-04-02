@@ -46,7 +46,7 @@ void WaterRenderer::Draw() {
 	ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
 	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_scrolling_uv_offset)) {
 		GLint scrolling_uv_offset_handle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_scrolling_uv_offset);
-		glUniform1f(scrolling_uv_offset_handle, this->scrollingUVsOffset);
+		GLCALL(glUniform1f, scrolling_uv_offset_handle, this->scrollingUVsOffset);
 	}
 
 	MeshRenderer::Draw();

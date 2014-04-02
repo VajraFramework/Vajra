@@ -28,6 +28,7 @@
 #include "ExampleGame/Components/Grid/GridZone.h"
 #include "ExampleGame/Components/Grid/GridZones/TransitionZone.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
+#include "ExampleGame/Components/LevelManager/MasteryManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Components/Switches/BaseSwitch.h"
 #include "ExampleGame/Components/Switches/GridZoneSwitch.h"
@@ -206,6 +207,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "LevelManager") {
 		LevelManager* component = gameObject->GetComponent<LevelManager>();
 		if (component == nullptr) { component = gameObject->AddComponent<LevelManager>(); }
+		return component;
+	}
+	
+	if (componentName == "MasteryManager") {
+		MasteryManager* component = gameObject->GetComponent<MasteryManager>();
+		if (component == nullptr) { component = gameObject->AddComponent<MasteryManager>(); }
 		return component;
 	}
 	
@@ -432,6 +439,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "InitMesh") {
 			if ((int)argv.size() < 1) { return; }
 			component->InitMesh(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetIsStatic") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetIsStatic(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		return;
@@ -787,6 +799,12 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
+	if (componentName == "MasteryManager") {
+		MasteryManager* component = gameObject->GetComponent<MasteryManager>();
+		if (component == nullptr) { return; }
+		return;
+	}
+	
 	if (componentName == "ShadyCamera") {
 		ShadyCamera* component = gameObject->GetComponent<ShadyCamera>();
 		if (component == nullptr) { return; }
@@ -1016,6 +1034,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SubscribeToParentSwitch") {
 			if ((int)argv.size() < 0) { return; }
 			component->SubscribeToParentSwitch();
+			return;
+		}
+		if (propertyName == "SetMoneyValue") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetMoneyValue(StringUtilities::ConvertStringToInt(argv[0]));
 			return;
 		}
 		return;

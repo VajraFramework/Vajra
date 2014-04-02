@@ -6,6 +6,7 @@
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/Lighting/AmbientLighting.h"
 #include "Vajra/Engine/Lighting/ShadowMap.h"
+#include "Vajra/Engine/SceneGraph/RenderList.h"
 #include "Vajra/Engine/SceneGraph/RenderLists.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
@@ -34,125 +35,14 @@ bool CompareTrGos_perspective(TrGo t1, TrGo t2) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class RenderList {
-public:
-	RenderList(std::string shaderName_);
-
-	void Prepare();
-	void Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out);
-
-	void Draw_one_gameobject(GameObject* gameObject);
-
-	inline std::string GetShaderName() { return this->shaderName; }
-	void AddGameObjectId(ObjectIdType id);
-	void RemoveGameObjectId(ObjectIdType id);
-
-	bool IsDepthPass();
-
-private:
-	std::string shaderName;
-	std::vector<ObjectIdType> gameObjectIds;
-};
-
-RenderList::RenderList(std::string shaderName_) {
-	this->shaderName = shaderName_;
-}
-
-void RenderList::AddGameObjectId(ObjectIdType id) {
-	// TODO [Implement] Make sure there are no duplicates
-	// TODO [Implement] Keep this sorted so that insertions w/o duplicates and deletions are faster
-	this->gameObjectIds.push_back(id);
-}
-
-void RenderList::RemoveGameObjectId(ObjectIdType id) {
-	// TODO [Implement] Make sure there are no duplicates
-	// TODO [Implement] Keep this sorted so that insertions w/o duplicates and deletions are faster
-	auto id_it = std::find(this->gameObjectIds.begin(), this->gameObjectIds.end(), id);
-	if (id_it != this->gameObjectIds.end()) {
-		this->gameObjectIds.erase(id_it);
-	} else {
-		FRAMEWORK->GetLogger()->dbglog("\nTrying to remove game object id %d from renderlist %s. No such game object id", id, this->shaderName.c_str());
-	}
-}
-
-
-void RenderList::Prepare() {
-	FRAMEWORK->GetOpenGLWrapper()->SetCurrentShaderSet(this->GetShaderName());
-}
-
-bool RenderList::IsDepthPass() {
-	ShaderSet* shaderSet = FRAMEWORK->GetOpenGLWrapper()->GetShaderSetByName(this->GetShaderName());
-	VERIFY(shaderSet != nullptr, "Got shader set for renderlist with shader name, %s", this->GetShaderName().c_str());
-	return shaderSet->IsDepthPass();
-}
-
-void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out) {
-
-	if (!this->IsDepthPass()) {
-
-		// Pass the ambient lighting parameters to the shader:
-		ENGINE->GetAmbientLighting()->Draw();
-
-		// Pass the shadow map parameters to the shader:
-		ENGINE->GetShadowMap()->Draw();
-	}
-
-	for (ObjectIdType id : this->gameObjectIds) {
-		GameObject* gameObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
-		if (gameObject != nullptr) {
-			if (!gameObject->HasTransperancy() && !gameObject->IsOverlay()) {
-				this->Draw_one_gameobject(gameObject);
-
-			} else {
-
-				TrGo trgo;
-				trgo.gameobject = gameObject;
-				trgo.renderlist = this;
-				heap_gameobjectsWithTransperancy_out->push(trgo);
-
-			}
-		}
-	}
-}
-
-void RenderList::Draw_one_gameobject(GameObject* gameObject) {
-
-#if USING_FRUSTUM_CULLING
-	// TODO [Hack] This can go away when all renderers support getting their drawable bounds
-	// No frustum culling for scenegraph ui:
-	if (gameObject->GetParentSceneGraph() != (SceneGraph*)ENGINE->GetSceneGraphUi()) {
-		if (g_current_camera != nullptr) {
-			// TODO [Hack] Get tolerance radius from the model files instead, maybe
-			float toleranceRadius = 4.0f;
-			if (!g_current_camera->IsPointInFrustum(gameObject->GetTransform()->GetPositionWorld(), toleranceRadius)) {
-				return;
-			}
-		}
-	}
-#endif
-
-	// Switch off depth buffer for game objects that are supposed to be overlaid on top of everything:
-	if (!gameObject->IsOverlay()) {
-	} else {
-		glDisable(GL_DEPTH_TEST);
-	}
-
-	gameObject->Draw();
-
-	// Switch on switched off depth buffer:
-	if (!gameObject->IsOverlay()) {
-	} else {
-		glEnable(GL_DEPTH_TEST);
-	}
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 
 ////////////////////////////////////////////////////////////////////////////////
 
-RenderLists::RenderLists() {
-	this->init();
+RenderLists::RenderLists(SceneGraph* parentScenegraph) {
+	this->init(parentScenegraph);
 }
 
 RenderLists::~RenderLists() {
@@ -170,7 +60,7 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 	/*
 	 * Switch off blend for opaque objects:
 	 */
-    glDisable(GL_BLEND);
+    GLCALL(glDisable, GL_BLEND);
 
 	/*
 	 * We draw the scene in render-list-iterations
@@ -232,14 +122,14 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 	/*
 	 * Switch on blend for opaque objects:
 	 */
-    glEnable(GL_BLEND);
+    GLCALL(glEnable, GL_BLEND);
 	
 	{
 		// No transperant objects in depth pass:
 		if (!isDepthPass) {
 
 			// Also switch off WRITING to the depth buffer for drawing transperant objects:
-			glDepthMask(GL_FALSE);
+			GLCALL(glDepthMask, GL_FALSE);
 
 			while (!heap_gameobjectsWithTransperancy_out->empty()) {
 				TrGo trgo = heap_gameobjectsWithTransperancy_out->top();
@@ -258,13 +148,13 @@ void RenderLists::Draw(Camera* camera, DirectionalLight* directionalLight, std::
 					additionalLight->WriteLightPropertiesToShader();
 				}
 
-				trgo.renderlist->Draw_one_gameobject(trgo.gameobject);
+				trgo.renderlist->Draw_one_gameobject(trgo.gameobject, g_current_camera);
 
 				heap_gameobjectsWithTransperancy_out->pop();
 			}
 
 			// Switch WRITING to the depth buffer back on:
-			glDepthMask(GL_TRUE);
+			GLCALL(glDepthMask, GL_TRUE);
 		}
 	}
 
@@ -290,10 +180,12 @@ bool RenderLists::PrepareCurrentRenderList() {
 void RenderLists::RenderGameObjectsInCurrentList(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out) {
 
 	ASSERT(this->currentRenderListIdx < this->renderLists.size(), "\nCurrent render list idx is valid");
-	this->renderLists[this->currentRenderListIdx]->Draw(heap_gameobjectsWithTransperancy_out);
+	this->renderLists[this->currentRenderListIdx]->Draw(heap_gameobjectsWithTransperancy_out, g_current_camera);
 }
 
-void RenderLists::init() {
+void RenderLists::init(SceneGraph* parentScenegraph) {
+	this->parentScenegraphRef = parentScenegraph;
+
 	this->currentRenderListIdx = 0;
 	this->createRenderLists();
 }
@@ -366,9 +258,21 @@ void RenderLists::createRenderLists() {
 	FRAMEWORK->GetOpenGLWrapper()->GetAllAvailableShaderNames(shaderNames);
 
 	for (std::string shaderName : shaderNames) {
-		RenderList* newRenderList = new RenderList(shaderName);
+		RenderList* newRenderList = new RenderList(shaderName, this->parentScenegraphRef);
 		this->renderLists.push_back(newRenderList);
 	}
 
 	FRAMEWORK->GetLogger()->dbglog("\nCreated %d render lists", this->renderLists.size());
+}
+
+void RenderLists::createStaticRenderBatches() {
+#if USING_STATIC_RENDER_BATCHING
+	/*
+	 * Go through all the render lists and batch together objects in the same render list
+	 * that are marked static
+	 */
+	for (RenderList* renderList : this->renderLists) {
+		renderList->createStaticRenderBatch();
+	}
+#endif
 }
