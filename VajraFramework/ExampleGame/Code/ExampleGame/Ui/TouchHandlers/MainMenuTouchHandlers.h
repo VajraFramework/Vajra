@@ -22,11 +22,18 @@ private:
 	void parallaxScroll(UiObject* parallaxRoot, float touchX, bool touchEnd = false);
 	void scrollToCurrentMission();
 
+	void openStartMenu();
+	void openContractMenu();
+	void openMissionMenu();
+
+	void goBackOneMenu();
+
 	int currentMission;
 
 	std::vector<std::vector<UiObject*>> currentLevelButtons;
 	UiElement* missionRoot;
-
+	UiElement* contractRoot;
+	UiElement* parallaxRoot;
 	float startTouchX;
 	float currentScreenX;
 

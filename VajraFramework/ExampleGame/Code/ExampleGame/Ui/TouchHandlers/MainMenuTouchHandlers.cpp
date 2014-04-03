@@ -23,7 +23,8 @@
 #define START_MENU "startMenu"
 #define OPTIONS_MENU "optionsMenu"
 #define MISSION_MENU "missionMenu"
-#define PARALLAX "parallax"
+#define CONTRACT "contractRoot"
+#define PARALLAX "parallaxRoot"
 #define PARALLAX_FRONT "parallaxFront"
 #define PARALLAX_MIDDLE "parallaxMid"
 #define PARALLAX_BACK "parallaxBack"
@@ -65,8 +66,23 @@ void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch)
 }
 
 void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
-	ASSERT(this->missionRoot != nullptr, "The mission root is not null");
-	if(this->missionRoot != nullptr && this->missionRoot->IsVisible()) {
+	if(uiObject->GetName() == "backMenuButton") {
+		this->goBackOneMenu();
+		return;
+	}
+
+	// Contract Selection
+	ASSERT(this->contractRoot != nullptr, "The contractRoot root is not null");
+	if(this->contractRoot != nullptr && this->contractRoot->IsVisible()) {
+		if (uiObject->GetName() == "contractOne") {
+			this->openMissionMenu();
+		} else if (uiObject->GetName() == "contractTwo") {
+			this->openMissionMenu();
+		}
+	}
+	// Level Selection
+	ASSERT(this->parallaxRoot != nullptr, "The parallaxRoot root is not null");
+	if(this->parallaxRoot != nullptr && this->parallaxRoot->IsVisible()) {
 		if(uiObject->GetName() == PARALLAX) {
 			float xDiff = touch.pos.x - touch.prevPos.x;
 			this->parallaxScroll(uiObject, xDiff, true);
@@ -83,11 +99,12 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 			}
 		}
 	}
+
+
+	// Main Menu and Options
 	if (uiObject->GetName() == "play") {
-		UiElement* preMenuBackground = (UiElement*)ObjectRegistry::GetObjectByName(START_MENU);
-		preMenuBackground->SetVisible(false);
-		this->missionRoot->SetVisible(true);	
-		this->scrollToCurrentMission();
+		this->openContractMenu();
+		//this->scrollToCurrentMission();
 		
 	} else if(uiObject->GetName() == "options") {
 		UiObject* startMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[START_MENU]);
@@ -216,12 +233,13 @@ void MainMenuTouchHandlers::scrollToCurrentMission() {
 			this->currentLevelButtons[j][i]->SetVisible(false);
 		}
 	}
-	UiObject* parallaxRoot = (UiObject*)ObjectRegistry::GetObjectByName(PARALLAX);
-	this->parallaxScroll(parallaxRoot, 0, true);
+	this->parallaxScroll(this->parallaxRoot, 0, true);
 	
 }
 void MainMenuTouchHandlers::createMissionMenu() {
 	this->missionRoot = (UiElement*)ObjectRegistry::GetObjectByName("missionMenu");
+	this->contractRoot = (UiElement*)ObjectRegistry::GetObjectByName(CONTRACT);
+	this->parallaxRoot = (UiElement*)ObjectRegistry::GetObjectByName(PARALLAX);
 	
 	std::vector<UiObject*> parallaxScreens;
 	UiObject* pScreen = (UiObject*)ObjectRegistry::GetObjectByName(PARALLAX_FRONT);
@@ -240,8 +258,7 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		this->currentLevelButtons.push_back(levelPips);
 		for(int i = 0; i < SINGLETONS->GetLevelManager()->GetNumLevelsInMission(j); i++) {
 			UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
-			ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(uiElement->GetId());
-			this->missionRoot->AddChild(uiElement->GetId());
+			this->parallaxRoot->AddChild(uiElement->GetId());
 			std::vector<std::string> imagePaths;
 			imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelection_Level1_Marker.png");
 			uiElement->InitSprite(67, 118, "ustshdr", imagePaths, true);
@@ -261,8 +278,6 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		}
 	}
 }
-
-
 
 int getSpriteIndexForSettingLevel(SettingLevel_t settingLevel) {
 	switch (settingLevel) {
@@ -348,3 +363,31 @@ void MainMenuTouchHandlers::applySettings() {
 		}
 	}
 }
+
+void MainMenuTouchHandlers::openStartMenu() {
+	UiElement* preMenuBackground = (UiElement*)ObjectRegistry::GetObjectByName(START_MENU);
+	preMenuBackground->SetVisible(true);
+	this->missionRoot->SetVisible(false);
+}
+void MainMenuTouchHandlers::openContractMenu() {
+	UiElement* preMenuBackground = (UiElement*)ObjectRegistry::GetObjectByName(START_MENU);
+	preMenuBackground->SetVisible(false);
+	this->missionRoot->SetVisible(true);
+	this->parallaxRoot->SetVisible(false);
+
+}
+void MainMenuTouchHandlers::openMissionMenu() {
+	UiElement* preMenuBackground = (UiElement*)ObjectRegistry::GetObjectByName(START_MENU);
+	preMenuBackground->SetVisible(false);
+	this->missionRoot->SetVisible(true);
+	this->contractRoot->SetVisible(false);
+}
+
+void MainMenuTouchHandlers::goBackOneMenu() {
+	if(this->contractRoot->IsVisible()) {
+		this->openStartMenu();
+	} else {
+		this->openContractMenu();
+	}
+}
+
