@@ -8,6 +8,8 @@ attribute vec4 boneWeights
 uniform mat4 mvpMatrix
 uniform mat4 modelMatrix
 uniform mat4 vpMatrix
+uniform mat4 viewMatrix
+uniform mat4 projectionMatrix
 uniform mat4 modelInverseTransposeMatrix
 varying vec4 vNormal_out
 varying vec2 uvCoords_out
@@ -37,14 +39,17 @@ varying vec4 MaterialSpecularColor_out
 
 
 uniform vec4 AdditionalLight0Direction
+varying vec4 AdditionalLight0Direction_tangentspace
 uniform vec4 AdditionalLight0Ambient
 uniform vec4 AdditionalLight0Diffuse
 
 uniform vec4 AdditionalLight1Direction
+varying vec4 AdditionalLight1Direction_tangentspace
 uniform vec4 AdditionalLight1Ambient
 uniform vec4 AdditionalLight1Diffuse
 
 uniform vec4 AdditionalLight2Direction
+varying vec4 AdditionalLight2Direction_tangentspace
 uniform vec4 AdditionalLight2Ambient
 uniform vec4 AdditionalLight2Diffuse
 
@@ -66,3 +71,15 @@ varying vec4 ShadowCoord
 uniform float scrolling_uv_offset
 uniform sampler2D secondaryTexture
 
+attribute vec4 vTangent
+attribute vec4 vBitangent
+uniform sampler2D normalMap
+
+varying vec4 LightDirection_cameraspace
+varying vec4 EyeDirection_cameraspace
+
+varying vec3 LightDirection_tangentspace
+
+varying vec4 vTangent_out
+varying vec4 vBitangent_out
+varying mat4 TBNmatrix

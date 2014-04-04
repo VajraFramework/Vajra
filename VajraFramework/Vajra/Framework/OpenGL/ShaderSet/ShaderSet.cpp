@@ -123,6 +123,16 @@ void ShaderSet::createVShader() {
 
     std::string vshaderSourceBuffer;
 
+    ReadTextFileTillStringToken(vshader_cleanedupSource, VERBATIM_REGION_STRING);
+    {
+		do {
+			std::getline(vshader_cleanedupSource, buffer);
+			if (buffer != "" && buffer != VERBATIM_REGION_END_STRING) {
+				vshaderSourceBuffer += buffer + "\n";
+			}
+		} while (buffer != VERBATIM_REGION_END_STRING && vshader_cleanedupSource.good());
+    }
+
     ReadTextFileTillStringToken(vshader_cleanedupSource, VARIABLES_STRING);
     {
 		do {

@@ -45,8 +45,10 @@ depthTextureSampler
 ShadowCoord
 #endif
 
-scrolling_uv_offset
-secondaryTexture
+normalMap
+LightDirection_tangentspace
+vTangent_out
+vBitangent_out
 
 __VARIABLES_END__
 
@@ -73,23 +75,29 @@ vec2 pcf3 = vec2(0.5, -1.5) / PCF_DIVIDE;
 
 void main()
 {
+
+
 #ifdef PER_PIXEL_LIGHTING
-	float cosTheta = clamp( dot( vNormal_out, -1.0 * DLight0Direction_out ), 0.0, 1.0 );
+
+	// Local normal, in tangent space. V tex coordinate is inverted because normal map is in TGA (not in DDS) for better quality
+	vec4 TextureNormal_tangentspace = vec4( normalize(texture2D( normalMap, vec2(uvCoords_out) ).rgb*2.0 - 1.0), 0.0);
+
+	float cosTheta = clamp( dot( TextureNormal_tangentspace, -1.0 * DLight0Direction_out ), 0.0, 1.0 );
 	vec4 lightIntensity = DLight0DiffuseColor_out * cosTheta;
 	lightIntensity = lightIntensity + DLight0AmbientColor_out;
 	// Temp using variables:
 	lightIntensity = lightIntensity + DLight0SpecularColor_out;
 
 #ifdef ADDITIONAL_LIGHTS
-	cosTheta = clamp( dot( vNormal_out, AdditionalLight0Direction_tangentspace ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_tangentspace, AdditionalLight0Direction_tangentspace ), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight0Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight0Ambient;
 	//
-	cosTheta = clamp( dot( vNormal_out, AdditionalLight1Direction_tangentspace ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_tangentspace, AdditionalLight1Direction_tangentspace ), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight1Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight1Ambient;
 	//
-	cosTheta = clamp( dot( vNormal_out, AdditionalLight2Direction_tangentspace ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_tangentspace, AdditionalLight2Direction_tangentspace ), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight2Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight2Ambient;
 #endif
@@ -98,11 +106,11 @@ void main()
 
 	vec4 finalColor = vec4(1.0, 0.0, 0.0, 1.0);;
 
-	vec2 scrolled_uvs_1 = vec2(uvCoords_out.x + sin(gl_FragCoord.x / 20.0) / 10.0, uvCoords_out.y + scrolling_uv_offset);
-	vec2 scrolled_uvs_2 = vec2(uvCoords_out.x + cos(gl_FragCoord.x / 7.0) / 20.0, uvCoords_out.y + scrolling_uv_offset);
+
+
 
 #ifdef BAKED_AMBIENT_LIGHTING
-	vec4 color_temp = vec4(texture2D(myTextureSampler, scrolled_uvs_1).rgba) * lightIntensity * 0.6 + vec4(texture2D(secondaryTexture, scrolled_uvs_2).rgba) * lightIntensity * 0.4;
+	vec4 color_temp = vec4(texture2D(myTextureSampler, uvCoords_out).rgba) * lightIntensity;
 
 	vec2 uv_into_bakedmap = modelCoordsForBakedAmbientLookup_out.xz;
 	// Adjust uv into bakedmap according to the size of exported map:
@@ -119,12 +127,12 @@ void main()
 	// }
 	finalColor = color_temp - down_ambient_intensity_at_point * baked_ambient_intensity + up_ambient_intensity_at_point * baked_ambient_intensity;
 #else
-	finalColor = vec4(texture2D(myTextureSampler, scrolled_uvs).rgba) * lightIntensity;
+	finalColor = vec4(texture2D(myTextureSampler, uvCoords_out).rgba) * lightIntensity;
 #endif
-	
+
 #ifdef SHADOWMAPS_REALTIME
 	float visibility = 1.0;
-	float bias = 0.002;
+	float bias = 0.004;
 	float fragment_depth = ShadowCoord.z / ShadowCoord.w - bias;
 	float depth_value = 0.0;
 
@@ -169,7 +177,10 @@ void main()
 
 
 	visibility = clamp(visibility + 0.5, 0.0, 1.0);
-	finalColor = finalColor * (visibility + 0.0); // + finalColor;
+	finalColor = finalColor * visibility;
+
+	// finalColor = finalColor * 0.001 + TextureNormal_tangentspace;
+	// finalColor = finalColor * 0.001 + vTangent_out * 1.0;
 
 #endif
 

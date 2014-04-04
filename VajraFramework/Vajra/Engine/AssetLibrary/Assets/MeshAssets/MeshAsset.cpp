@@ -223,7 +223,6 @@ void MeshAsset::Draw() {
     return;
 }
 
-
 void MeshAsset::init() {
     this->boneIndices = nullptr;
     this->boneWeights = nullptr;

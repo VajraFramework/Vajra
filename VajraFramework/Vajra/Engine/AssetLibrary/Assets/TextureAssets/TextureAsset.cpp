@@ -67,6 +67,13 @@ void TextureAsset::Draw(GLint drawAsTextureUnit) {
 			GLCALL(glActiveTexture, GL_TEXTURE3);
 			GLCALL(glBindTexture, GL_TEXTURE_2D, this->textureGLHandle);
 			GLCALL(glUniform1i, textureHandle, drawAsTextureUnit);
+
+		} else if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_normalMap)) {
+			GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_normalMap);
+
+			GLCALL(glActiveTexture, GL_TEXTURE3);
+			GLCALL(glBindTexture, GL_TEXTURE_2D, this->textureGLHandle);
+			GLCALL(glUniform1i, textureHandle, drawAsTextureUnit);
 		}
 	} break;
 

@@ -17,6 +17,8 @@ public:
 protected:
 	GLuint vboPositions;
 	GLuint vboNormals;
+	GLuint vboTangents;
+	GLuint vboBitangents;
 	GLuint vboTextureCoords;
 	//
 	GLuint vboIndices;
@@ -25,6 +27,8 @@ protected:
 
 	glm::vec3* vertices;
 	glm::vec3* normals;
+	glm::vec3* tangents;
+	glm::vec3* bitangents;
 	glm::vec2* textureCoords;
 	//
 	std::vector<unsigned int> indices;
@@ -41,6 +45,8 @@ protected:
 private:
 	void init();
 	void destroy();
+
+	void computeTangentsAndBitangents();
 
 };
 

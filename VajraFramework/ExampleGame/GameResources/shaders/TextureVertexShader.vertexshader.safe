@@ -13,7 +13,6 @@ LightDirection_cameraspace
 LightDirection_tangentspace
 vTangent_out
 vBitangent_out
-TBNmatrix
 
 uvCoords_in
 uvCoords_out
@@ -113,13 +112,6 @@ void main()
 	vec4 vTangent_cameraspace = model_view_matrix * vTangent;
 	vec4 vBitangent_cameraspace = model_view_matrix * vBitangent;
 	vec4 vNormal_cameraspace = model_view_matrix * vNormal;
-
-	TBNmatrix = (mat4(
-		transpose(modelMatrix) * normalize(vTangent),
-		transpose(modelMatrix) * normalize(vBitangent),
-		transpose(modelMatrix) * normalize(vNormal),
-		vec4(0.0, 0.0, 0.0, 1.0)
-	));
 
 	mat3 TBN_inv = transpose(mat3(
 		vTangent_cameraspace,

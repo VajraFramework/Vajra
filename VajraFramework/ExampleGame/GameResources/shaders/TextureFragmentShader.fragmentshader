@@ -29,13 +29,13 @@ baked_ambient_intensity
 
 
 #ifdef ADDITIONAL_LIGHTS
-AdditionalLight0Direction
+AdditionalLight0Direction_tangentspace
 AdditionalLight0Ambient
 AdditionalLight0Diffuse
-AdditionalLight1Direction
+AdditionalLight1Direction_tangentspace
 AdditionalLight1Ambient
 AdditionalLight1Diffuse
-AdditionalLight2Direction
+AdditionalLight2Direction_tangentspace
 AdditionalLight2Ambient
 AdditionalLight2Diffuse
 #endif
@@ -44,6 +44,12 @@ AdditionalLight2Diffuse
 depthTextureSampler
 ShadowCoord
 #endif
+
+normalMap
+LightDirection_tangentspace
+vTangent_out
+vBitangent_out
+TBNmatrix
 
 __VARIABLES_END__
 
@@ -70,23 +76,29 @@ vec2 pcf3 = vec2(0.5, -1.5) / PCF_DIVIDE;
 
 void main()
 {
+
+
 #ifdef PER_PIXEL_LIGHTING
-	float cosTheta = clamp( dot( vNormal_out, -1.0 * DLight0Direction_out ), 0.0, 1.0 );
+
+	// Local normal, in tangent space. V tex coordinate is inverted because normal map is in TGA (not in DDS) for better quality
+	vec4 TextureNormal_tangentspace = (TBNmatrix * vec4( texture2D( normalMap, vec2(uvCoords_out) ).rgb*2.0 - 1.0, 0.0));
+
+	float cosTheta = clamp( dot( TextureNormal_tangentspace, DLight0Direction_out ), 0.0, 1.0 );
 	vec4 lightIntensity = DLight0DiffuseColor_out * cosTheta;
 	lightIntensity = lightIntensity + DLight0AmbientColor_out;
 	// Temp using variables:
 	lightIntensity = lightIntensity + DLight0SpecularColor_out;
 
 #ifdef ADDITIONAL_LIGHTS
-	cosTheta = clamp( dot( vNormal_out, AdditionalLight0Direction ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_tangentspace, AdditionalLight0Direction_tangentspace ), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight0Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight0Ambient;
 	//
-	cosTheta = clamp( dot( vNormal_out, AdditionalLight1Direction ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_tangentspace, AdditionalLight1Direction_tangentspace ), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight1Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight1Ambient;
 	//
-	cosTheta = clamp( dot( vNormal_out, AdditionalLight2Direction ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_tangentspace, AdditionalLight2Direction_tangentspace ), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight2Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight2Ambient;
 #endif
@@ -94,6 +106,9 @@ void main()
 
 
 	vec4 finalColor = vec4(1.0, 0.0, 0.0, 1.0);;
+
+
+
 
 #ifdef BAKED_AMBIENT_LIGHTING
 	vec4 color_temp = vec4(texture2D(myTextureSampler, uvCoords_out).rgba) * lightIntensity;
@@ -115,7 +130,7 @@ void main()
 #else
 	finalColor = vec4(texture2D(myTextureSampler, uvCoords_out).rgba) * lightIntensity;
 #endif
-	
+
 #ifdef SHADOWMAPS_REALTIME
 	float visibility = 1.0;
 	float bias = 0.004;
@@ -164,6 +179,10 @@ void main()
 
 	visibility = clamp(visibility + 0.5, 0.0, 1.0);
 	finalColor = finalColor * visibility;
+
+	// finalColor = finalColor * 0.001 + TextureNormal_tangentspace;
+	// finalColor = finalColor * 0.001 + vTangent_out * 1.0;
+	// finalColor = finalColor * 0.001 + vNormal_out * 1.0;
 
 #endif
 

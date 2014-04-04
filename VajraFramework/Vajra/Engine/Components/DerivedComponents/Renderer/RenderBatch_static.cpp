@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 
@@ -123,6 +124,10 @@ void RenderBatch_static::CreateRenderBatchFromMeshes(std::vector<ObjectIdType> s
 }
 
 void RenderBatch_static::makeVBOs() {
+
+    // TODO [Hack] Read this from the model file:
+    // this->materialRef->SetNormalMapFilePath(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_EnviroAtlas_01_NRM.png");
+    // this->materialRef->SetNormalMapFilePath(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "blue.png");
 
 	SimpleMesh::makeVBOs();
 

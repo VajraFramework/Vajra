@@ -23,10 +23,14 @@ public:
 	inline void SetDiffuseColor (glm::vec4 color) { this->diffuseColor  = color; }
 	inline void SetSpecularColor(glm::vec4 color) { this->specularColor = color; }
 
-	inline bool HasTexture() { return (this->textureAsset != nullptr); }
+	inline bool HasTexture()   { return (this->diffuseTextureAsset != nullptr); }
+	inline bool HasNormalMap() { return (this->normalTextureAsset  != nullptr); }
 
 	void SetTextureFilePath(std::string filePath);
-	inline std::shared_ptr<TextureAsset>& GetTextureAsset() { return this->textureAsset; }
+	inline std::shared_ptr<TextureAsset>& GetTextureAsset() { return this->diffuseTextureAsset; }
+
+	void SetNormalMapFilePath(std::string filePath);
+	inline std::shared_ptr<TextureAsset>& GetNormalMapTextureAsset() { return this->normalTextureAsset; }
 
 	void WriteMaterialToShader();
 
@@ -38,7 +42,8 @@ private:
 	glm::vec4 diffuseColor;
 	glm::vec4 specularColor;
 
-	std::shared_ptr<TextureAsset> textureAsset;
+	std::shared_ptr<TextureAsset> diffuseTextureAsset;
+	std::shared_ptr<TextureAsset> normalTextureAsset;
 };
 
 #endif // MATERIAL_H

@@ -1,13 +1,18 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/RenderScene/RenderScene.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/RenderLists.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLWrapper/OpenGLWrapper.h"
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
+
+#include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
+#include "Vajra/Engine/Lighting/ShadowMap.h"
 
 SceneGraph3D::SceneGraph3D() : SceneGraph() {
 }
@@ -41,6 +46,20 @@ void SceneGraph3D::AddAdditionalLightId(ObjectIdType id) {
 
 void SceneGraph3D::update() {
 	// TODO [Implement] Figure out if we need to put anything here
+	if (this->GetMainDirectionalLight() != nullptr) {
+		GameObject* dlight = this->GetGameObjectById(this->GetMainDirectionalLight()->GetObject()->GetId());
+		if (dlight != nullptr) {
+			dlight->GetTransform()->Rotate(10.0f * ENGINE->GetTimer()->GetDeltaFrameTime() inRadians, YAXIS);
+
+			DebugDraw::DrawArrow(dlight->GetTransform()->GetPosition(), dlight->GetTransform()->GetForward(), 2.0f);
+
+			Camera* depthCamera = ENGINE->GetShadowMap()->GetDepthCamera();
+			if (depthCamera != nullptr) {
+				GameObject* depthCameraObject = (GameObject*)depthCamera->GetObject();
+				DebugDraw::DrawArrow(depthCameraObject->GetTransform()->GetPosition(), depthCameraObject->GetTransform()->GetForward(), 2.0f);
+			}
+		}
+	}
 }
 
 void SceneGraph3D::draw() {

@@ -1,3 +1,6 @@
+__VERBATIM__
+__VERBATIM_END__
+
 __VARIABLES__
 vPosition
 vNormal
@@ -6,13 +9,21 @@ uvCoords_in
 uvCoords_out
 
 modelMatrix
-vpMatrix
+viewMatrix
+projectionMatrix
 
 #ifdef PER_PIXEL_LIGHTING
 vNormal_out
 #else
 lightIntensity
 #endif
+
+vTangent
+vTangent_out
+vBitangent
+vBitangent_out
+LightDirection_tangentspace
+TBNmatrix
 
 modelInverseTransposeMatrix
 
@@ -27,6 +38,17 @@ DLight0AmbientColor_out
 DLight0DiffuseColor_out
 DLight0SpecularColor_out
 #endif
+
+#ifdef ADDITIONAL_LIGHTS
+AdditionalLight0Direction
+AdditionalLight0Direction_tangentspace
+AdditionalLight1Direction
+AdditionalLight1Direction_tangentspace
+AdditionalLight2Direction
+AdditionalLight2Direction_tangentspace
+#endif
+
+
 
 boneIndices
 boneWeights
@@ -88,11 +110,35 @@ void main()
 
 	float yAmt = gl_Position.y;
 	vec4 skewed_position = (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
-	gl_Position = vpMatrix * skewed_position;
+	gl_Position = projectionMatrix * viewMatrix * skewed_position;
 #ifdef SHADOWMAPS_REALTIME
 	ShadowCoord = depthBiasMVPMatrix * skewed_position;
 #endif
 
+	// Normal mapping stuff:
+	// Debug
+	vTangent_out = vTangent;
+	vBitangent_out = vBitangent;
+	//
+	//
+	// model to camera = ModelView
+	mat4 model_view_matrix = viewMatrix * modelMatrix;
+	vec4 vTangent_cameraspace = model_view_matrix * vTangent;
+	vec4 vBitangent_cameraspace = model_view_matrix * vBitangent;
+	vec4 vNormal_cameraspace = model_view_matrix * vNormal;
+	//
+	TBNmatrix = (mat4(
+		vTangent_cameraspace,
+		vBitangent_cameraspace,
+		vNormal_cameraspace,
+		vec4(0.0, 0.0, 0.0, 1.0)
+	));
+
+	LightDirection_tangentspace = vec3(DLight0Direction);
+
+	AdditionalLight0Direction_tangentspace = AdditionalLight0Direction;
+	AdditionalLight1Direction_tangentspace = AdditionalLight1Direction;
+	AdditionalLight2Direction_tangentspace = AdditionalLight2Direction;
 
 #ifdef PER_PIXEL_LIGHTING
 	vNormal_out = modelInverseTransposeMatrix * vNormal;
