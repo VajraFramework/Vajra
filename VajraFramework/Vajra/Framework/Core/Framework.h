@@ -6,6 +6,7 @@ class DeviceProperties;
 class FileSystemUtils;
 class Logger;
 class OpenGLWrapper;
+class SavedDataManager;
 class Settings;
 
 class Framework {
@@ -16,6 +17,7 @@ public:
     inline DeviceProperties* GetDeviceProperties() { return this->deviceProperties; }
     inline FileSystemUtils*  GetFileSystemUtils()  { return this->fileSystemUtils;  }
 	inline OpenGLWrapper*    GetOpenGLWrapper()    { return this->openGLWrapper;    }
+	inline SavedDataManager* GetSavedDataManager() { return this->savedDataManager; }
 	inline Settings*         GetSettings()         { return this->settings;         }
 
 private:
@@ -30,6 +32,7 @@ private:
 	DeviceProperties* deviceProperties;
     FileSystemUtils* fileSystemUtils;
 	OpenGLWrapper* openGLWrapper;
+	SavedDataManager* savedDataManager;
 	Settings* settings;
 };
 

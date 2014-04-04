@@ -44,6 +44,17 @@ std::string StringUtilities::ConvertIntToString(int number) {
 	return resultString;
 }
 
+std::string StringUtilities::ConvertFloatToString(float number) {
+	char buffer[20];
+	sprintf(buffer, "%f", number);
+	std::string resultString = buffer;
+	return resultString;
+}
+
+std::string StringUtilities::ConvertBoolToString(bool expression) {
+	return expression ? "true" : "false";
+}
+
 std::vector<std::string> StringUtilities::SplitStringIntoTokensOnDelimiter(std::string& s, char delimiter, bool removeWhiteSpace /* = false */) {
 	std::vector<std::string> tokens;
 	std::istringstream iss(s);
