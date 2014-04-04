@@ -451,12 +451,7 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ, 
 	if (!didUnitsCollide) {
 		// Move the unit to the destination cell
 		if (startCell != nullptr) {
-			for (int y = 0; y < NUM_ELEVATIONS; ++y) {
-				if (startCell->GetOccupantIdAtElevation(y) == id) {
-					startCell->SetOccupantIdAtElevation(OBJECT_ID_INVALID, y);
-					break;
-				}
-			}
+			startCell->SetOccupantIdAtElevation(OBJECT_ID_INVALID, gNav->GetElevation());
 		}
 		if (destCell != nullptr) {
 			destCell->SetOccupantIdAtElevation(id, elevation);
@@ -490,12 +485,7 @@ void GridManager::gridCellEnterAttackHandler(ObjectIdType id, int gridX, int gri
 
 	// Move the unit to the destination cell
 	if (startCell != nullptr) {
-		for (int y = 0; y < NUM_ELEVATIONS; ++y) {
-			if (startCell->GetOccupantIdAtElevation(y) == id) {
-				startCell->SetOccupantIdAtElevation(OBJECT_ID_INVALID, y);
-				break;
-			}
-		}
+		startCell->SetOccupantIdAtElevation(OBJECT_ID_INVALID, gNav->GetElevation());
 	}
 	if (destCell != nullptr) {
 		destCell->SetOccupantIdAtElevation(id, elevation);
