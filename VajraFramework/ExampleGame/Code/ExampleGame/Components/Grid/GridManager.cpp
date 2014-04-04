@@ -461,7 +461,7 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ, 
 		if (destCell != nullptr) {
 			destCell->SetOccupantIdAtElevation(id, elevation);
 		}
-		gNav->SetCurrentCell(destCell);
+		gNav->SetCurrentCellAndElevation(destCell, elevation);
 
 		this->CheckZoneCollisions(id, startCell, destCell);
 		this->checkRoomCollisions(id, startCell, destCell);
@@ -500,7 +500,7 @@ void GridManager::gridCellEnterAttackHandler(ObjectIdType id, int gridX, int gri
 	if (destCell != nullptr) {
 		destCell->SetOccupantIdAtElevation(id, elevation);
 	}
-	gNav->SetCurrentCell(destCell);
+	gNav->SetCurrentCellAndElevation(destCell, elevation);
 	this->CheckZoneCollisions(id, startCell, destCell);
 	this->checkRoomCollisions(id, startCell, destCell);
 }

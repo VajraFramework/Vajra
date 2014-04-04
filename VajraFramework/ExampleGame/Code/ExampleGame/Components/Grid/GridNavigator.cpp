@@ -46,6 +46,7 @@ void GridNavigator::init() {
 	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
 
 	this->currentCell = nullptr;
+	this->currentElevation = 0;
 	this->isTraveling = false;
 	this->isTurning = false;
 	this->movementSpeed = 1.0f;
@@ -89,19 +90,28 @@ void GridNavigator::HandleMessage(MessageChunk messageChunk) {
 }
 
 void GridNavigator::SetGridPosition(int x, int z) {
+	this->SetGridPosition(x, z, -1);
+}
+
+void GridNavigator::SetGridPosition(int x, int z, int elevation) {
 	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(x, z);
-	this->SetGridPosition(cell);
+	this->SetGridPosition(cell, elevation);
 }
 
-void GridNavigator::SetGridPosition(glm::vec3 loc) {
+void GridNavigator::SetGridPosition(glm::vec3 loc, int elevation/*= -1*/) {
 	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(loc);
-	this->SetGridPosition(cell);
+	this->SetGridPosition(cell, elevation);
 }
 
-void GridNavigator::SetGridPosition(GridCell* cell) {
+void GridNavigator::SetGridPosition(GridCell* cell, int elevation/*= -1*/) {
 	if (cell != nullptr) {
+		// If no elevation or an invalid elevation is specified, place the unit at the cell's ground elevation
+		glm::vec3 navPos = cell->center;
+		if ((elevation >= 0) && (elevation < NUM_ELEVATIONS)) {
+			navPos.y = SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(elevation);
+		}
 		Transform* myTransform = this->GetObject()->GetComponent<Transform>();
-		myTransform->SetPositionWorld(cell->center);
+		myTransform->SetPositionWorld(navPos);
 	}
 	if (this->currentCell != cell) {
 		this->changeCell(cell);
@@ -281,9 +291,8 @@ void GridNavigator::update() {
 void GridNavigator::recalculatePath() {
 	glm::vec3 pos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 	GridCell* actualCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(pos);
-	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(pos.y);
-	if (!this->canNavigateThroughCellAtElevation(actualCell, elevation, this->ignoreOccupantsForPathing)) {
-		// If the navigator isp in an impossible area, get to the nearest walkable area.
+	if (!this->canNavigateThroughCellAtElevation(actualCell, this->currentElevation, this->ignoreOccupantsForPathing)) {
+		// If the navigator is in an impossible area, get to the nearest walkable area.
 		goToNearestPassableCell();
 	}
 	else if (this->isTraveling) {
@@ -301,8 +310,6 @@ void GridNavigator::followPath() {
 
 	glm::vec3 worldPosition = trans->GetPositionWorld();
 	glm::vec3 tempLocation = worldPosition;
-
-	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(worldPosition.y);
 
 	while ((distToTravel > ROUNDING_ERROR) && (this->currentPath.size() > 0)) {
 		// Determine the target location.
@@ -322,7 +329,7 @@ void GridNavigator::followPath() {
 		GridCell* tempCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(tempLocation);
 		if (!this->ignoreEverything) {
 			while ((this->currentSegment.size() > 0) && (tempCell != targetCell)) {
-				if (this->canNavigateThroughCellAtElevation(this->currentSegment.front(), elevation, this->ignoreOccupantsForPathing)) {
+				if (this->canNavigateThroughCellAtElevation(this->currentSegment.front(), this->currentElevation, this->ignoreOccupantsForPathing)) {
 					tempCell = this->currentSegment.front();
 					this->currentSegment.pop_front();
 				}
@@ -401,10 +408,11 @@ void GridNavigator::updateFacing() {
 	}
 }
 
-void GridNavigator::changeCell(GridCell* goalCell) {
-	Transform* trans = this->GetObject()->GetComponent<Transform>();
-	glm::vec3 pos = trans->GetPositionWorld();
-	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(pos.y);
+void GridNavigator::changeCell(GridCell* goalCell, int elevation/*= -1*/) {
+	// If no elevation or an invalid elevation was specified, keep the navigator at its current elevation.
+	if ((elevation < 0) || (elevation >= NUM_ELEVATIONS)) {
+		elevation = this->currentElevation;
+	}
 
 	int gridX, gridZ;
 	if (goalCell != nullptr) {
@@ -439,9 +447,7 @@ float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std:
 	if ((startX == goalX) && (startZ == goalZ)) { return 0.0f; }
 
 	// Short-circuit if the elevations of the two cells are different.
-	float y = this->GetObject()->GetComponent<Transform>()->GetPositionWorld().y;
-	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(y);
-	if (!SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(goalCell->x, goalCell->z, elevation)) {
+	if (!SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(goalCell->x, goalCell->z, this->currentElevation)) {
 		return -1.0f;
 	}
 
@@ -488,7 +494,7 @@ float GridNavigator::calculatePath(GridCell* startCell, GridCell* goalCell, std:
 			auto closedIter = std::find(closedSet.begin(), closedSet.end(), neighbor);
 			if (closedIter != closedSet.end()) { continue; }
 
-			if (this->canNavigateThroughCellAtElevation(neighbor, elevation, ignoreCellOccupants)) {
+			if (this->canNavigateThroughCellAtElevation(neighbor, this->currentElevation, ignoreCellOccupants)) {
 				auto openIter = std::find(openSet.begin(), openSet.end(), neighbor);
 				float gScoreTentative = gScores[current] + actualTravelCost(current, neighbor);
 
@@ -524,7 +530,8 @@ bool GridNavigator::canNavigateThroughCellAtElevation(GridCell* cell, int elevat
 
 			// Does the cell have an occupant?
 			ObjectIdType occId = cell->GetOccupantIdAtElevation(elevation);
-			if(occId != OBJECT_ID_INVALID) {
+			// A unit never blocks its own movement, even if it can't pass through other units of the same type.
+			if ((occId != OBJECT_ID_INVALID) && (occId != this->GetObject()->GetId())) {
 				GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
 				if (occupant == nullptr) {
 						return true;
@@ -547,9 +554,6 @@ bool GridNavigator::canNavigateThroughCellAtElevation(GridCell* cell, int elevat
 
 void GridNavigator::simplifyPath(std::list<GridCell*>& outPath, bool ignoreCellOccupants/*= false*/) {
 	if (outPath.size() > 0) {
-		Transform* trans = this->gameObjectRef->GetTransform();
-		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(trans->GetPositionWorld().y);
-
 		auto startIter = outPath.begin();  // Iterator to first cell along current path segment
 		auto safeIter = startIter;         // Iterator to last known passable cell
 		auto nextIter = startIter;         // Iterator to next cell to be checked
@@ -564,7 +568,7 @@ void GridNavigator::simplifyPath(std::list<GridCell*>& outPath, bool ignoreCellO
 			bool isRouteClear = true;
 			for (auto iter = touchedCells.begin(); iter != touchedCells.end(); ++iter) {
 				if (*iter != *startIter) {
-					if (!this->canNavigateThroughCellAtElevation(*iter, elevation, ignoreCellOccupants)) {
+					if (!this->canNavigateThroughCellAtElevation(*iter, this->currentElevation, ignoreCellOccupants)) {
 						isRouteClear = false;
 						break;
 					}
@@ -600,18 +604,27 @@ void GridNavigator::setNextWaypoint() {
 void GridNavigator::goToNearestPassableCell() {
 	glm::vec3 pos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 	GridCell* actualCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(pos);
-	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(pos.y);
 	const float MAX_SEARCH_DISTANCE = 3.0f;
 	std::list<GridCell*> neighbors;
 	SINGLETONS->GetGridManager()->GetGrid()->GetNeighborCells(neighbors, actualCell, MAX_SEARCH_DISTANCE);
 
 	for (auto iter = neighbors.begin(); iter != neighbors.end(); ++iter) {
-		if (this->canNavigateThroughCellAtElevation(*iter, elevation, this->ignoreOccupantsForPathing)) {
+		if (this->canNavigateThroughCellAtElevation(*iter, this->currentElevation, this->ignoreOccupantsForPathing)) {
 			this->SetForcedDestination(*iter);
 			this->ignoreEverything = true;
 			break;
 		}
 	}
+}
+
+void GridNavigator::SetElevation(int elevation) {
+	ASSERT((elevation >= 0) && (elevation < NUM_ELEVATIONS), "Elevation %d is valid", elevation);
+	this->currentElevation = elevation;
+}
+
+void GridNavigator::SetCurrentCellAndElevation(GridCell* cell, int elevation) {
+	this->SetCurrentCell(cell);
+	this->SetElevation(elevation);
 }
 
 void GridNavigator::SetIsTraveling(bool isTraveling_) {

@@ -23,6 +23,7 @@ public:
 	static inline ComponentIdType GetTypeId()  { return componentTypeId;              }
 
 	inline GridCell* GetCurrentCell()          { return this->currentCell;            }
+	inline int GetElevation()                  { return this->currentElevation;       }
 	inline bool IsTraveling()                  { return this->isTraveling;            }
 	inline bool IsTurning()                    { return this->isTurning;              }
 	inline bool IsMoving()                     { return IsTraveling() || IsTurning(); }
@@ -38,16 +39,18 @@ public:
 	inline void SetTurnSpeedDegrees(float degreesPerSecond);
 	inline void SetTurnSpeedRadians(float /* radiansPerSecond */);
 	inline void SetCurrentCell(GridCell* cell) { this->currentCell = cell;            }
+	void SetElevation(int elevation);
+	void SetCurrentCellAndElevation(GridCell* cell, int elevation);
 	void SetIsTraveling(bool isTraveling_);
 	void SetMaxNavigableUnitType(UnitType uType);
 
 	//[[PROPERTY]]//
-	void SetGridPosition(int x, int z);   // Place the object at the indicated cell on the grid.
-	void SetGridPosition(glm::vec3 loc);  // Place the object at the cell at the indicated position
-	void SetGridPosition(GridCell* cell); // Place the object at the center of the indicated cell
+	void SetGridPosition(int x, int z);
+	void SetGridPosition(int x, int z,   int elevation);      // Place the object at the indicated cell on the grid.
+	void SetGridPosition(glm::vec3 loc,  int elevation = -1); // Place the object at the cell at the indicated position
+	void SetGridPosition(GridCell* cell, int elevation = -1); // Place the object at the center of the indicated cell
 
 	// Each of the following methods return true if a valid path can be found, false otherwise.
-	//[[PROPERTY]]//
 	bool SetDestination(int x, int z, bool ignoreCellOccupants = false);    // Set destination to the center of the designated cell
 	bool SetDestination(glm::vec3 loc, bool ignoreCellOccupants = false);   // Set destination to the designated world position
 	bool SetDestination(GridCell* cell, bool ignoreCellOccupants = false);  // Set destination to the center of the designated cell
@@ -93,7 +96,7 @@ private:
 	void followPath();
 	void updateFacing();
 
-	void changeCell(GridCell* goalCell);
+	void changeCell(GridCell* goalCell, int elevation = -1);
 
 	float calculatePath(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outPath, bool ignoreCellOccupants = false); // Calculates a path and returns its length. Returns -1 if no path found.
 	float travelCostEstimate(GridCell* startCell, GridCell* goalCell); // Estimated distance between two cells
@@ -106,6 +109,7 @@ private:
 	Transform* getTransform() { return this->gameObjectRef->GetTransform(); }
 
 	GridCell* currentCell;
+	int currentElevation;
 	std::list<GridCell*> currentPath;
 	std::list<GridCell*> currentSegment;
 	glm::vec3 targetForward;

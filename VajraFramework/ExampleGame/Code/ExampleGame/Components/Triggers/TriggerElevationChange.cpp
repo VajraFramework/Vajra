@@ -30,6 +30,7 @@ void elevationChangeTweenCallback(ObjectIdType gameObjectId, std::string /*tween
 			// Update the grid cells
 			if (!triggerComp->reversed) {
 				triggerComp->changeCellElevations(triggerComp->isToggled);
+				triggerComp->changePassengerElevations(triggerComp->isToggled);
 			}
 			triggerComp->setCellsInGridZonePassable(true);
 
@@ -241,6 +242,22 @@ void TriggerElevationChange::changeCellElevations(bool raised) {
 	for (int x = west; x <= east; ++x) {
 		for (int z = south; z <= north; ++z) {
 			grid->ChangeCellGroundLevel(x, z, diff);
+		}
+	}
+}
+
+void TriggerElevationChange::changePassengerElevations(bool raised) {
+	int diff;
+	if (raised) { diff =  this->elevationChange; }
+	else        { diff = -this->elevationChange; }
+
+	for (auto iter = this->unitsInZone.begin(); iter != this->unitsInZone.end(); ++iter) {
+		GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
+		if (gObj != nullptr) {
+			GridNavigator* gNav = gObj->GetComponent<GridNavigator>();
+			if (gNav != nullptr) {
+				gNav->SetElevation(gNav->GetElevation() + diff);
+			}
 		}
 	}
 }
