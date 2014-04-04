@@ -329,7 +329,7 @@ void GridNavigator::followPath() {
 		GridCell* tempCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(tempLocation);
 		if (!this->ignoreEverything) {
 			while ((this->currentSegment.size() > 0) && (tempCell != targetCell)) {
-				if (this->canNavigateThroughCellAtElevation(this->currentSegment.front(), this->currentElevation, this->ignoreOccupantsForPathing)) {
+				if ((this->currentSegment.front() == tempCell) || (this->canNavigateThroughCellAtElevation(this->currentSegment.front(), this->currentElevation, this->ignoreOccupantsForPathing))) {
 					tempCell = this->currentSegment.front();
 					this->currentSegment.pop_front();
 				}
