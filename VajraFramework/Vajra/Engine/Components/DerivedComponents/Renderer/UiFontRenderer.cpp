@@ -187,11 +187,11 @@ void UiFontRenderer::makeACharacter(int charIdxInAscii, int letterIdx, float wof
 	this->textureCoords[letterIdx * 4 + 3].y = hoffest_into_fontsheet + each_charheight_on_fontsheet;
 
 	this->indices[letterIdx * 6 + 0] = letterIdx * 4 + 0;
-	this->indices[letterIdx * 6 + 1] = letterIdx * 4 + 1;
-	this->indices[letterIdx * 6 + 2] = letterIdx * 4 + 2;
+	this->indices[letterIdx * 6 + 1] = letterIdx * 4 + 2;
+	this->indices[letterIdx * 6 + 2] = letterIdx * 4 + 1;
 	this->indices[letterIdx * 6 + 3] = letterIdx * 4 + 0;
-	this->indices[letterIdx * 6 + 4] = letterIdx * 4 + 2;
-	this->indices[letterIdx * 6 + 5] = letterIdx * 4 + 3;
+	this->indices[letterIdx * 6 + 4] = letterIdx * 4 + 3;
+	this->indices[letterIdx * 6 + 5] = letterIdx * 4 + 2;
 
 	return;
 }
