@@ -229,20 +229,21 @@ void MainMenuTouchHandlers::scrollToCurrentMission() {
 		}
 	}
 	for(ObjectIdType id : parallaxRoot->GetChildren()){
-		
+	
 		UiObject* object = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(id);
 		glm::vec3 pos = object->GetTransform()->GetPositionWorld();
-		float moveAmt = missionStartX[curMissionIndex] - pos.x;
+		float newX = missionStartX[curMissionIndex];
 		if(object->GetName() == PARALLAX_FRONT) {
 
 		} else if(object->GetName() == PARALLAX_MIDDLE) {
-			moveAmt *= .5f;
+			newX *= .5f;
 		} else if(object->GetName() == PARALLAX_BACK) {
-			moveAmt *= .25f;
+			newX *= .25f;
 		} else {
 			continue;
 		}
-		object->GetTransform()->Translate(moveAmt, XAXIS);
+		pos.x = newX;
+		object->GetTransform()->SetPosition(pos);
 	}
 	
 }
@@ -414,16 +415,23 @@ void MainMenuTouchHandlers::openMissionMenu(int contractIndex) {
 	preMenuBackground->SetVisible(false);
 	this->missionRoot->SetVisible(true);
 	this->contractRoot->SetVisible(false);
+	for(int i = 0; i < MAX_LEVELS_PER_CONTRACT; i++) {
+		this->levelPips[i]->SetVisible(false);
+	}
+
+	if(SINGLETONS->GetLevelManager()->GetCurrentContract() != contractIndex) {
+		SINGLETONS->GetLevelManager()->SetCurrentMission(0);
+	}
+	
 	ASSERT(contractIndex < SINGLETONS->GetLevelManager()->NumContracts(), "contract index is less than number of contracts");
 	if(contractIndex != this->prevContractIndex) {
 		// TODO [Implement] when we have a user profile set this equal to the right value
 		SINGLETONS->GetLevelManager()->SetCurrentContract(contractIndex);
 		this->currentMissionScreenIndex = SINGLETONS->GetLevelManager()->GetCurrentMission();
-		//SINGLETONS->GetLevelManager()->SetCurrentMission(0);
 		this->loadPips(contractIndex);
-		this->scrollToCurrentMission();
 		this->prevContractIndex = contractIndex;
 	}
+	this->scrollToCurrentMission();
 }
 
 void MainMenuTouchHandlers::goBackOneMenu() {
