@@ -297,6 +297,11 @@ void LevelLoader::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 			aiRoutine->SetBehavior(commands);
 		}
 
+		GridZone* zone = unitObj->GetComponent<GridZone>();
+		if (zone != nullptr) {
+			SINGLETONS->GetGridManager()->placeZoneOnGrid(unitObj->GetId());//GetGrid()->AddGridZone(dynamicObj->GetId());
+		}
+
 		unitNode = unitNode->GetNextSiblingByNodeName("");
 	}
 }
