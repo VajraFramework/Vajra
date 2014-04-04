@@ -23,6 +23,7 @@
 #include "ExampleGame/Components/GameScripts/Units/Guard.h"
 #include "ExampleGame/Components/GameScripts/Units/Thief.h"
 #include "ExampleGame/Components/GameScripts/Units/Obstacles/BreakablePot.h"
+#include "ExampleGame/Components/GameScripts/Units/Obstacles/PushPillar.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
@@ -177,6 +178,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "BreakablePot") {
 		BreakablePot* component = gameObject->GetComponent<BreakablePot>();
 		if (component == nullptr) { component = gameObject->AddComponent<BreakablePot>(); }
+		return component;
+	}
+	
+	if (componentName == "PushPillar") {
+		PushPillar* component = gameObject->GetComponent<PushPillar>();
+		if (component == nullptr) { component = gameObject->AddComponent<PushPillar>(); }
 		return component;
 	}
 	
@@ -719,6 +726,12 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
+	if (componentName == "PushPillar") {
+		PushPillar* component = gameObject->GetComponent<PushPillar>();
+		if (component == nullptr) { return; }
+		return;
+	}
+	
 	if (componentName == "GridManager") {
 		GridManager* component = gameObject->GetComponent<GridManager>();
 		if (component == nullptr) { return; }
@@ -741,11 +754,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetGridPosition") {
 			if ((int)argv.size() < 2) { return; }
 			component->SetGridPosition(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
-			return;
-		}
-		if (propertyName == "SetDestination") {
-			if ((int)argv.size() < 3) { return; }
-			component->SetDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToBool(argv[2]));
 			return;
 		}
 		if (propertyName == "AddDestination") {
