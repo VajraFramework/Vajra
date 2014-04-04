@@ -215,7 +215,7 @@
 				<image name="SD_Paralax_Mid_01.png" hasTransperancy="true"> </image>
 				<image name="SD_Paralax_Mid_02.png" hasTransperancy="true"> </image>
 			</uielement>
-				<uielement name="parallaxFront" visible="true" clickable="false">
+			<uielement name="parallaxFront" visible="true" clickable="false">
 				<dimensions>
 					<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
 					<size widthPixels="3072" heightPixels="768"></size>
@@ -223,6 +223,28 @@
 				</dimensions>
 				<image name="SD_Paralax_Front_01.png" hasTransperancy="true"> </image>
 				<image name="SD_Paralax_Front_02.png" hasTransperancy="true"> </image>
+			</uielement>			
+			<uielement name="contractName" visible="true" clickable="false">
+				<dimensions>
+					<position xwrto="CENTER" ywrto="TOP" x="-100" y="64"></position>
+					<size widthPixels="200" heightPixels="100"></size>
+					<zorder>50</zorder>
+				</dimensions>
+				<text>
+					<font type="calibiri.fontspec" size="64.0"></font>
+					Contract Name
+				</text>
+				<uielement name="missionName" visible="true" clickable="false">
+				<dimensions>
+					<position xwrto="LEFT" ywrto="TOP" x="0" y="48"></position>
+					<size widthPixels="200" heightPixels="100"></size>
+					<zorder>50</zorder>
+				</dimensions>
+				<text>
+					<font type="calibiri.fontspec" size="32.0"></font>
+					Mission Name
+				</text>
+			</uielement>
 			</uielement>
 		</uielement>
 	</uielement>
