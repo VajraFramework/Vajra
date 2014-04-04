@@ -35,13 +35,19 @@ private:
 	void init();
 	void destroy();
 
-	//void moveToBlockInDirection(glm::vec3 dir);
-	void moveToBlockInDirection();
+	void startSliding(glm::vec3 direction);
+	void slide();
+	void stopSliding();
+
+	void childUnitOnTop();
+	void unchildUnitOnTop();
+
 	void onZoneEnteredCell(int gridX, int gridZ);
 	void onZoneExitedCell(int gridX, int gridZ);
 
 	bool isSliding;
-	glm::vec3 slideDir;
+	int slideX, slideZ;
+	ObjectIdType riderId;
 };
 
 #endif // PUSHPILLAR_H
