@@ -10,7 +10,9 @@ namespace StringUtilities {
 	float ConvertStringToFloat(std::string s);
 	bool  ConvertStringToBool (std::string s);
 
-	std::string ConvertIntToString(int number);
+	std::string ConvertIntToString  (int number);
+	std::string ConvertFloatToString(float number);
+	std::string ConvertBoolToString (bool expression);
 
 	std::string StringToLower(std::string s);
 	std::string StringToUpper(std::string s);
