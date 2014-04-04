@@ -135,7 +135,7 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 		UiObject* optionsMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[OPTIONS_MENU]);
 		startMenu->SetVisible(true);
 		optionsMenu->SetVisible(false);
-		
+		 
 	} else if(uiObject->GetName() == "save_settings") {
 		UiObject* startMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[START_MENU]);
 		UiObject* optionsMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[OPTIONS_MENU]);
@@ -186,12 +186,16 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 		}
 
 		if(object->GetName() == PARALLAX_FRONT) {
+			object->SetZOrder(3);
 
 		} else if(object->GetName() == PARALLAX_MIDDLE) {
+			object->SetZOrder(2);
 			moveAmt *= .5f;
 		} else if(object->GetName() == PARALLAX_BACK) {
+			object->SetZOrder(1);
 			moveAmt *= .25f;
 		} else {
+			object->SetZOrder(50);
 			continue;
 		}
 		if(!touchEnd) {
