@@ -160,9 +160,14 @@ void ShadyCamera::FollowGameObjectDirectly(ObjectIdType unitId) {
 	}
 }
 
-void ShadyCamera::MoveGameCamToRoom(int i, int j) {
+void ShadyCamera::MoveGameCamToRoom(int i, int j, int elevation/*= -1*/) {
 	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(i, j);
 	glm::vec3 roomCenter = SINGLETONS->GetGridManager()->GetGrid()->GetRoomCenter(cell);
+
+	// If the elevation is invalid, use the cell's ground elevation
+	if ((elevation < 0) || (elevation >= NUM_ELEVATIONS)) {
+		elevation = cell->y;
+	}
 
 	// If we are moving to a new room
 	if(roomCenter != this->currentRoomCenter) { 
@@ -174,13 +179,13 @@ void ShadyCamera::MoveGameCamToRoom(int i, int j) {
 		}
 		
 		this->setCurrentRoomCenter(roomCenter);
-		this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(cell->y));
+		this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(elevation));
 		this->updateGameCamPos();
 		if(this->camMode == CameraMode::CameraMode_Game) {
 			this->moveTo_internal_overTime(this->gameCamPos, roomChangeTime);
 		}
 	} else { // if we are simply (and potentieally) changing height
-		this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(cell->y));
+		this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(elevation));
 		this->updateGameCamPos();
 		if(this->camMode == CameraMode::CameraMode_Game) {
 			this->moveTo_internal_overTime(this->gameCamPos, this->heightChangeTime);

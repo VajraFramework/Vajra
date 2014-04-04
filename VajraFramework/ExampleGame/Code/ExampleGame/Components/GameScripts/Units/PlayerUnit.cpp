@@ -273,6 +273,15 @@ void PlayerUnit::GridPlaneSetPos(GameObject* plane, GridCell* targetCell) {
 	}
 }
 
+void PlayerUnit::GridPlaneSetPos(GameObject* plane, GridCell* targetCell, int elevation) {
+	if(targetCell != nullptr) {
+		glm::vec3 target = targetCell->center;
+		target.y = SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(elevation);
+		target += this->GetOffsetFromCell(targetCell);
+		this->GridPlaneSetPos(plane, target);
+	}
+}
+
 void PlayerUnit::GridPlaneSetPos(GameObject* plane, glm::vec3 target) {
 	plane->GetTransform()->SetPosition(target);
 	plane->GetTransform()->Translate(0.05f , YAXIS);

@@ -148,9 +148,16 @@ void Thief::startSpecial() {
 	// Remove the indicator at the selected position
 	this->activeTargetIndicators[this->targetedCell]->SetVisible(false);
 
-	this->GridPlaneSetPos(this->touchIndicatorRef, this->targetedCell);
+	int elevation = this->targetedCell->y;
+	for (int i = NUM_ELEVATIONS; i >= 0; --i) {
+		if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(this->targetedCell->x, this->targetedCell->z, i)) {
+			elevation = i;
+			break;
+		}
+	}
+	this->GridPlaneSetPos(this->touchIndicatorRef, this->targetedCell, elevation);
 	this->startTouchIndicatorPulse();
-	this->SetTouchIndicatorSprite(PLAYER_NUM_TOUCH_IMAGES + this->textureIndexForElevation(this->targetedCell->y));
+	this->SetTouchIndicatorSprite(PLAYER_NUM_TOUCH_IMAGES + this->textureIndexForElevation(elevation));
 	this->SetTouchIndicatorVisible(true);
 
 	//float jumpDist = glm::distance(this->targetedCell->center, this->gameObjectRef->GetTransform()->GetPosition());
@@ -170,10 +177,18 @@ void Thief::startSpecial() {
 void Thief::onSpecialEnd() {
 	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
 		PlayerUnit::onSpecialEnd();
-		this->gridNavRef->SetGridPosition(this->targetedCell);
+
+		// Place the thief at the proper elevation
+		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetCellGroundLevel(this->targetedCell->x, this->targetedCell->z);
+		for (int i = NUM_ELEVATIONS - 1; i >= 0; --i) {
+			if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(this->targetedCell->x, this->targetedCell->z, i)) {
+				elevation = i;
+				break;
+			}
+		}
+		this->gridNavRef->SetGridPosition(this->targetedCell, elevation);
+
 		// Todo [HACK] Make the Thief work with elevators
-		glm::vec3 position = this->gameObjectRef->GetTransform()->GetPositionWorld();
-		int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(position.y);
 		if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(this->targetedCell->x, this->targetedCell->z, elevation)) {
 			this->gridNavRef->EnableNavigation();
 		}
@@ -183,7 +198,7 @@ void Thief::onSpecialEnd() {
 			activeTargetIndicators[c]->SetVisible(false);
 			
 		}
-		SINGLETONS->GetGridManager()->GetShadyCamera()->MoveGameCamToRoom(this->gridNavRef->GetCurrentCell()->x, this->gridNavRef->GetCurrentCell()->z);
+		SINGLETONS->GetGridManager()->GetShadyCamera()->MoveGameCamToRoom(this->gridNavRef->GetCurrentCell()->x, this->gridNavRef->GetCurrentCell()->z, elevation);
 		
 	}
 }
@@ -192,7 +207,9 @@ void Thief::cancelSpecial() {
 	PlayerUnit::cancelSpecial();
 	this->tweenOutTargets();
 	// Place the thief on the ground.
-	this->gameObjectRef->GetTransform()->SetPositionWorld(this->gridNavRef->GetCurrentCell()->center);
+	glm::vec3 endPosition = this->gridNavRef->GetCurrentCell()->center;
+	endPosition.y = SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(this->gridNavRef->GetElevation());
+	this->gameObjectRef->GetTransform()->SetPositionWorld(endPosition);
 	this->gridNavRef->EnableNavigation();
 	
 }
@@ -258,11 +275,18 @@ void Thief::checkLegalAttack() {
 		GridCell* originCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->specialStartPos);
 		std::list<GridCell*> touchedCells;
 		SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(originCell, this->targetedCell, touchedCells);
-		int elevation;
+		int elevation = -1;
 		for (auto iter = touchedCells.rbegin(); iter != touchedCells.rend(); ++iter) {
 			GridCell* cell = *iter;
 			elevation = SINGLETONS->GetGridManager()->GetGrid()->GetCellGroundLevel(cell->x, cell->z);
-			if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(cell->x, cell->z, elevation)) {
+			for (int i = NUM_ELEVATIONS - 1; i >= 0; --i) {
+				if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(cell->x, cell->z, i)) {
+					elevation = i;
+					break;
+				}
+			}
+
+			if (elevation >= 0) {
 				ObjectIdType occId = cell->GetOccupantIdAtElevation(elevation);
 				if (occId != OBJECT_ID_INVALID) {
 					GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
@@ -282,7 +306,9 @@ void Thief::checkLegalAttack() {
 			this->targetedCell = cell;
 			break;
 		}
-		this->gameObjectRef->GetTransform()->SetPositionWorld(this->targetedCell->center + glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::vec3 endPos = this->targetedCell->center;
+		endPos.y = SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(elevation);
+		this->gameObjectRef->GetTransform()->SetPositionWorld(endPos.y + glm::vec3(0.0f, 1.0f, 0.0f));
 		this->sendAttackMessage(this->targetedCell->x, this->targetedCell->z, elevation);
 		this->beginPoof(this->endPoofId);
 	}
@@ -308,7 +334,14 @@ void Thief::tweenInTargets() {
 	
 	for(auto contents : this->activeTargetIndicators ) {
 		if(contents.second != nullptr) {
-			this->GridPlaneSetPos(activeTargetIndicators[contents.first], contents.first);
+			int elevation = contents.first->y;
+			for (int i = NUM_ELEVATIONS; i >= 0; --i) {
+				if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(contents.first->x, contents.first->z, i)) {
+					elevation = i;
+					break;
+				}
+			}
+			this->GridPlaneSetPos(activeTargetIndicators[contents.first], contents.first, elevation);
 			pos = activeTargetIndicators[contents.first]->GetTransform()->GetPosition();
 			//pos = contents.first->center;
 			ENGINE->GetTween()->TweenScale(contents.second->GetId(), glm::vec3(0), glm::vec3(GetFloatGameConstant(GAME_CONSTANT_target_indicator_scale)), GetFloatGameConstant(GAME_CONSTANT_target_tween_time));
@@ -372,16 +405,15 @@ void Thief::updateTargets() {
 	}
 	this->legalTargets.clear();
 	GridCell* currentCell = this->gridNavRef->GetCurrentCell();
-	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(currentCell->center.y);
+	int elevation = this->gridNavRef->GetElevation();
 	for ( GridCell* c : cellsInRange) {
 		if(c != currentCell) {
 			int cellElevation = 0;
-			for(int i = 0; i < NUM_ELEVATIONS; ++i) {
+			for(int i = NUM_ELEVATIONS - 1; i >= 0; --i) {
 				if(SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, i)) {
 					cellElevation = i;
 					break;
 				}
-				
 			}
 
 			// The thief can jump to a maximum of one elevation level above her
@@ -392,7 +424,7 @@ void Thief::updateTargets() {
 						float maxRange = fmax((GetFloatGameConstant(GAME_CONSTANT_jump_distance_in_units) + elevationDiff), 1.0f);
 						float dist = SINGLETONS->GetGridManager()->GetGrid()->GetGroundDistanceBetweenCells(currentCell, c);
 						if (dist <= maxRange) {
-							ObjectIdType id = c->GetOccupantIdAtElevation(c->y);
+							ObjectIdType id = c->GetOccupantIdAtElevation(cellElevation);
 							if(id == OBJECT_ID_INVALID) {
 								this->legalTargets.push_back(c);
 							} else {
@@ -412,9 +444,16 @@ void Thief::updateTargets() {
 		if(activeTargetIndicators.find(c) != activeTargetIndicators.end() && activeTargetIndicators[c] != nullptr) {
 			GameObject* obj = activeTargetIndicators[c];
 			if(c->center != obj->GetTransform()->GetPosition()) {
-				this->GridPlaneSetPos(activeTargetIndicators[c], c);
+				int elevation = c->y;
+				for (int i = NUM_ELEVATIONS; i >= 0; --i) {
+					if (SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, i)) {
+						elevation = i;
+						break;
+					}
+				}
+				this->GridPlaneSetPos(activeTargetIndicators[c], c, elevation);
 				activeTargetIndicators[c]->SetVisible(true);
-				activeTargetIndicators[c]->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(textureIndexForElevation(c->y));
+				activeTargetIndicators[c]->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(textureIndexForElevation(elevation));
 
 			}
 		}
