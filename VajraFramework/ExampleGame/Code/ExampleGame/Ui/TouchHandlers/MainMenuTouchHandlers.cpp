@@ -414,6 +414,7 @@ void MainMenuTouchHandlers::openMissionMenu(int contractIndex) {
 	if(contractIndex != this->prevContractIndex) {
 		// TODO [Implement] when we have a user profile set this equal to the right value
 		SINGLETONS->GetLevelManager()->SetCurrentContract(contractIndex);
+		this->currentMissionScreenIndex = SINGLETONS->GetLevelManager()->GetCurrentMission();
 		//SINGLETONS->GetLevelManager()->SetCurrentMission(0);
 		this->loadPips(contractIndex);
 		this->scrollToCurrentMission();
