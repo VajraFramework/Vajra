@@ -20,15 +20,6 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 
 
-#define START_MENU "startMenu"
-#define OPTIONS_MENU "optionsMenu"
-#define MISSION_MENU "missionMenu"
-#define CONTRACT "contractRoot"
-#define PARALLAX "parallaxRoot"
-#define PARALLAX_FRONT "parallaxFront"
-#define PARALLAX_MIDDLE "parallaxMid"
-#define PARALLAX_BACK "parallaxBack"
-
 #define BRIGHTNESS_SETTING "brightness_setting"
 #define AMBIENTLIGHTING_SETTING "ambientlighting_setting"
 #define SHADOWS_SETTING "shadows_setting"
@@ -43,7 +34,9 @@
 MainMenuTouchHandlers::MainMenuTouchHandlers() {
 	this->missionRoot = nullptr;
 	this->currentScreenX = 0;
-	this->currentMission = 0;
+	this->currentMissionScreenIndex = 0;
+	this->prevContractIndex = -1;
+	// Todo [Implement]  data drive this
 	missionStartX.push_back(-32.0f);
 	missionStartX.push_back(-1160.0f);
 	missionStartX.push_back(-2032.0f);
@@ -75,9 +68,9 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 	ASSERT(this->contractRoot != nullptr, "The contractRoot root is not null");
 	if(this->contractRoot != nullptr && this->contractRoot->IsVisible()) {
 		if (uiObject->GetName() == "contractOne") {
-			this->openMissionMenu();
+			this->openMissionMenu(0);
 		} else if (uiObject->GetName() == "contractTwo") {
-			this->openMissionMenu();
+			this->openMissionMenu(1);
 		}
 	}
 	// Level Selection
@@ -87,14 +80,10 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 			float xDiff = touch.pos.x - touch.prevPos.x;
 			this->parallaxScroll(uiObject, xDiff, true);
 		}
-		for(int i = 0; i < (int)this->currentLevelButtons[this->currentMission].size(); i++) {
-			if(this->currentLevelButtons[this->currentMission][i] == uiObject) {
+		for(int i = 0; i < (int)this->currentLevelButtons[this->currentMissionScreenIndex].size(); i++) {
+			if(this->currentLevelButtons[this->currentMissionScreenIndex][i] == uiObject) {
 				std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
-				int levelOffset = 0;
-				for(int j = 0; j < this->currentMission; ++j) {
-					levelOffset += SINGLETONS->GetLevelManager()->GetNumLevelsInMission(j);
-				}
-				SINGLETONS->GetMenuManager()->LoadLevel(i + levelOffset);
+				SINGLETONS->GetMenuManager()->LoadLevel(i);
 				return;
 			}
 		}
@@ -161,28 +150,29 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 	if(touchEnd) {
 		UiObject* pScreen = (UiObject*)ObjectRegistry::GetObjectByName(PARALLAX_FRONT);
 		float screenX = pScreen->GetTransform()->GetPositionWorld().x;
-		float dist = this->missionStartX[this->currentMission] - screenX;
+		float dist = this->missionStartX[this->currentMissionScreenIndex] - screenX;
 		
-		if(screenX > this->missionStartX[this->currentMission]) { // LEFT
-			if(this->currentMission > 0) {
-				if(std::abs(dist) > std::abs(this->missionStartX[this->currentMission - 1] - screenX)) {
-					this->currentMission--;
+		if(screenX > this->missionStartX[this->currentMissionScreenIndex]) { // LEFT
+			if(this->currentMissionScreenIndex > 0) {
+				if(std::abs(dist) > std::abs(this->missionStartX[this->currentMissionScreenIndex - 1] - screenX)) {
+					this->currentMissionScreenIndex--;
 				}
 			}
-		} else if(screenX < this->missionStartX[this->currentMission]) { // RIGHT
-			if(this->currentMission < (int)this->missionStartX.size() - 1) {
-				if(std::abs(dist) > std::abs(this->missionStartX[this->currentMission + 1] - screenX)) {
-					this->currentMission++;
+		} else if(screenX < this->missionStartX[this->currentMissionScreenIndex]) { // RIGHT
+			if(this->currentMissionScreenIndex < (int)this->missionStartX.size() - 1) {
+				if(std::abs(dist) > std::abs(this->missionStartX[this->currentMissionScreenIndex + 1] - screenX)) {
+					this->currentMissionScreenIndex++;
 				}
 			}
 		}
-		for(int j = 0; j < SINGLETONS->GetLevelManager()->GetNumMissions(); j++) {
-			bool isVisible = j == this->currentMission;
+		SINGLETONS->GetLevelManager()->SetCurrentMission(currentMissionScreenIndex);
+		for(int j = 0; j < SINGLETONS->GetLevelManager()->GetNumMissionsInCurrentContract(); j++) {
+			bool isVisible = j == this->currentMissionScreenIndex;
 			for(int i = 0; i < SINGLETONS->GetLevelManager()->GetNumLevelsInMission(j); i++) {
 				this->currentLevelButtons[j][i]->SetVisible(isVisible);
 			}
 		}
-		frontTransAmt = this->missionStartX[this->currentMission] - pScreen->GetTransform()->GetPositionWorld().x; 
+		frontTransAmt = this->missionStartX[this->currentMissionScreenIndex] - pScreen->GetTransform()->GetPositionWorld().x; 
 	}
 	for(ObjectIdType id : parallaxRoot->GetChildren()){
 		
@@ -192,7 +182,7 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 		if(!touchEnd) {
 			moveAmt = xDiff;
 		} else {
-			moveAmt = this->missionStartX[this->currentMission];
+			moveAmt = this->missionStartX[this->currentMissionScreenIndex];
 		}
 
 		if(object->GetName() == PARALLAX_FRONT) {
@@ -228,12 +218,28 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 }
 
 void MainMenuTouchHandlers::scrollToCurrentMission() {
-	for(int j = 0; j < SINGLETONS->GetLevelManager()->GetNumMissions(); j++) {
+	int curMissionIndex = SINGLETONS->GetLevelManager()->GetCurrentMission();
+	for(int j = 0; j < SINGLETONS->GetLevelManager()->GetNumMissionsInCurrentContract(); j++) {
 		for(int i = 0; i < SINGLETONS->GetLevelManager()->GetNumLevelsInMission(j); i++) {
-			this->currentLevelButtons[j][i]->SetVisible(false);
+			this->currentLevelButtons[j][i]->SetVisible(j == curMissionIndex);
 		}
 	}
-	this->parallaxScroll(this->parallaxRoot, 0, true);
+	for(ObjectIdType id : parallaxRoot->GetChildren()){
+		
+		UiObject* object = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(id);
+		glm::vec3 pos = object->GetTransform()->GetPositionWorld();
+		float moveAmt = missionStartX[curMissionIndex] - pos.x;
+		if(object->GetName() == PARALLAX_FRONT) {
+
+		} else if(object->GetName() == PARALLAX_MIDDLE) {
+			moveAmt *= .5f;
+		} else if(object->GetName() == PARALLAX_BACK) {
+			moveAmt *= .25f;
+		} else {
+			continue;
+		}
+		object->GetTransform()->Translate(moveAmt, XAXIS);
+	}
 	
 }
 void MainMenuTouchHandlers::createMissionMenu() {
@@ -241,40 +247,63 @@ void MainMenuTouchHandlers::createMissionMenu() {
 	this->contractRoot = (UiElement*)ObjectRegistry::GetObjectByName(CONTRACT);
 	this->parallaxRoot = (UiElement*)ObjectRegistry::GetObjectByName(PARALLAX);
 	
-	std::vector<UiObject*> parallaxScreens;
-	UiObject* pScreen = (UiObject*)ObjectRegistry::GetObjectByName(PARALLAX_FRONT);
+	UiElement* pScreen = (UiElement*)ObjectRegistry::GetObjectByName(PARALLAX_FRONT);
 	ASSERT(pScreen != nullptr, "parallaxFront is not null");
-	parallaxScreens.push_back(pScreen);
-	pScreen = (UiObject*)ObjectRegistry::GetObjectByName(PARALLAX_MIDDLE);
+	this->parallaxScreens.push_back(pScreen);
+	pScreen = (UiElement*)ObjectRegistry::GetObjectByName(PARALLAX_MIDDLE);
 	ASSERT(pScreen != nullptr, "parallaxMiddle is not null");
-	parallaxScreens.push_back(pScreen);
-	pScreen = (UiObject*)ObjectRegistry::GetObjectByName(PARALLAX_BACK);
+	this->parallaxScreens.push_back(pScreen);
+	pScreen = (UiElement*)ObjectRegistry::GetObjectByName(PARALLAX_BACK);
 	ASSERT(pScreen != nullptr, "parallaxBack is not null");
-	parallaxScreens.push_back(pScreen);
+	this->parallaxScreens.push_back(pScreen);
 
-	for(int j = 0; j < SINGLETONS->GetLevelManager()->GetNumMissions(); j++) {
+	// load all pips
+	for(int i = 0; i < MAX_LEVELS_PER_CONTRACT; i++) {
+		UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
+		this->parallaxRoot->AddChild(uiElement->GetId());
+		std::vector<std::string> imagePaths;
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelection_Level1_Marker.png");
+		uiElement->InitSprite(67, 118, "ustshdr", imagePaths, true);
+		uiElement->SetTouchHandlers(this);
+		uiElement->SetClickable(true);
+		uiElement->SetVisible(false);
+		uiElement->SetZOrder(10);
+		this->levelPips.push_back(uiElement);
+	}
+}
+
+void MainMenuTouchHandlers::loadPips(int contractIndex) {
+	for(int i = 0; i < 3; ++i) {
+		this->parallaxScreens[i]->SetSpriteTextureIndex(contractIndex);
+	}
+
+	// hide all pips
+	for(int i = 0; i < MAX_LEVELS_PER_CONTRACT; ++i) {
+		this->parallaxRoot->AddChild(this->levelPips[i]->GetId());
+		this->levelPips[i]->SetVisible(false);
+	}
+
+	// place the pips on the parallax screen
+	int currentPipIndex = 0;
+	for(int j = 0; j < SINGLETONS->GetLevelManager()->GetNumMissionsInCurrentContract(); j++) {
 		float missionXOffset = this->missionStartX[j];
-		std::vector<UiObject*> levelPips;
-		this->currentLevelButtons.push_back(levelPips);
+		std::vector<UiObject*> pips;
+		this->currentLevelButtons.push_back(pips);
 		for(int i = 0; i < SINGLETONS->GetLevelManager()->GetNumLevelsInMission(j); i++) {
-			UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
-			this->parallaxRoot->AddChild(uiElement->GetId());
-			std::vector<std::string> imagePaths;
-			imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelection_Level1_Marker.png");
-			uiElement->InitSprite(67, 118, "ustshdr", imagePaths, true);
-			uiElement->SetTouchHandlers(this);
-			uiElement->SetClickable(true);
-			uiElement->SetVisible(false);
-
-			LevelData levelData = SINGLETONS->GetLevelManager()->GetLevelData(i);
+			ASSERT(currentPipIndex < MAX_LEVELS_PER_CONTRACT, "the number of levels in this contract is less than the max");
+			UiElement* uiElement = this->levelPips[currentPipIndex];
+			LevelData levelData = SINGLETONS->GetLevelManager()->GetLevelData(j, i);
+			uiElement->SetVisible(j == this->currentMissionScreenIndex);
 			uiElement->SetPosition(levelData.pinX - missionXOffset, levelData.pinY);
 			uiElement->SetZOrder(10);
 			this->currentLevelButtons[j].push_back((UiObject*)uiElement);
 
 			int screenIndex = levelData.parallaxScreen;
 			if(screenIndex < 3) {
-				parallaxScreens[screenIndex]->AddChild(uiElement->GetId());
+				this->parallaxScreens[screenIndex]->AddChild(uiElement->GetId());
 			}
+
+			currentPipIndex++;
 		}
 	}
 }
@@ -376,11 +405,20 @@ void MainMenuTouchHandlers::openContractMenu() {
 	this->parallaxRoot->SetVisible(false);
 
 }
-void MainMenuTouchHandlers::openMissionMenu() {
+void MainMenuTouchHandlers::openMissionMenu(int contractIndex) {
 	UiElement* preMenuBackground = (UiElement*)ObjectRegistry::GetObjectByName(START_MENU);
 	preMenuBackground->SetVisible(false);
 	this->missionRoot->SetVisible(true);
 	this->contractRoot->SetVisible(false);
+	ASSERT(contractIndex < SINGLETONS->GetLevelManager()->NumContracts(), "contract index is less than number of contracts");
+	if(contractIndex != this->prevContractIndex) {
+		// TODO [Implement] when we have a user profile set this equal to the right value
+		SINGLETONS->GetLevelManager()->SetCurrentContract(contractIndex);
+		//SINGLETONS->GetLevelManager()->SetCurrentMission(0);
+		this->loadPips(contractIndex);
+		this->scrollToCurrentMission();
+		this->prevContractIndex = contractIndex;
+	}
 }
 
 void MainMenuTouchHandlers::goBackOneMenu() {

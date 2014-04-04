@@ -80,7 +80,7 @@ void LevelManager::ReloadCurrentLevel() {
 }
 
 bool LevelManager::TryLoadNextLevel() {
-	if(this->currentLevelIndex + 1 < (int)this->levelData.size()) {
+	if(this->currentLevelIndex + 1 < this->GetNumLevelsInCurrentMission()) {
 		this->LoadLevel(this->currentLevelIndex + 1);
 		return true;
 	}
@@ -92,10 +92,10 @@ void LevelManager::StartLevel() {
 }
 
 void LevelManager::loadLevel_internal() {
-	ASSERT(this->levelToLoad < (int)this->levelData.size(), "level number is less than the number of levels");
-	if(this->levelToLoad < (int)this->levelData.size()) {
+	ASSERT(this->levelToLoad < this->GetNumLevelsInCurrentMission(), "level number is less than the number of levels");
+	if(this->levelToLoad < this->GetNumLevelsInCurrentMission()) {
 		this->currentLevelIndex = this->levelToLoad;
-		this->LoadLevelFromData(levelData[this->levelToLoad]);
+		this->LoadLevelFromData(this->GetLevelData(this->currentMission, this->levelToLoad));
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_LOADED);
 	}
 	this->levelToLoad = -1;
@@ -110,21 +110,37 @@ void LevelManager::LoadLevelFromData(LevelData levelData) {
 	SINGLETONS->GetMasteryManager()->SetCurrentBonuse(levelData.bonus, levelData.bonusValue);
 }
 
-LevelData LevelManager::GetLevelData(int index) 
+LevelData LevelManager::GetLevelData(int missionIndex, int levelIndex) 
 { 
-	if(index < (int)this->levelData.size()) {
-		return this->levelData[index];
+	std::vector<LevelData> lData = this->GetMissionData(missionIndex).levels;
+	if(levelIndex < (int)lData.size()) {
+		return lData[levelIndex];
 	}
 	ASSERT(false, "index passed into GetLevelData is valid");
-	return this->levelData[0];
+	return lData[0];
+}
+
+MissionData LevelManager::GetMissionData(int index) 
+{ 
+	std::vector<MissionData> mData = this->GetContractData(this->currentContract).missions;
+	if(index < (int)mData.size()) {
+		return mData[index];
+	}
+	ASSERT(false, "index passed into GetMissionData is valid");
+	return mData[0];
+}
+ContractData LevelManager::GetContractData(int index) 
+{ 
+	if(index < (int)this->contractData.size()) {
+		return this->contractData[index];
+	}
+	ASSERT(false, "index passed into GetContractData is valid");
+	return this->contractData[0];
 }
 
 int LevelManager::GetNumLevelsInMission(int mission) {
-	if(mission < (int)this->levelsPerMission.size()) {
-		return this->levelsPerMission[mission];
-	}
-	ASSERT(false, "mission passed into GetNumLevelsInMission is valid");
-	return -1;
+	MissionData mData = GetMissionData(mission);
+	return mData.levels.size();
 }
 
 void LevelManager::AddWinCondition(ObjectIdType switchId) {
@@ -151,9 +167,11 @@ void LevelManager::init() {
 	loser->AddComponent<TriggerLevelDefeat>();
 
 	this->levelToLoad = -1;
-
+	currentLevelIndex = 0;
+	currentMission = 0;
+	currentContract = 0;
 	// load the list of levels with a tutorial
-	LevelLoader::LoadLevelData(&this->levelData, &this->levelsPerMission);
+	LevelLoader::LoadLevelData(&this->contractData);
 }
 
 void LevelManager::destroy() {
