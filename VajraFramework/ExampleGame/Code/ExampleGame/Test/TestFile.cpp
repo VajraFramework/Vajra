@@ -60,8 +60,11 @@ int TestFuntion() {
 		if (bundle->HasKey("gamename")) { FRAMEWORK->GetLogger()->dbglog("\nGame name = %s", bundle->GetString("gamename").c_str()); }
 		if (bundle->HasKey("randomnumber")) { FRAMEWORK->GetLogger()->dbglog("\nRandom number = %s", bundle->GetString("randomnumber").c_str()); }
 
-		int randomNumber = rand() % 1000;
-		bundle->PutInt("randomnumber", randomNumber);
+		bundle->PutFloat("pi", 3.141592653589323846264f);
+		bundle->PutInt("answer", 42);
+		bundle->PutBool("finished", true);
+		bundle->PutString("gamename", "ShadyDealings");
+		bundle->PutInt("randomnumber", rand() % 1000);
 
 		bundle->Save();
 	}

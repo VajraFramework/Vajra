@@ -42,6 +42,12 @@ Bundle* SavedDataManager::GetSavedBundle(std::string bundleName) {
 void SavedDataManager::readAllSavedBundlesFromDisk() {
 	ASSERT(this->savedBundles.empty(), "Read all saved bundles only once per boot");
 
+#ifdef PLATFORM_IOS
+	if (!DoesBundleFileExist(BUNDLE_LIST_FILE_NAME)) {
+		return;
+	}
+#endif
+	
 	std::ifstream bundleListFile;
 	GetBundleFileHandleForReading(BUNDLE_LIST_FILE_NAME, bundleListFile);
 

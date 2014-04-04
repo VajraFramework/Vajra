@@ -7,6 +7,25 @@
 
 #include <string>
 
+bool DoesBundleFileExist(std::string bundleFileName) {
+	std::string savedDataPath = FRAMEWORK->GetFileSystemUtils()->GetDeviceSavedDataResourcesPath();
+	std::string savedDataFilePath = FRAMEWORK->GetFileSystemUtils()->GetDeviceSavedDataResourcesPath() + bundleFileName;
+
+	NSFileManager* fileMan = [NSFileManager defaultManager];
+		
+	NSString* savedDataPathNSString = [NSString stringWithCString:savedDataPath.c_str() encoding:NSASCIIStringEncoding];
+	if (![fileMan fileExistsAtPath:savedDataPathNSString isDirectory:nullptr]) {
+		[fileMan createDirectoryAtPath:savedDataPathNSString withIntermediateDirectories:NO attributes:nil error:nil];
+		return false;
+	}
+		
+	NSString* savedDataFilepathNSString = [NSString stringWithCString:(savedDataFilePath.c_str()) encoding:NSASCIIStringEncoding];
+	if (![fileMan fileExistsAtPath:savedDataFilepathNSString]) {
+		return false;
+	}
+	return true;
+}
+
 void GetBundleFileHandleForReading(std::string bundleFileName, std::ifstream& file_out) {
 
 	std::string savedDataPath = FRAMEWORK->GetFileSystemUtils()->GetDeviceSavedDataResourcesPath();
