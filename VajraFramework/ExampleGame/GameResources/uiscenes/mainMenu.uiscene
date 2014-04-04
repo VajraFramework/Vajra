@@ -141,9 +141,8 @@
 				<zorder>1</zorder>
 			</dimensions>
 		</uielement>
-
-
 	</uielement>
+
 
 	<uielement name="missionMenu" visible="false" clickable="false">
 		<dimensions>
@@ -154,13 +153,45 @@
 		<uielement name="missionNavBar" visible="true" clickable="false">
 			<dimensions>
 				<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
-				<size widthPixels="1024" heightPixels="71"></size>
-				<zorder>5</zorder>
+				<size widthPixels="1024" heightPixels="72"></size>
+				<zorder>55</zorder>
 			</dimensions>
 			<image name="SD_LevelSelection_NavBar.png" hasTransperancy="false"> </image>
+				<uielement name="backMenuButton" visible="true" clickable="true">
+				<dimensions>
+					<position xwrto="LEFT" ywrto="TOP" x="86" y="12"></position>
+					<size widthPixels="162" heightPixels="54"></size>
+					<zorder>150</zorder>
+				</dimensions>
+				<image name="SD_Play_Button.png" hasTransperancy="false"> </image>
+			</uielement>
 		</uielement>
 
-		<uielement name="parallax" visible="true" clickable="true">
+		<uielement name="contractRoot" visible="true" clickable="true">
+			<dimensions>
+				<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
+				<size widthPixels="1024" heightPixels="768"></size>
+				<zorder>5</zorder>
+			</dimensions>
+			<uielement name="contractOne" visible="true" clickable="true">
+				<dimensions>
+					<position xwrto="CENTER" ywrto="CENTER" x="-375" y="-200"></position>
+					<size widthPixels="300" heightPixels="400"></size>
+					<zorder>6</zorder>
+				</dimensions>
+				<image name="derp_backbutton.png" hasTransperancy="false"> </image>
+			</uielement>
+			<uielement name="contractTwo" visible="true" clickable="true">
+				<dimensions>
+					<position xwrto="CENTER" ywrto="CENTER" x="75" y="-200"></position>
+					<size widthPixels="300" heightPixels="400"></size>
+					<zorder>6</zorder>
+				</dimensions>
+				<image name="derp_backbutton.png" hasTransperancy="false"> </image>
+			</uielement>
+	</uielement>
+
+		<uielement name="parallaxRoot" visible="true" clickable="true">
 			<dimensions>
 				<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
 				<size widthPixels="1024" heightPixels="768"></size>
@@ -172,6 +203,7 @@
 					<size widthPixels="1536" heightPixels="768"></size>
 					<zorder>1</zorder>
 				</dimensions>
+				<image name="SD_Paralax_Back_01.png" hasTransperancy="true"> </image>
 				<image name="SD_Paralax_Back_02.png" hasTransperancy="true"> </image>
 			</uielement>
 			<uielement name="parallaxMid" visible="true" clickable="false">
@@ -180,15 +212,39 @@
 					<size widthPixels="2048" heightPixels="768"></size>
 					<zorder>2</zorder>
 				</dimensions>
+				<image name="SD_Paralax_Mid_01.png" hasTransperancy="true"> </image>
 				<image name="SD_Paralax_Mid_02.png" hasTransperancy="true"> </image>
 			</uielement>
-				<uielement name="parallaxFront" visible="true" clickable="false">
+			<uielement name="parallaxFront" visible="true" clickable="false">
 				<dimensions>
 					<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
 					<size widthPixels="3072" heightPixels="768"></size>
 					<zorder>3</zorder>
 				</dimensions>
+				<image name="SD_Paralax_Front_01.png" hasTransperancy="true"> </image>
 				<image name="SD_Paralax_Front_02.png" hasTransperancy="true"> </image>
+			</uielement>			
+			<uielement name="contractName" visible="true" clickable="false">
+				<dimensions>
+					<position xwrto="CENTER" ywrto="TOP" x="-100" y="64"></position>
+					<size widthPixels="200" heightPixels="100"></size>
+					<zorder>50</zorder>
+				</dimensions>
+				<text>
+					<font type="calibiri.fontspec" size="64.0"></font>
+					Contract Name
+				</text>
+				<uielement name="missionName" visible="true" clickable="false">
+				<dimensions>
+					<position xwrto="LEFT" ywrto="TOP" x="0" y="48"></position>
+					<size widthPixels="200" heightPixels="100"></size>
+					<zorder>50</zorder>
+				</dimensions>
+				<text>
+					<font type="calibiri.fontspec" size="32.0"></font>
+					Mission Name
+				</text>
+			</uielement>
 			</uielement>
 		</uielement>
 	</uielement>

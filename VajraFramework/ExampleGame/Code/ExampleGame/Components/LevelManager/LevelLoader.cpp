@@ -150,7 +150,7 @@ LevelType LevelLoader::stringToLevelType(std::string type) {
 	ASSERT(0, "%s is a valid level type", type.c_str());
 	return LevelType::NO_TYPE;
 }
-void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData, std::vector<int>* levelsPerMission) {
+void LevelLoader::LoadLevelData(std::vector<ContractData>* contractData) {
 	// Load the tutorials
 	std::vector<std::string> levelsWithTutorials;
 	LevelLoader::LoadTutorialLevelNames(&levelsWithTutorials);
@@ -167,31 +167,37 @@ void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData, std::vector<i
 	ASSERT(rootLevelListNode != nullptr, "Got valid tutoral node from xml tree for tutorial file %s", levelListXmlPath);
 
 	int missionNum = 0;
-	for(XmlNode* missionNode : rootLevelListNode->GetChildren()) {
-		FRAMEWORK->GetLogger()->dbglog("\n Loaded mission data for game");
-		for(XmlNode* levelDataNode : missionNode->GetChildren()) {
-			LevelData data;
-			data.name = levelDataNode->GetAttributeValueS(NAME_PROPERTY);
-			data.path = levelDataNode->GetAttributeValueS(PATH_PROPERTY);
-			data.type = LevelLoader::stringToLevelType(levelDataNode->GetAttributeValueS(TYPE_PROPERTY));
-			data.hasTutorial = std::find(levelsWithTutorials.begin(), levelsWithTutorials.end(), data.name) != levelsWithTutorials.end();
-			data.mission = missionNum;
-			data.bonus = LevelBonus::None;
-			for(XmlNode* child : levelDataNode->GetChildren()) {
-				if(child->GetName() == "missionScreen") {
-					data.pinX = child->GetAttributeValueF("x");
-					data.pinY = child->GetAttributeValueF("y");
-					data.parallaxScreen = child->GetAttributeValueF("parallaxScreen");
-				} else if(child->GetName() == "bonus") {
-					data.bonus = StringToLevelBonus(child->GetAttributeValueS("type"));
-					data.bonusValue = child->GetAttributeValueI("value");
+	int levelNum = 0;
+	for(XmlNode* contractNode : rootLevelListNode->GetChildren()) {
+		ContractData cData;
+		for(XmlNode* missionNode : contractNode->GetChildren()) {
+			FRAMEWORK->GetLogger()->dbglog("\n Loaded mission data for game");
+			MissionData mData;
+			for(XmlNode* levelDataNode : missionNode->GetChildren()) {
+				LevelData lData;
+				lData.name = levelDataNode->GetAttributeValueS(NAME_PROPERTY);
+				lData.path = levelDataNode->GetAttributeValueS(PATH_PROPERTY);
+				lData.type = LevelLoader::stringToLevelType(levelDataNode->GetAttributeValueS(TYPE_PROPERTY));
+				lData.hasTutorial = std::find(levelsWithTutorials.begin(), levelsWithTutorials.end(), lData.name) != levelsWithTutorials.end();
+				lData.mission = missionNum;
+				lData.bonus = LevelBonus::None;
+				for(XmlNode* child : levelDataNode->GetChildren()) {
+					if(child->GetName() == "missionScreen") {
+						lData.pinX = child->GetAttributeValueF("x");
+						lData.pinY = child->GetAttributeValueF("y");
+						lData.parallaxScreen = child->GetAttributeValueF("parallaxScreen");
+					} else if(child->GetName() == "bonus") {
+						lData.bonus = StringToLevelBonus(child->GetAttributeValueS("type"));
+						lData.bonusValue = child->GetAttributeValueI("value");
+					}
 				}
+				mData.levels.push_back(lData);
+				levelNum++;
 			}
-			
-			levelData->push_back(data);
+			cData.missions.push_back(mData);
+			missionNum++;
 		}
-		levelsPerMission->push_back(missionNode->GetChildren().size());
-		missionNum++;
+		contractData->push_back(cData);
 	}
 	delete parser;
 }

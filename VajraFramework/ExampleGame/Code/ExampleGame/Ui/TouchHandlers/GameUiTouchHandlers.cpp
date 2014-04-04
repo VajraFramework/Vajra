@@ -235,7 +235,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 }
 
 void GameUiTouchHandlers::returnToMissionSelect() {
-	SINGLETONS->GetMenuManager()->LoadMainMenu("missionMenu");
+	SINGLETONS->GetMenuManager()->LoadMainMenu(PARALLAX);
 	
 }
 

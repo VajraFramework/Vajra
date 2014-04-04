@@ -18,12 +18,14 @@
 
 #include <vector>
 
+#define MAX_LEVELS_PER_CONTRACT 15
 enum LevelType {
 	Infiltration,
 	Theft,
 	Assassination,
 	NO_TYPE
 };
+
 
 struct LevelData {
 public:
@@ -32,6 +34,7 @@ public:
 	std::string description;
 	LevelType type;
 	bool hasTutorial;
+	int contract;
 	int mission;
 	int parallaxScreen;
 	float pinX;
@@ -40,6 +43,19 @@ public:
 	int bonusValue;
 
 };
+
+struct MissionData {
+public:
+	std::string name;
+	std::vector<LevelData> levels;
+};
+
+struct ContractData {
+public:
+	std::string name;
+	std::vector<MissionData> missions;
+};
+
 
 //[[COMPONENT]]//
 class LevelManager : public Component {
@@ -50,7 +66,7 @@ public:
 
 	void HandleMessage(MessageChunk messageChunk);
 
-	inline std::string GetCurrentLevelName() { return this->levelData[this->currentLevelIndex].name; }
+	inline std::string GetCurrentLevelName() { return this->currentLevelName; }
 	inline int GetCurrentLevelIndex() { return this->currentLevelIndex; }
 
 	//void LoadLevelFromAsset(std::string assetName); // Once we've got the loading process worked out, switch to using an asset
@@ -59,11 +75,19 @@ public:
 	void AddWinCondition(ObjectIdType switchId);
 	void AddLoseCondition(ObjectIdType switchId);
 
-	inline int NumLevels() { return this->levelData.size(); }
-	LevelData GetLevelData(int index);
+	inline int NumContracts() { return this->contractData.size(); }
+	LevelData GetLevelData(int missionIndex, int levelIndex);
+	MissionData GetMissionData(int index);
+	ContractData GetContractData(int index);
 
-	inline int GetNumMissions() { return this->levelsPerMission.size(); }
+	inline int GetNumMissionsInCurrentContract() { return this->contractData[this->currentContract].missions.size(); }
+	inline int GetNumLevelsInCurrentMission() { return this->contractData[this->currentContract].missions[this->currentMission].levels.size(); }
 	int GetNumLevelsInMission(int missionNum);
+
+	inline int GetCurrentContract() { return this->currentContract; }
+	void SetCurrentContract(int contractIndex) { this->currentContract = contractIndex; }
+	inline int GetCurrentMission() { return this->currentMission; }
+	void SetCurrentMission(int missionIndex) { this->currentMission = missionIndex; }
 private:
 	void init();
 	void destroy();
@@ -88,13 +112,17 @@ private:
 	static ComponentIdType componentTypeId;
 
 	int currentLevelIndex;
+	int currentMission;
+	int currentContract;
+
+	std::string currentLevelName;
+
 	int levelToLoad;
 
 	Object* winner;
 	Object* loser;
 
-	std::vector<int> levelsPerMission;
-	std::vector<LevelData> levelData;
+	std::vector<ContractData> contractData;
 
 	//UiElement* levelTutorial;
 

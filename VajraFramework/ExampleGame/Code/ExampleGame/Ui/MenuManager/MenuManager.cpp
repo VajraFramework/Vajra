@@ -62,7 +62,7 @@ void MenuManager::HandleMessage(MessageChunk messageChunk) {
 
 void MenuManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_LOADED, this->GetTypeId(), false);
-	this->LoadMainMenu("startMenu");
+	this->LoadMainMenu(START_MENU);
 }
 
 void MenuManager::destroy() {
@@ -82,9 +82,17 @@ void MenuManager::LoadMainMenu(std::string screenToShow /* = "startMenu"*/) {
 
 	this->backdrop = (UiElement*)ObjectRegistry::GetObjectByName(BACKDROP);
 
-	UiElement* screen = (UiElement*)ObjectRegistry::GetObjectByName(screenToShow);
-	VERIFY(screen != nullptr, "screen to show is not null");
-	screen->SetVisible(true);
+	if(screenToShow == START_MENU) {
+		this->mainMenuTouchHandler->openStartMenu();
+	} else if(screenToShow == CONTRACT) {
+		this->mainMenuTouchHandler->openContractMenu();
+	} else if(screenToShow == PARALLAX) {
+		this->mainMenuTouchHandler->openMissionMenu(SINGLETONS->GetLevelManager()->GetCurrentContract());
+	} else {
+		UiElement* screen = (UiElement*)ObjectRegistry::GetObjectByName(screenToShow);
+		VERIFY(screen != nullptr, "screen to show is not null");
+		screen->SetVisible(true);
+	}
 }
 
 void MenuManager::LoadGameMenu(std::string screenToShow /*= "inGame"*/) {
@@ -106,11 +114,11 @@ void MenuManager::LoadLevel(int levelIndex) {
 		this->LoadGameMenu();
 	}
 
-	if(levelIndex < SINGLETONS->GetLevelManager()->NumLevels()) {
+	if(levelIndex < SINGLETONS->GetLevelManager()->GetNumLevelsInCurrentMission()) {
 		this->showLoadScreen(); // We only need a load screen when we are loading a new level
 		SINGLETONS->GetLevelManager()->LoadLevel(levelIndex);
 	} else {
-		this->LoadMainMenu();
+		this->LoadMainMenu(PARALLAX);
 	}
 
 }

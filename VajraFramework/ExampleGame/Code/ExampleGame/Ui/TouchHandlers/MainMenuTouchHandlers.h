@@ -3,6 +3,15 @@
 
 #include "Vajra/Engine/Ui/UiTouchHandlers/UiTouchHandlers.h"
 
+#define START_MENU "startMenu"
+#define OPTIONS_MENU "optionsMenu"
+#define MISSION_MENU "missionMenu"
+#define CONTRACT "contractRoot"
+#define PARALLAX "parallaxRoot"
+#define PARALLAX_FRONT "parallaxFront"
+#define PARALLAX_MIDDLE "parallaxMid"
+#define PARALLAX_BACK "parallaxBack"
+
 class UiElement;
 class MainMenuTouchHandlers : public UiTouchHandlers {
 public:
@@ -16,17 +25,29 @@ public:
 private:
 	void createMissionMenu();
 
+	void loadPips(int contractIndex);
+
 	void displaySettings();
 	void applySettings();
 	
 	void parallaxScroll(UiObject* parallaxRoot, float touchX, bool touchEnd = false);
 	void scrollToCurrentMission();
 
-	int currentMission;
+	void openStartMenu();
+	void openContractMenu();
+	void openMissionMenu(int contractIndex);
+
+	void goBackOneMenu();
+
+	int currentMissionScreenIndex;
+	int prevContractIndex;
+	std::vector<UiElement*> parallaxScreens;
+	std::vector<UiElement*> levelPips;
 
 	std::vector<std::vector<UiObject*>> currentLevelButtons;
 	UiElement* missionRoot;
-
+	UiElement* contractRoot;
+	UiElement* parallaxRoot;
 	float startTouchX;
 	float currentScreenX;
 
