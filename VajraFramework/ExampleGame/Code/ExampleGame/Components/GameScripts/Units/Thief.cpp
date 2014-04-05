@@ -308,7 +308,7 @@ void Thief::checkLegalAttack() {
 		}
 		glm::vec3 endPos = this->targetedCell->center;
 		endPos.y = SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(elevation);
-		this->gameObjectRef->GetTransform()->SetPositionWorld(endPos.y + glm::vec3(0.0f, 1.0f, 0.0f));
+		this->gameObjectRef->GetTransform()->SetPositionWorld(endPos + glm::vec3(0.0f, 1.0f, 0.0f));
 		this->sendAttackMessage(this->targetedCell->x, this->targetedCell->z, elevation);
 		this->beginPoof(this->endPoofId);
 	}
