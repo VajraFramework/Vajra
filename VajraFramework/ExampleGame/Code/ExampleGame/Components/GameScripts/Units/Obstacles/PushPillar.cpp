@@ -37,6 +37,7 @@ void PushPillar::init() {
 	this->riderId = OBJECT_ID_INVALID;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED             , this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED_CELL        , this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED_CELL         , this->GetTypeId(), false);
 }
@@ -52,6 +53,12 @@ void PushPillar::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION:
 			if (this->isSliding) {
 				this->slide();
+			}
+			break;
+
+		case MESSAGE_TYPE_GRID_ZONE_ENTERED:
+			if (this->isSliding && (messageChunk->GetSenderId() != this->gameObjectRef->GetId())) {
+				this->childUnitOnTop();
 			}
 			break;
 
