@@ -27,7 +27,7 @@ PushPillar::~PushPillar() {
 }
 
 void PushPillar::init() {
-	this->unitType = UNIT_TYPE_OBSTACLE;
+	this->unitType = UNIT_TYPE_PILLAR;
 	this->gridNavRef->SetMaxNavigableUnitType(UNIT_TYPE_NONE);
 	this->gridNavRef->SetMovementSpeed(2.0f);
 
@@ -76,7 +76,8 @@ void PushPillar::HandleMessage(MessageChunk messageChunk) {
 	}
 }
 
-bool PushPillar::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
+bool PushPillar::CanBeKilledBy(ObjectIdType /*id*/, glm::vec3 /*source*/) {
+	/*
 	GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
 	ASSERT(gObj != nullptr, "GameObject exists with id %d", id);
 	if (gObj != nullptr) {
@@ -88,6 +89,7 @@ bool PushPillar::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
 			}
 		}
 	}
+	*/
 	return false;
 }
 
@@ -109,9 +111,18 @@ void PushPillar::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ, glm::ve
 	if (cell != nullptr) {
 		if ((cell->x == gridX) && (cell->z == gridZ)) {
 			// Check if the attacker can kill me
-			if (this->CanBeKilledBy(id, source)) {
-				// Move it!
-				this->startSliding(this->gameObjectRef->GetTransform()->GetPositionWorld() - source);
+			//if (this->CanBeKilledBy(id, source)) {
+			GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(id);
+			ASSERT(gObj != nullptr, "GameObject exists with id %d", id);
+			if (gObj != nullptr) {
+				BaseUnit* unit = gObj->GetComponent<BaseUnit>();
+				if (unit != nullptr) {
+					// Pillars can only be pushed by the assassin.
+					if (unit->GetUnitType() == UNIT_TYPE_ASSASSIN) {
+						// Move it!
+						this->startSliding(this->gameObjectRef->GetTransform()->GetPositionWorld() - source);
+					}
+				}
 			}
 		}
 	}
@@ -215,6 +226,7 @@ void PushPillar::unchildUnitOnTop() {
 void PushPillar::onZoneEnteredCell(int gridX, int gridZ) {
 	// When the pillar enters a cell, that cell becomes passable above the pillar
 	int elevation = this->gridNavRef->GetElevation();
+	SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gridX, gridZ, elevation, false);
 	if (elevation < (NUM_ELEVATIONS - 1)) {
 		SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gridX, gridZ, elevation + 1, true);
 	}
@@ -223,6 +235,7 @@ void PushPillar::onZoneEnteredCell(int gridX, int gridZ) {
 void PushPillar::onZoneExitedCell(int gridX, int gridZ) {
 	// When the pillar exits a cell, that cell becomes impassable at the higher elevation
 	int elevation = this->gridNavRef->GetElevation();
+	SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gridX, gridZ, elevation, true);
 	if (elevation < (NUM_ELEVATIONS - 1)) {
 		SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gridX, gridZ, elevation + 1, false);
 	}
