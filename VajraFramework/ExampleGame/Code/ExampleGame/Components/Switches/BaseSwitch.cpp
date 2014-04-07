@@ -16,6 +16,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
+#include "Vajra/Utilities/StringUtilities.h"
 
 SwitchType ConvertStringToSwitchType(std::string str) {
 	if      (str == "Once") {
@@ -112,8 +113,7 @@ void BaseSwitch::RemoveSubscriber(ObjectIdType subscriberId) {
 }
 
 void BaseSwitch::setConditionState(bool state) {
-	std::string tweenName = "SwitchTimeout";
-	tweenName += this->GetObject()->GetId();
+	std::string tweenName = "SwitchTimeout" + StringUtilities::ConvertIntToString(this->GetObject()->GetId());
 	MessageData1S1I1F* userParams;
 
 	switch (this->type) {
