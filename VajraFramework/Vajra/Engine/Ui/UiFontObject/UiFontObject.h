@@ -21,7 +21,10 @@ private:
 
 	void setText(std::string text)     { this->textToDisplay = text;   }
 
+	std::string getPathToFontFile() { return this->pathToFontFile; }
+
 	std::string textToDisplay;
+	std::string pathToFontFile;
 
 	friend class UiElement;
 };
