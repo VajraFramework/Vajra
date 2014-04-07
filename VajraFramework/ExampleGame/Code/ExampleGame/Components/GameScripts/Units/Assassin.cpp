@@ -159,6 +159,8 @@ void Assassin::onSpecialEnd() {
 	this->arrowHead->SetVisible(false);
 	this->arrowTail->SetVisible(false);
 	
+	this->checkFinalAttack();
+
 	//this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
 	
 	//this->gridNavRef->SetGridPosition(this->targetedCell);
@@ -173,19 +175,31 @@ void Assassin::cancelSpecial() {
 		this->arrowTail->SetVisible(false);
 		ENGINE->GetTween()->CancelNumberTween("dash");
 		ENGINE->GetTween()->CancelPostitionTween(this->gameObjectRef->GetId());
+		this->checkFinalAttack();
 		//this->specialUpdate();
 		//this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
 	}
 }
 
 void Assassin::aimSpecial(int touchId){
+	// The target location is wherever the player is touching
 	this->targetLoc = SINGLETONS->GetGridManager()->TouchPositionToGridPositionAtElevation(ENGINE->GetInput()->GetTouch(touchId).pos, this->gridNavRef->GetCurrentCell()->y);
 	glm::vec3 sinPos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 	
+	// Clamp the target location to the Assassin's maximum attack range
+	glm::vec3 attackDir  = glm::normalize(this->targetLoc - sinPos);
+	float dist = glm::distance(sinPos, this->targetLoc);
+	if (dist > GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units)) {
+		dist = GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units);
+		this->targetLoc = sinPos + (attackDir * dist);
+	}
+
+	// Get the list of cells between the assassin's position and the target position
 	std::list<GridCell*> touchedCells;
 	GridCell* touchedCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->targetLoc);
 	ASSERT(touchedCell != nullptr, "the target cell is not null");
 
+	// Check that all of the cells along the route are passable
 	SINGLETONS->GetGridManager()->GetGrid()->TouchedCells(sinPos, this->targetLoc, touchedCells);
 	int elevation = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(this->gridNavRef->GetCurrentCell()->center.y);
 	int cellIndex = 0;
@@ -193,6 +207,18 @@ void Assassin::aimSpecial(int touchId){
 		if(SINGLETONS->GetGridManager()->GetGrid()->IsCellPassableAtElevation(c->x, c->z, elevation)) {
 			this->targetedCell = c;
 		} else {
+			// Set the target location at the cell boundary
+			float frac = 1.0f;
+			if      (this->targetedCell->x != c->x) {
+				float midX = (this->targetedCell->x + c->x) *  0.5f;
+				frac = (midX - sinPos.x) / (this->targetLoc.x - sinPos.x);
+			}
+			else if (this->targetedCell->z != c->z) {
+				float midZ = (this->targetedCell->z + c->z) * -0.5f;
+				frac = (midZ - sinPos.z) / (this->targetLoc.z - sinPos.z);
+			}
+			dist = dist * frac;
+			this->targetLoc = sinPos + (attackDir * dist);
 			break;
 		}
 		cellIndex++;
@@ -200,7 +226,7 @@ void Assassin::aimSpecial(int touchId){
 
 	// if there is a legal target
 	if(this->targetedCell != nullptr && touchedCell != nullptr && this->targetedCell != this->gridNavRef->GetCurrentCell()) {
-		glm::vec3 attackDir = glm::normalize(this->targetLoc - sinPos);
+		/*
 		if(touchedCell != this->targetedCell) {
 			// if the touched cell is obstructed move back along the path until the target is reachable
 			float dis = glm::distance(sinPos, this->targetedCell->center);
@@ -209,14 +235,7 @@ void Assassin::aimSpecial(int touchId){
 				touchedCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->targetLoc);
 			}
 		}
-
-		float dist = glm::distance(sinPos, this->targetLoc);
-		if(dist > GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units)) {
-			dist = GetFloatGameConstant(GAME_CONSTANT_dash_distance_in_units);
-			this->targetLoc = sinPos + (attackDir *  dist);
-			this->targetedCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->targetLoc);
-		}
-
+		*/
 		dist -= 1.5f; // shorten dist so arrow heads are in the right spot
 		if(dist < 0.5f) {
 			this->arrowTail->SetVisible(false);
@@ -330,4 +349,35 @@ void Assassin::sendAttackMessage(int gridX, int gridZ, int elevation) {
 	attackMessage->messageData.iv1.z = gridZ;
 	attackMessage->messageData.fv1 = this->specialStartPos;
 	ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
+}
+
+void Assassin::checkFinalAttack() {
+	// If there is a pillar in front of the Assassin, attack it once the attack completes
+	glm::vec3 pos = this->gameObjectRef->GetTransform()->GetPositionWorld();
+	glm::vec3 forward = this->gameObjectRef->GetTransform()->GetForward();
+	GridCell* cell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(pos + forward);
+	GridCell* myCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(pos);
+	if (cell != myCell) {
+		int elevation = this->gridNavRef->GetElevation();
+		ObjectIdType occId = cell->GetOccupantIdAtElevation(elevation);
+		if (occId != OBJECT_ID_INVALID) {
+			// If the cell is occupied, the Assassin can only move there if he can kill the occupant.
+			GameObject* occupant = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+			if (occupant != nullptr) {
+				BaseUnit* unit = occupant->GetComponent<BaseUnit>();
+				if (unit != nullptr) {
+					if (unit->GetUnitType() == UNIT_TYPE_PILLAR) {
+						// Attack the cell
+						MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+						attackMessage->SetMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT);
+						attackMessage->messageData.iv1.x = cell->x;
+						attackMessage->messageData.iv1.y = elevation;
+						attackMessage->messageData.iv1.z = cell->z;
+						attackMessage->messageData.fv1 = this->specialStartPos;
+						ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
+					}
+				}
+			}
+		}
+	}
 }

@@ -65,6 +65,7 @@ protected:
 	void SetTouchIndicatorSprite(int /*index*/ );
 
 	void GridPlaneSetPos(GameObject* /*plane*/, GridCell* /*target*/);
+	void GridPlaneSetPos(GameObject* /*plane*/, GridCell* /*target*/, int elevation);
 	void GridPlaneSetPos(GameObject* /*plane*/, glm::vec3 /*target*/);
 
 	void GridPlaneLookAt(GameObject* /*plane*/, GridCell* /*target*/);

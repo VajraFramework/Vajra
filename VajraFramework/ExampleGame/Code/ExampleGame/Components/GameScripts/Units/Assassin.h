@@ -47,6 +47,7 @@ private:
 	GridCell* lastCheckedCell;
 	void specialUpdate();
 	void sendAttackMessage(int gridX, int gridZ, int elevation);
+	void checkFinalAttack();
 
 	friend void assassinTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
 	friend void assassinNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* userParams);

@@ -1,0 +1,33 @@
+<prefab>
+	<gameobject>
+		<component name="GridNavigator">
+		</component>
+
+		<component name="PushPillar">
+		</component>
+		
+		<component name="GridZone">
+			<property name="SetZoneBounds">
+				<field>0</field>
+				<field>0</field>
+				<field>0</field>
+				<field>0</field>
+			</property>
+		</component>
+	
+		<component name="MeshRenderer">
+		  <property name="InitMesh">
+			  <field>models/SD_Column_02.model</field>
+		  </property>
+		</component>
+
+		<component name="Transform">
+			<property name="SetScale">
+				<field>1.0</field>
+				<field>0.5</field>
+				<field>1.0</field>
+			</property>
+		</component>
+	</gameobject>
+</prefab>
+

@@ -50,6 +50,7 @@ private:
 	void startPositionTween(bool raised);
 	void setCellsInGridZonePassable(bool pass);
 	void changeCellElevations(bool raised);
+	void changePassengerElevations(bool raised);
 	void childObjectsToElevator();
 	void unchildObjectsFromElevator();
 
