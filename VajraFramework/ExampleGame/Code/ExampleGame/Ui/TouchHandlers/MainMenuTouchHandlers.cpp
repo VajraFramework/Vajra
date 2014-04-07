@@ -82,9 +82,12 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 		}
 		for(int i = 0; i < (int)this->currentLevelButtons[this->currentMissionScreenIndex].size(); i++) {
 			if(this->currentLevelButtons[this->currentMissionScreenIndex][i] == uiObject) {
-				std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
-				SINGLETONS->GetMenuManager()->LoadLevel(i);
-				return;
+				LevelData* levelData = SINGLETONS->GetLevelManager()->GetLevelData(this->currentMissionScreenIndex, i);
+				if(levelData->completion != LevelCompletion::Locked) {
+					std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
+					SINGLETONS->GetMenuManager()->LoadLevel(i);
+					return;
+				}
 			}
 		}
 	}
@@ -268,6 +271,7 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		this->parallaxRoot->AddChild(uiElement->GetId());
 		std::vector<std::string> imagePaths;
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelection_Level1_Marker.png");
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelect_Grayscale_08.png"); // TEMP : replace with locked image
 		uiElement->InitSprite(67, 118, "ustshdr", imagePaths, true);
 		uiElement->SetTouchHandlers(this);
 		uiElement->SetClickable(true);
@@ -297,13 +301,24 @@ void MainMenuTouchHandlers::loadPips(int contractIndex) {
 		for(int i = 0; i < SINGLETONS->GetLevelManager()->GetNumLevelsInMission(j); i++) {
 			ASSERT(currentPipIndex < MAX_LEVELS_PER_CONTRACT, "the number of levels in this contract is less than the max");
 			UiElement* uiElement = this->levelPips[currentPipIndex];
-			LevelData levelData = SINGLETONS->GetLevelManager()->GetLevelData(j, i);
+			LevelData* levelData = SINGLETONS->GetLevelManager()->GetLevelData(j, i);
 			uiElement->SetVisible(j == this->currentMissionScreenIndex);
-			uiElement->SetPosition(levelData.pinX - missionXOffset, levelData.pinY);
+			uiElement->SetPosition(levelData->pinX - missionXOffset, levelData->pinY);
 			uiElement->SetZOrder(10);
+			switch(levelData->completion) {
+				case LevelCompletion::Locked:
+					uiElement->SetSpriteTextureIndex(1);
+					break;
+				case LevelCompletion::Unlocked:
+					uiElement->SetSpriteTextureIndex(0);
+					break;
+				default:
+					uiElement->SetSpriteTextureIndex(0);
+					break;
+			}
 			this->currentLevelButtons[j].push_back((UiObject*)uiElement);
 
-			int screenIndex = levelData.parallaxScreen;
+			int screenIndex = levelData->parallaxScreen;
 			if(screenIndex < 3) {
 				this->parallaxScreens[screenIndex]->AddChild(uiElement->GetId());
 			}

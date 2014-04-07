@@ -245,6 +245,7 @@ void RenderBatch_static::init() {
 }
 
 void RenderBatch_static::destroy() {
+	return;
     if (this->vertices != nullptr) {
         delete this->vertices;
     }

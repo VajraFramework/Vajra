@@ -19,7 +19,7 @@
 class LevelLoader {
 public:
 	static void LoadLevelFromFile(std::string levelFilename);
-	static void LoadLevelData(std::vector<ContractData>* /*contractData*/); 
+	static void LoadLevelData(std::vector<ContractData*>* /*contractData*/); 
 	static void LoadTutorialData(std::string levelName);
 private:
 
@@ -36,6 +36,7 @@ private:
 	static void loadEndConditionsFromXml(XmlNode* linkBaseNode);
 
 	static LevelType stringToLevelType(std::string);
+	static LevelCompletion charToCompletionData(char);
 
 	static std::map<int, ObjectIdType> idsFromXml;
 };

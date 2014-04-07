@@ -18,7 +18,15 @@
 
 #include <vector>
 
+// Defines for bundle data
+#define PLAYER_BUNDLE_NAME "playerBundle"
+#define LEVEL_COMPLETION "levelCompletionData"
+
 #define MAX_LEVELS_PER_CONTRACT 15
+#define MAX_LEVELS_POSSIBLE 256
+
+class Bundle;
+
 enum LevelType {
 	Infiltration,
 	Theft,
@@ -26,34 +34,43 @@ enum LevelType {
 	NO_TYPE
 };
 
+enum LevelCompletion {
+	Locked,
+	Unlocked,
+	Completed,
+	Completed_Bonus
+};
 
 struct LevelData {
 public:
 	std::string name;
 	std::string path;
 	std::string description;
+
 	LevelType type;
+	LevelCompletion completion;
+
 	bool hasTutorial;
-	int contract;
-	int mission;
-	int parallaxScreen;
-	float pinX;
-	float pinY;
+	int levelNum;
+
 	LevelBonus bonus;
 	int bonusValue;
 
+	int parallaxScreen;
+	float pinX;
+	float pinY;
 };
 
 struct MissionData {
 public:
 	std::string name;
-	std::vector<LevelData> levels;
+	std::vector<LevelData*> levels;
 };
 
 struct ContractData {
 public:
 	std::string name;
-	std::vector<MissionData> missions;
+	std::vector<MissionData*> missions;
 };
 
 
@@ -76,18 +93,21 @@ public:
 	void AddLoseCondition(ObjectIdType switchId);
 
 	inline int NumContracts() { return this->contractData.size(); }
-	LevelData GetLevelData(int missionIndex, int levelIndex);
-	MissionData GetMissionData(int index);
-	ContractData GetContractData(int index);
+	LevelData* GetLevelData(int missionIndex, int levelIndex);
+	LevelData* GetLevelData(int contractIndex, int missionIndex, int levelIndex);
+	MissionData* GetMissionData(int contractIndex, int missionIndex);
+	ContractData* GetContractData(int index);
 
-	inline int GetNumMissionsInCurrentContract() { return this->contractData[this->currentContract].missions.size(); }
-	inline int GetNumLevelsInCurrentMission() { return this->contractData[this->currentContract].missions[this->currentMission].levels.size(); }
+	inline int GetNumMissionsInCurrentContract() { return this->contractData[this->currentContract]->missions.size(); }
+	inline int GetNumLevelsInCurrentMission() { return this->contractData[this->currentContract]->missions[this->currentMission]->levels.size(); }
 	int GetNumLevelsInMission(int missionNum);
 
 	inline int GetCurrentContract() { return this->currentContract; }
 	void SetCurrentContract(int contractIndex) { this->currentContract = contractIndex; }
 	inline int GetCurrentMission() { return this->currentMission; }
 	void SetCurrentMission(int missionIndex) { this->currentMission = missionIndex; }
+
+	void OnCurrentLevelWon(LevelCompletion completion);
 private:
 	void init();
 	void destroy();
@@ -100,7 +120,7 @@ private:
 	void LoadLevel(int /*levelNumber*/);
 
 	void loadLevel_internal();
-	void LoadLevelFromData(LevelData /*levelData*/);
+	void LoadLevelFromData(LevelData* /*levelData*/);
 	void clearEndConditions();
 	/*****************
 	bool playerHasWonLevel();
@@ -108,6 +128,7 @@ private:
 	*****************/
 
 	void endLevel(bool success);
+	LevelData* getNextLevel();
 
 	static ComponentIdType componentTypeId;
 
@@ -122,7 +143,11 @@ private:
 	Object* winner;
 	Object* loser;
 
-	std::vector<ContractData> contractData;
+	std::string levelCompletionData;
+
+	std::vector<ContractData*> contractData;
+
+	void initBundleForFirstTime();
 
 	//UiElement* levelTutorial;
 

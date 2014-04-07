@@ -321,6 +321,7 @@ void MeshAsset::init() {
 }
 
 void MeshAsset::destroy() {
+    return;
     if (this->vertices != nullptr) {
         delete this->vertices;
     }
