@@ -12,9 +12,10 @@
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Utilities/MathUtilities.h"
+#include "Vajra/Utilities/StringUtilities.h"
 
 // Tween callbacks
-void lootNumberTweenCallback(float /*fromNumber*/, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
+void lootNumberTweenCallback(float /*fromNumber*/, float toNumber, float currentNumber, std::string /*tweenClipName*/, MessageData1S1I1F* userParams) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
 	if(go != nullptr) {
 		TriggerLoot* loot = go->GetComponent<TriggerLoot>();
@@ -66,13 +67,13 @@ void TriggerLoot::SetActive(bool active) {
 	this->active = active; 
 }
 
-void TriggerLoot::onSwitchToggled(bool switchState) {
+void TriggerLoot::onSwitchToggled(bool /*switchState*/) {
 	if(this->active) {
 		this->startPos = this->GetObject()->GetComponent<Transform>()->GetPositionWorld();
 		// Perform a position tween
 		MessageData1S1I1F* params = new MessageData1S1I1F();
 		params->i = this->GetObject()->GetId();
-		ENGINE->GetTween()->TweenToNumber(0.0f, 1.8f, 0.3f, INTERPOLATION_TYPE_LINEAR, true, false, true, "lootBounce" + std::to_string(params->i), NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, lootNumberTweenCallback);
+		ENGINE->GetTween()->TweenToNumber(0.0f, 1.8f, 0.3f, INTERPOLATION_TYPE_LINEAR, true, false, true, "lootBounce" + StringUtilities::ConvertIntToString(params->i), NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, lootNumberTweenCallback);
 	}
 }
 
