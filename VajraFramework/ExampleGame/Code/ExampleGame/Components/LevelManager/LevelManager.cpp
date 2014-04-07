@@ -273,7 +273,11 @@ void LevelManager::initBundleForFirstTime() {
 	char levelCompletion[MAX_LEVELS_POSSIBLE];
 	levelCompletion[0] = 'U'; // U = unlocked
 	for(int i = 1; i < MAX_LEVELS_POSSIBLE; ++i) {
+#ifdef DEBUG
+		levelCompletion[i] = 'U';
+#else
 		levelCompletion[i] = 'L'; // L = locked
+#endif
 	}
 
 	std::string levelData = levelCompletion;
