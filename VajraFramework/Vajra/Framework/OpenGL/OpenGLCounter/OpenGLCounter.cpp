@@ -15,7 +15,7 @@ void OpenGLCounter::CountGlCall(const char* /* glFunctionName */) {
 }
 
 void OpenGLCounter::switchFrames() {
-	FRAMEWORK->GetLogger()->dbglog("\nNumber of gl calls in previous frame: %u", this->countOfAllGlCallsThisFrame);
+	// FRAMEWORK->GetLogger()->dbglog("\nNumber of gl calls in previous frame: %u", this->countOfAllGlCallsThisFrame);
 	this->countOfAllGlCallsThisFrame = 0;
 }
 
