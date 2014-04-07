@@ -17,7 +17,7 @@ class GameObject;
 class RenderList;
 
 #define USING_FRUSTUM_CULLING 1
-#define USING_STATIC_RENDER_BATCHING 1
+#define USING_STATIC_RENDER_BATCHING 0
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -1,6 +1,8 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
+#include "ExampleGame/Components/LevelManager/LevelManager.h"
 #include "ExampleGame/Components/LevelManager/MasteryManager.h"
+#include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 
 #include "Vajra/Engine/Core/Engine.h"
@@ -60,10 +62,10 @@ void MasteryManager::HandleMessage(MessageChunk messageChunk) {
 			// if the level was won
 			if(messageChunk->messageData.iv1.x >= 0) {
 				if(this->testBonusSucess()) {
-					printf("\nSUCESS");
+					SINGLETONS->GetLevelManager()->OnCurrentLevelWon(LevelCompletion::Completed);
 				} else {
-					printf("\nNO BONUS SUCESS");
-				}
+					SINGLETONS->GetLevelManager()->OnCurrentLevelWon(LevelCompletion::Completed_Bonus);
+				};
 			}
 			break;
 		default:

@@ -14,6 +14,7 @@
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Framework/SavedDataManager/SavedDataManager.h"
 
 #include <fstream>
 
@@ -101,18 +102,23 @@ void LevelManager::loadLevel_internal() {
 	this->levelToLoad = -1;
 }
 
-void LevelManager::LoadLevelFromData(LevelData levelData) {
-	LevelLoader::LoadLevelFromFile(levelData.path);
-	if(levelData.hasTutorial) {
-		LevelLoader::LoadTutorialData(levelData.name);
+void LevelManager::LoadLevelFromData(LevelData* levelData) {
+	LevelLoader::LoadLevelFromFile(levelData->path);
+	if(levelData->hasTutorial) {
+		LevelLoader::LoadTutorialData(levelData->name);
 	}
 	// Set up the bonus
-	SINGLETONS->GetMasteryManager()->SetCurrentBonuse(levelData.bonus, levelData.bonusValue);
+	SINGLETONS->GetMasteryManager()->SetCurrentBonuse(levelData->bonus, levelData->bonusValue);
 }
 
-LevelData LevelManager::GetLevelData(int missionIndex, int levelIndex) 
+LevelData* LevelManager::GetLevelData(int missionIndex, int levelIndex) 
 { 
-	std::vector<LevelData> lData = this->GetMissionData(missionIndex).levels;
+	return this->GetLevelData(this->currentContract, missionIndex, levelIndex);
+}
+
+LevelData* LevelManager::GetLevelData(int contractIndex, int missionIndex, int levelIndex) 
+{ 
+	std::vector<LevelData*> lData = this->GetMissionData(contractIndex, missionIndex)->levels;
 	if(levelIndex < (int)lData.size()) {
 		return lData[levelIndex];
 	}
@@ -120,16 +126,16 @@ LevelData LevelManager::GetLevelData(int missionIndex, int levelIndex)
 	return lData[0];
 }
 
-MissionData LevelManager::GetMissionData(int index) 
+MissionData* LevelManager::GetMissionData(int contractIndex, int missionIndex) 
 { 
-	std::vector<MissionData> mData = this->GetContractData(this->currentContract).missions;
-	if(index < (int)mData.size()) {
-		return mData[index];
+	std::vector<MissionData*> mData = this->GetContractData(contractIndex)->missions;
+	if(missionIndex < (int)mData.size()) {
+		return mData[missionIndex];
 	}
-	ASSERT(false, "index passed into GetMissionData is valid");
+	ASSERT(false, "missionIndex passed into GetMissionData is valid");
 	return mData[0];
 }
-ContractData LevelManager::GetContractData(int index) 
+ContractData* LevelManager::GetContractData(int index) 
 { 
 	if(index < (int)this->contractData.size()) {
 		return this->contractData[index];
@@ -139,8 +145,52 @@ ContractData LevelManager::GetContractData(int index)
 }
 
 int LevelManager::GetNumLevelsInMission(int mission) {
-	MissionData mData = GetMissionData(mission);
-	return mData.levels.size();
+	MissionData* mData = GetMissionData(this->currentContract, mission);
+	return mData->levels.size();
+}
+
+void LevelManager::OnCurrentLevelWon(LevelCompletion completion) {
+	LevelData* lData = this->GetLevelData(this->currentMission, this->currentLevelIndex);
+	if(completion > lData->completion) {
+		Bundle* bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle(PLAYER_BUNDLE_NAME);
+
+		lData->completion = completion;
+		
+		if(lData->completion == LevelCompletion::Completed) {
+			this->levelCompletionData[lData->levelNum] = 'C';
+		} else if (lData->completion == LevelCompletion::Completed_Bonus) {
+			this->levelCompletionData[lData->levelNum] = 'B';
+
+		}
+
+		LevelData* nextLevel = this->getNextLevel();
+		if(nextLevel->completion == LevelCompletion::Locked) {
+			nextLevel->completion = LevelCompletion::Unlocked;
+			this->levelCompletionData[nextLevel->levelNum] = 'U';
+		}
+
+		bundle->PutString(LEVEL_COMPLETION, this->levelCompletionData);
+		bundle->Save();
+	}
+}
+
+LevelData* LevelManager::getNextLevel() {
+	int lIndex = this->currentLevelIndex + 1;
+	int mIndex = this->currentMission;
+	int cIndex = this->currentContract;
+	if(lIndex < this->GetNumLevelsInCurrentMission()) {
+		return this->GetLevelData(mIndex, lIndex);
+	} 
+	mIndex++;
+	if(mIndex < GetNumMissionsInCurrentContract()) {
+		return this->GetLevelData(mIndex, 0);
+	}
+	cIndex++;
+	if(cIndex < this->NumContracts()) {
+		return this->GetLevelData(cIndex, mIndex, lIndex);
+	}
+	// this is the last level
+	return nullptr;
 }
 
 void LevelManager::AddWinCondition(ObjectIdType switchId) {
@@ -165,6 +215,15 @@ void LevelManager::init() {
 
 	this->loser = new Object();
 	loser->AddComponent<TriggerLevelDefeat>();
+
+	// load player data
+	Bundle* bundle = nullptr;
+	if (!FRAMEWORK->GetSavedDataManager()->HasBundle(PLAYER_BUNDLE_NAME)) {
+		this->initBundleForFirstTime();
+	}
+	
+	bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle(PLAYER_BUNDLE_NAME);
+	this->levelCompletionData = bundle->GetString(LEVEL_COMPLETION);
 
 	this->levelToLoad = -1;
 	currentLevelIndex = 0;
@@ -205,4 +264,20 @@ void LevelManager::clearEndConditions() {
 	if (defeatTrigger != nullptr) {
 		defeatTrigger->UnsubscribeToAllSwitches();
 	}
+}
+
+void LevelManager::initBundleForFirstTime() {
+	Bundle* bundle = FRAMEWORK->GetSavedDataManager()->CreateNewBundle(PLAYER_BUNDLE_NAME);
+	
+	// create level completion data
+	char levelCompletion[MAX_LEVELS_POSSIBLE];
+	levelCompletion[0] = 'U'; // U = unlocked
+	for(int i = 1; i < MAX_LEVELS_POSSIBLE; ++i) {
+		levelCompletion[i] = 'L'; // L = locked
+	}
+
+	std::string levelData = levelCompletion;
+	bundle->PutString(LEVEL_COMPLETION, levelData);
+
+	bundle->Save();
 }
