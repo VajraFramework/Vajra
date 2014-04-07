@@ -36,7 +36,9 @@ private:
 	void destroy();
 
 	void startSliding(glm::vec3 direction);
+	void setNextTarget();
 	void slide();
+	void changeCell(GridCell* goalCell, int elevation = -1);
 	void stopSliding();
 
 	void childUnitOnTop();
@@ -47,6 +49,7 @@ private:
 
 	bool isSliding;
 	int slideX, slideZ;
+	glm::vec3 targetPosition;
 	ObjectIdType riderId;
 };
 

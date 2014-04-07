@@ -11,7 +11,9 @@
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 PushPillar::PushPillar() : BaseUnit() {
@@ -34,6 +36,7 @@ void PushPillar::init() {
 	this->isSliding = false;
 	this->slideX = 0;
 	this->slideZ = 0;
+	this->targetPosition = ZERO_VEC3;
 	this->riderId = OBJECT_ID_INVALID;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION, this->GetTypeId(), false);
@@ -102,7 +105,9 @@ void PushPillar::end() {
 }
 
 void PushPillar::update() {
-
+	if (this->isSliding) {
+		this->slide();
+	}
 }
 
 void PushPillar::onUnitSpecialHit(ObjectIdType id, int gridX, int gridZ, glm::vec3 source) {
@@ -149,23 +154,83 @@ void PushPillar::startSliding(glm::vec3 direction) {
 	}
 
 	if ((this->slideX != 0) || (this->slideZ != 0)) {
-		this->isSliding = true;
-		this->childUnitOnTop();
-		this->slide();
+		this->setNextTarget();
+		if (this->targetPosition != ZERO_VEC3) {
+			this->isSliding = true;
+			this->childUnitOnTop();
+		}
+	}
+}
+
+void PushPillar::setNextTarget() {
+	GridCell* myCell = this->gridNavRef->GetCurrentCell();
+	if (myCell != nullptr) {
+		GridCell* targetCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(myCell->x + this->slideX, myCell->z - this->slideZ);
+		if (targetCell != nullptr) {
+			if (this->gridNavRef->canNavigateThroughCellAtElevation(targetCell, this->gridNavRef->GetElevation(), false)) {
+				this->targetPosition = targetCell->center;
+			}
+			else {
+				this->targetPosition = ZERO_VEC3;
+			}
+		}
 	}
 }
 
 void PushPillar::slide() {
-	GridCell* myCell = this->gridNavRef->GetCurrentCell();
-	if (myCell != nullptr) {
-		GridCell* targetCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(myCell->x + this->slideX, myCell->z - this->slideZ);
-		if (!this->gridNavRef->SetDestination(targetCell)) {
-			this->stopSliding();
+	float dt = ENGINE->GetTimer()->GetDeltaFrameTime();
+	float distToTravel = this->gridNavRef->GetMovementSpeed() * dt;
+
+	glm::vec3 tempLocation = this->gameObjectRef->GetTransform()->GetPositionWorld();
+	float distToTarget = glm::distance(tempLocation, this->targetPosition);
+
+	while (distToTravel > distToTarget) {
+		distToTravel -= distToTarget;
+		tempLocation = this->targetPosition;
+		this->setNextTarget();
+		if (this->targetPosition != ZERO_VEC3) {
+			distToTarget = glm::distance(tempLocation, this->targetPosition);
+		}
+		else {
+			distToTravel = 0.0f;
 		}
 	}
-	else {
+	float ratio = distToTravel / distToTarget;
+	lerp(tempLocation, tempLocation, this->targetPosition, ratio);
+
+	this->gameObjectRef->GetTransform()->SetPositionWorld(tempLocation);
+	GridCell* newCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(tempLocation);
+	if (newCell != this->gridNavRef->GetCurrentCell()) {
+		this->changeCell(newCell);
+	}
+	if (distToTravel <= 0.0f) {
 		this->stopSliding();
 	}
+}
+
+void PushPillar::changeCell(GridCell* goalCell, int elevation/*= -1*/) {
+	// If no elevation or an invalid elevation was specified, keep the navigator at its current elevation.
+	if ((elevation < 0) || (elevation >= NUM_ELEVATIONS)) {
+		elevation = this->gridNavRef->GetElevation();
+	}
+
+	int gridX, gridZ;
+	if (goalCell != nullptr) {
+		gridX = goalCell->x;
+		gridZ = goalCell->z;
+	}
+	else {
+		gridX = -1;
+		gridZ = -1;
+	}
+
+	// Send a message to the GridManager "asking" to move from one cell to another.
+	MessageChunk cellChangeMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+	cellChangeMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED);
+	cellChangeMessage->messageData.iv1.x = gridX;
+	cellChangeMessage->messageData.iv1.y = elevation;
+	cellChangeMessage->messageData.iv1.z = gridZ;
+	ENGINE->GetMessageHub()->SendMulticastMessage(cellChangeMessage, this->GetObject()->GetId());
 }
 
 void PushPillar::stopSliding() {

@@ -27,6 +27,7 @@ public:
 	inline bool IsTraveling()                  { return this->isTraveling;            }
 	inline bool IsTurning()                    { return this->isTurning;              }
 	inline bool IsMoving()                     { return IsTraveling() || IsTurning(); }
+	inline float GetMovementSpeed()            { return this->movementSpeed;          }
 
 	GridCell* GetDestination();
 
@@ -76,6 +77,7 @@ public:
 	bool CanReachDestination(int cellX, int cellZ, float maxDistance = -1.0f, bool ignoreCellOccupants = false);
 	bool CanReachDestination(glm::vec3 worldPos, float maxDistance = -1.0f, bool ignoreCellOccupants = false);
 	bool CanReachDestination(GridCell* cell, float maxDistance = -1.0f, bool ignoreCellOccupants = false);
+	bool canNavigateThroughCellAtElevation(GridCell* cell, int elevation, bool ignoreCellOccupants = false);
 
 	void DisableNavigation();
 	void EnableNavigation();
@@ -101,7 +103,6 @@ private:
 	float calculatePath(GridCell* startCell, GridCell* goalCell, std::list<GridCell*>& outPath, bool ignoreCellOccupants = false); // Calculates a path and returns its length. Returns -1 if no path found.
 	float travelCostEstimate(GridCell* startCell, GridCell* goalCell); // Estimated distance between two cells
 	float actualTravelCost(GridCell* startCell, GridCell* goalCell);
-	bool canNavigateThroughCellAtElevation(GridCell* cell, int elevation, bool ignoreCellOccupants = false);
 	void simplifyPath(std::list<GridCell*>& outPath, bool ignoreCellOccupants = false);
 	void setNextWaypoint();
 	void goToNearestPassableCell();
