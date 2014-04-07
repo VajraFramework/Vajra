@@ -226,7 +226,6 @@ void PushPillar::unchildUnitOnTop() {
 void PushPillar::onZoneEnteredCell(int gridX, int gridZ) {
 	// When the pillar enters a cell, that cell becomes passable above the pillar
 	int elevation = this->gridNavRef->GetElevation();
-	SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gridX, gridZ, elevation, false);
 	if (elevation < (NUM_ELEVATIONS - 1)) {
 		SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gridX, gridZ, elevation + 1, true);
 	}
@@ -235,7 +234,6 @@ void PushPillar::onZoneEnteredCell(int gridX, int gridZ) {
 void PushPillar::onZoneExitedCell(int gridX, int gridZ) {
 	// When the pillar exits a cell, that cell becomes impassable at the higher elevation
 	int elevation = this->gridNavRef->GetElevation();
-	SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gridX, gridZ, elevation, true);
 	if (elevation < (NUM_ELEVATIONS - 1)) {
 		SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gridX, gridZ, elevation + 1, false);
 	}
