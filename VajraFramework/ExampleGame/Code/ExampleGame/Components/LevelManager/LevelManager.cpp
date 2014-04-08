@@ -270,7 +270,7 @@ void LevelManager::initBundleForFirstTime() {
 	Bundle* bundle = FRAMEWORK->GetSavedDataManager()->CreateNewBundle(PLAYER_BUNDLE_NAME);
 	
 	// create level completion data
-	char levelCompletion[MAX_LEVELS_POSSIBLE];
+	char levelCompletion[MAX_LEVELS_POSSIBLE+1];
 	levelCompletion[0] = 'U'; // U = unlocked
 	for(int i = 1; i < MAX_LEVELS_POSSIBLE; ++i) {
 #ifdef DEBUG
@@ -279,6 +279,7 @@ void LevelManager::initBundleForFirstTime() {
 		levelCompletion[i] = 'L'; // L = locked
 #endif
 	}
+	levelCompletion[MAX_LEVELS_POSSIBLE] = '\0';
 
 	std::string levelData = levelCompletion;
 	bundle->PutString(LEVEL_COMPLETION, levelData);
