@@ -42,6 +42,8 @@ public:
 	void SetSpecialStartAudio(std::string audioStr);
 	void SetSpecialEndAudio(std::string audioStr);
 protected:
+	virtual void start();
+
 	GameObject* touchIndicatorRef;
 
 	void onSelectedTouch();

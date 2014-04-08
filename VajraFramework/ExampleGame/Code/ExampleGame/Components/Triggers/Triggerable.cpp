@@ -54,6 +54,19 @@ void Triggerable::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
+void Triggerable::start() {
+	// Make sure the audio clips are loaded
+	AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+	if (audioSource != nullptr) {
+		if (this->audioOnActivate   != "") {
+			audioSource->SetAudioClip(this->audioOnActivate);
+		}
+		if (this->audioOnDeactivate != "") {
+			audioSource->SetAudioClip(this->audioOnDeactivate);
+		}
+	}
+}
+
 void Triggerable::SetTriggerType(std::string typeStr) {
 	this->type = ConvertStringToTriggerType(typeStr);
 }

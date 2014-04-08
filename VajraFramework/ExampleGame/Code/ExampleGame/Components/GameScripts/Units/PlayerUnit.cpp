@@ -67,6 +67,19 @@ void PlayerUnit::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
+void PlayerUnit::start() {
+	// Make sure the audio clips are loaded
+	AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+	if (audioSource != nullptr) {
+		if (this->audioOnSpecialStart != "") {
+			audioSource->SetAudioClip(this->audioOnSpecialStart);
+		}
+		if (this->audioOnSpecialEnd   != "") {
+			audioSource->SetAudioClip(this->audioOnSpecialEnd);
+		}
+	}
+}
+
 void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 	BaseUnit::HandleMessage(messageChunk);
 	switch(messageChunk->GetMessageType()) {
@@ -214,20 +227,22 @@ void PlayerUnit::onSpecialEnd() {
 }
 
 void PlayerUnit::cancelSpecial() {
+	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
+		if (this->audioOnSpecialEnd != "") {
+			AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+			if (audioSource != nullptr) {
+				audioSource->SetAudioClip(this->audioOnSpecialEnd);
+				audioSource->SetLooping(false);
+				audioSource->Play();
+			}
+		}
+	}
 	this->inputState = InputState::INPUT_STATE_WAIT;
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 	this->touchIndicatorRef->SetVisible(false);
 	this->touchStartPos = glm::vec2();
 	this->touchNearUnit = false;
-	if (this->audioOnSpecialEnd != "") {
-		AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
-		if (audioSource != nullptr) {
-			audioSource->SetAudioClip(this->audioOnSpecialEnd);
-			audioSource->SetLooping(false);
-			audioSource->Play();
-		}
-	}
 }
 
 void PlayerUnit::onNavTouch(int touchId, GridCell* touchedCell) {
