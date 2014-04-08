@@ -47,6 +47,7 @@ public:
 
 	// Other methods
 	void Play();
+	void Play(std::string clipName);
 	void Pause();
 	void Stop();
 	void Stop(float fadeout);

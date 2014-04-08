@@ -80,6 +80,11 @@ void AudioSource::Play() {
 	this->player->Play();
 }
 
+void AudioSource::Play(std::string assetName) {
+	SetAudioClip(assetName);
+	Play();
+}
+
 void AudioSource::Pause() {
 	this->player->Pause();
 }
