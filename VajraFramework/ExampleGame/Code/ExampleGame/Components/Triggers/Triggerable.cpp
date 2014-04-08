@@ -8,6 +8,7 @@
 #include "ExampleGame/Components/Switches/BaseSwitch.h"
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 
@@ -41,6 +42,9 @@ void Triggerable::init() {
 
 	this->decalRef = nullptr;
 
+	this->audioOnActivate = "";
+	this->audioOnDeactivate = "";
+
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SWITCH_ACTIVATED, this->GetTypeId(), true);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SWITCH_DEACTIVATED, this->GetTypeId(), true);
 }
@@ -56,6 +60,14 @@ void Triggerable::SetTriggerType(std::string typeStr) {
 
 void Triggerable::SetToggleState(bool toggle) {
 	this->isToggled = toggle;
+}
+
+void Triggerable::SetActivationAudio(std::string audioStr) {
+	this->audioOnActivate = audioStr;
+}
+
+void Triggerable::SetDeactivationAudio(std::string audioStr) {
+	this->audioOnDeactivate = audioStr;
 }
 
 void Triggerable::HandleMessage(MessageChunk messageChunk) {
@@ -223,10 +235,26 @@ void Triggerable::compareCounts(int prevActive, int prevSwitches, int currActive
 
 void Triggerable::toggleState() {
 	if (this->isToggled) {
+		if (this->audioOnActivate != "") {
+			AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+			if (audioSource != nullptr) {
+				audioSource->SetAudioClip(this->audioOnActivate);
+				audioSource->SetLooping(false);
+				audioSource->Play();
+			}
+		}
 		this->onSwitchToggled(false);
 		this->onSwitchDeactivated();
 	}
 	else {
+		if (this->audioOnDeactivate != "") {
+			AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+			if (audioSource != nullptr) {
+				audioSource->SetAudioClip(this->audioOnDeactivate);
+				audioSource->SetLooping(false);
+				audioSource->Play();
+			}
+		}
 		this->onSwitchToggled(true);
 		this->onSwitchActivated();
 	}

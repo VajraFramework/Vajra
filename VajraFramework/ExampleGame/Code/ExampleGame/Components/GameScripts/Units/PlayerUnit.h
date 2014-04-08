@@ -38,6 +38,9 @@ public:
 	virtual bool CanBeKilledBy(ObjectIdType id, glm::vec3 source);
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 	virtual void cancelSpecial();
+
+	void SetSpecialStartAudio(std::string audioStr);
+	void SetSpecialEndAudio(std::string audioStr);
 protected:
 	GameObject* touchIndicatorRef;
 
@@ -89,6 +92,9 @@ private:
 	void setTouchNearUnit(); 
 
 	bool unitHasTouchFocus;
+
+	std::string audioOnSpecialStart;
+	std::string audioOnSpecialEnd;
 
 	friend void playerUnitNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams);
 	friend class LevelLoader;

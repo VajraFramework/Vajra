@@ -23,6 +23,10 @@ public:
 	//[[PROPERTY]]//
 	virtual void SetTriggerType(std::string typeStr);
 	//[[PROPERTY]]//
+	virtual void SetActivationAudio(std::string audioStr);
+	//[[PROPERTY]]//
+	virtual void SetDeactivationAudio(std::string audioStr);
+	//[[PROPERTY]]//
 	virtual void SetToggleState(bool toggle);
 	//[[PROPERTY]]//
 	inline void SetChangeOnEnterCell(bool changeOnEnter);

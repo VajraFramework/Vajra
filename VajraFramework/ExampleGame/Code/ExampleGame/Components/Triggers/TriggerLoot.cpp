@@ -51,6 +51,14 @@ void TriggerLoot::destroy() {
 
 }
 
+void TriggerLoot::SetActivationAudio(std::string audioStr) {
+	Triggerable::SetActivationAudio(audioStr);
+}
+
+void TriggerLoot::SetDeactivationAudio(std::string audioStr) {
+	Triggerable::SetDeactivationAudio(audioStr);
+}
+
 void TriggerLoot::HandleMessage(MessageChunk messageChunk) {
 	Triggerable::HandleMessage(messageChunk);
 }

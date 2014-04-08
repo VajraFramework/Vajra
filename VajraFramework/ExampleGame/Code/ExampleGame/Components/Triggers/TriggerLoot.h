@@ -14,6 +14,11 @@ public:
 
 	static inline ComponentIdType GetTypeId() { return Triggerable::GetTypeId(); }
 
+	//[[PROPERTY]]//
+	virtual void SetActivationAudio(std::string audioStr);
+	//[[PROPERTY]]//
+	virtual void SetDeactivationAudio(std::string audioStr);
+
 	virtual void HandleMessage(MessageChunk messageChunk);
 
 	//[[PROPERTY]]//

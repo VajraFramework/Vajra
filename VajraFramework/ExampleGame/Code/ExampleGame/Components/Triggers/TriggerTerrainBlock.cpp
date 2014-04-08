@@ -38,6 +38,14 @@ void TriggerTerrainBlock::SetTriggerType(std::string typeStr) {
 	Triggerable::SetTriggerType(typeStr);
 }
 
+void TriggerTerrainBlock::SetActivationAudio(std::string audioStr) {
+	Triggerable::SetActivationAudio(audioStr);
+}
+
+void TriggerTerrainBlock::SetDeactivationAudio(std::string audioStr) {
+	Triggerable::SetDeactivationAudio(audioStr);
+}
+
 void TriggerTerrainBlock::HandleMessage(MessageChunk messageChunk) {
 	Triggerable::HandleMessage(messageChunk);
 }
