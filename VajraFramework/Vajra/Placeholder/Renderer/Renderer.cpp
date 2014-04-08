@@ -7,13 +7,14 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
+#include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/Lighting/ShadowMap.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
-#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/RenderScene/RenderScene.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
-#include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/Timer/Timer.h"
+#include "Vajra/Engine/Ui/UiElement/UiElement.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Loaders/TextureLoader/TextureLoader.h"
@@ -22,6 +23,7 @@
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Placeholder/Renderer/Renderer.h"
 #include "Vajra/Utilities/MathUtilities.h"
+#include "Vajra/Utilities/StringUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
 
 
@@ -142,6 +144,17 @@ bool renderFrame() {
 			DebugDraw::DrawCube(firstPoint, 5.0f);
 		}
 	}
+#endif
+
+#if 0
+	std::string frametimesString = StringUtilities::ConvertIntToString(ENGINE->GetTimer()->GetFPS()) + "fps, ";
+	frametimesString += StringUtilities::ConvertFloatToString(ENGINE->GetTimer()->GetTotalFrameTime() * 1000.0f) + "ms";
+	UiElement* frametimes = (UiElement*)ObjectRegistry::GetObjectByName("frametimes");
+	if (frametimes != nullptr) {
+		ASSERT(frametimes->GetClassType() & CLASS_TYPE_UIELEMENT, "Object is a ui element");
+		frametimes->InitTextToDisplay(frametimesString, 150, 30, frametimes->GetPathToFontFile(), 24);
+	}
+	FRAMEWORK->GetLogger()->dbglog("\n%s", frametimesString.c_str());
 #endif
 
    // printFrameTimeStats();

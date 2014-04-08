@@ -27,6 +27,8 @@ public:
 
 	void InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile, float fontSize);
 
+	std::string GetPathToFontFile();
+
 private:
 	void init();
 	void destroy();

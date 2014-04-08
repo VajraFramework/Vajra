@@ -30,14 +30,16 @@ void UiElement::InitSprite(unsigned int width, unsigned int height, std::string 
 }
 
 void UiElement::InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile, float fontSize) {
-	this->addChildFontObject();
+	if (this->childFontObjectRef == nullptr) {
+		this->addChildFontObject();
+	}
 
 	this->setWidth(width);
 	this->setHeight(height);
 
 	this->childFontObjectRef->InitTextToDisplay(text, width, height, pathToFontSpecificationFile);
 
-	this->childFontObjectRef->GetTransform()->Scale(fontSize);
+	this->childFontObjectRef->GetTransform()->SetScale(fontSize, fontSize, fontSize);
 }
 
 unsigned int UiElement::GetSpriteTextureIndex() {
@@ -81,3 +83,9 @@ void UiElement::addChildFontObject() {
 	this->childFontObjectRef = uiFontObject;
 }
 
+std::string UiElement::GetPathToFontFile() {
+	if (this->childFontObjectRef != nullptr) {
+		return this->childFontObjectRef->getPathToFontFile();
+	}
+	return "";
+}

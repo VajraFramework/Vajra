@@ -53,7 +53,7 @@ void UnitAnimationManager::onAnimationEndMessage(MessageChunk messageChunk) {
 }
 
 void UnitAnimationManager::onUnitActionStateChanged(UnitActionState oldState, UnitActionState newState) {
-	FRAMEWORK->GetLogger()->dbglog("\nUnit action state switched from %d to %d", oldState, newState);
+	// FRAMEWORK->GetLogger()->dbglog("\nUnit action state switched from %d to %d", oldState, newState);
 	std::string animclipToPlay;
 
 	switch (newState) {
