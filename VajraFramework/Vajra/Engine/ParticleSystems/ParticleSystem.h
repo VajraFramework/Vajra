@@ -50,6 +50,8 @@ public:
 	//[[PROPERTY]]//
 	void SetOverallLifespan(float overallLifespanInSeconds_);
 	//[[PROPERTY]]//
+	void SetSimulateInWorldSpace(bool simulateInWorldSpace);
+	//[[PROPERTY]]//
 	void SetName(std::string name_);
 	//[[PROPERTY]]//
 	void InitParticleSystem();
@@ -103,6 +105,7 @@ private:
 	std::list<Particle*> dormantParticles;
 
 	std::string name;
+	bool inWorldSpace;
 	unsigned int numParticlesPerSecond;
 	unsigned int maxNumParticles;
 	float particleInitialSpeed;
@@ -131,6 +134,8 @@ private:
 	bool isInited;
 	bool isPlaying;
 	bool isLooping;
+
+	GameObject* gameObjectRef;
 
 	static unsigned int componentTypeId;
 

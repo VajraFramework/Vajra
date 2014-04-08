@@ -1,4 +1,5 @@
 #include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -107,6 +108,10 @@ void ParticleSystem::SetOverallLifespan(float overallLifespanInSeconds_) {
 	this->overallLifespanInSeconds = overallLifespanInSeconds_;
 }
 
+void ParticleSystem::SetSimulateInWorldSpace(bool simulateInWorldSpace) {
+	this->inWorldSpace = simulateInWorldSpace;
+}
+
 void ParticleSystem::SetName(std::string name_) {
 	this->name = name_;
 }
@@ -122,7 +127,7 @@ void ParticleSystem::InitParticleSystem() {
 		particle->totalLifespanInSeconds = this->particleLifespanInSeconds;
 		particle->initialColor = this->particleInitialColor; particle->finalColor = this->particleFinalColor;
 		//
-		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
+		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness, this->inWorldSpace ? this->gameObjectRef->GetTransform()->GetPositionWorld() : ZERO_VEC3, this->inWorldSpace ? this->gameObjectRef->GetTransform()->GetOrientationWorld() : IDENTITY_QUATERNION);
 		//
 		this->dormantParticles.push_back(particle);
 	}
@@ -225,7 +230,7 @@ void ParticleSystem::spawnParticles(float deltaTime) {
 	}
 	while (!particlesToAdd.empty()) {
 		Particle* particle = particlesToAdd.front();
-		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
+		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness, this->inWorldSpace ? this->gameObjectRef->GetTransform()->GetPositionWorld() : ZERO_VEC3, this->inWorldSpace ? this->gameObjectRef->GetTransform()->GetOrientationWorld() : IDENTITY_QUATERNION);
 		particlesToAdd.pop_front();
 		this->aliveParticles.push_back(particle);
 	}
@@ -268,7 +273,7 @@ void ParticleSystem::cleanupDeadParticles() {
 void ParticleSystem::reclaimDeadParticles() {
 	while (!this->deadParticles.empty()) {
 		Particle* particle = this->deadParticles.front();
-		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness);
+		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness, this->inWorldSpace ? this->gameObjectRef->GetTransform()->GetPositionWorld() : ZERO_VEC3, this->inWorldSpace ? this->gameObjectRef->GetTransform()->GetOrientationWorld() : IDENTITY_QUATERNION);
 		this->deadParticles.pop_front();
 		this->dormantParticles.push_back(particle);
 	}
@@ -282,6 +287,9 @@ void ParticleSystem::init() {
 		ASSERT(typeid(gameObject) == typeid(GameObject*), "Type of Object* (%s) of id %d was %s", typeid(gameObject).name(), gameObject->GetId(), typeid(GameObject*).name());
 	}
 
+	this->gameObjectRef = (GameObject*)this->GetObject();
+	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
+
 	this->particlePositions = nullptr;
 	this->particleSizes = nullptr;
 	this->particleColors = nullptr;
@@ -290,6 +298,7 @@ void ParticleSystem::init() {
 	this->minimumTimeBetweenBatchSpawns = 0.0f;
 
 	// Assign default values for all properties:
+	this->inWorldSpace                    = false;
 	this->emissionVolumeType              = EMISSION_VOLUME_TYPE_POINT;
 	this->emission_volume_radius_x        = 0.0f;
 	this->emission_volume_radius_y        = 0.0f;
