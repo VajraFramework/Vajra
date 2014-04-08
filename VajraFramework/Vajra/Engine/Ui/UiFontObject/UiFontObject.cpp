@@ -25,8 +25,16 @@ void UiFontObject::InitTextToDisplay(std::string text, unsigned int width, unsig
 	this->pathToFontFile = pathToFontSpecificationFile;
 }
 
+void UiFontObject::SetFontColor(glm::vec4 color) {
+	UiFontRenderer* uiRenderer = this->GetComponent<UiFontRenderer>();
+	if (uiRenderer != nullptr) {
+		uiRenderer->setDiffuseColor(color);
+	}
+}
+
 void UiFontObject::init() {
 }
 
 void UiFontObject::destroy() {
 }
+

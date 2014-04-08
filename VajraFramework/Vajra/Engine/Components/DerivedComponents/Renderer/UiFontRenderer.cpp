@@ -110,7 +110,7 @@ void UiFontRenderer::init() {
 	this->numVertices = 0;
 	this->vertices = nullptr;
 	this->textureCoords = nullptr;
-	this->diffuseColor = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	this->diffuseColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	this->vboPositions = 0;
 	this->vboTextureCoords = 0;
