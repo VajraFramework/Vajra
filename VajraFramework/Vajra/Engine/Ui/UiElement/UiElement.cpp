@@ -57,6 +57,12 @@ void UiElement::SetSpriteTextureIndex(unsigned int textureIndex) {
 	}
 }
 
+void UiElement::SetFontColor(glm::vec4 color) {
+	if (this->childFontObjectRef != nullptr) {
+		this->childFontObjectRef->SetFontColor(color);
+	}
+}
+
 void UiElement::init() {
 	this->setClassType(CLASS_TYPE_UIELEMENT);
 
@@ -89,3 +95,4 @@ std::string UiElement::GetPathToFontFile() {
 	}
 	return "";
 }
+

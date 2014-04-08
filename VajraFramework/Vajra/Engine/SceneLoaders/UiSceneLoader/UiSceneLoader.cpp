@@ -104,6 +104,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	int zorder;
 	std::string fontName;
 	float fontSize;
+	glm::vec4 fontColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	std::string textToDisplay;
 	std::vector<std::string> imageNames;
 	glm::vec4 color;
@@ -131,6 +132,13 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 			ASSERT(fontNode != nullptr, "Got valid xmlNode from text node for font");
 			fontName = fontNode->GetAttributeValueS(TYPE_ATTRIBUTE);
 			fontSize = fontNode->GetAttributeValueF(SIZE_TAG);
+			XmlNode* fontColorNode = fontNode->GetFirstChildByNodeName(COLOR_TAG);
+			if (fontColorNode != nullptr) {
+				fontColor.r = fontColorNode->GetAttributeValueF(R_ATTRIBUTE);
+				fontColor.g = fontColorNode->GetAttributeValueF(G_ATTRIBUTE);
+				fontColor.b = fontColorNode->GetAttributeValueF(B_ATTRIBUTE);
+				fontColor.a = fontColorNode->GetAttributeValueF(A_ATTRIBUTE);
+			}
 			convertPixelsFromTargetSizeToDeviceSize(fontSize,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
 
 			textToDisplay = textNode->GetValue();
@@ -186,6 +194,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 		if (textToDisplay != "") {
 			uiElement->InitTextToDisplay(textToDisplay.c_str(), widthPixels, heightPixels,
 										 FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesFolderName() + fontName, fontSize);
+			uiElement->SetFontColor(fontColor);
 		}
 		//
 		if (clickable == true) {

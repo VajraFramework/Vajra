@@ -1,0 +1,25 @@
+__VERBATIM__
+#ifplatform iOS | Android
+precision mediump float;
+#endif
+__VERBATIM_END__
+
+__VARIABLES__
+
+uvCoords_out
+myTextureSampler
+
+MaterialDiffuseColor_out
+
+__VARIABLES_END__
+
+__SOURCE__
+
+
+void main()
+{
+	gl_FragColor = vec4(texture2D(myTextureSampler, uvCoords_out).rgba) * MaterialDiffuseColor_out;
+}
+
+__SOURCE_END__
+
