@@ -41,6 +41,34 @@ static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int t
 	out_pixels = out_pixelsf;
 }
 
+void AdjustPositionForResolution(int& posX_pixels_out, int& posY_pixels_out, std::string x_wrto, std::string y_wrto, int width_pixels, int height_pixels, int intended_scene_width_pixels, int intended_scene_height_pixels) {
+	convertPixelsFromTargetSizeToDeviceSize(posX_pixels_out,   intended_scene_width_pixels, intended_scene_height_pixels);
+	convertPixelsFromTargetSizeToDeviceSize(posY_pixels_out,   intended_scene_width_pixels, intended_scene_height_pixels);
+	convertPixelsFromTargetSizeToDeviceSize(width_pixels,  intended_scene_width_pixels, intended_scene_height_pixels);
+	convertPixelsFromTargetSizeToDeviceSize(height_pixels, intended_scene_width_pixels, intended_scene_height_pixels);
+
+	// Process relative positioning tags, if any:
+	if (x_wrto == "LEFT") {
+		// Nothing to do
+	} else if (x_wrto == "RIGHT") {
+		posX_pixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() - posX_pixels_out - width_pixels;
+	} else if (x_wrto == "CENTER") {
+		posX_pixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() / 2.0f + posX_pixels_out;
+	} else {
+		ASSERT(0, "Valid x wrto field: %s", x_wrto.c_str());
+	}
+
+	if (y_wrto == "TOP") {
+		// Nothing to do
+	} else if (y_wrto == "BOTTOM") {
+		posY_pixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() - posY_pixels_out - height_pixels;
+	} else if (y_wrto == "CENTER") {
+		posY_pixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() / 2.0f + posY_pixels_out;
+	} else {
+		ASSERT(0, "Valid y wrto field: %s", y_wrto.c_str());
+	}
+}
+
 static void processDimensionsNode(XmlNode* dimensionsNode, int& posXPixels_out, int& posYPixels_out, int& widthPixels_out, int& heightPixels_out, int& zorder_out) {
 	// Process position:
 	XmlNode* positionNode = dimensionsNode->GetFirstChildByNodeName(POSITION_TAG);
@@ -62,36 +90,11 @@ static void processDimensionsNode(XmlNode* dimensionsNode, int& posXPixels_out, 
 	//
 	zorder_out = StringUtilities::ConvertStringToInt(zorderNode->GetValue());
 
-	convertPixelsFromTargetSizeToDeviceSize(posXPixels_out,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
-	convertPixelsFromTargetSizeToDeviceSize(posYPixels_out,   INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
-	convertPixelsFromTargetSizeToDeviceSize(widthPixels_out,  INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
-	convertPixelsFromTargetSizeToDeviceSize(heightPixels_out, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
-
 	// Process relative positioning tags, if any:
-	if (positionNode->HasAttribute(X_WRTO_ATTRIBUTE)) {
-		std::string x_wrto = positionNode->GetAttributeValueS(X_WRTO_ATTRIBUTE);
-		if (x_wrto == "LEFT") {
-			// Nothing to do
-		} else if (x_wrto == "RIGHT") {
-			posXPixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() - posXPixels_out - widthPixels_out;
-		} else if (x_wrto == "CENTER") {
-			posXPixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() / 2.0f + posXPixels_out;
-		} else {
-			ASSERT(0, "Valid x wrto field: %s", x_wrto.c_str());
-		}
-	}
-	if (positionNode->HasAttribute(Y_WRTO_ATTRIBUTE)) {
-		std::string y_wrto = positionNode->GetAttributeValueS(Y_WRTO_ATTRIBUTE);
-		if (y_wrto == "TOP") {
-			// Nothing to do
-		} else if (y_wrto == "BOTTOM") {
-			posYPixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() - posYPixels_out - heightPixels_out;
-		} else if (y_wrto == "CENTER") {
-			posYPixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() / 2.0f + posYPixels_out;
-		} else {
-			ASSERT(0, "Valid y wrto field: %s", y_wrto.c_str());
-		}
-	}
+	std::string x_wrto = positionNode->HasAttribute(X_WRTO_ATTRIBUTE) ? positionNode->GetAttributeValueS(X_WRTO_ATTRIBUTE) : "LEFT";
+	std::string y_wrto = positionNode->HasAttribute(Y_WRTO_ATTRIBUTE) ? positionNode->GetAttributeValueS(Y_WRTO_ATTRIBUTE) : "TOP";
+
+	AdjustPositionForResolution(posXPixels_out, posYPixels_out, x_wrto, y_wrto, widthPixels_out, heightPixels_out, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
 }
 
 static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTouchHandlers* touchHandlers) {
