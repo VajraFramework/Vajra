@@ -54,9 +54,12 @@ AudioAsset* AudioPlayer::GetAudioClip()    { return this->asset; }
 
 // Mutators
 void AudioPlayer::SetAudioClip(std::string assetName) {
-	std::shared_ptr<AudioAsset> audioAsset = ENGINE->GetAssetLibrary()->GetAsset<AudioAsset>(assetName);
-	this->asset = &(*audioAsset);
-	alSourcei(this->source, AL_BUFFER, audioAsset->GetALAudioHandle());
+	if ((this->asset == nullptr) || (this->asset->GetUrl() != assetName)) {
+		Stop();
+		std::shared_ptr<AudioAsset> audioAsset = ENGINE->GetAssetLibrary()->GetAsset<AudioAsset>(assetName);
+		this->asset = &(*audioAsset);
+		alSourcei(this->source, AL_BUFFER, audioAsset->GetALAudioHandle());
+	}
 }
 
 void AudioPlayer::SetVolume(float volume) {
