@@ -28,7 +28,7 @@ public:
 	//
 	float totalLifespanInSeconds;
 
-	void reset(EmissionVolumeType_t emissionVolumeType, float emission_radius_x, float emission_radius_y, float emission_radius_z, glm::vec3 direction, float randomness);
+	void reset(EmissionVolumeType_t emissionVolumeType, float emission_radius_x, float emission_radius_y, float emission_radius_z, glm::vec3 direction, float randomness, glm::vec3 initialPosition, glm::quat initialDirectionOffset);
 	void stepSimulation(float deltaTime, glm::vec3 accelerationDirection, float accelerationAmount);
 
 private:

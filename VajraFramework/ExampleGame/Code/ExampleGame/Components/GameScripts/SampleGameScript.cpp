@@ -3,6 +3,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/MathUtilities.h"
@@ -41,9 +42,8 @@ void SampleGameScript::end() {
 }
 
 void SampleGameScript::update() {
-	if(ENGINE->GetInput()->GetTouchCount() > 0) {
-		this->getTransform()->Rotate(5.0f, YAXIS);
-	}
+	this->getTransform()->Translate(1.0f * ENGINE->GetTimer()->GetDeltaFrameTime(), this->getTransform()->GetForward());
+	this->getTransform()->Rotate(30.0f * ENGINE->GetTimer()->GetDeltaFrameTime() inRadians, YAXIS);
 }
 
 void SampleGameScript::init() {

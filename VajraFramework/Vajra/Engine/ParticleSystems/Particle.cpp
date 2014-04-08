@@ -15,7 +15,7 @@ Particle::Particle() {
 }
 
 
-void Particle::reset(EmissionVolumeType_t emissionVolumeType, float emission_radius_x, float emission_radius_y, float emission_radius_z, glm::vec3 direction, float randomness) {
+void Particle::reset(EmissionVolumeType_t emissionVolumeType, float emission_radius_x, float emission_radius_y, float emission_radius_z, glm::vec3 direction, float randomness, glm::vec3 initialPosition, glm::quat initialDirectionOffset) {
 
 
 	switch (emissionVolumeType) {
@@ -63,8 +63,9 @@ void Particle::reset(EmissionVolumeType_t emissionVolumeType, float emission_rad
 	} break;
 
 	}
+	this->position += initialPosition;
 
-	this->velocity = direction;
+	this->velocity = glm::rotate(initialDirectionOffset, direction);
 
 
 	this->size_in_pixels = this->initialSizePixels;

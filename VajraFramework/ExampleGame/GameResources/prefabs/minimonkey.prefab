@@ -1,12 +1,72 @@
 <prefab>
 	<gameobject>
-		<component name="MeshRenderer">
-			<property name="InitMesh">
-				<field>models/Suzanne.model</field>
+
+		<component name="SampleGameScript">
+		</component>
+
+		<component name="ParticleSystem">
+			<property name="SetNumberOfParticles">
+				<field>20</field>
+				<field>80</field>
+			</property>
+			<property name="SetParticleSpeed">
+				<field>1.0</field>
+				<field>-0.03</field>
+			</property>
+			<property name="SetSimulateInWorldSpace">
+				<field>true</field>
+			</property>
+			<property name="SetParticleVelocityDirection">
+				<field>0.0</field>
+				<field>0.0</field>
+				<field>-1.0</field>
+			</property>
+			<property name="SetParticleVelocityDirectionRandomness">
+				<field>0.01</field>
+			</property>
+			<property name="SetParticleSize">
+				<field>70</field>
+				<field>100</field>
+			</property>
+			<property name="SetParticleLifespan">
+				<field>2</field>
+			</property>
+			<property name="SetParticleTexture">
+				<field>pictures/fire_0.png</field>
+			</property>
+			<property name="SetParticleInitialColor">
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
+			</property>
+			<property name="SetParticleFinalColor">
+				<field>0.5</field>
+				<field>0.5</field>
+				<field>0.5</field>
+				<field>0.3</field>
+			</property>
+			<property name="InitParticleSystem">
+			</property>
+			<property name="Play">
+			</property>
+		</component>
+
+		<component name="ParticleSystemRenderer">
+			<property name="InitParticleSystem">
+				<field>prtshdr</field>
 			</property>
 		</component>
 
 		<component name="Transform">
+			<property name="Scale">
+				<field>10.0</field>
+			</property>
+			<property name="SetPosition">
+				<field>15.0</field>
+				<field>4.0</field>
+				<field>-5.0</field>
+			</property>
 		</component>
 	</gameobject>
 </prefab>
