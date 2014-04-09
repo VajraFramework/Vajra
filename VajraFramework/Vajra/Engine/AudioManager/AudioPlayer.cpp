@@ -1,5 +1,4 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
-#include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
 #include "Vajra/Engine/AudioManager/AudioManager.h"
 #include "Vajra/Engine/AudioManager/AudioPlayer.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -55,8 +54,27 @@ void AudioPlayer::destroy() {
 void AudioPlayer::SetAudioClip(std::string assetName) {
 	if ((this->asset == nullptr) || (this->asset->GetUrl() != assetName)) {
 		Stop();
-		this->asset = ENGINE->GetAssetLibrary()->GetAsset<AudioAsset>(assetName);
-		alSourcei(this->source, AL_BUFFER, this->asset->GetALAudioHandle());
+		if (assetName != "") {
+			this->asset = ENGINE->GetAssetLibrary()->GetAsset<AudioAsset>(assetName);
+			alSourcei(this->source, AL_BUFFER, this->asset->GetALAudioHandle());
+		}
+		else {
+			this->asset = nullptr;
+			alSourcei(this->source, AL_BUFFER, 0);
+		}
+	}
+}
+
+void AudioPlayer::SetAudioClip(std::shared_ptr<AudioAsset> assetPtr) {
+	if (this->asset != assetPtr) {
+		Stop();
+		this->asset = assetPtr;
+		if (this->asset != nullptr) {
+			alSourcei(this->source, AL_BUFFER, this->asset->GetALAudioHandle());
+		}
+		else {
+			alSourcei(this->source, AL_BUFFER, 0);
+		}
 	}
 }
 

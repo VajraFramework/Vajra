@@ -3,8 +3,12 @@
 //  Created by Matt Kaufmann on 11/24/13.
 //
 
+#include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/Components/ComponentTypes/ComponentTypeIds.h"
 #include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
+#include "Vajra/Engine/Core/Engine.h"
+
+#include <algorithm>
 
 unsigned int AudioSource::componentTypeId = COMPONENT_TYPE_ID_AUDIO_SOURCE;
 
@@ -44,6 +48,7 @@ void AudioSource::init() {
 
 void AudioSource::destroy() {
 	Stop();
+	this->loadedAssets.clear();
 	if (this->player != nullptr) {
 		delete this->player;
 		this->player = nullptr;
@@ -55,8 +60,19 @@ void AudioSource::HandleMessage(MessageChunk /* messageChunk */) {
 }
 
 // Mutators
-void AudioSource::SetAudioClip(std::string assetName) {
-	this->player->SetAudioClip(assetName);
+void AudioSource::LoadAudioClip(std::string key, std::string assetName) {
+	this->loadedAssets[key] = ENGINE->GetAssetLibrary()->GetAsset<AudioAsset>(assetName);
+}
+
+void AudioSource::SetAudioClip(std::string key) {
+	auto iter = this->loadedAssets.find(key);
+	ASSERT(iter != this->loadedAssets.end(), "AudioSource: Contains clip with id %s", key.c_str());
+	if (iter != this->loadedAssets.end()) {
+		this->player->SetAudioClip(iter->second);
+	}
+	else {
+		this->player->SetAudioClip("");
+	}
 }
 
 void AudioSource::SetVolume(float volume)        { this->player->SetVolume(volume); }
@@ -76,9 +92,13 @@ void AudioSource::Play() {
 	this->player->Play();
 }
 
-void AudioSource::Play(std::string assetName) {
-	SetAudioClip(assetName);
-	Play();
+void AudioSource::Play(std::string key, bool loop/*= false*/) {
+	auto iter = this->loadedAssets.find(key);
+	if (iter != this->loadedAssets.end()) {
+		this->player->SetAudioClip(iter->second);
+		this->SetLooping(loop);
+		Play();
+	}
 }
 
 void AudioSource::Pause() {

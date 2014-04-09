@@ -87,8 +87,6 @@ Thief::~Thief() {
 void Thief::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
 	this->unitType = UnitType::UNIT_TYPE_THIEF;
-	this->SetSpecialStartAudio(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesFolderName() + "SD_SFX_ThiefJump_01.wav");
-	this->SetSpecialEndAudio(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesFolderName() + "SD_SFX_ThiefLand_01.wav");
 	this->createTouchIndicator();
 	this->createPoofEffects();
 }

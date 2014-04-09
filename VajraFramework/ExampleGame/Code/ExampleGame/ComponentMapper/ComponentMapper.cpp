@@ -360,6 +360,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "AudioSource") {
 		AudioSource* component = gameObject->GetComponent<AudioSource>();
 		if (component == nullptr) { return; }
+		if (propertyName == "LoadAudioClip") {
+			if ((int)argv.size() < 2) { return; }
+			component->LoadAudioClip(ConvertStringToString(argv[0]), ConvertStringToString(argv[1]));
+			return;
+		}
 		if (propertyName == "SetAudioClip") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetAudioClip(ConvertStringToString(argv[0]));
@@ -754,11 +759,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetTurnSpeedDegrees") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetTurnSpeedDegrees(StringUtilities::ConvertStringToFloat(argv[0]));
-			return;
-		}
-		if (propertyName == "SetMovingAudio") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetMovingAudio(ConvertStringToString(argv[0]));
 			return;
 		}
 		if (propertyName == "SetGridPosition") {

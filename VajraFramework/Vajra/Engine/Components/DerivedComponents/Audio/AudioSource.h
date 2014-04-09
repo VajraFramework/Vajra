@@ -9,10 +9,13 @@
 #ifndef AUDIOSOURCE_H
 #define AUDIOSOURCE_H
 
-#include <string>
-
 #include "Vajra/Common/Components/Component.h"
+#include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
 #include "Vajra/Engine/AudioManager/AudioPlayer.h"
+
+#include <map>
+#include <memory>
+#include <string>
 
 //[[COMPONENT]]//
 class AudioSource : public Component {
@@ -37,7 +40,9 @@ public:
 	
 	// Mutators
 	//[[PROPERTY]]//
-	void SetAudioClip(std::string assetName);
+	void LoadAudioClip(std::string key, std::string assetName);
+	//[[PROPERTY]]//
+	void SetAudioClip(std::string key);
 	//[[PROPERTY]]//
 	void SetVolume(float volume);
 	//[[PROPERTY]]//
@@ -47,7 +52,7 @@ public:
 
 	// Other methods
 	void Play();
-	void Play(std::string clipName);
+	void Play(std::string key, bool loop = false);
 	void Pause();
 	void Stop();
 	void Stop(float fadeout);
@@ -56,6 +61,8 @@ private:
 	void init();
 	void destroy();
 	
+	std::map<std::string, std::shared_ptr<AudioAsset>> loadedAssets;
+
 	AudioPlayer* player;
 	
 	bool positionalAudio;

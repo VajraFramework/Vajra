@@ -38,6 +38,7 @@ public:
 	
 	// Mutators
 	void SetAudioClip(std::string assetName);
+	void SetAudioClip(std::shared_ptr<AudioAsset> assetPtr);
 	void SetVolume(float volume);
 	void SetPlaybackSpeed(float speed);
 	void SetLooping(ALint loop);

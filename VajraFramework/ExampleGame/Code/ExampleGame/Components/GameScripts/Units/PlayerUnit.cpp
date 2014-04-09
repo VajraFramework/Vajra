@@ -59,8 +59,6 @@ void PlayerUnit::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION, this->GetTypeId(), false);
 	this->currentTouchedCell = NULL;
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
-	this->audioOnSpecialStart = "";
-	this->audioOnSpecialEnd = "";
 }
 
 void PlayerUnit::destroy() {
@@ -68,16 +66,7 @@ void PlayerUnit::destroy() {
 }
 
 void PlayerUnit::start() {
-	// Make sure the audio clips are loaded
-	AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
-	if (audioSource != nullptr) {
-		if (this->audioOnSpecialStart != "") {
-			audioSource->SetAudioClip(this->audioOnSpecialStart);
-		}
-		if (this->audioOnSpecialEnd   != "") {
-			audioSource->SetAudioClip(this->audioOnSpecialEnd);
-		}
-	}
+
 }
 
 void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
@@ -184,14 +173,6 @@ bool PlayerUnit::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
 	return false;
 }
 
-void PlayerUnit::SetSpecialStartAudio(std::string audioStr) {
-	this->audioOnSpecialStart = audioStr;
-}
-
-void PlayerUnit::SetSpecialEndAudio(std::string audioStr) {
-	this->audioOnSpecialEnd = audioStr;
-}
-
 void PlayerUnit::onSelectedTouch() {
 	this->inputState = InputState::INPUT_STATE_WAIT;
 }
@@ -199,13 +180,9 @@ void PlayerUnit::onSelectedTouch() {
 void PlayerUnit::startSpecial() {
 	this->SwitchActionState(UNIT_ACTION_STATE_DOING_SPECIAL);
 	this->specialStartPos = this->GetObject()->GetComponent<Transform>()->GetPositionWorld();
-	if (this->audioOnSpecialStart != "") {
-		AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
-		if (audioSource != nullptr) {
-			audioSource->SetAudioClip(this->audioOnSpecialStart);
-			audioSource->SetLooping(false);
-			audioSource->Play();
-		}
+	AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+	if (audioSource != nullptr) {
+		audioSource->Play("specialStart");
 	}
 }
 
@@ -216,25 +193,17 @@ void PlayerUnit::onSpecialEnd() {
 	this->touchIndicatorRef->SetVisible(false);
 	this->touchStartPos = glm::vec2();
 	this->touchNearUnit = false;
-	if (this->audioOnSpecialEnd != "") {
-		AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
-		if (audioSource != nullptr) {
-			audioSource->SetAudioClip(this->audioOnSpecialEnd);
-			audioSource->SetLooping(false);
-			audioSource->Play();
-		}
+	AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+	if (audioSource != nullptr) {
+		audioSource->Play("specialEnd");
 	}
 }
 
 void PlayerUnit::cancelSpecial() {
 	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
-		if (this->audioOnSpecialEnd != "") {
-			AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
-			if (audioSource != nullptr) {
-				audioSource->SetAudioClip(this->audioOnSpecialEnd);
-				audioSource->SetLooping(false);
-				audioSource->Play();
-			}
+		AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+		if (audioSource != nullptr) {
+			audioSource->Play("specialEnd");
 		}
 	}
 	this->inputState = InputState::INPUT_STATE_WAIT;

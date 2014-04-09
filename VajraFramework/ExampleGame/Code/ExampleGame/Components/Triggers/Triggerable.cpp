@@ -55,16 +55,7 @@ void Triggerable::destroy() {
 }
 
 void Triggerable::start() {
-	// Make sure the audio clips are loaded
-	AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
-	if (audioSource != nullptr) {
-		if (this->audioOnActivate   != "") {
-			audioSource->SetAudioClip(this->audioOnActivate);
-		}
-		if (this->audioOnDeactivate != "") {
-			audioSource->SetAudioClip(this->audioOnDeactivate);
-		}
-	}
+
 }
 
 void Triggerable::SetTriggerType(std::string typeStr) {
@@ -251,9 +242,7 @@ void Triggerable::toggleState() {
 		if (this->audioOnActivate != "") {
 			AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
 			if (audioSource != nullptr) {
-				audioSource->SetAudioClip(this->audioOnActivate);
-				audioSource->SetLooping(false);
-				audioSource->Play();
+				audioSource->Play("triggerOn");
 			}
 		}
 		this->onSwitchToggled(false);
@@ -263,9 +252,7 @@ void Triggerable::toggleState() {
 		if (this->audioOnDeactivate != "") {
 			AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
 			if (audioSource != nullptr) {
-				audioSource->SetAudioClip(this->audioOnDeactivate);
-				audioSource->SetLooping(false);
-				audioSource->Play();
+				audioSource->Play("triggerOff");
 			}
 		}
 		this->onSwitchToggled(true);
