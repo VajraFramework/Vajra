@@ -35,6 +35,12 @@ void UiFontRenderer::initTextToDisplay(std::string text, unsigned int /* width *
 }
 
 void UiFontRenderer::initVbos() {
+    if (this->vboPositions != 0 && this->vboTextureCoords != 0 && this->vboIndices != 0) {
+		GLCALL(glDeleteBuffers, 1, &this->vboPositions);
+		GLCALL(glDeleteBuffers, 1, &this->vboTextureCoords);
+		GLCALL(glDeleteBuffers, 1, &this->vboIndices);
+    }
+
     if (this->vertices != nullptr) {
 		GLCALL(glGenBuffers, 1, &this->vboPositions);
 		GLCALL(glBindBuffer, GL_ARRAY_BUFFER, this->vboPositions);
@@ -104,7 +110,11 @@ void UiFontRenderer::init() {
 	this->numVertices = 0;
 	this->vertices = nullptr;
 	this->textureCoords = nullptr;
-	this->diffuseColor = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	this->diffuseColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	this->vboPositions = 0;
+	this->vboTextureCoords = 0;
+	this->vboIndices = 0;
 }
 
 void UiFontRenderer::destroy() {
@@ -130,15 +140,20 @@ void UiFontRenderer::destroy() {
 ////////////////////////////////////////////////////////////////////////////////
 
 void UiFontRenderer::makeText() {
-	ASSERT(this->vertices == nullptr, "Making Vertices for the first time");
-	ASSERT(this->textureCoords == nullptr, "Making TextureCoords for the first time");
-	ASSERT(this->indices.size() == 0, "Making Indices for the first time");
 
-	this->numVertices = this->textToDisplay.size() * 4;
-	this->vertices      = new glm::vec3[this->numVertices];
-	this->textureCoords = new glm::vec2[this->numVertices];
-	this->indices.resize(this->textToDisplay.size () * 6);
-
+	unsigned int numVerticesNeeded = this->textToDisplay.size() * 4;
+	if (numVerticesNeeded > this->numVertices) {
+		if (this->vertices != nullptr) {
+			delete this->vertices;
+		}
+		if (this->textureCoords != nullptr) {
+			delete this->textureCoords;
+		}
+		this->vertices      = new glm::vec3[numVerticesNeeded];
+		this->textureCoords = new glm::vec2[numVerticesNeeded];
+		this->indices.resize(this->textToDisplay.size () * 6);
+	}
+	this->numVertices = numVerticesNeeded;
 
 	float woffset = 0.0f;
 

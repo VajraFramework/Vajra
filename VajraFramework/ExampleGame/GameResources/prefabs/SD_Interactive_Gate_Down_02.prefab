@@ -1,0 +1,108 @@
+<prefab>
+	<gameobject>
+		<component name="Transform">
+		</component>
+
+		<component name="MultiplexSwitch">
+			<property name="SetSwitchType">
+				<field>Continuous</field>
+			</property>
+		</component>
+		
+		<component name="TriggerMultiplex">
+			<property name="SetTriggerType">
+				<field>All</field>
+			</property>
+		</component>
+
+		<gameobject>
+			<component name="Transform>
+			</component>
+
+			<component name="GridZone">
+				<property name="SetZoneBounds">
+					<field>-1</field>
+					<field>0</field>
+					<field>1</field>
+					<field>-1</field>
+				</property>
+			</component>
+
+			<component name="TriggerTerrainBlock">
+				<property name="SetPassableWhenActivated">
+					<field>true</field>
+				</property>
+			
+				<property name="SubscribeToParentSwitch">
+				</property>
+			</component>
+		</gameobject>
+
+		<gameobject>
+			<component name="MeshRenderer">
+				<property name="InitMesh">
+					<field>models/SD_Interactive_Gate_02.model</field>
+				</property>
+			</component>
+
+			<component name="Transform">
+				<property name="Translate">
+					<field>-1</field>
+					<field>0.0</field>
+					<field>0.0</field>
+				</property>
+				
+			</component>
+
+			<component name="TriggerTransformation">
+				<property name="SubscribeToParentSwitch">
+				</property>
+
+				<property name="SetTranslation">
+					<field>0.0</field>
+					<field>-3.0</field>
+					<field>0.0</field>
+				</property>
+				<property name="SetTransitTime">
+					<field>0.5</field>
+				</property>
+			</component>
+		</gameobject>
+
+		<gameobject>
+			<component name="MeshRenderer">
+				<property name="InitMesh">
+					<field>models/SD_Interactive_Gate_02.model</field>
+				</property>
+			</component>
+
+			<component name="Transform">
+				<property name="Translate">
+					<field>1</field>
+					<field>0.0</field>
+					<field>0.0</field>
+				</property>
+				<property name="RotateByDegrees">
+                  <field>180</field>
+                  <field>0</field>
+                  <field>1</field>
+                  <field>0</field>
+              </property>
+			</component>
+
+			<component name="TriggerTransformation">
+				<property name="SubscribeToParentSwitch">
+				</property>
+
+				<property name="SetTranslation">
+					<field>0.0</field>
+					<field>-3.0</field>
+					<field>0.0</field>
+				</property>
+				<property name="SetTransitTime">
+					<field>0.5</field>
+				</property>
+			</component>
+		</gameobject>
+	</gameobject>
+</prefab>
