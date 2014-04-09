@@ -29,13 +29,13 @@ baked_ambient_intensity
 
 
 #ifdef ADDITIONAL_LIGHTS
-AdditionalLight0Direction_out
+AdditionalLight0Direction
 AdditionalLight0Ambient
 AdditionalLight0Diffuse
-AdditionalLight1Direction_out
+AdditionalLight1Direction
 AdditionalLight1Ambient
 AdditionalLight1Diffuse
-AdditionalLight2Direction_out
+AdditionalLight2Direction
 AdditionalLight2Ambient
 AdditionalLight2Diffuse
 #endif
@@ -86,15 +86,15 @@ void main()
 	lightIntensity = lightIntensity + DLight0SpecularColor_out;
 
 #ifdef ADDITIONAL_LIGHTS
-	cosTheta = clamp( dot( TextureNormal_worldSpace, AdditionalLight0Direction_out ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_worldSpace, AdditionalLight0Direction), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight0Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight0Ambient;
 	//
-	cosTheta = clamp( dot( TextureNormal_worldSpace, AdditionalLight1Direction_out ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_worldSpace, AdditionalLight1Direction), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight1Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight1Ambient;
 	//
-	cosTheta = clamp( dot( TextureNormal_worldSpace, AdditionalLight2Direction_out ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_worldSpace, AdditionalLight2Direction), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight2Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight2Ambient;
 #endif

@@ -42,15 +42,6 @@ DLight0SpecularColor_out
 modelCoordsForBakedAmbientLookup_out
 #endif
 
-#ifdef ADDITIONAL_LIGHTS
-AdditionalLight0Direction
-AdditionalLight0Direction_out
-AdditionalLight1Direction
-AdditionalLight1Direction_out
-AdditionalLight2Direction
-AdditionalLight2Direction_out
-#endif
-
 #ifdef SHADOWMAPS_REALTIME
 depthBiasMVPMatrix
 ShadowCoord
@@ -85,10 +76,6 @@ void main()
 #ifdef SHADOWMAPS_REALTIME
 	ShadowCoord = depthBiasMVPMatrix * skewed_position;
 #endif
-
-	AdditionalLight0Direction_out = AdditionalLight0Direction;
-	AdditionalLight1Direction_out = AdditionalLight1Direction;
-	AdditionalLight2Direction_out = AdditionalLight2Direction;
 
 	TBNmatrix = (mat4(
 		modelInverseTransposeMatrix * normalize(vTangent),

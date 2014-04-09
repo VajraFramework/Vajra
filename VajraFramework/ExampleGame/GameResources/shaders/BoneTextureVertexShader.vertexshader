@@ -36,17 +36,6 @@ DLight0DiffuseColor_out
 DLight0SpecularColor_out
 #endif
 
-#ifdef ADDITIONAL_LIGHTS
-AdditionalLight0Direction
-AdditionalLight0Direction_out
-AdditionalLight1Direction
-AdditionalLight1Direction_out
-AdditionalLight2Direction
-AdditionalLight2Direction_out
-#endif
-
-
-
 boneIndices
 boneWeights
 boneTransforms
@@ -118,10 +107,6 @@ void main()
 		modelInverseTransposeMatrix * normalize(vNormal),
 		vec4(0.0, 0.0, 0.0, 1.0)
 	));
-
-	AdditionalLight0Direction_out = AdditionalLight0Direction;
-	AdditionalLight1Direction_out = AdditionalLight1Direction;
-	AdditionalLight2Direction_out = AdditionalLight2Direction;
 
 #ifdef PER_PIXEL_LIGHTING
 	vNormal_out = modelInverseTransposeMatrix * vNormal;
