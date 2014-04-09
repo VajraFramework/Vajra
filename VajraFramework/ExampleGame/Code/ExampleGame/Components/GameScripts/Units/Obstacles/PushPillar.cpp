@@ -9,6 +9,7 @@
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -156,6 +157,11 @@ void PushPillar::startSliding(glm::vec3 direction) {
 	if ((this->slideX != 0) || (this->slideZ != 0)) {
 		this->setNextTarget();
 		if (this->targetPosition != ZERO_VEC3) {
+			AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+			if (audioSource != nullptr) {
+				audioSource->Play("walk", true);
+			}
+
 			this->isSliding = true;
 			this->childUnitOnTop();
 		}
@@ -234,6 +240,13 @@ void PushPillar::changeCell(GridCell* goalCell, int elevation/*= -1*/) {
 }
 
 void PushPillar::stopSliding() {
+	AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+	if (audioSource != nullptr) {
+		// Stop playing the sliding sound even if there's no additional sound.
+		audioSource->Stop();
+		audioSource->Play("halt");
+	}
+
 	this->isSliding = false;
 	this->unchildUnitOnTop();
 }
