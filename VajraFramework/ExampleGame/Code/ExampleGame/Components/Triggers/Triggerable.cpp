@@ -42,9 +42,6 @@ void Triggerable::init() {
 
 	this->decalRef = nullptr;
 
-	this->audioOnActivate = "";
-	this->audioOnDeactivate = "";
-
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SWITCH_ACTIVATED, this->GetTypeId(), true);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SWITCH_DEACTIVATED, this->GetTypeId(), true);
 }
@@ -64,14 +61,6 @@ void Triggerable::SetTriggerType(std::string typeStr) {
 
 void Triggerable::SetToggleState(bool toggle) {
 	this->isToggled = toggle;
-}
-
-void Triggerable::SetActivationAudio(std::string audioStr) {
-	this->audioOnActivate = audioStr;
-}
-
-void Triggerable::SetDeactivationAudio(std::string audioStr) {
-	this->audioOnDeactivate = audioStr;
 }
 
 void Triggerable::HandleMessage(MessageChunk messageChunk) {
@@ -239,22 +228,20 @@ void Triggerable::compareCounts(int prevActive, int prevSwitches, int currActive
 
 void Triggerable::toggleState() {
 	if (this->isToggled) {
-		if (this->audioOnActivate != "") {
-			AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
-			if (audioSource != nullptr) {
-				audioSource->Play("triggerOn");
-			}
+		AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+		if (audioSource != nullptr) {
+			audioSource->Play("triggerOff");
 		}
+
 		this->onSwitchToggled(false);
 		this->onSwitchDeactivated();
 	}
 	else {
-		if (this->audioOnDeactivate != "") {
-			AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
-			if (audioSource != nullptr) {
-				audioSource->Play("triggerOff");
-			}
+		AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+		if (audioSource != nullptr) {
+			audioSource->Play("triggerOn");
 		}
+
 		this->onSwitchToggled(true);
 		this->onSwitchActivated();
 	}

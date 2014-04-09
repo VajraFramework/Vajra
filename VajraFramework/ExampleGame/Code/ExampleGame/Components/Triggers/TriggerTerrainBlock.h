@@ -19,10 +19,6 @@ public:
 
 	//[[PROPERTY]]//
 	virtual void SetTriggerType(std::string typeStr);
-	//[[PROPERTY]]//
-	virtual void SetActivationAudio(std::string audioStr);
-	//[[PROPERTY]]//
-	virtual void SetDeactivationAudio(std::string audioStr);
 
 	//[[PROPERTY]]//
 	inline void SetChangeWalkability(bool changeWalkable);

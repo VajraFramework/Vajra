@@ -65,14 +65,6 @@ void TriggerMovingBlocker::SetTriggerType(std::string typeStr) {
 	Triggerable::SetTriggerType(typeStr);
 }
 
-void TriggerMovingBlocker::SetActivationAudio(std::string audioStr) {
-	Triggerable::SetActivationAudio(audioStr);
-}
-
-void TriggerMovingBlocker::SetDeactivationAudio(std::string audioStr) {
-	Triggerable::SetDeactivationAudio(audioStr);
-}
-
 void TriggerMovingBlocker::SetToggleState(bool toggle) {
 	Triggerable::SetToggleState(toggle);
 }

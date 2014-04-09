@@ -75,14 +75,6 @@ void TriggerElevationChange::SetTriggerType(std::string typeStr) {
 	Triggerable::SetTriggerType(typeStr);
 }
 
-void TriggerElevationChange::SetActivationAudio(std::string audioStr) {
-	Triggerable::SetActivationAudio(audioStr);
-}
-
-void TriggerElevationChange::SetDeactivationAudio(std::string audioStr) {
-	Triggerable::SetDeactivationAudio(audioStr);
-}
-
 void TriggerElevationChange::HandleMessage(MessageChunk messageChunk) {
 	Triggerable::HandleMessage(messageChunk);
 

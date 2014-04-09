@@ -37,14 +37,6 @@ void TriggerTransformation::SetTriggerType(std::string typeStr) {
 	Triggerable::SetTriggerType(typeStr);
 }
 
-void TriggerTransformation::SetActivationAudio(std::string audioStr) {
-	Triggerable::SetActivationAudio(audioStr);
-}
-
-void TriggerTransformation::SetDeactivationAudio(std::string audioStr) {
-	Triggerable::SetDeactivationAudio(audioStr);
-}
-
 void TriggerTransformation::SetTranslation(float x, float y, float z) {
 	glm::vec3 vec(x, y, z);
 	this->SetTranslation(vec);

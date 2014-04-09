@@ -997,16 +997,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetToggleState(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
-		if (propertyName == "SetActivationAudio") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetActivationAudio(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetDeactivationAudio") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetDeactivationAudio(ConvertStringToString(argv[0]));
-			return;
-		}
 		if (propertyName == "SubscribeToMySwitch") {
 			if ((int)argv.size() < 0) { return; }
 			component->SubscribeToMySwitch();
@@ -1031,16 +1021,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetTriggerType") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetTriggerType(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetActivationAudio") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetActivationAudio(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetDeactivationAudio") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetDeactivationAudio(ConvertStringToString(argv[0]));
 			return;
 		}
 		if (propertyName == "SetElevationDiff") {
@@ -1074,16 +1054,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "TriggerLoot") {
 		TriggerLoot* component = gameObject->GetComponent<TriggerLoot>();
 		if (component == nullptr) { return; }
-		if (propertyName == "SetActivationAudio") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetActivationAudio(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetDeactivationAudio") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetDeactivationAudio(ConvertStringToString(argv[0]));
-			return;
-		}
 		if (propertyName == "SubscribeToParentSwitch") {
 			if ((int)argv.size() < 0) { return; }
 			component->SubscribeToParentSwitch();
@@ -1108,16 +1078,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetTriggerType") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetTriggerType(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetActivationAudio") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetActivationAudio(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetDeactivationAudio") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetDeactivationAudio(ConvertStringToString(argv[0]));
 			return;
 		}
 		if (propertyName == "SetToggleState") {
@@ -1207,16 +1167,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetTriggerType(ConvertStringToString(argv[0]));
 			return;
 		}
-		if (propertyName == "SetActivationAudio") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetActivationAudio(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetDeactivationAudio") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetDeactivationAudio(ConvertStringToString(argv[0]));
-			return;
-		}
 		if (propertyName == "SetChangeWalkability") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetChangeWalkability(StringUtilities::ConvertStringToBool(argv[0]));
@@ -1251,16 +1201,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetTriggerType") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetTriggerType(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetActivationAudio") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetActivationAudio(ConvertStringToString(argv[0]));
-			return;
-		}
-		if (propertyName == "SetDeactivationAudio") {
-			if ((int)argv.size() < 1) { return; }
-			component->SetDeactivationAudio(ConvertStringToString(argv[0]));
 			return;
 		}
 		if (propertyName == "SetTranslation") {

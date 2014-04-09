@@ -36,10 +36,6 @@ public:
 	inline void SetTriggerType(TriggerType st) { this->type = st; }
 	//[[PROPERTY]]//
 	virtual void SetToggleState(bool toggle);
-	//[[PROPERTY]]//
-	virtual void SetActivationAudio(std::string audioStr);
-	//[[PROPERTY]]//
-	virtual void SetDeactivationAudio(std::string audioStr);
 
 	virtual void HandleMessage(MessageChunk messageChunk);
 
@@ -86,9 +82,6 @@ private:
 
 	std::string decalType;
 	GameObject* decalRef;
-
-	std::string audioOnActivate;
-	std::string audioOnDeactivate;
 
 	static ComponentIdType componentTypeId;
 };

@@ -21,10 +21,6 @@ public:
 	//[[PROPERTY]]//
 	virtual void SetTriggerType(std::string typeStr);
 	//[[PROPERTY]]//
-	virtual void SetActivationAudio(std::string audioStr);
-	//[[PROPERTY]]//
-	virtual void SetDeactivationAudio(std::string audioStr);
-	//[[PROPERTY]]//
 	void SetTranslation(float x, float y, float z);
 	void SetTranslation(glm::vec3 vec);
 	//[[PROPERTY]]//
