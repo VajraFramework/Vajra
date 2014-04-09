@@ -44,6 +44,8 @@ public:
 	void SetCurrentCellAndElevation(GridCell* cell, int elevation);
 	void SetIsTraveling(bool isTraveling_);
 	void SetMaxNavigableUnitType(UnitType uType);
+	//[[PROPERTY]]//
+	void SetMovingAudio(std::string audioStr);
 
 	//[[PROPERTY]]//
 	void SetGridPosition(int x, int z);
@@ -122,6 +124,7 @@ private:
 	bool ignoreOccupantsForPathing; // This is stored each time we set a path in case the path needs to be recalculated.
 	bool ignoreEverything;          // If the navigator somehow ends up inside of a blocked area, this will turn on
 	bool navigationEnabled;
+	std::string audioWhileMoving;
 
 	GameObject* gameObjectRef;
 

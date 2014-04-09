@@ -15,6 +15,7 @@
 
 #include "Vajra/Common/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -55,6 +56,7 @@ void GridNavigator::init() {
 	this->ignoreOccupantsForPathing = false;
 	this->ignoreEverything = false;
 	this->navigationEnabled = true;
+	this->audioWhileMoving = "";
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
 }
@@ -66,6 +68,14 @@ void GridNavigator::destroy() {
 void GridNavigator::start() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_NAVIGATION_REFRESH, this->GetTypeId(), false);
+
+	// Make sure the audio clips are loaded.
+	AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+	if (audioSource != nullptr) {
+		if (this->audioWhileMoving != "") {
+			audioSource->SetAudioClip(this->audioWhileMoving);
+		}
+	}
 }
 
 GridCell* GridNavigator::GetDestination() {
@@ -632,6 +642,11 @@ void GridNavigator::SetIsTraveling(bool isTraveling_) {
 		this->isTraveling = isTraveling_;
 
 		if (!isTraveling_) {
+			AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+			if (audioSource != nullptr) {
+				audioSource->Stop();
+			}
+
 			// Send an event message to the unit
 			ObjectIdType myId = this->GetObject()->GetId();
 			Transform* trans = this->gameObjectRef->GetTransform();
@@ -640,9 +655,23 @@ void GridNavigator::SetIsTraveling(bool isTraveling_) {
 			reachedDestinationMessage->messageData.fv1 = trans->GetPositionWorld();
 			ENGINE->GetMessageHub()->SendPointcastMessage(reachedDestinationMessage, myId, myId);
 		}
+		else {
+			if (this->audioWhileMoving != "") {
+				AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+				if (audioSource != nullptr) {
+					audioSource->SetAudioClip(this->audioWhileMoving);
+					audioSource->SetLooping(true);
+					audioSource->Play();
+				}
+			}
+		}
 	}
 }
 
 void GridNavigator::SetMaxNavigableUnitType(UnitType uType) {
 	this->maxNavigableUnitType = uType;
+}
+
+void GridNavigator::SetMovingAudio(std::string audioStr) {
+	this->audioWhileMoving = audioStr;
 }
