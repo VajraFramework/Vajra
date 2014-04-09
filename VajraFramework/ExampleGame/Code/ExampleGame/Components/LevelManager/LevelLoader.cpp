@@ -485,7 +485,7 @@ void LevelLoader::adjustLighting() {
 		//
 		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
 		dlightComponent->SetDiffuseColorInts(108, 126, 201, 255);
-		dlightComponent->SetIntensity(0.045f * BRIGHTNESS_MULTIPLIER);
+		dlightComponent->SetIntensity(0.45f * BRIGHTNESS_MULTIPLIER);
 		dlightComponent->SetLightType(ADDITIONAL_LIGHT_STRING);
 	}
 
@@ -500,7 +500,7 @@ void LevelLoader::adjustLighting() {
 		//
 		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
 		dlightComponent->SetDiffuseColorInts(255, 187, 69, 255);
-		dlightComponent->SetIntensity(0.075 * BRIGHTNESS_MULTIPLIER);
+		dlightComponent->SetIntensity(0.75 * BRIGHTNESS_MULTIPLIER);
 		dlightComponent->SetLightType(ADDITIONAL_LIGHT_STRING);
 	}
 
@@ -515,7 +515,7 @@ void LevelLoader::adjustLighting() {
 		//
 		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
 		dlightComponent->SetDiffuseColorInts(121, 175, 204, 255);
-		dlightComponent->SetIntensity(0.065 * BRIGHTNESS_MULTIPLIER);
+		dlightComponent->SetIntensity(0.65 * BRIGHTNESS_MULTIPLIER);
 		dlightComponent->SetLightType(ADDITIONAL_LIGHT_STRING);
 	}
 

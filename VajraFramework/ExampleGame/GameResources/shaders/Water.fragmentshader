@@ -80,7 +80,7 @@ void main()
 	vec2 scrolled_uvs_2 = vec2(uvCoords_out.x + cos(gl_FragCoord.x / 7.0) / 20.0, uvCoords_out.y + scrolling_uv_offset);
 
 #ifdef PER_PIXEL_LIGHTING
-	vec4 TextureNormal_worldSpace = (TBNmatrix * vec4( texture2D( normalMap, vec2(uvCoords_out) ).rgb*2.0 - 1.0, 0.0));
+	vec4 TextureNormal_worldSpace = (TBNmatrix * vec4( texture2D( normalMap, vec2(uvCoords_out.x, -1.0 * scrolled_uvs_1.y) ).rgb*2.0 - 1.0, 0.0));
 
 	float cosTheta = clamp( dot( TextureNormal_worldSpace, -1.0 * DLight0Direction_out ), 0.0, 1.0 );
 	vec4 lightIntensity = DLight0DiffuseColor_out * cosTheta;
