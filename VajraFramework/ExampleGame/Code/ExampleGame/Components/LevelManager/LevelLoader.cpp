@@ -465,10 +465,8 @@ void LevelLoader::adjustLighting() {
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
 		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
 		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-		// dlight->GetTransform()->Rotate(50.0f  inRadians, 1.0f, 0.0f, 0.0f);
-		// dlight->GetTransform()->Rotate(-225.0f inRadians, 0.0f, 1.0f, 0.0f);
-		dlight->GetTransform()->Rotate(45.0f inRadians, XAXIS);
-		// dlight->GetTransform()->Rotate(55.0f inRadians, YAXIS);
+		dlight->GetTransform()->Rotate(55.0f inRadians, XAXIS);
+		dlight->GetTransform()->Rotate(80.0f inRadians, YAXIS);
 		//
 		dlightComponent->SetAmbientColor(0.2f, 0.2f, 0.2f, 1.0f);
 		dlightComponent->SetDiffuseColorInts(255, 194, 194, 255);

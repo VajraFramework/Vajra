@@ -46,6 +46,8 @@ void SceneGraph3D::AddAdditionalLightId(ObjectIdType id) {
 
 void SceneGraph3D::update() {
 	// TODO [Implement] Figure out if we need to put anything here
+#if 0
+	// Rotating main light:
 	if (this->GetMainDirectionalLight() != nullptr) {
 		GameObject* dlight = this->GetGameObjectById(this->GetMainDirectionalLight()->GetObject()->GetId());
 		if (dlight != nullptr) {
@@ -60,6 +62,7 @@ void SceneGraph3D::update() {
 			}
 		}
 	}
+#endif
 }
 
 void SceneGraph3D::draw() {
