@@ -43,6 +43,7 @@ void AudioSource::init() {
 }
 
 void AudioSource::destroy() {
+	Stop();
 	if (this->player != nullptr) {
 		delete this->player;
 		this->player = nullptr;
@@ -52,11 +53,6 @@ void AudioSource::destroy() {
 void AudioSource::HandleMessage(MessageChunk /* messageChunk */) {
 	// TODO [Implement]
 }
-
-// Accessors
-float AudioSource::GetVolume()           { return this->player->GetVolume(); }
-float AudioSource::GetPlaybackSpeed()    { return this->player->GetPlaybackSpeed(); }
-AudioAsset* AudioSource::GetAudioClip()  { return this->player->GetAudioClip(); }
 
 // Mutators
 void AudioSource::SetAudioClip(std::string assetName) {

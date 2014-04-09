@@ -31,9 +31,9 @@ public:
 	virtual void HandleMessage(MessageChunk messageChunk);
 	
 	// Accessors
-	float GetVolume();
-	float GetPlaybackSpeed();
-	AudioAsset* GetAudioClip();
+	inline float GetVolume()                           { return this->player->GetVolume();        }
+	inline float GetPlaybackSpeed()                    { return this->player->GetPlaybackSpeed(); }
+	inline std::shared_ptr<AudioAsset>& GetAudioClip() { return this->player->GetAudioClip();     }
 	
 	// Mutators
 	//[[PROPERTY]]//
