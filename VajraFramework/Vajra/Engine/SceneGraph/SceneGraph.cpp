@@ -1,3 +1,4 @@
+#include "Vajra/Engine/AudioManager/AudioManager.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
@@ -69,6 +70,7 @@ void SceneGraph::Pause() {
 	this->root->Pause();
 
 	ENGINE->GetTween()->PauseNumberTweensByAffiliation(NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D);
+	ENGINE->GetAudioManager()->PauseAllAudio();
 }
 
 void SceneGraph::Resume() {
@@ -76,6 +78,7 @@ void SceneGraph::Resume() {
 	this->root->Resume();
 
 	ENGINE->GetTween()->ResumeNumberTweensByAffiliation(NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D);
+	ENGINE->GetAudioManager()->ResumeAllAudio();
 }
 
 void SceneGraph::CreateRenderBatches() {
