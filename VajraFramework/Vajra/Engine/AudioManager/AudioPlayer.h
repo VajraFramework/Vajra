@@ -19,6 +19,7 @@
 #include "Libraries/openal/headers/alc.h"
 #endif
 
+#include <memory>
 #include <string>
 
 class AudioPlayer {
@@ -31,9 +32,9 @@ public:
 	~AudioPlayer();
 	
 	// Accessors
-	float GetVolume();
-	float GetPlaybackSpeed();
-	AudioAsset* GetAudioClip();
+	float GetVolume()                                  { return this->volume;        }
+	float GetPlaybackSpeed()                           { return this->playbackSpeed; }
+	inline std::shared_ptr<AudioAsset>& GetAudioClip() { return this->asset;         }
 	
 	// Mutators
 	void SetAudioClip(std::string assetName);
@@ -52,7 +53,7 @@ private:
 	void init();
 	void destroy();
 
-	AudioAsset* asset;
+	std::shared_ptr<AudioAsset> asset;
 	ALuint source;
 	ALfloat pitch;
 	ALfloat gain;

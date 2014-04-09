@@ -1,5 +1,6 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
 #include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
+#include "Vajra/Engine/AudioManager/AudioManager.h"
 #include "Vajra/Engine/AudioManager/AudioPlayer.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -32,7 +33,8 @@ void AudioPlayer::init() {
 	this->velocity[2] = 0.0f;
 	this->looping = AL_FALSE;
 
-	alGenSources(1, &(this->source));
+	//alGenSources(1, &(this->source));
+	this->source = ENGINE->GetAudioManager()->RequestALSource();
 	alSourcef(this->source, AL_PITCH, this->pitch);
 	alSourcef(this->source, AL_GAIN, this->gain);
 	alSource3f(this->source, AL_POSITION, this->position[0], this->position[1], this->position[2]);
@@ -44,21 +46,17 @@ void AudioPlayer::init() {
 }
 
 void AudioPlayer::destroy() {
-	alDeleteSources(1, &(this->source));
+	Stop();
+	//alDeleteSources(1, &(this->source));
+	ENGINE->GetAudioManager()->ReleaseALSource(this->source);
 }
-
-// Accessors
-float AudioPlayer::GetVolume()             { return this->volume; }
-float AudioPlayer::GetPlaybackSpeed()      { return this->playbackSpeed; }
-AudioAsset* AudioPlayer::GetAudioClip()    { return this->asset; }
 
 // Mutators
 void AudioPlayer::SetAudioClip(std::string assetName) {
 	if ((this->asset == nullptr) || (this->asset->GetUrl() != assetName)) {
 		Stop();
-		std::shared_ptr<AudioAsset> audioAsset = ENGINE->GetAssetLibrary()->GetAsset<AudioAsset>(assetName);
-		this->asset = &(*audioAsset);
-		alSourcei(this->source, AL_BUFFER, audioAsset->GetALAudioHandle());
+		this->asset = ENGINE->GetAssetLibrary()->GetAsset<AudioAsset>(assetName);
+		alSourcei(this->source, AL_BUFFER, this->asset->GetALAudioHandle());
 	}
 }
 
