@@ -47,12 +47,13 @@ void MeshAsset::LoadAsset() {
 	glm::vec4 out_diffuseColor;
 	glm::vec4 out_specularColor;
 	std::string out_textureFileName;
+	std::string out_normalMapFileName;
 	//
 	std::string out_armatureFilePath;
 	//
 	std::string out_shaderName;
 
-	ModelLoader::LoadMeshFromModelFile(this->GetFilePathToModel().c_str(), out_meshPositions, out_meshNormals, out_meshTextureCoords, out_meshBoneIndices, out_meshBoneWeights, out_meshIndices, out_initialPosition, out_initialRotation, out_initialScale, out_ambientColor, out_diffuseColor, out_specularColor, out_textureFileName, out_armatureFilePath, out_shaderName);
+	ModelLoader::LoadMeshFromModelFile(this->GetFilePathToModel().c_str(), out_meshPositions, out_meshNormals, out_meshTextureCoords, out_meshBoneIndices, out_meshBoneWeights, out_meshIndices, out_initialPosition, out_initialRotation, out_initialScale, out_ambientColor, out_diffuseColor, out_specularColor, out_textureFileName, out_normalMapFileName, out_armatureFilePath, out_shaderName);
 
 	this->InitVerticesData(out_meshPositions, out_meshNormals, out_meshTextureCoords);
 	this->InitIndicesData(out_meshIndices);
@@ -70,6 +71,9 @@ void MeshAsset::LoadAsset() {
 	this->material->SetSpecularColor(out_specularColor);
 	if (out_textureFileName != "") {
 		this->material->SetTextureFilePath(out_textureFileName);
+	}
+	if (out_normalMapFileName != "") {
+		this->material->SetNormalMapFilePath(out_normalMapFileName);
 	}
 	SimpleMesh::materialRef = this->material;
 

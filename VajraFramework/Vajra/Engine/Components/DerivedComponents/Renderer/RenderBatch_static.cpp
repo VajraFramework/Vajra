@@ -125,10 +125,6 @@ void RenderBatch_static::CreateRenderBatchFromMeshes(std::vector<ObjectIdType> s
 
 void RenderBatch_static::makeVBOs() {
 
-    // TODO [Hack] Read this from the model file:
-    // this->materialRef->SetNormalMapFilePath(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_EnviroAtlas_01_NRM.png");
-    // this->materialRef->SetNormalMapFilePath(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "blue.png");
-
 	SimpleMesh::makeVBOs();
 
     // Free the mesh in ram now that its in gpu memory:

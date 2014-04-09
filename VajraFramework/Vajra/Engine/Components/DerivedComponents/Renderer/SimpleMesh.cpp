@@ -216,10 +216,6 @@ void SimpleMesh::computeTangentsAndBitangents() {
 
 void SimpleMesh::makeVBOs() {
 
-    // TODO [Hack] Read this from the model file:
-    this->materialRef->SetNormalMapFilePath(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_EnviroAtlas_01_NRM.png");
-    // this->materialRef->SetNormalMapFilePath(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "blue.png");
-
 	this->computeTangentsAndBitangents();
 
     if (this->vertices != nullptr) {
