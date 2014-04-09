@@ -57,6 +57,8 @@ Assassin::~Assassin() {
 
 void Assassin::init() {
 	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
+	this->SetSpecialStartAudio(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesFolderName() + "SD_SFX_AssassinAttack_01.wav");
+	//this->SetSpecialEndAudio(FRAMEWORK->GetFileSystemUtils()->GetDeviceAudioResourcesFolderName() + "SD_SFX_ThiefLand_01.wav");
 	this->createTouchIndicator();
 	this->lastPosition = this->gameObjectRef->GetTransform()->GetPositionWorld();
 	this->lastHitCell = nullptr;
