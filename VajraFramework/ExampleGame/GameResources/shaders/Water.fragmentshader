@@ -29,13 +29,13 @@ baked_ambient_intensity
 
 
 #ifdef ADDITIONAL_LIGHTS
-AdditionalLight0Direction_tangentspace
+AdditionalLight0Direction_out
 AdditionalLight0Ambient
 AdditionalLight0Diffuse
-AdditionalLight1Direction_tangentspace
+AdditionalLight1Direction_out
 AdditionalLight1Ambient
 AdditionalLight1Diffuse
-AdditionalLight2Direction_tangentspace
+AdditionalLight2Direction_out
 AdditionalLight2Ambient
 AdditionalLight2Diffuse
 #endif
@@ -44,6 +44,9 @@ AdditionalLight2Diffuse
 depthTextureSampler
 ShadowCoord
 #endif
+
+normalMap
+TBNmatrix
 
 scrolling_uv_offset
 secondaryTexture
@@ -73,23 +76,28 @@ vec2 pcf3 = vec2(0.5, -1.5) / PCF_DIVIDE;
 
 void main()
 {
+	vec2 scrolled_uvs_1 = vec2(uvCoords_out.x + sin(gl_FragCoord.x / 20.0) / 10.0, uvCoords_out.y + scrolling_uv_offset);
+	vec2 scrolled_uvs_2 = vec2(uvCoords_out.x + cos(gl_FragCoord.x / 7.0) / 20.0, uvCoords_out.y + scrolling_uv_offset);
+
 #ifdef PER_PIXEL_LIGHTING
-	float cosTheta = clamp( dot( vNormal_out, -1.0 * DLight0Direction_out ), 0.0, 1.0 );
+	vec4 TextureNormal_worldSpace = (TBNmatrix * vec4( texture2D( normalMap, vec2(uvCoords_out) ).rgb*2.0 - 1.0, 0.0));
+
+	float cosTheta = clamp( dot( TextureNormal_worldSpace, -1.0 * DLight0Direction_out ), 0.0, 1.0 );
 	vec4 lightIntensity = DLight0DiffuseColor_out * cosTheta;
 	lightIntensity = lightIntensity + DLight0AmbientColor_out;
 	// Temp using variables:
 	lightIntensity = lightIntensity + DLight0SpecularColor_out;
 
 #ifdef ADDITIONAL_LIGHTS
-	cosTheta = clamp( dot( vNormal_out, AdditionalLight0Direction_tangentspace ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_worldSpace, -1.0 * AdditionalLight0Direction_out ), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight0Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight0Ambient;
 	//
-	cosTheta = clamp( dot( vNormal_out, AdditionalLight1Direction_tangentspace ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_worldSpace, -1.0 * AdditionalLight1Direction_out ), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight1Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight1Ambient;
 	//
-	cosTheta = clamp( dot( vNormal_out, AdditionalLight2Direction_tangentspace ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_worldSpace, -1.0 * AdditionalLight2Direction_out ), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight2Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight2Ambient;
 #endif
@@ -98,8 +106,6 @@ void main()
 
 	vec4 finalColor = vec4(1.0, 0.0, 0.0, 1.0);;
 
-	vec2 scrolled_uvs_1 = vec2(uvCoords_out.x + sin(gl_FragCoord.x / 20.0) / 10.0, uvCoords_out.y + scrolling_uv_offset);
-	vec2 scrolled_uvs_2 = vec2(uvCoords_out.x + cos(gl_FragCoord.x / 7.0) / 20.0, uvCoords_out.y + scrolling_uv_offset);
 
 #ifdef BAKED_AMBIENT_LIGHTING
 	vec4 color_temp = vec4(texture2D(myTextureSampler, scrolled_uvs_1).rgba) * lightIntensity * 0.6 + vec4(texture2D(secondaryTexture, scrolled_uvs_2).rgba) * lightIntensity * 0.4;

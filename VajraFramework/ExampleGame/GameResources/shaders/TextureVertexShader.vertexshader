@@ -8,11 +8,6 @@ vNormal
 
 vTangent
 vBitangent
-EyeDirection_cameraspace
-LightDirection_cameraspace
-LightDirection_tangentspace
-vTangent_out
-vBitangent_out
 TBNmatrix
 
 uvCoords_in
@@ -49,11 +44,11 @@ modelCoordsForBakedAmbientLookup_out
 
 #ifdef ADDITIONAL_LIGHTS
 AdditionalLight0Direction
-AdditionalLight0Direction_tangentspace
+AdditionalLight0Direction_out
 AdditionalLight1Direction
-AdditionalLight1Direction_tangentspace
+AdditionalLight1Direction_out
 AdditionalLight2Direction
-AdditionalLight2Direction_tangentspace
+AdditionalLight2Direction_out
 #endif
 
 #ifdef SHADOWMAPS_REALTIME
@@ -91,61 +86,16 @@ void main()
 	ShadowCoord = depthBiasMVPMatrix * skewed_position;
 #endif
 
-	// Normal mapping stuff ------------------------------------------------------------ 
-
-	vec4 vertexPosition_cameraspace = viewMatrix * modelMatrix * vPosition;
-	EyeDirection_cameraspace = vec4(0,0,0,0) - vertexPosition_cameraspace;
-
-	// Vector that goes from the vertex to the light, in camera space. M is ommited because it's identity.
-	// TODO [Hack] Hard coded LightPosition_worldspace
-	// vec4 LightPosition_worldspace = vec4(10.0, 10.0, 10.0, 1.0);
-	// vec4 LightPosition_cameraspace = viewMatrix * DLight0Direction;
-	// LightDirection_cameraspace = LightPosition_cameraspace + EyeDirection_cameraspace;
-	LightDirection_cameraspace = viewMatrix * DLight0Direction + EyeDirection_cameraspace;
-
-	AdditionalLight0Direction_tangentspace = AdditionalLight0Direction; // viewMatrix * AdditionalLight0Direction + EyeDirection_cameraspace;
-	AdditionalLight1Direction_tangentspace =  AdditionalLight1Direction; //viewMatrix * AdditionalLight1Direction + EyeDirection_cameraspace;
-	AdditionalLight2Direction_tangentspace =  AdditionalLight2Direction; //viewMatrix * AdditionalLight2Direction + EyeDirection_cameraspace;
-
-
-	// model to camera = ModelView
-	mat4 model_view_matrix = viewMatrix * modelMatrix;
-	vec4 vTangent_cameraspace = model_view_matrix * vTangent;
-	vec4 vBitangent_cameraspace = model_view_matrix * vBitangent;
-	vec4 vNormal_cameraspace = model_view_matrix * vNormal;
+	AdditionalLight0Direction_out = AdditionalLight0Direction;
+	AdditionalLight1Direction_out = AdditionalLight1Direction;
+	AdditionalLight2Direction_out = AdditionalLight2Direction;
 
 	TBNmatrix = (mat4(
-		transpose(modelMatrix) * normalize(vTangent),
-		transpose(modelMatrix) * normalize(vBitangent),
-		transpose(modelMatrix) * normalize(vNormal),
+		modelInverseTransposeMatrix * normalize(vTangent),
+		modelInverseTransposeMatrix * normalize(vBitangent),
+		modelInverseTransposeMatrix * normalize(vNormal),
 		vec4(0.0, 0.0, 0.0, 1.0)
 	));
-
-	mat3 TBN_inv = transpose(mat3(
-		vTangent_cameraspace,
-		vBitangent_cameraspace,
-		vNormal_cameraspace
-	));
-
-	mat4 TBN4 = transpose(mat4(
-		vTangent_cameraspace,
-		vBitangent_cameraspace,
-		vNormal_cameraspace,
-		vec4(0.0, 0.0, 0.0, 1.0)
-	));
-
-	LightDirection_tangentspace = TBN_inv * vec3(LightDirection_cameraspace);
-
-	// AdditionalLight0Direction_tangentspace = TBN4 * AdditionalLight0Direction_tangentspace;
-	// AdditionalLight1Direction_tangentspace = TBN4 * AdditionalLight1Direction_tangentspace;
-	// AdditionalLight2Direction_tangentspace = TBN4 * AdditionalLight2Direction_tangentspace;
-
-	// Debug:
-	vTangent_out = vTangent;
-	vBitangent_out = vBitangent;
-
-	// Normal mapping stuff ------------------------------------------------------------ 
-
 
 	uvCoords_out = uvCoords_in;
 

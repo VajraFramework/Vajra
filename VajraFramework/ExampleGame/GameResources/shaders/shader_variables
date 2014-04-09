@@ -39,17 +39,17 @@ varying vec4 MaterialSpecularColor_out
 
 
 uniform vec4 AdditionalLight0Direction
-varying vec4 AdditionalLight0Direction_tangentspace
+varying vec4 AdditionalLight0Direction_out
 uniform vec4 AdditionalLight0Ambient
 uniform vec4 AdditionalLight0Diffuse
 
 uniform vec4 AdditionalLight1Direction
-varying vec4 AdditionalLight1Direction_tangentspace
+varying vec4 AdditionalLight1Direction_out
 uniform vec4 AdditionalLight1Ambient
 uniform vec4 AdditionalLight1Diffuse
 
 uniform vec4 AdditionalLight2Direction
-varying vec4 AdditionalLight2Direction_tangentspace
+varying vec4 AdditionalLight2Direction_out
 uniform vec4 AdditionalLight2Ambient
 uniform vec4 AdditionalLight2Diffuse
 
@@ -75,11 +75,4 @@ attribute vec4 vTangent
 attribute vec4 vBitangent
 uniform sampler2D normalMap
 
-varying vec4 LightDirection_cameraspace
-varying vec4 EyeDirection_cameraspace
-
-varying vec3 LightDirection_tangentspace
-
-varying vec4 vTangent_out
-varying vec4 vBitangent_out
 varying mat4 TBNmatrix

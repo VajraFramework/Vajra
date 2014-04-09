@@ -19,10 +19,7 @@ lightIntensity
 #endif
 
 vTangent
-vTangent_out
 vBitangent
-vBitangent_out
-LightDirection_tangentspace
 TBNmatrix
 
 modelInverseTransposeMatrix
@@ -41,11 +38,11 @@ DLight0SpecularColor_out
 
 #ifdef ADDITIONAL_LIGHTS
 AdditionalLight0Direction
-AdditionalLight0Direction_tangentspace
+AdditionalLight0Direction_out
 AdditionalLight1Direction
-AdditionalLight1Direction_tangentspace
+AdditionalLight1Direction_out
 AdditionalLight2Direction
-AdditionalLight2Direction_tangentspace
+AdditionalLight2Direction_out
 #endif
 
 
@@ -115,30 +112,16 @@ void main()
 	ShadowCoord = depthBiasMVPMatrix * skewed_position;
 #endif
 
-	// Normal mapping stuff:
-	// Debug
-	vTangent_out = vTangent;
-	vBitangent_out = vBitangent;
-	//
-	//
-	// model to camera = ModelView
-	mat4 model_view_matrix = viewMatrix * modelMatrix;
-	vec4 vTangent_cameraspace = model_view_matrix * vTangent;
-	vec4 vBitangent_cameraspace = model_view_matrix * vBitangent;
-	vec4 vNormal_cameraspace = model_view_matrix * vNormal;
-	//
 	TBNmatrix = (mat4(
-		vTangent_cameraspace,
-		vBitangent_cameraspace,
-		vNormal_cameraspace,
+		modelInverseTransposeMatrix * normalize(vTangent),
+		modelInverseTransposeMatrix * normalize(vBitangent),
+		modelInverseTransposeMatrix * normalize(vNormal),
 		vec4(0.0, 0.0, 0.0, 1.0)
 	));
 
-	LightDirection_tangentspace = vec3(DLight0Direction);
-
-	AdditionalLight0Direction_tangentspace = AdditionalLight0Direction;
-	AdditionalLight1Direction_tangentspace = AdditionalLight1Direction;
-	AdditionalLight2Direction_tangentspace = AdditionalLight2Direction;
+	AdditionalLight0Direction_out = AdditionalLight0Direction;
+	AdditionalLight1Direction_out = AdditionalLight1Direction;
+	AdditionalLight2Direction_out = AdditionalLight2Direction;
 
 #ifdef PER_PIXEL_LIGHTING
 	vNormal_out = modelInverseTransposeMatrix * vNormal;

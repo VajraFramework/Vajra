@@ -29,13 +29,13 @@ baked_ambient_intensity
 
 
 #ifdef ADDITIONAL_LIGHTS
-AdditionalLight0Direction_tangentspace
+AdditionalLight0Direction_out
 AdditionalLight0Ambient
 AdditionalLight0Diffuse
-AdditionalLight1Direction_tangentspace
+AdditionalLight1Direction_out
 AdditionalLight1Ambient
 AdditionalLight1Diffuse
-AdditionalLight2Direction_tangentspace
+AdditionalLight2Direction_out
 AdditionalLight2Ambient
 AdditionalLight2Diffuse
 #endif
@@ -46,9 +46,6 @@ ShadowCoord
 #endif
 
 normalMap
-LightDirection_tangentspace
-vTangent_out
-vBitangent_out
 TBNmatrix
 
 __VARIABLES_END__
@@ -80,25 +77,24 @@ void main()
 
 #ifdef PER_PIXEL_LIGHTING
 
-	// Local normal, in tangent space. V tex coordinate is inverted because normal map is in TGA (not in DDS) for better quality
-	vec4 TextureNormal_tangentspace = (TBNmatrix * vec4( texture2D( normalMap, vec2(uvCoords_out) ).rgb*2.0 - 1.0, 0.0));
+	vec4 TextureNormal_worldSpace = (TBNmatrix * vec4( texture2D( normalMap, vec2(uvCoords_out) ).rgb*2.0 - 1.0, 0.0));
 
-	float cosTheta = clamp( dot( TextureNormal_tangentspace, DLight0Direction_out ), 0.0, 1.0 );
+	float cosTheta = clamp( dot( TextureNormal_worldSpace, DLight0Direction_out ), 0.0, 1.0 );
 	vec4 lightIntensity = DLight0DiffuseColor_out * cosTheta;
 	lightIntensity = lightIntensity + DLight0AmbientColor_out;
 	// Temp using variables:
 	lightIntensity = lightIntensity + DLight0SpecularColor_out;
 
 #ifdef ADDITIONAL_LIGHTS
-	cosTheta = clamp( dot( TextureNormal_tangentspace, AdditionalLight0Direction_tangentspace ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_worldSpace, AdditionalLight0Direction_out ), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight0Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight0Ambient;
 	//
-	cosTheta = clamp( dot( TextureNormal_tangentspace, AdditionalLight1Direction_tangentspace ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_worldSpace, AdditionalLight1Direction_out ), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight1Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight1Ambient;
 	//
-	cosTheta = clamp( dot( TextureNormal_tangentspace, AdditionalLight2Direction_tangentspace ), 0.0, 1.0 );
+	cosTheta = clamp( dot( TextureNormal_worldSpace, AdditionalLight2Direction_out ), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight2Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight2Ambient;
 #endif
@@ -180,8 +176,7 @@ void main()
 	visibility = clamp(visibility + 0.5, 0.0, 1.0);
 	finalColor = finalColor * visibility;
 
-	// finalColor = finalColor * 0.001 + TextureNormal_tangentspace;
-	// finalColor = finalColor * 0.001 + vTangent_out * 1.0;
+	// finalColor = finalColor * 0.001 + TextureNormal_worldSpace;
 	// finalColor = finalColor * 0.001 + vNormal_out * 1.0;
 
 #endif
