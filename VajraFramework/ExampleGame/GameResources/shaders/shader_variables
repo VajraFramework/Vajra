@@ -22,21 +22,9 @@ uniform vec2 interp
 uniform vec4 DLight0Direction
 uniform vec4 DLight0AmbientColor
 uniform vec4 DLight0DiffuseColor
-uniform vec4 DLight0SpecularColor
-
-varying vec4 DLight0Direction_out
-varying vec4 DLight0AmbientColor_out
-varying vec4 DLight0DiffuseColor_out
-varying vec4 DLight0SpecularColor_out
 
 uniform vec4 MaterialAmbientColor
 uniform vec4 MaterialDiffuseColor
-uniform vec4 MaterialSpecularColor
-
-varying vec4 MaterialAmbientColor_out
-varying vec4 MaterialDiffuseColor_out
-varying vec4 MaterialSpecularColor_out
-
 
 uniform vec4 AdditionalLight0Direction
 uniform vec4 AdditionalLight0Ambient

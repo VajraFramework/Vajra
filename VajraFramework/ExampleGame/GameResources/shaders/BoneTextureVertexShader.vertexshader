@@ -24,16 +24,10 @@ TBNmatrix
 
 modelInverseTransposeMatrix
 
+#ifndef PER_PIXEL_LIGHTING
 DLight0Direction
 DLight0AmbientColor
 DLight0DiffuseColor
-DLight0SpecularColor
-
-#ifdef PER_PIXEL_LIGHTING
-DLight0Direction_out
-DLight0AmbientColor_out
-DLight0DiffuseColor_out
-DLight0SpecularColor_out
 #endif
 
 boneIndices
@@ -111,10 +105,6 @@ void main()
 #ifdef PER_PIXEL_LIGHTING
 	vNormal_out = modelInverseTransposeMatrix * vNormal;
 
-	DLight0Direction_out = DLight0Direction;
-	DLight0AmbientColor_out = DLight0AmbientColor;
-	DLight0DiffuseColor_out = DLight0DiffuseColor;
-	DLight0SpecularColor_out = DLight0SpecularColor;
 #else
 	vec4 vNormal_world = modelInverseTransposeMatrix * vNormal;
 	float cosTheta = clamp( dot( vNormal_world, DLight0Direction ), 0.0, 1.0 );
@@ -123,8 +113,6 @@ void main()
 	// Fake the ambient lighting:
 	lightIntensity = lightIntensity + DLight0AmbientColor;
 
-	// Temp using variables:
-	lightIntensity = lightIntensity + interp.x * DLight0SpecularColor;
 #endif
 
 

@@ -7,9 +7,6 @@ mvpMatrix
 uvCoords_in
 uvCoords_out
 
-MaterialDiffuseColor
-MaterialDiffuseColor_out
-
 __VARIABLES_END__
 
 
@@ -18,7 +15,6 @@ void main()
 {
 	gl_Position = mvpMatrix * vPosition;
 	uvCoords_out = uvCoords_in;
-	MaterialDiffuseColor_out = MaterialDiffuseColor;
 }
 __SOURCE_END__
 
