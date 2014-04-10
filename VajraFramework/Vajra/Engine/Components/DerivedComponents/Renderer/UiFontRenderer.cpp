@@ -118,7 +118,6 @@ void UiFontRenderer::init() {
 }
 
 void UiFontRenderer::destroy() {
-	return;
 	if (this->vertices != nullptr) {
 		delete this->vertices;
 	}
