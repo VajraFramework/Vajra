@@ -23,6 +23,7 @@
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Framework/SavedDataManager/SavedDataManager.h"
 
 // Forward Declarations:
 void initUiGameObjects();
@@ -37,155 +38,35 @@ int TestFuntion() {
 	// Instantiate a ComponentMapper so that its singleton get stored:
 	/* ComponentMapper* componentMapper = */ new ComponentMapper();
 
-	{
-#if 0
-		/* GameObject* gameObject = */ PrefabLoader::InstantiateGameObjectFromPrefab(
-									   FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "monkey.prefab",
-									   ENGINE->GetSceneGraph3D());
-#endif
-	}
+
 
 
 	FRAMEWORK->GetLogger()->dbglog("\nIn TestFunction()");
-#if 0
-	GameObject* wavybox = ENGINE->GetSceneGraph()->GetGameObjectById(109);
-	if (wavybox != nullptr) {
-		Transform* transform = wavybox->GetTransform();
-		transform->Scale(4.0f);
-	}
-#endif
-	{
-#if 0
-		SINGLETONS->GetLevelManager()->LoadLevelFromFile(FRAMEWORK->GetFileSystemUtils()->GetDeviceBaseResourcesPath() + "levels/SD_TestScene.lvl");
-		GameObject* testZone = new GameObject(ENGINE->GetSceneGraph3D());
-		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testZone->GetId());
-		GridZone* zone = testZone->AddComponent<GridZone>();
-		zone->SetZoneBounds(3, 0, 5, 5);
-#endif
-	}
-	{
-#if 0
-		GameObject* camera = new GameObject(ENGINE->GetSceneGraph3D());
-		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(camera->GetId());
-		ShadyCamera* cameraComponent = camera->AddComponent<ShadyCamera>();
-		cameraComponent->SetCameraType(CAMERA_TYPE_PERSPECTIVE);
-		ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
-		cameraComponent->SetGridManager(SINGLETONS->GetGridManager());
-		//cameraComponent->PanTo(0.0f, 0.0f);
-		cameraComponent->MoveToRoom(0.0f, 0.0f);
-		//cameraComponent->ZoomToOverview();
 
-		GameObject* walker = new GameObject(ENGINE->GetSceneGraph3D());
-		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(walker->GetId());
-#endif
-	}
-	{
-#if 0
-		GameObject* testGameScript = new GameObject(ENGINE->GetSceneGraph3D());
-		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testGameScript->GetId());
-		MeshRenderer* meshRenderer = testGameScript->AddComponent<MeshRenderer>();
-		meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "Suzanne.model");
-		testGameScript->AddComponent<SampleGameScript>();
-		GridNavigator* gNav = testGameScript->AddComponent<GridNavigator>();
-		gNav->SetGridPosition(0, 2);
-		testGameScript->AddComponent<PlayerUnit>();
-#endif
-	}
-	{
-#if 0
-		GameObject* testGameScript = new GameObject(ENGINE->GetSceneGraph3D());
-		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testGameScript->GetId());
-		MeshRenderer* meshRenderer = testGameScript->AddComponent<MeshRenderer>();
-		meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "Suzanne.model");
-		testGameScript->AddComponent<SampleGameScript>();
-		GridNavigator* gNav = testGameScript->AddComponent<GridNavigator>();
-		gNav->SetGridPosition(10, 4);
-		testGameScript->AddComponent<PlayerUnit>();
-#endif
-	}
-	{
-#if 0
-		GameObject* testGameScript = new GameObject(ENGINE->GetSceneGraph3D());
-		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(testGameScript->GetId());
-		MeshRenderer* meshRenderer = testGameScript->AddComponent<MeshRenderer>();
-		meshRenderer->InitMesh(FRAMEWORK->GetFileSystemUtils()->GetDeviceModelResourcesFolderName() + "Suzanne.model");
-		testGameScript->AddComponent<SampleGameScript>();
-		GridNavigator* gNav = testGameScript->AddComponent<GridNavigator>();
-		gNav->SetGridPosition(8, 2);
-		testGameScript->AddComponent<BaseUnit>();
-#endif
-	}
 
-	{
-#if 0
-		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
-							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "test.prefab",
-						   	     	 ENGINE->GetSceneGraph3D());
-#endif
-	}
-	{
-#if 0
-		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
-							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "fire_0.prefab",
-						   	     	 ENGINE->GetSceneGraph3D());
-#endif
-	}
-	{
-#if 0
-		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
-							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "fire_1.prefab",
-						   	     	 ENGINE->GetSceneGraph3D());
-#endif
-	}
-	{
-#if 0
-		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
-							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "fire_2.prefab",
-						   	     	 ENGINE->GetSceneGraph3D());
-#endif
-	}
-	{
-#if 0
-		/*GameObject* gameObject = */PrefabLoader::InstantiateGameObjectFromPrefab(
-							    	 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "fire_3.prefab",
-						   	     	 ENGINE->GetSceneGraph3D());
-#endif
-	}
-	{
-#if 0
-		
 
-		GameObject* gameObject = PrefabLoader::InstantiateGameObjectFromPrefab(
-								 FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "test.prefab",
-								 ENGINE->GetSceneGraph3D());
-			
-    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have unit tag %i", gameObject->HasTag("Unit"));
-    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have batman tag %i", gameObject->HasTag("Batman"));
-    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have arispace tag %i", gameObject->HasTag("Airspace"));
-    	FRAMEWORK->GetLogger()->dbglog("\nadding the unit tag");
-		gameObject->AddTag("Unit");
-    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have unit tag %i", gameObject->HasTag("Unit"));
-		FRAMEWORK->GetLogger()->dbglog("\nadding the airspace, batman and mispelled tag tag");
-		gameObject->AddTag("Airspace");
-		gameObject->AddTag("Batman");
-		gameObject->AddTag("sdfdgsdgad");
-    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have unit tag %i", gameObject->HasTag("Unit"));
-    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have batman tag %i", gameObject->HasTag("Batman"));
-    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have arispace tag %i", gameObject->HasTag("Airspace"));
-		FRAMEWORK->GetLogger()->dbglog("\removing the airspace and unit tag tag");
-		gameObject->RemoveTag("Airspace");
-		gameObject->RemoveTag("Unit");
-    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have unit tag %i", gameObject->HasTag("Unit"));
-    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have batman tag %i", gameObject->HasTag("Batman"));
-    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have arispace tag %i", gameObject->HasTag("Airspace"));
-		
-		FRAMEWORK->GetLogger()->dbglog("\removing the airspace and unit tag again!");
-    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have unit tag %i", gameObject->HasTag("Unit"));
-    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have batman tag %i", gameObject->HasTag("Batman"));
-    	FRAMEWORK->GetLogger()->dbglog("\nDoes gameObject have arispace tag %i", gameObject->HasTag("Airspace"));
-		
-		gameObject->RemoveTag("Airspace");
-#endif
+	// Temporary: Example bundle:
+	{
+		Bundle* bundle = nullptr;
+		if (FRAMEWORK->GetSavedDataManager()->HasBundle("testbundle")) {
+			bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle("testbundle");
+		} else {
+			bundle = FRAMEWORK->GetSavedDataManager()->CreateNewBundle("testbundle");
+		}
+
+		if (bundle->HasKey("pi")) { FRAMEWORK->GetLogger()->dbglog("\nPI = %f", bundle->GetFloat("pi")); }
+		if (bundle->HasKey("answer")) { FRAMEWORK->GetLogger()->dbglog("\nAnswer = %i", bundle->GetInt("answer")); }
+		if (bundle->HasKey("finished")) { FRAMEWORK->GetLogger()->dbglog("\nFinished = %s", bundle->GetBool("finished") ? "true" : "false"); }
+		if (bundle->HasKey("gamename")) { FRAMEWORK->GetLogger()->dbglog("\nGame name = %s", bundle->GetString("gamename").c_str()); }
+		if (bundle->HasKey("randomnumber")) { FRAMEWORK->GetLogger()->dbglog("\nRandom number = %s", bundle->GetString("randomnumber").c_str()); }
+
+		bundle->PutFloat("pi", 3.141592653589323846264f);
+		bundle->PutInt("answer", 42);
+		bundle->PutBool("finished", true);
+		bundle->PutString("gamename", "ShadyDealings");
+		bundle->PutInt("randomnumber", rand() % 1000);
+
+		bundle->Save();
 	}
 
 	return 4;

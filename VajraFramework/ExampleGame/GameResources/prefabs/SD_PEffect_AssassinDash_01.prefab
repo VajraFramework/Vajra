@@ -1,0 +1,64 @@
+<prefab>
+	<gameobject>
+		<component name="ParticleSystem">
+			<property name="SetNumberOfParticles">
+				<field>10</field>
+				<field>50</field>
+			</property>
+			<property name="SetParticleSpeed">
+				<field>0.3</field>
+				<field>0.3</field>
+			</property>			
+			<property name="SetEmissionVolume">
+				<field>ellipsoid</field>
+				<field>0.1</field>
+				<field>0.1</field>
+				<field>0.1</field>
+			</property>
+			<property name="SetOverallLifespan">
+				<field>1.5</field>
+			</property>
+			<property name="SetParticleVelocityDirection">
+				<field>1.0</field>
+				<field>0.0</field>
+				<field>1.0</field>
+			</property>
+			<property name="SetParticleVelocityDirectionRandomness">
+				<field>1.0</field>
+			</property>
+			<property name="SetParticleSize">
+				<field>20</field>
+				<field>50</field>
+			</property>
+			<property name="SetParticleLifespan">
+				<field>0.3</field>
+			</property>
+			<property name="SetParticleTexture">
+				<field>pictures/SD_AssassinParticle_01.png</field>
+			</property>
+			<property name="SetParticleInitialColor">
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
+			</property>
+			<property name="SetParticleFinalColor">
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>0.0</field>
+			</property>
+			<property name="SetLooping">
+				<field>false</field>
+			</property>
+			<property name="InitParticleSystem">
+			</property>
+		</component>
+
+		<component name="ParticleSystemRenderer">
+		</component>
+
+		<component name="Transform">
+		</component>
+	</gameobject>
+</prefab>

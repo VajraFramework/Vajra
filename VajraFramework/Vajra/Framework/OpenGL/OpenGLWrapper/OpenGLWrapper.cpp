@@ -100,6 +100,7 @@ void OpenGLWrapper::init() {
 	this->CreateShaderSet("uscshdr", "UiSpriteColorShader.shaderspec", false, false, false);
 	this->CreateShaderSet("prtshdr", "ParticleSystem.shaderspec", true, false, false);
 	this->CreateShaderSet("wtrshdr", "Water.shaderspec", false, false, false);
+	this->CreateShaderSet("fntshdr", "FontShader.shaderspec", true, true, false);
 	//
 	// Depth pass shaders:
 	this->CreateShaderSet("dbtshdr", "DepthBoneTexturePass.shaderspec", false, false, true);

@@ -160,8 +160,8 @@ void GridManager::tryUnitSwitch(int touchIndex) {
 	if (cell != nullptr) {
 		
 		// early out if you click right on a unit
-		if(cell->GetFirstOccupantId() != OBJECT_ID_INVALID) {
-			if((cell->GetFirstOccupantId() != selectedUnitId)) {
+		if(cell->GetTopOccupantId() != OBJECT_ID_INVALID) {
+			if((cell->GetTopOccupantId() != selectedUnitId)) {
 				this->selectUnitInCell(cell);
 				return;
 			}
@@ -451,17 +451,12 @@ void GridManager::gridCellChangedHandler(ObjectIdType id, int gridX, int gridZ, 
 	if (!didUnitsCollide) {
 		// Move the unit to the destination cell
 		if (startCell != nullptr) {
-			for (int y = 0; y < NUM_ELEVATIONS; ++y) {
-				if (startCell->GetOccupantIdAtElevation(y) == id) {
-					startCell->SetOccupantIdAtElevation(OBJECT_ID_INVALID, y);
-					break;
-				}
-			}
+			startCell->SetOccupantIdAtElevation(OBJECT_ID_INVALID, gNav->GetElevation());
 		}
 		if (destCell != nullptr) {
 			destCell->SetOccupantIdAtElevation(id, elevation);
 		}
-		gNav->SetCurrentCell(destCell);
+		gNav->SetCurrentCellAndElevation(destCell, elevation);
 
 		this->CheckZoneCollisions(id, startCell, destCell);
 		this->checkRoomCollisions(id, startCell, destCell);
@@ -490,17 +485,12 @@ void GridManager::gridCellEnterAttackHandler(ObjectIdType id, int gridX, int gri
 
 	// Move the unit to the destination cell
 	if (startCell != nullptr) {
-		for (int y = 0; y < NUM_ELEVATIONS; ++y) {
-			if (startCell->GetOccupantIdAtElevation(y) == id) {
-				startCell->SetOccupantIdAtElevation(OBJECT_ID_INVALID, y);
-				break;
-			}
-		}
+		startCell->SetOccupantIdAtElevation(OBJECT_ID_INVALID, gNav->GetElevation());
 	}
 	if (destCell != nullptr) {
 		destCell->SetOccupantIdAtElevation(id, elevation);
 	}
-	gNav->SetCurrentCell(destCell);
+	gNav->SetCurrentCellAndElevation(destCell, elevation);
 	this->CheckZoneCollisions(id, startCell, destCell);
 	this->checkRoomCollisions(id, startCell, destCell);
 }
@@ -668,13 +658,13 @@ void GridManager::selectUnitInCell(int x, int z) {
 }
 
 void GridManager::selectUnitInCell(GridCell* cell) {
-	if (cell->GetFirstOccupantId() != OBJECT_ID_INVALID) {
-		GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(cell->GetFirstOccupantId());
+	if (cell->GetTopOccupantId() != OBJECT_ID_INVALID) {
+		GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(cell->GetTopOccupantId());
 		BaseUnit* bu = obj->GetComponent<BaseUnit>();
 		ASSERT(bu != nullptr, "Selected object has BaseUnit component");
 		if(bu->GetUnitType() <= LAST_PLAYER_UNIT_TYPE) {
 			this->deselectUnit();
-			this->selectedUnitId = cell->GetFirstOccupantId();
+			this->selectedUnitId = cell->GetTopOccupantId();
 
 			MessageChunk unitChangedMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 			unitChangedMessage->SetMessageType(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);

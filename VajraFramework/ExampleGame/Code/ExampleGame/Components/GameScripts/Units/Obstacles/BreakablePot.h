@@ -23,6 +23,9 @@ public:
 	//[[PROPERTY]]//
 	inline void SetDeathEffect(std::string prefabName);
 
+	//[[PROPERTY]]//
+	void SetHasPotLoot();
+
 	virtual bool CanBeKilledBy(ObjectIdType id, glm::vec3 source);
 
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
@@ -42,8 +45,12 @@ private:
 	void generateDeathEffect();
 	void activateDeathEffect();
 
+	void tryLoot();
+
 	std::string deathEffect;
 	ObjectIdType deathEffectObjId;
+
+	ObjectIdType potLootId;
 };
 
 void BreakablePot::SetDeathEffect(std::string prefabName)  {

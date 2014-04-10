@@ -4,6 +4,8 @@
 //
 
 #include "ExampleGame/Components/GameScripts/Units/EnemyUnit.h"
+#include "ExampleGame/Components/LevelManager/MasteryManager.h"
+#include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 
 EnemyUnit::EnemyUnit() : BaseUnit() {
@@ -87,7 +89,7 @@ void EnemyUnit::onBrainBecameCalm() {
 }
 
 void EnemyUnit::onBrainBecameCautious() {
-
+	SINGLETONS->GetMasteryManager()->OnGuardAlert();	
 }
 
 void EnemyUnit::onBrainBecameAggressive() {

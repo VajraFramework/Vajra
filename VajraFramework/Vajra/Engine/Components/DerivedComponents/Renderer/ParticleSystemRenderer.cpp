@@ -58,6 +58,11 @@ void ParticleSystemRenderer::Draw() {
 
     ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
 
+    if (this->particleSystemRef->inWorldSpace) {
+    	static Transform* identity_transform = new Transform();
+    	identity_transform->Draw();
+    }
+
     {
     GLint positionHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vPosition);
     GLCALL(glEnableVertexAttribArray, positionHandle);

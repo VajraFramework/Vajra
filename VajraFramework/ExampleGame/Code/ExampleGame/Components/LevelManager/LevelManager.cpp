@@ -14,6 +14,7 @@
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Framework/SavedDataManager/SavedDataManager.h"
 
 #include <fstream>
 
@@ -80,7 +81,7 @@ void LevelManager::ReloadCurrentLevel() {
 }
 
 bool LevelManager::TryLoadNextLevel() {
-	if(this->currentLevelIndex + 1 < (int)this->levelData.size()) {
+	if(this->currentLevelIndex + 1 < this->GetNumLevelsInCurrentMission()) {
 		this->LoadLevel(this->currentLevelIndex + 1);
 		return true;
 	}
@@ -92,37 +93,104 @@ void LevelManager::StartLevel() {
 }
 
 void LevelManager::loadLevel_internal() {
-	ASSERT(this->levelToLoad < (int)this->levelData.size(), "level number is less than the number of levels");
-	if(this->levelToLoad < (int)this->levelData.size()) {
+	ASSERT(this->levelToLoad < this->GetNumLevelsInCurrentMission(), "level number is less than the number of levels");
+	if(this->levelToLoad < this->GetNumLevelsInCurrentMission()) {
 		this->currentLevelIndex = this->levelToLoad;
-		this->LoadLevelFromData(levelData[this->levelToLoad]);
+		this->LoadLevelFromData(this->GetLevelData(this->currentMission, this->levelToLoad));
 		ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_LEVEL_LOADED);
 	}
 	this->levelToLoad = -1;
 }
 
-void LevelManager::LoadLevelFromData(LevelData levelData) {
-	LevelLoader::LoadLevelFromFile(levelData.path);
-	if(levelData.hasTutorial) {
-		LevelLoader::LoadTutorialData(levelData.name);
+void LevelManager::LoadLevelFromData(LevelData* levelData) {
+	LevelLoader::LoadLevelFromFile(levelData->path);
+	if(levelData->hasTutorial) {
+		LevelLoader::LoadTutorialData(levelData->name);
 	}
+	// Set up the bonus
+	SINGLETONS->GetMasteryManager()->SetCurrentBonuse(levelData->bonus, levelData->bonusValue);
 }
 
-LevelData LevelManager::GetLevelData(int index) 
+LevelData* LevelManager::GetLevelData(int missionIndex, int levelIndex) 
 { 
-	if(index < (int)this->levelData.size()) {
-		return this->levelData[index];
+	return this->GetLevelData(this->currentContract, missionIndex, levelIndex);
+}
+
+LevelData* LevelManager::GetLevelData(int contractIndex, int missionIndex, int levelIndex) 
+{ 
+	std::vector<LevelData*> lData = this->GetMissionData(contractIndex, missionIndex)->levels;
+	if(levelIndex < (int)lData.size()) {
+		return lData[levelIndex];
 	}
 	ASSERT(false, "index passed into GetLevelData is valid");
-	return this->levelData[0];
+	return lData[0];
+}
+
+MissionData* LevelManager::GetMissionData(int contractIndex, int missionIndex) 
+{ 
+	std::vector<MissionData*> mData = this->GetContractData(contractIndex)->missions;
+	if(missionIndex < (int)mData.size()) {
+		return mData[missionIndex];
+	}
+	ASSERT(false, "missionIndex passed into GetMissionData is valid");
+	return mData[0];
+}
+ContractData* LevelManager::GetContractData(int index) 
+{ 
+	if(index < (int)this->contractData.size()) {
+		return this->contractData[index];
+	}
+	ASSERT(false, "index passed into GetContractData is valid");
+	return this->contractData[0];
 }
 
 int LevelManager::GetNumLevelsInMission(int mission) {
-	if(mission < (int)this->levelsPerMission.size()) {
-		return this->levelsPerMission[mission];
+	MissionData* mData = GetMissionData(this->currentContract, mission);
+	return mData->levels.size();
+}
+
+void LevelManager::OnCurrentLevelWon(LevelCompletion completion) {
+	LevelData* lData = this->GetLevelData(this->currentMission, this->currentLevelIndex);
+	if(completion > lData->completion) {
+		Bundle* bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle(PLAYER_BUNDLE_NAME);
+
+		lData->completion = completion;
+		
+		if(lData->completion == LevelCompletion::Completed) {
+			this->levelCompletionData[lData->levelNum] = 'C';
+		} else if (lData->completion == LevelCompletion::Completed_Bonus) {
+			this->levelCompletionData[lData->levelNum] = 'B';
+
+		}
+
+		LevelData* nextLevel = this->getNextLevel();
+		if(nextLevel->completion == LevelCompletion::Locked) {
+			nextLevel->completion = LevelCompletion::Unlocked;
+			this->levelCompletionData[nextLevel->levelNum] = 'U';
+		}
+
+		bundle->PutString(LEVEL_COMPLETION, this->levelCompletionData);
+		bundle->Save();
 	}
-	ASSERT(false, "mission passed into GetNumLevelsInMission is valid");
-	return -1;
+}
+
+LevelData* LevelManager::getNextLevel() {
+	int lIndex = this->currentLevelIndex + 1;
+	int mIndex = this->currentMission;
+	int cIndex = this->currentContract;
+	if(lIndex < this->GetNumLevelsInCurrentMission()) {
+		return this->GetLevelData(mIndex, lIndex);
+	} 
+	mIndex++;
+	if(mIndex < GetNumMissionsInCurrentContract()) {
+		return this->GetLevelData(mIndex, 0);
+	}
+	cIndex++;
+	if(cIndex < this->NumContracts()) {
+		return this->GetLevelData(cIndex, mIndex, lIndex);
+	}
+	// this is the last level
+	return nullptr;
 }
 
 void LevelManager::AddWinCondition(ObjectIdType switchId) {
@@ -148,10 +216,21 @@ void LevelManager::init() {
 	this->loser = new Object();
 	loser->AddComponent<TriggerLevelDefeat>();
 
-	this->levelToLoad = -1;
+	// load player data
+	Bundle* bundle = nullptr;
+	if (!FRAMEWORK->GetSavedDataManager()->HasBundle(PLAYER_BUNDLE_NAME)) {
+		this->initBundleForFirstTime();
+	}
+	
+	bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle(PLAYER_BUNDLE_NAME);
+	this->levelCompletionData = bundle->GetString(LEVEL_COMPLETION);
 
+	this->levelToLoad = -1;
+	currentLevelIndex = 0;
+	currentMission = 0;
+	currentContract = 0;
 	// load the list of levels with a tutorial
-	LevelLoader::LoadLevelData(&this->levelData, &this->levelsPerMission);
+	LevelLoader::LoadLevelData(&this->contractData);
 }
 
 void LevelManager::destroy() {
@@ -185,4 +264,25 @@ void LevelManager::clearEndConditions() {
 	if (defeatTrigger != nullptr) {
 		defeatTrigger->UnsubscribeToAllSwitches();
 	}
+}
+
+void LevelManager::initBundleForFirstTime() {
+	Bundle* bundle = FRAMEWORK->GetSavedDataManager()->CreateNewBundle(PLAYER_BUNDLE_NAME);
+	
+	// create level completion data
+	char levelCompletion[MAX_LEVELS_POSSIBLE+1];
+	levelCompletion[0] = 'U'; // U = unlocked
+	for(int i = 1; i < MAX_LEVELS_POSSIBLE; ++i) {
+#ifdef DEBUG
+		levelCompletion[i] = 'U';
+#else
+		levelCompletion[i] = 'L'; // L = locked
+#endif
+	}
+	levelCompletion[MAX_LEVELS_POSSIBLE] = '\0';
+
+	std::string levelData = levelCompletion;
+	bundle->PutString(LEVEL_COMPLETION, levelData);
+
+	bundle->Save();
 }

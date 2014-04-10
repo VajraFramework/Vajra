@@ -11,14 +11,25 @@ UiFontObject::~UiFontObject() {
 }
 
 void UiFontObject::InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile) {
-	ASSERT(this->GetComponent<Renderer>() == nullptr, "UiObject doesn't already have a Renderer on it");
-	UiFontRenderer* uiRenderer = this->AddComponent<UiFontRenderer>();
+	UiFontRenderer* uiRenderer = this->GetComponent<UiFontRenderer>();
+	if(uiRenderer == nullptr) {
+		uiRenderer = this->AddComponent<UiFontRenderer>();
+	}
 	uiRenderer->initTextToDisplay(text, width, height, pathToFontSpecificationFile);
 	uiRenderer->SetHasTransperancy(true);
 	//
 	this->setWidth(width);
 	this->setHeight(height);
 	this->setText(text);
+	//
+	this->pathToFontFile = pathToFontSpecificationFile;
+}
+
+void UiFontObject::SetFontColor(glm::vec4 color) {
+	UiFontRenderer* uiRenderer = this->GetComponent<UiFontRenderer>();
+	if (uiRenderer != nullptr) {
+		uiRenderer->setDiffuseColor(color);
+	}
 }
 
 void UiFontObject::init() {
@@ -26,3 +37,4 @@ void UiFontObject::init() {
 
 void UiFontObject::destroy() {
 }
+

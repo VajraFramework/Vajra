@@ -157,6 +157,7 @@ void SpriteRenderer::init() {
 }
 
 void SpriteRenderer::destroy() {
+	return;
 	if (this->vertices != nullptr) {
 		delete this->vertices;
 	}

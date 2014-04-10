@@ -6,6 +6,7 @@
 #include "ExampleGame/Components/GameScripts/Units/Obstacles/BreakablePot.h"
 #include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/Components/Triggers/TriggerLoot.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -31,6 +32,8 @@ void BreakablePot::init() {
 
 	this->deathEffect = "";
 	this->deathEffectObjId = OBJECT_ID_INVALID;
+
+	this->potLootId = OBJECT_ID_INVALID;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT, this->GetTypeId(), false);
 
@@ -76,6 +79,7 @@ void BreakablePot::Kill() {
 	BaseUnit::Kill();
 	this->activateDeathEffect();
 	this->gameObjectRef->SetVisible(false);
+	this->tryLoot();
 }
 
 void BreakablePot::generateDeathEffect() {
@@ -94,5 +98,24 @@ void BreakablePot::activateDeathEffect() {
 		ParticleSystem* deathEffectParticleSystem = deathEffectObj->GetComponent<ParticleSystem>();
 		VERIFY(deathEffectParticleSystem != nullptr, "Death effect prefab has a particle system on it");
 		deathEffectParticleSystem->Play();
+	}
+}
+
+void BreakablePot::SetHasPotLoot() {
+	GameObject* lootObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "SD_Loot_Non_Standalone.prefab", ENGINE->GetSceneGraph3D());
+	this->potLootId = lootObj->GetId();
+	this->GetObject()->AddChild(this->potLootId);
+}
+
+void BreakablePot::tryLoot() {
+	if(this->potLootId != OBJECT_ID_INVALID) {
+		GameObject* lootObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->potLootId);
+		if(lootObj != nullptr) {
+			TriggerLoot* lootComp = lootObj->GetComponent<TriggerLoot>();
+			ASSERT(lootComp != nullptr, "Loot game object has a TriggerLoot comp");
+			if(lootComp != nullptr) {
+				lootComp->ForceLootGrab();
+			}
+		}
 	}
 }

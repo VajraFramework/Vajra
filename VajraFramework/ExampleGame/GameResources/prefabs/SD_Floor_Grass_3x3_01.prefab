@@ -8,16 +8,13 @@
               <property name="InitMesh">
                   <field>models/SD_Floor_Grass_3x3_01.model</field>
               </property>
-			<property name="SetIsStatic">
-				<field>true</field>
-			</property>
           </component>
 
           <component name="Transform">
               <property name="Translate">
+                  <field>1.5</field>
                   <field>0</field>
-                  <field>0</field>
-                  <field>0</field>
+                  <field>1.5</field>
               </property>
               <property name="Rotate">
                   <field>0</field>

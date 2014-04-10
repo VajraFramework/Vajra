@@ -13,6 +13,7 @@
 #include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
+#include "ExampleGame/Components/LevelManager/MasteryManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Components/Switches/BaseSwitch.h"
 #include "ExampleGame/Components/Switches/MultiplexSwitch.h"
@@ -31,6 +32,7 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/ParserTags.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
+#include "Vajra/Framework/SavedDataManager/SavedDataManager.h"
 #include "Vajra/Framework/Settings/Settings.h"
 
 std::map<int, ObjectIdType> LevelLoader::idsFromXml;
@@ -40,11 +42,24 @@ std::map<int, ObjectIdType> LevelLoader::idsFromXml;
 UnitType StringToUnitType(std::string str) {
 	if (str == "Assassin") {
 		return UNIT_TYPE_ASSASSIN;
-	}
-	if (str == "Thief") {
+	} else if (str == "Thief") {
 		return UNIT_TYPE_THIEF;
 	}
 	return UNIT_TYPE_UNKNOWN;
+}
+
+LevelBonus StringToLevelBonus(std::string str) {
+	if(str == "Time") {
+		return LevelBonus::Time;
+	} else if(str == "Kills") {
+		return LevelBonus::Kills;
+	} else if(str == "Money") {
+		return LevelBonus::Money;
+	} else if(str == "Alerts"){
+		return LevelBonus::Alerts;
+	} else {
+		return LevelBonus::None;
+	}
 }
 
 void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
@@ -136,7 +151,24 @@ LevelType LevelLoader::stringToLevelType(std::string type) {
 	ASSERT(0, "%s is a valid level type", type.c_str());
 	return LevelType::NO_TYPE;
 }
-void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData, std::vector<int>* levelsPerMission) {
+
+LevelCompletion LevelLoader::charToCompletionData(char type) {
+	if(type == 'U') {
+		return LevelCompletion::Unlocked;
+	}
+	else if(type == 'L') {
+		return LevelCompletion::Locked;
+	}
+	else if(type == 'C') {
+		return LevelCompletion::Completed;
+	}
+	else if(type == 'B') {
+		return LevelCompletion::Completed_Bonus;
+	}
+	ASSERT(0, "%s is a valid completion type", type);
+	return LevelCompletion::Locked;
+}
+void LevelLoader::LoadLevelData(std::vector<ContractData*>* contractData) {
 	// Load the tutorials
 	std::vector<std::string> levelsWithTutorials;
 	LevelLoader::LoadTutorialLevelNames(&levelsWithTutorials);
@@ -152,23 +184,45 @@ void LevelLoader::LoadLevelData(std::vector<LevelData>* levelData, std::vector<i
 	XmlNode* rootLevelListNode = xmlTree->GetRootNode();
 	ASSERT(rootLevelListNode != nullptr, "Got valid tutoral node from xml tree for tutorial file %s", levelListXmlPath);
 
+	// Get the saved data
+	VERIFY(FRAMEWORK->GetSavedDataManager()->HasBundle(PLAYER_BUNDLE_NAME), "The game has saved data");
+	Bundle* bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle(PLAYER_BUNDLE_NAME);
+	ASSERT(bundle->HasKey(LEVEL_COMPLETION), "The saved data has level completion");
+	std::string levelCompletionData = bundle->GetString(LEVEL_COMPLETION);
+
 	int missionNum = 0;
-	for(XmlNode* missionNode : rootLevelListNode->GetChildren()) {
-		FRAMEWORK->GetLogger()->dbglog("\n Loaded mission data for game");
-		for(XmlNode* levelDataNode : missionNode->GetChildren()) {
-			LevelData data;
-			data.name = levelDataNode->GetAttributeValueS(NAME_PROPERTY);
-			data.path = levelDataNode->GetAttributeValueS(PATH_PROPERTY);
-			data.type = LevelLoader::stringToLevelType(levelDataNode->GetAttributeValueS(TYPE_PROPERTY));
-			data.hasTutorial = std::find(levelsWithTutorials.begin(), levelsWithTutorials.end(), data.name) != levelsWithTutorials.end();
-			data.mission = missionNum;
-			data.pinX = levelDataNode->GetAttributeValueF("x");
-			data.pinY = levelDataNode->GetAttributeValueF("y");
-			data.parallaxScreen = levelDataNode->GetAttributeValueF("parallaxScreen");
-			levelData->push_back(data);
+	int levelNum = 0;
+	for(XmlNode* contractNode : rootLevelListNode->GetChildren()) {
+		ContractData* cData = new ContractData();
+		for(XmlNode* missionNode : contractNode->GetChildren()) {
+			FRAMEWORK->GetLogger()->dbglog("\n Loaded mission data for game");
+			MissionData* mData = new MissionData();
+			for(XmlNode* levelDataNode : missionNode->GetChildren()) {
+				LevelData* lData = new LevelData();
+				lData->name = levelDataNode->GetAttributeValueS(NAME_PROPERTY);
+				lData->path = levelDataNode->GetAttributeValueS(PATH_PROPERTY);
+				lData->type = LevelLoader::stringToLevelType(levelDataNode->GetAttributeValueS(TYPE_PROPERTY));
+				lData->completion = LevelLoader::charToCompletionData(levelCompletionData[levelNum]);
+				lData->hasTutorial = std::find(levelsWithTutorials.begin(), levelsWithTutorials.end(), lData->name) != levelsWithTutorials.end();
+				lData->levelNum = levelNum;
+				lData->bonus = LevelBonus::None;
+				for(XmlNode* child : levelDataNode->GetChildren()) {
+					if(child->GetName() == "missionScreen") {
+						lData->pinX = child->GetAttributeValueF("x");
+						lData->pinY = child->GetAttributeValueF("y");
+						lData->parallaxScreen = child->GetAttributeValueF("parallaxScreen");
+					} else if(child->GetName() == "bonus") {
+						lData->bonus = StringToLevelBonus(child->GetAttributeValueS("type"));
+						lData->bonusValue = child->GetAttributeValueI("value");
+					}
+				}
+				mData->levels.push_back(lData);
+				levelNum++;
+			}
+			cData->missions.push_back(mData);
+			missionNum++;
 		}
-		levelsPerMission->push_back(missionNode->GetChildren().size());
-		missionNum++;
+		contractData->push_back(cData);
 	}
 	delete parser;
 }
@@ -272,6 +326,11 @@ void LevelLoader::loadUnitDataFromXml(XmlNode* unitBaseNode) {
 				aiCommandNode = aiCommandNode->GetNextSiblingByNodeName(AI_COMMAND_TAG);
 			}
 			aiRoutine->SetBehavior(commands);
+		}
+
+		GridZone* zone = unitObj->GetComponent<GridZone>();
+		if (zone != nullptr) {
+			SINGLETONS->GetGridManager()->placeZoneOnGrid(unitObj->GetId());//GetGrid()->AddGridZone(dynamicObj->GetId());
 		}
 
 		unitNode = unitNode->GetNextSiblingByNodeName("");

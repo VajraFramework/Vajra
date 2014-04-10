@@ -21,5 +21,8 @@ UnitType ConvertStringToUnitType(std::string typeStr) {
 	if (typeStr == "Obstacle") {
 		return UNIT_TYPE_OBSTACLE;
 	}
+	if (typeStr == "Pillar") {
+		return UNIT_TYPE_PILLAR;
+	}
 	return UNIT_TYPE_UNKNOWN;
 }

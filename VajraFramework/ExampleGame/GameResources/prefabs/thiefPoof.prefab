@@ -2,7 +2,7 @@
 	<gameobject>
 		<component name="ParticleSystem">
 			<property name="SetNumberOfParticles">
-				<field>20</field>
+				<field>50</field>
 				<field>50</field>
 			</property>
 			<property name="SetParticleSpeed">
@@ -11,30 +11,27 @@
 			</property>			
 			<property name="SetEmissionVolume">
 				<field>ellipsoid</field>
-				<field>0.3</field>
+				<field>0.2</field>
 				<field>1.0</field>
-				<field>0.3</field>
+				<field>0.2</field>
 			</property>
 			<property name="SetOverallLifespan">
-				<field>0.5</field>
+				<field>0.8</field>
 			</property>
 			<property name="SetParticleVelocityDirection">
 				<field>0.0</field>
-				<field>0.1</field>
+				<field>1.0</field>
 				<field>0.0</field>
 			</property>
 			<property name="SetParticleVelocityDirectionRandomness">
 				<field>0.8</field>
 			</property>
 			<property name="SetParticleSize">
-				<field>5</field>
-				<field>30</field>
-			</property>
-			<property name="SetOverallLifespan">
-				<field>0.5</field>
+				<field>20</field>
+				<field>50</field>
 			</property>
 			<property name="SetParticleLifespan">
-				<field>0.2</field>
+				<field>0.8</field>
 			</property>
 			<property name="SetParticleTexture">
 				<field>pictures/SD_ThiefParticle_01.png</field>
@@ -49,7 +46,7 @@
 				<field>1.0</field>
 				<field>1.0</field>
 				<field>1.0</field>
-				<field>1.0f</field>
+				<field>0.0</field>
 			</property>
 			<property name="SetLooping">
 				<field>false</field>

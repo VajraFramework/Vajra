@@ -14,11 +14,13 @@
 #include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
 #include "ExampleGame/Components/Triggers/TriggerMovingBlocker.h"
 #include "ExampleGame/Components/Triggers/Triggerable.h"
+#include "ExampleGame/Components/Triggers/TriggerLoot.h"
 #include "ExampleGame/Components/Triggers/TriggerTransformation.h"
 #include "ExampleGame/Components/Triggers/TriggerTerrainBlock.h"
 #include "ExampleGame/Components/Triggers/TriggerElevationChange.h"
 #include "ExampleGame/Components/Triggers/TriggerMultiplex.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
+#include "ExampleGame/Components/LevelManager/MasteryManager.h"
 #include "ExampleGame/Components/GameScripts/SampleGameScript.h"
 #include "ExampleGame/Components/GameScripts/UnitCustomizers/UnitShadow.h"
 #include "ExampleGame/Components/GameScripts/UnitCustomizers/UnitAnimationManager.h"
@@ -29,6 +31,7 @@
 #include "ExampleGame/Components/GameScripts/Units/Assassin.h"
 #include "ExampleGame/Components/GameScripts/Units/Guard.h"
 #include "ExampleGame/Components/GameScripts/Units/Obstacles/BreakablePot.h"
+#include "ExampleGame/Components/GameScripts/Units/Obstacles/PushPillar.h"
 #include "ExampleGame/Components/Decals/Decal.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Components/Switches/UnitDeathSwitch.h"
@@ -124,6 +127,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 		return component;
 	}
 	
+	if (componentName == "TriggerLoot") {
+		TriggerLoot* component = gameObject->GetComponent<TriggerLoot>();
+		if (component == nullptr) { component = gameObject->AddComponent<TriggerLoot>(); }
+		return component;
+	}
+	
 	if (componentName == "TriggerTransformation") {
 		TriggerTransformation* component = gameObject->GetComponent<TriggerTransformation>();
 		if (component == nullptr) { component = gameObject->AddComponent<TriggerTransformation>(); }
@@ -151,6 +160,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "LevelManager") {
 		LevelManager* component = gameObject->GetComponent<LevelManager>();
 		if (component == nullptr) { component = gameObject->AddComponent<LevelManager>(); }
+		return component;
+	}
+	
+	if (componentName == "MasteryManager") {
+		MasteryManager* component = gameObject->GetComponent<MasteryManager>();
+		if (component == nullptr) { component = gameObject->AddComponent<MasteryManager>(); }
 		return component;
 	}
 	
@@ -211,6 +226,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "BreakablePot") {
 		BreakablePot* component = gameObject->GetComponent<BreakablePot>();
 		if (component == nullptr) { component = gameObject->AddComponent<BreakablePot>(); }
+		return component;
+	}
+	
+	if (componentName == "PushPillar") {
+		PushPillar* component = gameObject->GetComponent<PushPillar>();
+		if (component == nullptr) { component = gameObject->AddComponent<PushPillar>(); }
 		return component;
 	}
 	
@@ -576,6 +597,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetOverallLifespan(StringUtilities::ConvertStringToFloat(argv[0]));
 			return;
 		}
+		if (propertyName == "SetSimulateInWorldSpace") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetSimulateInWorldSpace(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
 		if (propertyName == "SetName") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetName(ConvertStringToString(argv[0]));
@@ -686,6 +712,27 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetDecalType") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetDecalType(ConvertStringToString(argv[0]));
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "TriggerLoot") {
+		TriggerLoot* component = gameObject->GetComponent<TriggerLoot>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
+			return;
+		}
+		if (propertyName == "SetMoneyValue") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetMoneyValue(StringUtilities::ConvertStringToInt(argv[0]));
+			return;
+		}
+		if (propertyName == "SetActive") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetActive(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		return;
@@ -851,6 +898,12 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
+	if (componentName == "MasteryManager") {
+		MasteryManager* component = gameObject->GetComponent<MasteryManager>();
+		if (component == nullptr) { return; }
+		return;
+	}
+	
 	if (componentName == "SampleGameScript") {
 		SampleGameScript* component = gameObject->GetComponent<SampleGameScript>();
 		if (component == nullptr) { return; }
@@ -933,6 +986,17 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetDeathEffect(ConvertStringToString(argv[0]));
 			return;
 		}
+		if (propertyName == "SetHasPotLoot") {
+			if ((int)argv.size() < 0) { return; }
+			component->SetHasPotLoot();
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "PushPillar") {
+		PushPillar* component = gameObject->GetComponent<PushPillar>();
+		if (component == nullptr) { return; }
 		return;
 	}
 	
@@ -1141,11 +1205,6 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetGridPosition") {
 			if ((int)argv.size() < 2) { return; }
 			component->SetGridPosition(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]));
-			return;
-		}
-		if (propertyName == "SetDestination") {
-			if ((int)argv.size() < 3) { return; }
-			component->SetDestination(StringUtilities::ConvertStringToInt(argv[0]), StringUtilities::ConvertStringToInt(argv[1]), StringUtilities::ConvertStringToBool(argv[2]));
 			return;
 		}
 		if (propertyName == "AddDestination") {

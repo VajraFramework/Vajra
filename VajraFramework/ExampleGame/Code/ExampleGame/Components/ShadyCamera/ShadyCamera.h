@@ -36,7 +36,7 @@ public:
 	void ZoomTo(float y);
 	void ZoomBy(float yOffset);
 
-	void MoveGameCamToRoom(int i, int j); // Cell indicies
+	void MoveGameCamToRoom(int i, int j, int elevation = -1); // Cell indicies
 	void MoveToGamePos(); // move to current room
 
 	void FollowGameObjectDirectly(ObjectIdType unitId);
