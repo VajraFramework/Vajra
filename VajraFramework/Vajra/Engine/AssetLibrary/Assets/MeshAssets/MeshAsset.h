@@ -2,8 +2,9 @@
 #define MESH_ASSET_H
 
 #include "Vajra/Engine/AssetLibrary/Asset.h"
-#include <Vajra/Engine/AssetLibrary/Assets/MeshAssets/Material/Material.h>
+#include "Vajra/Engine/AssetLibrary/Assets/MeshAssets/Material/Material.h"
 #include "Vajra/Engine/AssetLibrary/Assets/TextureAssets/TextureAsset.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/SimpleMesh.h"
 #include "Vajra/Utilities/OpenGLIncludes.h"
 
 #include "Libraries/glm/glm.hpp"
@@ -13,7 +14,7 @@
 #include <vector>
 
 
-class MeshAsset : public Asset {
+class MeshAsset : public Asset, public SimpleMesh {
 public:
 	MeshAsset();
 	MeshAsset(std::string urlOfMesh);
@@ -58,23 +59,9 @@ private:
 	inline glm::vec2* getTextureCoords()       { return this->textureCoords; }
 	inline std::vector<unsigned int> getIndices() { return this->indices; }
 
-	GLuint vboPositions;
-	GLuint vboNormals;
-	GLuint vboTextureCoords;
-	//
-	GLuint vboIndices;
-	//
 	GLuint vboBoneIndices;
 	GLuint vboBoneWeights;
 
-	int numVertices;
-
-	glm::vec3* vertices;
-	glm::vec3* normals;
-	glm::vec2* textureCoords;
-	//
-	std::vector<unsigned int> indices;
-	//
 	glm::vec4* boneIndices;		// Note: although this should technically be ivec4, OpenGL ES 2.0 doesn't support interger types in attributes, heh.
 	glm::vec4* boneWeights;
 
@@ -82,11 +69,9 @@ private:
 	glm::vec3 initialRotation;
 	glm::vec3 initialScale;
 
-	Material* material;
-
-	GLenum meshGlRenderingMode;
-
 	std::string armatureFilePath;
+
+	Material* material;
 
 	std::string shaderName;
 

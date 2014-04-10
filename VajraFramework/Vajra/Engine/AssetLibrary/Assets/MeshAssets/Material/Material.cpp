@@ -27,7 +27,11 @@ void Material::init() {
 }
 
 void Material::SetTextureFilePath(std::string filePath) {
-	this->textureAsset = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(filePath);
+	this->diffuseTextureAsset = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(filePath);
+}
+
+void Material::SetNormalMapFilePath(std::string filePath) {
+	this->normalTextureAsset = ENGINE->GetAssetLibrary()->GetAsset<TextureAsset>(filePath);
 }
 
 void Material::destroy() {

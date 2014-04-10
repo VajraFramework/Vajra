@@ -69,6 +69,12 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "vpMatrix") {
 		return SHADER_VARIABLE_VARIABLENAME_vpMatrix;
 	}
+	if (s == "viewMatrix") {
+		return SHADER_VARIABLE_VARIABLENAME_viewMatrix;
+	}
+	if (s == "projectionMatrix") {
+		return SHADER_VARIABLE_VARIABLENAME_projectionMatrix;
+	}
 	if (s == "modelInverseTransposeMatrix") {
 		return SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix;
 	}
@@ -195,6 +201,18 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "secondaryTexture") {
 		return SHADER_VARIABLE_VARIABLENAME_secondaryTexture;
 	}
+	if (s == "vTangent") {
+		return SHADER_VARIABLE_VARIABLENAME_vTangent;
+	}
+	if (s == "vBitangent") {
+		return SHADER_VARIABLE_VARIABLENAME_vBitangent;
+	}
+	if (s == "normalMap") {
+		return SHADER_VARIABLE_VARIABLENAME_normalMap;
+	}
+	if (s == "TBNmatrix") {
+		return SHADER_VARIABLE_VARIABLENAME_TBNmatrix;
+	}
 	if (s == "invalid") {
 		return SHADER_VARIABLE_VARIABLENAME_invalid;
 	}
@@ -239,6 +257,8 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_mvpMatrix: return "mvpMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_modelMatrix: return "modelMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_vpMatrix: return "vpMatrix";
+	case SHADER_VARIABLE_VARIABLENAME_viewMatrix: return "viewMatrix";
+	case SHADER_VARIABLE_VARIABLENAME_projectionMatrix: return "projectionMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_modelInverseTransposeMatrix: return "modelInverseTransposeMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_vNormal_out: return "vNormal_out";
 	case SHADER_VARIABLE_VARIABLENAME_uvCoords_out: return "uvCoords_out";
@@ -281,6 +301,10 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_ShadowCoord: return "ShadowCoord";
 	case SHADER_VARIABLE_VARIABLENAME_scrolling_uv_offset: return "scrolling_uv_offset";
 	case SHADER_VARIABLE_VARIABLENAME_secondaryTexture: return "secondaryTexture";
+	case SHADER_VARIABLE_VARIABLENAME_vTangent: return "vTangent";
+	case SHADER_VARIABLE_VARIABLENAME_vBitangent: return "vBitangent";
+	case SHADER_VARIABLE_VARIABLENAME_normalMap: return "normalMap";
+	case SHADER_VARIABLE_VARIABLENAME_TBNmatrix: return "TBNmatrix";
 	case SHADER_VARIABLE_VARIABLENAME_invalid: return "invalid";
 	// default: DO NOT ADD A DEFAULT HERE. It'll help catch the case where the enum is extended but not handled here
 	}

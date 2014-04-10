@@ -44,7 +44,7 @@
 		<gameobject>
 			<component name="MeshRenderer">
 				<property name="InitMesh">
-					<field>models/SD_Interactive_Gate_01.model</field>
+					<field>models/SD_Interactive_Gate_02.model</field>
 				</property>
 			</component>
 
@@ -62,8 +62,8 @@
 				</property>
 
 				<property name="SetTranslation">
+					<field>-1.5</field>
 					<field>0.0</field>
-					<field>-3.0</field>
 					<field>0.0</field>
 				</property>
 				<property name="SetTransitTime">
@@ -75,7 +75,7 @@
 		<gameobject>
 			<component name="MeshRenderer">
 				<property name="InitMesh">
-					<field>models/SD_Interactive_Gate_01.model</field>
+					<field>models/SD_Interactive_Gate_02.model</field>
 				</property>
 			</component>
 
@@ -98,8 +98,8 @@
 				</property>
 
 				<property name="SetTranslation">
+					<field>1.5</field>
 					<field>0.0</field>
-					<field>-3.0</field>
 					<field>0.0</field>
 				</property>
 				<property name="SetTransitTime">

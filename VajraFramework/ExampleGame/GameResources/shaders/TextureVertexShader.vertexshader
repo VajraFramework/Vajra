@@ -1,12 +1,20 @@
+__VERBATIM__
+__VERBATIM_END__
+
 __VARIABLES__
 vPosition
 vNormal
+
+vTangent
+vBitangent
+TBNmatrix
 
 uvCoords_in
 uvCoords_out
 
 modelMatrix
-vpMatrix
+viewMatrix
+projectionMatrix
 
 
 #ifdef PER_PIXEL_LIGHTING
@@ -63,10 +71,17 @@ void main()
 
 	float yAmt = gl_Position.y;
 	vec4 skewed_position = (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));
-	gl_Position = vpMatrix * skewed_position;
+	gl_Position = projectionMatrix * viewMatrix * skewed_position;
 #ifdef SHADOWMAPS_REALTIME
 	ShadowCoord = depthBiasMVPMatrix * skewed_position;
 #endif
+
+	TBNmatrix = (mat4(
+		modelInverseTransposeMatrix * normalize(vTangent),
+		modelInverseTransposeMatrix * normalize(vBitangent),
+		modelInverseTransposeMatrix * normalize(vNormal),
+		vec4(0.0, 0.0, 0.0, 1.0)
+	));
 
 	uvCoords_out = uvCoords_in;
 
