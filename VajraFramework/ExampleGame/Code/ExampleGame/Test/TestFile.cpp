@@ -64,7 +64,7 @@ int TestFuntion() {
 		bundle->PutInt("answer", 42);
 		bundle->PutBool("finished", true);
 		bundle->PutString("gamename", "ShadyDealings");
-		bundle->PutInt("randomnumber", rand() % 1000);
+		// bundle->PutInt("randomnumber", rand() % 1000);
 
 		bundle->Save();
 	}
