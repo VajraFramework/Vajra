@@ -4,6 +4,7 @@
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Engine/AssetLibrary/Assets/TextureAssets/TextureAsset.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/Renderer.h"
+#include "Vajra/Engine/Components/DerivedComponents/Renderer/SimpleMesh.h"
 #include "Vajra/Utilities/OpenGLIncludes.h"
 
 #include <memory>
@@ -15,7 +16,7 @@ class MeshAsset;
 class Object;
 
 // Do not expose this as a Component that can be added via xml
-class RenderBatch_static : public Renderer {
+class RenderBatch_static : public Renderer, public SimpleMesh {
 public:
 	RenderBatch_static();
 	RenderBatch_static(Object* object_);
@@ -37,24 +38,6 @@ private:
 
 	// Utility Functions:
 	void makeVBOs();
-
-	GLuint vboPositions;
-	GLuint vboNormals;
-	GLuint vboTextureCoords;
-	//
-	GLuint vboIndices;
-
-	int numVertices;
-
-	glm::vec3* vertices;
-	glm::vec3* normals;
-	glm::vec2* textureCoords;
-	//
-	std::vector<unsigned int> indices;
-
-	Material* materialRef;
-
-	GLenum meshGlRenderingMode;
 
 	std::string shaderName;
 

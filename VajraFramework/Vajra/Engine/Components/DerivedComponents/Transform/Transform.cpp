@@ -59,9 +59,18 @@ void Transform::Draw() {
 		GLint modelMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_modelMatrix);
 		GLCALL(glUniformMatrix4fv, modelMatrixHandle, 1, GL_FALSE, glm::value_ptr(modelMatric));
 
-    	glm::mat4 vpMatrix = camera->GetProjMatrix() * camera->GetViewMatrix();
-		GLint vpMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vpMatrix);
-		GLCALL(glUniformMatrix4fv, vpMatrixHandle, 1, GL_FALSE, glm::value_ptr(vpMatrix));
+		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_vpMatrix)) {
+			glm::mat4 vpMatrix = camera->GetProjMatrix() * camera->GetViewMatrix();
+			GLint vpMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vpMatrix);
+			GLCALL(glUniformMatrix4fv, vpMatrixHandle, 1, GL_FALSE, glm::value_ptr(vpMatrix));
+
+		} else if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_viewMatrix) &&
+				   currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_projectionMatrix)) {
+			GLint viewMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_viewMatrix);
+			GLint projectionMatrixHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_projectionMatrix);
+			GLCALL(glUniformMatrix4fv, viewMatrixHandle, 1, GL_FALSE, glm::value_ptr(camera->GetViewMatrix()));
+			GLCALL(glUniformMatrix4fv, projectionMatrixHandle, 1, GL_FALSE, glm::value_ptr(camera->GetProjMatrix()));
+		}
 	}
     //
 	// TODO [Hack] Do this better, maybe

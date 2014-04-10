@@ -524,10 +524,10 @@ void LevelLoader::adjustLighting() {
 		ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(dlight->GetId());
 		DirectionalLight* dlightComponent = dlight->AddComponent<DirectionalLight>();
 		dlight->GetTransform()->SetPosition(0.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(50.0f  inRadians, 1.0f, 0.0f, 0.0f);
-		dlight->GetTransform()->Rotate(-225.0f inRadians, 0.0f, 1.0f, 0.0f);
+		dlight->GetTransform()->Rotate(55.0f inRadians, XAXIS);
+		dlight->GetTransform()->Rotate(80.0f inRadians, YAXIS);
 		//
-		dlightComponent->SetAmbientColor(0.0f, 0.0f, 0.0f, 1.0f);
+		dlightComponent->SetAmbientColor(0.2f, 0.2f, 0.2f, 1.0f);
 		dlightComponent->SetDiffuseColorInts(255, 194, 194, 255);
 		dlightComponent->SetIntensity(0.85f * BRIGHTNESS_MULTIPLIER);
 		dlightComponent->SetLightType(MAIN_LIGHT_STRING);
@@ -580,7 +580,7 @@ void LevelLoader::adjustLighting() {
 
 
 	// Set up depth camera properties for real time shadows:
-	ENGINE->GetShadowMap()->SetOrthoBounds(-20.0f, 30.0f, -30.0f, 20.0f, 0.0f, 60.0f);
+	ENGINE->GetShadowMap()->SetOrthoBounds(-30.0f, 30.0f, -30.0f, 30.0f, 0.0f, 60.0f);
 
 
 	switch (ambientLighting_level) {

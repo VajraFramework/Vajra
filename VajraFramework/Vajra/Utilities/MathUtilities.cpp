@@ -180,6 +180,22 @@ void parabolaerp(glm::vec3& destination, const glm::vec3 a, const glm::vec3 b, c
 	destination.y += (b.y - a.y) * interp;
 }
 
+bool isnanv(glm::vec3 v) {
+	return (std::isnan(v.x) || std::isnan(v.y) || std::isnan(v.z));
+}
+
+bool isnanv(glm::vec4 v) {
+	return (std::isnan(v.x) || std::isnan(v.y) || std::isnan(v.z) || std::isnan(v.w));
+}
+
+bool isinfv(glm::vec3 v) {
+	return (std::isinf(v.x) || std::isinf(v.y) || std::isinf(v.z));
+}
+
+bool isinfv(glm::vec4 v) {
+	return (std::isinf(v.x) || std::isinf(v.y) || std::isinf(v.z) || std::isinf(v.w));
+}
+
 bool rayPlaneIntersection(Ray& ray, Plane& plane, float& dist) {
 	if(glm::dot(plane.normal, ray.dir) == 0) {
 		return false;

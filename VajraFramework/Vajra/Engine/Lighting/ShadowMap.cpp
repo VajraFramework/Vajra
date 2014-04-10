@@ -11,6 +11,8 @@
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Framework/Settings/Settings.h"
 
+#include "Vajra/Engine/DebugDrawer/DebugDrawer.h"
+
 ShadowMap::ShadowMap() {
 	// Don't call init here
 }
@@ -40,7 +42,7 @@ void ShadowMap::createDepthCamera() {
 	this->adjustDepthCamera();
 }
 
-#define DISTANCE_TO_PULL_DEPTH_CAMERA_BACK 30.0f
+#define DISTANCE_TO_PULL_DEPTH_CAMERA_BACK 15.0f
 
 void ShadowMap::adjustDepthCamera() {
 	GameObject* depthCameraObject = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->depthCameraId);

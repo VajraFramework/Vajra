@@ -42,6 +42,11 @@ extern const glm::vec3 ZERO_VEC3;
 extern const glm::vec4 ZERO_VEC4_POSITION;
 extern const glm::vec4 ZERO_VEC4_DIRECTION;
 
+bool isnanv(glm::vec3 v);
+bool isnanv(glm::vec4 v);
+bool isinfv(glm::vec3 v);
+bool isinfv(glm::vec4 v);
+
 glm::quat QuaternionFromLookVectors(glm::vec3 requiredForward, glm::vec3 up = YAXIS);
 
 // Functions to extract basis vectors from a quaternion:
