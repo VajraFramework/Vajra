@@ -28,6 +28,7 @@ void LoadMeshFromModelFile(const char* filePath,
 		glm::vec4&                     outSpecularColor,
 		//
 		std::string&                   outTextureFileName,
+		std::string&                   outNormalMapFileName,
 		//
 		std::string&                   outArmatureFilePath,
 		//
@@ -143,6 +144,20 @@ void LoadMeshFromModelFile(const char* filePath,
 			modelFile >> textureImageName;
 			outTextureFileName = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + textureImageName;
 		} else if (hasTexture == "no") {
+			// Nothing to do
+		} else {
+			ASSERT(0, "Error parsing .model file");
+		}
+	}
+	{
+		std::string hasNormalMap;
+		modelFile >> hasNormalMap;
+
+		if (hasNormalMap == "yes") {
+			std::string normal_textureImageName;
+			modelFile >> normal_textureImageName;
+			outNormalMapFileName = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + normal_textureImageName;
+		} else if (hasNormalMap == "no") {
 			// Nothing to do
 		} else {
 			ASSERT(0, "Error parsing .model file");

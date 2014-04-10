@@ -25,7 +25,9 @@ void LoadMeshFromModelFile(const char* filePath, std::vector<glm::vec3>&     out
 												 glm::vec4&                  outAmbientColor,
 												 glm::vec4&                  outDiffuseColor,
 												 glm::vec4&                  outSpecularColor,
+												 //
 												 std::string&                outTextureFileName,
+												 std::string&                outNormalMapFileName,
 												 //
 												 std::string&                outArmatureFilePath,
 												 //
