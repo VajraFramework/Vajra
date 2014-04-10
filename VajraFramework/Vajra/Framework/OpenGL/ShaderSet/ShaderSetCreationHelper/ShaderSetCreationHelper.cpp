@@ -139,7 +139,7 @@ std::string CleanupShaderSourceForPreprocessorDirectives(std::string shaderSourc
 				ifdefs.push_back(evaluatePlatformsLine(line));
 
 			} else if (line.find("ifnplatform") != std::string::npos) {
-				line = StringUtilities::EraseStringFromString(line, "ifplatform");
+				line = StringUtilities::EraseStringFromString(line, "ifnplatform");
 				ifdefs.push_back(!evaluatePlatformsLine(line));
 
 			} else if (line.find("ifdef") != std::string::npos) {
@@ -147,7 +147,7 @@ std::string CleanupShaderSourceForPreprocessorDirectives(std::string shaderSourc
 				ifdefs.push_back(evaluateIfdefLine(line));
 
 			} else if (line.find("ifndef") != std::string::npos) {
-				line = StringUtilities::EraseStringFromString(line, "ifdef");
+				line = StringUtilities::EraseStringFromString(line, "ifndef");
 				ifdefs.push_back(!evaluateIfdefLine(line));
 
 			} else if (line.find("else") != std::string::npos) {

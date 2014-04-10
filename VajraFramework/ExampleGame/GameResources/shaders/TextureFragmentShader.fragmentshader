@@ -10,10 +10,9 @@ uvCoords_out
 
 #ifdef PER_PIXEL_LIGHTING
 vNormal_out
-DLight0Direction_out
-DLight0AmbientColor_out
-DLight0DiffuseColor_out
-DLight0SpecularColor_out
+DLight0Direction
+DLight0AmbientColor
+DLight0DiffuseColor
 #else
 lightIntensity
 #endif
@@ -79,11 +78,9 @@ void main()
 
 	vec4 TextureNormal_worldSpace = (TBNmatrix * vec4( texture2D( normalMap, vec2(uvCoords_out) ).rgb*2.0 - 1.0, 0.0));
 
-	float cosTheta = clamp( dot( TextureNormal_worldSpace, DLight0Direction_out ), 0.0, 1.0 );
-	vec4 lightIntensity = DLight0DiffuseColor_out * cosTheta;
-	lightIntensity = lightIntensity + DLight0AmbientColor_out;
-	// Temp using variables:
-	lightIntensity = lightIntensity + DLight0SpecularColor_out;
+	float cosTheta = clamp( dot( TextureNormal_worldSpace, DLight0Direction), 0.0, 1.0 );
+	vec4 lightIntensity = DLight0DiffuseColor* cosTheta;
+	lightIntensity = lightIntensity + DLight0AmbientColor;
 
 #ifdef ADDITIONAL_LIGHTS
 	cosTheta = clamp( dot( TextureNormal_worldSpace, AdditionalLight0Direction), 0.0, 1.0 );

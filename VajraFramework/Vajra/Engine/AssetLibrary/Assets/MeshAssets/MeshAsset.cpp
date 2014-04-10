@@ -68,7 +68,6 @@ void MeshAsset::LoadAsset() {
 	this->material = new Material();
 	this->material->SetAmbientColor(out_ambientColor);
 	this->material->SetDiffuseColor(out_diffuseColor);
-	this->material->SetSpecularColor(out_specularColor);
 	if (out_textureFileName != "") {
 		this->material->SetTextureFilePath(out_textureFileName);
 	}

@@ -9,14 +9,12 @@ __VARIABLES__
 #ifdef PER_PIXEL_LIGHTING
 vNormal_out
 
-DLight0Direction_out
-DLight0AmbientColor_out
-DLight0DiffuseColor_out
-DLight0SpecularColor_out
+DLight0Direction
+DLight0AmbientColor
+DLight0DiffuseColor
 
-MaterialAmbientColor_out
-MaterialDiffuseColor_out
-MaterialSpecularColor_out
+MaterialAmbientColor
+MaterialDiffuseColor
 #else
 lightIntensity
 #endif
@@ -31,17 +29,14 @@ void main()
 	vec4 finalColor = vec4(1.0, 0.0, 0.0, 1.0);;
 
 #ifdef PER_PIXEL_LIGHTING
-	float cosTheta = clamp( dot( vNormal_out, DLight0Direction_out ), 0.0, 1.0 );
-	vec4 lightIntensity = MaterialDiffuseColor_out * DLight0DiffuseColor_out * cosTheta;
+	float cosTheta = clamp( dot( vNormal_out, DLight0Direction), 0.0, 1.0 );
+	vec4 lightIntensity = MaterialDiffuseColor * DLight0DiffuseColor * cosTheta;
 
 	// Fake the ambient lighting:
-	lightIntensity = lightIntensity + DLight0AmbientColor_out;
+	lightIntensity = lightIntensity + DLight0AmbientColor;
 
 	// Temp using variables:
-	lightIntensity = lightIntensity + DLight0SpecularColor_out;
-
-	// Temp using variables:
-	lightIntensity = lightIntensity + 0.01 * MaterialAmbientColor_out + 0.01 * MaterialSpecularColor_out;
+	lightIntensity = lightIntensity + 0.01 * MaterialAmbientColor;
 #endif
 
 	finalColor = lightIntensity;
