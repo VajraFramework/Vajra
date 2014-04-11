@@ -6,6 +6,7 @@
 #include "Vajra/Engine/AudioManager/AudioManager.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
+#include "Vajra/Utilities/MathUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
 
 #include <algorithm>
@@ -33,10 +34,11 @@ void AudioManager::init() {
 	}
 
 	// Set the default listener for OpenAL.
-	alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
-	alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
-	ALfloat listenerOri[] = {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f}; // Listener forward and up vectors
-	alListenerfv(AL_ORIENTATION, listenerOri);
+	SetListenerPosition(0.0f, 0.0f, 0.0f);
+	SetListenerVelocity(0.0f, 0.0f, 0.0f);
+	SetListenerOrientation(ZAXIS, YAXIS);
+	SetListenerVolume(1.0f);
+	alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
 
 	this->nSources = 0;
 	generateMoreSources();
@@ -46,6 +48,49 @@ void AudioManager::destroy() {
 	alDeleteSources(this->nSources, this->sources);
 	alcDestroyContext(this->context);
 	alcCloseDevice(this->device);
+}
+
+bool AudioManager::Is3DSoundEnabled() {
+	ALint distModel;
+	alGetIntegerv(AL_DISTANCE_MODEL, &distModel);
+	return (distModel != AL_NONE);
+}
+
+void AudioManager::Enable3DSound() {
+	alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
+}
+
+void AudioManager::Disable3DSound() {
+	alDistanceModel(AL_NONE);
+}
+
+void AudioManager::SetListenerPosition(glm::vec3 pos) {
+	SetListenerPosition(pos.x, pos.y, pos.z);
+}
+
+void AudioManager::SetListenerPosition(float x, float y, float z) {
+	alListener3f(AL_POSITION, x, y, z);
+}
+
+void AudioManager::SetListenerOrientation(glm::quat orient) {
+	SetListenerOrientation(QuaternionForwardVector(orient), QuaternionUpVector(orient));
+}
+
+void AudioManager::SetListenerOrientation(glm::vec3 forward, glm::vec3 up) {
+	ALfloat listenerOri[] = {forward.x, forward.y, forward.z, up.x, up.y, up.z};
+	alListenerfv(AL_ORIENTATION, listenerOri);
+}
+
+void AudioManager::SetListenerVelocity(glm::vec3 pos) {
+	SetListenerVelocity(pos.x, pos.y, pos.z);
+}
+
+void AudioManager::SetListenerVelocity(float x, float y, float z) {
+	alListener3f(AL_VELOCITY, x, y, z);
+}
+
+void AudioManager::SetListenerVolume(float volume) {
+	alListenerf(AL_GAIN, volume);
 }
 
 ALuint AudioManager::RequestALSource() {
@@ -100,7 +145,7 @@ void AudioManager::generateMoreSources() {
 	if (this->nSources < MAXIMUM_AUDIO_SOURCES) {
 		alGenSources(SOURCE_CHUNK_SIZE, this->sources + this->nSources);
 		ALenum err = alGetError();
-		ASSERT(err == AL_NO_ERROR, "Successfully generated additional audio sources");
+		ASSERT(err == AL_NO_ERROR, "Able to generate %d additional audio sources (%d currently)", SOURCE_CHUNK_SIZE, this->nSources);
 		if (err == AL_NO_ERROR) {
 			for (int i = this->nSources; i < this->nSources + SOURCE_CHUNK_SIZE; ++i) {
 				this->availableSources.push_back(this->sources[i]);

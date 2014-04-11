@@ -9,7 +9,7 @@
 #ifndef AUDIOPLAYER_H
 #define AUDIOPLAYER_H
 
-#include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
+#include "Libraries/glm/glm.hpp"
 
 #ifdef PLATFORM_IOS
 #include <OpenAL/al.h>
@@ -18,6 +18,8 @@
 #include "Libraries/openal/headers/al.h"
 #include "Libraries/openal/headers/alc.h"
 #endif
+
+#include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
 
 #include <memory>
 #include <string>
@@ -39,9 +41,14 @@ public:
 	// Mutators
 	void SetAudioClip(std::string assetName);
 	void SetAudioClip(std::shared_ptr<AudioAsset> assetPtr);
+	void SetPosition(glm::vec3 position);
+	void SetPosition(float x, float y, float z);
+	void SetPositionIsRelative(bool isRelative);
+	void SetVelocity(glm::vec3 velocity);
+	void SetVelocity(float x, float y, float z);
 	void SetVolume(float volume);
 	void SetPlaybackSpeed(float speed);
-	void SetLooping(ALint loop);
+	void SetLooping(bool loop);
 	
 	// Other methods
 	void Play();
@@ -56,11 +63,6 @@ private:
 
 	std::shared_ptr<AudioAsset> asset;
 	ALuint source;
-	ALfloat pitch;
-	ALfloat gain;
-	ALfloat position[3];
-	ALfloat velocity[3];
-	ALint looping;
 
 	float volume;
 	float playbackSpeed;

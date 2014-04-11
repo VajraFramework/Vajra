@@ -23,7 +23,6 @@ public:
 	// Constructors
 	AudioSource();
 	AudioSource(Object* object_);
-	//AudioSource(const char* audioClip);
 	
 	// Destructor
 	~AudioSource();
@@ -44,11 +43,15 @@ public:
 	//[[PROPERTY]]//
 	void SetAudioClip(std::string key);
 	//[[PROPERTY]]//
-	void SetVolume(float volume);
+	void SetVolume(float vol);
 	//[[PROPERTY]]//
 	void SetPlaybackSpeed(float speed);
 	//[[PROPERTY]]//
 	void SetLooping(bool loop);
+	//[[PROPERTY]]//
+	void SetSourceIs3D(bool is3D);
+	//[[PROPERTY]]//
+	void SetPlayOnlyWhenVisible(bool vis);
 
 	// Other methods
 	void Play();
@@ -61,10 +64,16 @@ private:
 	void init();
 	void destroy();
 	
+	void onCameraChanged();
+	void onTransformChanged();
+	void checkVisibility();
+
 	std::map<std::string, std::shared_ptr<AudioAsset>> loadedAssets;
 
 	AudioPlayer* player;
 	
+	bool playOnlyWhenVisible;
+	bool isVisible;
 	bool positionalAudio;
 	float volume;
 	float playbackSpeed;

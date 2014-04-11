@@ -4,6 +4,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Armature/Armature.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioListener.h"
 #include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
@@ -64,6 +65,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "Armature") {
 		Armature* component = gameObject->GetComponent<Armature>();
 		if (component == nullptr) { component = gameObject->AddComponent<Armature>(); }
+		return component;
+	}
+	
+	if (componentName == "AudioListener") {
+		AudioListener* component = gameObject->GetComponent<AudioListener>();
+		if (component == nullptr) { component = gameObject->AddComponent<AudioListener>(); }
 		return component;
 	}
 	
@@ -357,6 +364,12 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		return;
 	}
 	
+	if (componentName == "AudioListener") {
+		AudioListener* component = gameObject->GetComponent<AudioListener>();
+		if (component == nullptr) { return; }
+		return;
+	}
+	
 	if (componentName == "AudioSource") {
 		AudioSource* component = gameObject->GetComponent<AudioSource>();
 		if (component == nullptr) { return; }
@@ -383,6 +396,16 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetLooping") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetLooping(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SetSourceIs3D") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetSourceIs3D(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SetPlayOnlyWhenVisible") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetPlayOnlyWhenVisible(StringUtilities::ConvertStringToBool(argv[0]));
 			return;
 		}
 		return;

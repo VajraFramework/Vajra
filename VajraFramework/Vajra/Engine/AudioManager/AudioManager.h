@@ -6,6 +6,8 @@
 #ifndef AUDIOMANAGER_H
 #define AUDIOMANAGER_H
 
+#include "Libraries/glm/glm.hpp"
+
 #ifdef PLATFORM_IOS
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
@@ -16,12 +18,24 @@
 
 #include <vector>
 
-#define MAXIMUM_AUDIO_SOURCES 32
+#define MAXIMUM_AUDIO_SOURCES 256
 #define SOURCE_CHUNK_SIZE 8
 
 class AudioManager {
 public:
 	~AudioManager();
+
+	bool Is3DSoundEnabled();
+
+	void Enable3DSound();
+	void Disable3DSound();
+	void SetListenerPosition(glm::vec3 pos);
+	void SetListenerPosition(float x, float y, float z);
+	void SetListenerOrientation(glm::quat orient);
+	void SetListenerOrientation(glm::vec3 forward, glm::vec3 up);
+	void SetListenerVelocity(glm::vec3 pos);
+	void SetListenerVelocity(float x, float y, float z);
+	void SetListenerVolume(float volume);
 
 	ALuint RequestALSource();
 	void ReleaseALSource(ALuint source);
