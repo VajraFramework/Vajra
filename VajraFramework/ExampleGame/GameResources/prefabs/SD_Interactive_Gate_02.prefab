@@ -4,6 +4,12 @@
 		</component>
 
 		<component name="AudioSource">
+			<property name="SetSourceIs3D">
+				<field>false</field>
+			</property>
+			<property name="SetPlayOnlyWhenVisible">
+				<field>true</field>
+			</property>
 		</component>
 		
 		<component name="MultiplexSwitch">

@@ -1,6 +1,16 @@
 <prefab>
 	<gameobject>
 		<component name="AudioSource">
+			<property name="SetSourceIs3D">
+				<field>false</field>
+			</property>
+			<property name="SetPlayOnlyWhenVisible">
+				<field>true</field>
+			</property>
+			<property name="LoadAudioClip">
+				<field>death</field>
+				<field>audio/SD_SFX_PotBreak_01.wav</field>
+			</property>
 		</component>
 	
 		<component name="GridNavigator">
