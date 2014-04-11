@@ -16,7 +16,7 @@
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
-#define DEFAULT_GAME_CAM_OFFSET glm::vec3(0.0f, 25.0f, 0.0f)
+#define DEFAULT_GAME_CAM_OFFSET glm::vec3(0.0f, 25.0f, -0.5f)
 
 void shadyCameraTweenCallback(ObjectIdType gameObjectId, std::string /* tweenClipName */) {
 	GameObject* camObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(gameObjectId);
