@@ -22,6 +22,7 @@
 #include "ExampleGame/Messages/Declarations.h"
 #include "ExampleGame/Ui/MenuManager/MenuManager.h"
 
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioListener.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -382,6 +383,8 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	ShadyCamera* cameraComponent = camera->AddComponent<ShadyCamera>();
 	ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
 	SINGLETONS->GetGridManager()->SetShadyCamera(cameraComponent);
+	AudioListener* listener = camera->AddComponent<AudioListener>();
+	listener->SetAsActiveListener();
 	// Find the unit that the camera should focus on
 	UnitType uType = StringToUnitType(unitNameStr);
 	ObjectIdType id = SINGLETONS->GetGridManager()->GetPlayerUnitIdOfType(uType);
