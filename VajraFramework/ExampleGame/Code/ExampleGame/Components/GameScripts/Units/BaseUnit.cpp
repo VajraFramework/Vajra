@@ -110,6 +110,8 @@ void BaseUnit::Kill() {
 
 	AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
 	if (audioSource != nullptr) {
+		// If there's no death sound, just stop whatever is currently playing.
+		audioSource->Stop();
 		audioSource->Play("death");
 	}
 }
