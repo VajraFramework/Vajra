@@ -7,6 +7,7 @@
 #include "ExampleGame/Messages/Declarations.h"
 
 #include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioListener.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
@@ -132,6 +133,20 @@ void ShadyCamera::ZoomTo(float y) {
 	}
 	newPos.y = y;
 	this->gameObjectRef->GetTransform()->SetPosition(newPos);
+
+	// Fade out the audio as the camera moves up.
+	AudioListener* listener = this->gameObjectRef->GetComponent<AudioListener>();
+	if (listener != nullptr) {
+		if (ratio <= 0.0f) {
+			listener->SetVolume(1.0f);
+		}
+		else if (ratio >= 1.0f) {
+			listener->SetVolume(0.0f);
+		}
+		else {
+			listener->SetVolume(1.0f - ratio);
+		}
+	}
 }
 
 void ShadyCamera::ZoomBy(float yOffset) {
@@ -184,7 +199,7 @@ void ShadyCamera::MoveGameCamToRoom(int i, int j, int elevation/*= -1*/) {
 		if(this->camMode == CameraMode::CameraMode_Game) {
 			this->moveTo_internal_overTime(this->gameCamPos, roomChangeTime);
 		}
-	} else { // if we are simply (and potentieally) changing height
+	} else { // if we are simply (and potentially) changing height
 		this->setCurrentCameraHeight(SINGLETONS->GetGridManager()->GetGrid()->ConvertElevationToWorldY(elevation));
 		this->updateGameCamPos();
 		if(this->camMode == CameraMode::CameraMode_Game) {
