@@ -28,6 +28,45 @@ AudioListener::~AudioListener() {
 	this->destroy();
 }
 
+bool AudioListener::Is3DSoundEnabled() {
+	return this->is3D;
+}
+
+void AudioListener::Enable3DSound() {
+	this->is3D = true;
+	if (AudioListener::activeListener == this->GetObject()->GetId()) {
+		ENGINE->GetAudioManager()->Enable3DSound();
+	}
+}
+
+void AudioListener::Disable3DSound() {
+	this->is3D = false;
+	if (AudioListener::activeListener == this->GetObject()->GetId()) {
+		ENGINE->GetAudioManager()->Disable3DSound();
+	}
+}
+
+void AudioListener::SetVelocity(glm::vec3 vel) {
+	this->velocity = vel;
+	if (AudioListener::activeListener == this->GetObject()->GetId()) {
+		ENGINE->GetAudioManager()->SetListenerVelocity(vel);
+	}
+}
+
+void AudioListener::SetVelocity(float x, float y, float z) {
+	this->velocity = glm::vec3(x, y, z);
+	if (AudioListener::activeListener == this->GetObject()->GetId()) {
+		ENGINE->GetAudioManager()->SetListenerVelocity(x, y, z);
+	}
+}
+
+void AudioListener::SetVolume(float vol) {
+	this->volume = vol;
+	if (AudioListener::activeListener == this->GetObject()->GetId()) {
+		ENGINE->GetAudioManager()->SetListenerVolume(vol);
+	}
+}
+
 void AudioListener::HandleMessage(MessageChunk messageChunk) {
 	Component::HandleMessage(messageChunk);
 
@@ -40,9 +79,19 @@ void AudioListener::HandleMessage(MessageChunk messageChunk) {
 
 void AudioListener::SetAsActiveListener() {
 	if (AudioListener::activeListener != this->GetObject()->GetId()) {
+		if (this->is3D) {
+			ENGINE->GetAudioManager()->Enable3DSound();
+		}
+		else {
+			ENGINE->GetAudioManager()->Disable3DSound();
+		}
+
 		Transform* trans = this->GetObject()->GetComponent<Transform>();
 		ENGINE->GetAudioManager()->SetListenerPosition(trans->GetPositionWorld());
 		ENGINE->GetAudioManager()->SetListenerOrientation(trans->GetOrientationWorld());
+
+		ENGINE->GetAudioManager()->SetListenerVelocity(this->velocity);
+		ENGINE->GetAudioManager()->SetListenerVolume(this->volume);
 
 		AudioListener::activeListener = this->GetObject()->GetId();
 	}

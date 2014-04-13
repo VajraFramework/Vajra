@@ -27,13 +27,9 @@ public:
 
 	void Enable3DSound();
 	void Disable3DSound();
-	void SetListenerPosition(glm::vec3 pos);
-	void SetListenerPosition(float x, float y, float z);
-	void SetListenerOrientation(glm::quat orient);
-	void SetListenerOrientation(glm::vec3 forward, glm::vec3 up);
-	void SetListenerVelocity(glm::vec3 pos);
-	void SetListenerVelocity(float x, float y, float z);
-	void SetListenerVolume(float volume);
+	void SetVelocity(glm::vec3 vel);
+	void SetVelocity(float x, float y, float z);
+	void SetVolume(float vol);
 
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
@@ -46,7 +42,9 @@ private:
 
 	void onTransformChanged();
 
-
+	bool is3D;
+	glm::vec3 velocity;
+	float volume;
 
 	static unsigned int componentTypeId;
 	static ObjectIdType activeListener;
