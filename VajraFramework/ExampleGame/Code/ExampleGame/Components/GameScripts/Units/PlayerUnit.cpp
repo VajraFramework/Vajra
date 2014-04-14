@@ -2,6 +2,7 @@
 #include "ExampleGame/Components/Grid/GridCell.h"
 #include "ExampleGame/Components/Grid/GridManager.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
+#include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 
@@ -166,6 +167,20 @@ bool PlayerUnit::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
 		}
 	}
 	return false;
+}
+
+void PlayerUnit::Kill() {
+	BaseUnit::Kill();
+
+	// Focus the camera on the dying unit
+	ShadyCamera* shadyCam = ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject()->GetComponent<ShadyCamera>();
+	ASSERT(shadyCam != nullptr, "What happened to the shady cam?");
+	if (shadyCam != nullptr) {
+		shadyCam->setCameraMode(ShadyCamera::CameraMode_Game);
+		GridCell* myCell = this->gridNavRef->GetCurrentCell();
+		int elevation = this->gridNavRef->GetElevation();
+		shadyCam->MoveGameCamToRoom(myCell->x, myCell->z, elevation);
+	}
 }
 
 void PlayerUnit::onSelectedTouch() {

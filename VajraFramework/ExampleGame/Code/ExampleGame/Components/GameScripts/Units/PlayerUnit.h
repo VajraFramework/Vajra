@@ -41,6 +41,8 @@ public:
 protected:
 	GameObject* touchIndicatorRef;
 
+	virtual void Kill();
+
 	void onSelectedTouch();
 	void onNavTouch(int touchId, GridCell* touchedCell);
 

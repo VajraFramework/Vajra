@@ -43,6 +43,9 @@ public:
 
 	inline CameraMode GetCameraMode() {return this->camMode;}
 	inline bool IsMoving() { return this->isMoving; }
+
+	void setCameraMode(CameraMode newMode);
+
 private:
 	void init();
 	void destroy();
@@ -62,7 +65,6 @@ private:
 	float velocityThreshold;
 	float heightThreshold;
 	void onPinch();
-	void setCameraMode(CameraMode newMode);
 	void onUnitChanged();
 
 	void moveTo_internal_overTime(glm::vec3 pos, float time);
