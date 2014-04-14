@@ -191,8 +191,10 @@ void Guard::cautiousUpdate() {
 
 		// Attack the target if it's in range or it's doing a special.
 		BaseUnit* targetUnit = targetObj->GetComponent<BaseUnit>();
-		if (((minDistance <= ATTACK_RANGE) && (this->GetUnitActionState() == UNIT_ACTION_STATE_BLOCK_IDLE))
-				|| (targetUnit->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL)) {
+		if ((((minDistance <= ATTACK_RANGE) && (this->GetUnitActionState() == UNIT_ACTION_STATE_BLOCK_IDLE))
+			|| (targetUnit->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL))
+			&& (targetUnit->GetUnitState() == UnitState::UNIT_STATE_ALIVE))
+		{
 			this->setBrainState(ENEMY_BRAIN_AGGRESSIVE);
 		}
 	}
