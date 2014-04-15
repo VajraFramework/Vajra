@@ -28,6 +28,9 @@ SwitchType ConvertStringToSwitchType(std::string str) {
 	else if (str == "Continuous") {
 		return SWITCH_TYPE_CONTINUOUS;
 	}
+	else if (str == "Warmup") {
+		return SWITCH_TYPE_WARMUP;
+	}
 	else if (str == "ResetOnActivate") {
 		return SWITCH_TYPE_RESET_ON_ACTIVATE;
 	}
@@ -131,6 +134,19 @@ void BaseSwitch::setConditionState(bool state) {
 
 		case SWITCH_TYPE_CONTINUOUS:          // Remains on for as long as condition is met
 			this->setActiveState(state);
+			break;
+
+		case SWITCH_TYPE_WARMUP:              // Condition must remain true for a period of time before the switch will turn on
+			if (state && !this->isActive) {
+				userParams = new MessageData1S1I1F();
+				userParams->i = this->GetObject()->GetId();
+				userParams->f = 1.0f;
+				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, this->resetTime, INTERPOLATION_TYPE_LINEAR, false, false, false, tweenName, NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, baseSwitchNumberTweenCallback);
+			}
+			else if (!state) {
+				this->setActiveState(false);
+				ENGINE->GetTween()->CancelNumberTween(tweenName);
+			}
 			break;
 
 		case SWITCH_TYPE_RESET_ON_ACTIVATE:   // Remains on for a set period of time, then turns off
