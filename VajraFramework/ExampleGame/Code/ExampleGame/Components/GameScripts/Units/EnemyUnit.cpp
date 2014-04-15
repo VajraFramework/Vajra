@@ -98,7 +98,6 @@ void EnemyUnit::onBrainBecameAggressive() {
 
 void EnemyUnit::Kill() {
 	BaseUnit::Kill();
-	this->gameObjectRef->SetVisible(false);
 }
 
 void EnemyUnit::idleUpdate() {
