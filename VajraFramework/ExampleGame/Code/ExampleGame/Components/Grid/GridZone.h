@@ -9,6 +9,9 @@
 #include "ExampleGame/Components/Grid/GridZones/GridZoneDeclarations.h"
 #include "Vajra/Common/Components/Component.h"
 
+class GameObject;
+class GridCell;
+
 //[[COMPONENT]]//
 class GridZone : public Component {
 public:
@@ -30,6 +33,8 @@ public:
 	void Visualize(bool shouldVisualize, std::string imageName, bool displayInGamemode, bool displayInOverviewMode);
 
 	bool IsCellWithinZone(GridCell* cell);
+
+	ObjectIdType VisualzerSpriteRendererId();
 
 protected:
 	GridZoneType zoneType;

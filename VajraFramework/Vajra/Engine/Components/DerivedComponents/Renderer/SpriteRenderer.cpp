@@ -151,7 +151,7 @@ void SpriteRenderer::init() {
 
 	this->vertices = nullptr;
 	this->textureCoords = nullptr;
-	this->diffuseColor = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	this->diffuseColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	this->currentTextureIndex = 0;
 }
