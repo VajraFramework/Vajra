@@ -1,4 +1,5 @@
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/MathUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
@@ -101,7 +102,7 @@ glm::vec3 QuaternionForwardVector(glm::quat q) {
 
 // Interpolation Functions:
 void lerp(float& destination, const float a, const float b, const float interp) {
-	destination = a * (1 - interp) + b * interp;
+	destination = a + (b - a) * interp;
 }
 
 void cubicerp(float& destination, const float a, const float b, float interp, const float totalTime) {
