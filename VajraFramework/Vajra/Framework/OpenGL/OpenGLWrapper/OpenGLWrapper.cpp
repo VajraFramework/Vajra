@@ -9,6 +9,10 @@
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSetCreationHelper/ShaderSetCreationHelper.h"
 #include "Vajra/Utilities/Utilities.h"
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 OpenGLWrapper::OpenGLWrapper() {
 	// Do not call init() here
 }
@@ -87,6 +91,13 @@ void OpenGLWrapper::FreeUnusedGLResources() {
 }
 
 void OpenGLWrapper::freeUnusedGLBuffers() {
+	// TODO [Hack] For some reason the simulator crashes in glDrawElements() when we do this
+#ifdef __APPLE__
+#if TARGET_IPHONE_SIMULATOR
+	return;
+#endif
+#endif
+	
 	if (this->glBuffersToBeFreed.empty()) {
 	} else {
 
