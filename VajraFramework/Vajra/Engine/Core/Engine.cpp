@@ -91,7 +91,7 @@ void Engine::DoFrame() {
 	this->renderScene3D();
 	this->renderSceneUi();
 
-	FRAMEWORK->GetOpenGLWrapper()->FreeUnusedGLBuffers();
+	FRAMEWORK->GetOpenGLWrapper()->FreeUnusedGLResources();
 
 	FRAMEWORK->GetOpenGLWrapper()->GetOpenGLCounter()->switchFrames();
 

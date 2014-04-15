@@ -81,7 +81,12 @@ void OpenGLWrapper::GetAllAvailableShaderNames(std::vector<std::string>& out_sha
 	ASSERT(out_shaderNames.size() == this->shaderSets.size(), "Did not miss any shader names");
 }
 
-void OpenGLWrapper::FreeUnusedGLBuffers() {
+void OpenGLWrapper::FreeUnusedGLResources() {
+	this->freeUnusedGLBuffers();
+	this->freeUnusedGLTextures();
+}
+
+void OpenGLWrapper::freeUnusedGLBuffers() {
 	if (this->glBuffersToBeFreed.empty()) {
 	} else {
 
@@ -96,6 +101,20 @@ void OpenGLWrapper::FreeUnusedGLBuffers() {
 		this->glBuffersToBeFreed.clear();
 	}
 }
+
+void OpenGLWrapper::freeUnusedGLTextures() {
+	if (this->glTexturesToBeFreed.empty()) {
+	} else {
+
+		for (GLuint unusedGLTexture : this->glTexturesToBeFreed) {
+			VERIFY(glIsTexture(unusedGLTexture), "Handle to be deleted is an opengl texture object: %d", unusedGLTexture);
+			FRAMEWORK->GetLogger()->dbglog("\nDeleting gl texture %d", unusedGLTexture);
+			GLCALL(glDeleteTextures, 1, &unusedGLTexture);
+		}
+		this->glTexturesToBeFreed.clear();
+	}
+}
+
 
 void OpenGLWrapper::init() {
     FRAMEWORK->GetLogger()->dbglog("In OpenGLWrapper::init()\n");
@@ -127,7 +146,7 @@ void OpenGLWrapper::init() {
 }
 
 void OpenGLWrapper::destroy() {
-	this->FreeUnusedGLBuffers();
+	this->FreeUnusedGLResources();
 	delete this->glCounter;
 }
 
