@@ -124,19 +124,6 @@ void Guard::start() {
 	}
 }
 
-void Guard::determineBrainState() {
-	if (this->brainState == ENEMY_BRAIN_CALM) {
-		if (this->knownPlayers.size() > 0) {
-			this->setBrainState(ENEMY_BRAIN_CAUTIOUS);
-		}
-	}
-	else if (this->brainState == ENEMY_BRAIN_CAUTIOUS) {
-		if (this->cooldownTimer <= 0.0f) {
-			this->setBrainState(ENEMY_BRAIN_CALM);
-		}
-	}
-}
-
 void Guard::onBrainBecameCalm() {
 	EnemyUnit::onBrainBecameCalm();
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
