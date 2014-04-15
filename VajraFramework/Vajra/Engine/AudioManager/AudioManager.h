@@ -7,6 +7,9 @@
 #define AUDIOMANAGER_H
 
 #include "Libraries/glm/glm.hpp"
+#include "Vajra/Common/Objects/Object.h"
+
+#include <list>
 
 class AudioManagerInternal;
 class AudioPlayer;
@@ -27,12 +30,17 @@ public:
 	void SetListenerVelocity(float x, float y, float z);
 	void SetListenerVolume(float volume);
 
-	AudioPlayer* RequestAudioPlayer();
-	void ReturnAudioPlayer(AudioPlayer* player);
-	//void ReleaseALSource(ALuint source);
+	AudioPlayer* RequestAudioPlayer(ObjectIdType objId);
+	void ReturnAudioPlayer(ObjectIdType objId, AudioPlayer* player);
 
+	void Pause3dAudio();
+	void PauseUiAudio();
 	void PauseAllAudio();
+	void Resume3dAudio();
+	void ResumeUiAudio();
 	void ResumeAllAudio();
+	void Stop3dAudio();
+	void StopUiAudio();
 	void StopAllAudio();
 
 private:
@@ -42,6 +50,9 @@ private:
 	void destroy();
 
 	AudioManagerInternal* internalMgr;
+
+	std::list<ObjectIdType> sources3D;
+	std::list<ObjectIdType> sourcesUI;
 
 	friend class Engine;
 };

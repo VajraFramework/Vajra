@@ -5,6 +5,10 @@
 
 #include "Vajra/Engine/AudioManager/AudioManager.h"
 #include "Vajra/Engine/AudioManager/AudioManagerInternal.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
+#include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/MathUtilities.h"
@@ -77,29 +81,122 @@ void AudioManager::SetListenerVolume(float volume) {
 	this->internalMgr->SetListenerVolume(volume);
 }
 
-AudioPlayer* AudioManager::RequestAudioPlayer() {
-	return this->internalMgr->RequestAudioPlayer();
+AudioPlayer* AudioManager::RequestAudioPlayer(ObjectIdType objId) {
+	if (objId != OBJECT_ID_INVALID) {
+		if (ENGINE->GetSceneGraph3D()->GetGameObjectById(objId) != nullptr) {
+			this->sources3D.push_back(objId);
+		}
+		else if (ENGINE->GetSceneGraphUi()->GetGameObjectById(objId) != nullptr) {
+			this->sourcesUI.push_back(objId);
+		}
+		return this->internalMgr->RequestAudioPlayer();
+	}
+	return nullptr;
 }
 
-void AudioManager::ReturnAudioPlayer(AudioPlayer* player) {
-	this->internalMgr->ReturnAudioPlayer(player);
-}
-/*
-void AudioManager::ReleaseALSource(ALuint source) {
-	if (source != 0) {
-		auto iter = std::find(this->availableSources.begin(), this->availableSources.end(), source);
-		if (iter == this->availableSources.end()) {
-			this->availableSources.push_back(source);
+void AudioManager::ReturnAudioPlayer(ObjectIdType objId, AudioPlayer* player) {
+	if (objId != OBJECT_ID_INVALID) {
+		this->internalMgr->ReturnAudioPlayer(player);
+
+		auto iter = std::find(this->sources3D.begin(), this->sources3D.end(), objId);
+		if (iter != this->sources3D.end()) {
+			this->sources3D.erase(iter);
+			return;
+		}
+
+		iter = std::find(this->sourcesUI.begin(), this->sourcesUI.end(), objId);
+		if (iter != this->sourcesUI.end()) {
+			this->sources3D.erase(iter);
 		}
 	}
 }
-*/
+
+void AudioManager::Pause3dAudio() {
+	for (auto iter = this->sources3D.begin(); iter != this->sources3D.end(); ++iter) {
+		GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
+		if (gObj != nullptr) {
+			AudioSource* source = gObj->GetComponent<AudioSource>();
+			if (source != nullptr) {
+				if (source->IsPlaying()) {
+					source->Pause();
+				}
+			}
+		}
+	}
+}
+
+void AudioManager::PauseUiAudio() {
+	for (auto iter = this->sourcesUI.begin(); iter != this->sourcesUI.end(); ++iter) {
+		GameObject* gObj = ENGINE->GetSceneGraphUi()->GetGameObjectById(*iter);
+		if (gObj != nullptr) {
+			AudioSource* source = gObj->GetComponent<AudioSource>();
+			if (source != nullptr) {
+				if (source->IsPlaying()) {
+					source->Pause();
+				}
+			}
+		}
+	}
+}
+
 void AudioManager::PauseAllAudio() {
 	this->internalMgr->PauseAllAudio();
 }
 
+void AudioManager::Resume3dAudio() {
+	for (auto iter = this->sources3D.begin(); iter != this->sources3D.end(); ++iter) {
+		GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
+		if (gObj != nullptr) {
+			AudioSource* source = gObj->GetComponent<AudioSource>();
+			if (source != nullptr) {
+				if (source->IsPaused()) {
+					source->Play();
+				}
+			}
+		}
+	}
+}
+
+void AudioManager::ResumeUiAudio() {
+	for (auto iter = this->sourcesUI.begin(); iter != this->sourcesUI.end(); ++iter) {
+		GameObject* gObj = ENGINE->GetSceneGraphUi()->GetGameObjectById(*iter);
+		if (gObj != nullptr) {
+			AudioSource* source = gObj->GetComponent<AudioSource>();
+			if (source != nullptr) {
+				if (source->IsPaused()) {
+					source->Play();
+				}
+			}
+		}
+	}
+}
+
 void AudioManager::ResumeAllAudio() {
 	this->internalMgr->ResumeAllAudio();
+}
+
+void AudioManager::Stop3dAudio() {
+	for (auto iter = this->sources3D.begin(); iter != this->sources3D.end(); ++iter) {
+		GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(*iter);
+		if (gObj != nullptr) {
+			AudioSource* source = gObj->GetComponent<AudioSource>();
+			if (source != nullptr) {
+				source->Stop();
+			}
+		}
+	}
+}
+
+void AudioManager::StopUiAudio() {
+	for (auto iter = this->sourcesUI.begin(); iter != this->sourcesUI.end(); ++iter) {
+		GameObject* gObj = ENGINE->GetSceneGraphUi()->GetGameObjectById(*iter);
+		if (gObj != nullptr) {
+			AudioSource* source = gObj->GetComponent<AudioSource>();
+			if (source != nullptr) {
+				source->Stop();
+			}
+		}
+	}
 }
 
 void AudioManager::StopAllAudio() {

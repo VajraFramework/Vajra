@@ -42,8 +42,6 @@ public:
 
 	AudioPlayer* RequestAudioPlayer();
 	void ReturnAudioPlayer(AudioPlayer* player);
-	//ALuint RequestALSource();
-	//void ReleaseALSource(ALuint source);
 
 	void PauseAllAudio();
 	void ResumeAllAudio();
@@ -61,7 +59,6 @@ private:
 	ALCcontext* context;
 
 	ALuint sources[MAXIMUM_AUDIO_SOURCES];
-	//std::vector<ALuint> availableSources;
 	std::list<AudioPlayer*> availablePlayers;
 	std::list<AudioPlayer*> playersInUse;
 	int nSources;

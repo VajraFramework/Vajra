@@ -33,7 +33,7 @@ AudioSource::~AudioSource() {
 void AudioSource::init() {
 	this->volume = 1.0f;
 	this->playbackSpeed = 1.0f;
-	this->player = ENGINE->GetAudioManager()->RequestAudioPlayer();
+	this->player = ENGINE->GetAudioManager()->RequestAudioPlayer(this->GetObject()->GetId());
 	this->player->SetVolume(this->volume);
 	this->player->SetPlaybackSpeed(this->playbackSpeed);
 	SetSourceIs3D(false);
@@ -46,7 +46,7 @@ void AudioSource::init() {
 void AudioSource::destroy() {
 	Stop();
 	this->loadedAssets.clear();
-	ENGINE->GetAudioManager()->ReturnAudioPlayer(this->player);
+	ENGINE->GetAudioManager()->ReturnAudioPlayer(this->GetObject()->GetId(), this->player);
 }
 
 void AudioSource::HandleMessage(MessageChunk messageChunk) {

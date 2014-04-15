@@ -33,6 +33,9 @@ public:
 	float GetVolume()                                  { return this->volume;        }
 	float GetPlaybackSpeed()                           { return this->playbackSpeed; }
 	inline std::shared_ptr<AudioAsset>& GetAudioClip() { return this->asset;         }
+	bool IsPlaying();
+	bool IsPaused();
+	bool IsStopped();
 	
 	// Mutators
 	void SetALSource(ALuint s);

@@ -29,6 +29,24 @@ void AudioPlayer::destroy() {
 	Stop();
 }
 
+bool AudioPlayer::IsPlaying() {
+	ALint sourceState;
+	alGetSourcei(this->source, AL_SOURCE_STATE, &sourceState);
+	return (sourceState == AL_PLAYING);
+}
+
+bool AudioPlayer::IsPaused() {
+	ALint sourceState;
+	alGetSourcei(this->source, AL_SOURCE_STATE, &sourceState);
+	return (sourceState == AL_PAUSED);
+}
+
+bool AudioPlayer::IsStopped() {
+	ALint sourceState;
+	alGetSourcei(this->source, AL_SOURCE_STATE, &sourceState);
+	return (sourceState == AL_STOPPED);
+}
+
 // Mutators
 void AudioPlayer::SetALSource(ALuint s) {
 	this->source = s;

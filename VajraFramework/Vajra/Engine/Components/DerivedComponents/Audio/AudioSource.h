@@ -36,6 +36,9 @@ public:
 	inline float GetVolume()                           { return this->player->GetVolume();        }
 	inline float GetPlaybackSpeed()                    { return this->player->GetPlaybackSpeed(); }
 	inline std::shared_ptr<AudioAsset>& GetAudioClip() { return this->player->GetAudioClip();     }
+	inline bool IsPlaying()                            { return this->player->IsPlaying();        }
+	inline bool IsPaused()                             { return this->player->IsPaused();         }
+	inline bool IsStopped()                            { return this->player->IsStopped();        }
 	
 	// Mutators
 	//[[PROPERTY]]//

@@ -70,7 +70,7 @@ void SceneGraph::Pause() {
 	this->root->Pause();
 
 	ENGINE->GetTween()->PauseNumberTweensByAffiliation(NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D);
-	ENGINE->GetAudioManager()->PauseAllAudio();
+	ENGINE->GetAudioManager()->Pause3dAudio();
 }
 
 void SceneGraph::Resume() {
@@ -78,7 +78,7 @@ void SceneGraph::Resume() {
 	this->root->Resume();
 
 	ENGINE->GetTween()->ResumeNumberTweensByAffiliation(NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D);
-	ENGINE->GetAudioManager()->ResumeAllAudio();
+	ENGINE->GetAudioManager()->Resume3dAudio();
 }
 
 void SceneGraph::CreateRenderBatches() {
