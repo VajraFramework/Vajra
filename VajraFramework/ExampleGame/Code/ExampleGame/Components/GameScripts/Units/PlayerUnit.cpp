@@ -13,6 +13,7 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
@@ -84,16 +85,32 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 }
 
 void PlayerUnit::createTouchIndicator() {
-	this->touchIndicatorRef = new GameObject(ENGINE->GetSceneGraph3D());
-	SpriteRenderer* spriteRenderer = this->touchIndicatorRef->AddComponent<SpriteRenderer>();
-	spriteRenderer->SetHasTransperancy(true);
-	std::vector<std::string> pathsToTextures;
-	// Let the Thief and Assassin add their own images to the path
-	this->amendTouchIndicatorPaths(pathsToTextures);
-	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
-	this->touchIndicatorRef->SetVisible(true);
-	this->touchIndicatorRef->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
-	this->touchIndicatorRef->GetTransform()->SetScale(glm::vec3(0));
+	{
+		this->touchIndicatorRef = new GameObject(ENGINE->GetSceneGraph3D());
+		SpriteRenderer* spriteRenderer = this->touchIndicatorRef->AddComponent<SpriteRenderer>();
+		spriteRenderer->SetHasTransperancy(true);
+		std::vector<std::string> pathsToTextures;
+		// Let the Thief and Assassin add their own images to the path
+		this->amendTouchIndicatorPaths(pathsToTextures);
+		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
+		this->touchIndicatorRef->SetVisible(true);
+		this->touchIndicatorRef->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
+		this->touchIndicatorRef->GetTransform()->SetScale(glm::vec3(0));
+	}
+	{
+		this->selectionIndicatorRef = new GameObject(ENGINE->GetSceneGraph3D());
+		SpriteRenderer* spriteRenderer = this->selectionIndicatorRef->AddComponent<SpriteRenderer>();
+		spriteRenderer->SetHasTransperancy(true);
+		
+		std::vector<std::string> pathsToTextures;
+		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_SelectionSpiral_01.png");
+		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
+		this->selectionIndicatorRef->SetVisible(false);
+		this->gameObjectRef->AddChild_maintainTransform(this->selectionIndicatorRef->GetId());
+		this->selectionIndicatorRef->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
+		this->selectionIndicatorRef->GetTransform()->Translate(1.0f , YAXIS);
+		this->selectionIndicatorRef->GetTransform()->SetScale(glm::vec3(1.0f / .07f));
+	}
 
 }
 
@@ -141,6 +158,7 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 
 void PlayerUnit::OnDeselect() {
 	this->inputState = InputState::INPUT_STATE_NONE;
+	this->selectionIndicatorRef->SetVisible(false);
 }
 
 void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {
@@ -170,6 +188,7 @@ bool PlayerUnit::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
 
 void PlayerUnit::onSelectedTouch() {
 	this->inputState = InputState::INPUT_STATE_WAIT;
+	this->selectionIndicatorRef->SetVisible(true);
 }
 
 void PlayerUnit::startSpecial() {

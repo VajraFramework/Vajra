@@ -58,6 +58,7 @@ void GridManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED_CELL, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_KILLED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
+
 }
 
 void GridManager::destroy() {
@@ -241,6 +242,9 @@ void GridManager::SwitchSelectedUnit() {
 		GridCell* gc = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->playerUnits[uType])->GetComponent<GridNavigator>()->GetCurrentCell();
 		this->deselectUnit();
 		this->selectedUnitId = this->playerUnits[uType];
+
+		PlayerUnit* pu = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId)->GetComponent<PlayerUnit>();
+		pu->onSelectedTouch();
 
 		MessageChunk unitChangedMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 		unitChangedMessage->SetMessageType(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
@@ -665,7 +669,8 @@ void GridManager::selectUnitInCell(GridCell* cell) {
 		if(bu->GetUnitType() <= LAST_PLAYER_UNIT_TYPE) {
 			this->deselectUnit();
 			this->selectedUnitId = cell->GetTopOccupantId();
-
+			PlayerUnit* pu = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId)->GetComponent<PlayerUnit>();
+			pu->onSelectedTouch();
 			MessageChunk unitChangedMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 			unitChangedMessage->SetMessageType(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
 			unitChangedMessage->messageData.iv1.x = cell->x;
