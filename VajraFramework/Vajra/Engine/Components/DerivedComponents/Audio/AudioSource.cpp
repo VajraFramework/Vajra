@@ -4,6 +4,7 @@
 //
 
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
+#include "Vajra/Engine/AudioManager/AudioManager.h"
 #include "Vajra/Engine/Components/ComponentTypes/ComponentTypeIds.h"
 #include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
@@ -32,10 +33,10 @@ AudioSource::~AudioSource() {
 void AudioSource::init() {
 	this->volume = 1.0f;
 	this->playbackSpeed = 1.0f;
-	this->player = new AudioPlayer();
+	this->player = ENGINE->GetAudioManager()->RequestAudioPlayer();
 	this->player->SetVolume(this->volume);
 	this->player->SetPlaybackSpeed(this->playbackSpeed);
-	SetSourceIs3D(true);
+	SetSourceIs3D(false);
 	SetPlayOnlyWhenVisible(false);
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_CAMERA_CHANGED         , this->GetTypeId(), false);
@@ -45,10 +46,7 @@ void AudioSource::init() {
 void AudioSource::destroy() {
 	Stop();
 	this->loadedAssets.clear();
-	if (this->player != nullptr) {
-		delete this->player;
-		this->player = nullptr;
-	}
+	ENGINE->GetAudioManager()->ReturnAudioPlayer(this->player);
 }
 
 void AudioSource::HandleMessage(MessageChunk messageChunk) {

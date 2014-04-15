@@ -8,18 +8,8 @@
 
 #include "Libraries/glm/glm.hpp"
 
-#ifdef PLATFORM_IOS
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#else
-#include "Libraries/openal/headers/al.h"
-#include "Libraries/openal/headers/alc.h"
-#endif
-
-#include <vector>
-
-#define MAXIMUM_AUDIO_SOURCES 256
-#define SOURCE_CHUNK_SIZE 8
+class AudioManagerInternal;
+class AudioPlayer;
 
 class AudioManager {
 public:
@@ -37,8 +27,9 @@ public:
 	void SetListenerVelocity(float x, float y, float z);
 	void SetListenerVolume(float volume);
 
-	ALuint RequestALSource();
-	void ReleaseALSource(ALuint source);
+	AudioPlayer* RequestAudioPlayer();
+	void ReturnAudioPlayer(AudioPlayer* player);
+	//void ReleaseALSource(ALuint source);
 
 	void PauseAllAudio();
 	void ResumeAllAudio();
@@ -50,14 +41,7 @@ private:
 	void init();
 	void destroy();
 
-	void generateMoreSources();
-
-	ALCdevice* device;
-	ALCcontext* context;
-
-	ALuint sources[MAXIMUM_AUDIO_SOURCES];
-	std::vector<ALuint> availableSources;
-	int nSources;
+	AudioManagerInternal* internalMgr;
 
 	friend class Engine;
 };

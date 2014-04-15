@@ -26,10 +26,6 @@
 
 class AudioPlayer {
 public:
-	static void InitAudio();    // Call this before creating any AudioPlayer objects.
-	static void CleanupAudio(); // Call this once you're done with all audio in the program.
-	static bool AudioIsReady(); // Returns false if audio has not been init'd yet.
-
 	AudioPlayer();
 	~AudioPlayer();
 	
@@ -39,6 +35,7 @@ public:
 	inline std::shared_ptr<AudioAsset>& GetAudioClip() { return this->asset;         }
 	
 	// Mutators
+	void SetALSource(ALuint s);
 	void SetAudioClip(std::string assetName);
 	void SetAudioClip(std::shared_ptr<AudioAsset> assetPtr);
 	void SetPosition(glm::vec3 position);

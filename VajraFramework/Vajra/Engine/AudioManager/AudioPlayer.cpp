@@ -22,7 +22,16 @@ AudioPlayer::~AudioPlayer() {
 
 void AudioPlayer::init() {
 	this->asset = nullptr;
-	this->source = ENGINE->GetAudioManager()->RequestALSource();
+	this->source = 0;
+}
+
+void AudioPlayer::destroy() {
+	Stop();
+}
+
+// Mutators
+void AudioPlayer::SetALSource(ALuint s) {
+	this->source = s;
 	SetPosition(0.0f, 0.0f, 0.0f);
 	SetVelocity(0.0f, 0.0f, 0.0f);
 	SetVolume(1.0f);
@@ -30,13 +39,6 @@ void AudioPlayer::init() {
 	alSourcef(this->source, AL_PITCH, 1.0f);
 }
 
-void AudioPlayer::destroy() {
-	Stop();
-	//alDeleteSources(1, &(this->source));
-	ENGINE->GetAudioManager()->ReleaseALSource(this->source);
-}
-
-// Mutators
 void AudioPlayer::SetAudioClip(std::string assetName) {
 	if ((this->asset == nullptr) || (this->asset->GetUrl() != assetName)) {
 		Stop();
