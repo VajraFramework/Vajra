@@ -4,6 +4,7 @@
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 
@@ -242,5 +243,11 @@ void Camera::init() {
 
 void Camera::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+	if (ENGINE->GetSceneGraph3D()->GetMainCamera() == this) {
+		ENGINE->GetSceneGraph3D()->UnsetMainCameraId();
+	}
+	if (ENGINE->GetSceneGraphUi()->GetMainCamera() == this) {
+		ENGINE->GetSceneGraphUi()->UnsetMainCameraId();
+	}
 }
 
