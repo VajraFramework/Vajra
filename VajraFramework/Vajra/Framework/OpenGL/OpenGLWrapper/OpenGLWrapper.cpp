@@ -1,4 +1,6 @@
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/OpenGL/OpenGLCounter/OpenGLCounter.h"
@@ -79,11 +81,26 @@ void OpenGLWrapper::GetAllAvailableShaderNames(std::vector<std::string>& out_sha
 	ASSERT(out_shaderNames.size() == this->shaderSets.size(), "Did not miss any shader names");
 }
 
+void OpenGLWrapper::FreeUnusedGLBuffers() {
+	if (this->glBuffersToBeFreed.empty()) {
+	} else {
+
+		ENGINE->GetSceneGraph3D()->UnbindAllBuffers();
+		ENGINE->GetSceneGraphUi()->UnbindAllBuffers();
+
+		for (GLuint unusedGLBuffer : this->glBuffersToBeFreed) {
+			VERIFY(glIsBuffer(unusedGLBuffer), "Buffer to be deleted is an opengl buffer object: %d", unusedGLBuffer);
+			FRAMEWORK->GetLogger()->dbglog("\nDeleting gl buffer %d", unusedGLBuffer);
+			GLCALL(glDeleteBuffers, 1, &unusedGLBuffer);
+		}
+		this->glBuffersToBeFreed.clear();
+	}
+}
+
 void OpenGLWrapper::init() {
     FRAMEWORK->GetLogger()->dbglog("In OpenGLWrapper::init()\n");
 
-    this->glCounter =
-    		new OpenGLCounter();
+    this->glCounter = new OpenGLCounter();
 
     this->currentShaderSet = nullptr;
 
@@ -110,5 +127,7 @@ void OpenGLWrapper::init() {
 }
 
 void OpenGLWrapper::destroy() {
+	this->FreeUnusedGLBuffers();
 	delete this->glCounter;
 }
+

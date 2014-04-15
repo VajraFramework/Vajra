@@ -91,6 +91,8 @@ void Engine::DoFrame() {
 	this->renderScene3D();
 	this->renderSceneUi();
 
+	FRAMEWORK->GetOpenGLWrapper()->FreeUnusedGLBuffers();
+
 	FRAMEWORK->GetOpenGLWrapper()->GetOpenGLCounter()->switchFrames();
 
 	this->GetTimer()->endFrame();

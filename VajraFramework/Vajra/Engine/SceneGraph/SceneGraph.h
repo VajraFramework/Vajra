@@ -31,6 +31,7 @@ public:
 	void CreateRenderBatches();
 
 	Camera* GetMainCamera();
+	void UnsetMainCameraId();
 	void SetMainCameraId(ObjectIdType id);
 
 	inline bool IsPaused() { return this->isPaused;  }
@@ -41,6 +42,9 @@ public:
 	virtual void draw() = 0;
 
 	void UnloadCurrentScene();
+
+	void UnbindAllBuffers();
+
 protected:
 	SceneGraph();
 
