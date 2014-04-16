@@ -8,6 +8,7 @@
 class MainMenuTouchHandlers;
 class GameUiTouchHandlers;
 class MessageData1S1I1F;
+class AudioSource;
 
 //[[COMPONENT]]//
 class MenuManager : public Component {	
@@ -25,6 +26,14 @@ public:
 
 	void TweenOutUiObject(UiObject*);
 	void TweenInUiObject(UiObject*);
+
+	AudioSource* GetBGMSource() { return this->menuBGMSource; }
+	void PlayBGM(std::string key);
+	void PauseBGM();
+	void StopBGM();
+
+	AudioSource* GetSFXSource() { return this->menuSFXSource; }
+	void PlaySFX(std::string key);
 private:
 	void init();
 	void destroy();
@@ -34,12 +43,16 @@ private:
 	void showLoadScreen();
 	void hideLoadScreen();
 
+	void createMenuAudioSource();
+
 	float loadStartTime;
 
 	UiElement* loadScreen;
 	UiElement*	backdrop;
 	MainMenuTouchHandlers* mainMenuTouchHandler;
 	GameUiTouchHandlers* gameUiTouchHandler;
+	AudioSource* menuBGMSource;
+	AudioSource* menuSFXSource;
 
 	static ComponentIdType componentTypeId;
 

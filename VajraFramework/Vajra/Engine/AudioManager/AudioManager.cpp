@@ -83,13 +83,18 @@ void AudioManager::SetListenerVolume(float volume) {
 
 AudioPlayer* AudioManager::RequestAudioPlayer(ObjectIdType objId) {
 	if (objId != OBJECT_ID_INVALID) {
-		if (ENGINE->GetSceneGraph3D()->GetGameObjectById(objId) != nullptr) {
-			this->sources3D.push_back(objId);
+		// TODO [Hack] You can get the object from either scene graph
+		GameObject* gObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(objId);
+		if (gObj != nullptr) {
+			if (gObj->GetParentSceneGraph() == (SceneGraph*)ENGINE->GetSceneGraph3D()) {
+				this->sources3D.push_back(objId);
+				return this->internalMgr->RequestAudioPlayer();
+			}
+			if (gObj->GetParentSceneGraph() == (SceneGraph*)ENGINE->GetSceneGraphUi()) {
+				this->sourcesUI.push_back(objId);
+				return this->internalMgr->RequestAudioPlayer();
+			}
 		}
-		else if (ENGINE->GetSceneGraphUi()->GetGameObjectById(objId) != nullptr) {
-			this->sourcesUI.push_back(objId);
-		}
-		return this->internalMgr->RequestAudioPlayer();
 	}
 	return nullptr;
 }

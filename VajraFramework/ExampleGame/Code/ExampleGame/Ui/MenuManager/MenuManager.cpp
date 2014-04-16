@@ -3,10 +3,12 @@
 #include "ExampleGame/GameConstants/GameConstants.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "ExampleGame/Ui/MenuManager/MenuDefinitions.h"
 #include "ExampleGame/Ui/MenuManager/MenuManager.h"
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
 
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
@@ -93,6 +95,7 @@ void MenuManager::LoadMainMenu(std::string screenToShow /* = "startMenu"*/) {
 		VERIFY(screen != nullptr, "screen to show is not null");
 		screen->SetVisible(true);
 	}
+	this->createMenuAudioSource();
 }
 
 void MenuManager::LoadGameMenu(std::string screenToShow /*= "inGame"*/) {
@@ -106,6 +109,7 @@ void MenuManager::LoadGameMenu(std::string screenToShow /*= "inGame"*/) {
 	UiElement* screen = (UiElement*)ObjectRegistry::GetObjectByName(screenToShow);
 	VERIFY(screen != nullptr, "screen to show is not null");
 	screen->SetVisible(true);
+	this->createMenuAudioSource();
 }
 
 void MenuManager::LoadLevel(int levelIndex) {
@@ -180,6 +184,23 @@ void MenuManager::TweenInUiObject(UiObject* element) {
 	
 }
 
+void MenuManager::PlayBGM(std::string key) {
+	// Background music is looped by default
+	this->menuBGMSource->Play(key, true);
+}
+
+void MenuManager::PauseBGM() {
+	this->menuBGMSource->Pause();
+}
+
+void MenuManager::StopBGM() {
+	this->menuBGMSource->Stop();
+}
+
+void MenuManager::PlaySFX(std::string key) {
+	this->menuSFXSource->Play(key);
+}
+
 void MenuManager::unloadPreviousScene() {
 	UiSceneLoader::UnloadCurrentUiScene();
 	this->mainMenuTouchHandler = nullptr;
@@ -212,4 +233,20 @@ void MenuManager::hideLoadScreen() {
 		preMenuScreen->SetVisible(true);
 		this->TweenInUiObject(preMenuScreen);
 	}
+}
+
+void MenuManager::createMenuAudioSource() {
+	std::string audioDir = "audio/";
+
+	GameObject* bgmObj = new GameObject(ENGINE->GetSceneGraphUi());
+	this->menuBGMSource = bgmObj->AddComponent<AudioSource>();
+	this->menuBGMSource->SetVolume(0.1f);
+	this->menuBGMSource->SetSourceIs3D(false);
+	this->menuBGMSource->SetPlayOnlyWhenVisible(false);
+
+	GameObject* sfxObj = new GameObject(ENGINE->GetSceneGraphUi());
+	this->menuSFXSource = sfxObj->AddComponent<AudioSource>();
+	this->menuSFXSource->SetSourceIs3D(false);
+	this->menuSFXSource->SetPlayOnlyWhenVisible(false);
+	this->menuSFXSource->LoadAudioClip(BUTTON_CLICK_SFX, audioDir + BUTTON_CLICK_ASSET);
 }
