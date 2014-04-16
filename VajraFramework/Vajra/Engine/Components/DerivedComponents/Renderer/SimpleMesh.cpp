@@ -338,9 +338,10 @@ void SimpleMesh::prepareVerticesToDraw() {
 }
 
 void SimpleMesh::draw() {
-
-    GLCALL(glBindBuffer, GL_ELEMENT_ARRAY_BUFFER, this->vboIndices);
-    GLCALL(glDrawElements, this->meshGlRenderingMode, this->indices.size(), GL_UNSIGNED_INT, (void*)0);
+	if (this->vboIndices != 0) {
+		GLCALL(glBindBuffer, GL_ELEMENT_ARRAY_BUFFER, this->vboIndices);
+		GLCALL(glDrawElements, this->meshGlRenderingMode, this->indices.size(), GL_UNSIGNED_INT, (void*)0);
+	}
 }
 
 
@@ -362,22 +363,22 @@ void SimpleMesh::destroy() {
     }
 
     if (this->vboPositions != 0) {
-		GLCALL(glDeleteBuffers, 1, &this->vboPositions);
+    	FRAMEWORK->GetOpenGLWrapper()->FreeGLBuffer(&this->vboPositions);
     }
     if (this->vboNormals != 0) {
-		GLCALL(glDeleteBuffers, 1, &this->vboNormals);
+    	FRAMEWORK->GetOpenGLWrapper()->FreeGLBuffer(&this->vboNormals);
     }
     if (this->vboTangents != 0) {
-		GLCALL(glDeleteBuffers, 1, &this->vboTangents);
+    	FRAMEWORK->GetOpenGLWrapper()->FreeGLBuffer(&this->vboTangents);
     }
     if (this->vboBitangents != 0) {
-		GLCALL(glDeleteBuffers, 1, &this->vboBitangents);
+    	FRAMEWORK->GetOpenGLWrapper()->FreeGLBuffer(&this->vboBitangents);
     }
     if (this->vboTextureCoords != 0) {
-		GLCALL(glDeleteBuffers, 1, &this->vboTextureCoords);
+    	FRAMEWORK->GetOpenGLWrapper()->FreeGLBuffer(&this->vboTextureCoords);
     }
     if (this->vboIndices != 0) {
-		GLCALL(glDeleteBuffers, 1, &this->vboIndices);
+    	FRAMEWORK->GetOpenGLWrapper()->FreeGLBuffer(&this->vboIndices);
     }
 }
 

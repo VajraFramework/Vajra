@@ -20,8 +20,10 @@ public:
 
 	DirectionalLight* GetMainDirectionalLight();
 	void SetMainDirectionalLightId(ObjectIdType id);
+	void UnsetMainDirectionalLightId();
 
 	void AddAdditionalLightId(ObjectIdType id);
+	void RemoveAdditionalLightId(ObjectIdType id);
 
 	// @Override
 	virtual void update();

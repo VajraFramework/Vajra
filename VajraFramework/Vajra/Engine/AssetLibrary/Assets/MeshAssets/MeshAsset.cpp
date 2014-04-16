@@ -243,10 +243,10 @@ void MeshAsset::destroy() {
     }
 
     if (this->vboBoneIndices != 0) {
-		GLCALL(glDeleteBuffers, 1, &this->vboBoneIndices);
+    	FRAMEWORK->GetOpenGLWrapper()->FreeGLBuffer(&this->vboBoneIndices);
     }
     if (this->vboBoneWeights != 0) {
-		GLCALL(glDeleteBuffers, 1, &this->vboBoneWeights);
+    	FRAMEWORK->GetOpenGLWrapper()->FreeGLBuffer(&this->vboBoneWeights);
     }
 
     delete this->material;

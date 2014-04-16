@@ -26,7 +26,7 @@ void TextureAsset::init() {
 
 void TextureAsset::destroy() {
 	if (this->textureGLHandle != 0) {
-		GLCALL(glDeleteTextures, 1, &(this->textureGLHandle));
+		FRAMEWORK->GetOpenGLWrapper()->FreeGLTexture(&this->textureGLHandle);
 	}
 	// TODO [Implement] Figure out if any other cleanup is necessary to free up allocated opengl texture memory
 }

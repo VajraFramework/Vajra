@@ -44,11 +44,17 @@ void SceneGraph::RemoveGameObjectFromRenderLiset(GameObject* gameObject) {
 }
 // TODO [Cleanup] Cache the mainCamera, maybe
 Camera* SceneGraph::GetMainCamera() {
-	GameObject *camera = this->GetGameObjectById(this->mainCameraId);
-	if (camera != nullptr) {
-		return camera->GetComponent<Camera>();
+	if (this->mainCameraId != OBJECT_ID_INVALID) {
+		GameObject *camera = this->GetGameObjectById(this->mainCameraId);
+		if (camera != nullptr) {
+			return camera->GetComponent<Camera>();
+		}
 	}
 	return nullptr;
+}
+
+void SceneGraph::UnsetMainCameraId() {
+	this->mainCameraId = OBJECT_ID_INVALID;
 }
 
 void SceneGraph::SetMainCameraId(ObjectIdType id) {
@@ -94,6 +100,11 @@ void SceneGraph::init() {
 void SceneGraph::Initialize() {
 	this->root = new GameObject(this);
 }
+
+void SceneGraph::UnbindAllBuffers() {
+	this->renderLists->UnbindAllBuffers();
+}
+
 
 void SceneGraph::destroy() {
 }

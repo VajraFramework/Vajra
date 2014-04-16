@@ -157,7 +157,6 @@ void SpriteRenderer::init() {
 }
 
 void SpriteRenderer::destroy() {
-	return;
 	if (this->vertices != nullptr) {
 		delete this->vertices;
 	}
@@ -166,12 +165,12 @@ void SpriteRenderer::destroy() {
 	}
 
     if (this->vboPositions != 0) {
-		GLCALL(glDeleteBuffers, 1, &this->vboPositions);
+    	FRAMEWORK->GetOpenGLWrapper()->FreeGLBuffer(&this->vboPositions);
     }
     if (this->vboTextureCoords != 0) {
-		GLCALL(glDeleteBuffers, 1, &this->vboTextureCoords );
+    	FRAMEWORK->GetOpenGLWrapper()->FreeGLBuffer(&this->vboTextureCoords);
     }
     if (this->vboIndices != 0) {
-		GLCALL(glDeleteBuffers, 1, &this->vboIndices);
+    	FRAMEWORK->GetOpenGLWrapper()->FreeGLBuffer(&this->vboIndices);
     }
 }

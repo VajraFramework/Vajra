@@ -158,7 +158,10 @@ void Triggerable::subscribeInternal(ObjectIdType switchId) {
 void Triggerable::unsubscribeInternal(ObjectIdType switchId) {
 	auto it = std::find(this->subscriptions.begin(), this->subscriptions.end(), switchId);
 	if (it != this->subscriptions.end()) {
-		GameObject* switchObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(switchId);
+		GameObject* switchObj = nullptr;
+		if (switchId != OBJECT_ID_INVALID) {
+			switchObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(switchId);
+		}
 		if (switchObj != nullptr) {
 			BaseSwitch* switchComp = switchObj->GetComponent<BaseSwitch>();
 			if (switchComp != nullptr) {

@@ -16,6 +16,7 @@ enum SwitchType {
 	SWITCH_TYPE_ONCE,                // Once turned on, stays on permanently
 	SWITCH_TYPE_TOGGLE,              // Changes state each time switch condition is met
 	SWITCH_TYPE_CONTINUOUS,          // Remains on for as long as condition is met
+	SWITCH_TYPE_WARMUP,              // Condition must remain true for a period of time before the switch will turn on
 	SWITCH_TYPE_RESET_ON_ACTIVATE,   // Remains on for a set period of time, then turns off
 	SWITCH_TYPE_RESET_ON_DEACTIVATE, // Once turned on, turns off again after a period of time with the condition not being met
 	SWITCH_TYPE_INVALID,
