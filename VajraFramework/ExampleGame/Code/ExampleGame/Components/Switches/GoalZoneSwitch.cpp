@@ -1,3 +1,4 @@
+#include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
 #include "ExampleGame/Components/Grid/GridZone.h"
 #include "ExampleGame/Components/Switches/GoalZoneSwitch.h"
 
@@ -49,6 +50,13 @@ void GoalZoneSwitch::destroy() {
 
 void GoalZoneSwitch::SetRequiredUnitType(std::string typeStr) {
 	UnitInGridZoneSwitch::SetRequiredUnitType(typeStr);
+	if(typeStr == "Assassin") {
+		this->zoneColor = ASSASIN_UI_COLOR;
+	} else if(typeStr == "Thief") {
+		this->zoneColor = THIEF_UI_COLOR;
+	}
+	this->zoneColor.a = START_ALPHA;
+	this->spriteRendererRef->setDiffuseColor(this->zoneColor);
 }
 
 void GoalZoneSwitch::onUnitEnteredZone(ObjectIdType id) {
@@ -71,6 +79,7 @@ void GoalZoneSwitch::onUnitExitedZone(ObjectIdType id) {
 void GoalZoneSwitch::onSwitchCallback(float normalizedTime) {
 	if(this->spriteRendererRef != nullptr) {
 		float alpha = START_ALPHA + ((END_ALPHA - START_ALPHA) * normalizedTime);
-		this->spriteRendererRef->setDiffuseColor(glm::vec4(1.0f, 1.0f, 1.0f, alpha)); //START_ALPHA + (normalizedTime * END_ALPHA)));
+		this->zoneColor.a = alpha;
+		this->spriteRendererRef->setDiffuseColor(this->zoneColor);
 	}		
 }

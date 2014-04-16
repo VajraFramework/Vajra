@@ -30,6 +30,7 @@ private:
 	void destroy();
 
 	SpriteRenderer* spriteRendererRef;
+	glm::vec4 zoneColor;
 
 	friend void goalZoneSwitchNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams);
 };
