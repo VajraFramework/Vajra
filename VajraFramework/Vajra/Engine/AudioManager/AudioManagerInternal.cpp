@@ -108,17 +108,6 @@ AudioPlayer* AudioManagerInternal::RequestAudioPlayer() {
 		return player;
 	}
 	return nullptr;
-/*
-	if (this->availableSources.size() > 0) {
-		ALuint source = this->availableSources.back();
-		this->availableSources.pop_back();
-		if (this->availableSources.size() == 0) {
-			generateMoreSources();
-		}
-		return source;
-	}
-	return 0;
-*/
 }
 
 void AudioManagerInternal::ReturnAudioPlayer(AudioPlayer* player) {
@@ -128,28 +117,7 @@ void AudioManagerInternal::ReturnAudioPlayer(AudioPlayer* player) {
 		this->availablePlayers.push_back(player);
 	}
 }
-/*
-ALuint AudioManagerInternal::RequestALSource() {
-	if (this->availableSources.size() > 0) {
-		ALuint source = this->availableSources.back();
-		this->availableSources.pop_back();
-		if (this->availableSources.size() == 0) {
-			generateMoreSources();
-		}
-		return source;
-	}
-	return 0;
-}
 
-void AudioManagerInternal::ReleaseALSource(ALuint source) {
-	if (source != 0) {
-		auto iter = std::find(this->availableSources.begin(), this->availableSources.end(), source);
-		if (iter == this->availableSources.end()) {
-			this->availableSources.push_back(source);
-		}
-	}
-}
-*/
 void AudioManagerInternal::PauseAllAudio() {
 	for (int i = 0; i < this->nSources; ++i) {
 		ALint sourceState;
@@ -179,6 +147,7 @@ void AudioManagerInternal::StopAllAudio() {
 void AudioManagerInternal::generateMoreSources() {
 	ASSERT(this->nSources < MAXIMUM_AUDIO_SOURCES, "Able to generate additional audio sources");
 	if (this->nSources < MAXIMUM_AUDIO_SOURCES) {
+		alGetError(); // Clear error state
 		alGenSources(SOURCE_CHUNK_SIZE, this->sources + this->nSources);
 		ALenum err = alGetError();
 		ASSERT(err == AL_NO_ERROR, "Able to generate %d additional audio sources (%d currently)", SOURCE_CHUNK_SIZE, this->nSources);
@@ -186,7 +155,6 @@ void AudioManagerInternal::generateMoreSources() {
 			for (int i = this->nSources; i < this->nSources + SOURCE_CHUNK_SIZE; ++i) {
 				AudioPlayer* player = new AudioPlayer();
 				player->SetALSource(this->sources[i]);
-				//this->availableSources.push_back(this->sources[i]);
 				this->availablePlayers.push_back(player);
 			}
 			this->nSources += SOURCE_CHUNK_SIZE;
