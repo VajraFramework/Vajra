@@ -42,6 +42,8 @@ public:
 protected:
 	virtual void start();
 
+	virtual void Kill();
+
 	GameObject* touchIndicatorRef;
 	GameObject* selectionIndicatorRef;
 	

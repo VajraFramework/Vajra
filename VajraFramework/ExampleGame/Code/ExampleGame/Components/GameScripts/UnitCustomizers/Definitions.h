@@ -8,5 +8,6 @@
 #define UNIT_ANIMATION_CLIP_NAME_postspecial "special_end"
 #define UNIT_ANIMATION_CLIP_NAME_block "block"
 #define UNIT_ANIMATION_CLIP_NAME_block_idle "block_idle"
+#define UNIT_ANIMATION_CLIP_NAME_death "death"
 
 #endif // UNIT_ANIMATIONS_DEFINITIONS_H

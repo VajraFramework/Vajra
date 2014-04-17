@@ -63,7 +63,7 @@ protected:
 
 	void setDecalType(std::string decalType_);
 
-	virtual void onSwitchCallback(float normalizedTime) {}
+	virtual void onSwitchCallback(float /*normalizedTime*/) {}
 	SwitchType type;
 
 	GameObject* gameObjectRef;
