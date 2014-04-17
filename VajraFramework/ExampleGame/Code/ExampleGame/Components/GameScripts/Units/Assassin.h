@@ -18,6 +18,8 @@ public:
 
 	//[[PROPERTY]]//
 	inline void SetDashEffect(std::string prefabName);
+	//[[PROPERTY]]//
+	inline void SetSpecialHitEffect(std::string prefabName);
 
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 
@@ -52,6 +54,9 @@ private:
 	std::string dashEffect;
 	ObjectIdType dashEffectObjId;
 
+	std::string specialHitEffect;
+	ObjectIdType specialHitEffectObjId;
+
 	void specialUpdate();
 	void sendAttackMessage(int gridX, int gridZ, int elevation);
 	void checkFinalAttack();
@@ -59,6 +64,9 @@ private:
 	void generateDashEffect();
 	void activateDashEffect();
 	void deactivateDashEffect();
+
+	void generateSpecialHitEffect();
+	void activateSpecialHitEffect();
 
 	friend void assassinTweenCallback(ObjectIdType /* gameObjectId */, std::string /* tweenClipName */);
 	friend void assassinNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* userParams);
@@ -68,6 +76,11 @@ private:
 void Assassin::SetDashEffect(std::string prefabName)  {
 	this->dashEffect = prefabName;
 	this->generateDashEffect();
+}
+
+void Assassin::SetSpecialHitEffect(std::string prefabName)  {
+	this->specialHitEffect = prefabName;
+	this->generateSpecialHitEffect();
 }
 
 #endif //ASSASSIN_UNIT_H

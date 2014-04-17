@@ -747,6 +747,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetDashEffect(ConvertStringToString(argv[0]));
 			return;
 		}
+		if (propertyName == "SetSpecialHitEffect") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetSpecialHitEffect(ConvertStringToString(argv[0]));
+			return;
+		}
 		return;
 	}
 	
