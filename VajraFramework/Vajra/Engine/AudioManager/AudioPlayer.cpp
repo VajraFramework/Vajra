@@ -1,5 +1,5 @@
 #include "Vajra/Engine/AssetLibrary/AssetLibrary.h"
-#include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
+#include "Vajra/Engine/AudioManager/AudioManager.h"
 #include "Vajra/Engine/AudioManager/AudioPlayer.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/Logging/Logger.h"
@@ -22,41 +22,91 @@ AudioPlayer::~AudioPlayer() {
 
 void AudioPlayer::init() {
 	this->asset = nullptr;
-	this->pitch = 1.0f;
-	this->gain = 1.0f;
-	this->position[0] = 0.0f;
-	this->position[1] = 0.0f;
-	this->position[2] = 0.0f;
-	this->velocity[0] = 0.0f;
-	this->velocity[1] = 0.0f;
-	this->velocity[2] = 0.0f;
-	this->looping = AL_FALSE;
-
-	alGenSources(1, &(this->source));
-	alSourcef(this->source, AL_PITCH, this->pitch);
-	alSourcef(this->source, AL_GAIN, this->gain);
-	alSource3f(this->source, AL_POSITION, this->position[0], this->position[1], this->position[2]);
-	alSource3f(this->source, AL_VELOCITY, this->velocity[0], this->velocity[1], this->velocity[2]);
-	alSourcei(this->source, AL_LOOPING, this->looping);
-
-	this->volume = 1.0f;
-	this->playbackSpeed = 1.0f;
+	this->source = 0;
 }
 
 void AudioPlayer::destroy() {
-	alDeleteSources(1, &(this->source));
+	Stop();
 }
 
-// Accessors
-float AudioPlayer::GetVolume()             { return this->volume; }
-float AudioPlayer::GetPlaybackSpeed()      { return this->playbackSpeed; }
-AudioAsset* AudioPlayer::GetAudioClip()    { return this->asset; }
+bool AudioPlayer::IsPlaying() {
+	ALint sourceState;
+	alGetSourcei(this->source, AL_SOURCE_STATE, &sourceState);
+	return (sourceState == AL_PLAYING);
+}
+
+bool AudioPlayer::IsPaused() {
+	ALint sourceState;
+	alGetSourcei(this->source, AL_SOURCE_STATE, &sourceState);
+	return (sourceState == AL_PAUSED);
+}
+
+bool AudioPlayer::IsStopped() {
+	ALint sourceState;
+	alGetSourcei(this->source, AL_SOURCE_STATE, &sourceState);
+	return (sourceState == AL_STOPPED);
+}
 
 // Mutators
+void AudioPlayer::SetALSource(ALuint s) {
+	this->source = s;
+	SetPosition(0.0f, 0.0f, 0.0f);
+	SetVelocity(0.0f, 0.0f, 0.0f);
+	SetVolume(1.0f);
+	SetLooping(AL_FALSE);
+	alSourcef(this->source, AL_PITCH, 1.0f);
+}
+
 void AudioPlayer::SetAudioClip(std::string assetName) {
-	std::shared_ptr<AudioAsset> audioAsset = ENGINE->GetAssetLibrary()->GetAsset<AudioAsset>(assetName);
-	this->asset = &(*audioAsset);
-	alSourcei(this->source, AL_BUFFER, audioAsset->GetALAudioHandle());
+	if ((this->asset == nullptr) || (this->asset->GetUrl() != assetName)) {
+		Stop();
+		if (assetName != "") {
+			this->asset = ENGINE->GetAssetLibrary()->GetAsset<AudioAsset>(assetName);
+			alSourcei(this->source, AL_BUFFER, this->asset->GetALAudioHandle());
+		}
+		else {
+			this->asset = nullptr;
+			alSourcei(this->source, AL_BUFFER, 0);
+		}
+	}
+}
+
+void AudioPlayer::SetAudioClip(std::shared_ptr<AudioAsset> assetPtr) {
+	if (this->asset != assetPtr) {
+		Stop();
+		this->asset = assetPtr;
+		if (this->asset != nullptr) {
+			alSourcei(this->source, AL_BUFFER, this->asset->GetALAudioHandle());
+		}
+		else {
+			alSourcei(this->source, AL_BUFFER, 0);
+		}
+	}
+}
+
+void AudioPlayer::SetPosition(glm::vec3 position) {
+	SetPosition(position.x, position.y, position.z);
+}
+
+void AudioPlayer::SetPosition(float x, float y, float z) {
+	alSource3f(this->source, AL_POSITION, x, y, z);
+}
+
+void AudioPlayer::SetPositionIsRelative(bool isRelative) {
+	if (isRelative) {
+		alSourcei(this->source, AL_SOURCE_RELATIVE, AL_TRUE);
+	}
+	else {
+		alSourcei(this->source, AL_SOURCE_RELATIVE, AL_FALSE);
+	}
+}
+
+void AudioPlayer::SetVelocity(glm::vec3 velocity) {
+	SetVelocity(velocity.x, velocity.y, velocity.z);
+}
+
+void AudioPlayer::SetVelocity(float x, float y, float z) {
+	alSource3f(this->source, AL_VELOCITY, x, y, z);
 }
 
 void AudioPlayer::SetVolume(float volume) {
@@ -69,9 +119,13 @@ void AudioPlayer::SetPlaybackSpeed(float speed) {
 	// TODO [Implement] Determine if OpenAL can change playback speed without affecting pitch
 }
 
-void AudioPlayer::SetLooping(ALint loop) {
-	this->looping = loop;
-	alSourcei(this->source, AL_LOOPING, this->looping);
+void AudioPlayer::SetLooping(bool loop) {
+	if (loop) {
+		alSourcei(this->source, AL_LOOPING, AL_TRUE);
+	}
+	else {
+		alSourcei(this->source, AL_LOOPING, AL_FALSE);
+	}
 }
 
 void AudioPlayer::Play() {

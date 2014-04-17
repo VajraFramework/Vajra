@@ -466,6 +466,7 @@ bool OnGoingTransformTweenDetails::StepTween(float deltaTime) {
 			default:
 				ASSERT(0, "Valid interpolation type, %d", this->interpolationType); break;
 			}
+			if (this->currentTime >= this->totalTime) { this->current_v = this->to_v; }
 			transform->SetPosition(this->current_v);
 		} break;
 
@@ -493,6 +494,7 @@ bool OnGoingTransformTweenDetails::StepTween(float deltaTime) {
 			default:
 				ASSERT(0, "Valid interpolation type, %d", this->interpolationType); break;
 			}
+			if (this->currentTime >= this->totalTime) { this->current_v = this->to_v; }
 			transform->SetScale(this->current_v);
 		} break;
 

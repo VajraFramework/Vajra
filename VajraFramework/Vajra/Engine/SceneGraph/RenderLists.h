@@ -17,7 +17,7 @@ class GameObject;
 class RenderList;
 
 #define USING_FRUSTUM_CULLING 1
-#define USING_STATIC_RENDER_BATCHING 0
+#define USING_STATIC_RENDER_BATCHING 1
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -45,6 +45,8 @@ public:
 
 	void Draw(Camera* camera, bool isDepthPass, DistanceFromCameraCompareType compareType);
 	void Draw(Camera* camera, DirectionalLight* directionalLight, std::vector<DirectionalLight*> additionalLights, bool isDepthPass, DistanceFromCameraCompareType compareType);
+
+	void UnbindAllBuffers();
 
 private:
 	RenderLists(SceneGraph* parentScenegraph);

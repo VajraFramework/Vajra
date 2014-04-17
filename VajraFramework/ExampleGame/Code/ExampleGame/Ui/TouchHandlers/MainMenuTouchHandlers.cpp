@@ -1,6 +1,8 @@
+#include "ExampleGame/Ui/MenuManager/MenuDefinitions.h"
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
 
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/SceneGraph/SceneGraphUi.h"
 #include "Vajra/Engine/SceneLoaders/UiSceneLoader/UiSceneLoader.h"
@@ -48,7 +50,6 @@ void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /*touc
 			ENGINE->GetTween()->CancelPostitionTween(id);
 		}
 	}
-
 }
 
 void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch) {
@@ -59,6 +60,8 @@ void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch)
 }
 
 void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
+	SINGLETONS->GetMenuManager()->PlaySFX(BUTTON_CLICK_SFX);
+
 	if(uiObject->GetName() == "backMenuButton") {
 		this->goBackOneMenu();
 		return;

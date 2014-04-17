@@ -8,6 +8,7 @@
 #include "Libraries/glm/gtx/vector_angle.hpp"
 
 #include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
@@ -62,6 +63,10 @@ void PlayerUnit::init() {
 
 void PlayerUnit::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+}
+
+void PlayerUnit::start() {
+
 }
 
 void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
@@ -175,6 +180,10 @@ void PlayerUnit::onSelectedTouch() {
 void PlayerUnit::startSpecial() {
 	this->SwitchActionState(UNIT_ACTION_STATE_DOING_SPECIAL);
 	this->specialStartPos = this->GetObject()->GetComponent<Transform>()->GetPositionWorld();
+	AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+	if (audioSource != nullptr) {
+		audioSource->Play("specialStart");
+	}
 }
 
 void PlayerUnit::onSpecialEnd() {
@@ -184,9 +193,19 @@ void PlayerUnit::onSpecialEnd() {
 	this->touchIndicatorRef->SetVisible(false);
 	this->touchStartPos = glm::vec2();
 	this->touchNearUnit = false;
+	AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+	if (audioSource != nullptr) {
+		audioSource->Play("specialEnd");
+	}
 }
 
 void PlayerUnit::cancelSpecial() {
+	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
+		AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+		if (audioSource != nullptr) {
+			audioSource->Play("specialEnd");
+		}
+	}
 	this->inputState = InputState::INPUT_STATE_WAIT;
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
@@ -323,7 +342,7 @@ void PlayerUnit::startTouchIndicatorPulse() {
 	MessageData1S1I1F* userParams = new MessageData1S1I1F();
 	userParams->i = this->GetObject()->GetId();
 	ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
-	ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, INTERPOLATION_TYPE_LINEAR, true, true, true, "pulse", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, playerUnitNumberTweenCallback);
+	ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, INTERPOLATION_TYPE_CUBIC, true, true, true, "pulse", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, playerUnitNumberTweenCallback);
 }
 
 

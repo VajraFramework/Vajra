@@ -38,7 +38,10 @@ public:
 	virtual bool CanBeKilledBy(ObjectIdType id, glm::vec3 source);
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 	virtual void cancelSpecial();
+
 protected:
+	virtual void start();
+
 	GameObject* touchIndicatorRef;
 
 	void onSelectedTouch();

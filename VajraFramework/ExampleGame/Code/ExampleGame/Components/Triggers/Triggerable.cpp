@@ -8,6 +8,7 @@
 #include "ExampleGame/Components/Switches/BaseSwitch.h"
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 
@@ -48,6 +49,10 @@ void Triggerable::init() {
 void Triggerable::destroy() {
 	this->UnsubscribeToAllSwitches();
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+}
+
+void Triggerable::start() {
+
 }
 
 void Triggerable::SetTriggerType(std::string typeStr) {
@@ -153,7 +158,10 @@ void Triggerable::subscribeInternal(ObjectIdType switchId) {
 void Triggerable::unsubscribeInternal(ObjectIdType switchId) {
 	auto it = std::find(this->subscriptions.begin(), this->subscriptions.end(), switchId);
 	if (it != this->subscriptions.end()) {
-		GameObject* switchObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(switchId);
+		GameObject* switchObj = nullptr;
+		if (switchId != OBJECT_ID_INVALID) {
+			switchObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(switchId);
+		}
 		if (switchObj != nullptr) {
 			BaseSwitch* switchComp = switchObj->GetComponent<BaseSwitch>();
 			if (switchComp != nullptr) {
@@ -223,10 +231,20 @@ void Triggerable::compareCounts(int prevActive, int prevSwitches, int currActive
 
 void Triggerable::toggleState() {
 	if (this->isToggled) {
+		AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+		if (audioSource != nullptr) {
+			audioSource->Play("triggerOff");
+		}
+
 		this->onSwitchToggled(false);
 		this->onSwitchDeactivated();
 	}
 	else {
+		AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+		if (audioSource != nullptr) {
+			audioSource->Play("triggerOn");
+		}
+
 		this->onSwitchToggled(true);
 		this->onSwitchActivated();
 	}
