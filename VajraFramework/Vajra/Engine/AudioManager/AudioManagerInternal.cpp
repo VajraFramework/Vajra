@@ -36,7 +36,7 @@ void AudioManagerInternal::init() {
 	}
 
 	this->nSources = 0;
-	generateMoreSources();
+	//generateMoreSources();
 }
 
 void AudioManagerInternal::destroy() {
@@ -98,16 +98,20 @@ void AudioManagerInternal::SetListenerVolume(float volume) {
 }
 
 AudioPlayer* AudioManagerInternal::RequestAudioPlayer() {
-	if (this->availablePlayers.size() > 0) {
+	if (this->availablePlayers.size() == 0) {
+		generateMoreSources();
+	}
+	
+	//if (this->availablePlayers.size() > 0) {
 		AudioPlayer* player = this->availablePlayers.back();
 		this->availablePlayers.pop_back();
 		this->playersInUse.push_back(player);
-		if (this->availablePlayers.size() == 0) {
+		/*if (this->availablePlayers.size() == 0) {
 			generateMoreSources();
-		}
+		}*/
 		return player;
-	}
-	return nullptr;
+	//}
+	//return nullptr;
 }
 
 void AudioManagerInternal::ReturnAudioPlayer(AudioPlayer* player) {
