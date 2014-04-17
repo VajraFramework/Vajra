@@ -5,7 +5,10 @@
 
 		<component name="UnitDeathSwitch">
 			<property name="SetSwitchType">
-				<field>Once</field>
+				<field>Warmup</field>
+			</property>
+			<property name="SetResetTime">
+				<field>2.0</field>
 			</property>
 			<property name="AddAllowedUnitType">
 				<field>Assassin</field>
