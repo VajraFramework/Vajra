@@ -33,6 +33,9 @@ void playerUnitNumberTweenCallback(float /* fromNumber */, float /* toNumber */,
 			if(tweenClipName == "pulse") {
 				float scaleValue = sinf(currentNumber);
 				pUnit->touchIndicatorRef->GetTransform()->SetScale(scaleValue, scaleValue, scaleValue);
+			} else if(tweenClipName == "vizPulse") {
+				pUnit->selectionIndicatorRef->GetTransform()->Rotate(.2f, YAXIS);
+
 			}
 		}
 	}
@@ -169,6 +172,8 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 void PlayerUnit::OnDeselect() {
 	this->inputState = InputState::INPUT_STATE_NONE;
 	this->selectionIndicatorRef->SetVisible(false);
+	ENGINE->GetTween()->CancelNumberTween("vizPulse");
+
 }
 
 void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {
@@ -199,6 +204,11 @@ bool PlayerUnit::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
 void PlayerUnit::onSelectedTouch() {
 	this->inputState = InputState::INPUT_STATE_WAIT;
 	this->selectionIndicatorRef->SetVisible(true);
+	MessageData1S1I1F* userParams = new MessageData1S1I1F();
+	userParams->i = this->GetObject()->GetId();
+	ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
+	ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 10.0f, INTERPOLATION_TYPE_CUBIC, true, true, true, "vizPulse", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, playerUnitNumberTweenCallback);
+
 }
 
 void PlayerUnit::startSpecial() {
