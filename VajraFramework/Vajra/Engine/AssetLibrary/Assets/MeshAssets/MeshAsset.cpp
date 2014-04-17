@@ -8,6 +8,10 @@
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/Utilities.h"
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 #define NUM_VERTS_PER_FACE 3
 
 AssetType MeshAsset::assetType = ASSET_TYPE_MESH_DATA;
@@ -235,6 +239,13 @@ void MeshAsset::init() {
 }
 
 void MeshAsset::destroy() {
+	// TODO [Hack] For some reason the simulator crashes in glDrawElements() when we do this
+#ifdef __APPLE__
+#if TARGET_IPHONE_SIMULATOR
+	return;
+#endif
+#endif
+	
     if (this->boneIndices != nullptr) {
         delete this->boneIndices;
     }

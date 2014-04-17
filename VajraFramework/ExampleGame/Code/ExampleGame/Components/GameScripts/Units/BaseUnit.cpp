@@ -99,6 +99,8 @@ void BaseUnit::Kill() {
 
 	glm::vec3 pos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 
+	SwitchActionState(UnitActionState::UNIT_ACTION_STATE_DEATH);
+
 	// broadcast a message about unit death
 	GridCell* currentCell = this->gridNavRef->GetCurrentCell();
 	MessageChunk unitKilledMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();

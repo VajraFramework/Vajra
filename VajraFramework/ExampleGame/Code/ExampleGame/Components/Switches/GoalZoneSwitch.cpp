@@ -13,7 +13,7 @@
 #define END_ALPHA 1.0f
 
 // Tween callbacks
-void goalZoneSwitchNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams){
+void goalZoneSwitchNumberTweenCallback(float /*fromNumber*/, float /*toNumber*/, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* /*userParams*/){
 	
 }
 
