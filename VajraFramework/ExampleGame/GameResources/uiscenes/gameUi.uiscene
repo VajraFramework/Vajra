@@ -503,6 +503,21 @@
 			<image name="SD_BonusBox_Narrow.png" hasTransperancy="false"> </image>
 		</uielement>	
 
+
+		<uielement name="postGame_contract_complete" clickable="false" visible="true">
+		<dimensions>
+			<position x="180" y="46"></position>
+			<size widthPixels="158" heightPixels="32"></size>
+			<zorder>1</zorder>
+		</dimensions>
+		<text>
+			<font type="calibiri.fontspec" size="64.0">
+				<color r="1.0" g="0.0" b="0.0" a="1.0"></color>
+			</font>
+			Countract Complete
+		</text>
+	</uielement>
+
 		<uielement name="postGame_bonus_icon" clickable="false" visible="true">
 			<dimensions>
 				<position x="146" y="396"></position>
