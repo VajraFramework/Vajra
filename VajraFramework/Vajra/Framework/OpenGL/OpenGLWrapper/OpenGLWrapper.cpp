@@ -9,10 +9,6 @@
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSetCreationHelper/ShaderSetCreationHelper.h"
 #include "Vajra/Utilities/Utilities.h"
 
-#ifdef __APPLE__
-#include "TargetConditionals.h"
-#endif
-
 OpenGLWrapper::OpenGLWrapper() {
 	// Do not call init() here
 }

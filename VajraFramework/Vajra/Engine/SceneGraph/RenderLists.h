@@ -3,6 +3,10 @@
 
 #include "Vajra/Common/Objects/Object.h"
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 #include <functional>
 #include <map>
 #include <queue>
@@ -18,6 +22,13 @@ class RenderList;
 
 #define USING_FRUSTUM_CULLING 1
 #define USING_STATIC_RENDER_BATCHING 1
+
+// TODO [Hack] For some reason the simulator crashes in glDrawElements() when we do this
+#ifdef __APPLE__
+#if TARGET_IPHONE_SIMULATOR
+#define USING_STATIC_RENDER_BATCHING 0
+#endif
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
