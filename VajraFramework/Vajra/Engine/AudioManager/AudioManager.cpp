@@ -17,7 +17,7 @@
 #include <algorithm>
 
 AudioManager::AudioManager() {
-	this->init();
+	//this->init();
 }
 
 AudioManager::~AudioManager() {
