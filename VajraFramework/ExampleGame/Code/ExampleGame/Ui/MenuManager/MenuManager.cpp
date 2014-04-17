@@ -38,8 +38,12 @@ void menuManagerNumberTweenCallback(float /* fromNumber */, float toNumber , flo
 	} else if (tweenClipName == "delayPreMenuOpen") {
 		UiObject* preMenuScreen = (UiObject*)ObjectRegistry::GetObjectByName("preMenu");
 		VERIFY(preMenuScreen != nullptr, "preMenuScreen to show is not null");
+		preMenuScreen->SetVisible(false);
+
+		preMenuScreen = (UiObject*)ObjectRegistry::GetObjectByName("postWinGame");
+		VERIFY(preMenuScreen != nullptr, "preMenuScreen to show is not null");
 		preMenuScreen->SetVisible(true);
-		SINGLETONS->GetMenuManager()->TweenInUiObject(preMenuScreen);
+		//SINGLETONS->GetMenuManager()->TweenInUiObject(preMenuScreen);
 	}
 
 }
