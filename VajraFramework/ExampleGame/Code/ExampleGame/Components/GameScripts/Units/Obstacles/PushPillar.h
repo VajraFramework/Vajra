@@ -18,6 +18,9 @@ public:
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
 
+	//[[PROPERTY]]//
+	inline void SetSlideEffect(std::string prefabName);
+
 	virtual bool CanBeKilledBy(ObjectIdType id, glm::vec3 source);
 
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
@@ -35,6 +38,10 @@ private:
 	void init();
 	void destroy();
 
+	void generateSlideEffect();
+	void activateSlideEffect();
+	void deactivateSlideEffect();
+
 	void startSliding(glm::vec3 direction);
 	void setNextTarget();
 	void slide();
@@ -51,6 +58,14 @@ private:
 	int slideX, slideZ;
 	glm::vec3 targetPosition;
 	ObjectIdType riderId;
+
+	std::string slideEffect;
+	ObjectIdType slideEffectObjId;
 };
+
+void PushPillar::SetSlideEffect(std::string prefabName)  {
+	this->slideEffect = prefabName;
+	this->generateSlideEffect();
+}
 
 #endif // PUSHPILLAR_H

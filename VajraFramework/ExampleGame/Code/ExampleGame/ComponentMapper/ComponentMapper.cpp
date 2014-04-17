@@ -43,6 +43,7 @@
 #include "ExampleGame/Components/Triggers/TriggerLoot.h"
 #include "ExampleGame/Components/Triggers/TriggerMovingBlocker.h"
 #include "ExampleGame/Components/Triggers/TriggerMultiplex.h"
+#include "ExampleGame/Components/Triggers/TriggerParticles.h"
 #include "ExampleGame/Components/Triggers/TriggerTerrainBlock.h"
 #include "ExampleGame/Components/Triggers/TriggerTransformation.h"
 #include "ExampleGame/Ui/MenuManager/MenuManager.h"
@@ -300,6 +301,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "TriggerMultiplex") {
 		TriggerMultiplex* component = gameObject->GetComponent<TriggerMultiplex>();
 		if (component == nullptr) { component = gameObject->AddComponent<TriggerMultiplex>(); }
+		return component;
+	}
+	
+	if (componentName == "TriggerParticles") {
+		TriggerParticles* component = gameObject->GetComponent<TriggerParticles>();
+		if (component == nullptr) { component = gameObject->AddComponent<TriggerParticles>(); }
 		return component;
 	}
 	
@@ -735,6 +742,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "Assassin") {
 		Assassin* component = gameObject->GetComponent<Assassin>();
 		if (component == nullptr) { return; }
+		if (propertyName == "SetDashEffect") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetDashEffect(ConvertStringToString(argv[0]));
+			return;
+		}
 		return;
 	}
 	
@@ -769,6 +781,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 	if (componentName == "PushPillar") {
 		PushPillar* component = gameObject->GetComponent<PushPillar>();
 		if (component == nullptr) { return; }
+		if (propertyName == "SetSlideEffect") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetSlideEffect(ConvertStringToString(argv[0]));
+			return;
+		}
 		return;
 	}
 	
@@ -1195,6 +1212,32 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetDecalType") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetDecalType(ConvertStringToString(argv[0]));
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "TriggerParticles") {
+		TriggerParticles* component = gameObject->GetComponent<TriggerParticles>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetTriggerType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetTriggerType(ConvertStringToString(argv[0]));
+			return;
+		}
+		if (propertyName == "SetLooped") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetLooped(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
+		if (propertyName == "SubscribeToMySwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToMySwitch();
+			return;
+		}
+		if (propertyName == "SubscribeToParentSwitch") {
+			if ((int)argv.size() < 0) { return; }
+			component->SubscribeToParentSwitch();
 			return;
 		}
 		return;
