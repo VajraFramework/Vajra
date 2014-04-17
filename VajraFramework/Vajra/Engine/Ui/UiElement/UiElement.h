@@ -26,7 +26,11 @@ public:
 	void InitSprite(unsigned int width, unsigned int height, std::string shaderName_, glm::vec4 color);
 
 	void InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile, float fontSize);
+	
 	void SetFontColor(glm::vec4 color);
+
+	void SetSpriteColor(glm::vec4 color);
+	glm::vec4 GetSpriteColor();
 
 	std::string GetPathToFontFile();
 

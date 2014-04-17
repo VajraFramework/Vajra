@@ -10,6 +10,7 @@
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Libraries/glm/gtx/vector_angle.hpp"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -245,6 +246,11 @@ void Guard::performAttack() {
 				attackMessage->messageData.iv1.z = cell->z;
 				attackMessage->messageData.fv1 = this->gameObjectRef->GetTransform()->GetPositionWorld();
 				ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
+
+				AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+				if (audioSource != nullptr) {
+					audioSource->Play("specialStart");
+				}
 			}
 		}
 	}

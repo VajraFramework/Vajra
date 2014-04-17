@@ -48,6 +48,23 @@
 			</property>
 		</component>
 		
+		<component name="AudioSource">
+			<property name="SetSourceIs3D">
+				<field>false</field>
+			</property>
+			<property name="SetPlayOnlyWhenVisible">
+				<field>true</field>
+			</property>
+			<property name="LoadAudioClip">
+				<field>specialStart</field>
+				<field>audio/SD_SFX_AssassinAttack_01.wav</field>
+			</property>
+			<property name="LoadAudioClip">
+				<field>walk</field>
+				<field>audio/SD_SFX_Footstep_01.wav</field>
+			</property>
+		</component>
+		
 		<component name="GridNavigator">
 		</component>
 		

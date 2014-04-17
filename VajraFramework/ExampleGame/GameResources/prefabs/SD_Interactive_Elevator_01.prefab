@@ -3,6 +3,19 @@
 		<component name="Transform">
 		</component>
 		
+		<component name="AudioSource">
+			<property name="SetSourceIs3D">
+				<field>false</field>
+			</property>
+			<property name="SetPlayOnlyWhenVisible">
+				<field>true</field>
+			</property>
+			<property name="LoadAudioClip">
+				<field>triggerOn</field>
+				<field>audio/SD_SFX_PillarMove_01.wav</field>
+			</property>
+		</component>
+		
 		<component name="GridZone">
               <property name="SetZoneBounds">
                   <field>-1</field>

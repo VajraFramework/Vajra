@@ -9,11 +9,13 @@
 #include "Libraries/glm/gtx/vector_angle.hpp"
 
 #include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
+#include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
@@ -32,6 +34,9 @@ void playerUnitNumberTweenCallback(float /* fromNumber */, float /* toNumber */,
 			if(tweenClipName == "pulse") {
 				float scaleValue = sinf(currentNumber);
 				pUnit->touchIndicatorRef->GetTransform()->SetScale(scaleValue, scaleValue, scaleValue);
+			} else if(tweenClipName == "vizPulse") {
+				pUnit->selectionIndicatorRef->GetTransform()->Rotate(.2f, YAXIS);
+
 			}
 		}
 	}
@@ -65,6 +70,10 @@ void PlayerUnit::destroy() {
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
 }
 
+void PlayerUnit::start() {
+
+}
+
 void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 	BaseUnit::HandleMessage(messageChunk);
 	switch(messageChunk->GetMessageType()) {
@@ -85,16 +94,37 @@ void PlayerUnit::HandleMessage(MessageChunk messageChunk) {
 }
 
 void PlayerUnit::createTouchIndicator() {
-	this->touchIndicatorRef = new GameObject(ENGINE->GetSceneGraph3D());
-	SpriteRenderer* spriteRenderer = this->touchIndicatorRef->AddComponent<SpriteRenderer>();
-	spriteRenderer->SetHasTransperancy(true);
-	std::vector<std::string> pathsToTextures;
-	// Let the Thief and Assassin add their own images to the path
-	this->amendTouchIndicatorPaths(pathsToTextures);
-	spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
-	this->touchIndicatorRef->SetVisible(true);
-	this->touchIndicatorRef->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
-	this->touchIndicatorRef->GetTransform()->SetScale(glm::vec3(0));
+	{
+		this->touchIndicatorRef = new GameObject(ENGINE->GetSceneGraph3D());
+		SpriteRenderer* spriteRenderer = this->touchIndicatorRef->AddComponent<SpriteRenderer>();
+		spriteRenderer->SetHasTransperancy(true);
+		std::vector<std::string> pathsToTextures;
+		// Let the Thief and Assassin add their own images to the path
+		this->amendTouchIndicatorPaths(pathsToTextures);
+		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
+		this->touchIndicatorRef->SetVisible(true);
+		this->touchIndicatorRef->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
+		this->touchIndicatorRef->GetTransform()->SetScale(glm::vec3(0));
+	}
+	{
+		this->selectionIndicatorRef = new GameObject(ENGINE->GetSceneGraph3D());
+		SpriteRenderer* spriteRenderer = this->selectionIndicatorRef->AddComponent<SpriteRenderer>();
+		spriteRenderer->SetHasTransperancy(true);
+		
+		std::vector<std::string> pathsToTextures;
+		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_SelectionSpiral_01.png");
+		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
+		if(this->unitType == UnitType::UNIT_TYPE_ASSASSIN) {
+			spriteRenderer->setDiffuseColor(ASSASIN_UI_COLOR);
+		} else if(this->unitType == UnitType::UNIT_TYPE_THIEF) {
+			spriteRenderer->setDiffuseColor(THIEF_UI_COLOR);
+		}
+		this->selectionIndicatorRef->SetVisible(false);
+		this->gameObjectRef->AddChild_maintainTransform(this->selectionIndicatorRef->GetId());
+		this->selectionIndicatorRef->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
+		this->selectionIndicatorRef->GetTransform()->Translate(1.0f , YAXIS);
+		this->selectionIndicatorRef->GetTransform()->SetScale(glm::vec3(1.0f / .07f));
+	}
 
 }
 
@@ -142,6 +172,9 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 
 void PlayerUnit::OnDeselect() {
 	this->inputState = InputState::INPUT_STATE_NONE;
+	this->selectionIndicatorRef->SetVisible(false);
+	ENGINE->GetTween()->CancelNumberTween("vizPulse");
+
 }
 
 void PlayerUnit::OnTransitionZoneEntered(GridCell* newTarget) {
@@ -185,11 +218,21 @@ void PlayerUnit::Kill() {
 
 void PlayerUnit::onSelectedTouch() {
 	this->inputState = InputState::INPUT_STATE_WAIT;
+	this->selectionIndicatorRef->SetVisible(true);
+	MessageData1S1I1F* userParams = new MessageData1S1I1F();
+	userParams->i = this->GetObject()->GetId();
+	ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
+	ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 10.0f, INTERPOLATION_TYPE_CUBIC, true, true, true, "vizPulse", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, playerUnitNumberTweenCallback);
+
 }
 
 void PlayerUnit::startSpecial() {
 	this->SwitchActionState(UNIT_ACTION_STATE_DOING_SPECIAL);
 	this->specialStartPos = this->GetObject()->GetComponent<Transform>()->GetPositionWorld();
+	AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+	if (audioSource != nullptr) {
+		audioSource->Play("specialStart");
+	}
 }
 
 void PlayerUnit::onSpecialEnd() {
@@ -199,9 +242,19 @@ void PlayerUnit::onSpecialEnd() {
 	this->touchIndicatorRef->SetVisible(false);
 	this->touchStartPos = glm::vec2();
 	this->touchNearUnit = false;
+	AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+	if (audioSource != nullptr) {
+		audioSource->Play("specialEnd");
+	}
 }
 
 void PlayerUnit::cancelSpecial() {
+	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL) {
+		AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+		if (audioSource != nullptr) {
+			audioSource->Play("specialEnd");
+		}
+	}
 	this->inputState = InputState::INPUT_STATE_WAIT;
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 	this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
@@ -338,7 +391,7 @@ void PlayerUnit::startTouchIndicatorPulse() {
 	MessageData1S1I1F* userParams = new MessageData1S1I1F();
 	userParams->i = this->GetObject()->GetId();
 	ENGINE->GetTween()->CancelScaleTween(this->touchIndicatorRef->GetId());
-	ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, INTERPOLATION_TYPE_LINEAR, true, true, true, "pulse", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, playerUnitNumberTweenCallback);
+	ENGINE->GetTween()->TweenToNumber(45.0f inRadians, 135.0f inRadians, 1.0f, INTERPOLATION_TYPE_CUBIC, true, true, true, "pulse", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, playerUnitNumberTweenCallback);
 }
 
 

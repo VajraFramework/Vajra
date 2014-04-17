@@ -85,6 +85,7 @@ Thief::~Thief() {
 }
 
 void Thief::init() {
+	this->colorScheme.uiColor = glm::vec4(0.8828125f, 0.828125f, 0.11328125f, 1.0f);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
 	this->unitType = UnitType::UNIT_TYPE_THIEF;
 	this->createTouchIndicator();
@@ -106,7 +107,6 @@ void Thief::amendTouchIndicatorPaths(std::vector<std::string>& pathsToTextures) 
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_05.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_01.png");
 	pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_Thief_Jump_Full_03.png");
-	
 }
 
 bool Thief::isSpecialTouch(int touchId) {

@@ -63,6 +63,19 @@ void UiElement::SetFontColor(glm::vec4 color) {
 	}
 }
 
+void UiElement::SetSpriteColor(glm::vec4 color) {
+	if (this->childSpriteObjectRef != nullptr) {
+		this->childSpriteObjectRef->SetSpriteColor(color);
+	}
+}
+
+glm::vec4 UiElement::GetSpriteColor() {
+	if (this->childSpriteObjectRef != nullptr) {
+		return this->childSpriteObjectRef->GetSpriteColor();
+	}
+	return glm::vec4(0);
+}
+
 void UiElement::init() {
 	this->setClassType(CLASS_TYPE_UIELEMENT);
 

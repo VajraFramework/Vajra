@@ -21,6 +21,9 @@ private:
 	// TODO [Cleanup] Make this private and friended to UiElement
 	void InitSprite(unsigned int width, unsigned int height, std::string shaderName_, glm::vec4 color);
 
+	void SetSpriteColor(glm::vec4 color);
+	glm::vec4 GetSpriteColor();
+	
 	inline SpriteRenderer* GetSpriteRenderer();
 
 	void init();

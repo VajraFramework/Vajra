@@ -36,6 +36,7 @@
 #define LIGHTMAP_TAG          "lightMap"
 
 #define LEVEL_NAME_ATTRIBUTE  "levelName"
+#define BGM_ATTRIBUTE         "bgm"
 #define ID_ATTRIBUTE          "id"
 #define X_ATTRIBUTE           "x"
 #define Y_ATTRIBUTE           "y"

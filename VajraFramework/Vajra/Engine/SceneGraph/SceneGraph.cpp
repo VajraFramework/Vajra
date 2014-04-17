@@ -1,3 +1,4 @@
+#include "Vajra/Engine/AudioManager/AudioManager.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Components/DerivedComponents/Camera/Camera.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
@@ -43,11 +44,17 @@ void SceneGraph::RemoveGameObjectFromRenderLiset(GameObject* gameObject) {
 }
 // TODO [Cleanup] Cache the mainCamera, maybe
 Camera* SceneGraph::GetMainCamera() {
-	GameObject *camera = this->GetGameObjectById(this->mainCameraId);
-	if (camera != nullptr) {
-		return camera->GetComponent<Camera>();
+	if (this->mainCameraId != OBJECT_ID_INVALID) {
+		GameObject *camera = this->GetGameObjectById(this->mainCameraId);
+		if (camera != nullptr) {
+			return camera->GetComponent<Camera>();
+		}
 	}
 	return nullptr;
+}
+
+void SceneGraph::UnsetMainCameraId() {
+	this->mainCameraId = OBJECT_ID_INVALID;
 }
 
 void SceneGraph::SetMainCameraId(ObjectIdType id) {
@@ -69,6 +76,7 @@ void SceneGraph::Pause() {
 	this->root->Pause();
 
 	ENGINE->GetTween()->PauseNumberTweensByAffiliation(NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D);
+	ENGINE->GetAudioManager()->Pause3dAudio();
 }
 
 void SceneGraph::Resume() {
@@ -76,6 +84,7 @@ void SceneGraph::Resume() {
 	this->root->Resume();
 
 	ENGINE->GetTween()->ResumeNumberTweensByAffiliation(NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D);
+	ENGINE->GetAudioManager()->Resume3dAudio();
 }
 
 void SceneGraph::CreateRenderBatches() {
@@ -91,6 +100,11 @@ void SceneGraph::init() {
 void SceneGraph::Initialize() {
 	this->root = new GameObject(this);
 }
+
+void SceneGraph::UnbindAllBuffers() {
+	this->renderLists->UnbindAllBuffers();
+}
+
 
 void SceneGraph::destroy() {
 }

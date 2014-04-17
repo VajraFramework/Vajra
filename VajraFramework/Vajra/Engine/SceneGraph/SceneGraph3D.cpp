@@ -23,11 +23,17 @@ SceneGraph3D::~SceneGraph3D() {
 
 // TODO [Cleanup] Cache the mainDirectionalLight, maybe
 DirectionalLight* SceneGraph3D::GetMainDirectionalLight() {
-	GameObject *directionalLight = this->GetGameObjectById(this->mainDirectionalLightId);
-	if (directionalLight != nullptr) {
-		return directionalLight->GetComponent<DirectionalLight>();
+	if (this->mainDirectionalLightId != OBJECT_ID_INVALID) {
+		GameObject *directionalLight = this->GetGameObjectById(this->mainDirectionalLightId);
+		if (directionalLight != nullptr) {
+			return directionalLight->GetComponent<DirectionalLight>();
+		}
 	}
 	return nullptr;
+}
+
+void SceneGraph3D::UnsetMainDirectionalLightId() {
+	this->mainDirectionalLightId = OBJECT_ID_INVALID;
 }
 
 void SceneGraph3D::SetMainDirectionalLightId(ObjectIdType id) {
@@ -42,6 +48,13 @@ void SceneGraph3D::AddAdditionalLightId(ObjectIdType id) {
 	ASSERT(directionalLight != nullptr, "New additional directionalLight object not null");
 	ASSERT(directionalLight->GetComponent<DirectionalLight>() != nullptr, "New additional directionalLight object has a DirectionalLight component");
 	this->additionalLightIds.push_back(id);
+}
+
+void SceneGraph3D::RemoveAdditionalLightId(ObjectIdType id) {
+	auto it = std::find(this->additionalLightIds.begin(), this->additionalLightIds.end(), id);
+	if (it != this->additionalLightIds.end()) {
+		this->additionalLightIds.erase(it);
+	}
 }
 
 void SceneGraph3D::update() {
@@ -67,23 +80,32 @@ void SceneGraph3D::update() {
 
 void SceneGraph3D::draw() {
 
-	GameObject* mainCamera = this->GetGameObjectById(this->mainCameraId);
-	if(mainCamera == nullptr) {
+	GameObject* mainCamera = nullptr;
+	if (this->mainCameraId != OBJECT_ID_INVALID) {
+		mainCamera = this->GetGameObjectById(this->mainCameraId);
+	}
+	if (mainCamera == nullptr) {
 		FRAMEWORK->GetLogger()->dbglog("Warning: There is no camera in the SceneGraph3D");
 		return;
 	}
-	GameObject* mainDirectionalLight = this->GetGameObjectById(this->mainDirectionalLightId);
-	if(mainDirectionalLight == nullptr) {
+	//
+	GameObject* mainDirectionalLight = nullptr;
+	if (this->mainDirectionalLightId != OBJECT_ID_INVALID) {
+		mainDirectionalLight = this->GetGameObjectById(this->mainDirectionalLightId);
+	}
+	if (mainDirectionalLight == nullptr) {
 		FRAMEWORK->GetLogger()->dbglog("Warning: There is no light in the SceneGraph3D");
 		return;
 	}
 
 	std::vector<DirectionalLight*> additionalLights_components;
 	for (ObjectIdType additionalLightId : this->additionalLightIds) {
-		GameObject* additionalLightObject = this->GetGameObjectById(additionalLightId);
-		if (additionalLightObject != nullptr) {
-			DirectionalLight* additionalLight_component = additionalLightObject->GetComponent<DirectionalLight>();
-			additionalLights_components.push_back(additionalLight_component);
+		if (additionalLightId != OBJECT_ID_INVALID) {
+			GameObject* additionalLightObject = this->GetGameObjectById(additionalLightId);
+			if (additionalLightObject != nullptr) {
+				DirectionalLight* additionalLight_component = additionalLightObject->GetComponent<DirectionalLight>();
+				additionalLights_components.push_back(additionalLight_component);
+			}
 		}
 	}
 

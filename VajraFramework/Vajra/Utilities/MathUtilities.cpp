@@ -1,4 +1,5 @@
 #include "Vajra/Engine/Core/Engine.h"
+#include "Vajra/Framework/Core/Framework.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/MathUtilities.h"
 #include "Vajra/Utilities/Utilities.h"
@@ -101,7 +102,8 @@ glm::vec3 QuaternionForwardVector(glm::quat q) {
 
 // Interpolation Functions:
 void lerp(float& destination, const float a, const float b, const float interp) {
-	destination = a * (1 - interp) + b * interp;
+	destination = a + (b - a) * interp;
+	clamp(destination, std::min(a, b), std::max(a, b));
 }
 
 void cubicerp(float& destination, const float a, const float b, float interp, const float totalTime) {
@@ -112,6 +114,7 @@ void cubicerp(float& destination, const float a, const float b, float interp, co
 		interp -= 2.0f;
 		destination = (b - a) / 2.0f * (interp * interp * interp + 2.0f) + a;
 	}
+	clamp(destination, std::min(a, b), std::max(a, b));
 }
 
 void cubicinverseerp(float& destination, const float a, const float b, float interp, const float totalTime) {
@@ -122,10 +125,12 @@ void cubicinverseerp(float& destination, const float a, const float b, float int
 	} else {
 		destination = (b - a) / 2.0f * interp * interp * interp + a;
 	}
+	clamp(destination, std::min(a, b), std::max(a, b));
 }
 
 void sineerp(float& destination, const float a, const float b, float interp, const float totalTime) {
 	destination = -(b - a) / 2.0f * (cos(PI * interp / totalTime) - 1.0f) + a;
+	clamp(destination, std::min(a, b), std::max(a, b));
 }
 
 void exponentialerp(float& destination, const float a, const float b, float interp, const float totalTime) {
@@ -137,6 +142,7 @@ void exponentialerp(float& destination, const float a, const float b, float inte
 	} else {
 		destination = (b - a) / 2.0f * (-pow(2, -10.0f * (interp - 1)) + 2) + a;
 	}
+	clamp(destination, std::min(a, b), std::max(a, b));
 }
 
 void overshooterp(float& destination, const float a, const float b, float interp, const float totalTime) {

@@ -42,6 +42,7 @@ public:
 
 	//[[PROPERTY]]//
 	virtual void SetResetTime(float t);
+	inline float GetResetTime() { return this->resetTime; }
 
 	// @Override
 	virtual void HandleMessage(MessageChunk messageChunk);
@@ -62,8 +63,10 @@ protected:
 
 	void setDecalType(std::string decalType_);
 
+	virtual void onSwitchCallback(float /*normalizedTime*/) {}
 	SwitchType type;
 
+	GameObject* gameObjectRef;
 private:
 	void init();
 	void destroy();
@@ -75,8 +78,6 @@ private:
 
 	std::string decalType;
 	GameObject* decalRef;
-
-	GameObject* gameObjectRef;
 
 	std::list<ObjectIdType> subscribers; // Objects in this list will receive messages when the switch changes state
 

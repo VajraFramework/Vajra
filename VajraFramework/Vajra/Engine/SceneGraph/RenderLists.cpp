@@ -50,6 +50,39 @@ RenderLists::~RenderLists() {
 }
 
 
+void RenderLists::UnbindAllBuffers() {
+	this->Begin();
+	while (this->PrepareCurrentRenderList()) {
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
+		// No normals, tangents, bitangents, or texture coordinates in depth pass:
+		if (!currentShaderSet->IsDepthPass()) {
+			if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_vNormal)) {
+				GLint handle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vNormal);
+				GLCALL(glDisableVertexAttribArray, handle);
+			}
+			if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_vTangent)) {
+				GLint handle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vTangent);
+				GLCALL(glDisableVertexAttribArray, handle);
+			}
+			if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_vBitangent)) {
+				GLint handle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_vBitangent);
+				GLCALL(glDisableVertexAttribArray, handle);
+			}
+			if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in)) {
+				GLint handle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_uvCoords_in);
+				GLCALL(glDisableVertexAttribArray, handle);
+			}
+		}
+
+		this->Next();
+	}
+}
+
+
 void RenderLists::Draw(Camera* camera, bool isDepthPass, DistanceFromCameraCompareType compareType) {
 	std::vector<DirectionalLight*> emptyVector;
 	this->Draw(camera, nullptr, emptyVector, isDepthPass, compareType);
@@ -276,3 +309,4 @@ void RenderLists::createStaticRenderBatches() {
 	}
 #endif
 }
+

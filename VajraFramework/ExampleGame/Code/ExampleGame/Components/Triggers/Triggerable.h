@@ -53,6 +53,8 @@ public:
 	std::string GetDecalType() { return this->decalType; }
 
 protected:
+	virtual void start();
+
 	virtual void onSwitchToggled(bool /*switchState*/) { }
 	virtual void onSwitchActivated() { }
 	virtual void onSwitchDeactivated() { }

@@ -177,6 +177,9 @@ void DirectionalLight::init() {
 void DirectionalLight::destroy() {
 	if (this->lightType == ADDITIONAL_LIGHT_STRING) {
 		g_numAdditionalLights--;
+		ENGINE->GetSceneGraph3D()->RemoveAdditionalLightId(this->GetObject()->GetId());
+	} else {
+		ENGINE->GetSceneGraph3D()->UnsetMainDirectionalLightId();
 	}
 
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());

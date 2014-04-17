@@ -42,7 +42,7 @@ SwitchType ConvertStringToSwitchType(std::string str) {
 
 ComponentIdType BaseSwitch::componentTypeId = COMPONENT_TYPE_ID_BASE_SWITCH;
 
-void baseSwitchNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* userParams) {
+void baseSwitchNumberTweenCallback(float /* fromNumber */, float toNumber, float currentNumber, std::string /*tweenClipName*/, MessageData1S1I1F* userParams) {
 	GameObject* caller = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
 
 	// Make sure the switch is still around
@@ -50,7 +50,10 @@ void baseSwitchNumberTweenCallback(float /* fromNumber */, float /* toNumber */,
 		BaseSwitch* switchComp = caller->GetComponent<BaseSwitch>();
 		ASSERT(switchComp != nullptr, "baseSwitchNumberTweenCallback: Object %d has BaseSwitch component", userParams->i);
 		if (switchComp != nullptr) {
-			switchComp->setActiveState(userParams->f > 0.0f);
+			switchComp->onSwitchCallback(currentNumber);
+			if(toNumber == currentNumber) {
+				switchComp->setActiveState(userParams->f > 0.0f);
+			}
 		}
 	}
 }
@@ -141,11 +144,32 @@ void BaseSwitch::setConditionState(bool state) {
 				userParams = new MessageData1S1I1F();
 				userParams->i = this->GetObject()->GetId();
 				userParams->f = 1.0f;
-				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, this->resetTime, INTERPOLATION_TYPE_LINEAR, false, false, false, tweenName, NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, baseSwitchNumberTweenCallback);
+				float startVal = 0;
+				float tweenTime = this->resetTime;
+				OnGoingNumberTweenDetails* tweenDetail = ENGINE->GetTween()->GetOnGoingNumberTweenDetails(tweenName);
+				if(tweenDetail != nullptr) {
+					float curTime = tweenDetail->currentTime;
+					tweenTime -= curTime;
+					startVal = 1.0f - curTime / this->resetTime;
+				}
+				ENGINE->GetTween()->TweenToNumber(startVal, 1.0f, tweenTime, INTERPOLATION_TYPE_LINEAR, true, false, true, tweenName, NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, baseSwitchNumberTweenCallback);
 			}
 			else if (!state) {
-				this->setActiveState(false);
-				ENGINE->GetTween()->CancelNumberTween(tweenName);
+				userParams = new MessageData1S1I1F();
+				userParams->i = this->GetObject()->GetId();
+				userParams->f = 0.0f;
+				float startVal = 1.0f;
+				float tweenTime = this->resetTime;
+				
+				OnGoingNumberTweenDetails* tweenDetail = ENGINE->GetTween()->GetOnGoingNumberTweenDetails(tweenName);
+				
+				if(tweenDetail != nullptr) {
+					float curTime = tweenDetail->currentTime;
+					tweenTime = curTime;
+					startVal = curTime / this->resetTime;
+				}
+				ENGINE->GetTween()->TweenToNumber(startVal, 0.0f, tweenTime, INTERPOLATION_TYPE_LINEAR, true, false, true, tweenName, NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, baseSwitchNumberTweenCallback);
+			
 			}
 			break;
 

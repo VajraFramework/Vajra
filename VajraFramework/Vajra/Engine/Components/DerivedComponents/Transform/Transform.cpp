@@ -263,7 +263,7 @@ void Transform::updateModelMatrix() {
 
 void Transform::updateModelMatrixCumulative() {
 	GameObject* parent = nullptr;
-	if (this->GetObject() != nullptr) {
+	if (this->GetObject() != nullptr && this->GetObject()->GetParentId() != OBJECT_ID_INVALID) {
 		parent = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->GetObject()->GetParentId());
 	}
 	if (parent != nullptr) {
