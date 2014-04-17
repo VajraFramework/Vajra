@@ -100,7 +100,7 @@ void AudioListener::SetAsActiveListener() {
 void AudioListener::init() {
 	this->is3D = false;
 	this->velocity = ZERO_VEC3;
-	this->volume = 1.0f;
+	this->volume = 0.0f;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_TRANSFORM_CHANGED_EVENT, this->GetTypeId(), true);
 }
