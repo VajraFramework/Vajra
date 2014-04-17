@@ -110,6 +110,11 @@ void PlayerUnit::createTouchIndicator() {
 		std::vector<std::string> pathsToTextures;
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_UIEffect_SelectionSpiral_01.png");
 		spriteRenderer->initPlane(1.0f, 1.0f, "sptshdr", pathsToTextures, PlaneOrigin::Center);
+		if(this->unitType == UnitType::UNIT_TYPE_ASSASSIN) {
+			spriteRenderer->setDiffuseColor(ASSASIN_UI_COLOR);
+		} else if(this->unitType == UnitType::UNIT_TYPE_THIEF) {
+			spriteRenderer->setDiffuseColor(THIEF_UI_COLOR);
+		}
 		this->selectionIndicatorRef->SetVisible(false);
 		this->gameObjectRef->AddChild_maintainTransform(this->selectionIndicatorRef->GetId());
 		this->selectionIndicatorRef->GetTransform()->Rotate(-90.0f inRadians, XAXIS);
