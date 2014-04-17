@@ -56,6 +56,7 @@ Assassin::~Assassin() {
 }
 
 void Assassin::init() {
+	this->colorScheme.uiColor = glm::vec4(0.65234375f, 0.1171875f, 0.140625f, 1.0f);
 	this->unitType = UnitType::UNIT_TYPE_ASSASSIN;
 	this->createTouchIndicator();
 	this->lastPosition = this->gameObjectRef->GetTransform()->GetPositionWorld();
