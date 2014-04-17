@@ -35,6 +35,21 @@ void UiSpriteObject::InitSprite(unsigned int width, unsigned int height, std::st
 	this->setHeight(height);
 }
 
+void UiSpriteObject::SetSpriteColor(glm::vec4 color) {
+	SpriteRenderer* spriteRenderer = this->GetSpriteRenderer();
+	if (spriteRenderer != nullptr) {
+		spriteRenderer->setDiffuseColor(color);
+	}
+}
+
+glm::vec4 UiSpriteObject::GetSpriteColor() {
+	SpriteRenderer* spriteRenderer = this->GetSpriteRenderer();
+	if (spriteRenderer != nullptr) {
+		return spriteRenderer->GetDiffuseColor();
+	}
+	return glm::vec4(0);
+}
+
 void UiSpriteObject::init() {
 }
 

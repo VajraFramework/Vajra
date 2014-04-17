@@ -9,8 +9,8 @@
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Utilities/StringUtilities.h"
 
-#define START_ALPHA 0.5f
-#define END_ALPHA 0.9f
+#define START_ALPHA 0.4f
+#define END_ALPHA 1.0f
 
 // Tween callbacks
 void goalZoneSwitchNumberTweenCallback(float fromNumber, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams){
@@ -31,7 +31,7 @@ GoalZoneSwitch::~GoalZoneSwitch() {
 
 void GoalZoneSwitch::init() {
 	this->type = SWITCH_TYPE_WARMUP;
-	this->SetResetTime(1.5f);
+	this->SetResetTime(0.5f);
 	
 	
 	GridZone* gz = this->gameObjectRef->GetComponent<GridZone>();

@@ -23,8 +23,22 @@ ComponentIdType MenuManager::componentTypeId = COMPONENT_TYPE_ID_LEVEL_MANAGER;
 
 #define MIN_LOAD_TIME 0.3f
 #define BACKDROP "popUpBack"
-void menuManagerNumberTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* /*userParams*/) {
-	SINGLETONS->GetMenuManager()->hideLoadScreen();
+void menuManagerNumberTweenCallback(float /* fromNumber */, float toNumber , float currentNumber, std::string tweenClipName, MessageData1S1I1F* /*userParams*/) {
+	if(tweenClipName == "extraLoadTime") {
+		SINGLETONS->GetMenuManager()->hideLoadScreen();
+	} else if(tweenClipName == "backDropFade") {
+		glm::vec4 backdropColor = SINGLETONS->GetMenuManager()->backdrop->GetSpriteColor();
+		backdropColor.a = currentNumber;
+		SINGLETONS->GetMenuManager()->backdrop->SetSpriteColor(backdropColor);
+		if(currentNumber == 0 && toNumber == 0) {
+			SINGLETONS->GetMenuManager()->backdrop->SetVisible(false);
+		}
+	} else if (tweenClipName == "delayPreMenuOpen") {
+		UiObject* preMenuScreen = (UiObject*)ObjectRegistry::GetObjectByName("preMenu");
+		VERIFY(preMenuScreen != nullptr, "preMenuScreen to show is not null");
+		preMenuScreen->SetVisible(true);
+		SINGLETONS->GetMenuManager()->TweenInUiObject(preMenuScreen);
+	}
 
 }
 MenuManager::MenuManager() : Component() {
@@ -102,6 +116,9 @@ void MenuManager::LoadGameMenu(std::string screenToShow /*= "inGame"*/) {
 	UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), this->gameUiTouchHandler);
 
 	this->backdrop = (UiElement*)ObjectRegistry::GetObjectByName(BACKDROP);
+	glm::vec4 backdropColor = this->backdrop->GetSpriteColor();
+	backdropColor.a = 0;
+	this->backdrop->SetSpriteColor(backdropColor);
 	this->backdrop->SetVisible(false);
 	UiElement* screen = (UiElement*)ObjectRegistry::GetObjectByName(screenToShow);
 	VERIFY(screen != nullptr, "screen to show is not null");
@@ -136,8 +153,9 @@ void MenuManager::TweenOutUiObject(UiObject* element) {
 		glm::vec3 screenCenter = glm::vec3(halfScreenWidth - halfWidth, -halfScreenHeight + halfHeight, 0.0f);
 		glm::vec3 offScreen = glm::vec3(halfScreenWidth - halfWidth, -1.0f * FRAMEWORK->GetDeviceProperties()->GetHeightPixels(), 0.0f);
 
-		this->backdrop->SetVisible(false);
-
+		this->backdrop->SetVisible(true);
+		ENGINE->GetTween()->TweenToNumber(0.7f, 0.0f, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "backDropFade", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
+		
 		screenCenter.z = element->GetZOrder();
 		offScreen.z = element->GetZOrder();
 
@@ -163,7 +181,10 @@ void MenuManager::TweenInUiObject(UiObject* element) {
 		glm::vec3 screenCenter = glm::vec3(halfScreenWidth - halfWidth, -halfScreenHeight + halfHeight, 0.0f);
 		glm::vec3 offScreen = glm::vec3(halfScreenWidth - halfWidth, -768.0f, 0.0f);
 
-		this->backdrop->SetVisible(true);
+
+		SINGLETONS->GetMenuManager()->backdrop->SetVisible(true);
+		ENGINE->GetTween()->TweenToNumber(0.0f, 0.7f, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "backDropFade", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
+				
 		
 		screenCenter.z = element->GetZOrder();
 		offScreen.z = element->GetZOrder();
@@ -207,9 +228,6 @@ void MenuManager::hideLoadScreen() {
 	}
 	ENGINE->GetSceneGraph3D()->Resume();
 	if(this->gameUiTouchHandler != nullptr) {
-		UiObject* preMenuScreen = (UiObject*)ObjectRegistry::GetObjectByName("preMenu");
-		VERIFY(preMenuScreen != nullptr, "preMenuScreen to show is not null");
-		preMenuScreen->SetVisible(true);
-		this->TweenInUiObject(preMenuScreen);
+		ENGINE->GetTween()->TweenToNumber(0.0f, 0.1f, .2f, INTERPOLATION_TYPE_LINEAR, true, false, true, "delayPreMenuOpen", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
 	}
 }
