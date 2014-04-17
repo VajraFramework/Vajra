@@ -35,6 +35,7 @@ public:
 	// @Override
 	virtual void Draw();
 
+	inline void setDiffuseColor (glm::vec4 color) { this->diffuseColor  = color; }
 	inline glm::vec4 GetDiffuseColor () { return this->diffuseColor;  }
 
 	inline unsigned int GetCurrentTextureIndex() { return this->currentTextureIndex; }
@@ -47,8 +48,6 @@ public:
 private:
 	void init();
 	void destroy();
-
-	inline void setDiffuseColor (glm::vec4 color) { this->diffuseColor  = color; }
 
 	// Utility Functions:
 	void initVbos();

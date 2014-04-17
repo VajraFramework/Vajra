@@ -40,6 +40,8 @@ public:
 	virtual void cancelSpecial();
 	void onSelectedTouch();
 protected:
+	virtual void start();
+
 	GameObject* touchIndicatorRef;
 	GameObject* selectionIndicatorRef;
 	

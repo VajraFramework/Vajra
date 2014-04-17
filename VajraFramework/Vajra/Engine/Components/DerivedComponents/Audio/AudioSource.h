@@ -9,10 +9,13 @@
 #ifndef AUDIOSOURCE_H
 #define AUDIOSOURCE_H
 
-#include <string>
-
 #include "Vajra/Common/Components/Component.h"
+#include "Vajra/Engine/AssetLibrary/Assets/AudioAssets/AudioAsset.h"
 #include "Vajra/Engine/AudioManager/AudioPlayer.h"
+
+#include <map>
+#include <memory>
+#include <string>
 
 //[[COMPONENT]]//
 class AudioSource : public Component {
@@ -20,7 +23,6 @@ public:
 	// Constructors
 	AudioSource();
 	AudioSource(Object* object_);
-	//AudioSource(const char* audioClip);
 	
 	// Destructor
 	~AudioSource();
@@ -31,22 +33,32 @@ public:
 	virtual void HandleMessage(MessageChunk messageChunk);
 	
 	// Accessors
-	float GetVolume();
-	float GetPlaybackSpeed();
-	AudioAsset* GetAudioClip();
+	inline float GetVolume()                           { return this->player->GetVolume();        }
+	inline float GetPlaybackSpeed()                    { return this->player->GetPlaybackSpeed(); }
+	inline std::shared_ptr<AudioAsset>& GetAudioClip() { return this->player->GetAudioClip();     }
+	inline bool IsPlaying()                            { return this->player->IsPlaying();        }
+	inline bool IsPaused()                             { return this->player->IsPaused();         }
+	inline bool IsStopped()                            { return this->player->IsStopped();        }
 	
 	// Mutators
 	//[[PROPERTY]]//
-	void SetAudioClip(std::string assetName);
+	void LoadAudioClip(std::string key, std::string assetName);
 	//[[PROPERTY]]//
-	void SetVolume(float volume);
+	void SetAudioClip(std::string key);
+	//[[PROPERTY]]//
+	void SetVolume(float vol);
 	//[[PROPERTY]]//
 	void SetPlaybackSpeed(float speed);
 	//[[PROPERTY]]//
 	void SetLooping(bool loop);
+	//[[PROPERTY]]//
+	void SetSourceIs3D(bool is3D);
+	//[[PROPERTY]]//
+	void SetPlayOnlyWhenVisible(bool vis);
 
 	// Other methods
 	void Play();
+	void Play(std::string key, bool loop = false);
 	void Pause();
 	void Stop();
 	void Stop(float fadeout);
@@ -55,8 +67,16 @@ private:
 	void init();
 	void destroy();
 	
+	void onCameraChanged();
+	void onTransformChanged();
+	void checkVisibility();
+
+	std::map<std::string, std::shared_ptr<AudioAsset>> loadedAssets;
+
 	AudioPlayer* player;
 	
+	bool playOnlyWhenVisible;
+	bool isVisible;
 	bool positionalAudio;
 	float volume;
 	float playbackSpeed;

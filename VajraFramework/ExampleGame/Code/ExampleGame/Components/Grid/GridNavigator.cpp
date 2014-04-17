@@ -15,6 +15,7 @@
 
 #include "Vajra/Common/Messages/Declarations.h"
 #include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -632,6 +633,11 @@ void GridNavigator::SetIsTraveling(bool isTraveling_) {
 		this->isTraveling = isTraveling_;
 
 		if (!isTraveling_) {
+			AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+			if (audioSource != nullptr) {
+				audioSource->Stop();
+			}
+
 			// Send an event message to the unit
 			ObjectIdType myId = this->GetObject()->GetId();
 			Transform* trans = this->gameObjectRef->GetTransform();
@@ -639,6 +645,12 @@ void GridNavigator::SetIsTraveling(bool isTraveling_) {
 			reachedDestinationMessage->SetMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION);
 			reachedDestinationMessage->messageData.fv1 = trans->GetPositionWorld();
 			ENGINE->GetMessageHub()->SendPointcastMessage(reachedDestinationMessage, myId, myId);
+		}
+		else {
+			AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+			if (audioSource != nullptr) {
+				audioSource->Play("walk", true);
+			}
 		}
 	}
 }

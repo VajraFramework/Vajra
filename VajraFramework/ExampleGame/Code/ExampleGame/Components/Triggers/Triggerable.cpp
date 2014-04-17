@@ -8,6 +8,7 @@
 #include "ExampleGame/Components/Switches/BaseSwitch.h"
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 
@@ -48,6 +49,10 @@ void Triggerable::init() {
 void Triggerable::destroy() {
 	this->UnsubscribeToAllSwitches();
 	this->removeSubscriptionToAllMessageTypes(this->GetTypeId());
+}
+
+void Triggerable::start() {
+
 }
 
 void Triggerable::SetTriggerType(std::string typeStr) {
@@ -226,10 +231,20 @@ void Triggerable::compareCounts(int prevActive, int prevSwitches, int currActive
 
 void Triggerable::toggleState() {
 	if (this->isToggled) {
+		AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+		if (audioSource != nullptr) {
+			audioSource->Play("triggerOff");
+		}
+
 		this->onSwitchToggled(false);
 		this->onSwitchDeactivated();
 	}
 	else {
+		AudioSource* audioSource = this->GetObject()->GetComponent<AudioSource>();
+		if (audioSource != nullptr) {
+			audioSource->Play("triggerOn");
+		}
+
 		this->onSwitchToggled(true);
 		this->onSwitchActivated();
 	}

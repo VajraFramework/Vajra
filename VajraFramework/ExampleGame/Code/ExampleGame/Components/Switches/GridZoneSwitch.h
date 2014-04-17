@@ -39,12 +39,12 @@ protected:
 
 	virtual bool doesObjectCountAsOccupant(ObjectIdType id);  // This method can be used to filter out specific objects
 
+	virtual void onUnitEnteredZone(ObjectIdType id);
+	virtual void onUnitExitedZone(ObjectIdType id);
 private:
 	void init();
 	void destroy();
 
-	void onUnitEnteredZone(ObjectIdType id);
-	void onUnitExitedZone(ObjectIdType id);
 
 	unsigned int requiredOccupants;
 	bool activateWhenUnitsInZone;
