@@ -540,7 +540,7 @@ bool OnGoingNumberTweenDetails::StepTween(float deltaTime) {
 
 	switch (this->interpolationType) {
 	case INTERPOLATION_TYPE_LINEAR:
-		lerp(newNumber, this->fromNumber, this->toNumber, this->currentTime); break;
+		lerp(newNumber, this->fromNumber, this->toNumber, this->currentTime / this->totalTime); break;
 	case INTERPOLATION_TYPE_CUBIC:
 		cubicerp(newNumber, this->fromNumber, this->toNumber, this->currentTime, this->totalTime); break;
 	case INTERPOLATION_TYPE_CUBIC_INVERSE:
@@ -561,7 +561,7 @@ bool OnGoingNumberTweenDetails::StepTween(float deltaTime) {
 	bool tweenGotOver = (this->currentTime >= this->totalTime);
 	if (tweenGotOver || this->continuousUpdates) {
 		ASSERT(this->callback != 0, "Callback not 0");
-		clamp(newNumber, this->fromNumber, this->toNumber);
+		clamp(newNumber, std::min(this->fromNumber, this->toNumber), std::max(this->fromNumber, this->toNumber));
 		if (tweenGotOver) { newNumber = this->toNumber; }
 		this->callback(this->fromNumber, this->toNumber, newNumber, this->tweenName, this->userParams);
 	}

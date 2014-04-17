@@ -33,6 +33,7 @@
 #include "ExampleGame/Components/LevelManager/MasteryManager.h"
 #include "ExampleGame/Components/ShadyCamera/ShadyCamera.h"
 #include "ExampleGame/Components/Switches/BaseSwitch.h"
+#include "ExampleGame/Components/Switches/GoalZoneSwitch.h"
 #include "ExampleGame/Components/Switches/GridZoneSwitch.h"
 #include "ExampleGame/Components/Switches/MultiplexSwitch.h"
 #include "ExampleGame/Components/Switches/UnitDeathSwitch.h"
@@ -239,6 +240,12 @@ Component* ComponentMapper::AddNewComponentToGameObjectByComponentName(GameObjec
 	if (componentName == "BaseSwitch") {
 		BaseSwitch* component = gameObject->GetComponent<BaseSwitch>();
 		if (component == nullptr) { component = gameObject->AddComponent<BaseSwitch>(); }
+		return component;
+	}
+	
+	if (componentName == "GoalZoneSwitch") {
+		GoalZoneSwitch* component = gameObject->GetComponent<GoalZoneSwitch>();
+		if (component == nullptr) { component = gameObject->AddComponent<GoalZoneSwitch>(); }
 		return component;
 	}
 	
@@ -873,6 +880,17 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 		if (propertyName == "SetDecalType") {
 			if ((int)argv.size() < 1) { return; }
 			component->SetDecalType(ConvertStringToString(argv[0]));
+			return;
+		}
+		return;
+	}
+	
+	if (componentName == "GoalZoneSwitch") {
+		GoalZoneSwitch* component = gameObject->GetComponent<GoalZoneSwitch>();
+		if (component == nullptr) { return; }
+		if (propertyName == "SetRequiredUnitType") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetRequiredUnitType(ConvertStringToString(argv[0]));
 			return;
 		}
 		return;

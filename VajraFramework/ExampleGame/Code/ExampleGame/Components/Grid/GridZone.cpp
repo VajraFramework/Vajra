@@ -307,6 +307,13 @@ void GridZone::updateVisualizer() {
 	this->visualizerObjectRef->GetTransform()->SetOrientation(-90.0f inRadians, this->visualizerObjectRef->GetTransform()->GetLeft());
 }
 
+ObjectIdType GridZone::VisualzerSpriteRendererId(){
+	if(this->visualizerObjectRef != nullptr) {
+		return this->visualizerObjectRef->GetId();
+	}
+	return OBJECT_ID_INVALID;
+}
+
 void GridZone::init() {
 	this->gameObjectRef = (GameObject*)this->GetObject();
 	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
