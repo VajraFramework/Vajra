@@ -24,6 +24,12 @@ public:
 	inline void OnGuardAlert() { this->numAlerts++; }
 
 	inline void SetCurrentBonuse(LevelBonus bonus, int bonusValue) { this->currentBonus = bonus; this->bonusValue = bonusValue;}
+
+	inline int GetLevelTime() { return this->levelTime; }
+	inline int GetNumKills() { return this->numKills; }
+	inline int GetNumAlerts() { return this->levelTime; }
+	inline int GetMoney() { return this->money; }
+	
 private:
 	void init();
 	void destroy();
