@@ -190,9 +190,9 @@ void UiFontRenderer::makeText() {
 		}
 		this->vertices      = new glm::vec3[numVerticesNeeded];
 		this->textureCoords = new glm::vec2[numVerticesNeeded];
-		this->indices.resize(this->textToDisplay.size () * 6);
 	}
 	this->numVertices = numVerticesNeeded;
+	this->indices.resize(this->textToDisplay.size() * 6);
 
 	float woffset = 0.0f;
 
