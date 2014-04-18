@@ -10,19 +10,20 @@ UiFontObject::~UiFontObject() {
 	this->destroy();
 }
 
-void UiFontObject::InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile) {
+void UiFontObject::InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile, float fontSize, UiFontAlignment_type fontAlignment) {
 	UiFontRenderer* uiRenderer = this->GetComponent<UiFontRenderer>();
 	if(uiRenderer == nullptr) {
 		uiRenderer = this->AddComponent<UiFontRenderer>();
 	}
-	uiRenderer->initTextToDisplay(text, width, height, pathToFontSpecificationFile);
+	uiRenderer->initTextToDisplay(text, width, height, pathToFontSpecificationFile, fontSize, fontAlignment);
 	uiRenderer->SetHasTransperancy(true);
 	//
-	this->setWidth(width);
-	this->setHeight(height);
-	this->setText(text);
+	this->setWidth ((unsigned int)std::max((int)width,  (int)uiRenderer->GetWidth ()));
+	this->setHeight((unsigned int)std::max((int)height, (int)uiRenderer->GetHeight()));
+	this->textToDisplay = text;
 	//
 	this->pathToFontFile = pathToFontSpecificationFile;
+
 }
 
 void UiFontObject::SetFontColor(glm::vec4 color) {
