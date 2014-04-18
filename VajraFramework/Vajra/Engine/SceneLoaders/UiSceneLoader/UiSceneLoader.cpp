@@ -104,6 +104,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	int zorder;
 	std::string fontName;
 	float fontSize;
+	UiFontAlignment_type fontAlignment = UI_FONT_ALIGNMENT_left;
 	glm::vec4 fontColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	std::string textToDisplay;
 	std::vector<std::string> imageNames;
@@ -132,6 +133,12 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 			ASSERT(fontNode != nullptr, "Got valid xmlNode from text node for font");
 			fontName = fontNode->GetAttributeValueS(TYPE_ATTRIBUTE);
 			fontSize = fontNode->GetAttributeValueF(SIZE_TAG);
+			if (fontNode->HasAttribute(ALIGNMENT_ATTRIBUTE)) {
+				std::string fontAlignment_string = fontNode->GetAttributeValueS(ALIGNMENT_ATTRIBUTE);
+				if (fontAlignment_string == "LEFT")   { fontAlignment = UI_FONT_ALIGNMENT_left;   }
+				if (fontAlignment_string == "CENTER") { fontAlignment = UI_FONT_ALIGNMENT_center; }
+				if (fontAlignment_string == "RIGHT")  { fontAlignment = UI_FONT_ALIGNMENT_right;  }
+			}
 			XmlNode* fontColorNode = fontNode->GetFirstChildByNodeName(COLOR_TAG);
 			if (fontColorNode != nullptr) {
 				fontColor.r = fontColorNode->GetAttributeValueF(R_ATTRIBUTE);
@@ -192,8 +199,10 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 		}
 		//
 		if (textToDisplay != "") {
+			textToDisplay = StringUtilities::EraseStringFromString(textToDisplay, "\n", false);
+			textToDisplay = StringUtilities::EraseStringFromString(textToDisplay, "\t", false);
 			uiElement->InitTextToDisplay(textToDisplay.c_str(), widthPixels, heightPixels,
-										 FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesFolderName() + fontName, fontSize);
+										 FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesFolderName() + fontName, fontSize, fontAlignment);
 			uiElement->SetFontColor(fontColor);
 		}
 		//

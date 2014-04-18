@@ -14,13 +14,11 @@ private:
 	virtual ~UiFontObject();
 
 	// TODO [Cleanup] Make this private and friended to UiElement
-	void InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile);
+	void InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile, float fontSize, UiFontAlignment_type fontAlignment);
 	void SetFontColor(glm::vec4 color);
 
 	void init();
 	void destroy();
-
-	void setText(std::string text)     { this->textToDisplay = text;   }
 
 	std::string getPathToFontFile() { return this->pathToFontFile; }
 
