@@ -1,6 +1,7 @@
 #ifndef UI_FONTRENDERER_H
 #define UI_FONTRENDERER_H
 
+#include "Vajra/Engine/Ui/Definitions.h"
 #include "Vajra/Common/Components/Component.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/Renderer.h"
 
@@ -34,16 +35,21 @@ public:
 
 	inline void SetHasTransperancy(bool hasTransperancy_);
 
+	inline float GetWidth () { return this->actual_width; }
+	inline float GetHeight() { return this->actual_height; }
+
 private:
 	void init();
 	void destroy();
 
-	void initTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile);
+	void initTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile, float fontSize_, UiFontAlignment_type fontAlignment_ = UI_FONT_ALIGNMENT_left);
+	void changeText(std::string text);
+	//
 	inline void setDiffuseColor (glm::vec4 color) { this->diffuseColor  = color; }
 
 	// Utility Functions:
 	void makeText();
-	void makeACharacter(int charIdxInAscii, int letterIdx, float woffset);
+	float makeACharacter(int charIdxInAscii, int letterIdx, float woffset);
 	void initVbos();
 
 	std::string textToDisplay;
@@ -60,6 +66,18 @@ private:
 	glm::vec4 diffuseColor;
 
 	std::shared_ptr<UiFontType> fontType;
+
+	float actual_width;
+	float actual_height;
+	//
+	float required_width;
+	float required_height;
+	//
+	float unscaled_width;
+	float unscaled_height;
+
+	float fontSize;
+	UiFontAlignment_type fontAlignment;
 
 	// Friended to UiObject so as not to have to expose initPlane(), etc
 	friend class UiFontObject;

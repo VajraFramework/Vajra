@@ -22,6 +22,7 @@
 #define A_ATTRIBUTE  "a"
 #define X_WRTO_ATTRIBUTE  "xwrto"
 #define Y_WRTO_ATTRIBUTE  "ywrto"
+#define ALIGNMENT_ATTRIBUTE  "alignment"
 #define WIDTHPIXELS_ATTRIBUTE  "widthPixels"
 #define HEIGHTPIXELS_ATTRIBUTE "heightPixels"
 #define CLICKABLE_ATTRIBUTE "clickable"
