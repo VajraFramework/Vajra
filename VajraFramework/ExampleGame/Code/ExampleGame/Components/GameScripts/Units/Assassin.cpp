@@ -259,6 +259,7 @@ void Assassin::aimSpecial(int touchId){
 		glm::vec3 offset = this->GetOffsetFromCell(this->gridNavRef->GetCurrentCell(), .5f);
 
 		// touch indicator
+		this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 		this->SetTouchIndicatorVisible(true);
 		this->GridPlaneSetPos(this->touchIndicatorRef, this->targetLoc + this->GetOffsetFromCell(this->targetedCell));
 
