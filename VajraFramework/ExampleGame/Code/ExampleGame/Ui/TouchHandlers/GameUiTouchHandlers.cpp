@@ -194,6 +194,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		if(pauseMenu->IsVisible()) {
 			((UiElement*)uiObject)->SetSpriteTextureIndex(1);
 			ENGINE->GetSceneGraph3D()->Pause();
+			this->UpdateMenuWithMastery(PAUSE_MENU);
 		} else {
 			ENGINE->GetSceneGraph3D()->Resume();
 			((UiElement*)uiObject)->SetSpriteTextureIndex(0);
@@ -382,7 +383,7 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 		} else {
 			exitBtn->SetSpriteTextureIndex(1);
 		}
-	}
+	} 
 	this->dynamicTutorialElement->SetVisible(true);
 	tut->SetVisible(true);
 	// tween in the tutorial
@@ -414,10 +415,57 @@ void GameUiTouchHandlers::onLevelEnd(bool success) {
 	UiObject* postMenu;
 	if(success){
 		 postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_WIN_MENU]);
+		 UpdateMenuWithMastery(POST_GAME_WIN_MENU);
+
 	} else {
 		 postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_LOSE_MENU]);
 	}
 	postMenu->SetVisible(true);
 	SINGLETONS->GetMenuManager()->TweenInUiObject(postMenu);
 	this->tutorials.clear();
+}
+
+void GameUiTouchHandlers::UpdateMenuWithMastery(std::string menuName) {
+	std::string menuPrefix;
+	if(menuName == POST_GAME_WIN_MENU) {
+		menuPrefix = "postGame_";
+	} else if( menuName == PRE_GAME_MENU) {
+		menuPrefix = "preGame_";
+	} else if(menuName == PAUSE_MENU){
+		menuPrefix = "pause_";
+	} else {
+		ASSERT(false, "\n %s does not support the mastery system", menuName.c_str());
+		return;
+	}
+
+	UiElement* menuRoot = (UiElement*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[menuName]);
+	for(ObjectIdType id : menuRoot->GetChildren()) {
+		UiElement* child = (UiElement*)ENGINE->GetSceneGraphUi()->GetGameObjectById(id);
+		if(child->GetName() == menuPrefix + "bonus_value") {
+			child->ChangeText("Testeroini");
+		} else if (child->GetName() == menuPrefix + "bounty_value") {
+			child->ChangeText("Testeroini");
+		} else if (child->GetName() == menuPrefix + "take_value") {
+			child->ChangeText("Testeroini");
+		} else if (child->GetName() == menuPrefix + "bonus_completion") {
+			child->ChangeText("INCOMPLETE");
+		} else if (child->GetName() == menuPrefix + "time_value") {
+			child->ChangeText("2:35");
+		} else if (child->GetName() == menuPrefix + "time_total") {
+			child->ChangeText(":30 x 5 = -500");
+		} else if (child->GetName() == menuPrefix + "kill_value") {
+			child->ChangeText("4/7");
+		} else if (child->GetName() == menuPrefix + "kill_total") {
+			child->ChangeText("4 x 7 = -1400");
+		} else if (child->GetName() == menuPrefix + "alert_value") {
+			child->ChangeText("3");
+		} else if (child->GetName() == menuPrefix + "alert_total") {
+			child->ChangeText("3 x -50 = -150");
+		} else if (child->GetName() == menuPrefix + "loot_value") {
+			child->ChangeText("1500");
+		} else if (child->GetName() == menuPrefix + "loot_total") {
+			child->ChangeText("1500");
+		}
+	}
+
 }

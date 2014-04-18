@@ -26,11 +26,15 @@ public:
 
 	// @Override
 	virtual void HandleMessageCallback(MessageChunk messageChunk);
+
+	void UpdateMenuWithMastery(std::string menuName);
 private:
 	void returnToMissionSelect();
 
 	void setupTutorial(std::string levelName);
 	void tryTutorial(int index, MessageChunk messageChunk);
+
+
 	std::vector<TutorialData> tutorials;
 	bool isTutorialLevel;
 	void nextTutorialImage();
