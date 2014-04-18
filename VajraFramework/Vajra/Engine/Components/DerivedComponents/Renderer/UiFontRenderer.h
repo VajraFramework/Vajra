@@ -43,6 +43,8 @@ private:
 	void destroy();
 
 	void initTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile, float fontSize_, UiFontAlignment_type fontAlignment_ = UI_FONT_ALIGNMENT_left);
+	void changeText(std::string text);
+	//
 	inline void setDiffuseColor (glm::vec4 color) { this->diffuseColor  = color; }
 
 	// Utility Functions:
