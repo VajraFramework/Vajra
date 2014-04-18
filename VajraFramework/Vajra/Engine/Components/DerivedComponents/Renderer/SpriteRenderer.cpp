@@ -9,6 +9,10 @@
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 SpriteRenderer::SpriteRenderer() : Renderer() {
 	this->init();
 }
@@ -151,12 +155,19 @@ void SpriteRenderer::init() {
 
 	this->vertices = nullptr;
 	this->textureCoords = nullptr;
-	this->diffuseColor = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	this->diffuseColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	this->currentTextureIndex = 0;
 }
 
 void SpriteRenderer::destroy() {
+	// TODO [Hack] For some reason the simulator crashes in glDrawElements() when we do this
+#ifdef __APPLE__
+#if TARGET_IPHONE_SIMULATOR
+	return;
+#endif
+#endif
+	
 	if (this->vertices != nullptr) {
 		delete this->vertices;
 	}

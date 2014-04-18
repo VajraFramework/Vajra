@@ -5,6 +5,7 @@
 
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/GameScripts/Ai/AiPerception.h"
+#include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "Libraries/glm/gtx/vector_angle.hpp"
@@ -33,11 +34,14 @@ void AiPerception::Activate() {
 }
 
 void AiPerception::update() {
-	this->gatherInformation();
+	if (this->unit->GetUnitState() == UNIT_STATE_ALIVE) {
+		this->gatherInformation();
+	}
 }
 
 void AiPerception::init() {
 	this->knowledge     = nullptr;
+	this->unit          = nullptr;
 	this->visionRange   = 1.0f;
 	this->fieldOfVision = 45.0f inRadians;
 	this->visionAcuity  = 1.0f;
@@ -50,6 +54,8 @@ void AiPerception::destroy() {
 }
 
 void AiPerception::start() {
+	this->unit = this->GetObject()->GetComponent<BaseUnit>();
+
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
 

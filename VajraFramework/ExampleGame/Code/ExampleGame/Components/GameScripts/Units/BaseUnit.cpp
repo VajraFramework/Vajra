@@ -8,6 +8,7 @@
 #include "ExampleGame/Messages/Declarations.h"
 
 #include "Vajra/Common/Messages/Message.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -98,6 +99,8 @@ void BaseUnit::Kill() {
 
 	glm::vec3 pos = this->gameObjectRef->GetTransform()->GetPositionWorld();
 
+	SwitchActionState(UnitActionState::UNIT_ACTION_STATE_DEATH);
+
 	// broadcast a message about unit death
 	GridCell* currentCell = this->gridNavRef->GetCurrentCell();
 	MessageChunk unitKilledMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
@@ -106,4 +109,11 @@ void BaseUnit::Kill() {
 	unitKilledMessage->messageData.iv1.y = SINGLETONS->GetGridManager()->GetGrid()->GetElevationFromWorldY(pos.y);
 	unitKilledMessage->messageData.iv1.z = currentCell->z;
 	ENGINE->GetMessageHub()->SendMulticastMessage(unitKilledMessage, this->GetObject()->GetId());
+
+	AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+	if (audioSource != nullptr) {
+		// If there's no death sound, just stop whatever is currently playing.
+		audioSource->Stop();
+		audioSource->Play("death");
+	}
 }

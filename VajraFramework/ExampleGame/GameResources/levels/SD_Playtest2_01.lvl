@@ -1,4 +1,4 @@
-<level levelName="SD_Playtest2_01">
+<level levelName="SD_Playtest2_01" bgm="lowAlert(hisfixed).wav">
   <grid>
       <cellData width="48" height="40">
 			<cellElevations>
@@ -644,7 +644,7 @@
               </property>
           </component>
       </dynamicObject>
-      <dynamicObject id="214772" prefab="GoalZone_Assassin" x="38" y="0" z="29" rotation="180">
+      <dynamicObject id="214772" prefab="GoalZone_Assassin" x="17" y="0" z="15" rotation="180">
           <component name="GridZone">
               <property name="SetZoneBounds">
                   <field>-1</field>

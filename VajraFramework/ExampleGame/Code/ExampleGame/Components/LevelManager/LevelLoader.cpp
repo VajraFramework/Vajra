@@ -20,8 +20,11 @@
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "ExampleGame/Ui/MenuManager/MenuDefinitions.h"
 #include "ExampleGame/Ui/MenuManager/MenuManager.h"
 
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioListener.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Lights/DirectionalLight/DirectionalLight.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -77,6 +80,12 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	XmlNode* levelNode = xmlTree->GetRootNode();
 	ASSERT(levelNode != nullptr && levelNode->GetName() == LEVEL_TAG, "Got valid level node from xml tree for level file %s", levelFilename.c_str());
 	
+	std::string bgm = levelNode->GetAttributeValueS(BGM_ATTRIBUTE);
+	if (bgm != "") {
+		AudioSource* bgmSource = SINGLETONS->GetMenuManager()->GetBGMSource();
+		bgmSource->LoadAudioClip(LEVEL_BGM, "audio/" + bgm);
+	}
+
 	XmlNode* gridNode = levelNode->GetFirstChildByNodeName(GRID_TAG);
 	VERIFY(gridNode != nullptr, "Level definition contains <%s> node", GRID_TAG);
 	SINGLETONS->GetGridManager()->loadGridDataFromXml(gridNode);
@@ -126,6 +135,8 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	}
 
 	delete parser;
+
+	SINGLETONS->GetMenuManager()->PlayBGM(LEVEL_BGM);
 
 	idsFromXml.clear();
 	
@@ -382,6 +393,8 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	ShadyCamera* cameraComponent = camera->AddComponent<ShadyCamera>();
 	ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
 	SINGLETONS->GetGridManager()->SetShadyCamera(cameraComponent);
+	AudioListener* listener = camera->AddComponent<AudioListener>();
+	listener->SetAsActiveListener();
 	// Find the unit that the camera should focus on
 	UnitType uType = StringToUnitType(unitNameStr);
 	ObjectIdType id = SINGLETONS->GetGridManager()->GetPlayerUnitIdOfType(uType);

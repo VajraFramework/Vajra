@@ -29,6 +29,9 @@ public:
 	void InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile, float fontSize, UiFontAlignment_type fontAlignment);
 	void SetFontColor(glm::vec4 color);
 
+	void SetSpriteColor(glm::vec4 color);
+	glm::vec4 GetSpriteColor();
+
 	std::string GetPathToFontFile();
 
 private:

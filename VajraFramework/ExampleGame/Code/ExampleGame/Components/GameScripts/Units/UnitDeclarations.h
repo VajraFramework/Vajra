@@ -46,6 +46,7 @@ enum UnitActionState {
 	UNIT_ACTION_STATE_POST_SPECIAL,
 	UNIT_ACTION_STATE_PRE_BLOCK,
 	UNIT_ACTION_STATE_BLOCK_IDLE,
+	UNIT_ACTION_STATE_DEATH,
 };
 
 enum EnemyBrainState {
@@ -61,5 +62,8 @@ struct UnitColorScheme {
 };
 
 UnitType ConvertStringToUnitType(std::string typeStr);
+
+#define ASSASIN_UI_COLOR glm::vec4(0.65234375f, 0.1171875f, 0.140625f, 1.0f)
+#define THIEF_UI_COLOR glm::vec4(0.8828125f, 0.828125f, 0.11328125f, 1.0f)
 
 #endif // UNIT_DECLARATIONS_H

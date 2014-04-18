@@ -32,6 +32,11 @@
 				<field>1.5f</field>
 				<field>false</field>
 			</property>
+			<property name="AddAnimationClip">
+				<field>animations/SD_Assassin_mesh.skeletalanimation#death</field>
+				<field>0.25f</field>
+				<field>false</field>
+			</property>
 			<property name="PlayAnimationClip">
 				<field>idle</field>
 			</property>
@@ -40,6 +45,23 @@
 		<component name="Transform">
 			<property name="Scale">
 				<field>0.07</field>
+			</property>
+		</component>
+		
+		<component name="AudioSource">
+			<property name="SetSourceIs3D">
+				<field>false</field>
+			</property>
+			<property name="SetPlayOnlyWhenVisible">
+				<field>true</field>
+			</property>
+			<property name="LoadAudioClip">
+				<field>specialStart</field>
+				<field>audio/SD_SFX_AssassinAttack_01.wav</field>
+			</property>
+			<property name="LoadAudioClip">
+				<field>walk</field>
+				<field>audio/SD_SFX_Footstep_01.wav</field>
 			</property>
 		</component>
 		

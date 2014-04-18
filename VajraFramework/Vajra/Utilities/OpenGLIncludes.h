@@ -18,4 +18,8 @@
 #include <OpenGLES/ES2/glext.h>
 #endif // PLATFORM_IOS
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 #endif // OPENGL_INCLUDES_H

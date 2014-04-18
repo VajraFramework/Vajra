@@ -10,6 +10,10 @@
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 UiFontRenderer::UiFontRenderer() : Renderer() {
 	this->init();
 }
@@ -140,6 +144,12 @@ void UiFontRenderer::init() {
 }
 
 void UiFontRenderer::destroy() {
+	// TODO [Hack] For some reason the simulator crashes in glDrawElements() when we do this
+#ifdef __APPLE__
+#if TARGET_IPHONE_SIMULATOR
+	return;
+#endif
+#endif
 	if (this->vertices != nullptr) {
 		delete this->vertices;
 	}

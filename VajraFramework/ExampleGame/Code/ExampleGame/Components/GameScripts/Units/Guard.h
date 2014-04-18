@@ -29,8 +29,6 @@ public:
 protected:
 	virtual void start();
 
-	virtual void determineBrainState();
-
 	virtual void cautiousUpdate();
 	virtual void aggressiveUpdate();
 

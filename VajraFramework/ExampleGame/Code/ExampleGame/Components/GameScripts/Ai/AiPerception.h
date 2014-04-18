@@ -9,6 +9,8 @@
 #include "ExampleGame/Components/GameScripts/Ai/AiKnowledge.h"
 #include "Vajra/Common/Components/Component.h"
 
+class BaseUnit;
+
 //[[COMPONENT]]//
 class AiPerception : public Component {
 public:
@@ -45,6 +47,7 @@ private:
 	float calculateAudioAwareness(ObjectIdType objId);
 
 	AiKnowledge* knowledge;
+	BaseUnit* unit;
 
 	float visionRange;    // Maximum distance the AI can see
 	float fieldOfVision;  // Angular range of the AI's vision

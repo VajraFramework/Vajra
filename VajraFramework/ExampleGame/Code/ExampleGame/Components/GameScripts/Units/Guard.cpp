@@ -10,6 +10,7 @@
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Libraries/glm/gtx/vector_angle.hpp"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -124,19 +125,6 @@ void Guard::start() {
 	}
 }
 
-void Guard::determineBrainState() {
-	if (this->brainState == ENEMY_BRAIN_CALM) {
-		if (this->knownPlayers.size() > 0) {
-			this->setBrainState(ENEMY_BRAIN_CAUTIOUS);
-		}
-	}
-	else if (this->brainState == ENEMY_BRAIN_CAUTIOUS) {
-		if (this->cooldownTimer <= 0.0f) {
-			this->setBrainState(ENEMY_BRAIN_CALM);
-		}
-	}
-}
-
 void Guard::onBrainBecameCalm() {
 	EnemyUnit::onBrainBecameCalm();
 	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
@@ -191,8 +179,10 @@ void Guard::cautiousUpdate() {
 
 		// Attack the target if it's in range or it's doing a special.
 		BaseUnit* targetUnit = targetObj->GetComponent<BaseUnit>();
-		if (((minDistance <= ATTACK_RANGE) && (this->GetUnitActionState() == UNIT_ACTION_STATE_BLOCK_IDLE))
-				|| (targetUnit->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL)) {
+		if ((((minDistance <= ATTACK_RANGE) && (this->GetUnitActionState() == UNIT_ACTION_STATE_BLOCK_IDLE))
+			|| (targetUnit->GetUnitActionState() == UNIT_ACTION_STATE_DOING_SPECIAL))
+			&& (targetUnit->GetUnitState() == UnitState::UNIT_STATE_ALIVE))
+		{
 			this->setBrainState(ENEMY_BRAIN_AGGRESSIVE);
 		}
 	}
@@ -256,6 +246,11 @@ void Guard::performAttack() {
 				attackMessage->messageData.iv1.z = cell->z;
 				attackMessage->messageData.fv1 = this->gameObjectRef->GetTransform()->GetPositionWorld();
 				ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
+
+				AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+				if (audioSource != nullptr) {
+					audioSource->Play("specialStart");
+				}
 			}
 		}
 	}

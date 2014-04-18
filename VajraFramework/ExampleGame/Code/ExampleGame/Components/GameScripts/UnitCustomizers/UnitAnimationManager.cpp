@@ -3,14 +3,29 @@
 #include "ExampleGame/Components/GameScripts/UnitCustomizers/UnitAnimationManager.h"
 #include "ExampleGame/Components/GameScripts/Units/BaseUnit.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
 #include "Vajra/Common/Messages/Message.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/BakedSkeletalAnimation/BakedSkeletalAnimation.h"
 #include "Vajra/Engine/Components/DerivedComponents/Animation/RigidAnimation/RigidAnimation.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/GameObject/GameObject.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/Tween/Tween.h"
+#include "Vajra/Utilities/StringUtilities.h"
+
+#define DEATH_FADEOUT_TIME 1.0f
 
 ComponentIdType UnitAnimationManager::componentTypeId = COMPONENT_TYPE_ID_UNIT_ANIMATION_MANAGER;
+
+void deathFadeTweenCallback(float /* fromNumber */, float /* toNumber */, float /*currentNumber*/, std::string /*tweenClipName*/, MessageData1S1I1F* userParams) {
+	GameObject* caller = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
+
+	// Make sure the object is still around
+	if (caller != nullptr) {
+		caller->SetVisible(false);
+	}
+}
 
 UnitAnimationManager::UnitAnimationManager() : Component() {
 	this->init();
@@ -43,11 +58,23 @@ void UnitAnimationManager::HandleMessage(MessageChunk messageChunk) {
 }
 
 void UnitAnimationManager::onAnimationEndMessage(MessageChunk messageChunk) {
-	if (messageChunk->messageData.s == UNIT_ANIMATION_CLIP_NAME_postspecial) {
-		BaseUnit* thisBaseUnit = this->GetObject()->GetComponent<BaseUnit>();
-		//VERIFY(thisBaseUnit != nullptr, "UnitAnimationManager's parent game object has a BaseUnit component");
-		if((thisBaseUnit != nullptr) && (thisBaseUnit->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_POST_SPECIAL)) {
-			thisBaseUnit->SwitchActionState(UNIT_ACTION_STATE_IDLE);
+	BaseUnit* thisBaseUnit = this->GetObject()->GetComponent<BaseUnit>();
+	//VERIFY(thisBaseUnit != nullptr, "UnitAnimationManager's parent game object has a BaseUnit component");
+	if (thisBaseUnit != nullptr) {
+		if (messageChunk->messageData.s == UNIT_ANIMATION_CLIP_NAME_postspecial) {
+			if (thisBaseUnit != nullptr) {
+				if (thisBaseUnit->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_POST_SPECIAL) {
+					thisBaseUnit->SwitchActionState(UNIT_ACTION_STATE_IDLE);
+				}
+			}
+		}
+		else if (messageChunk->messageData.s == UNIT_ANIMATION_CLIP_NAME_death) {
+			if (thisBaseUnit->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DEATH) {
+				std::string tweenName = "DeathTimeout" + StringUtilities::ConvertIntToString(this->GetObject()->GetId());
+				MessageData1S1I1F* userParams = new MessageData1S1I1F();
+				userParams->i = this->GetObject()->GetId();
+				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, DEATH_FADEOUT_TIME, INTERPOLATION_TYPE_LINEAR, false, false, false, tweenName, NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, userParams, deathFadeTweenCallback);
+			}
 		}
 	}
 }
@@ -83,6 +110,10 @@ void UnitAnimationManager::onUnitActionStateChanged(UnitActionState /*oldState*/
 
 	case UNIT_ACTION_STATE_BLOCK_IDLE: {
 		animclipToPlay = UNIT_ANIMATION_CLIP_NAME_block_idle;
+	} break;
+
+	case UNIT_ACTION_STATE_DEATH: {
+		animclipToPlay = UNIT_ANIMATION_CLIP_NAME_death;
 	} break;
 
 	default: {

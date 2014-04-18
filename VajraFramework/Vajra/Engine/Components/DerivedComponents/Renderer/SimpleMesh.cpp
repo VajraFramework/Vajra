@@ -4,6 +4,10 @@
 #include "Vajra/Framework/OpenGL/ShaderSet/ShaderSet.h"
 #include "Vajra/Utilities/Utilities.h"
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 SimpleMesh::SimpleMesh() {
 	this->init();
 }
@@ -346,6 +350,13 @@ void SimpleMesh::draw() {
 
 
 void SimpleMesh::destroy() {
+	// TODO [Hack] For some reason the simulator crashes in glDrawElements() when we do this
+#ifdef __APPLE__
+#if TARGET_IPHONE_SIMULATOR
+	return;
+#endif
+#endif
+	
     if (this->vertices != nullptr) {
         delete this->vertices;
     }

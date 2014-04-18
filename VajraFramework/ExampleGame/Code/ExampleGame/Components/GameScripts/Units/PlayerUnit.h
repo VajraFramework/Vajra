@@ -38,10 +38,15 @@ public:
 	virtual bool CanBeKilledBy(ObjectIdType id, glm::vec3 source);
 	static inline ComponentIdType GetTypeId()  { return BaseUnit::GetTypeId(); }
 	virtual void cancelSpecial();
-protected:
-	GameObject* touchIndicatorRef;
-
 	void onSelectedTouch();
+protected:
+	virtual void start();
+
+	virtual void Kill();
+
+	GameObject* touchIndicatorRef;
+	GameObject* selectionIndicatorRef;
+	
 	void onNavTouch(int touchId, GridCell* touchedCell);
 
 	void createTouchIndicator();
@@ -77,13 +82,13 @@ protected:
 
 	inline GridCell* GetCurrentTouchedCell() { return this->currentTouchedCell; }
 	
+	UnitColorScheme colorScheme;
 private:
 	void init();
 	void destroy();
 
 	GridCell* currentTouchedCell;
 
-	UnitColorScheme colorScheme;
 	
 	bool touchNearUnit;
 	void setTouchNearUnit(); 
