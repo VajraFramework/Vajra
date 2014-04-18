@@ -54,6 +54,11 @@ void UiElement::InitTextToDisplay(std::string text, unsigned int width, unsigned
 	this->childFontObjectRef->GetTransform()->SetScale(fontSize, fontSize, fontSize);
 }
 
+void UiElement::ChangeText(std::string text) {
+	VERIFY(this->childFontObjectRef != nullptr, "Looks like ChangeText() was called without ever calling InitTextToDisplay()");
+	this->childFontObjectRef->ChangeText(text);
+}
+
 unsigned int UiElement::GetSpriteTextureIndex() {
 	SpriteRenderer* spriteRenderer = this->childSpriteObjectRef->GetSpriteRenderer();
 	if (spriteRenderer != nullptr) {

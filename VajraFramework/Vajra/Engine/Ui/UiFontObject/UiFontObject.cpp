@@ -26,6 +26,15 @@ void UiFontObject::InitTextToDisplay(std::string text, unsigned int width, unsig
 
 }
 
+void UiFontObject::ChangeText(std::string text) {
+	UiFontRenderer* uiRenderer = this->GetComponent<UiFontRenderer>();
+	VERIFY(uiRenderer != nullptr, "Looks like ChangeText() was called without ever calling InitTextToDisplay()");
+
+	uiRenderer->changeText(text);
+
+	this->textToDisplay = text;
+}
+
 void UiFontObject::SetFontColor(glm::vec4 color) {
 	UiFontRenderer* uiRenderer = this->GetComponent<UiFontRenderer>();
 	if (uiRenderer != nullptr) {
