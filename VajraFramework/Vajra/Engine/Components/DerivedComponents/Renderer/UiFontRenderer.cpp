@@ -48,6 +48,12 @@ void UiFontRenderer::initTextToDisplay(std::string text, unsigned int width, uns
 	Renderer::addToRenderList();
 }
 
+void UiFontRenderer::changeText(std::string text) {
+	this->textToDisplay = text;
+	this->makeText();
+	this->initVbos();
+}
+
 void UiFontRenderer::initVbos() {
     if (this->vboPositions != 0 && this->vboTextureCoords != 0 && this->vboIndices != 0) {
 		GLCALL(glDeleteBuffers, 1, &this->vboPositions);
@@ -184,9 +190,9 @@ void UiFontRenderer::makeText() {
 		}
 		this->vertices      = new glm::vec3[numVerticesNeeded];
 		this->textureCoords = new glm::vec2[numVerticesNeeded];
-		this->indices.resize(this->textToDisplay.size () * 6);
 	}
 	this->numVertices = numVerticesNeeded;
+	this->indices.resize(this->textToDisplay.size() * 6);
 
 	float woffset = 0.0f;
 
@@ -277,3 +283,4 @@ float UiFontRenderer::makeACharacter(int charIdxInAscii, int letterIdx, float wo
 
 	return actual_charwidth_on_fontsheet;
 }
+
