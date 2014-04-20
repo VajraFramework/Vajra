@@ -27,15 +27,31 @@ UiFontRenderer::~UiFontRenderer() {
 }
 
 
-void UiFontRenderer::initTextToDisplay(std::string text, unsigned int /* width */, unsigned int /* height */, std::string pathToFontSpecificationFile) {
+void UiFontRenderer::initTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile, float fontSize_, UiFontAlignment_type fontAlignment_ /* = UI_FONT_ALIGNMENT_left */) {
 	this->fontType = ENGINE->GetAssetLibrary()->GetAsset<UiFontType>(pathToFontSpecificationFile);
 	this->SetShaderName(this->fontType->GetShaderName());
+
+	this->fontAlignment = fontAlignment_;
+	//
+	this->fontSize = fontSize_;
+	GameObject* gameObjectRef = (GameObject*)this->GetObject();
+	ASSERT(gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
+	gameObjectRef->GetTransform()->SetScale(this->fontSize, this->fontSize, this->fontSize);
+
+	this->required_width  = width;
+	this->required_height = height;
 
 	this->textToDisplay = text;
 	this->makeText();
 	this->initVbos();
 
 	Renderer::addToRenderList();
+}
+
+void UiFontRenderer::changeText(std::string text) {
+	this->textToDisplay = text;
+	this->makeText();
+	this->initVbos();
 }
 
 void UiFontRenderer::initVbos() {
@@ -119,6 +135,18 @@ void UiFontRenderer::init() {
 	this->vboPositions = 0;
 	this->vboTextureCoords = 0;
 	this->vboIndices = 0;
+
+	this->actual_width  = 0.0f;
+	this->actual_height = 0.0f;
+	//
+	this->required_width  = 0.0f;
+	this->required_height = 0.0f;
+	//
+	this->unscaled_width  = 0.0f;
+	this->unscaled_height = 0.0f;
+
+	this->fontSize = 1.0f;
+	this->fontAlignment = UI_FONT_ALIGNMENT_left;
 }
 
 void UiFontRenderer::destroy() {
@@ -150,6 +178,8 @@ void UiFontRenderer::destroy() {
 
 void UiFontRenderer::makeText() {
 
+	this->unscaled_width = 0.0f;
+
 	unsigned int numVerticesNeeded = this->textToDisplay.size() * 4;
 	if (numVerticesNeeded > this->numVertices) {
 		if (this->vertices != nullptr) {
@@ -160,23 +190,56 @@ void UiFontRenderer::makeText() {
 		}
 		this->vertices      = new glm::vec3[numVerticesNeeded];
 		this->textureCoords = new glm::vec2[numVerticesNeeded];
-		this->indices.resize(this->textToDisplay.size () * 6);
 	}
 	this->numVertices = numVerticesNeeded;
+	this->indices.resize(this->textToDisplay.size() * 6);
 
 	float woffset = 0.0f;
 
 	for (unsigned int i = 0; i < this->textToDisplay.size (); ++i) {
 		char c = this->textToDisplay[i];
 		int charIdx = (int) c;
-		this->makeACharacter(charIdx, i, woffset);
+		this->unscaled_width += this->makeACharacter(charIdx, i, woffset);
 		woffset += this->fontType->GetCharacterWidth(charIdx);
 	}
 
+	float justText_width  = this->unscaled_width  * this->fontSize;
+
+	this->actual_width  = std::max(this->required_width , this->unscaled_width  * this->fontSize);
+
+	// Adjust for font alignment:
+	if (this->required_width < justText_width) {
+		// Nothing can be done.
+	} else {
+		switch (this->fontAlignment) {
+
+		case UI_FONT_ALIGNMENT_left: {
+			// Nothing to be done
+		} break;
+
+		case UI_FONT_ALIGNMENT_center: {
+			float offset = (float)(this->required_width - justText_width) / this->fontSize / 2.0f;
+			for (unsigned int i = 0; i < this->numVertices; ++i) {
+				this->vertices[i].x += offset;
+			}
+		} break;
+
+		case UI_FONT_ALIGNMENT_right: {
+			float offset = (this->required_width - justText_width) / this->fontSize;
+			for (unsigned int i = 0; i < this->numVertices; ++i) {
+				this->vertices[i].x += offset;
+			}
+		} break;
+
+		default: {
+		} break;
+
+		}
+	}
 }
 
 
-void UiFontRenderer::makeACharacter(int charIdxInAscii, int letterIdx, float woffset) {
+float UiFontRenderer::makeACharacter(int charIdxInAscii, int letterIdx, float woffset) {
 
 	float actual_charwidth_on_fontsheet = this->fontType->GetCharacterWidth(charIdxInAscii);
 
@@ -218,5 +281,6 @@ void UiFontRenderer::makeACharacter(int charIdxInAscii, int letterIdx, float wof
 	this->indices[letterIdx * 6 + 4] = letterIdx * 4 + 3;
 	this->indices[letterIdx * 6 + 5] = letterIdx * 4 + 2;
 
-	return;
+	return actual_charwidth_on_fontsheet;
 }
+
