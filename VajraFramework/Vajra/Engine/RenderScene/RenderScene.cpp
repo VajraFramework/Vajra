@@ -18,6 +18,19 @@ static GLint g_default_fbo;
 #define SCREEN_FRAME_BUFFER 0
 #endif
 
+#ifdef PLATFORM_IOS
+#define MULTISAMPLING_ENABLED 1
+#else
+#define MULTISAMPLING_ENABLED 0
+#endif
+
+#if MULTISAMPLING_ENABLED
+//Buffer definitions for the MSAA
+GLuint msaaFramebuffer,
+	   msaaRenderBuffer,
+	   msaaDepthBuffer;
+#endif
+GLuint renderBuffer;
 
 
 void RenderScene::SetupStuff() {
@@ -33,7 +46,6 @@ void RenderScene::SetupStuff() {
 	GLCALL(glBindFramebuffer, GL_FRAMEBUFFER, g_depth_fbo_id);
 	
 	// Create a render buffer
-	GLuint renderBuffer;
     GLCALL(glGenRenderbuffers, 1, &renderBuffer);
     GLCALL(glBindRenderbuffer, GL_RENDERBUFFER, renderBuffer);
 
@@ -62,6 +74,30 @@ void RenderScene::SetupStuff() {
 	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {	// GLCALL
 		ASSERT(0, "Framebuffer OK");
 	}
+	
+	
+#if MULTISAMPLING_ENABLED
+	//Generate our MSAA Frame and Render buffers
+	glGenFramebuffers(1, &msaaFramebuffer);
+	glGenRenderbuffers(1, &msaaRenderBuffer);
+	
+	//Bind our MSAA buffers
+	glBindFramebuffer(GL_FRAMEBUFFER, msaaFramebuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, msaaRenderBuffer);
+	
+	unsigned int numSamples = 4;
+	
+	// Generate the msaaDepthBuffer.
+	// numSamples will be the number of pixels that the MSAA buffer will use in order to make one pixel on the render buffer.
+	glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, numSamples, GL_RGB5_A1, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaRenderBuffer);
+	glGenRenderbuffers(1, &msaaDepthBuffer);
+	
+	//Bind the msaa depth buffer.
+	glBindRenderbuffer(GL_RENDERBUFFER, msaaDepthBuffer);
+	glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, numSamples, GL_DEPTH_COMPONENT16, FRAMEWORK->GetDeviceProperties()->GetWidthPixels() , FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, msaaDepthBuffer);
+#endif
 }
 
 
@@ -121,17 +157,50 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
     	GLCALL(glEnable, GL_BLEND);
 	}
 	
-
+#if MULTISAMPLING_ENABLED
+	glBindFramebuffer(GL_FRAMEBUFFER, msaaFramebuffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+#endif
+	
+	
+	
 	{
 #if !defined(DRAWING_DEPTH_BUFFER_CONTENTS)
 		/*
 	 	 * Draw again, this time to the screen:
 	 	 */
 		ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetObject()->GetId());
+#if !MULTISAMPLING_ENABLED
 		GLCALL(glBindFramebuffer, GL_FRAMEBUFFER, SCREEN_FRAME_BUFFER /* default window framebuffer */);
+#endif
     	GLCALL(glViewport, 0, 0, FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels());
 		renderLists->Draw(camera, directionalLight, additionalLights, false, DISTANCE_FROM_CAMERA_COMPARE_TYPE_perspective);
 #endif
 	}
+	
+#if MULTISAMPLING_ENABLED
+	// Apple (and the khronos group) encourages you to discard depth
+    // render buffer contents whenever is possible
+    // GLenum attachments[] = {GL_DEPTH_ATTACHMENT};
+    // glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 1, attachments);
+	
+    //Bind both MSAA and View FrameBuffers.
+    glBindFramebuffer(GL_READ_FRAMEBUFFER_APPLE, msaaFramebuffer);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, SCREEN_FRAME_BUFFER);
+	
+    // Call a resolve to combine both buffers
+    glResolveMultisampleFramebufferAPPLE();
+	
+    // Present final image to screen
+    glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
+    // [context presentRenderbuffer:GL_RENDERBUFFER];
+#endif
+
+
+	
+	
+	
+	
+
 
 }

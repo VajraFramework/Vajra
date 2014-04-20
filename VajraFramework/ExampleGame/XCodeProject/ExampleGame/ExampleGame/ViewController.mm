@@ -153,6 +153,7 @@ bool isIPadMini() {
 - (void)update
 {
     renderFrame();
+	[[EAGLContext currentContext] presentRenderbuffer:GL_RENDERBUFFER];
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
