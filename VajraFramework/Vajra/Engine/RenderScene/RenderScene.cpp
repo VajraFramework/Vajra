@@ -181,8 +181,10 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
 #if MULTISAMPLING_ENABLED
 	// Apple (and the khronos group) encourages you to discard depth
     // render buffer contents whenever is possible
-    // GLenum attachments[] = {GL_DEPTH_ATTACHMENT};
-    // glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 1, attachments);
+	const GLenum discard1[]  = {GL_COLOR_ATTACHMENT0, GL_DEPTH_ATTACHMENT};
+	glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 2, discard1);
+	const GLenum discard2[]  = {GL_DEPTH_ATTACHMENT};
+	glDiscardFramebufferEXT(GL_DRAW_FRAMEBUFFER_APPLE, 1, discard2);
 	
     //Bind both MSAA and View FrameBuffers.
     glBindFramebuffer(GL_READ_FRAMEBUFFER_APPLE, msaaFramebuffer);
@@ -195,12 +197,6 @@ void RenderScene::RenderScene(RenderLists* renderLists, Camera* camera,
     glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
     // [context presentRenderbuffer:GL_RENDERBUFFER];
 #endif
-
-
-	
-	
-	
-	
 
 
 }
