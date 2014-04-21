@@ -9,12 +9,23 @@
 	</uielement>
 
 	<uielement name="startMenu" visible="false" clickable="false">
+
 		<dimensions>
 			<position xwrto="LEFT" ywrto="TOP" x="0" y="0"></position>
 			<size widthPixels="1024" heightPixels="768"></size>
 			<zorder>0</zorder>
 		</dimensions>
-		<image name="SD_Main_Menu.png" hasTransperancy="false"> </image>
+
+		<uielement name="startMenuimage" visible="false" clickable="false">
+			<dimensions>
+				<position xwrto="CENTER" ywrto="CENTER" x="-512" y="-384"></position>
+				<size widthPixels="1024" heightPixels="768"></size>
+				<zorder>0</zorder>
+			</dimensions>
+			<image name="SD_Main_Menu.png" hasTransperancy="false"> </image>
+		
+		</uielement>
+
 		<uielement name="play" visible="true" clickable="true">
 			<dimensions>
 				<position xwrto="CENTER" ywrto="TOP" x="-90" y="450"></position>
@@ -152,7 +163,7 @@
 		</dimensions>
 		<uielement name="missionNavBar" visible="true" clickable="false">
 			<dimensions>
-				<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
+				<position xwrto="CENTER" ywrto="BOTTOM" x="-512" y="0"></position>
 				<size widthPixels="1024" heightPixels="72"></size>
 				<zorder>55</zorder>
 			</dimensions>
