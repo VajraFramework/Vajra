@@ -41,17 +41,17 @@ static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int t
 	out_pixels = out_pixelsf;
 }
 
-void AdjustPositionForResolution(int& posX_pixels_out, int& posY_pixels_out, std::string x_wrto, std::string y_wrto, int width_pixels, int height_pixels, int intended_scene_width_pixels, int intended_scene_height_pixels) {
+void AdjustPositionForResolution(int& posX_pixels_out, int& posY_pixels_out, std::string x_wrto, std::string y_wrto, int& width_pixels_out, int& height_pixels_out, int intended_scene_width_pixels, int intended_scene_height_pixels) {
 	convertPixelsFromTargetSizeToDeviceSize(posX_pixels_out,   intended_scene_width_pixels, intended_scene_height_pixels);
 	convertPixelsFromTargetSizeToDeviceSize(posY_pixels_out,   intended_scene_width_pixels, intended_scene_height_pixels);
-	convertPixelsFromTargetSizeToDeviceSize(width_pixels,  intended_scene_width_pixels, intended_scene_height_pixels);
-	convertPixelsFromTargetSizeToDeviceSize(height_pixels, intended_scene_width_pixels, intended_scene_height_pixels);
+	convertPixelsFromTargetSizeToDeviceSize(width_pixels_out,  intended_scene_width_pixels, intended_scene_height_pixels);
+	convertPixelsFromTargetSizeToDeviceSize(height_pixels_out, intended_scene_width_pixels, intended_scene_height_pixels);
 
 	// Process relative positioning tags, if any:
 	if (x_wrto == "LEFT") {
 		// Nothing to do
 	} else if (x_wrto == "RIGHT") {
-		posX_pixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() - posX_pixels_out - width_pixels;
+		posX_pixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() - posX_pixels_out - width_pixels_out;
 	} else if (x_wrto == "CENTER") {
 		posX_pixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() / 2.0f + posX_pixels_out;
 	} else {
@@ -61,7 +61,7 @@ void AdjustPositionForResolution(int& posX_pixels_out, int& posY_pixels_out, std
 	if (y_wrto == "TOP") {
 		// Nothing to do
 	} else if (y_wrto == "BOTTOM") {
-		posY_pixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() - posY_pixels_out - height_pixels;
+		posY_pixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() - posY_pixels_out - height_pixels_out;
 	} else if (y_wrto == "CENTER") {
 		posY_pixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() / 2.0f + posY_pixels_out;
 	} else {
