@@ -29,14 +29,14 @@ GameSingletons::~GameSingletons() {
 }
 
 void GameSingletons::init() {
+	this->masteryManagerObj = new Object();
+	this->masteryManagerComp = this->masteryManagerObj->AddComponent<MasteryManager>();
 	this->levelManagerObj = new Object();
 	this->levelManagerComp = this->levelManagerObj->AddComponent<LevelManager>();
 	this->gridManagerObj = new Object();
 	this->gridManagerComp = this->gridManagerObj->AddComponent<GridManager>();
 	this->menuManagerObj = new Object();
 	this->menuManagerComp = this->menuManagerObj->AddComponent<MenuManager>();
-	this->masteryManagerObj = new Object();
-	this->masteryManagerComp = this->masteryManagerObj->AddComponent<MasteryManager>();
 }
 
 void GameSingletons::destroy() {

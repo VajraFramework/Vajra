@@ -6,6 +6,7 @@
 #include "ExampleGame/Components/ComponentTypes/ComponentTypeIds.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Components/LevelManager/LevelManager.h"
+#include "ExampleGame/Components/LevelManager/MasteryManager.h"
 #include "ExampleGame/Components/Triggers/TriggerLevelDefeat.h"
 #include "ExampleGame/Components/Triggers/TriggerLevelVictory.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
@@ -15,6 +16,8 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Framework/SavedDataManager/SavedDataManager.h"
+#include "Vajra/Utilities/StringUtilities.h"
+
 
 #include <fstream>
 
@@ -108,7 +111,7 @@ void LevelManager::LoadLevelFromData(LevelData* levelData) {
 		LevelLoader::LoadTutorialData(levelData->name);
 	}
 	// Set up the bonus
-	SINGLETONS->GetMasteryManager()->SetCurrentBonuse(levelData->bonus, levelData->bonusValue);
+	SINGLETONS->GetMasteryManager()->SetCurrentBonus(levelData->bonus, levelData->bonusValue, this->GetCurrentLevelIndex());
 }
 
 LevelData* LevelManager::GetLevelData(int missionIndex, int levelIndex) 
@@ -167,6 +170,7 @@ void LevelManager::OnCurrentLevelWon(LevelCompletion completion) {
 		if(nextLevel->completion == LevelCompletion::Locked) {
 			nextLevel->completion = LevelCompletion::Unlocked;
 			this->levelCompletionData[nextLevel->levelNum] = 'U';
+			this->onLevelUnlocked(nextLevel->levelNum);
 		}
 
 		bundle->PutString(LEVEL_COMPLETION, this->levelCompletionData);
@@ -225,6 +229,8 @@ void LevelManager::init() {
 	bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle(PLAYER_BUNDLE_NAME);
 	this->levelCompletionData = bundle->GetString(LEVEL_COMPLETION);
 
+
+
 	this->levelToLoad = -1;
 	currentLevelIndex = 0;
 	currentMission = 0;
@@ -272,9 +278,11 @@ void LevelManager::initBundleForFirstTime() {
 	// create level completion data
 	char levelCompletion[MAX_LEVELS_POSSIBLE+1];
 	levelCompletion[0] = 'U'; // U = unlocked
+	this->onLevelUnlocked(0);
 	for(int i = 1; i < MAX_LEVELS_POSSIBLE; ++i) {
-#ifdef DEBUG
+#ifdef DEBUG_1010
 		levelCompletion[i] = 'U';
+		this->onLevelUnlocked(i);
 #else
 		levelCompletion[i] = 'L'; // L = locked
 #endif
@@ -285,4 +293,40 @@ void LevelManager::initBundleForFirstTime() {
 	bundle->PutString(LEVEL_COMPLETION, levelData);
 
 	bundle->Save();
+}
+
+void LevelManager::onLevelUnlocked(int index) {
+	std::string bundleName = LEVEL_BUNDLE_NAME + StringUtilities::ConvertIntToString(index);
+	ASSERT(!FRAMEWORK->GetSavedDataManager()->HasBundle(bundleName), "level that was just unlocked doesn't already have a bundle");
+	Bundle* bundle = FRAMEWORK->GetSavedDataManager()->CreateNewBundle(bundleName);
+	bundle->Save();
+	LevelScores scores;
+	scores.bonus = false;
+	scores.time = -1;
+	scores.kills = -1;
+	scores.alerts = -1;
+	scores.money = -1;
+	this->SaveLevelScores(index, scores);
+	SINGLETONS->GetMasteryManager()->onLevelUnlocked(index, scores);
+
+}
+
+void LevelManager::SaveLevelScores(int levelIndex, LevelScores scores) {
+	std::string bundleName = LEVEL_BUNDLE_NAME + StringUtilities::ConvertIntToString(levelIndex);
+	Bundle* bundle;
+
+	if(!FRAMEWORK->GetSavedDataManager()->HasBundle(bundleName)) {
+		bundle = FRAMEWORK->GetSavedDataManager()->CreateNewBundle(bundleName);
+	} else {
+		bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle(bundleName);
+	}
+
+	bundle->PutBool(BONUS, scores.bonus);
+	bundle->PutInt(BEST_TIME, scores.time);
+	bundle->PutInt(BEST_KILL, scores.kills);
+	bundle->PutInt(BEST_ALERT, scores.alerts);
+	bundle->PutInt(BEST_LOOT, scores.money);
+
+	bundle->Save();
+
 }
