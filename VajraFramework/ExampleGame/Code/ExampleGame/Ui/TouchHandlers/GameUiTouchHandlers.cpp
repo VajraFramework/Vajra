@@ -437,18 +437,45 @@ void GameUiTouchHandlers::UpdateMenuWithMastery(std::string menuName, int levelI
 		ASSERT(false, "\n %s does not support the mastery system", menuName.c_str());
 		return;
 	}
+	LevelData* levelData = SINGLETONS->GetLevelManager()->GetLevelData(SINGLETONS->GetLevelManager()->GetCurrentMission(), levelIndex);
 	LevelScores scores = SINGLETONS->GetMasteryManager()->GetLevelScores(levelIndex);
 	UiElement* menuRoot = (UiElement*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[menuName]);
 	for(ObjectIdType id : menuRoot->GetChildren()) {
 		UiElement* child = (UiElement*)ENGINE->GetSceneGraphUi()->GetGameObjectById(id);
 		if(child->GetName() == menuPrefix + "bonus_value") {
-			child->ChangeText("Testeroini");
+			std::string text;
+			switch(levelData->bonus) {
+				case LevelBonus::Time:
+					text = std::to_string(levelData->bonusValue) + " SECONDS OR LESS";
+					break;
+				case LevelBonus::Kills:
+					text = std::to_string(levelData->bonusValue) + " KILLS OR LESS";
+					break;
+				case LevelBonus::Alerts:
+					text = std::to_string(levelData->bonusValue) + " ALERTS OR LESS";
+					break;
+				case LevelBonus::Money:
+					text = std::to_string(levelData->bonusValue) + " OR MORE TAKE";
+					break;
+				default:
+					text = "there is no bonus";
+					break;
+			}
+			child->ChangeText(text);
+		} else if (child->GetName() == menuPrefix + "bonus_icon") {
+			child->SetSpriteTextureIndex(levelData->bonus);
 		} else if (child->GetName() == menuPrefix + "bounty_value") {
 			child->ChangeText("Testeroini");
 		} else if (child->GetName() == menuPrefix + "take_value") {
 			child->ChangeText("Testeroini");
 		} else if (child->GetName() == menuPrefix + "bonus_completion") {
-			child->ChangeText("INCOMPLETE");
+			if(levelData->completion == LevelCompletion::Completed_Bonus) {
+				child->SetFontColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+				child->ChangeText("COMPLETED");
+			} else {
+				child->SetFontColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+				child->ChangeText("INCOMPLETE");
+			}
 		} else if (child->GetName() == menuPrefix + "time_value") {
 			int time = SINGLETONS->GetMasteryManager()->GetLevelTime();
 			child->ChangeText(std::to_string(time));

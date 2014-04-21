@@ -91,6 +91,7 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 			if(this->currentLevelButtons[this->currentMissionScreenIndex][i] == uiObject) {
 				LevelData* levelData = SINGLETONS->GetLevelManager()->GetLevelData(this->currentMissionScreenIndex, i);
 				if(levelData->completion != LevelCompletion::Locked) {
+					// Load premenu bonus info
 					std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
 					SINGLETONS->GetMenuManager()->LoadLevel(i);
 					return;

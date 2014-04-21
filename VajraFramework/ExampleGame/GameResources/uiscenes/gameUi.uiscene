@@ -76,6 +76,9 @@
 				<zorder>10</zorder>
 			</dimensions>
 			<image name="SD_HUDTracker_Time_01.png" hasTransperancy="false"> </image>
+			<image name="SD_HUDTracker_Kills_01.png" hasTransperancy="false"> </image>
+			<image name="SD_HUDTracker_Treasure_01.png" hasTransperancy="false"> </image>
+			<image name="SD_HUDTracker_Alerts_01.png" hasTransperancy="false"> </image>
 		</uielement>
 
 		<uielement name="preGame_bonus_text" clickable="false" visible="true">
@@ -321,7 +324,10 @@
 				<size widthPixels="32" heightPixels="32"></size>
 				<zorder>10</zorder>
 			</dimensions>
-			<image name="SD_HUDTracker_Time_01.png" hasTransperancy="true"> </image>
+			<image name="SD_HUDTracker_Time_01.png" hasTransperancy="false"> </image>
+			<image name="SD_HUDTracker_Kills_01.png" hasTransperancy="false"> </image>
+			<image name="SD_HUDTracker_Treasure_01.png" hasTransperancy="false"> </image>
+			<image name="SD_HUDTracker_Alerts_01.png" hasTransperancy="false"> </image>
 		</uielement>
 
 		<uielement name="pause_bonus_text" clickable="false" visible="true">
@@ -525,6 +531,9 @@
 				<zorder>15</zorder>
 			</dimensions>
 			<image name="SD_HUDTracker_Time_01.png" hasTransperancy="false"> </image>
+			<image name="SD_HUDTracker_Kills_01.png" hasTransperancy="false"> </image>
+			<image name="SD_HUDTracker_Treasure_01.png" hasTransperancy="false"> </image>
+			<image name="SD_HUDTracker_Alerts_01.png" hasTransperancy="false"> </image>
 		</uielement>
 
 		<uielement name="postGame_bonus_text" clickable="false" visible="true">
