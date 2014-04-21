@@ -4,11 +4,11 @@
 #include "Vajra/Common/Components/Component.h"
 
 enum LevelBonus {
-	None,
 	Time,
 	Kills,
 	Money,
-	Alerts
+	Alerts, 
+	None
 };
 
 struct LevelScores {
@@ -40,6 +40,8 @@ public:
 
 	void ResetTracking();
 	void OnLevelUnlocked(int index);
+
+	LevelBonus GetCurrentBonusType() { return this->currentBonus; }
 
 private:
 	void init();
