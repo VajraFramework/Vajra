@@ -27,7 +27,6 @@ public:
 	// @Override
 	virtual void HandleMessageCallback(MessageChunk messageChunk);
 
-	void UpdateMenuWithMastery(std::string menuName, int levelIndex);
 private:
 	void returnToMissionSelect();
 

@@ -10,6 +10,13 @@ class GameUiTouchHandlers;
 class MessageData1S1I1F;
 class AudioSource;
 
+#define IN_GAME_MENU "inGame"
+#define PAUSE_MENU "pauseMenu"
+#define PRE_GAME_MENU "preMenu"
+#define POST_GAME_WIN_MENU "postWinGame"
+#define POST_GAME_LOSE_MENU "postLoseGame"
+#define TUTORIAL_MENU "tutorialScreen"
+
 //[[COMPONENT]]//
 class MenuManager : public Component {	
 public:
@@ -27,6 +34,8 @@ public:
 	void TweenOutUiObject(UiObject*);
 	void TweenInUiObject(UiObject*);
 	void CenterUiObject(UiObject*);
+
+	void UpdateMenuWithMastery(std::string menuName, int levelIndex);
 
 	AudioSource* GetBGMSource() { return this->menuBGMSource; }
 	void PlayBGM(std::string key);

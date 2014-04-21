@@ -32,13 +32,6 @@
 #include "Vajra/Engine/Ui/UiElement/UiElement.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 
-#define IN_GAME_MENU "inGame"
-#define PAUSE_MENU "pauseMenu"
-#define PRE_GAME_MENU "preMenu"
-#define POST_GAME_WIN_MENU "postWinGame"
-#define POST_GAME_LOSE_MENU "postLoseGame"
-#define TUTORIAL_MENU "tutorialScreen"
-
 #define TUTORIAL_EXIT_BTN "closeTutorial"
 #define DYNAMIC_TUTORIAL_ELEMENT "dynamicTutorial"
 #define ASSASSIN_ICON_INDEX 0
@@ -194,7 +187,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		if(pauseMenu->IsVisible()) {
 			((UiElement*)uiObject)->SetSpriteTextureIndex(1);
 			ENGINE->GetSceneGraph3D()->Pause();
-			this->UpdateMenuWithMastery(PAUSE_MENU, SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
+			SINGLETONS->GetMenuManager()->UpdateMenuWithMastery(PAUSE_MENU, SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
 		} else {
 			ENGINE->GetSceneGraph3D()->Resume();
 			((UiElement*)uiObject)->SetSpriteTextureIndex(0);
@@ -415,7 +408,7 @@ void GameUiTouchHandlers::onLevelEnd(bool success) {
 	UiObject* postMenu;
 	if(success){
 		 postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_WIN_MENU]);
-		 UpdateMenuWithMastery(POST_GAME_WIN_MENU, SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
+		 SINGLETONS->GetMenuManager()->UpdateMenuWithMastery(POST_GAME_WIN_MENU, SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
 
 	} else {
 		 postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_LOSE_MENU]);
@@ -423,113 +416,4 @@ void GameUiTouchHandlers::onLevelEnd(bool success) {
 	postMenu->SetVisible(true);
 	SINGLETONS->GetMenuManager()->TweenInUiObject(postMenu);
 	this->tutorials.clear();
-}
-
-void GameUiTouchHandlers::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
-	std::string menuPrefix;
-	if(menuName == POST_GAME_WIN_MENU) {
-		menuPrefix = "postGame_";
-	} else if( menuName == PRE_GAME_MENU) {
-		menuPrefix = "preGame_";
-	} else if(menuName == PAUSE_MENU){
-		menuPrefix = "pause_";
-	} else {
-		ASSERT(false, "\n %s does not support the mastery system", menuName.c_str());
-		return;
-	}
-	LevelData* levelData = SINGLETONS->GetLevelManager()->GetLevelData(SINGLETONS->GetLevelManager()->GetCurrentMission(), levelIndex);
-	LevelScores scores = SINGLETONS->GetMasteryManager()->GetLevelScores(levelIndex);
-	UiElement* menuRoot = (UiElement*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[menuName]);
-	for(ObjectIdType id : menuRoot->GetChildren()) {
-		UiElement* child = (UiElement*)ENGINE->GetSceneGraphUi()->GetGameObjectById(id);
-		if(child->GetName() == menuPrefix + "bonus_value") {
-			std::string text;
-			switch(levelData->bonus) {
-				case LevelBonus::Time:
-					text = std::to_string(levelData->bonusValue) + " SECONDS OR LESS";
-					break;
-				case LevelBonus::Kills:
-					text = std::to_string(levelData->bonusValue) + " KILLS OR LESS";
-					break;
-				case LevelBonus::Alerts:
-					text = std::to_string(levelData->bonusValue) + " ALERTS OR LESS";
-					break;
-				case LevelBonus::Money:
-					text = std::to_string(levelData->bonusValue) + " OR MORE TAKE";
-					break;
-				default:
-					text = "there is no bonus";
-					break;
-			}
-			child->ChangeText(text);
-		} else if (child->GetName() == menuPrefix + "bonus_icon") {
-			child->SetSpriteTextureIndex(levelData->bonus);
-		} else if (child->GetName() == menuPrefix + "bounty_value") {
-			child->ChangeText("Testeroini");
-		} else if (child->GetName() == menuPrefix + "take_value") {
-			child->ChangeText("Testeroini");
-		} else if (child->GetName() == menuPrefix + "bonus_completion") {
-			if(levelData->completion == LevelCompletion::Completed_Bonus) {
-				child->SetFontColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-				child->ChangeText("COMPLETED");
-			} else {
-				child->SetFontColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-				child->ChangeText("INCOMPLETE");
-			}
-		} else if (child->GetName() == menuPrefix + "time_value") {
-			int time = SINGLETONS->GetMasteryManager()->GetLevelTime();
-			child->ChangeText(std::to_string(time));
-		} else if (child->GetName() == menuPrefix + "time_total") {
-			child->ChangeText(":30 x 5 = -500");
-		} else if (child->GetName() == menuPrefix + "kill_value") {
-			int kills = SINGLETONS->GetMasteryManager()->GetNumKills();
-			child->ChangeText(std::to_string(kills));
-		} else if (child->GetName() == menuPrefix + "kill_total") {
-			child->ChangeText("4 x 7 = -1400");
-		} else if (child->GetName() == menuPrefix + "alert_value") {
-			int alerts = SINGLETONS->GetMasteryManager()->GetNumAlerts();
-			child->ChangeText(std::to_string(alerts));
-		} else if (child->GetName() == menuPrefix + "alert_total") {
-			child->ChangeText("3 x -50 = -150");
-		} else if (child->GetName() == menuPrefix + "loot_value") {	
-			int loot = SINGLETONS->GetMasteryManager()->GetMoney();
-			child->ChangeText(std::to_string(loot));
-		} else if (child->GetName() == menuPrefix + "loot_total") {
-			int loot = SINGLETONS->GetMasteryManager()->GetMoney();
-			child->ChangeText(std::to_string(loot));
-		} else if (child->GetName() == menuPrefix + "time_score") {
-			std::string text;
-			if(scores.time != -1) {
-				text = std::to_string(scores.time);
-			} else {
-				text = "N/A";
-			}
-			child->ChangeText(text);
-		} else if (child->GetName() == menuPrefix + "kill_score") {
-			std::string text;
-			if(scores.kills != -1) {
-				text = std::to_string(scores.kills);
-			} else {
-				text = "N/A";
-			}
-			child->ChangeText(text);
-		} else if (child->GetName() == menuPrefix + "alert_score") {
-			std::string text;
-			if(scores.alerts != -1) {
-				text = std::to_string(scores.alerts);
-			} else {
-				text = "N/A";
-			}
-			child->ChangeText(text);
-		} else if (child->GetName() == menuPrefix + "loot_score") {
-			std::string text;
-			if(scores.money != -1) {
-				text = std::to_string(scores.money);
-			} else {
-				text = "N/A";
-			}
-			child->ChangeText(text);
-		} 
-	}
-
 }
