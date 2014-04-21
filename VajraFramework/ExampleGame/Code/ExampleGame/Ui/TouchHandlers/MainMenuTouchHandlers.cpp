@@ -42,6 +42,7 @@ MainMenuTouchHandlers::MainMenuTouchHandlers() {
 	this->currentScreenX = 0;
 	this->currentMissionScreenIndex = 0;
 	this->prevContractIndex = -1;
+	this->levelToLoad = 0;
 	// Todo [Implement]  data drive this
 	missionStartX.push_back(-32.0f);
 	missionStartX.push_back(-1160.0f);
@@ -83,7 +84,13 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 	// Level Selection
 	ASSERT(this->parallaxRoot != nullptr, "The parallaxRoot root is not null");
 	if(this->parallaxRoot != nullptr && this->parallaxRoot->IsVisible()) {
-		if(uiObject->GetName() == PARALLAX) {
+		if(uiObject->GetName() == "preMenuStart") {
+			std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
+			SINGLETONS->GetMenuManager()->LoadLevel(this->levelToLoad);
+		} else if(uiObject->GetName() == "preMenuEnd") {
+			((UiObject*)ObjectRegistry::GetObjectByName("preMenu"))->SetVisible(false);
+		}
+ 		else if(uiObject->GetName() == PARALLAX) {
 			float xDiff = touch.pos.x - touch.prevPos.x;
 			this->parallaxScroll(uiObject, xDiff, true);
 		}
@@ -91,9 +98,14 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 			if(this->currentLevelButtons[this->currentMissionScreenIndex][i] == uiObject) {
 				LevelData* levelData = SINGLETONS->GetLevelManager()->GetLevelData(this->currentMissionScreenIndex, i);
 				if(levelData->completion != LevelCompletion::Locked) {
+					this->levelToLoad = i;
+					SINGLETONS->GetMenuManager()->CenterUiObject((UiObject*)ObjectRegistry::GetObjectByName("preMenu"));
+					SINGLETONS->GetMenuManager()->UpdateMenuWithMastery("preMenu", this->levelToLoad);
+					
+					
 					// Load premenu bonus info
-					std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
-					SINGLETONS->GetMenuManager()->LoadLevel(i);
+					//std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
+					//SINGLETONS->GetMenuManager()->LoadLevel(i);
 					return;
 				}
 			}

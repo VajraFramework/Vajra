@@ -39,6 +39,8 @@ private:
 
 	void goBackOneMenu();
 
+	int levelToLoad;
+	
 	int currentMissionScreenIndex;
 	int prevContractIndex;
 	std::vector<UiElement*> parallaxScreens;
