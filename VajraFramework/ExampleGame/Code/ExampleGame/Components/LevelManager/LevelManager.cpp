@@ -224,11 +224,18 @@ void LevelManager::init() {
 	Bundle* bundle = nullptr;
 	if (!FRAMEWORK->GetSavedDataManager()->HasBundle(PLAYER_BUNDLE_NAME)) {
 		this->initBundleForFirstTime();
-	}
+	} 
 	
 	bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle(PLAYER_BUNDLE_NAME);
 	this->levelCompletionData = bundle->GetString(LEVEL_COMPLETION);
-
+	for(int i = 0; i < levelCompletionData.size(); ++i) {
+		char levelStatus = levelCompletionData[i];
+		if(levelStatus != 'L') {
+			this->loadLevelScore(i);
+		} else {
+			break;
+		}
+	}
 
 
 	this->levelToLoad = -1;
@@ -296,22 +303,40 @@ void LevelManager::initBundleForFirstTime() {
 }
 
 void LevelManager::onLevelUnlocked(int index) {
-	std::string bundleName = LEVEL_BUNDLE_NAME + StringUtilities::ConvertIntToString(index);
-	ASSERT(!FRAMEWORK->GetSavedDataManager()->HasBundle(bundleName), "level that was just unlocked doesn't already have a bundle");
-	Bundle* bundle = FRAMEWORK->GetSavedDataManager()->CreateNewBundle(bundleName);
-	bundle->Save();
 	LevelScores scores;
 	scores.bonus = false;
 	scores.time = -1;
 	scores.kills = -1;
 	scores.alerts = -1;
 	scores.money = -1;
-	this->SaveLevelScores(index, scores);
-	SINGLETONS->GetMasteryManager()->onLevelUnlocked(index, scores);
+	this->SaveLevelScores(index, &scores);
+	SINGLETONS->GetMasteryManager()->updateLevelScore(index, scores);
 
 }
 
-void LevelManager::SaveLevelScores(int levelIndex, LevelScores scores) {
+void LevelManager::loadLevelScore(int index) {
+	std::string bundleName = LEVEL_BUNDLE_NAME + StringUtilities::ConvertIntToString(index);
+	Bundle* bundle;
+ 	LevelScores scores;
+
+	if(!FRAMEWORK->GetSavedDataManager()->HasBundle(bundleName)) {
+		bundle = FRAMEWORK->GetSavedDataManager()->CreateNewBundle(bundleName);
+	} else {
+		bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle(bundleName);
+	}
+ 
+	scores.bonus = bundle->GetBool(BONUS);
+	scores.time = bundle->GetInt(BEST_TIME);
+	scores.kills = bundle->GetInt(BEST_KILL);
+	scores.alerts = bundle->GetInt(BEST_ALERT);
+	scores.money = bundle->GetInt(BEST_LOOT);
+
+	bundle->Save();
+	SINGLETONS->GetMasteryManager()->updateLevelScore(index, scores);
+
+}
+
+void LevelManager::SaveLevelScores(int levelIndex, LevelScores* scores) {
 	std::string bundleName = LEVEL_BUNDLE_NAME + StringUtilities::ConvertIntToString(levelIndex);
 	Bundle* bundle;
 
@@ -321,11 +346,11 @@ void LevelManager::SaveLevelScores(int levelIndex, LevelScores scores) {
 		bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle(bundleName);
 	}
 
-	bundle->PutBool(BONUS, scores.bonus);
-	bundle->PutInt(BEST_TIME, scores.time);
-	bundle->PutInt(BEST_KILL, scores.kills);
-	bundle->PutInt(BEST_ALERT, scores.alerts);
-	bundle->PutInt(BEST_LOOT, scores.money);
+	bundle->PutBool(BONUS, scores->bonus);
+	bundle->PutInt(BEST_TIME, scores->time);
+	bundle->PutInt(BEST_KILL, scores->kills);
+	bundle->PutInt(BEST_ALERT, scores->alerts);
+	bundle->PutInt(BEST_LOOT, scores->money);
 
 	bundle->Save();
 

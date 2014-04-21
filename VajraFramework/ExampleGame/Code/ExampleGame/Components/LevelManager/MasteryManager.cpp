@@ -83,23 +83,23 @@ void MasteryManager::HandleMessage(MessageChunk messageChunk) {
 }
 
 LevelScores MasteryManager::GetLevelScores(int levelIndex) {
-	VERIFY(this->bestScores.size() > this->currentLevelTracked, " the level has a score");
+	VERIFY(this->bestScores.size() > levelIndex, " the level has a score");
 	return this->bestScores[levelIndex];
 }
 bool MasteryManager::onLevelComplete() {
 	// update high scores
 	if(this->bestScores.size() > this->currentLevelTracked) {
 		LevelScores scores = this->bestScores[this->currentLevelTracked];
-		if(scores.time > levelTime) {
+		if(scores.time > levelTime || scores.time == -1) {
 			scores.time = levelTime;
 		}
-		if(scores.kills > numKills) {
+		if(scores.kills > numKills || scores.kills == -1) {
 			scores.kills = numKills;
 		}
-		if(scores.money < money) {
+		if(scores.money < money || scores.money == -1) {
 			scores.money = money;
 		}
-		if(scores.alerts > numAlerts) {
+		if(scores.alerts > numAlerts || scores.alerts == -1) {
 			scores.alerts = numAlerts;
 		}
 
@@ -123,16 +123,18 @@ bool MasteryManager::onLevelComplete() {
 		}
 
 		this->bestScores[this->currentLevelTracked] = scores;
-		SINGLETONS->GetLevelManager()->SaveLevelScores(this->currentLevelTracked, scores);
+		SINGLETONS->GetLevelManager()->SaveLevelScores(this->currentLevelTracked, &scores);
 		return scores.bonus;
 	}
 	ASSERT(false, "current level has a bundle");
 	return false;
 }
 
-void MasteryManager::onLevelUnlocked(int levelIndex, LevelScores scores) {
-	ASSERT(this->bestScores.size() == levelIndex , "this level does not already have a score");
+
+void MasteryManager::updateLevelScore(int levelIndex, LevelScores scores) {
 	if(this->bestScores.size() == levelIndex) {
 		this->bestScores.push_back(scores);
+	} else if (this->bestScores.size() > levelIndex) {
+		this->bestScores[levelIndex] = scores;
 	}
 }

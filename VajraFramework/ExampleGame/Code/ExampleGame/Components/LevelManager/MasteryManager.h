@@ -48,7 +48,7 @@ private:
 	virtual void start();
 
 	bool onLevelComplete();
-	void onLevelUnlocked(int levelIndex, LevelScores scores);
+	void updateLevelScore(int levelIndex, LevelScores scores);
 
 	int currentLevelTracked;
 	// Mastery Data to Track

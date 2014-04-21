@@ -437,7 +437,7 @@ void GameUiTouchHandlers::UpdateMenuWithMastery(std::string menuName, int levelI
 		ASSERT(false, "\n %s does not support the mastery system", menuName.c_str());
 		return;
 	}
-
+	LevelScores scores = SINGLETONS->GetMasteryManager()->GetLevelScores(levelIndex);
 	UiElement* menuRoot = (UiElement*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[menuName]);
 	for(ObjectIdType id : menuRoot->GetChildren()) {
 		UiElement* child = (UiElement*)ENGINE->GetSceneGraphUi()->GetGameObjectById(id);
@@ -470,7 +470,39 @@ void GameUiTouchHandlers::UpdateMenuWithMastery(std::string menuName, int levelI
 		} else if (child->GetName() == menuPrefix + "loot_total") {
 			int loot = SINGLETONS->GetMasteryManager()->GetMoney();
 			child->ChangeText(std::to_string(loot));
-		}
+		} else if (child->GetName() == menuPrefix + "time_score") {
+			std::string text;
+			if(scores.time != -1) {
+				text = std::to_string(scores.time);
+			} else {
+				text = "N/A";
+			}
+			child->ChangeText(text);
+		} else if (child->GetName() == menuPrefix + "kill_score") {
+			std::string text;
+			if(scores.kills != -1) {
+				text = std::to_string(scores.kills);
+			} else {
+				text = "N/A";
+			}
+			child->ChangeText(text);
+		} else if (child->GetName() == menuPrefix + "alert_score") {
+			std::string text;
+			if(scores.alerts != -1) {
+				text = std::to_string(scores.alerts);
+			} else {
+				text = "N/A";
+			}
+			child->ChangeText(text);
+		} else if (child->GetName() == menuPrefix + "loot_score") {
+			std::string text;
+			if(scores.money != -1) {
+				text = std::to_string(scores.money);
+			} else {
+				text = "N/A";
+			}
+			child->ChangeText(text);
+		} 
 	}
 
 }
