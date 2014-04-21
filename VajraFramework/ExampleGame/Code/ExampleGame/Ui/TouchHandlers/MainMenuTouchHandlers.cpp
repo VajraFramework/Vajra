@@ -39,9 +39,14 @@ MainMenuTouchHandlers::MainMenuTouchHandlers() {
 	this->currentMissionScreenIndex = 0;
 	this->prevContractIndex = -1;
 	// Todo [Implement]  data drive this
-	missionStartX.push_back(-32.0f);
-	missionStartX.push_back(-1160.0f);
-	missionStartX.push_back(-2032.0f);
+	int missionStartXs[3] = { -32, -1160, -2032 };
+	int dummy = 10;
+	UiSceneLoader::AdjustPositionForResolution(missionStartXs[0], dummy, "LEFT", "TOP", dummy, dummy, 1024, 768);
+	UiSceneLoader::AdjustPositionForResolution(missionStartXs[1], dummy, "LEFT", "TOP", dummy, dummy, 1024, 768);
+	UiSceneLoader::AdjustPositionForResolution(missionStartXs[2], dummy, "LEFT", "TOP", dummy, dummy, 1024, 768);
+	missionStartX.push_back(missionStartXs[0]);
+	missionStartX.push_back(missionStartXs[1]);
+	missionStartX.push_back(missionStartXs[2]);
 }
 
 void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /*touch*/) {
@@ -303,7 +308,7 @@ void MainMenuTouchHandlers::loadPips(int contractIndex) {
 	// place the pips on the parallax screen
 	int currentPipIndex = 0;
 	for(int j = 0; j < SINGLETONS->GetLevelManager()->GetNumMissionsInCurrentContract(); j++) {
-		float missionXOffset = this->missionStartX[j];
+		int missionXOffset = this->missionStartX[j];
 		std::vector<UiObject*> pips;
 		this->currentLevelButtons.push_back(pips);
 		for(int i = 0; i < SINGLETONS->GetLevelManager()->GetNumLevelsInMission(j); i++) {
@@ -311,11 +316,12 @@ void MainMenuTouchHandlers::loadPips(int contractIndex) {
 			UiElement* uiElement = this->levelPips[currentPipIndex];
 			LevelData* levelData = SINGLETONS->GetLevelManager()->GetLevelData(j, i);
 			uiElement->SetVisible(j == this->currentMissionScreenIndex);
-			int posX = levelData->pinX - missionXOffset;
-			int posY = levelData->pinY;
 			int dummy = 10;
+			int posX = levelData->pinX;
+			int posY = levelData->pinY;
 			// TODO [Hack] 1024x768
 			UiSceneLoader::AdjustPositionForResolution(posX, posY, "LEFT", "TOP", dummy, dummy, 1024, 768);
+			posX = posX - missionXOffset;
 			uiElement->SetPosition(posX, posY);
 			uiElement->SetZOrder(10);
 			switch(levelData->completion) {
