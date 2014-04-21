@@ -33,11 +33,16 @@
 #define SPRITE_INDEX_high 3
 #define SPRITE_INDEX_num_settings_sprites 4
 
+#define PIP_AVAILABLE 0
+#define PIP_COMPLETE_BONUS 1
+#define PIP_COMPELTE_NO_BONUS 2
+#define PIP_LOCKED 3
 MainMenuTouchHandlers::MainMenuTouchHandlers() {
 	this->missionRoot = nullptr;
 	this->currentScreenX = 0;
 	this->currentMissionScreenIndex = 0;
 	this->prevContractIndex = -1;
+	this->levelToLoad = 0;
 	// Todo [Implement]  data drive this
 	int missionStartXs[3] = { -32, -1160, -2032 };
 	int dummy = 10;
@@ -84,7 +89,13 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 	// Level Selection
 	ASSERT(this->parallaxRoot != nullptr, "The parallaxRoot root is not null");
 	if(this->parallaxRoot != nullptr && this->parallaxRoot->IsVisible()) {
-		if(uiObject->GetName() == PARALLAX) {
+		if(uiObject->GetName() == "preMenuStart") {
+			std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
+			SINGLETONS->GetMenuManager()->LoadLevel(this->levelToLoad);
+		} else if(uiObject->GetName() == "preMenuEnd") {
+			((UiObject*)ObjectRegistry::GetObjectByName("preMenu"))->SetVisible(false);
+		}
+ 		else if(uiObject->GetName() == PARALLAX) {
 			float xDiff = touch.pos.x - touch.prevPos.x;
 			this->parallaxScroll(uiObject, xDiff, true);
 		}
@@ -92,8 +103,14 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 			if(this->currentLevelButtons[this->currentMissionScreenIndex][i] == uiObject) {
 				LevelData* levelData = SINGLETONS->GetLevelManager()->GetLevelData(this->currentMissionScreenIndex, i);
 				if(levelData->completion != LevelCompletion::Locked) {
-					std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
-					SINGLETONS->GetMenuManager()->LoadLevel(i);
+					this->levelToLoad = i;
+					SINGLETONS->GetMenuManager()->CenterUiObject((UiObject*)ObjectRegistry::GetObjectByName("preMenu"));
+					SINGLETONS->GetMenuManager()->UpdateMenuWithMastery("preMenu", this->levelToLoad);
+					
+					
+					// Load premenu bonus info
+					//std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
+					//SINGLETONS->GetMenuManager()->LoadLevel(i);
 					return;
 				}
 			}
@@ -278,14 +295,19 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
 		this->parallaxRoot->AddChild(uiElement->GetId());
 		std::vector<std::string> imagePaths;
-		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelection_Level1_Marker.png");
-		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelect_Grayscale_08.png"); // TEMP : replace with locked image
+
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Available_01.png");
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Bonus_01.png");
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Completed_01.png");
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Locked_01.png"); // TEMP : replace with locked image
+
 		int width_out = 67;
 		int height_out = 118;
 		int dummy = 10;
 		// TODO [Hack] 1024x768
 		UiSceneLoader::AdjustPositionForResolution(dummy, dummy, "LEFT", "TOP", width_out, height_out, 1024, 768);
 		uiElement->InitSprite(width_out, height_out, "ustshdr", imagePaths, true);
+
 		uiElement->SetTouchHandlers(this);
 		uiElement->SetClickable(true);
 		uiElement->SetVisible(false);
@@ -326,13 +348,16 @@ void MainMenuTouchHandlers::loadPips(int contractIndex) {
 			uiElement->SetZOrder(10);
 			switch(levelData->completion) {
 				case LevelCompletion::Locked:
-					uiElement->SetSpriteTextureIndex(1);
+					uiElement->SetSpriteTextureIndex(PIP_LOCKED);
 					break;
 				case LevelCompletion::Unlocked:
-					uiElement->SetSpriteTextureIndex(0);
+					uiElement->SetSpriteTextureIndex(PIP_AVAILABLE);
+					break;
+				case LevelCompletion::Completed:
+					uiElement->SetSpriteTextureIndex(PIP_COMPELTE_NO_BONUS);
 					break;
 				default:
-					uiElement->SetSpriteTextureIndex(0);
+					uiElement->SetSpriteTextureIndex(PIP_COMPLETE_BONUS);
 					break;
 			}
 			this->currentLevelButtons[j].push_back((UiObject*)uiElement);

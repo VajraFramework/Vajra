@@ -174,7 +174,7 @@
 					<size widthPixels="162" heightPixels="54"></size>
 					<zorder>150</zorder>
 				</dimensions>
-				<image name="SD_Play_Button.png" hasTransperancy="false"> </image>
+				<image name="SD_Back_Button.png" hasTransperancy="false"> </image>
 			</uielement>
 		</uielement>
 
@@ -262,6 +262,215 @@
 				</text>
 			</uielement>
 			</uielement>
+		</uielement>
+	</uielement>
+
+	<uielement name="preMenu" clickable="true" visible="false">
+		<dimensions>
+			<position xwrto="CENTER" ywrto="CENTER" x="-388" y="-256"></position>
+			<size widthPixels="776" heightPixels="512"></size>
+			<zorder>60</zorder>
+		</dimensions>
+		<image name="SD_Start_Menu.png" hasTransperancy="true"></image>
+		<uielement name="preMenuStart" clickable="true">
+			<dimensions>
+				<position xwrto="LEFT" ywrto="TOP" x="212" y="386"></position>
+				<size widthPixels="162" heightPixels="55"></size>
+				<zorder>61</zorder>
+			</dimensions>
+			<image name="SD_Start_Button.png" hasTransperancy="false"></image>	
+		</uielement>		
+
+		<uielement name="preMenuEnd" clickable="true">
+			<dimensions>
+				<position xwrto="LEFT" ywrto="TOP" x="398" y="386"></position>
+				<size widthPixels="162" heightPixels="55"></size>
+				<zorder>61</zorder>
+			</dimensions>
+			<image name="SD_Back_Button.png" hasTransperancy="false"></image>	
+		</uielement>
+
+		<uielement name="preGame_bonus_box" clickable="false" visible="true">
+			<dimensions>
+				<position x="405" y="273"></position>
+				<size widthPixels="345" heightPixels="96"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<image name="SD_BonusBox_Narrow.png" hasTransperancy="false"> </image>
+		</uielement>		
+
+		<uielement name="preGame_bonus_icon" clickable="false" visible="true">
+			<dimensions>
+				<position x="562" y="286"></position>
+				<size widthPixels="32" heightPixels="32"></size>
+				<zorder>10</zorder>
+			</dimensions>
+			<image name="SD_HUDTracker_Time_01.png" hasTransperancy="false"> </image>
+			<image name="SD_HUDTracker_Kills_01.png" hasTransperancy="false"> </image>
+			<image name="SD_HUDTracker_Treasure_01.png" hasTransperancy="false"> </image>
+			<image name="SD_HUDTracker_Alerts_01.png" hasTransperancy="false"> </image>
+		</uielement>
+
+		<uielement name="preGame_bonus_text" clickable="false" visible="true">
+			<dimensions>
+				<position x="415" y="273"></position>
+				<size widthPixels="128" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="56.0">
+					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+				</font>
+				BONUS:
+			</text>
+		</uielement>		
+
+		<uielement name="preGame_mission_name" clickable="false" visible="true">
+			<dimensions>
+				<position x="188" y="32"></position>
+				<size widthPixels="400" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="46.0" alignment="CENTER">
+					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+				</font>
+				Mission Name
+			</text>
+		</uielement>
+
+		<uielement name="preGame_mission_Type" clickable="false" visible="true">
+			<dimensions>
+				<position x="188" y="76"></position>
+				<size widthPixels="400" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="38.0" alignment="CENTER">
+					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+				</font>
+				Mission Type
+			</text>
+		</uielement>
+
+		<uielement name="preGame_bonus_value" clickable="false" visible="true">
+			<dimensions>
+				<position x="600" y="285"></position>
+				<size widthPixels="128" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="36.0">
+					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+				</font>
+				Bonus Values and Qualifiers
+			</text>
+		</uielement>
+
+		<uielement name="preGame_bonus_completion" clickable="false" visible="true">
+		<dimensions>
+			<position x="477" y="323"></position>
+			<size widthPixels="200" heightPixels="32"></size>
+			<zorder>1</zorder>
+		</dimensions>
+		<text>
+			<font type="calibiri.fontspec" size="36.0" alignment="CENTER">
+				<color r="1.0" g="0.0" b="0.0" a="1.0"></color>
+			</font>
+			Completion
+		</text>
+	</uielement>
+	
+		<uielement name="preGame_time_icon" clickable="false" visible="true">
+			<dimensions>
+				<position x="425" y="128"></position>
+				<size widthPixels="32" heightPixels="32"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<image name="SD_HUDTracker_Time_01.png" hasTransperancy="false"> </image>
+		</uielement>
+
+		<uielement name="preGame_time_score" clickable="false" visible="true">
+			<dimensions>
+				<position x="650" y="128"></position>
+				<size widthPixels="128" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="32.0">
+					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+				</font>
+				1:00
+			</text>
+		</uielement>
+
+		<uielement name="preGame_kill_icon" clickable="false" visible="true">
+			<dimensions>
+				<position x="425" y="162"></position>
+				<size widthPixels="32" heightPixels="32"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<image name="SD_HUDTracker_Kills_01.png" hasTransperancy="false"> </image>
+		</uielement>
+
+		<uielement name="preGame_kill_score" clickable="false" visible="true">
+			<dimensions>
+				<position x="650" y="162"></position>
+				<size widthPixels="128" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="32.0">
+					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+				</font>
+				3/5
+			</text>
+		</uielement>
+
+		<uielement name="preGame_alert_icon" clickable="false" visible="true">
+			<dimensions>
+				<position x="425" y="196"></position>
+				<size widthPixels="32" heightPixels="32"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<image name="SD_HUDTracker_Alerts_01.png" hasTransperancy="false"> </image>
+		</uielement>
+
+		<uielement name="preGame_alert_score" clickable="false" visible="true">
+			<dimensions>
+				<position x="650" y="196"></position>
+				<size widthPixels="128" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="32.0">
+					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+				</font>
+				3/5
+			</text>
+		</uielement>
+
+		<uielement name="preGame_loot_icon" clickable="false" visible="true">
+			<dimensions>
+				<position x="425" y="230"></position>
+				<size widthPixels="32" heightPixels="32"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<image name="SD_HUDTracker_Treasure_01.png" hasTransperancy="false"> </image>
+		</uielement>
+
+		<uielement name="preGame_loot_score" clickable="false" visible="true">
+			<dimensions>
+				<position x="650" y="230"></position>
+				<size widthPixels="128" heightPixels="64"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="32.0">
+					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+				</font>
+				1:00
+			</text>
 		</uielement>
 	</uielement>
 	

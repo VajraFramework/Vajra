@@ -32,13 +32,6 @@
 #include "Vajra/Engine/Ui/UiElement/UiElement.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 
-#define IN_GAME_MENU "inGame"
-#define PAUSE_MENU "pauseMenu"
-#define PRE_GAME_MENU "preMenu"
-#define POST_GAME_WIN_MENU "postWinGame"
-#define POST_GAME_LOSE_MENU "postLoseGame"
-#define TUTORIAL_MENU "tutorialScreen"
-
 #define TUTORIAL_EXIT_BTN "closeTutorial"
 #define DYNAMIC_TUTORIAL_ELEMENT "dynamicTutorial"
 #define ASSASSIN_ICON_INDEX 0
@@ -194,6 +187,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		if(pauseMenu->IsVisible()) {
 			((UiElement*)uiObject)->SetSpriteTextureIndex(1);
 			ENGINE->GetSceneGraph3D()->Pause();
+			SINGLETONS->GetMenuManager()->UpdateMenuWithMastery(PAUSE_MENU, SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
 		} else {
 			ENGINE->GetSceneGraph3D()->Resume();
 			((UiElement*)uiObject)->SetSpriteTextureIndex(0);
@@ -382,7 +376,7 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 		} else {
 			exitBtn->SetSpriteTextureIndex(1);
 		}
-	}
+	} 
 	this->dynamicTutorialElement->SetVisible(true);
 	tut->SetVisible(true);
 	// tween in the tutorial
@@ -414,6 +408,8 @@ void GameUiTouchHandlers::onLevelEnd(bool success) {
 	UiObject* postMenu;
 	if(success){
 		 postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_WIN_MENU]);
+		 SINGLETONS->GetMenuManager()->UpdateMenuWithMastery(POST_GAME_WIN_MENU, SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
+
 	} else {
 		 postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_LOSE_MENU]);
 	}
