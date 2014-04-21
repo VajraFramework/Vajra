@@ -6,8 +6,8 @@
 				<field>50</field>
 			</property>
 			<property name="SetParticleSpeed">
-				<field>0.75</field>
-				<field>0.75</field>
+				<field>1.0</field>
+				<field>5.0</field>
 			</property>
 			<property name="SetEmissionVolume">
 				<field>ellipsoid</field>
@@ -27,14 +27,14 @@
 				<field>0.5</field>
 			</property>
 			<property name="SetParticleSize">
-				<field>32</field>
+				<field>128</field>
 				<field>16</field>
 			</property>
 			<property name="SetParticleLifespan">
-				<field>.5</field>
+				<field>1.5</field>
 			</property>
 			<property name="SetParticleTexture">
-				<field>pictures/SD_ClayDust_01.png</field>
+				<field>pictures/SD_ClashParticle_01.png</field>
 			</property>
 			<property name="SetParticleInitialColor">
 				<field>1.0</field>
