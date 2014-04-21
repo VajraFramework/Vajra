@@ -34,7 +34,7 @@
 			</property>
 			<property name="AddAnimationClip">
 				<field>animations/SD_Thief_mesh.skeletalanimation#death</field>
-				<field>3.0f</field>
+				<field>1.0f</field>
 				<field>false</field>
 			</property>
 			<property name="PlayAnimationClip">
@@ -57,6 +57,10 @@
 			</property>
 			<property name="SetPlayOnlyWhenVisible">
 				<field>true</field>
+			</property>
+			<property name="LoadAudioClip">
+				<field>death</field>
+				<field>audio/SD_SFX_ThiefDeath_01.wav</field>
 			</property>
 			<property name="LoadAudioClip">
 				<field>specialStart</field>

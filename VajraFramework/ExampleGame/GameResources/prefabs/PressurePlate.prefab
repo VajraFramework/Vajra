@@ -6,15 +6,6 @@
 		<component name="Transform">
 		</component>
 		
-		<component name="AudioSource">
-			<property name="SetSourceIs3D">
-				<field>false</field>
-			</property>
-			<property name="SetPlayOnlyWhenVisible">
-				<field>true</field>
-			</property>
-		</component>
-		
 		<component name="GridZone">
 			<property name="SetZoneBounds">
 				<field>0</field>
@@ -48,6 +39,19 @@
 					<field>0</field>
 					<field>0.125</field>
 					<field>0</field>
+				</property>
+			</component>
+			
+			<component name="AudioSource">
+				<property name="SetSourceIs3D">
+					<field>false</field>
+				</property>
+				<property name="SetPlayOnlyWhenVisible">
+					<field>true</field>
+				</property>
+				<property name="LoadAudioClip">
+					<field>triggerOn</field>
+					<field>audio/SD_SFX_PressurePlateDown_01.wav</field>
 				</property>
 			</component>
 			
