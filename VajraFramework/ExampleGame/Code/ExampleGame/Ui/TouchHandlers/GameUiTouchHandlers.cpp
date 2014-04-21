@@ -194,7 +194,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 		if(pauseMenu->IsVisible()) {
 			((UiElement*)uiObject)->SetSpriteTextureIndex(1);
 			ENGINE->GetSceneGraph3D()->Pause();
-			this->UpdateMenuWithMastery(PAUSE_MENU);
+			this->UpdateMenuWithMastery(PAUSE_MENU, SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
 		} else {
 			ENGINE->GetSceneGraph3D()->Resume();
 			((UiElement*)uiObject)->SetSpriteTextureIndex(0);
@@ -415,7 +415,7 @@ void GameUiTouchHandlers::onLevelEnd(bool success) {
 	UiObject* postMenu;
 	if(success){
 		 postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_WIN_MENU]);
-		 UpdateMenuWithMastery(POST_GAME_WIN_MENU);
+		 UpdateMenuWithMastery(POST_GAME_WIN_MENU, SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
 
 	} else {
 		 postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_LOSE_MENU]);
@@ -425,7 +425,7 @@ void GameUiTouchHandlers::onLevelEnd(bool success) {
 	this->tutorials.clear();
 }
 
-void GameUiTouchHandlers::UpdateMenuWithMastery(std::string menuName) {
+void GameUiTouchHandlers::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 	std::string menuPrefix;
 	if(menuName == POST_GAME_WIN_MENU) {
 		menuPrefix = "postGame_";

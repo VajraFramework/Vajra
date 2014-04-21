@@ -26,6 +26,7 @@ public:
 
 	void TweenOutUiObject(UiObject*);
 	void TweenInUiObject(UiObject*);
+	void CenterUiObject(UiObject*);
 
 	AudioSource* GetBGMSource() { return this->menuBGMSource; }
 	void PlayBGM(std::string key);
@@ -40,7 +41,7 @@ private:
 
 	void unloadPreviousScene();
 
-	void showLoadScreen();
+	void showLoadScreen(int levelIndex);
 	void hideLoadScreen();
 
 	void createMenuAudioSource();
