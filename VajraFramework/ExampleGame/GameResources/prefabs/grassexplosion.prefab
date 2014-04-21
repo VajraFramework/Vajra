@@ -1,9 +1,6 @@
 <prefab>
 	<gameobject>
 		<component name="ParticleSystem">
-			<property name="SetSimulateInWorldSpace">
-				<field>true</field>
-			</property>
 			<property name="SetNumberOfParticles">
 				<field>50</field>
 				<field>50</field>
@@ -15,7 +12,7 @@
 			<property name="SetEmissionVolume">
 				<field>ellipsoid</field>
 				<field>0.4</field>
-				<field>0.4</field>
+				<field>1.4</field>
 				<field>0.4</field>
 			</property>
 			<property name="SetOverallLifespan">
@@ -34,10 +31,10 @@
 				<field>16</field>
 			</property>
 			<property name="SetParticleLifespan">
-				<field>1.5</field>
+				<field>.5</field>
 			</property>
 			<property name="SetParticleTexture">
-				<field>pictures/SD_AssassinParticle_01.png</field>
+				<field>pictures/grassParticle.png</field>
 			</property>
 			<property name="SetParticleInitialColor">
 				<field>1.0</field>
@@ -49,10 +46,10 @@
 				<field>1.0</field>
 				<field>1.0</field>
 				<field>1.0</field>
-				<field>0.0</field>
+				<field>0.25</field>
 			</property>
 			<property name="SetLooping">
-				<field>true</field>
+				<field>false</field>
 			</property>
 			<property name="InitParticleSystem">
 			</property>

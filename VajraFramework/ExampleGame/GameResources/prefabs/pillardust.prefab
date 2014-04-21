@@ -1,6 +1,9 @@
 <prefab>
 	<gameobject>
 		<component name="ParticleSystem">
+			<property name="SetSimulateInWorldSpace">
+				<field>true</field>
+			</property>
 			<property name="SetNumberOfParticles">
 				<field>50</field>
 				<field>50</field>

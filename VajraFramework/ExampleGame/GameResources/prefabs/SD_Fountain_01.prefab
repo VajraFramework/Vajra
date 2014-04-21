@@ -15,7 +15,7 @@
 	  	<gameobject>
 			<component name="ParticleSystem">
 				<property name="SetNumberOfParticles">
-					<field>50</field>
+					<field>10</field>
 					<field>50</field>
 				</property>
 				<property name="SetParticleSpeed">
@@ -25,7 +25,7 @@
 				<property name="SetEmissionVolume">
 					<field>ellipsoid</field>
 					<field>0.4</field>
-					<field>1.4</field>
+					<field>0.4</field>
 					<field>0.4</field>
 				</property>
 				<property name="SetOverallLifespan">
@@ -44,10 +44,10 @@
 					<field>16</field>
 				</property>
 				<property name="SetParticleLifespan">
-					<field>.5</field>
+					<field>1.5</field>
 				</property>
 				<property name="SetParticleTexture">
-					<field>pictures/SD_ClayDust_01.png</field>
+					<field>pictures/waterparticles.png</field>
 				</property>
 				<property name="SetParticleInitialColor">
 					<field>1.0</field>
