@@ -275,7 +275,12 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		std::vector<std::string> imagePaths;
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelection_Level1_Marker.png");
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelect_Grayscale_08.png"); // TEMP : replace with locked image
-		uiElement->InitSprite(67, 118, "ustshdr", imagePaths, true);
+		int width_out = 67;
+		int height_out = 118;
+		int dummy = 10;
+		// TODO [Hack] 1024x768
+		UiSceneLoader::AdjustPositionForResolution(dummy, dummy, "LEFT", "TOP", width_out, height_out, 1024, 768);
+		uiElement->InitSprite(width_out, height_out, "ustshdr", imagePaths, true);
 		uiElement->SetTouchHandlers(this);
 		uiElement->SetClickable(true);
 		uiElement->SetVisible(false);
@@ -306,7 +311,12 @@ void MainMenuTouchHandlers::loadPips(int contractIndex) {
 			UiElement* uiElement = this->levelPips[currentPipIndex];
 			LevelData* levelData = SINGLETONS->GetLevelManager()->GetLevelData(j, i);
 			uiElement->SetVisible(j == this->currentMissionScreenIndex);
-			uiElement->SetPosition(levelData->pinX - missionXOffset, levelData->pinY);
+			int posX = levelData->pinX - missionXOffset;
+			int posY = levelData->pinY;
+			int dummy = 10;
+			// TODO [Hack] 1024x768
+			UiSceneLoader::AdjustPositionForResolution(posX, posY, "LEFT", "TOP", dummy, dummy, 1024, 768);
+			uiElement->SetPosition(posX, posY);
 			uiElement->SetZOrder(10);
 			switch(levelData->completion) {
 				case LevelCompletion::Locked:
