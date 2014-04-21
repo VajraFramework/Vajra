@@ -157,7 +157,7 @@
 			<image name="SD_HUDTracker_Time_01.png" hasTransperancy="false"> </image>
 		</uielement>
 
-		<uielement name="preGame_time_value" clickable="false" visible="true">
+		<uielement name="preGame_time_score" clickable="false" visible="true">
 			<dimensions>
 				<position x="650" y="128"></position>
 				<size widthPixels="128" heightPixels="64"></size>
@@ -180,7 +180,7 @@
 			<image name="SD_HUDTracker_Kills_01.png" hasTransperancy="false"> </image>
 		</uielement>
 
-		<uielement name="preGame_kill_value" clickable="false" visible="true">
+		<uielement name="preGame_kill_score" clickable="false" visible="true">
 			<dimensions>
 				<position x="650" y="162"></position>
 				<size widthPixels="128" heightPixels="64"></size>
@@ -203,7 +203,7 @@
 			<image name="SD_HUDTracker_Alerts_01.png" hasTransperancy="false"> </image>
 		</uielement>
 
-		<uielement name="preGame_alert_value" clickable="false" visible="true">
+		<uielement name="preGame_alert_score" clickable="false" visible="true">
 			<dimensions>
 				<position x="650" y="196"></position>
 				<size widthPixels="128" heightPixels="64"></size>
@@ -226,7 +226,7 @@
 			<image name="SD_HUDTracker_Treasure_01.png" hasTransperancy="false"> </image>
 		</uielement>
 
-		<uielement name="preGame_loot_value" clickable="false" visible="true">
+		<uielement name="preGame_loot_score" clickable="false" visible="true">
 			<dimensions>
 				<position x="650" y="230"></position>
 				<size widthPixels="128" heightPixels="64"></size>

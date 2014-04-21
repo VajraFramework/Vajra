@@ -115,13 +115,14 @@ public:
 	void SetCurrentMission(int missionIndex) { this->currentMission = missionIndex; }
 
 	void OnCurrentLevelWon(LevelCompletion completion);
-	void SaveLevelScores(int levelIndex, LevelScores scores);
+	void SaveLevelScores(int levelIndex, LevelScores* scores);
 private:
 	void init();
 	void destroy();
 	void update();
 
 	void onLevelUnlocked(int index);
+	void loadLevelScore(int index);
 
 	void UnloadLevel();
 	bool TryLoadNextLevel();
