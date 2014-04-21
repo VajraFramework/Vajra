@@ -34,17 +34,23 @@ void MasteryManager::destroy() {
 }
 
 void MasteryManager::start() {
-	levelTime = 0.0f;
-	numKills = 0;
-	money = 0;
-	numAlerts = 0;
+	this->ResetTracking();
+}
+
+void MasteryManager::ResetTracking() {
+	this->levelTime = 0.0f;
+	this->numKills = 0;
+	this->money = 0;
+	this->numAlerts = 0;
 }
 
 void MasteryManager::HandleMessage(MessageChunk messageChunk) {
 	Component::HandleMessage(messageChunk);
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_500_MS_TIME_EVENT:
-			levelTime += .5f;
+			if(!ENGINE->GetSceneGraph3D()->IsPaused()) {
+				this->levelTime += 0.5;
+			}
 			break;
 		case MESSAGE_TYPE_UNIT_KILLED:
 			{

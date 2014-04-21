@@ -450,21 +450,26 @@ void GameUiTouchHandlers::UpdateMenuWithMastery(std::string menuName) {
 		} else if (child->GetName() == menuPrefix + "bonus_completion") {
 			child->ChangeText("INCOMPLETE");
 		} else if (child->GetName() == menuPrefix + "time_value") {
-			child->ChangeText("2:35");
+			int time = SINGLETONS->GetMasteryManager()->GetLevelTime();
+			child->ChangeText(std::to_string(time));
 		} else if (child->GetName() == menuPrefix + "time_total") {
 			child->ChangeText(":30 x 5 = -500");
 		} else if (child->GetName() == menuPrefix + "kill_value") {
-			child->ChangeText("4/7");
+			int kills = SINGLETONS->GetMasteryManager()->GetNumKills();
+			child->ChangeText(std::to_string(kills));
 		} else if (child->GetName() == menuPrefix + "kill_total") {
 			child->ChangeText("4 x 7 = -1400");
 		} else if (child->GetName() == menuPrefix + "alert_value") {
-			child->ChangeText("3");
+			int alerts = SINGLETONS->GetMasteryManager()->GetNumAlerts();
+			child->ChangeText(std::to_string(alerts));
 		} else if (child->GetName() == menuPrefix + "alert_total") {
 			child->ChangeText("3 x -50 = -150");
-		} else if (child->GetName() == menuPrefix + "loot_value") {
-			child->ChangeText("1500");
+		} else if (child->GetName() == menuPrefix + "loot_value") {	
+			int loot = SINGLETONS->GetMasteryManager()->GetMoney();
+			child->ChangeText(std::to_string(loot));
 		} else if (child->GetName() == menuPrefix + "loot_total") {
-			child->ChangeText("1500");
+			int loot = SINGLETONS->GetMasteryManager()->GetMoney();
+			child->ChangeText(std::to_string(loot));
 		}
 	}
 
