@@ -26,6 +26,7 @@
 #define MAX_LEVELS_POSSIBLE 256
 
 class Bundle;
+class LevelScores;
 
 enum LevelType {
 	Infiltration,
@@ -73,6 +74,12 @@ public:
 	std::vector<MissionData*> missions;
 };
 
+#define LEVEL_BUNDLE_NAME "levelBundle_"
+#define BONUS "bonus"
+#define BEST_TIME "bestTime"
+#define BEST_KILL "bestKill"
+#define BEST_ALERT "bestAlert"
+#define BEST_LOOT "bestLoot"
 
 //[[COMPONENT]]//
 class LevelManager : public Component {
@@ -108,10 +115,13 @@ public:
 	void SetCurrentMission(int missionIndex) { this->currentMission = missionIndex; }
 
 	void OnCurrentLevelWon(LevelCompletion completion);
+	void SaveLevelScores(int levelIndex, LevelScores scores);
 private:
 	void init();
 	void destroy();
 	void update();
+
+	void onLevelUnlocked(int index);
 
 	void UnloadLevel();
 	bool TryLoadNextLevel();
