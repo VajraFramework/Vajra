@@ -25,11 +25,13 @@ public:
 
 	inline void SetCurrentBonuse(LevelBonus bonus, int bonusValue) { this->currentBonus = bonus; this->bonusValue = bonusValue;}
 
-	inline int GetLevelTime() { return this->levelTime; }
+	inline float GetLevelTime() { return this->levelTime; }
 	inline int GetNumKills() { return this->numKills; }
-	inline int GetNumAlerts() { return this->levelTime; }
+	inline int GetNumAlerts() { return this->numAlerts; }
 	inline int GetMoney() { return this->money; }
-	
+
+	void ResetTracking();
+
 private:
 	void init();
 	void destroy();
@@ -39,7 +41,7 @@ private:
 	bool testBonusSucess();
 
 	// Mastery Data to Track
-	int levelTime;
+	float levelTime;
 	int numKills;
 	int money;
 	int numAlerts;

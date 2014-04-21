@@ -39,6 +39,7 @@ void menuManagerNumberTweenCallback(float /* fromNumber */, float toNumber , flo
 		UiObject* preMenuScreen = (UiObject*)ObjectRegistry::GetObjectByName("preMenu");
 		VERIFY(preMenuScreen != nullptr, "preMenuScreen to show is not null");
 		preMenuScreen->SetVisible(true);
+		SINGLETONS->GetMasteryManager()->ResetTracking();
 		SINGLETONS->GetMenuManager()->gameUiTouchHandler->UpdateMenuWithMastery("preMenu");
 		SINGLETONS->GetMenuManager()->TweenInUiObject(preMenuScreen);
 	}
