@@ -36,12 +36,19 @@ void menuManagerNumberTweenCallback(float /* fromNumber */, float toNumber , flo
 			SINGLETONS->GetMenuManager()->backdrop->SetVisible(false);
 		}
 	} else if (tweenClipName == "delayPreMenuOpen") {
-		UiObject* preMenuScreen = (UiObject*)ObjectRegistry::GetObjectByName("preMenu");
+		/*UiObject* preMenuScreen = (UiObject*)ObjectRegistry::GetObjectByName("preMenu");
 		VERIFY(preMenuScreen != nullptr, "preMenuScreen to show is not null");
 		preMenuScreen->SetVisible(true);
 		SINGLETONS->GetMasteryManager()->ResetTracking();
 		SINGLETONS->GetMenuManager()->gameUiTouchHandler->UpdateMenuWithMastery("preMenu");
-		SINGLETONS->GetMenuManager()->TweenInUiObject(preMenuScreen);
+		SINGLETONS->GetMenuManager()->TweenInUiObject(preMenuScreen);*/
+	} else if (tweenClipName == "loadSceenFade") {
+		glm::vec4 backdropColor = SINGLETONS->GetMenuManager()->loadScreen->GetSpriteColor();
+		backdropColor.a = currentNumber;
+		SINGLETONS->GetMenuManager()->loadScreen->SetSpriteColor(backdropColor);
+		if(currentNumber == 0 && toNumber == 0) {
+			SINGLETONS->GetMenuManager()->loadScreen->SetVisible(false);
+		}
 	}
 
 }
@@ -138,7 +145,7 @@ void MenuManager::LoadLevel(int levelIndex) {
 	}
 
 	if(levelIndex < SINGLETONS->GetLevelManager()->GetNumLevelsInCurrentMission()) {
-		this->showLoadScreen(); // We only need a load screen when we are loading a new level
+		this->showLoadScreen(levelIndex); // We only need a load screen when we are loading a new level
 		SINGLETONS->GetLevelManager()->LoadLevel(levelIndex);
 	} else {
 		this->LoadMainMenu(PARALLAX);
@@ -206,6 +213,22 @@ void MenuManager::TweenInUiObject(UiObject* element) {
 	}
 	
 }
+void MenuManager::CenterUiObject(UiObject* element) {
+	if(element != nullptr) {
+		float halfWidth = ((float)element->GetWidth()) / 2.0f;
+		float halfHeight = ((float)element->GetHeight()) / 2.0f;
+		
+		float halfScreenWidth = ((float)FRAMEWORK->GetDeviceProperties()->GetWidthPixels()) / 2.0f;
+		float halfScreenHeight= ((float)FRAMEWORK->GetDeviceProperties()->GetHeightPixels()) / 2.0f;
+		
+		glm::vec3 screenCenter = glm::vec3(halfScreenWidth - halfWidth, -halfScreenHeight + halfHeight, 0.0f);
+		
+		screenCenter.z = element->GetZOrder();
+		element->GetTransform()->SetPosition(screenCenter);
+		element->SetVisible(true);
+	}
+	
+}
 
 void MenuManager::PlayBGM(std::string key) {
 	// Background music is looped by default
@@ -231,7 +254,7 @@ void MenuManager::unloadPreviousScene() {
 	this->loadScreen = nullptr;
 }
 
-void MenuManager::showLoadScreen() {
+void MenuManager::showLoadScreen(int levelIndex) {
 	if(this->loadScreen == nullptr) {
 		this->loadScreen = new UiElement(ENGINE->GetSceneGraphUi());
 		ENGINE->GetSceneGraphUi()->GetRootGameObject()->AddChild(this->loadScreen->GetId());
@@ -239,19 +262,33 @@ void MenuManager::showLoadScreen() {
 		pathsToTextures.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "loading.png");
 		this->loadScreen->InitSprite(FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels(), "ustshdr", pathsToTextures, false);
 		this->loadScreen->SetPosition(0.0f, 0.0f);
-		this->loadScreen->SetZOrder(50);
+		this->loadScreen->SetZOrder(10);
 	}
 	this->loadScreen->SetVisible(true);
 	this->loadStartTime = ENGINE->GetTimer()->GetHighResAbsoluteTime();
+
+	// Show the PreGame Menu ontop of the load screen
+	if(this->gameUiTouchHandler != nullptr) {
+		this->CenterUiObject((UiObject*)ObjectRegistry::GetObjectByName("preMenu"));
+		SINGLETONS->GetMasteryManager()->ResetTracking();
+		this->gameUiTouchHandler->UpdateMenuWithMastery("preMenu", levelIndex);
+		
+		this->backdrop->SetVisible(true);
+		
+		glm::vec4 backdropColor = this->backdrop->GetSpriteColor();
+		backdropColor.a = .7f;
+		this->backdrop->SetSpriteColor(backdropColor);
+	}
 }
 
 void MenuManager::hideLoadScreen() {
 	if(this->loadScreen != nullptr) {
-		this->loadScreen->SetVisible(false);
+		ENGINE->GetTween()->TweenToNumber(1.0f, 0.0f, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "loadSceenFade", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
+		
 	}
 	ENGINE->GetSceneGraph3D()->Resume();
 	if(this->gameUiTouchHandler != nullptr) {
-		ENGINE->GetTween()->TweenToNumber(0.0f, 0.1f, .2f, INTERPOLATION_TYPE_LINEAR, true, false, true, "delayPreMenuOpen", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
+		//ENGINE->GetTween()->TweenToNumber(0.0f, 0.1f, .2f, INTERPOLATION_TYPE_LINEAR, true, false, true, "delayPreMenuOpen", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
 	}
 }
 
