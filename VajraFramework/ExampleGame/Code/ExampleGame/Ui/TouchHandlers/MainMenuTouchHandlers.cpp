@@ -33,6 +33,10 @@
 #define SPRITE_INDEX_high 3
 #define SPRITE_INDEX_num_settings_sprites 4
 
+#define PIP_AVAILABLE 0
+#define PIP_COMPLETE_BONUS 1
+#define PIP_COMPELTE_NO_BONUS 2
+#define PIP_LOCKED 3
 MainMenuTouchHandlers::MainMenuTouchHandlers() {
 	this->missionRoot = nullptr;
 	this->currentScreenX = 0;
@@ -273,8 +277,10 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
 		this->parallaxRoot->AddChild(uiElement->GetId());
 		std::vector<std::string> imagePaths;
-		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelection_Level1_Marker.png");
-		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelect_Grayscale_08.png"); // TEMP : replace with locked image
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Available_01.png");
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Bonus_01.png");
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Completed_01.png");
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Locked_01.png"); // TEMP : replace with locked image
 		uiElement->InitSprite(67, 118, "ustshdr", imagePaths, true);
 		uiElement->SetTouchHandlers(this);
 		uiElement->SetClickable(true);
@@ -310,13 +316,16 @@ void MainMenuTouchHandlers::loadPips(int contractIndex) {
 			uiElement->SetZOrder(10);
 			switch(levelData->completion) {
 				case LevelCompletion::Locked:
-					uiElement->SetSpriteTextureIndex(1);
+					uiElement->SetSpriteTextureIndex(PIP_LOCKED);
 					break;
 				case LevelCompletion::Unlocked:
-					uiElement->SetSpriteTextureIndex(0);
+					uiElement->SetSpriteTextureIndex(PIP_AVAILABLE);
+					break;
+				case LevelCompletion::Completed:
+					uiElement->SetSpriteTextureIndex(PIP_COMPELTE_NO_BONUS);
 					break;
 				default:
-					uiElement->SetSpriteTextureIndex(0);
+					uiElement->SetSpriteTextureIndex(PIP_COMPLETE_BONUS);
 					break;
 			}
 			this->currentLevelButtons[j].push_back((UiObject*)uiElement);
