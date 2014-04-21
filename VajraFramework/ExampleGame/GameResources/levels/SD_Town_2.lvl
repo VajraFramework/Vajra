@@ -1,0 +1,734 @@
+<level levelName="Town_2" bgm="">
+  <grid>
+      <cellData width="39" height="27">
+			<cellElevations>
+              1 1 1 1 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+              1 1 1 1 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+              1 2 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 2 2 
+              1 0 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 2 2 
+              1 0 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 2 2 
+              0 0 1 1 1 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 2 2 2 2 2 
+              1 0 1 1 1 0 0 0 0 1 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 2 1 2 2 2 2 2 
+              1 0 1 1 1 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 2 2 2 2 2 
+              1 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 2 2 2 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+              1 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+              1 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 2 2 
+              1 2 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 2 2 
+              1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 2 2 
+              1 1 1 1 0 0 1 1 1 1 1 1 1 1 1 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+              1 1 1 1 0 0 1 1 1 1 1 1 1 1 1 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 2 0 0 
+              0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 2 2 2 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 2 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 1 1 2 0 0 2 0 0 2 0 1 1 1 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 1 1 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 2 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 1 1 1 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 1 1 1 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 1 1 1 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 
+			</cellElevations>
+
+			<passableCells>
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 
+              0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 
+              0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 0 0 0 1 1 1 1 1 1 0 0 0 0 0 
+              0 1 1 1 1 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 
+              0 1 1 1 1 0 0 0 0 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 1 1 0 0 
+              0 1 1 1 1 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 
+              0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 
+              0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 
+              0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 
+              0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 1 0 1 1 0 1 0 0 0 1 1 0 1 1 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 0 1 0 1 1 1 1 1 1 0 0 0 1 1 0 1 1 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 0 0 0 0 1 1 0 1 1 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 1 1 1 1 1 1 1 1 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			</passableCells>
+
+			<visibleCells>
+              1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              1 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 0 0 0 1 1 1 1 1 1 0 0 0 0 0 
+              0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 0 1 1 1 1 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 1 1 0 0 
+              1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 
+              1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 
+              1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 
+              1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 
+              1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 0 0 0 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 0 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+			</visibleCells>
+      </cellData>
+
+      <roomData>
+          <room x="2" z="14" width="17" height="11">
+          </room>
+          <room x="20" z="14" width="17" height="11">
+          </room>
+          <room x="20" z="2" width="17" height="11">
+          </room>
+      </roomData>
+  </grid>
+
+  <static>
+		<staticObject id="149814" prefab="SD_Fence_Corner_01" x="28" y="0.0" z="5" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="150472" prefab="SD_Fence_Corner_01" x="8" y="4.0" z="22" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152482" prefab="SD_Fence_Corner_01" x="28" y="0.0" z="7" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="153066" prefab="SD_Fence_Corner_01" x="30" y="4.0" z="10" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="153126" prefab="SD_Fence_Corner_01" x="19" y="4.0" z="10" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152204" prefab="SD_Fence_Straight_1x1_01" x="29" y="4.0" z="10" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="154002" prefab="SD_Fence_Straight_1x1_01" x="28" y="0.0" z="6" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="149554" prefab="SD_Fence_Straight_1x2_01" x="29" y="0.0" z="7" width="2" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="154308" prefab="SD_Fence_Straight_1x2_01" x="19" y="4.0" z="11" width="1" height="2" rotation="90">
+      </staticObject>
+		<staticObject id="149266" prefab="SD_Fence_Straight_1x2_01" x="26" y="0.0" z="5" width="2" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152320" prefab="SD_Fence_Straight_1x3_01" x="24" y="0.0" z="7" width="1" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="148358" prefab="SD_Fence_Straight_1x9_01" x="20" y="4.0" z="10" width="9" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="150414" prefab="SD_Hedge_End_01" x="30" y="4.0" z="13" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="150938" prefab="SD_Hedge_End_01" x="13" y="0.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="150286" prefab="SD_Hedge_End_01" x="33" y="4.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="151134" prefab="SD_Hedge_End_01" x="26" y="4.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="153964" prefab="SD_Hedge_Straight_01" x="19" y="0.0" z="9" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="153370" prefab="SD_Hedge_Straight_01" x="10" y="0.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152158" prefab="SD_Hedge_Straight_01" x="32" y="4.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="150698" prefab="SD_Hedge_Straight_01" x="8" y="0.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="151822" prefab="SD_Hedge_Straight_01" x="23" y="0.0" z="0" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152618" prefab="SD_Hedge_Straight_01" x="24" y="0.0" z="0" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="148590" prefab="SD_Hedge_Straight_01" x="7" y="0.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="154076" prefab="SD_Hedge_Straight_01" x="21" y="0.0" z="0" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152472" prefab="SD_Hedge_Straight_01" x="25" y="0.0" z="0" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152054" prefab="SD_Hedge_Straight_01" x="25" y="4.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="153354" prefab="SD_Hedge_Straight_01" x="20" y="0.0" z="0" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="151126" prefab="SD_Hedge_Straight_01" x="4" y="0.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="150442" prefab="SD_Hedge_Straight_01" x="9" y="0.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="153896" prefab="SD_Hedge_Straight_01" x="26" y="0.0" z="0" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="155076" prefab="SD_Hedge_Straight_01" x="22" y="0.0" z="0" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="148710" prefab="SD_Hedge_Straight_01" x="11" y="0.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="151332" prefab="SD_Hedge_Straight_01" x="5" y="0.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="154080" prefab="SD_Hedge_Straight_01" x="31" y="4.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="154352" prefab="SD_Hedge_Straight_01" x="12" y="0.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="150282" prefab="SD_Hedge_Straight_01" x="6" y="0.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="150908" prefab="SD_HighWall_Standalone_01" x="36" y="0.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="153542" prefab="SD_HighWall_Standalone_01" x="36" y="0.0" z="10" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="151272" prefab="SD_HighWall_Standalone_01" x="34" y="0.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="149202" prefab="SD_HighWall_Straight_1x1_01" x="35" y="0.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="154316" prefab="SD_HighWall_Straight_1x2_01" x="36" y="0.0" z="11" width="1" height="2" rotation="90">
+      </staticObject>
+		<staticObject id="149930" prefab="SD_LowWall_Standalone_01" x="9" y="0.0" z="20" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="153070" prefab="SD_LowWall_Standalone_01" x="32" y="2.0" z="20" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="149098" prefab="SD_MarketStall_01" x="21" y="0.0" z="8" width="2" height="2" rotation="270">
+      </staticObject>
+		<staticObject id="155354" prefab="SD_MedWall_Standalone_01" x="36" y="0.0" z="6" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="154588" prefab="SD_Nature_TallTree_01" x="3" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="149654" prefab="SD_Nature_TallTree_01" x="29" y="0.0" z="9" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="150048" prefab="SD_Nature_TallTree_01" x="38" y="0.0" z="11" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="153320" prefab="SD_Nature_TallTree_01" x="18" y="0.0" z="9" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152886" prefab="SD_Nature_TallTree_01" x="23" y="0.0" z="9" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="148636" prefab="SD_Nature_TallTree_01" x="1" y="0.0" z="24" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="149126" prefab="SD_Nature_TallTree_01" x="39" y="0.0" z="11" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="151748" prefab="SD_Nature_TallTree_01" x="1" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="149658" prefab="SD_Nature_TallTree_01" x="26" y="0.0" z="9" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="148534" prefab="SD_Nature_TallTree_01" x="37" y="0.0" z="11" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="148778" prefab="SD_Short_House_Corner_01" x="17" y="0.0" z="0" width="3" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="149704" prefab="SD_Short_House_Corner_01" x="36" y="0.0" z="0" width="3" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="149640" prefab="SD_Short_House_Corner_01" x="17" y="0.0" z="6" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="148334" prefab="SD_Short_House_Corner_01" x="25" y="4.0" z="16" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="153470" prefab="SD_Short_House_Corner_01" x="37" y="4.0" z="25" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="149524" prefab="SD_Short_House_Corner_01" x="-2" y="0.0" z="12" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="149232" prefab="SD_Short_House_Corner_01" x="-2" y="0.0" z="25" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="154280" prefab="SD_Short_House_End_01" x="17" y="4.0" z="25" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="149870" prefab="SD_Short_House_End_01" x="17" y="4.0" z="22" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="153510" prefab="SD_Short_House_End_01" x="-2" y="0.0" z="22" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="152240" prefab="SD_Short_House_End_01" x="-2" y="0.0" z="18" width="3" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="152718" prefab="SD_Short_House_End_01" x="25" y="4.0" z="19" width="3" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="152604" prefab="SD_Short_House_End_01" x="23" y="0.0" z="4" width="3" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="154184" prefab="SD_Short_House_End_01" x="1" y="0.0" z="12" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="151780" prefab="SD_Short_House_End_01" x="6" y="0.0" z="11" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="153784" prefab="SD_Short_House_End_01" x="31" y="4.0" z="16" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="155394" prefab="SD_Short_House_End_01" x="36" y="0.0" z="3" width="3" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="152780" prefab="SD_Short_House_End_01" x="31" y="4.0" z="28" width="3" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="153466" prefab="SD_Short_House_End_01" x="1" y="0.0" z="25" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="149742" prefab="SD_Short_House_End_01" x="14" y="0.0" z="0" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="150604" prefab="SD_Short_House_End_01" x="22" y="4.0" z="28" width="3" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="153900" prefab="SD_Short_House_End_01" x="20" y="4.0" z="22" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="150844" prefab="SD_Short_House_End_01" x="12" y="0.0" z="11" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="154488" prefab="SD_Short_House_End_01" x="27" y="0.0" z="0" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="154510" prefab="SD_Short_House_End_01" x="14" y="0.0" z="6" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="150214" prefab="SD_Short_House_End_01" x="23" y="0.0" z="1" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="150884" prefab="SD_Short_House_End_01" x="11" y="4.0" z="28" width="3" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="150234" prefab="SD_Short_House_Standalone_01" x="31" y="0.0" z="7" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="153972" prefab="SD_Short_House_Straight_01" x="9" y="0.0" z="11" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="149358" prefab="SD_Short_House_Straight_01" x="33" y="0.0" z="0" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="154484" prefab="SD_Short_House_Straight_01" x="17" y="0.0" z="3" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="150428" prefab="SD_Short_House_Straight_01" x="30" y="0.0" z="0" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="150290" prefab="SD_Short_House_Straight_01" x="8" y="4.0" z="25" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="151816" prefab="SD_Short_House_Straight_01" x="28" y="4.0" z="25" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="150180" prefab="SD_Short_House_Straight_01" x="28" y="4.0" z="16" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="151836" prefab="SD_Short_House_Straight_01" x="-2" y="0.0" z="15" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="154940" prefab="SD_Short_Terrace_Corner_01" x="2" y="0.0" z="16" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="155058" prefab="SD_Short_Terrace_Corner_01" x="2" y="0.0" z="22" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="151700" prefab="SD_Short_Terrace_End_01" x="5" y="0.0" z="16" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="148816" prefab="SD_Short_Terrace_Straight_01" x="2" y="0.0" z="19" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="155036" prefab="SD_Tall_House_3Way_01" x="11" y="0.0" z="25" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="148666" prefab="SD_Tall_House_3Way_01" x="37" y="0.0" z="19" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="151040" prefab="SD_Tall_House_3Way_01" x="31" y="0.0" z="25" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="153614" prefab="SD_Tall_House_Corner_01" x="19" y="0.0" z="13" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="150564" prefab="SD_Tall_House_Corner_01" x="22" y="0.0" z="25" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="154680" prefab="SD_Tall_House_End_01" x="5" y="0.0" z="25" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="152850" prefab="SD_Tall_House_End_01" x="19" y="0.0" z="16" width="3" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="150760" prefab="SD_Tall_House_End_01" x="43" y="0.0" z="19" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="155358" prefab="SD_Tall_House_End_01" x="37" y="0.0" z="13" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="149730" prefab="SD_Tall_House_End_01" x="22" y="0.0" z="13" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="154370" prefab="SD_Tall_House_Straight_01" x="37" y="0.0" z="22" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="154340" prefab="SD_Tall_House_Straight_01" x="14" y="0.0" z="25" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="154264" prefab="SD_Tall_House_Straight_01" x="34" y="0.0" z="25" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="155334" prefab="SD_Tall_House_Straight_01" x="40" y="0.0" z="19" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="149828" prefab="SD_Tall_House_Straight_01" x="37" y="0.0" z="16" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="151094" prefab="SD_Tall_House_Straight_01" x="25" y="0.0" z="25" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="153090" prefab="SD_Tall_Terrace_Corner_01" x="14" y="0.0" z="22" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="150588" prefab="SD_Tall_Terrace_Corner_01" x="14" y="0.0" z="19" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="152942" prefab="SD_Tall_Terrace_End_01" x="19" y="0.0" z="10" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="155230" prefab="SD_Tall_Terrace_End_01" x="28" y="0.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="149190" prefab="SD_Tall_Terrace_End_01" x="8" y="0.0" z="22" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="151268" prefab="SD_Tall_Terrace_Straight_01" x="25" y="0.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="149440" prefab="SD_Tall_Terrace_Straight_01" x="22" y="0.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="154918" prefab="SD_Tall_Terrace_Straight_01" x="17" y="0.0" z="19" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="153708" prefab="SD_Tall_Terrace_Straight_01" x="11" y="0.0" z="22" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="154572" prefab="SD_Chasm_1x1_01" x="33" y="4.0" z="21" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="149764" prefab="SD_Chasm_1x1_01" x="31" y="2.0" z="20" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="151150" prefab="SD_Chasm_1x1_01" x="8" y="0.0" z="20" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="152186" prefab="SD_Chasm_1x1_01" x="9" y="0.0" z="19" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="149588" prefab="SD_Chasm_1x1_01" x="13" y="0.0" z="21" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="151562" prefab="SD_Chasm_1x1_01" x="10" y="0.0" z="20" width="1" height="1" rotation="270">
+      </staticObject>
+		<staticObject id="153968" prefab="SD_Chasm_1x1_01" x="32" y="2.0" z="19" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="154684" prefab="SD_Chasm_1x1_01" x="33" y="2.0" z="20" width="1" height="1" rotation="270">
+      </staticObject>
+		<staticObject id="149772" prefab="SD_Chasm_1x3_01" x="5" y="0.0" z="19" width="1" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="148400" prefab="SD_Chasm_1x3_01" x="34" y="4.0" z="14" width="1" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="150358" prefab="SD_Chasm_1x3_01" x="34" y="4.0" z="16" width="3" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152084" prefab="SD_Chasm_1x3_01" x="28" y="4.0" z="19" width="1" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="151958" prefab="SD_Chasm_1x3_01" x="33" y="4.0" z="19" width="1" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="154276" prefab="SD_Chasm_1x3_01" x="13" y="0.0" z="19" width="1" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="152340" prefab="SD_Chasm_1x3_01" x="34" y="4.0" z="22" width="1" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="154840" prefab="SD_Chasm_1x5_01" x="8" y="0.0" z="21" width="5" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152528" prefab="SD_Chasm_1x5_01" x="28" y="4.0" z="21" width="5" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="151548" prefab="SD_Floor_Brick_3x3_01" x="2" y="2.0" z="16" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="153160" prefab="SD_Floor_Brick_3x3_01" x="2" y="2.0" z="22" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="150534" prefab="SD_Floor_Brick_3x3_01" x="2" y="2.0" z="19" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="148274" prefab="SD_Floor_Brick_3x3_01" x="5" y="2.0" z="16" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="149122" prefab="SD_Floor_Dirt_1x3_01" x="14" y="0.0" z="16" width="1" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="151728" prefab="SD_Floor_Dirt_3x3_01" x="33" y="0.0" z="7" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="153800" prefab="SD_Floor_Dirt_3x3_01" x="36" y="0.0" z="7" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="154844" prefab="SD_Floor_Dirt_3x3_01" x="11" y="0.0" z="16" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="151130" prefab="SD_Floor_Dirt_3x3_01" x="20" y="0.0" z="7" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="153244" prefab="SD_Floor_Dirt_3x3_01" x="20" y="0.0" z="4" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="155340" prefab="SD_Floor_Dirt_3x3_01" x="16" y="0.0" z="11" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="148270" prefab="SD_Floor_Dirt_3x3_01" x="33" y="0.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="149170" prefab="SD_Floor_Dirt_3x3_01" x="13" y="0.0" z="8" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="152324" prefab="SD_Floor_Dirt_3x3_01" x="20" y="0.0" z="1" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="155278" prefab="SD_Floor_Dirt_3x3_01" x="13" y="0.0" z="11" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="148684" prefab="SD_Floor_Dirt_3x3_01" x="16" y="0.0" z="8" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="148954" prefab="SD_Floor_Dirt_5x5_01" x="15" y="0.0" z="14" width="5" height="5" rotation="180">
+      </staticObject>
+		<staticObject id="149936" prefab="SD_Floor_Dirt_5x5_01" x="31" y="0.0" z="2" width="5" height="5" rotation="180">
+      </staticObject>
+		<staticObject id="151558" prefab="SD_Floor_Grass_1x1_01" x="26" y="0.0" z="1" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="149416" prefab="SD_Floor_Grass_1x9_01" x="1" y="0.0" z="16" width="1" height="9" rotation="90">
+      </staticObject>
+		<staticObject id="153926" prefab="SD_Floor_Grass_3x3_01" x="22" y="4.0" z="15" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="149420" prefab="SD_Floor_Grass_3x3_01" x="30" y="0.0" z="7" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="150266" prefab="SD_Floor_Grass_3x3_01" x="24" y="0.0" z="7" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="153290" prefab="SD_Floor_Grass_3x3_01" x="27" y="0.0" z="7" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="151988" prefab="SD_Floor_Grass_3x3_01" x="37" y="0.0" z="11" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="153008" prefab="SD_Floor_Grass_5x5_01" x="25" y="0.0" z="2" width="5" height="5" rotation="180">
+      </staticObject>
+		<staticObject id="154954" prefab="SD_Floor_GrassDirtTrans_02" x="14" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="149048" prefab="SD_Floor_GrassDirtTrans_05" x="8" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="149130" prefab="SD_Floor_GrassDirtTrans_05" x="12" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152278" prefab="SD_Floor_GrassDirtTrans_05" x="5" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152714" prefab="SD_Floor_GrassDirtTrans_05" x="11" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152872" prefab="SD_Floor_GrassDirtTrans_05" x="4" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="153350" prefab="SD_Floor_GrassDirtTrans_05" x="10" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="153922" prefab="SD_Floor_GrassDirtTrans_05" x="2" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="150808" prefab="SD_Floor_GrassDirtTrans_05" x="13" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="150848" prefab="SD_Floor_GrassDirtTrans_05" x="6" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="151206" prefab="SD_Floor_GrassDirtTrans_05" x="7" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="151392" prefab="SD_Floor_GrassDirtTrans_05" x="3" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="149634" prefab="SD_Floor_GrassDirtTrans_05" x="9" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="148354" prefab="SD_Floor_GrassDirtTrans_07" x="23" y="0.0" z="9" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152682" prefab="SD_Floor_GrassDirtTrans_07" x="23" y="0.0" z="8" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="153576" prefab="SD_Floor_GrassDirtTrans_07" x="23" y="0.0" z="7" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="151696" prefab="SD_Floor_GrassDirtTrans_08" x="30" y="0.0" z="6" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="153746" prefab="SD_Floor_GrassDirtTrans_08" x="30" y="0.0" z="4" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="154366" prefab="SD_Floor_GrassDirtTrans_08" x="30" y="0.0" z="5" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="150316" prefab="SD_Floor_GrassDirtTrans_08" x="14" y="0.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="150826" prefab="SD_Floor_GrassDirtTrans_08" x="30" y="0.0" z="3" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="148744" prefab="SD_Floor_Stone_1x1_01" x="36" y="0.0" z="6" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="149252" prefab="SD_Floor_Stone_1x2_01" x="32" y="4.0" z="22" width="2" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="148444" prefab="SD_Floor_Stone_1x3_01" x="27" y="4.0" z="13" width="3" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="152760" prefab="SD_Floor_Stone_2x2_01" x="32" y="4.0" z="23" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="154332" prefab="SD_Floor_Stone_3x3_01" x="17" y="4.0" z="19" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="148766" prefab="SD_Floor_Stone_3x3_01" x="31" y="4.0" z="14" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="153760" prefab="SD_Floor_Stone_3x3_01" x="23" y="4.0" z="19" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="148842" prefab="SD_Floor_Stone_3x3_01" x="23" y="4.0" z="22" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="153324" prefab="SD_Floor_Stone_3x3_01" x="28" y="4.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="153882" prefab="SD_Floor_Stone_3x3_01" x="17" y="4.0" z="22" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="151402" prefab="SD_Floor_Stone_3x3_01" x="14" y="4.0" z="22" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="154884" prefab="SD_Floor_Stone_3x3_01" x="11" y="4.0" z="22" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="150368" prefab="SD_Floor_Stone_3x3_01" x="28" y="4.0" z="14" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="154312" prefab="SD_Floor_Stone_3x3_01" x="22" y="4.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="155190" prefab="SD_Floor_Stone_3x3_01" x="25" y="4.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="148806" prefab="SD_Floor_Stone_3x3_01" x="20" y="4.0" z="19" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="150548" prefab="SD_Floor_Stone_3x3_01" x="19" y="4.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="149776" prefab="SD_Floor_Stone_3x3_01" x="26" y="4.0" z="22" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="155186" prefab="SD_Floor_Stone_3x3_01" x="14" y="4.0" z="19" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="148912" prefab="SD_Floor_Stone_3x3_01" x="29" y="4.0" z="22" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="151140" prefab="SD_Floor_Stone_3x3_01" x="8" y="4.0" z="22" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="150922" prefab="SD_Floor_Stone_3x3_01" x="25" y="4.0" z="14" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="151962" prefab="SD_Floor_Stone_5x5_01" x="34" y="4.0" z="17" width="5" height="5" rotation="180">
+      </staticObject>
+		<staticObject id="155244" prefab="SD_Nature_Water_01" x="3" y="-0.5.0" z="16" width="18" height="12" rotation="180">
+      </staticObject>
+		<staticObject id="150476" prefab="SD_Nature_Water_02" x="24" y="3.5.0" z="19" width="5" height="5" rotation="180">
+      </staticObject>
+		<staticObject id="152234" prefab="SD_Nature_Water_02" x="29" y="3.5.0" z="19" width="5" height="5" rotation="180">
+      </staticObject>
+	</static>
+
+  <units>
+		<playerUnit id="150858" prefab="Assassin" x="15" z="17" rotation="180">
+      </playerUnit>
+		<playerUnit id="148610" prefab="Thief" x="16" z="16" rotation="180">
+      </playerUnit>
+		<neutralUnit id="148770" prefab="SD_Interactive_Pot_01" x="31" z="5" rotation="180">
+      </neutralUnit>
+		<neutralUnit id="151504" prefab="SD_Interactive_Pot_01" x="32" z="6" rotation="180">
+      </neutralUnit>
+		<neutralUnit id="153752" prefab="SD_Interactive_Pot_01" x="31" z="6" rotation="180">
+      </neutralUnit>
+		<neutralUnit id="154400" prefab="SD_Interactive_Pot_01" x="33" z="4" rotation="180">
+      </neutralUnit>
+		<neutralUnit id="149424" prefab="SD_Interactive_Pot_01" x="32" z="4" rotation="180">
+      </neutralUnit>
+		<neutralUnit id="151496" prefab="SD_Interactive_Pot_01" x="31" z="4" rotation="180">
+      </neutralUnit>
+		<neutralUnit id="152376" prefab="SD_Interactive_Pot_01" x="32" z="5" rotation="180">
+      </neutralUnit>
+		<neutralUnit id="152586" prefab="SD_Interactive_Pot_01" x="33" z="6" rotation="180">
+      </neutralUnit>
+		<neutralUnit id="152344" prefab="SD_Interactive_Pot_01" x="33" z="5" rotation="180">
+      </neutralUnit>
+  </units>
+
+  <other>
+      <dynamicObject id="155302" prefab="ScreenTransZone" x="28" y="4" z="13" rotation="0">
+          <component name="TransitionZone">
+              <property name="SetZoneBounds">
+                  <field>-1</field>
+                  <field>-1</field>
+                  <field>1</field>
+                  <field>1</field>
+              </property>
+              <property name="SetFirstDestination">
+                  <field>0</field>
+                  <field>-2</field>
+              </property>
+              <property name="SetSecondDestination">
+                  <field>0</field>
+                  <field>2</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="153690" prefab="ScreenTransZone" x="19" y="4" z="20" rotation="90">
+          <component name="TransitionZone">
+              <property name="SetZoneBounds">
+                  <field>-1</field>
+                  <field>-1</field>
+                  <field>1</field>
+                  <field>1</field>
+              </property>
+              <property name="SetFirstDestination">
+                  <field>0</field>
+                  <field>-2</field>
+              </property>
+              <property name="SetSecondDestination">
+                  <field>0</field>
+                  <field>2</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="151790" prefab="GoalZone_AssassinThief" x="37" y="0" z="8" rotation="180">
+          <component name="GridZone">
+              <property name="SetZoneBounds">
+                  <field>-1</field>
+                  <field>-1</field>
+                  <field>1</field>
+                  <field>1</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="152656" prefab="SD_Interactive_Elevator_01" x="9" y="0" z="17" rotation="90">
+          <component name="Triggerable">
+              <property name="SetDecalType">
+                  <field>decal_2.png</field>
+              </property>
+          </component>
+          <component name="TriggerElevationChange">
+              <property name="SetElevationDiff">
+                  <field>1</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="154188" prefab="SD_Interactive_Elevator_01" x="35" y="2" z="15" rotation="90">
+          <component name="Triggerable">
+              <property name="SetDecalType">
+                  <field>decal_5.png</field>
+              </property>
+          </component>
+          <component name="TriggerElevationChange">
+              <property name="SetElevationDiff">
+                  <field>1</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="152832" prefab="SD_Interactive_Elevator_01" x="6" y="2" z="23" rotation="90">
+          <component name="Triggerable">
+              <property name="SetDecalType">
+                  <field>decal_3.png</field>
+              </property>
+          </component>
+          <component name="TriggerElevationChange">
+              <property name="SetElevationDiff">
+                  <field>1</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="149018" prefab="SD_Interactive_Elevator_01" x="32" y="4" z="11" rotation="90">
+          <component name="Triggerable">
+              <property name="SetDecalType">
+                  <field>decal_6.png</field>
+              </property>
+              <property name="SetToggleState">
+                  <field>true</field>
+              </property>
+          </component>
+          <component name="TriggerElevationChange">
+              <property name="SetElevationDiff">
+                  <field>2</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="151676" prefab="SD_Interactive_Elevator_01" x="35" y="2" z="23" rotation="90">
+          <component name="Triggerable">
+              <property name="SetDecalType">
+                  <field>decal_4.png</field>
+              </property>
+          </component>
+          <component name="TriggerElevationChange">
+              <property name="SetElevationDiff">
+                  <field>1</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="148810" prefab="SD_Interactive_Gate_02" x="36" y="0" z="8" rotation="90">
+          <component name="Triggerable">
+              <property name="SetDecalType">
+                  <field>decal_1.png</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="154090" prefab="SD_Interactive_KeyPad_02" x="21" y="0" z="2" rotation="180">
+          <component name="BaseSwitch">
+          </component>
+      </dynamicObject>
+      <dynamicObject id="152932" prefab="SD_Interactive_PressurePlate_02" x="12" y="0" z="17" rotation="180">
+          <component name="BaseSwitch">
+          </component>
+      </dynamicObject>
+      <dynamicObject id="149114" prefab="SD_Interactive_PressurePlate_02" x="35" y="4" z="19" rotation="180">
+          <component name="BaseSwitch">
+          </component>
+      </dynamicObject>
+      <dynamicObject id="148916" prefab="SD_Interactive_PressurePlate_03" x="32" y="4" z="15" rotation="180">
+          <component name="BaseSwitch">
+          </component>
+      </dynamicObject>
+      <dynamicObject id="148856" prefab="SD_Interactive_PressurePlate_03" x="9" y="2" z="20" rotation="180">
+          <component name="BaseSwitch">
+          </component>
+      </dynamicObject>
+      <dynamicObject id="149056" prefab="SD_Interactive_PressurePlate_04" x="21" y="4" z="11" rotation="180">
+          <component name="BaseSwitch">
+          </component>
+      </dynamicObject>
+  </other>
+
+  <links>
+      <triggerLink id="152656">
+          <switch id="148856">
+          </switch>
+      </triggerLink>
+      <triggerLink id="154188">
+          <switch id="148916">
+          </switch>
+      </triggerLink>
+      <triggerLink id="152832">
+          <switch id="152932">
+          </switch>
+      </triggerLink>
+      <triggerLink id="149018">
+          <switch id="149056">
+          </switch>
+      </triggerLink>
+      <triggerLink id="151676">
+          <switch id="149114">
+          </switch>
+      </triggerLink>
+      <triggerLink id="148810">
+          <switch id="154090">
+          </switch>
+      </triggerLink>
+      <winCondition id="151790">
+      </winCondition>
+  </links>
+
+	<camera focus="Assassin">
+      <start x="10.99998" y="25.98834" z="-12.03662">
+      </start>
+      <overview x="21.30079" y="58.53259" z="-14.49618">
+      </overview>
+	</camera>
+
+	<lightMap name="Town_2_lightmap.png">
+	</lightMap>
+</level>
