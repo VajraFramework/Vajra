@@ -1,9 +1,9 @@
 <uiscene widthPixels="1024" heightPixels="768">
-	<uielement name="popUpBack" clickable="true">
+	<uielement name="popUpBack" visible="true" clickable="true">
 		<dimensions>
-			<position x="0" y="768"></position>
+			<position x="0" y="0"></position>
 			<size widthPixels="1024" heightPixels="768"></size>
-			<zorder>1</zorder>
+			<zorder>240</zorder>
 		</dimensions>
 		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
 	</uielement>
@@ -47,11 +47,11 @@
 	</uielement>
 
 	<uielement name="optionsMenu" visible="false" clickable="true">
-	<dimensions>
-		<position x="0" y="0"></position>
-		<size widthPixels="0" heightPixels="0"></size>
-		<zorder>0</zorder>
-	</dimensions>
+		<dimensions>
+			<position x="0" y="0"></position>
+			<size widthPixels="0" heightPixels="0"></size>
+			<zorder>0</zorder>
+		</dimensions>
 
 		<uielement name="brightness_label" clickable="false" visible="true">
 			<image name="derp_brightness.png" hasTransperancy="false"> </image>
@@ -192,7 +192,7 @@
 				</dimensions>
 				<image name="derp_backbutton.png" hasTransperancy="false"> </image>
 			</uielement>
-			<uielement name="contractTwo" visible="true" clickable="true">
+			<uielement name="contractTwo" visible="true" clickable="false">
 				<dimensions>
 					<position xwrto="CENTER" ywrto="CENTER" x="75" y="-200"></position>
 					<size widthPixels="300" heightPixels="400"></size>
@@ -214,7 +214,6 @@
 					<size widthPixels="1536" heightPixels="768"></size>
 					<zorder>1</zorder>
 				</dimensions>
-				<image name="SD_Paralax_Back_01.png" hasTransperancy="true"> </image>
 				<image name="SD_Paralax_Back_02.png" hasTransperancy="true"> </image>
 			</uielement>
 			<uielement name="parallaxMid" visible="true" clickable="false">
@@ -223,7 +222,6 @@
 					<size widthPixels="2048" heightPixels="768"></size>
 					<zorder>2</zorder>
 				</dimensions>
-				<image name="SD_Paralax_Mid_01.png" hasTransperancy="true"> </image>
 				<image name="SD_Paralax_Mid_02.png" hasTransperancy="true"> </image>
 			</uielement>
 			<uielement name="parallaxFront" visible="true" clickable="false">
@@ -232,7 +230,6 @@
 					<size widthPixels="3072" heightPixels="768"></size>
 					<zorder>3</zorder>
 				</dimensions>
-				<image name="SD_Paralax_Front_01.png" hasTransperancy="true"> </image>
 				<image name="SD_Paralax_Front_02.png" hasTransperancy="true"> </image>
 			</uielement>			
 
@@ -269,14 +266,14 @@
 		<dimensions>
 			<position xwrto="CENTER" ywrto="CENTER" x="-388" y="-256"></position>
 			<size widthPixels="776" heightPixels="512"></size>
-			<zorder>60</zorder>
+			<zorder>260</zorder>
 		</dimensions>
 		<image name="SD_Start_Menu.png" hasTransperancy="true"></image>
 		<uielement name="preMenuStart" clickable="true">
 			<dimensions>
 				<position xwrto="LEFT" ywrto="TOP" x="212" y="386"></position>
 				<size widthPixels="162" heightPixels="55"></size>
-				<zorder>61</zorder>
+				<zorder>261</zorder>
 			</dimensions>
 			<image name="SD_Start_Button.png" hasTransperancy="false"></image>	
 		</uielement>		
@@ -285,7 +282,7 @@
 			<dimensions>
 				<position xwrto="LEFT" ywrto="TOP" x="398" y="386"></position>
 				<size widthPixels="162" heightPixels="55"></size>
-				<zorder>61</zorder>
+				<zorder>261</zorder>
 			</dimensions>
 			<image name="SD_Back_Button.png" hasTransperancy="false"></image>	
 		</uielement>

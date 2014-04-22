@@ -94,6 +94,7 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 			SINGLETONS->GetMenuManager()->LoadLevel(this->levelToLoad);
 		} else if(uiObject->GetName() == "preMenuEnd") {
 			((UiObject*)ObjectRegistry::GetObjectByName("preMenu"))->SetVisible(false);
+			((UiObject*)ObjectRegistry::GetObjectByName("popUpBack"))->SetVisible(false);
 		}
  		else if(uiObject->GetName() == PARALLAX) {
 			float xDiff = touch.pos.x - touch.prevPos.x;
@@ -107,10 +108,6 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 					SINGLETONS->GetMenuManager()->CenterUiObject((UiObject*)ObjectRegistry::GetObjectByName("preMenu"));
 					SINGLETONS->GetMenuManager()->UpdateMenuWithMastery("preMenu", this->levelToLoad);
 					
-					
-					// Load premenu bonus info
-					//std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
-					//SINGLETONS->GetMenuManager()->LoadLevel(i);
 					return;
 				}
 			}

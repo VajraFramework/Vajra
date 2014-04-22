@@ -24,6 +24,8 @@
 ComponentIdType MenuManager::componentTypeId = COMPONENT_TYPE_ID_LEVEL_MANAGER;
 
 #define MIN_LOAD_TIME 0.3f
+#define BACKDROP_MAX_ALPHA 0.7f
+
 #define BACKDROP "popUpBack"
 void menuManagerNumberTweenCallback(float /* fromNumber */, float toNumber , float currentNumber, std::string tweenClipName, MessageData1S1I1F* /*userParams*/) {
 	if(tweenClipName == "extraLoadTime") {
@@ -106,6 +108,7 @@ void MenuManager::LoadMainMenu(std::string screenToShow /* = "startMenu"*/) {
 	ENGINE->GetSceneGraph3D()->Pause();
 
 	this->backdrop = (UiElement*)ObjectRegistry::GetObjectByName(BACKDROP);
+	this->backdrop->SetVisible(false);
 
 	if(screenToShow == START_MENU) {
 		this->mainMenuTouchHandler->openStartMenu();
@@ -129,7 +132,6 @@ void MenuManager::LoadGameMenu(std::string screenToShow /*= "inGame"*/) {
 
 	this->backdrop = (UiElement*)ObjectRegistry::GetObjectByName(BACKDROP);
 	glm::vec4 backdropColor = this->backdrop->GetSpriteColor();
-	backdropColor.a = 0;
 	this->backdrop->SetSpriteColor(backdropColor);
 	this->backdrop->SetVisible(false);
 	UiElement* screen = (UiElement*)ObjectRegistry::GetObjectByName(screenToShow);
@@ -167,7 +169,7 @@ void MenuManager::TweenOutUiObject(UiObject* element) {
 		glm::vec3 offScreen = glm::vec3(halfScreenWidth - halfWidth, -1.0f * FRAMEWORK->GetDeviceProperties()->GetHeightPixels(), 0.0f);
 
 		this->backdrop->SetVisible(true);
-		ENGINE->GetTween()->TweenToNumber(0.7f, 0.0f, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "backDropFade", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
+		ENGINE->GetTween()->TweenToNumber(BACKDROP_MAX_ALPHA, 0.0f, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "backDropFade", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
 		
 		screenCenter.z = element->GetZOrder();
 		offScreen.z = element->GetZOrder();
@@ -196,7 +198,7 @@ void MenuManager::TweenInUiObject(UiObject* element) {
 
 
 		SINGLETONS->GetMenuManager()->backdrop->SetVisible(true);
-		ENGINE->GetTween()->TweenToNumber(0.0f, 0.7f, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "backDropFade", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
+		ENGINE->GetTween()->TweenToNumber(0.0f, BACKDROP_MAX_ALPHA, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "backDropFade", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
 				
 		
 		screenCenter.z = element->GetZOrder();
@@ -226,6 +228,11 @@ void MenuManager::CenterUiObject(UiObject* element) {
 		screenCenter.z = element->GetZOrder();
 		element->GetTransform()->SetPosition(screenCenter);
 		element->SetVisible(true);
+
+		this->backdrop->SetVisible(true);
+		glm::vec4 backdropColor = this->backdrop->GetSpriteColor();
+		backdropColor.a = BACKDROP_MAX_ALPHA;
+		this->backdrop->SetSpriteColor(backdropColor);
 	}
 	
 }
@@ -278,7 +285,7 @@ void MenuManager::showLoadScreen(int levelIndex) {
 		((UiObject*)ObjectRegistry::GetObjectByName("preMenuEnd"))->SetVisible(false);
 		
 		glm::vec4 backdropColor = this->backdrop->GetSpriteColor();
-		backdropColor.a = .7f;
+		backdropColor.a = BACKDROP_MAX_ALPHA;
 		this->backdrop->SetSpriteColor(backdropColor);
 	}
 }
