@@ -5,15 +5,15 @@
 				<field>true</field>
 			</property>
 			<property name="SetNumberOfParticles">
-				<field>50</field>
-				<field>50</field>
+				<field>20</field>
+				<field>100</field>
 			</property>
 			<property name="SetParticleSpeed">
-				<field>0.75</field>
-				<field>0.75</field>
+				<field>1.25</field>
+				<field>1.25</field>
 			</property>
 			<property name="SetEmissionVolume">
-				<field>ellipsoid</field>
+				<field>circle</field>
 				<field>0.4</field>
 				<field>0.4</field>
 				<field>0.4</field>
@@ -52,7 +52,7 @@
 				<field>0.0</field>
 			</property>
 			<property name="SetLooping">
-				<field>true</field>
+				<field>false</field>
 			</property>
 			<property name="InitParticleSystem">
 			</property>

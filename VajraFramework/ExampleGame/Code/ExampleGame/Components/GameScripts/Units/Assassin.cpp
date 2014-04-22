@@ -402,6 +402,7 @@ void Assassin::checkFinalAttack() {
 						AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
 						if (audioSource != nullptr) {
 							audioSource->Play("specialHit");
+						}
 					}
 				}
 			}
@@ -434,7 +435,7 @@ void Assassin::deactivateDashEffect() {
 		ParticleSystem* dashEffectParticleSystem= dashEffectObj->GetComponent<ParticleSystem>();
 		ASSERT(dashEffectParticleSystem != nullptr, "Slide effect prefab has a particle system on it");
 		if (dashEffectParticleSystem != nullptr) {
-			dashEffectParticleSystem->Pause();
+			dashEffectParticleSystem->Stop();
 		}
 	}
 }

@@ -12,7 +12,7 @@
 
 unsigned int ParticleSystem::componentTypeId = COMPONENT_TYPE_ID_PARTICLE_SYSTEM;
 
-#define MAXIMUM_TIME_BETWEEN_BATCH_SPAWNS_seconds 0.1f
+#define MAXIMUM_TIME_BETWEEN_BATCH_SPAWNS_seconds 0.025f
 
 ParticleSystem::ParticleSystem() : Component() {
 	this->init();
@@ -294,7 +294,7 @@ void ParticleSystem::init() {
 	this->particleSizes = nullptr;
 	this->particleColors = nullptr;
 
-	this->timeSinceLastBatchSpawn = 10000.0f;
+	this->timeSinceLastBatchSpawn = 1.0f;
 	this->minimumTimeBetweenBatchSpawns = 0.0f;
 
 	// Assign default values for all properties:
@@ -340,6 +340,37 @@ void ParticleSystem::Play() {
 
 void ParticleSystem::Pause() {
 	this->isPlaying = false;
+}
+
+void ParticleSystem::Stop() {
+	this->isPlaying = false;
+	this->currentOverallLifespanInSeconds = 0.0f;
+	this->timeSinceLastBatchSpawn = 1.0f;
+
+	// Reclaim all the particles:
+	std::deque<Particle*> particlesToCleanup;
+	//
+	while (!this->aliveParticles.empty()) {
+		Particle* particle = this->aliveParticles.front();
+		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness, this->inWorldSpace ? this->gameObjectRef->GetTransform()->GetPositionWorld() : ZERO_VEC3, this->inWorldSpace ? this->gameObjectRef->GetTransform()->GetOrientationWorld() : IDENTITY_QUATERNION);
+		particlesToCleanup.push_back(particle);
+		this->aliveParticles.pop_front();
+	}
+	int size = this->aliveParticles.size();
+	ASSERT(this->aliveParticles.empty() && size == 0, "Reclaimed all alive particles.");
+	//
+	while (!this->deadParticles.empty()) {
+		Particle* particle = this->deadParticles.front();
+		particle->reset(this->emissionVolumeType, this->emission_volume_radius_x, this->emission_volume_radius_y, this->emission_volume_radius_z, this->particleVelocityDirection, this->particleVelocityDirectionRandomness, this->inWorldSpace ? this->gameObjectRef->GetTransform()->GetPositionWorld() : ZERO_VEC3, this->inWorldSpace ? this->gameObjectRef->GetTransform()->GetOrientationWorld() : IDENTITY_QUATERNION);
+		particlesToCleanup.push_back(particle);
+		this->deadParticles.pop_front();
+	}
+	ASSERT(this->deadParticles.empty(), "Reclaimed all dead particles.");
+	//
+	while (!particlesToCleanup.empty()) {
+		this->dormantParticles.push_back(particlesToCleanup.front());
+		particlesToCleanup.pop_front();
+	}
 }
 
 void ParticleSystem::SetLooping(bool looping) {
