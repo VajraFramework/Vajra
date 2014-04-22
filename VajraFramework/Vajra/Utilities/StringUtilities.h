@@ -21,6 +21,8 @@ namespace StringUtilities {
 
 	std::string EraseStringFromString(std::string bigString, std::string smallString, bool onlyFirstOccurance = false);
 
+	std::string ReplaceCharInString(std::string startString, char charToReplace, char newChar);
+
 	bool FindStringInVectorOfStrings(std::vector<std::string> v, std::string stringToFind);
 }
 #define ConvertStringToString(s) s

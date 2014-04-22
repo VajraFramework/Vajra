@@ -37,6 +37,7 @@
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Framework/SavedDataManager/SavedDataManager.h"
 #include "Vajra/Framework/Settings/Settings.h"
+#include "Vajra/Utilities/StringUtilities.h"
 
 std::map<int, ObjectIdType> LevelLoader::idsFromXml;
 
@@ -205,9 +206,11 @@ void LevelLoader::LoadLevelData(std::vector<ContractData*>* contractData) {
 	int levelNum = 0;
 	for(XmlNode* contractNode : rootLevelListNode->GetChildren()) {
 		ContractData* cData = new ContractData();
+		cData->name = StringUtilities::ReplaceCharInString(contractNode->GetAttributeValueS("title"), '_', ' ');
 		for(XmlNode* missionNode : contractNode->GetChildren()) {
 			FRAMEWORK->GetLogger()->dbglog("\n Loaded mission data for game");
 			MissionData* mData = new MissionData();
+			mData->name = StringUtilities::ReplaceCharInString(missionNode->GetAttributeValueS("title"), '_', ' ');
 			for(XmlNode* levelDataNode : missionNode->GetChildren()) {
 				LevelData* lData = new LevelData();
 				lData->name = levelDataNode->GetAttributeValueS(NAME_PROPERTY);

@@ -236,26 +236,27 @@
 			<uielement name="contractName" visible="true" clickable="false">
 				<dimensions>
 					<position xwrto="LEFT" ywrto="TOP" x="0" y="64"></position>
-					<size widthPixels="1024" heightPixels="100"></size>
+					<size widthPixels="1024" heightPixels="80"></size>
 					<zorder>50</zorder>
 				</dimensions>
+				<color r="0.0" g="0.0" b="0.0" a="0.8"></color>
 				<text>
-					<font type="RomanSD.fontspec" size="64.0" alignment="CENTER">
-						<color r="1.0" g="0.07" b="0.57" a="1.0"></color>
+					<font type="RomanSD.fontspec" size="58.0" alignment="CENTER">
+						<color r="1.0" g="0.00" b="0.0" a="1.0"></color>
 					</font>
-					Contract Name
+					Assassinate Fargiosion
 				</text>
 				<uielement name="missionName" visible="true" clickable="false">
 				<dimensions>
-					<position xwrto="LEFT" ywrto="TOP" x="0" y="48"></position>
+					<position xwrto="LEFT" ywrto="TOP" x="0" y="50"></position>
 					<size widthPixels="1024" heightPixels="100"></size>
 					<zorder>50</zorder>
 				</dimensions>
 				<text>
 					<font type="RomanSD.fontspec" size="32.0" alignment="CENTER">
-						<color r="0.0" g="1.0" b="0.0" a="1.0"></color>
+						<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 					</font>
-					Mission Name
+					Training Camp
 				</text>
 			</uielement>
 			</uielement>
