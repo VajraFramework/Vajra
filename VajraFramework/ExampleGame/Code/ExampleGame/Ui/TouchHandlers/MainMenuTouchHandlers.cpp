@@ -92,6 +92,7 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 		if(uiObject->GetName() == "preMenuStart") {
 			std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
 			SINGLETONS->GetMenuManager()->LoadLevel(this->levelToLoad);
+			return;
 		} else if(uiObject->GetName() == "preMenuEnd") {
 			((UiObject*)ObjectRegistry::GetObjectByName("preMenu"))->SetVisible(false);
 		}
