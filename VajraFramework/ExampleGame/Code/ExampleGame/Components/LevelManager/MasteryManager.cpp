@@ -83,12 +83,12 @@ void MasteryManager::HandleMessage(MessageChunk messageChunk) {
 }
 
 LevelScores MasteryManager::GetLevelScores(int levelIndex) {
-	VERIFY(this->bestScores.size() > levelIndex, " the level has a score");
+	VERIFY((int)this->bestScores.size() > levelIndex, " the level has a score");
 	return this->bestScores[levelIndex];
 }
 bool MasteryManager::onLevelComplete() {
 	// update high scores
-	if(this->bestScores.size() > this->currentLevelTracked) {
+	if((int)this->bestScores.size() > this->currentLevelTracked) {
 		LevelScores scores = this->bestScores[this->currentLevelTracked];
 		if(scores.time > levelTime || scores.time == -1) {
 			scores.time = levelTime;
@@ -132,9 +132,9 @@ bool MasteryManager::onLevelComplete() {
 
 
 void MasteryManager::updateLevelScore(int levelIndex, LevelScores scores) {
-	if(this->bestScores.size() == levelIndex) {
+	if((int)this->bestScores.size() == levelIndex) {
 		this->bestScores.push_back(scores);
-	} else if (this->bestScores.size() > levelIndex) {
+	} else if ((int)this->bestScores.size() > levelIndex) {
 		this->bestScores[levelIndex] = scores;
 	}
 }

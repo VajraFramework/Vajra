@@ -92,6 +92,7 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 		if(uiObject->GetName() == "preMenuStart") {
 			std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
 			SINGLETONS->GetMenuManager()->LoadLevel(this->levelToLoad);
+			return;
 		} else if(uiObject->GetName() == "preMenuEnd") {
 			((UiObject*)ObjectRegistry::GetObjectByName("preMenu"))->SetVisible(false);
 		}
@@ -299,12 +300,14 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Bonus_01.png");
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Completed_01.png");
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Locked_01.png"); // TEMP : replace with locked image
+
 		int width_out = 67;
 		int height_out = 118;
 		int dummy = 10;
 		// TODO [Hack] 1024x768
 		UiSceneLoader::AdjustPositionForResolution(dummy, dummy, "LEFT", "TOP", width_out, height_out, 1024, 768);
 		uiElement->InitSprite(width_out, height_out, "ustshdr", imagePaths, true);
+
 		uiElement->SetTouchHandlers(this);
 		uiElement->SetClickable(true);
 		uiElement->SetVisible(false);

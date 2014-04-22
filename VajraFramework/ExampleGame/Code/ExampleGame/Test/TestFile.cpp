@@ -46,7 +46,7 @@ int TestFuntion() {
 
 
 	// Temporary: Example bundle:
-	{
+	/*{
 		Bundle* bundle = nullptr;
 		if (FRAMEWORK->GetSavedDataManager()->HasBundle("testbundle")) {
 			bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle("testbundle");
@@ -67,7 +67,7 @@ int TestFuntion() {
 		// bundle->PutInt("randomnumber", rand() % 1000);
 
 		bundle->Save();
-	}
+	}*/
 
 	return 4;
 }
