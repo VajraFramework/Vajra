@@ -96,18 +96,28 @@ static void processDimensionsNode(XmlNode* dimensionsNode, int& posXPixels_out, 
 
 
 	// Handle FILLPARENT as a special case
+	bool isFillParentX = false;
+	bool isFillParentY = false;
 	if (sizeNode->GetAttributeValueS(WIDTHPIXELS_ATTRIBUTE) == "FILLPARENT") {
 		widthPixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
-		x_wrto = "CENTER";
-		posXPixels_out = -1.0f * widthPixels_out / 2.0f;
+		x_wrto = "LEFT";
+		posXPixels_out = 0.0f;
+		isFillParentX = true;
 	}
 	if (sizeNode->GetAttributeValueS(HEIGHTPIXELS_ATTRIBUTE) == "FILLPARENT") {
 		heightPixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
-		y_wrto = "CENTER";
-		posYPixels_out = -1.0f * heightPixels_out / 2.0f;
+		y_wrto = "TOP";
+		posYPixels_out = 0.0f;
+		isFillParentY = true;
 	}
 
-	AdjustPositionForResolution(posXPixels_out, posYPixels_out, x_wrto, y_wrto, widthPixels_out, heightPixels_out, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+	int dummy = 10;
+	if (!isFillParentX) {
+		AdjustPositionForResolution(posXPixels_out, dummy, x_wrto, y_wrto, widthPixels_out, dummy, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+	}
+	if (!isFillParentY) {
+		AdjustPositionForResolution(dummy, posYPixels_out, x_wrto, y_wrto, dummy, heightPixels_out, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+	}
 }
 
 static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTouchHandlers* touchHandlers) {
