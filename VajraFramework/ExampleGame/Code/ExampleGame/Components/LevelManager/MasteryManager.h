@@ -28,7 +28,7 @@ public:
 
 	void HandleMessage(MessageChunk messageChunk);
 
-	inline void AddMoney(int amt) { this->money += amt; }
+	void AddMoney(int amt);
 	inline void OnGuardAlert() { this->numAlerts++; }
 
 	inline void SetCurrentBonus(LevelBonus bonus, int bonusValue, int levelIndex) { this->currentBonus = bonus; this->bonusValue = bonusValue; this->currentLevelTracked = levelIndex; }

@@ -154,6 +154,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 			UiElement* preMenuBackground = (UiElement*)ObjectRegistry::GetObjectByName("preMenu");
 			SINGLETONS->GetMenuManager()->TweenOutUiObject(preMenuBackground);
 			SINGLETONS->GetLevelManager()->StartLevel();
+			ENGINE->GetSceneGraph3D()->Resume();
 
 		}
 	}

@@ -4,6 +4,7 @@
 #include "ExampleGame/Components/LevelManager/MasteryManager.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "ExampleGame/Ui/MenuManager/MenuManager.h"
 
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
@@ -52,6 +53,7 @@ void MasteryManager::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_500_MS_TIME_EVENT:
 			if(!ENGINE->GetSceneGraph3D()->IsPaused()) {
 				this->levelTime += 0.5;
+				SINGLETONS->GetMenuManager()->UpdateTimer(this->levelTime);
 			}
 			break;
 		case MESSAGE_TYPE_UNIT_KILLED:
@@ -80,6 +82,11 @@ void MasteryManager::HandleMessage(MessageChunk messageChunk) {
 			break;
 
 	}
+}
+
+void MasteryManager::AddMoney(int amt) {
+	this->money += amt; 
+	SINGLETONS->GetMenuManager()->UpdateLoot(this->money);
 }
 
 LevelScores MasteryManager::GetLevelScores(int levelIndex) {

@@ -54,6 +54,8 @@ void menuManagerNumberTweenCallback(float /* fromNumber */, float toNumber , flo
 		SINGLETONS->GetMenuManager()->loadScreen->SetSpriteColor(loadScreenColor);
 		if(currentNumber == toNumber) {
 			SINGLETONS->GetMenuManager()->loadScreen->SetVisible(false);
+			SINGLETONS->GetMenuManager()->UpdateTimer(0);
+			SINGLETONS->GetMenuManager()->UpdateLoot(0);
 		}
 	} else if (tweenClipName == "updatePreMenu") {
 		SINGLETONS->GetMenuManager()->updatePreMenu(userParams->i);
@@ -87,7 +89,6 @@ void MenuManager::HandleMessage(MessageChunk messageChunk) {
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_LEVEL_LOADED: {
 			if(this->loadScreen != nullptr && this->loadScreen->IsVisible()) {
-				ENGINE->GetSceneGraph3D()->Resume();
 				float loadTime = ((float)ENGINE->GetTimer()->GetHighResAbsoluteTime()) - this->loadStartTime;
 				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, .5f, INTERPOLATION_TYPE_LINEAR, false, false, false, "extraLoadTime", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
 				/*if(loadTime < GetFloatGameConstant(GAME_CONSTANT_min_load_time)) {
@@ -159,6 +160,12 @@ void MenuManager::LoadGameMenu(std::string screenToShow /*= "inGame"*/) {
 
 	if(this->loadScreen == nullptr) {
 		this->loadScreen = (UiElement*)ObjectRegistry::GetObjectByName("loadScreen");
+	}
+	if(this->inGameTimer == nullptr) {
+		this->inGameTimer = (UiElement*)ObjectRegistry::GetObjectByName("ingame_time_text");
+	}
+	if(this->inGameTreasure == nullptr) {
+		this->inGameTreasure = (UiElement*)ObjectRegistry::GetObjectByName("ingame_loot_text");
 	}
 }
 
@@ -275,6 +282,8 @@ void MenuManager::unloadPreviousScene() {
 	this->mainMenuTouchHandler = nullptr;
 	this->gameUiTouchHandler = nullptr;
 	this->loadScreen = nullptr;
+	this->inGameTimer = nullptr;
+	this->inGameTreasure = nullptr;
 }
 
 void MenuManager::showLoadScreen(int levelIndex) {
@@ -475,4 +484,16 @@ void MenuManager::updatePreMenu(int levelIndex) {
 	glm::vec4 loadScreenColor = this->loadScreen->GetSpriteColor();
 	loadScreenColor.a = 1.0f;
 	this->loadScreen->SetSpriteColor(loadScreenColor);
+}
+
+void MenuManager::UpdateTimer(int newTime) {
+	if(this->inGameTimer != nullptr) {
+		inGameTimer->ChangeText(std::to_string(newTime));
+	}
+}
+
+void MenuManager::UpdateLoot(int lootTotal) {
+	if(this->inGameTreasure != nullptr) {
+		inGameTreasure->ChangeText(std::to_string(lootTotal));
+	}
 }
