@@ -26,13 +26,13 @@
 					<field>50</field>
 				</property>
 				<property name="SetParticleSpeed">
-					<field>0.75</field>
-					<field>0.75</field>
+					<field>0.25</field>
+					<field>0.25</field>
 				</property>
 				<property name="SetEmissionVolume">
 					<field>ellipsoid</field>
 					<field>0.4</field>
-					<field>0.4</field>
+					<field>0.1</field>
 					<field>0.4</field>
 				</property>
 				<property name="SetOverallLifespan">
@@ -44,7 +44,7 @@
 					<field>0.0</field>
 				</property>
 				<property name="SetParticleVelocityDirectionRandomness">
-					<field>0.1</field>
+					<field>0.0</field>
 				</property>
 				<property name="SetParticleSize">
 					<field>32</field>
@@ -83,7 +83,7 @@
 			<component name="Transform">
 				<property name="Translate">
 					<field>0.0</field>
-					<field>0.75</field>
+					<field>1.25</field>
 					<field>0.0</field>
 				</property>
 			</component>
