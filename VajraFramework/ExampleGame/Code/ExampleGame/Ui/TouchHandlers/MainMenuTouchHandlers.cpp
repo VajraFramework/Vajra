@@ -90,8 +90,9 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 	ASSERT(this->parallaxRoot != nullptr, "The parallaxRoot root is not null");
 	if(this->parallaxRoot != nullptr && this->parallaxRoot->IsVisible()) {
 		if(uiObject->GetName() == "preMenuStart") {
-			std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
 			SINGLETONS->GetMenuManager()->LoadLevel(this->levelToLoad);
+			uiObject->SetVisible(false);
+			((UiObject*)ObjectRegistry::GetObjectByName("preMenuEnd"))->SetVisible(false);
 		} else if(uiObject->GetName() == "preMenuEnd") {
 			((UiObject*)ObjectRegistry::GetObjectByName("preMenu"))->SetVisible(false);
 			((UiObject*)ObjectRegistry::GetObjectByName("popUpBack"))->SetVisible(false);

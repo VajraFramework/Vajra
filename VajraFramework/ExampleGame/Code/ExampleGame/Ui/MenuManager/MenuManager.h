@@ -55,6 +55,9 @@ private:
 
 	void createMenuAudioSource();
 
+	void updatePreMenu(int levelIndex);
+	void loadLevel_internal(int levelIndex);
+	
 	float loadStartTime;
 
 	UiElement* loadScreen;

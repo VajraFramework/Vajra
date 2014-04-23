@@ -8,6 +8,16 @@
 		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
 	</uielement>
 
+	<uielement name="loadScreen" visible="false" clickable="true">
+		<dimensions>
+			<position x="0" y="0"></position>
+			<size widthPixels="1024" heightPixels="768"></size>
+			<zorder>2</zorder>
+		</dimensions>
+		<color r="0.0" g="0.6" b="0.6" a="0.7"></color>
+	</uielement>
+
+
 	<uielement name="tutorialScreen" clickable="true" visible="false">
 		<dimensions>
 			<position xwrto="LEFT" ywrto="TOP" x="-388" y="-261.5"></position>
@@ -88,7 +98,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="56.0">
+				<font type="calibiri.fontspec" size="56.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				BONUS:
@@ -102,7 +112,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="46.0" alignment="CENTER">
+				<font type="calibiri.fontspec" size="46.0" alignment="CENTER">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Mission Name
@@ -116,7 +126,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="38.0" alignment="CENTER">
+				<font type="calibiri.fontspec" size="38.0" alignment="CENTER">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Mission Type
@@ -130,7 +140,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="36.0">
+				<font type="calibiri.fontspec" size="36.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Bonus Values and Qualifiers
@@ -144,7 +154,7 @@
 			<zorder>1</zorder>
 		</dimensions>
 		<text>
-			<font type="RomanSD.fontspec" size="36.0" alignment="CENTER">
+			<font type="calibiri.fontspec" size="36.0" alignment="CENTER">
 				<color r="1.0" g="0.0" b="0.0" a="1.0"></color>
 			</font>
 			Completion
@@ -167,7 +177,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				1:00
@@ -190,7 +200,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				3/5
@@ -213,7 +223,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				3/5
@@ -236,7 +246,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				1:00
@@ -288,7 +298,7 @@
 				<zorder>0</zorder>
 			</dimensions>	
 			<text>
-				<font type="RomanSD.fontspec" size="52.0" alignment="RIGHT">
+				<font type="calibiri.fontspec" size="52.0" alignment="RIGHT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				1:45
@@ -311,7 +321,7 @@
 				<zorder>0</zorder>
 			</dimensions>	
 			<text>
-				<font type="RomanSD.fontspec" size="52.0" alignment="RIGHT">
+				<font type="calibiri.fontspec" size="52.0" alignment="RIGHT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				6507
@@ -382,7 +392,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="36.0">
+				<font type="calibiri.fontspec" size="36.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				BONUS:
@@ -396,7 +406,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="28.0">
+				<font type="calibiri.fontspec" size="28.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Bonus Values and Qualifiers
@@ -410,7 +420,7 @@
 			<zorder>1</zorder>
 		</dimensions>
 		<text>
-			<font type="RomanSD.fontspec" size="28.0" alignment="CENTER">
+			<font type="calibiri.fontspec" size="28.0" alignment="CENTER">
 				<color r="1.0" g="0.0" b="0.0" a="1.0"></color>
 			</font>
 			Completion
@@ -433,7 +443,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				1:00
@@ -456,7 +466,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				3/5
@@ -479,7 +489,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				3/5
@@ -502,7 +512,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				1:00
@@ -562,7 +572,7 @@
 			<zorder>1</zorder>
 		</dimensions>
 		<text>
-			<font type="RomanSD.fontspec" size="64.0">
+			<font type="calibiri.fontspec" size="64.0">
 				<color r="1.0" g="0.0" b="0.0" a="1.0"></color>
 			</font>
 			Contract Complete
@@ -588,7 +598,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				BONUS:
@@ -602,7 +612,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Bonus Values and Qualifiers
@@ -616,7 +626,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="46.0">
+				<font type="calibiri.fontspec" size="46.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Bounty:
@@ -630,7 +640,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="46.0" alignment="RIGHT">
+				<font type="calibiri.fontspec" size="46.0" alignment="RIGHT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				10000
@@ -644,7 +654,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="54.0">
+				<font type="calibiri.fontspec" size="54.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Take:
@@ -658,7 +668,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="54.0" alignment="RIGHT">
+				<font type="calibiri.fontspec" size="54.0" alignment="RIGHT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				5
@@ -673,7 +683,7 @@
 			<zorder>1</zorder>
 		</dimensions>
 		<text>
-			<font type="RomanSD.fontspec" size="32.0" alignment="RIGHT">
+			<font type="calibiri.fontspec" size="32.0" alignment="RIGHT">
 				<color r="1.0" g="0.0" b="0.0" a="1.0"></color>
 			</font>
 			Completion
@@ -696,7 +706,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				1:00
@@ -710,7 +720,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0" alignment="RIGHT">
+				<font type="calibiri.fontspec" size="32.0" alignment="RIGHT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				0:30
@@ -733,7 +743,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				3/5
@@ -747,7 +757,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0" alignment="RIGHT">
+				<font type="calibiri.fontspec" size="32.0" alignment="RIGHT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				1/5
@@ -770,7 +780,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				3/5
@@ -784,7 +794,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0" alignment="RIGHT">
+				<font type="calibiri.fontspec" size="32.0" alignment="RIGHT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				0/5
@@ -807,7 +817,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="32.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				1:00
@@ -821,7 +831,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="RomanSD.fontspec" size="32.0" alignment="RIGHT">
+				<font type="calibiri.fontspec" size="32.0" alignment="RIGHT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				1225
