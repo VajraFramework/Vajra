@@ -103,9 +103,7 @@ void TextureAsset::LoadAsset() {
 
     // Free up the texture bytes in ram now that it's in the gpu:
 	if (textureBytes != nullptr) {
-#if !defined(PLATFORM_IOS)
 		free(textureBytes);
-#endif
 	}
 	textureBytes = nullptr;
 }
