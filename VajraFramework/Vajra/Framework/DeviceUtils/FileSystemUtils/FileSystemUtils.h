@@ -27,6 +27,7 @@
 #define RESOURCES_FOLDER_NAME_SETTINGS            "settings/"
 #define RESOURCES_FOLDER_NAME_TAGS                "tags/"
 #define RESOURCES_FOLDER_NAME_CONSTANTS           "gameconstants/"
+#define RESOURCES_FOLDER_NAME_MISC                "misc/"
 
 class FileSystemUtils : public Object {
 public:
@@ -46,6 +47,7 @@ public:
     inline const std::string GetDeviceSavedDataResourcesFolderName() const { return RESOURCES_FOLDER_NAME_SAVEDDATA;  }
     inline const std::string GetDeviceSettingsResourcesFolderName()  const { return RESOURCES_FOLDER_NAME_SETTINGS;   }
     inline const std::string GetDevicePrefabsConstantsFolderName()   const { return RESOURCES_FOLDER_NAME_CONSTANTS;  }
+    inline const std::string GetDeviceMiscFolderName()               const { return RESOURCES_FOLDER_NAME_MISC;       }
     
     inline const std::string GetDeviceBaseResourcesPath()      const { return this->deviceBaseResourcesPath;          }
     inline const std::string GetDevicePictureResourcesPath()   const { return this->devicePictureResourcesPath;       }
@@ -62,6 +64,7 @@ public:
     inline const std::string GetDeviceSettingsResourcesPath()  const { return this->deviceSettingsResourcesPath;      }
     inline const std::string GetDeviceTagsResourcesPath()      const { return this->deviceTagsResourcesPath;          }
     inline const std::string GetDeviceConstantsResourcesPath() const { return this->deviceConstantsResourcesPath;     }
+    inline const std::string GetDeviceMiscResourcesPath()      const { return this->deviceMiscResourcesPath;          }
     
 private:
     FileSystemUtils();
@@ -83,6 +86,7 @@ private:
     std::string deviceSettingsResourcesPath;
     std::string deviceTagsResourcesPath;
     std::string deviceConstantsResourcesPath;
+    std::string deviceMiscResourcesPath;
     
     friend class Framework;
 };
