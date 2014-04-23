@@ -94,6 +94,19 @@ static void processDimensionsNode(XmlNode* dimensionsNode, int& posXPixels_out, 
 	std::string x_wrto = positionNode->HasAttribute(X_WRTO_ATTRIBUTE) ? positionNode->GetAttributeValueS(X_WRTO_ATTRIBUTE) : "LEFT";
 	std::string y_wrto = positionNode->HasAttribute(Y_WRTO_ATTRIBUTE) ? positionNode->GetAttributeValueS(Y_WRTO_ATTRIBUTE) : "TOP";
 
+
+	// Handle FILLPARENT as a special case
+	if (sizeNode->GetAttributeValueS(WIDTHPIXELS_ATTRIBUTE) == "FILLPARENT") {
+		widthPixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
+		x_wrto = "CENTER";
+		posXPixels_out = -1.0f * widthPixels_out / 2.0f;
+	}
+	if (sizeNode->GetAttributeValueS(HEIGHTPIXELS_ATTRIBUTE) == "FILLPARENT") {
+		heightPixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
+		y_wrto = "CENTER";
+		posYPixels_out = -1.0f * heightPixels_out / 2.0f;
+	}
+
 	AdjustPositionForResolution(posXPixels_out, posYPixels_out, x_wrto, y_wrto, widthPixels_out, heightPixels_out, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
 }
 
