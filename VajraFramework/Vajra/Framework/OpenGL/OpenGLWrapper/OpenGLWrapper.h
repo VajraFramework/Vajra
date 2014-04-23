@@ -4,6 +4,10 @@
 #include "Vajra/Common/Objects/Object.h"
 #include "Vajra/Utilities/OpenGLIncludes.h"
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 #include <map>
 #include <string>
 
@@ -65,11 +69,23 @@ private:
 // Inline Functions:
 
 void OpenGLWrapper::FreeGLBuffer(GLuint* buffer) {
+	// TODO [Hack] For some reason the simulator crashes in glDrawElements() when we do this
+#ifdef __APPLE__
+#if TARGET_IPHONE_SIMULATOR
+	return;
+#endif
+#endif
 	this->glBuffersToBeFreed.push_back(*buffer);
 	*buffer = 0;
 }
 
 void OpenGLWrapper::FreeGLTexture(GLuint* texture) {
+	// TODO [Hack] For some reason the simulator crashes in glDrawElements() when we do this
+#ifdef __APPLE__
+#if TARGET_IPHONE_SIMULATOR
+	return;
+#endif
+#endif
 	this->glTexturesToBeFreed.push_back(*texture);
 	*texture = 0;
 }

@@ -41,17 +41,17 @@ static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int t
 	out_pixels = out_pixelsf;
 }
 
-void AdjustPositionForResolution(int& posX_pixels_out, int& posY_pixels_out, std::string x_wrto, std::string y_wrto, int width_pixels, int height_pixels, int intended_scene_width_pixels, int intended_scene_height_pixels) {
+void AdjustPositionForResolution(int& posX_pixels_out, int& posY_pixels_out, std::string x_wrto, std::string y_wrto, int& width_pixels_out, int& height_pixels_out, int intended_scene_width_pixels, int intended_scene_height_pixels) {
 	convertPixelsFromTargetSizeToDeviceSize(posX_pixels_out,   intended_scene_width_pixels, intended_scene_height_pixels);
 	convertPixelsFromTargetSizeToDeviceSize(posY_pixels_out,   intended_scene_width_pixels, intended_scene_height_pixels);
-	convertPixelsFromTargetSizeToDeviceSize(width_pixels,  intended_scene_width_pixels, intended_scene_height_pixels);
-	convertPixelsFromTargetSizeToDeviceSize(height_pixels, intended_scene_width_pixels, intended_scene_height_pixels);
+	convertPixelsFromTargetSizeToDeviceSize(width_pixels_out,  intended_scene_width_pixels, intended_scene_height_pixels);
+	convertPixelsFromTargetSizeToDeviceSize(height_pixels_out, intended_scene_width_pixels, intended_scene_height_pixels);
 
 	// Process relative positioning tags, if any:
 	if (x_wrto == "LEFT") {
 		// Nothing to do
 	} else if (x_wrto == "RIGHT") {
-		posX_pixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() - posX_pixels_out - width_pixels;
+		posX_pixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() - posX_pixels_out - width_pixels_out;
 	} else if (x_wrto == "CENTER") {
 		posX_pixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() / 2.0f + posX_pixels_out;
 	} else {
@@ -61,7 +61,7 @@ void AdjustPositionForResolution(int& posX_pixels_out, int& posY_pixels_out, std
 	if (y_wrto == "TOP") {
 		// Nothing to do
 	} else if (y_wrto == "BOTTOM") {
-		posY_pixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() - posY_pixels_out - height_pixels;
+		posY_pixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() - posY_pixels_out - height_pixels_out;
 	} else if (y_wrto == "CENTER") {
 		posY_pixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() / 2.0f + posY_pixels_out;
 	} else {
@@ -104,6 +104,7 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 	int zorder;
 	std::string fontName;
 	float fontSize;
+	UiFontAlignment_type fontAlignment = UI_FONT_ALIGNMENT_left;
 	glm::vec4 fontColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	std::string textToDisplay;
 	std::vector<std::string> imageNames;
@@ -132,6 +133,12 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 			ASSERT(fontNode != nullptr, "Got valid xmlNode from text node for font");
 			fontName = fontNode->GetAttributeValueS(TYPE_ATTRIBUTE);
 			fontSize = fontNode->GetAttributeValueF(SIZE_TAG);
+			if (fontNode->HasAttribute(ALIGNMENT_ATTRIBUTE)) {
+				std::string fontAlignment_string = fontNode->GetAttributeValueS(ALIGNMENT_ATTRIBUTE);
+				if (fontAlignment_string == "LEFT")   { fontAlignment = UI_FONT_ALIGNMENT_left;   }
+				if (fontAlignment_string == "CENTER") { fontAlignment = UI_FONT_ALIGNMENT_center; }
+				if (fontAlignment_string == "RIGHT")  { fontAlignment = UI_FONT_ALIGNMENT_right;  }
+			}
 			XmlNode* fontColorNode = fontNode->GetFirstChildByNodeName(COLOR_TAG);
 			if (fontColorNode != nullptr) {
 				fontColor.r = fontColorNode->GetAttributeValueF(R_ATTRIBUTE);
@@ -192,8 +199,10 @@ static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTou
 		}
 		//
 		if (textToDisplay != "") {
+			textToDisplay = StringUtilities::EraseStringFromString(textToDisplay, "\n", false);
+			textToDisplay = StringUtilities::EraseStringFromString(textToDisplay, "\t", false);
 			uiElement->InitTextToDisplay(textToDisplay.c_str(), widthPixels, heightPixels,
-										 FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesFolderName() + fontName, fontSize);
+										 FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesFolderName() + fontName, fontSize, fontAlignment);
 			uiElement->SetFontColor(fontColor);
 		}
 		//

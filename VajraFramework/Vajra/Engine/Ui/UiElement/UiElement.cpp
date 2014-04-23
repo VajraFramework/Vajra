@@ -14,8 +14,12 @@ UiElement::~UiElement() {
 void UiElement::InitSprite(unsigned int width, unsigned int height, std::string shaderName_, std::vector<std::string> pathsToTextures, bool hasTransperancy) {
 	this->addChildSpriteObject();
 
-	this->setWidth(width);
-	this->setHeight(height);
+	if (width >= this->GetWidth()) {
+		this->setWidth(width);
+	}
+	if (height >= this->GetHeight()) {
+		this->setHeight(height);
+	}
 	//
 	this->childSpriteObjectRef->InitSprite(width, height, shaderName_, pathsToTextures, hasTransperancy);
 }
@@ -23,23 +27,36 @@ void UiElement::InitSprite(unsigned int width, unsigned int height, std::string 
 void UiElement::InitSprite(unsigned int width, unsigned int height, std::string shaderName_, glm::vec4 color) {
 	this->addChildSpriteObject();
 
-	this->setWidth(width);
-	this->setHeight(height);
+	if (width >= this->GetWidth()) {
+		this->setWidth(width);
+	}
+	if (height >= this->GetHeight()) {
+		this->setHeight(height);
+	}
 	//
 	this->childSpriteObjectRef->InitSprite(width, height, shaderName_, color);
 }
 
-void UiElement::InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile, float fontSize) {
+void UiElement::InitTextToDisplay(std::string text, unsigned int width, unsigned int height, std::string pathToFontSpecificationFile, float fontSize, UiFontAlignment_type fontAlignment) {
 	if (this->childFontObjectRef == nullptr) {
 		this->addChildFontObject();
 	}
 
-	this->setWidth(width);
-	this->setHeight(height);
+	if (width >= this->GetWidth()) {
+		this->setWidth(width);
+	}
+	if (height >= this->GetHeight()) {
+		this->setHeight(height);
+	}
 
-	this->childFontObjectRef->InitTextToDisplay(text, width, height, pathToFontSpecificationFile);
+	this->childFontObjectRef->InitTextToDisplay(text, width, height, pathToFontSpecificationFile, fontSize, fontAlignment);
 
 	this->childFontObjectRef->GetTransform()->SetScale(fontSize, fontSize, fontSize);
+}
+
+void UiElement::ChangeText(std::string text) {
+	VERIFY(this->childFontObjectRef != nullptr, "Looks like ChangeText() was called without ever calling InitTextToDisplay()");
+	this->childFontObjectRef->ChangeText(text);
 }
 
 unsigned int UiElement::GetSpriteTextureIndex() {

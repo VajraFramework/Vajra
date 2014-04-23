@@ -8,6 +8,7 @@
 #include "ExampleGame/Messages/Declarations.h"
 
 #include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -259,6 +260,7 @@ void Assassin::aimSpecial(int touchId){
 		glm::vec3 offset = this->GetOffsetFromCell(this->gridNavRef->GetCurrentCell(), .5f);
 
 		// touch indicator
+		this->touchIndicatorRef->GetComponent<SpriteRenderer>()->SetCurrentTextureIndex(GOOD_TOUCH);
 		this->SetTouchIndicatorVisible(true);
 		this->GridPlaneSetPos(this->touchIndicatorRef, this->targetLoc + this->GetOffsetFromCell(this->targetedCell));
 
@@ -301,7 +303,11 @@ void Assassin::specialUpdate() {
 						// If the assassin can't kill the occupant but can pass through the cell, don't send an attack message
 						if (unit->CanBeKilledBy(this->GetObject()->GetId(), this->specialStartPos)) {
 							this->sendAttackMessage(currentCell->x, currentCell->z, elevation);
-							this->activateSpecialHitEffect();
+
+							AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+							if (audioSource != nullptr) {
+								audioSource->Play("specialHit");
+							}
 						}
 					}
 				}
@@ -390,6 +396,10 @@ void Assassin::checkFinalAttack() {
 						ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
 
 						this->activateSpecialHitEffect();
+						
+						AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+						if (audioSource != nullptr) {
+							audioSource->Play("specialHit");
 					}
 				}
 			}

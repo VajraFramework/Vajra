@@ -39,7 +39,7 @@
 			</property>
 			<property name="AddAnimationClip">
 				<field>animations/SD_Guard_mesh.skeletalanimation#death</field>
-				<field>2.5f</field>
+				<field>1.0f</field>
 				<field>false</field>
 			</property>
 			<property name="PlayAnimationClip">
@@ -62,12 +62,16 @@
 				<field>true</field>
 			</property>
 			<property name="LoadAudioClip">
+				<field>death</field>
+				<field>audio/SD_SFX_GuardDeath_01.wav</field>
+			</property>
+			<property name="LoadAudioClip">
 				<field>specialStart</field>
 				<field>audio/SD_SFX_GuardAttack_01.wav</field>
 			</property>
 			<property name="LoadAudioClip">
 				<field>walk</field>
-				<field>audio/SD_SFX_Footstep_01.wav</field>
+				<field>audio/SD_SFX_GuardFootstep_01.wav</field>
 			</property>
 		</component>
 		
@@ -147,7 +151,7 @@
 				</property>
 				<property name="AddAnimationClip">
 					<field>animations/SD_Guard_Spear.animclips#death</field>
-					<field>2.5f</field>
+					<field>1.0f</field>
 					<field>false</field>
 				</property>
 				<property name="PlayAnimationClip">
@@ -206,7 +210,7 @@
 				</property>
 				<property name="AddAnimationClip">
 					<field>animations/SD_Guard_Shield.animclips#death</field>
-					<field>2.5f</field>
+					<field>1.0f</field>
 					<field>false</field>
 				</property>
 				<property name="PlayAnimationClip">

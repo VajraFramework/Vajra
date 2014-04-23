@@ -45,6 +45,7 @@ void TriggerLoot::init() {
 	GameObject* particleEffect = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "lootBurst.prefab", ENGINE->GetSceneGraph3D());
 	this->particleEffectId = particleEffect->GetId();
 	this->active = true;
+	this->moneyValue = 0;
 }
 
 void TriggerLoot::destroy() {
