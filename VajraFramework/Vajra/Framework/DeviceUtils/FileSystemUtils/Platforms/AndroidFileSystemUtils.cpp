@@ -27,6 +27,7 @@ void FileSystemUtils::init() {
 	this->deviceSettingsResourcesPath   = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_SETTINGS;
 	this->deviceTagsResourcesPath       = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_TAGS;
 	this->deviceConstantsResourcesPath  = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_CONSTANTS;
+	this->deviceMiscResourcesPath       = this->deviceBaseResourcesPath + RESOURCES_FOLDER_NAME_MISC;
 }
 
 void FileSystemUtils::destroy() {

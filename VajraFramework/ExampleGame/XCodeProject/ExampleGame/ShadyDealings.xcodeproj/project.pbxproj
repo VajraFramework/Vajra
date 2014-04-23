@@ -27,6 +27,26 @@
 		58F24F63185120950066E804 /* libVajraStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F24F62185120950066E804 /* libVajraStaticLibrary.a */; };
 		58F60D52185133F90036DDDE /* libVajraStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60D51185133F90036DDDE /* libVajraStaticLibrary.a */; };
 		58F60E6318515E990036DDDE /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58F60E6218515E990036DDDE /* OpenAL.framework */; };
+		B31C9D1C19084B6200FBDEE4 /* animations in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D0819084B6200FBDEE4 /* animations */; };
+		B31C9D1D19084B6200FBDEE4 /* armatures in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D0919084B6200FBDEE4 /* armatures */; };
+		B31C9D1E19084B6200FBDEE4 /* audio in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D0A19084B6200FBDEE4 /* audio */; };
+		B31C9D1F19084B6200FBDEE4 /* ComponentSpecifications in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D0B19084B6200FBDEE4 /* ComponentSpecifications */; };
+		B31C9D2019084B6200FBDEE4 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D0C19084B6200FBDEE4 /* fonts */; };
+		B31C9D2119084B6200FBDEE4 /* fonts_ios_READONLY in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D0D19084B6200FBDEE4 /* fonts_ios_READONLY */; };
+		B31C9D2219084B6200FBDEE4 /* gameconstants in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D0E19084B6200FBDEE4 /* gameconstants */; };
+		B31C9D2319084B6200FBDEE4 /* levels in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D0F19084B6200FBDEE4 /* levels */; };
+		B31C9D2419084B6200FBDEE4 /* logging in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D1019084B6200FBDEE4 /* logging */; };
+		B31C9D2519084B6200FBDEE4 /* misc in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D1119084B6200FBDEE4 /* misc */; };
+		B31C9D2619084B6200FBDEE4 /* models in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D1219084B6200FBDEE4 /* models */; };
+		B31C9D2719084B6200FBDEE4 /* pictures in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D1319084B6200FBDEE4 /* pictures */; };
+		B31C9D2819084B6200FBDEE4 /* pictures_ios_READONLY in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D1419084B6200FBDEE4 /* pictures_ios_READONLY */; };
+		B31C9D2919084B6200FBDEE4 /* prefabs in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D1519084B6200FBDEE4 /* prefabs */; };
+		B31C9D2A19084B6200FBDEE4 /* saved_data in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D1619084B6200FBDEE4 /* saved_data */; };
+		B31C9D2B19084B6200FBDEE4 /* settings in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D1719084B6200FBDEE4 /* settings */; };
+		B31C9D2C19084B6200FBDEE4 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D1819084B6200FBDEE4 /* shaders */; };
+		B31C9D2D19084B6200FBDEE4 /* tags in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D1919084B6200FBDEE4 /* tags */; };
+		B31C9D2E19084B6200FBDEE4 /* tutorials in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D1A19084B6200FBDEE4 /* tutorials */; };
+		B31C9D2F19084B6200FBDEE4 /* uiscenes in Resources */ = {isa = PBXBuildFile; fileRef = B31C9D1B19084B6200FBDEE4 /* uiscenes */; };
 		B33C68C718D225B40030F658 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = B33C67C118D225B40030F658 /* CMakeLists.txt */; };
 		B33C68C818D225B40030F658 /* func_common.inl in Resources */ = {isa = PBXBuildFile; fileRef = B33C67CC18D225B40030F658 /* func_common.inl */; };
 		B33C68C918D225B40030F658 /* func_exponential.inl in Resources */ = {isa = PBXBuildFile; fileRef = B33C67CE18D225B40030F658 /* func_exponential.inl */; };
@@ -133,25 +153,6 @@
 		B33C692E18D225B40030F658 /* vector_query.inl in Resources */ = {isa = PBXBuildFile; fileRef = B33C68A918D225B40030F658 /* vector_query.inl */; };
 		B33C692F18D225B40030F658 /* wrap.inl in Resources */ = {isa = PBXBuildFile; fileRef = B33C68AB18D225B40030F658 /* wrap.inl */; };
 		B383FD0C187B4B0000999890 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B383FB72187B4AFF00999890 /* .gitignore */; };
-		B3A149AA18F6FE8700AF396F /* animations in Resources */ = {isa = PBXBuildFile; fileRef = B3A1499718F6FE8700AF396F /* animations */; };
-		B3A149AB18F6FE8700AF396F /* armatures in Resources */ = {isa = PBXBuildFile; fileRef = B3A1499818F6FE8700AF396F /* armatures */; };
-		B3A149AC18F6FE8700AF396F /* audio in Resources */ = {isa = PBXBuildFile; fileRef = B3A1499918F6FE8700AF396F /* audio */; };
-		B3A149AD18F6FE8700AF396F /* ComponentSpecifications in Resources */ = {isa = PBXBuildFile; fileRef = B3A1499A18F6FE8700AF396F /* ComponentSpecifications */; };
-		B3A149AE18F6FE8700AF396F /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B3A1499B18F6FE8700AF396F /* fonts */; };
-		B3A149AF18F6FE8700AF396F /* fonts_ios_READONLY in Resources */ = {isa = PBXBuildFile; fileRef = B3A1499C18F6FE8700AF396F /* fonts_ios_READONLY */; };
-		B3A149B018F6FE8700AF396F /* gameconstants in Resources */ = {isa = PBXBuildFile; fileRef = B3A1499D18F6FE8700AF396F /* gameconstants */; };
-		B3A149B118F6FE8700AF396F /* levels in Resources */ = {isa = PBXBuildFile; fileRef = B3A1499E18F6FE8700AF396F /* levels */; };
-		B3A149B218F6FE8700AF396F /* logging in Resources */ = {isa = PBXBuildFile; fileRef = B3A1499F18F6FE8700AF396F /* logging */; };
-		B3A149B318F6FE8700AF396F /* models in Resources */ = {isa = PBXBuildFile; fileRef = B3A149A018F6FE8700AF396F /* models */; };
-		B3A149B418F6FE8700AF396F /* pictures in Resources */ = {isa = PBXBuildFile; fileRef = B3A149A118F6FE8700AF396F /* pictures */; };
-		B3A149B518F6FE8700AF396F /* pictures_ios_READONLY in Resources */ = {isa = PBXBuildFile; fileRef = B3A149A218F6FE8700AF396F /* pictures_ios_READONLY */; };
-		B3A149B618F6FE8700AF396F /* prefabs in Resources */ = {isa = PBXBuildFile; fileRef = B3A149A318F6FE8700AF396F /* prefabs */; };
-		B3A149B718F6FE8700AF396F /* saved_data in Resources */ = {isa = PBXBuildFile; fileRef = B3A149A418F6FE8700AF396F /* saved_data */; };
-		B3A149B818F6FE8700AF396F /* settings in Resources */ = {isa = PBXBuildFile; fileRef = B3A149A518F6FE8700AF396F /* settings */; };
-		B3A149B918F6FE8700AF396F /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = B3A149A618F6FE8700AF396F /* shaders */; };
-		B3A149BA18F6FE8700AF396F /* tags in Resources */ = {isa = PBXBuildFile; fileRef = B3A149A718F6FE8700AF396F /* tags */; };
-		B3A149BB18F6FE8700AF396F /* tutorials in Resources */ = {isa = PBXBuildFile; fileRef = B3A149A818F6FE8700AF396F /* tutorials */; };
-		B3A149BC18F6FE8700AF396F /* uiscenes in Resources */ = {isa = PBXBuildFile; fileRef = B3A149A918F6FE8700AF396F /* uiscenes */; };
 		B3A14C2B18FB3CAB00AF396F /* AndroidWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3A14BA318FB3CAB00AF396F /* AndroidWrapper.cpp */; };
 		B3A14C2C18FB3CAB00AF396F /* ComponentMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3A14BA618FB3CAB00AF396F /* ComponentMapper.cpp */; };
 		B3A14C2D18FB3CAB00AF396F /* Decal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3A14BAC18FB3CAB00AF396F /* Decal.cpp */; };
@@ -249,6 +250,26 @@
 		58F24F62185120950066E804 /* libVajraStaticLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVajraStaticLibrary.a; path = ../../lib/ios/iphonesimulator/libVajraStaticLibrary.a; sourceTree = "<group>"; };
 		58F60D51185133F90036DDDE /* libVajraStaticLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVajraStaticLibrary.a; path = ../../lib/ios/iphoneos/libVajraStaticLibrary.a; sourceTree = "<group>"; };
 		58F60E6218515E990036DDDE /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		B31C9D0819084B6200FBDEE4 /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = animations; sourceTree = "<group>"; };
+		B31C9D0919084B6200FBDEE4 /* armatures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = armatures; sourceTree = "<group>"; };
+		B31C9D0A19084B6200FBDEE4 /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audio; sourceTree = "<group>"; };
+		B31C9D0B19084B6200FBDEE4 /* ComponentSpecifications */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ComponentSpecifications; sourceTree = "<group>"; };
+		B31C9D0C19084B6200FBDEE4 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		B31C9D0D19084B6200FBDEE4 /* fonts_ios_READONLY */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts_ios_READONLY; sourceTree = "<group>"; };
+		B31C9D0E19084B6200FBDEE4 /* gameconstants */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gameconstants; sourceTree = "<group>"; };
+		B31C9D0F19084B6200FBDEE4 /* levels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = levels; sourceTree = "<group>"; };
+		B31C9D1019084B6200FBDEE4 /* logging */ = {isa = PBXFileReference; lastKnownFileType = folder; path = logging; sourceTree = "<group>"; };
+		B31C9D1119084B6200FBDEE4 /* misc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = misc; sourceTree = "<group>"; };
+		B31C9D1219084B6200FBDEE4 /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
+		B31C9D1319084B6200FBDEE4 /* pictures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures; sourceTree = "<group>"; };
+		B31C9D1419084B6200FBDEE4 /* pictures_ios_READONLY */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures_ios_READONLY; sourceTree = "<group>"; };
+		B31C9D1519084B6200FBDEE4 /* prefabs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = prefabs; sourceTree = "<group>"; };
+		B31C9D1619084B6200FBDEE4 /* saved_data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = saved_data; sourceTree = "<group>"; };
+		B31C9D1719084B6200FBDEE4 /* settings */ = {isa = PBXFileReference; lastKnownFileType = folder; path = settings; sourceTree = "<group>"; };
+		B31C9D1819084B6200FBDEE4 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
+		B31C9D1919084B6200FBDEE4 /* tags */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tags; sourceTree = "<group>"; };
+		B31C9D1A19084B6200FBDEE4 /* tutorials */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tutorials; sourceTree = "<group>"; };
+		B31C9D1B19084B6200FBDEE4 /* uiscenes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = uiscenes; sourceTree = "<group>"; };
 		B33C67C118D225B40030F658 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		B33C67C218D225B40030F658 /* common.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = common.hpp; sourceTree = "<group>"; };
 		B33C67C418D225B40030F658 /* _features.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _features.hpp; sourceTree = "<group>"; };
@@ -629,25 +650,6 @@
 		B33C6A0518D225BE0030F658 /* XmlTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlTree.h; sourceTree = "<group>"; };
 		B33C6A0618D225BE0030F658 /* XmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlParser.h; sourceTree = "<group>"; };
 		B383FB72187B4AFF00999890 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		B3A1499718F6FE8700AF396F /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = animations; sourceTree = "<group>"; };
-		B3A1499818F6FE8700AF396F /* armatures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = armatures; sourceTree = "<group>"; };
-		B3A1499918F6FE8700AF396F /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audio; sourceTree = "<group>"; };
-		B3A1499A18F6FE8700AF396F /* ComponentSpecifications */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ComponentSpecifications; sourceTree = "<group>"; };
-		B3A1499B18F6FE8700AF396F /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
-		B3A1499C18F6FE8700AF396F /* fonts_ios_READONLY */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts_ios_READONLY; sourceTree = "<group>"; };
-		B3A1499D18F6FE8700AF396F /* gameconstants */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gameconstants; sourceTree = "<group>"; };
-		B3A1499E18F6FE8700AF396F /* levels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = levels; sourceTree = "<group>"; };
-		B3A1499F18F6FE8700AF396F /* logging */ = {isa = PBXFileReference; lastKnownFileType = folder; path = logging; sourceTree = "<group>"; };
-		B3A149A018F6FE8700AF396F /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = models; sourceTree = "<group>"; };
-		B3A149A118F6FE8700AF396F /* pictures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures; sourceTree = "<group>"; };
-		B3A149A218F6FE8700AF396F /* pictures_ios_READONLY */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pictures_ios_READONLY; sourceTree = "<group>"; };
-		B3A149A318F6FE8700AF396F /* prefabs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = prefabs; sourceTree = "<group>"; };
-		B3A149A418F6FE8700AF396F /* saved_data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = saved_data; sourceTree = "<group>"; };
-		B3A149A518F6FE8700AF396F /* settings */ = {isa = PBXFileReference; lastKnownFileType = folder; path = settings; sourceTree = "<group>"; };
-		B3A149A618F6FE8700AF396F /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
-		B3A149A718F6FE8700AF396F /* tags */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tags; sourceTree = "<group>"; };
-		B3A149A818F6FE8700AF396F /* tutorials */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tutorials; sourceTree = "<group>"; };
-		B3A149A918F6FE8700AF396F /* uiscenes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = uiscenes; sourceTree = "<group>"; };
 		B3A14BA318FB3CAB00AF396F /* AndroidWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidWrapper.cpp; sourceTree = "<group>"; };
 		B3A14BA418FB3CAB00AF396F /* AndroidWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidWrapper.h; sourceTree = "<group>"; };
 		B3A14BA618FB3CAB00AF396F /* ComponentMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComponentMapper.cpp; sourceTree = "<group>"; };
@@ -2071,25 +2073,26 @@
 		B39E6C5718AC372900E8F86F /* GameResources */ = {
 			isa = PBXGroup;
 			children = (
-				B3A1499718F6FE8700AF396F /* animations */,
-				B3A1499818F6FE8700AF396F /* armatures */,
-				B3A1499918F6FE8700AF396F /* audio */,
-				B3A1499A18F6FE8700AF396F /* ComponentSpecifications */,
-				B3A1499B18F6FE8700AF396F /* fonts */,
-				B3A1499C18F6FE8700AF396F /* fonts_ios_READONLY */,
-				B3A1499D18F6FE8700AF396F /* gameconstants */,
-				B3A1499E18F6FE8700AF396F /* levels */,
-				B3A1499F18F6FE8700AF396F /* logging */,
-				B3A149A018F6FE8700AF396F /* models */,
-				B3A149A118F6FE8700AF396F /* pictures */,
-				B3A149A218F6FE8700AF396F /* pictures_ios_READONLY */,
-				B3A149A318F6FE8700AF396F /* prefabs */,
-				B3A149A418F6FE8700AF396F /* saved_data */,
-				B3A149A518F6FE8700AF396F /* settings */,
-				B3A149A618F6FE8700AF396F /* shaders */,
-				B3A149A718F6FE8700AF396F /* tags */,
-				B3A149A818F6FE8700AF396F /* tutorials */,
-				B3A149A918F6FE8700AF396F /* uiscenes */,
+				B31C9D0819084B6200FBDEE4 /* animations */,
+				B31C9D0919084B6200FBDEE4 /* armatures */,
+				B31C9D0A19084B6200FBDEE4 /* audio */,
+				B31C9D0B19084B6200FBDEE4 /* ComponentSpecifications */,
+				B31C9D0C19084B6200FBDEE4 /* fonts */,
+				B31C9D0D19084B6200FBDEE4 /* fonts_ios_READONLY */,
+				B31C9D0E19084B6200FBDEE4 /* gameconstants */,
+				B31C9D0F19084B6200FBDEE4 /* levels */,
+				B31C9D1019084B6200FBDEE4 /* logging */,
+				B31C9D1119084B6200FBDEE4 /* misc */,
+				B31C9D1219084B6200FBDEE4 /* models */,
+				B31C9D1319084B6200FBDEE4 /* pictures */,
+				B31C9D1419084B6200FBDEE4 /* pictures_ios_READONLY */,
+				B31C9D1519084B6200FBDEE4 /* prefabs */,
+				B31C9D1619084B6200FBDEE4 /* saved_data */,
+				B31C9D1719084B6200FBDEE4 /* settings */,
+				B31C9D1819084B6200FBDEE4 /* shaders */,
+				B31C9D1919084B6200FBDEE4 /* tags */,
+				B31C9D1A19084B6200FBDEE4 /* tutorials */,
+				B31C9D1B19084B6200FBDEE4 /* uiscenes */,
 			);
 			name = GameResources;
 			path = ../../../GameResources;
@@ -2494,7 +2497,7 @@
 				B33C68CC18D225B40030F658 /* func_matrix.inl in Resources */,
 				B33C691C18D225B40030F658 /* polar_coordinates.inl in Resources */,
 				B33C691A18D225B40030F658 /* orthonormalize.inl in Resources */,
-				B3A149AE18F6FE8700AF396F /* fonts in Resources */,
+				B31C9D2019084B6200FBDEE4 /* fonts in Resources */,
 				B33C68DC18D225B40030F658 /* type_mat.inl in Resources */,
 				B33C68DD18D225B40030F658 /* type_mat2x2.inl in Resources */,
 				B33C68F318D225B40030F658 /* random.inl in Resources */,
@@ -2502,15 +2505,12 @@
 				B33C692018D225B40030F658 /* rotate_normalized_axis.inl in Resources */,
 				B33C68F418D225B40030F658 /* reciprocal.inl in Resources */,
 				B33C690A18D225B40030F658 /* integer.inl in Resources */,
-				B3A149BB18F6FE8700AF396F /* tutorials in Resources */,
 				B33C691418D225B40030F658 /* multiple.inl in Resources */,
 				B33C68FC18D225B40030F658 /* color_space_YCoCg.inl in Resources */,
 				B33C68FD18D225B40030F658 /* compatibility.inl in Resources */,
 				58F247071850F5C90066E804 /* Main_iPhone.storyboard in Resources */,
 				B33C68FF18D225B40030F658 /* dual_quaternion.inl in Resources */,
 				B33C692418D225B40030F658 /* simd_quat.inl in Resources */,
-				B3A149B518F6FE8700AF396F /* pictures_ios_READONLY in Resources */,
-				B3A149B618F6FE8700AF396F /* prefabs in Resources */,
 				B33C68E518D225B40030F658 /* type_mat4x4.inl in Resources */,
 				B33C68D618D225B40030F658 /* intrinsic_matrix.inl in Resources */,
 				58F247131850F5C90066E804 /* Images.xcassets in Resources */,
@@ -2518,19 +2518,22 @@
 				B33C690218D225B40030F658 /* extented_min_max.inl in Resources */,
 				B33C690D18D225B40030F658 /* log_base.inl in Resources */,
 				B33C692218D225B40030F658 /* scalar_relational.inl in Resources */,
-				B3A149AC18F6FE8700AF396F /* audio in Resources */,
+				B31C9D1E19084B6200FBDEE4 /* audio in Resources */,
+				B31C9D2B19084B6200FBDEE4 /* settings in Resources */,
+				B31C9D2719084B6200FBDEE4 /* pictures in Resources */,
 				B33C691918D225B40030F658 /* optimum_pow.inl in Resources */,
-				B3A149B218F6FE8700AF396F /* logging in Resources */,
+				B31C9D2419084B6200FBDEE4 /* logging in Resources */,
 				B33C690718D225B40030F658 /* handed_coordinate_space.inl in Resources */,
+				B31C9D2819084B6200FBDEE4 /* pictures_ios_READONLY in Resources */,
 				B33C692A18D225B40030F658 /* transform2.inl in Resources */,
 				B33C691B18D225B40030F658 /* perpendicular.inl in Resources */,
 				B33C68EA18D225B40030F658 /* type_vec4.inl in Resources */,
-				B3A149B918F6FE8700AF396F /* shaders in Resources */,
 				B33C68F618D225B40030F658 /* type_ptr.inl in Resources */,
 				B33C68DF18D225B40030F658 /* type_mat2x4.inl in Resources */,
 				B33C68E118D225B40030F658 /* type_mat3x3.inl in Resources */,
 				B33C68F718D225B40030F658 /* ulp.inl in Resources */,
 				B33C691318D225B40030F658 /* mixed_product.inl in Resources */,
+				B31C9D2A19084B6200FBDEE4 /* saved_data in Resources */,
 				B33C68D418D225B40030F658 /* intrinsic_geometric.inl in Resources */,
 				B33C690B18D225B40030F658 /* intersect.inl in Resources */,
 				B33C692F18D225B40030F658 /* wrap.inl in Resources */,
@@ -2545,6 +2548,7 @@
 				B33C692318D225B40030F658 /* simd_mat4.inl in Resources */,
 				B33C68D318D225B40030F658 /* intrinsic_exponential.inl in Resources */,
 				B33C68C718D225B40030F658 /* CMakeLists.txt in Resources */,
+				B31C9D2619084B6200FBDEE4 /* models in Resources */,
 				B33C690418D225B40030F658 /* fast_square_root.inl in Resources */,
 				B33C692B18D225B40030F658 /* unsigned_int.inl in Resources */,
 				B33C690C18D225B40030F658 /* io.inl in Resources */,
@@ -2560,27 +2564,28 @@
 				B33C68EE18D225B40030F658 /* matrix_inverse.inl in Resources */,
 				B33C692618D225B40030F658 /* spline.inl in Resources */,
 				B33C68FB18D225B40030F658 /* color_space.inl in Resources */,
-				B3A149B018F6FE8700AF396F /* gameconstants in Resources */,
-				B3A149B118F6FE8700AF396F /* levels in Resources */,
+				B31C9D2219084B6200FBDEE4 /* gameconstants in Resources */,
+				B31C9D2319084B6200FBDEE4 /* levels in Resources */,
 				B33C68CF18D225B40030F658 /* func_trigonometric.inl in Resources */,
+				B31C9D2519084B6200FBDEE4 /* misc in Resources */,
 				B33C68D518D225B40030F658 /* intrinsic_integer.inl in Resources */,
 				B33C68E218D225B40030F658 /* type_mat3x4.inl in Resources */,
 				B33C68F918D225B40030F658 /* bit.inl in Resources */,
-				B3A149B418F6FE8700AF396F /* pictures in Resources */,
 				B383FD0C187B4B0000999890 /* .gitignore in Resources */,
 				B33C68F018D225B40030F658 /* noise.inl in Resources */,
 				58F246FE1850F5C90066E804 /* InfoPlist.strings in Resources */,
-				B3A149AF18F6FE8700AF396F /* fonts_ios_READONLY in Resources */,
+				B31C9D2119084B6200FBDEE4 /* fonts_ios_READONLY in Resources */,
 				B33C68ED18D225B40030F658 /* matrix_access.inl in Resources */,
 				B33C68DE18D225B40030F658 /* type_mat2x3.inl in Resources */,
+				B31C9D2F19084B6200FBDEE4 /* uiscenes in Resources */,
 				B33C68EF18D225B40030F658 /* matrix_transform.inl in Resources */,
+				B31C9D2D19084B6200FBDEE4 /* tags in Resources */,
 				B33C690118D225B40030F658 /* extend.inl in Resources */,
 				B33C68E818D225B40030F658 /* type_vec2.inl in Resources */,
 				B33C68D018D225B40030F658 /* func_vector_relational.inl in Resources */,
-				B3A149BA18F6FE8700AF396F /* tags in Resources */,
 				B33C690318D225B40030F658 /* fast_exponential.inl in Resources */,
 				B33C692718D225B40030F658 /* std_based_type.inl in Resources */,
-				B3A149AA18F6FE8700AF396F /* animations in Resources */,
+				B31C9D1C19084B6200FBDEE4 /* animations in Resources */,
 				B33C68D918D225B40030F658 /* precision.inl in Resources */,
 				B33C691818D225B40030F658 /* number_precision.inl in Resources */,
 				B33C68E718D225B40030F658 /* type_vec1.inl in Resources */,
@@ -2588,20 +2593,21 @@
 				B33C692118D225B40030F658 /* rotate_vector.inl in Resources */,
 				B33C68CD18D225B40030F658 /* func_noise.inl in Resources */,
 				B33C68DB18D225B40030F658 /* type_half.inl in Resources */,
-				B3A149AB18F6FE8700AF396F /* armatures in Resources */,
-				B3A149AD18F6FE8700AF396F /* ComponentSpecifications in Resources */,
+				B31C9D1D19084B6200FBDEE4 /* armatures in Resources */,
+				B31C9D1F19084B6200FBDEE4 /* ComponentSpecifications in Resources */,
 				B33C691D18D225B40030F658 /* projection.inl in Resources */,
-				B3A149B818F6FE8700AF396F /* settings in Resources */,
 				B33C690F18D225B40030F658 /* matrix_interpolation.inl in Resources */,
 				B33C68FE18D225B40030F658 /* component_wise.inl in Resources */,
-				B3A149BC18F6FE8700AF396F /* uiscenes in Resources */,
 				B33C690518D225B40030F658 /* fast_trigonometry.inl in Resources */,
 				B33C68D718D225B40030F658 /* intrinsic_trigonometric.inl in Resources */,
 				B33C68C918D225B40030F658 /* func_exponential.inl in Resources */,
+				B31C9D2C19084B6200FBDEE4 /* shaders in Resources */,
 				B33C68F518D225B40030F658 /* type_precision.inl in Resources */,
 				B33C68CB18D225B40030F658 /* func_integer.inl in Resources */,
+				B31C9D2919084B6200FBDEE4 /* prefabs in Resources */,
 				B33C68EB18D225B40030F658 /* constants.inl in Resources */,
 				B33C691518D225B40030F658 /* norm.inl in Resources */,
+				B31C9D2E19084B6200FBDEE4 /* tutorials in Resources */,
 				B33C692518D225B40030F658 /* simd_vec4.inl in Resources */,
 				B33C68E618D225B40030F658 /* type_vec.inl in Resources */,
 				B33C692E18D225B40030F658 /* vector_query.inl in Resources */,
@@ -2610,10 +2616,8 @@
 				B33C691F18D225B40030F658 /* raw_data.inl in Resources */,
 				B33C68CE18D225B40030F658 /* func_packing.inl in Resources */,
 				B33C68F818D225B40030F658 /* associated_min_max.inl in Resources */,
-				B3A149B718F6FE8700AF396F /* saved_data in Resources */,
 				B33C690E18D225B40030F658 /* matrix_cross_product.inl in Resources */,
 				B33C68FA18D225B40030F658 /* closest_point.inl in Resources */,
-				B3A149B318F6FE8700AF396F /* models in Resources */,
 				B33C692D18D225B40030F658 /* vector_angle.inl in Resources */,
 				B33C68D218D225B40030F658 /* intrinsic_common.inl in Resources */,
 				B33C690018D225B40030F658 /* euler_angles.inl in Resources */,

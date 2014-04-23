@@ -21,6 +21,7 @@
 #include "Vajra/Engine/Ui/UiObject/UiObject.h"
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
+#include "Vajra/Utilities/StringUtilities.h"
 
 ComponentIdType MenuManager::componentTypeId = COMPONENT_TYPE_ID_LEVEL_MANAGER;
 
@@ -348,24 +349,24 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 			std::string text;
 			switch(levelData->bonus) {
 				case LevelBonus::Time:
-					text = std::to_string(levelData->bonusValue) + " OR LESS";
+					text = StringUtilities::ConvertIntToString(levelData->bonusValue) + " OR LESS";
 					break;
 				case LevelBonus::Kills:
 					if(levelData->bonusValue > 0) {
-						text = std::to_string(levelData->bonusValue) + " OR LESS";
+						text = StringUtilities::ConvertIntToString(levelData->bonusValue) + " OR LESS";
 					} else {
-						text = std::to_string(levelData->bonusValue);
+						text = StringUtilities::ConvertIntToString(levelData->bonusValue);
 					}
 					break;
 				case LevelBonus::Alerts:
 					if(levelData->bonusValue > 0) {
-						text = std::to_string(levelData->bonusValue) + " OR LESS";
+						text = StringUtilities::ConvertIntToString(levelData->bonusValue) + " OR LESS";
 					} else {
-						text = std::to_string(levelData->bonusValue);
+						text = StringUtilities::ConvertIntToString(levelData->bonusValue);
 					}
 					break;
 				case LevelBonus::Money:
-					text = std::to_string(levelData->bonusValue) + " OR MORE";
+					text = StringUtilities::ConvertIntToString(levelData->bonusValue) + " OR MORE";
 					break;
 				default:
 					text = "there is no bonus";
@@ -392,29 +393,29 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 			}
 		} else if (child->GetName() == menuPrefix + "time_value") {
 			int time = SINGLETONS->GetMasteryManager()->GetLevelTime();
-			child->ChangeText(std::to_string(time));
+			child->ChangeText(StringUtilities::ConvertIntToString(time));
 		} else if (child->GetName() == menuPrefix + "time_total") {
 			child->ChangeText(":30 x 5 = -500");
 		} else if (child->GetName() == menuPrefix + "kill_value") {
 			int kills = SINGLETONS->GetMasteryManager()->GetNumKills();
-			child->ChangeText(std::to_string(kills));
+			child->ChangeText(StringUtilities::ConvertIntToString(kills));
 		} else if (child->GetName() == menuPrefix + "kill_total") {
 			child->ChangeText("4 x 7 = -1400");
 		} else if (child->GetName() == menuPrefix + "alert_value") {
 			int alerts = SINGLETONS->GetMasteryManager()->GetNumAlerts();
-			child->ChangeText(std::to_string(alerts));
+			child->ChangeText(StringUtilities::ConvertIntToString(alerts));
 		} else if (child->GetName() == menuPrefix + "alert_total") {
 			child->ChangeText("3 x -50 = -150");
 		} else if (child->GetName() == menuPrefix + "loot_value") {	
 			int loot = SINGLETONS->GetMasteryManager()->GetMoney();
-			child->ChangeText(std::to_string(loot));
+			child->ChangeText(StringUtilities::ConvertIntToString(loot));
 		} else if (child->GetName() == menuPrefix + "loot_total") {
 			int loot = SINGLETONS->GetMasteryManager()->GetMoney();
-			child->ChangeText(std::to_string(loot));
+			child->ChangeText(StringUtilities::ConvertIntToString(loot));
 		} else if (child->GetName() == menuPrefix + "time_score") {
 			std::string text;
 			if(scores.time != -1) {
-				text = std::to_string(scores.time);
+				text = StringUtilities::ConvertIntToString(scores.time);
 			} else {
 				text = "N/A";
 			}
@@ -422,7 +423,7 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 		} else if (child->GetName() == menuPrefix + "kill_score") {
 			std::string text;
 			if(scores.kills != -1) {
-				text = std::to_string(scores.kills);
+				text = StringUtilities::ConvertIntToString(scores.kills);
 			} else {
 				text = "N/A";
 			}
@@ -430,7 +431,7 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 		} else if (child->GetName() == menuPrefix + "alert_score") {
 			std::string text;
 			if(scores.alerts != -1) {
-				text = std::to_string(scores.alerts);
+				text = StringUtilities::ConvertIntToString(scores.alerts);
 			} else {
 				text = "N/A";
 			}
@@ -438,7 +439,7 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 		} else if (child->GetName() == menuPrefix + "loot_score") {
 			std::string text;
 			if(scores.money != -1) {
-				text = std::to_string(scores.money);
+				text = StringUtilities::ConvertIntToString(scores.money);
 			} else {
 				text = "N/A";
 			}

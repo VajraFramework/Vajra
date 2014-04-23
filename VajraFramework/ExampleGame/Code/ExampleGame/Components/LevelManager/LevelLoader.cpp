@@ -91,6 +91,9 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	VERIFY(gridNode != nullptr, "Level definition contains <%s> node", GRID_TAG);
 	SINGLETONS->GetGridManager()->loadGridDataFromXml(gridNode);
 
+	// Create the shady camera before we load any objects because their AudioSource components will need it
+	createCamera();
+
 	XmlNode* staticNode = levelNode->GetFirstChildByNodeName(STATIC_TAG);
 	// The level doesn't need to have a STATIC_TAG node
 	if (staticNode != nullptr) {
@@ -391,14 +394,6 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	// The level data file will specify which unit the camera should focus on by default
 	std::string unitNameStr = cameraNode->GetAttributeValueS(FOCUS_ATTRIBUTE);
 
-	// Create the ShadyCamera; this should possibly be a prefab as well.
-	GameObject* camera = new GameObject(ENGINE->GetSceneGraph3D());
-	ENGINE->GetSceneGraph3D()->GetRootGameObject()->AddChild(camera->GetId());
-	ShadyCamera* cameraComponent = camera->AddComponent<ShadyCamera>();
-	ENGINE->GetSceneGraph3D()->SetMainCameraId(camera->GetId());
-	SINGLETONS->GetGridManager()->SetShadyCamera(cameraComponent);
-	AudioListener* listener = camera->AddComponent<AudioListener>();
-	listener->SetAsActiveListener();
 	// Find the unit that the camera should focus on
 	UnitType uType = StringToUnitType(unitNameStr);
 	ObjectIdType id = SINGLETONS->GetGridManager()->GetPlayerUnitIdOfType(uType);
@@ -444,7 +439,7 @@ void LevelLoader::loadCameraDataFromXml(XmlNode* cameraNode) {
 	
 	// If a level does not have an overview node something is wrong
 	ASSERT(!overviewNodeIsNull, "level XML has information for overview camera");
-	cameraComponent->loadCameraData(pU->gridNavRef->GetCurrentCell(), overviewPos, startPos, !startPosNodeIsNull);
+	SINGLETONS->GetGridManager()->GetShadyCamera()->loadCameraData(pU->gridNavRef->GetCurrentCell(), overviewPos, startPos, !startPosNodeIsNull);
 }
 
 void LevelLoader::loadLinkDataFromXml  (XmlNode* linkBaseNode) {
@@ -516,6 +511,20 @@ void LevelLoader::loadEndConditionsFromXml(XmlNode* linkBaseNode) {
 	// Generate the default lose condition
 	GameObject* defaultLose = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + DEFAULT_LOSE_CONDITION + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
 	SINGLETONS->GetLevelManager()->AddLoseCondition(defaultLose->GetId());
+}
+
+void LevelLoader::createCamera() {
+	GameObject* shadyCamObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "ShadyCamera" + PREFAB_EXTENSION, ENGINE->GetSceneGraph3D());
+	Camera* cam = shadyCamObj->GetComponent<Camera>();
+	VERIFY(cam != nullptr, "Game camera object has Camera component");
+	ENGINE->GetSceneGraph3D()->SetMainCameraId(shadyCamObj->GetId());
+	SINGLETONS->GetGridManager()->SetShadyCamera((ShadyCamera*)cam);
+
+	AudioListener* listener = shadyCamObj->GetComponent<AudioListener>();
+	ASSERT(listener != nullptr, "Game camera object has AudioListener component");
+	if (listener != nullptr) {
+		listener->SetAsActiveListener();
+	}
 }
 
 void LevelLoader::adjustLighting() {

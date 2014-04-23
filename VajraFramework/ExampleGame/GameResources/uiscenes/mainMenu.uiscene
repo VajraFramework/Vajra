@@ -175,7 +175,7 @@
 		<uielement name="missionNavBar" visible="true" clickable="false">
 			<dimensions>
 				<position xwrto="CENTER" ywrto="BOTTOM" x="-512" y="0"></position>
-				<size widthPixels="1024" heightPixels="72"></size>
+				<size widthPixels="FILLPARENT" heightPixels="72"></size>
 				<zorder>55</zorder>
 			</dimensions>
 			<image name="SD_LevelSelection_NavBar.png" hasTransperancy="false"> </image>
@@ -216,7 +216,7 @@
 		<uielement name="parallaxRoot" visible="true" clickable="true">
 			<dimensions>
 				<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
-				<size widthPixels="1024" heightPixels="768"></size>
+				<size widthPixels="FILLPARENT" heightPixels="FILLPARENT"></size>
 				<zorder>5</zorder>
 			</dimensions>
 			<uielement name="parallaxBack" visible="true" clickable="false">

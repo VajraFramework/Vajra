@@ -93,6 +93,7 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 			SINGLETONS->GetMenuManager()->LoadLevel(this->levelToLoad);
 			uiObject->SetVisible(false);
 			((UiObject*)ObjectRegistry::GetObjectByName("preMenuEnd"))->SetVisible(false);
+			return;
 		} else if(uiObject->GetName() == "preMenuEnd") {
 			((UiObject*)ObjectRegistry::GetObjectByName("preMenu"))->SetVisible(false);
 			((UiObject*)ObjectRegistry::GetObjectByName("popUpBack"))->SetVisible(false);

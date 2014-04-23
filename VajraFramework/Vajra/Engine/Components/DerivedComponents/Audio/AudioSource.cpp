@@ -36,6 +36,7 @@ void AudioSource::init() {
 	this->player = ENGINE->GetAudioManager()->RequestAudioPlayer(this->GetObject()->GetId());
 	this->player->SetVolume(this->volume);
 	this->player->SetPlaybackSpeed(this->playbackSpeed);
+	this->isVisible = true;
 	SetSourceIs3D(false);
 	SetPlayOnlyWhenVisible(false);
 
@@ -107,6 +108,7 @@ void AudioSource::SetSourceIs3D(bool is3D) {
 
 void AudioSource::SetPlayOnlyWhenVisible(bool vis) {
 	this->playOnlyWhenVisible = vis;
+	checkVisibility();
 }
 
 // Other methods
@@ -153,7 +155,7 @@ void AudioSource::checkVisibility() {
 		Transform* trans = this->GetObject()->GetComponent<Transform>();
 		glm::vec3 pos = trans->GetPositionWorld();
 		GameObject* gObj = dynamic_cast<GameObject*>(this->GetObject());
-		float tolerance = 4.0f; // TODO [Hack] Magic number
+		float tolerance = 2.0f; // TODO [Hack] Magic number
 		if (gObj->GetParentSceneGraph()->GetMainCamera()->IsPointInFrustum(pos, tolerance)) {
 			if (!this->isVisible) {
 				this->player->SetVolume(this->volume);
@@ -164,5 +166,9 @@ void AudioSource::checkVisibility() {
 			this->player->SetVolume(0.0f);
 			this->isVisible = false;
 		}
+	}
+	else if (!this->isVisible) {
+		this->player->SetVolume(this->volume);
+		this->isVisible = true;
 	}
 }
