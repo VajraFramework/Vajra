@@ -90,11 +90,13 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 	ASSERT(this->parallaxRoot != nullptr, "The parallaxRoot root is not null");
 	if(this->parallaxRoot != nullptr && this->parallaxRoot->IsVisible()) {
 		if(uiObject->GetName() == "preMenuStart") {
-			std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
 			SINGLETONS->GetMenuManager()->LoadLevel(this->levelToLoad);
+			uiObject->SetVisible(false);
+			((UiObject*)ObjectRegistry::GetObjectByName("preMenuEnd"))->SetVisible(false);
 			return;
 		} else if(uiObject->GetName() == "preMenuEnd") {
 			((UiObject*)ObjectRegistry::GetObjectByName("preMenu"))->SetVisible(false);
+			((UiObject*)ObjectRegistry::GetObjectByName("popUpBack"))->SetVisible(false);
 		}
  		else if(uiObject->GetName() == PARALLAX) {
 			float xDiff = touch.pos.x - touch.prevPos.x;
@@ -108,10 +110,6 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 					SINGLETONS->GetMenuManager()->CenterUiObject((UiObject*)ObjectRegistry::GetObjectByName("preMenu"));
 					SINGLETONS->GetMenuManager()->UpdateMenuWithMastery("preMenu", this->levelToLoad);
 					
-					
-					// Load premenu bonus info
-					//std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
-					//SINGLETONS->GetMenuManager()->LoadLevel(i);
 					return;
 				}
 			}
@@ -188,7 +186,7 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 				}
 			}
 		} else if(screenX < this->missionStartX[this->currentMissionScreenIndex]) { // RIGHT
-			if(this->currentMissionScreenIndex < (int)this->missionStartX.size() - 1) {
+			if(this->currentMissionScreenIndex < SINGLETONS->GetLevelManager()->GetNumMissionsInCurrentContract() - 1 && this->currentMissionScreenIndex < (int)this->missionStartX.size() - 1) {
 				if(std::abs(dist) > std::abs(this->missionStartX[this->currentMissionScreenIndex + 1] - screenX)) {
 					this->currentMissionScreenIndex++;
 				}
@@ -202,6 +200,7 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 			}
 		}
 		frontTransAmt = this->missionStartX[this->currentMissionScreenIndex] - pScreen->GetTransform()->GetPositionWorld().x; 
+		this->updateTitleNames(this->currentMissionScreenIndex);
 	}
 	for(ObjectIdType id : parallaxRoot->GetChildren()){
 		
@@ -273,7 +272,9 @@ void MainMenuTouchHandlers::scrollToCurrentMission() {
 		}
 		pos.x = newX;
 		object->GetTransform()->SetPosition(pos);
+		this->updateTitleNames(curMissionIndex);
 	}
+
 	
 }
 void MainMenuTouchHandlers::createMissionMenu() {
@@ -500,5 +501,11 @@ void MainMenuTouchHandlers::goBackOneMenu() {
 	} else {
 		this->openContractMenu();
 	}
+}
+
+void MainMenuTouchHandlers::updateTitleNames(int missionIndex) {
+	int curContractIndex = SINGLETONS->GetLevelManager()->GetCurrentContract();
+	((UiElement*)ObjectRegistry::GetObjectByName("contractName"))->ChangeText(SINGLETONS->GetLevelManager()->GetContractData(curContractIndex)->name);
+	((UiElement*)ObjectRegistry::GetObjectByName("missionName"))->ChangeText(SINGLETONS->GetLevelManager()->GetMissionData(curContractIndex, missionIndex)->name);
 }
 
