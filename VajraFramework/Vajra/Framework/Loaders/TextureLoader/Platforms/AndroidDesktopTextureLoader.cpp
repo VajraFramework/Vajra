@@ -16,7 +16,7 @@
 // Forward Declarations:
 bool loadPngImage(const char *name, int &outWidth, int &outHeight, bool &outHasAlpha, int &colorType, GLubyte **outData);
 
-GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
+GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes, bool useMipmapping) {
 
     int textureWidth, textureHeight;
     bool textureHasAlpha;
@@ -42,7 +42,11 @@ GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
 
     // stretch it
 #ifdef USING_MIPMAPS
-    GLCALL(glTexParameteri,  GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+    if (useMipmapping) {
+    	GLCALL(glTexParameteri,  GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+    } else {
+    	GLCALL(glTexParameteri,  GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    }
 #else
     GLCALL(glTexParameteri,  GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 #endif
@@ -75,8 +79,10 @@ GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes) {
     GLCALL(glTexImage2D, GL_TEXTURE_2D, 0, glcolours, textureWidth, textureHeight, 0, glcolours, GL_UNSIGNED_BYTE, *outTextureBytes);
 
 #ifdef USING_MIPMAPS
-    GLCALL(glHint, GL_GENERATE_MIPMAP_HINT, GL_NICEST);
-    GLCALL(glGenerateMipmap, GL_TEXTURE_2D);
+    if (useMipmapping) {
+    	GLCALL(glHint, GL_GENERATE_MIPMAP_HINT, GL_NICEST);
+    	GLCALL(glGenerateMipmap, GL_TEXTURE_2D);
+    }
 #endif
 
 

@@ -11,6 +11,7 @@
 
 #define USING_MIPMAPS
 
-GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes);
+bool textureMustUseMipmaps(std::string imagePath);
+GLuint loadGLTextureFromPNG(const char *imagePath, GLubyte** outTextureBytes, bool useMipmapping);
 
 #endif // TEXTURELOADER_H
