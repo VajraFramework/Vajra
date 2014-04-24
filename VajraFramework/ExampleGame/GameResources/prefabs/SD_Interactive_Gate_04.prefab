@@ -3,6 +3,23 @@
 		<component name="Transform">
 		</component>
 
+		<component name="AudioSource">
+			<property name="SetSourceIs3D">
+				<field>false</field>
+			</property>
+			<property name="SetPlayOnlyWhenVisible">
+				<field>true</field>
+			</property>
+			<property name="LoadAudioClip">
+				<field>triggerOn</field>
+				<field>audio/SD_SFX_GateOpen_01.wav</field>
+			</property>
+			<property name="LoadAudioClip">
+				<field>triggerOff</field>
+				<field>audio/SD_SFX_GateClose_01.wav</field>
+			</property>
+		</component>
+		
 		<component name="MultiplexSwitch">
 			<property name="SetSwitchType">
 				<field>Continuous</field>
