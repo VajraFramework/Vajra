@@ -11,6 +11,7 @@
 #define PARALLAX_FRONT "parallaxFront"
 #define PARALLAX_MIDDLE "parallaxMid"
 #define PARALLAX_BACK "parallaxBack"
+#define POPUP_BACK "popUpBack"
 
 class UiElement;
 class MainMenuTouchHandlers : public UiTouchHandlers {

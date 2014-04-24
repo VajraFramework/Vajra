@@ -88,7 +88,7 @@ void MenuManager::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_LEVEL_LOADED: {
 			if(this->loadScreen != nullptr && this->loadScreen->IsVisible()) {
 				ENGINE->GetSceneGraph3D()->Resume();
-				float loadTime = ((float)ENGINE->GetTimer()->GetHighResAbsoluteTime()) - this->loadStartTime;
+				//float loadTime = ((float)ENGINE->GetTimer()->GetHighResAbsoluteTime()) - this->loadStartTime;
 				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, .5f, INTERPOLATION_TYPE_LINEAR, false, false, false, "extraLoadTime", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
 				/*if(loadTime < GetFloatGameConstant(GAME_CONSTANT_min_load_time)) {
 					float extraLoadTime = GetFloatGameConstant(GAME_CONSTANT_min_load_time) - loadTime;

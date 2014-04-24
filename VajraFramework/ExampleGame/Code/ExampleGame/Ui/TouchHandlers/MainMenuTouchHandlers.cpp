@@ -70,7 +70,9 @@ void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch)
 }
 
 void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
-	SINGLETONS->GetMenuManager()->PlaySFX(BUTTON_CLICK_SFX);
+	if ((uiObject->GetName() != PARALLAX) && (uiObject->GetName() != POPUP_BACK)) {
+		SINGLETONS->GetMenuManager()->PlaySFX(BUTTON_CLICK_SFX);
+	}
 
 	if(uiObject->GetName() == "backMenuButton") {
 		this->goBackOneMenu();

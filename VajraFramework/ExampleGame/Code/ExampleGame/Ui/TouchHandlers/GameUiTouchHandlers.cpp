@@ -2,6 +2,7 @@
 #include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "ExampleGame/Ui/MenuManager/MenuDefinitions.h"
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
 #include "Vajra/Common/Objects/ObjectRegistry.h"
@@ -137,6 +138,8 @@ void GameUiTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch /* touch
 }
 
 void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch */) {
+	SINGLETONS->GetMenuManager()->PlaySFX(BUTTON_CLICK_SFX);
+
 #ifdef DEBUG 
 	if (uiObject->GetName() == "debugMenu") {
 		std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "debugMenu.uiscene";
