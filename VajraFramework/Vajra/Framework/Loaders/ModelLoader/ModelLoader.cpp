@@ -158,7 +158,7 @@ void LoadMeshFromModelFile(const char* filePath,
 			modelFile >> normal_textureImageName;
 			outNormalMapFileName = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + normal_textureImageName;
 		} else if (hasNormalMap == "no") {
-			// Nothing to do
+			outNormalMapFileName = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "blue.png";
 		} else {
 			ASSERT(0, "Error parsing .model file");
 		}

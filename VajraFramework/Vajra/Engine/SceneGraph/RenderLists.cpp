@@ -254,6 +254,8 @@ void RenderLists::addGameObjectIdToRenderList(ObjectIdType id, std::string shade
 		this->addGameObjectIdToRenderList(id, "dpcshdr");
 	} else if (shaderName == "txrshdr") {
 		this->addGameObjectIdToRenderList(id, "dptshdr");
+	} else if (shaderName == "wtrshdr") {
+		this->addGameObjectIdToRenderList(id, "dptshdr");
 	}
 }
 
@@ -279,6 +281,8 @@ void RenderLists::removeGameObjectIdToRenderList(ObjectIdType id, std::string sh
 	} else if (shaderName == "clrshdr") {
 		this->removeGameObjectIdToRenderList(id, "dpcshdr");
 	} else if (shaderName == "txrshdr") {
+		this->removeGameObjectIdToRenderList(id, "dptshdr");
+	} else if (shaderName == "wtrshdr") {
 		this->removeGameObjectIdToRenderList(id, "dptshdr");
 	}
 }

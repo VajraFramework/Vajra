@@ -49,11 +49,12 @@ void WaterRenderer::Draw() {
 		GLCALL(glUniform1f, scrolling_uv_offset_handle, this->scrollingUVsOffset);
 	}
 
-	MeshRenderer::Draw();
-
 	if (this->secondaryTexture) {
 		this->secondaryTexture->Draw(2);
 	}
+
+	MeshRenderer::Draw();
+
 }
 
 

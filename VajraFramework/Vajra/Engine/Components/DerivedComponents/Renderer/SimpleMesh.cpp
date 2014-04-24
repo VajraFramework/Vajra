@@ -335,9 +335,11 @@ void SimpleMesh::prepareVerticesToDraw() {
     		}
     	}
 
-    	if (this->materialRef->HasNormalMap()) {
-    		this->materialRef->GetNormalMapTextureAsset()->Draw(2);
-    	}
+		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_normalMap)) {
+			if (this->materialRef->HasNormalMap()) {
+				this->materialRef->GetNormalMapTextureAsset()->Draw(2);
+			}
+		}
     }
 }
 
