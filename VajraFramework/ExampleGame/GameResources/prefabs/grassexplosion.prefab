@@ -1,0 +1,65 @@
+<prefab>
+	<gameobject>
+		<component name="ParticleSystem">
+			<property name="SetNumberOfParticles">
+				<field>50</field>
+				<field>50</field>
+			</property>
+			<property name="SetParticleSpeed">
+				<field>0.75</field>
+				<field>0.75</field>
+			</property>
+			<property name="SetEmissionVolume">
+				<field>ellipsoid</field>
+				<field>0.4</field>
+				<field>1.4</field>
+				<field>0.4</field>
+			</property>
+			<property name="SetOverallLifespan">
+				<field>0.5</field>
+			</property>
+			<property name="SetParticleVelocityDirection">
+				<field>0.0</field>
+				<field>1.0</field>
+				<field>0.0</field>
+			</property>
+			<property name="SetParticleVelocityDirectionRandomness">
+				<field>0.5</field>
+			</property>
+			<property name="SetParticleSize">
+				<field>32</field>
+				<field>16</field>
+			</property>
+			<property name="SetParticleLifespan">
+				<field>.5</field>
+			</property>
+			<property name="SetParticleTexture">
+				<field>pictures/grassParticle.png</field>
+			</property>
+			<property name="SetParticleInitialColor">
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
+			</property>
+			<property name="SetParticleFinalColor">
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>1.0</field>
+				<field>0.25</field>
+			</property>
+			<property name="SetLooping">
+				<field>false</field>
+			</property>
+			<property name="InitParticleSystem">
+			</property>
+		</component>
+
+		<component name="ParticleSystemRenderer">
+		</component>
+
+		<component name="Transform">
+		</component>
+	</gameobject>
+</prefab>
+

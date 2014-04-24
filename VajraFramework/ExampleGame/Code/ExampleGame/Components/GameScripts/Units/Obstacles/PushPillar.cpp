@@ -13,8 +13,11 @@
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
+#include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Timer/Timer.h"
+#include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Utilities/MathUtilities.h"
 
 PushPillar::PushPillar() : BaseUnit() {
@@ -39,6 +42,8 @@ void PushPillar::init() {
 	this->slideZ = 0;
 	this->targetPosition = ZERO_VEC3;
 	this->riderId = OBJECT_ID_INVALID;
+	this->slideEffect = "";
+	this->slideEffectObjId = OBJECT_ID_INVALID;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_NAVIGATION_REACHED_DESTINATION, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED             , this->GetTypeId(), false);
@@ -138,6 +143,36 @@ void PushPillar::Kill() {
 
 }
 
+void PushPillar::generateSlideEffect() {
+	GameObject* slideEffectObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + this->slideEffect, ENGINE->GetSceneGraph3D());
+	this->slideEffectObjId = slideEffectObj->GetId();
+
+	this->gameObjectRef->AddChild(this->slideEffectObjId);
+	slideEffectObj->GetTransform()->SetPosition(ZERO_VEC3);
+}
+
+void PushPillar::activateSlideEffect() {
+	GameObject* slideEffectObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->slideEffectObjId);
+	if (slideEffectObj != nullptr) {
+		ParticleSystem* slideEffectParticleSystem = slideEffectObj->GetComponent<ParticleSystem>();
+		VERIFY(slideEffectParticleSystem != nullptr, "Slide effect prefab has a particle system on it");
+		if (slideEffectParticleSystem != nullptr) {
+			slideEffectParticleSystem->Play();
+		}
+	}
+}
+
+void PushPillar::deactivateSlideEffect() {
+	GameObject* slideEffectObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->slideEffectObjId);
+	if (slideEffectObj != nullptr) {
+		ParticleSystem* slideEffectParticleSystem= slideEffectObj->GetComponent<ParticleSystem>();
+		ASSERT(slideEffectParticleSystem != nullptr, "Slide effect prefab has a particle system on it");
+		if (slideEffectParticleSystem != nullptr) {
+			slideEffectParticleSystem->Pause();
+		}
+	}
+}
+
 void PushPillar::startSliding(glm::vec3 direction) {
 	// Convert the direction vector to one of the cardinal directions (N/S/E/W)
 	if      (direction.x >  ROUNDING_ERROR) { this->slideX =  1; }
@@ -164,6 +199,7 @@ void PushPillar::startSliding(glm::vec3 direction) {
 
 			this->isSliding = true;
 			this->childUnitOnTop();
+			activateSlideEffect();
 		}
 	}
 }
@@ -249,6 +285,7 @@ void PushPillar::stopSliding() {
 
 	this->isSliding = false;
 	this->unchildUnitOnTop();
+	deactivateSlideEffect();
 }
 
 void PushPillar::childUnitOnTop() {
