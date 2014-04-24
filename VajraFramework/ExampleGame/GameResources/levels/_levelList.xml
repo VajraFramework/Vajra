@@ -5,30 +5,65 @@
 				<missionScreen x="300" y="300" parallaxScreen="0"></missionScreen>
 				<bonus type="Time" value="55"></bonus>
 			</level>
-			<level name="SD_Forest_2" path="SD_Forest_2.lvl" type="Infiltration">
+			<level name="SD_Playtest2_02" path="SD_Playtest2_02.lvl" type="Infiltration">
 				<missionScreen x="400" y="300" parallaxScreen="0"></missionScreen>
 				<bonus type="Kills" value="55"></bonus>
 			</level>
-			<level name="SD_Playtest2_01" path="SD_Playtest2_01.lvl" type="Infiltration">
+			<level name="SD_Playtest2_04" path="SD_Playtest2_04.lvl" type="Infiltration">
 				<missionScreen x="500" y="300" parallaxScreen="0"></missionScreen>
 				<bonus type="Time" value="55"></bonus>
 			</level>
 		</mission>
 		<mission title="Infiltrate_the_City">
-			<level name="SD_Playtest2_05" path="SD_Playtest2_05.lvl" type="Infiltration">
+			<level name="SD_Forest_1" path="SD_Forest_1.lvl" type="Infiltration">
 				<missionScreen x="400" y="300" parallaxScreen="0"></missionScreen>
 				<bonus type="Time" value="55"></bonus>
 			</level>
-			<level name="SD_Playtest2_06" path="SD_Playtest2_06.lvl" type="Infiltration">
+			<level name="SD_Forest_2" path="SD_Forest_2.lvl" type="Infiltration">
 				<missionScreen x="500" y="300" parallaxScreen="0"></missionScreen>
 				<bonus type="Time" value="55"></bonus>
 			</level>
-			<level name="SD_Playtest2_01" path="SD_Playtest2_01.lvl" type="Infiltration">
+			<level name="SD_Town_1" path="SD_Town_1.lvl" type="Infiltration">
 				<missionScreen x="600" y="300" parallaxScreen="0"></missionScreen>
 				<bonus type="Time" value="55"></bonus>
 			</level>
 		</mission>
+		<mission>
+			<level name="SD_Town_2" path="SD_Town_2.lvl" type="Infiltration">
+				<missionScreen x="400" y="300" parallaxScreen="0"></missionScreen>
+				<bonus type="Time" value="55"></bonus>
+			</level>
+			<level name="SD_Prison_1" path="SD_Prison_1.lvl" type="Infiltration">
+				<missionScreen x="500" y="300" parallaxScreen="0"></missionScreen>
+				<bonus type="Time" value="55"></bonus>
+			</level>
+			<level name="SD_Prison_2" path="SD_Prison_2.lvl" type="Infiltration">
+				<missionScreen x="300" y="0" parallaxScreen="0"></missionScreen>
+				<bonus type="Time" value="55"></bonus>
+			</level>
+		</mission>
 	</contract>
-	<contract title="Coming_Soon">
+	<contract>
+		<mission>
+			
+			<level name="c2" path="SD_Playtest2_02.lvl" type="Infiltration">
+				<missionScreen x="400" y="0" parallaxScreen="0"></missionScreen>
+				<bonus type="Time" value="55"></bonus>
+			</level>
+			<level name="c3" path="SD_Playtest2_04.lvl" type="Infiltration">
+				<missionScreen x="500" y="0" parallaxScreen="0"></missionScreen>
+				<bonus type="Time" value="55"></bonus>
+			</level>
+		</mission>
+		<mission>
+			<level name="c4" path="Hegemony.lvl" type="Infiltration">
+				<missionScreen x="400" y="0" parallaxScreen="0"></missionScreen>
+				<bonus type="Time" value="55"></bonus>
+			</level>
+			<level name="c5" path="Thief_Guard_Easy.lvl" type="Infiltration">
+				<missionScreen x="500" y="0" parallaxScreen="0"></missionScreen>
+				<bonus type="Time" value="55"></bonus>
+			</level>
+		</mission>
 	</contract>
 </levels>

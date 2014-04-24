@@ -77,6 +77,12 @@
 		</component>
 		
 		<component name="Assassin">
+			<property name="SetDashEffect">
+				<field>assassindash.prefab</field>
+			</property>
+			<property name="SetSpecialHitEffect">
+				<field>assassinhit.prefab</field>
+			</property>
 		</component>
 
 		<component name="UnitAnimationManager">
