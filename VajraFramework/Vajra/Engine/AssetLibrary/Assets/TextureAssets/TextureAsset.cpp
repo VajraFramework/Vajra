@@ -97,14 +97,13 @@ void TextureAsset::LoadAsset() {
 	// TODO [Implement] Move loadGLTextureFromPNG into a Framework class/namespace
     // Load image
 	GLubyte* textureBytes = nullptr;
-    this->textureGLHandle = loadGLTextureFromPNG(this->GetFilePathToTexture().c_str(), &(textureBytes));
+	bool useMipmaps = textureMustUseMipmaps(this->GetFilePathToTexture());
+    this->textureGLHandle = loadGLTextureFromPNG(this->GetFilePathToTexture().c_str(), &(textureBytes), useMipmaps);
     ASSERT(this->textureGLHandle != 0 && textureBytes != nullptr, "Successfully loaded texture from url %s", this->GetFilePathToTexture().c_str());
 
     // Free up the texture bytes in ram now that it's in the gpu:
 	if (textureBytes != nullptr) {
-#if !defined(PLATFORM_IOS)
 		free(textureBytes);
-#endif
 	}
 	textureBytes = nullptr;
 }

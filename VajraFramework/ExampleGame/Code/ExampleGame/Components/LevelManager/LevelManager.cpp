@@ -228,7 +228,7 @@ void LevelManager::init() {
 	
 	bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle(PLAYER_BUNDLE_NAME);
 	this->levelCompletionData = bundle->GetString(LEVEL_COMPLETION);
-	for(int i = 0; i < levelCompletionData.size(); ++i) {
+	for(int i = 0; i < (int)levelCompletionData.size(); ++i) {
 		char levelStatus = levelCompletionData[i];
 		if(levelStatus != 'L') {
 			this->loadLevelScore(i);
@@ -287,7 +287,7 @@ void LevelManager::initBundleForFirstTime() {
 	levelCompletion[0] = 'U'; // U = unlocked
 	this->onLevelUnlocked(0);
 	for(int i = 1; i < MAX_LEVELS_POSSIBLE; ++i) {
-#ifdef DEBUG_1010
+#ifdef DEBUG
 		levelCompletion[i] = 'U';
 		this->onLevelUnlocked(i);
 #else

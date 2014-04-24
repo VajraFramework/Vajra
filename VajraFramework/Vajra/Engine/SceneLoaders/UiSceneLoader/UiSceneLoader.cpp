@@ -94,7 +94,30 @@ static void processDimensionsNode(XmlNode* dimensionsNode, int& posXPixels_out, 
 	std::string x_wrto = positionNode->HasAttribute(X_WRTO_ATTRIBUTE) ? positionNode->GetAttributeValueS(X_WRTO_ATTRIBUTE) : "LEFT";
 	std::string y_wrto = positionNode->HasAttribute(Y_WRTO_ATTRIBUTE) ? positionNode->GetAttributeValueS(Y_WRTO_ATTRIBUTE) : "TOP";
 
-	AdjustPositionForResolution(posXPixels_out, posYPixels_out, x_wrto, y_wrto, widthPixels_out, heightPixels_out, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+
+	// Handle FILLPARENT as a special case
+	bool isFillParentX = false;
+	bool isFillParentY = false;
+	if (sizeNode->GetAttributeValueS(WIDTHPIXELS_ATTRIBUTE) == "FILLPARENT") {
+		widthPixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
+		x_wrto = "LEFT";
+		posXPixels_out = 0.0f;
+		isFillParentX = true;
+	}
+	if (sizeNode->GetAttributeValueS(HEIGHTPIXELS_ATTRIBUTE) == "FILLPARENT") {
+		heightPixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
+		y_wrto = "TOP";
+		posYPixels_out = 0.0f;
+		isFillParentY = true;
+	}
+
+	int dummy = 10;
+	if (!isFillParentX) {
+		AdjustPositionForResolution(posXPixels_out, dummy, x_wrto, y_wrto, widthPixels_out, dummy, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+	}
+	if (!isFillParentY) {
+		AdjustPositionForResolution(dummy, posYPixels_out, x_wrto, y_wrto, dummy, heightPixels_out, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+	}
 }
 
 static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTouchHandlers* touchHandlers) {

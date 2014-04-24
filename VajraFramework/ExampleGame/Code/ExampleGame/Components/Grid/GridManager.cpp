@@ -191,7 +191,7 @@ void GridManager::tryUnitSwitch(int touchIndex) {
 						distToSwitch += .45f;
 					}
 					if(glm::distance(unitPos, touchPos) <= distToSwitch) {
-						this->selectUnitInCell(unitCell);
+						this->selectUnit(objectId);
 						return;
 					}
 				}
@@ -654,6 +654,26 @@ void GridManager::checkRoomCollisions(ObjectIdType id, GridCell* startCell, Grid
 			roomEnterMessage->messageData.fv1 = this->grid->GetRoomCenter(destCell);
 			ENGINE->GetMessageHub()->SendMulticastMessage(roomEnterMessage, this->GetObject()->GetId());
 		}
+	}
+}
+
+void GridManager::selectUnit(ObjectIdType unitId) {
+	GameObject* obj = ENGINE->GetSceneGraph3D()->GetGameObjectById(unitId);
+	BaseUnit* bu = obj->GetComponent<BaseUnit>();
+	ASSERT(bu != nullptr, "Selected object has BaseUnit component");
+	if(bu->GetUnitType() <= LAST_PLAYER_UNIT_TYPE) {
+		this->deselectUnit();
+		this->selectedUnitId = unitId;
+		PlayerUnit* pu = obj->GetComponent<PlayerUnit>();
+		pu->onSelectedTouch();
+		GridNavigator* gNav = obj->GetComponent<GridNavigator>();
+		GridCell* cell = gNav->GetCurrentCell();
+		MessageChunk unitChangedMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+		unitChangedMessage->SetMessageType(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
+		unitChangedMessage->messageData.iv1.x = cell->x;
+		unitChangedMessage->messageData.iv1.y = bu->GetUnitType();
+		unitChangedMessage->messageData.iv1.z = cell->z;
+		ENGINE->GetMessageHub()->SendMulticastMessage(unitChangedMessage, this->GetObject()->GetId());
 	}
 }
 
