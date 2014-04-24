@@ -28,10 +28,18 @@
 			</property>
 			<property name="SetParticleSize">
 				<field>20</field>
-				<field>50</field>
+				<field>5</field>
 			</property>
 			<property name="SetParticleLifespan">
 				<field>1.0</field>
+			</property>
+			<property name="SetAccelerationAmount">
+					<field>3.0</field>
+			</property>
+			<property name="SetAccelerationDirection">
+				<field>0.0</field>
+				<field>-1.0</field>
+				<field>0.0</field>
 			</property>
 			<property name="SetParticleTexture">
 				<field>pictures/SD_ClashParticle_01.png</field>
