@@ -54,8 +54,6 @@ void menuManagerNumberTweenCallback(float /* fromNumber */, float toNumber , flo
 		SINGLETONS->GetMenuManager()->loadScreen->SetSpriteColor(loadScreenColor);
 		if(currentNumber == toNumber) {
 			SINGLETONS->GetMenuManager()->loadScreen->SetVisible(false);
-			SINGLETONS->GetMenuManager()->UpdateTimer(0);
-			SINGLETONS->GetMenuManager()->UpdateLoot(0);
 		}
 	} else if (tweenClipName == "updatePreMenu") {
 		SINGLETONS->GetMenuManager()->updatePreMenu(userParams->i);
@@ -317,6 +315,8 @@ void MenuManager::hideLoadScreen() {
 		startButton->GetTransform()->SetPositionWorld(halfScreenWidth - startButton->GetWidth() / 2.0f, startPos.y, startPos.z);
 		ENGINE->GetTween()->TweenToNumber(1.0f, 0.0f, 1.5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "loadScreenFadeOut", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, nullptr, menuManagerNumberTweenCallback);
 	
+		SINGLETONS->GetMenuManager()->UpdateTimer(0);
+		SINGLETONS->GetMenuManager()->UpdateLoot(0);
 		//ENGINE->GetTween()->TweenToNumber(0.0f, 0.1f, .2f, INTERPOLATION_TYPE_LINEAR, true, false, true, "delayPreMenuOpen", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
 	}
 }
