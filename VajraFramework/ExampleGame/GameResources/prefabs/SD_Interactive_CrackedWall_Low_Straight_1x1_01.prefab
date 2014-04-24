@@ -1,0 +1,35 @@
+<prefab>
+	<gameobject>
+		<component name="AudioSource">
+			<property name="SetSourceIs3D">
+				<field>false</field>
+			</property>
+			<property name="SetPlayOnlyWhenVisible">
+				<field>true</field>
+			</property>
+			<property name="LoadAudioClip">
+				<field>death</field>
+				<field>audio/SD_SFX_PotBreak_01.wav</field>
+			</property>
+		</component>
+	
+		<component name="GridNavigator">
+		</component>
+
+		<component name="BreakablePot">
+			<property name="SetDeathEffect">
+				<field>dustexplosion.prefab</field>
+			</property>
+			<property name="SetHasPotLoot"></property>
+		</component>
+	
+		<component name="MeshRenderer">
+		  <property name="InitMesh">
+			  <field>models/SD_Interactive_CrackedWall_Low_Straight_1x1_01.model</field>
+		  </property>
+		</component>
+
+		<component name="Transform">
+		</component>
+	</gameobject>
+</prefab>

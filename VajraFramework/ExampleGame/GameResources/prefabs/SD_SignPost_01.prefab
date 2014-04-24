@@ -1,0 +1,15 @@
+<prefab>
+  <gameobject>
+      <component name="MeshRenderer">
+          <property name="InitMesh">
+              <field>models/SD_SignPost_01.model</field>
+          </property>
+			<property name="SetIsStatic">
+				<field>true</field>
+			</property>
+      </component>
+
+      <component name="Transform">
+      </component>
+  </gameobject>
+</prefab>
