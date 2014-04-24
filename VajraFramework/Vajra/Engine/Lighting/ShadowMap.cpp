@@ -107,9 +107,9 @@ void ShadowMap::Draw() {
 	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_depthTextureSampler)) {
 		GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_depthTextureSampler);
 
-		GLCALL(glActiveTexture, GL_TEXTURE2);
+		GLCALL(glActiveTexture, GL_TEXTURE1);
 		GLCALL(glBindTexture, GL_TEXTURE_2D, this->depthTexture);
-		GLCALL(glUniform1i, textureHandle, 2);
+		GLCALL(glUniform1i, textureHandle, 1);
 	}
 
 	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_depthBiasMVPMatrix)) {

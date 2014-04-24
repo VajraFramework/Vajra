@@ -93,10 +93,8 @@ void main()
 #endif
 
 
-	vec4 finalColor = vec4(1.0, 0.0, 0.0, 1.0);;
+	vec4 finalColor = vec4(texture2D(myTextureSampler, scrolled_uvs_1).rgba) * lightIntensity * 0.6 + vec4(texture2D(secondaryTexture, scrolled_uvs_2).rgba) * lightIntensity * 0.4;
 
-
-	finalColor = vec4(texture2D(myTextureSampler, scrolled_uvs_1).rgba) * lightIntensity;
 	
 #ifdef SHADOWMAPS_REALTIME
 	float visibility = 1.0;
