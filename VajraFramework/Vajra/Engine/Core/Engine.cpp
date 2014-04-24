@@ -49,9 +49,6 @@ void Engine::init() {
 	this->assetLibrary = new AssetLibrary();
 	this->assetLibrary->init();
 
-	this->ambientLighting = new AmbientLighting();
-	this->ambientLighting->init();
-
 	this->sceneGraph3D = new SceneGraph3D();
 	this->sceneGraph3D->init();
 
@@ -190,9 +187,6 @@ void Engine::destroy() {
 	}
 	if (this->audioManager != nullptr) {
 		delete this->audioManager;
-	}
-	if (this->ambientLighting != nullptr) {
-		delete this->ambientLighting;
 	}
 	if (this->shadowMap != nullptr) {
 		delete this->shadowMap;
