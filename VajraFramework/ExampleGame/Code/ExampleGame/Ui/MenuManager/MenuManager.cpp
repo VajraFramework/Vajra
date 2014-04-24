@@ -351,6 +351,7 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 	}
 	LevelData* levelData = SINGLETONS->GetLevelManager()->GetLevelData(SINGLETONS->GetLevelManager()->GetCurrentMission(), levelIndex);
 	LevelScores scores = SINGLETONS->GetMasteryManager()->GetLevelScores(levelIndex);
+	LevelScores takeScores = SINGLETONS->GetMasteryManager()->GetCurrentLevelTakeScores();
 	UiElement* menuRoot = (UiElement*)ObjectRegistry::GetObjectByName(menuName);
 	for(ObjectIdType id : menuRoot->GetChildren()) {
 		UiElement* child = (UiElement*)ENGINE->GetSceneGraphUi()->GetGameObjectById(id);
@@ -408,23 +409,35 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 			int time = SINGLETONS->GetMasteryManager()->GetLevelTime();
 			child->ChangeText(StringUtilities::ConvertIntToString(time));
 		} else if (child->GetName() == menuPrefix + "time_total") {
-			child->ChangeText(":30 x 5 = -500");
+			if(takeScores.time == 0) {
+				child->ChangeText("-" + StringUtilities::ConvertIntToString(takeScores.time));
+			} else {
+				child->ChangeText(StringUtilities::ConvertIntToString(takeScores.time));
+			}
 		} else if (child->GetName() == menuPrefix + "kill_value") {
 			int kills = SINGLETONS->GetMasteryManager()->GetNumKills();
 			child->ChangeText(StringUtilities::ConvertIntToString(kills));
 		} else if (child->GetName() == menuPrefix + "kill_total") {
-			child->ChangeText("4 x 7 = -1400");
+			if(takeScores.kills == 0) {
+				child->ChangeText("-" + StringUtilities::ConvertIntToString(takeScores.kills));
+			} else {
+				child->ChangeText(StringUtilities::ConvertIntToString(takeScores.kills));
+			}
 		} else if (child->GetName() == menuPrefix + "alert_value") {
 			int alerts = SINGLETONS->GetMasteryManager()->GetNumAlerts();
 			child->ChangeText(StringUtilities::ConvertIntToString(alerts));
 		} else if (child->GetName() == menuPrefix + "alert_total") {
-			child->ChangeText("3 x -50 = -150");
+			if(takeScores.alerts == 0) {
+				child->ChangeText("-" + StringUtilities::ConvertIntToString(takeScores.alerts));
+			} else {
+				child->ChangeText(StringUtilities::ConvertIntToString(takeScores.alerts));
+			}
 		} else if (child->GetName() == menuPrefix + "loot_value") {	
 			int loot = SINGLETONS->GetMasteryManager()->GetMoney();
 			child->ChangeText(StringUtilities::ConvertIntToString(loot));
 		} else if (child->GetName() == menuPrefix + "loot_total") {
 			int loot = SINGLETONS->GetMasteryManager()->GetMoney();
-			child->ChangeText(StringUtilities::ConvertIntToString(loot));
+			child->ChangeText("+" + StringUtilities::ConvertIntToString(loot));
 		} else if (child->GetName() == menuPrefix + "time_score") {
 			std::string text;
 			if(scores.time != -1) {

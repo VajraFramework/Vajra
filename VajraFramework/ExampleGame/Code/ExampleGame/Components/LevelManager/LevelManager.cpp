@@ -111,7 +111,7 @@ void LevelManager::LoadLevelFromData(LevelData* levelData) {
 		LevelLoader::LoadTutorialData(levelData->name);
 	}
 	// Set up the bonus
-	SINGLETONS->GetMasteryManager()->SetCurrentBonus(levelData->bonus, levelData->bonusValue, this->GetCurrentLevelIndex());
+	SINGLETONS->GetMasteryManager()->SetCurrentBonus(levelData->bonus, levelData->bonusValue, this->GetCurrentLevelIndex(), levelData->bounty);
 }
 
 LevelData* LevelManager::GetLevelData(int missionIndex, int levelIndex) 

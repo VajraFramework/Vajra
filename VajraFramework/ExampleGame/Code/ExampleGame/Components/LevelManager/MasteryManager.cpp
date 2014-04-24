@@ -153,6 +153,17 @@ void MasteryManager::updateLevelScore(int levelIndex, LevelScores scores) {
 	}
 }
 
+#define PENALTY_COST_TIME -50
+#define PENALTY_COST_KILL -100
+#define PENALTY_COST_ALERT -25
+
 void MasteryManager::calculateTake() {
-	this->take = 10;
+	this->takeScores.time = ((int)this->levelTime / 15) * PENALTY_COST_TIME;
+	this->takeScores.kills = this->numKills * PENALTY_COST_KILL;
+	this->takeScores.money = this->money;
+	this->takeScores.alerts = this->numAlerts * PENALTY_COST_ALERT;
+
+	this->takeScores.take = this->currentLevelBounty + this->takeScores.time + this->takeScores.kills + this->takeScores.money + this->takeScores.alerts;
+	
+	this->take = this->takeScores.take;
 }
