@@ -1,22 +1,19 @@
 <prefab>
 	<gameobject>
 		<component name="ParticleSystem">
-			<property name="SetSimulateInWorldSpace">
-				<field>true</field>
-			</property>
 			<property name="SetNumberOfParticles">
-				<field>20</field>
-				<field>100</field>
+				<field>10</field>
+				<field>50</field>
 			</property>
 			<property name="SetParticleSpeed">
-				<field>1.25</field>
-				<field>1.25</field>
+				<field>0.25</field>
+				<field>0.25</field>
 			</property>
 			<property name="SetEmissionVolume">
-				<field>circle</field>
+				<field>ellipsoid</field>
+				<field>0.1</field>
 				<field>0.4</field>
-				<field>0.4</field>
-				<field>0.4</field>
+				<field>0.1</field>
 			</property>
 			<property name="SetOverallLifespan">
 				<field>0.5</field>
@@ -27,7 +24,7 @@
 				<field>0.0</field>
 			</property>
 			<property name="SetParticleVelocityDirectionRandomness">
-				<field>0.5</field>
+				<field>0.0</field>
 			</property>
 			<property name="SetParticleSize">
 				<field>32</field>
@@ -37,7 +34,7 @@
 				<field>1.5</field>
 			</property>
 			<property name="SetParticleTexture">
-				<field>pictures/SD_AssassinParticle_01.png</field>
+				<field>pictures/waterparticles.png</field>
 			</property>
 			<property name="SetParticleInitialColor">
 				<field>1.0</field>
@@ -49,12 +46,14 @@
 				<field>1.0</field>
 				<field>1.0</field>
 				<field>1.0</field>
-				<field>0.0</field>
+				<field>0.25</field>
 			</property>
 			<property name="SetLooping">
-				<field>false</field>
+				<field>true</field>
 			</property>
 			<property name="InitParticleSystem">
+			</property>
+			<property name="Play">
 			</property>
 		</component>
 
@@ -62,7 +61,11 @@
 		</component>
 
 		<component name="Transform">
+			<property name="Translate">
+				<field>1.0</field>
+				<field>0.0</field>
+				<field>0.0</field>
+			</property>
 		</component>
 	</gameobject>
 </prefab>
-

@@ -299,7 +299,6 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
 		this->parallaxRoot->AddChild(uiElement->GetId());
 		std::vector<std::string> imagePaths;
-
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Available_01.png");
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Bonus_01.png");
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Completed_01.png");

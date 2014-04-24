@@ -304,6 +304,8 @@ void Assassin::specialUpdate() {
 						if (unit->CanBeKilledBy(this->GetObject()->GetId(), this->specialStartPos)) {
 							this->sendAttackMessage(currentCell->x, currentCell->z, elevation);
 
+							this->activateSpecialHitEffect();
+							
 							AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
 							if (audioSource != nullptr) {
 								audioSource->Play("specialHit");
@@ -433,7 +435,7 @@ void Assassin::deactivateDashEffect() {
 		ParticleSystem* dashEffectParticleSystem= dashEffectObj->GetComponent<ParticleSystem>();
 		ASSERT(dashEffectParticleSystem != nullptr, "Slide effect prefab has a particle system on it");
 		if (dashEffectParticleSystem != nullptr) {
-			dashEffectParticleSystem->Pause();
+			dashEffectParticleSystem->Stop();
 		}
 	}
 }
