@@ -400,6 +400,7 @@ void Assassin::checkFinalAttack() {
 						AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
 						if (audioSource != nullptr) {
 							audioSource->Play("specialHit");
+						}
 					}
 				}
 			}
