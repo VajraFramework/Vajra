@@ -338,7 +338,7 @@ void Assassin::specialUpdate() {
 						BaseUnit* unit = occupant->GetComponent<BaseUnit>();
 						if (unit != nullptr) {
 							if (!unit->CanBeKilledBy(this->GetObject()->GetId(), this->specialStartPos)) {
-								if ((unit->GetUnitType() > LAST_PLAYER_UNIT_TYPE) || (c == this->targetedCell)) {
+								if (unit->GetUnitType() > LAST_PLAYER_UNIT_TYPE) {
 									// Stop the assassin's attack unless the occupant is another player unit and
 									// the cell isn't the assassin's final destination
 									shouldStop = true;

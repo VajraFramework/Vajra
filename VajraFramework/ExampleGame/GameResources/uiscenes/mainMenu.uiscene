@@ -1,12 +1,23 @@
 <uiscene widthPixels="1024" heightPixels="768">
-	<uielement name="popUpBack" clickable="true">
+	<uielement name="popUpBack" visible="true" clickable="true">
 		<dimensions>
-			<position x="0" y="768"></position>
+			<position x="0" y="0"></position>
 			<size widthPixels="1024" heightPixels="768"></size>
-			<zorder>1</zorder>
+			<zorder>240</zorder>
 		</dimensions>
 		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
 	</uielement>
+
+
+	<uielement name="loadScreen" visible="false" clickable="true">
+		<dimensions>
+			<position x="0" y="0"></position>
+			<size widthPixels="1024" heightPixels="768"></size>
+			<zorder>245</zorder>
+		</dimensions>
+		<color r="0.0" g="0.6" b="0.6" a="0.7"></color>
+	</uielement>
+
 
 	<uielement name="startMenu" visible="false" clickable="false">
 
@@ -47,11 +58,11 @@
 	</uielement>
 
 	<uielement name="optionsMenu" visible="false" clickable="true">
-	<dimensions>
-		<position x="0" y="0"></position>
-		<size widthPixels="0" heightPixels="0"></size>
-		<zorder>0</zorder>
-	</dimensions>
+		<dimensions>
+			<position x="0" y="0"></position>
+			<size widthPixels="0" heightPixels="0"></size>
+			<zorder>0</zorder>
+		</dimensions>
 
 		<uielement name="brightness_label" clickable="false" visible="true">
 			<image name="derp_brightness.png" hasTransperancy="false"> </image>
@@ -164,7 +175,7 @@
 		<uielement name="missionNavBar" visible="true" clickable="false">
 			<dimensions>
 				<position xwrto="CENTER" ywrto="BOTTOM" x="-512" y="0"></position>
-				<size widthPixels="1024" heightPixels="72"></size>
+				<size widthPixels="FILLPARENT" heightPixels="72"></size>
 				<zorder>55</zorder>
 			</dimensions>
 			<image name="SD_LevelSelection_NavBar.png" hasTransperancy="false"> </image>
@@ -192,7 +203,7 @@
 				</dimensions>
 				<image name="derp_backbutton.png" hasTransperancy="false"> </image>
 			</uielement>
-			<uielement name="contractTwo" visible="true" clickable="true">
+			<uielement name="contractTwo" visible="true" clickable="false">
 				<dimensions>
 					<position xwrto="CENTER" ywrto="CENTER" x="75" y="-200"></position>
 					<size widthPixels="300" heightPixels="400"></size>
@@ -205,7 +216,7 @@
 		<uielement name="parallaxRoot" visible="true" clickable="true">
 			<dimensions>
 				<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
-				<size widthPixels="1024" heightPixels="768"></size>
+				<size widthPixels="FILLPARENT" heightPixels="FILLPARENT"></size>
 				<zorder>5</zorder>
 			</dimensions>
 			<uielement name="parallaxBack" visible="true" clickable="false">
@@ -214,7 +225,6 @@
 					<size widthPixels="1536" heightPixels="768"></size>
 					<zorder>1</zorder>
 				</dimensions>
-				<image name="SD_Paralax_Back_01.png" hasTransperancy="true"> </image>
 				<image name="SD_Paralax_Back_02.png" hasTransperancy="true"> </image>
 			</uielement>
 			<uielement name="parallaxMid" visible="true" clickable="false">
@@ -223,7 +233,6 @@
 					<size widthPixels="2048" heightPixels="768"></size>
 					<zorder>2</zorder>
 				</dimensions>
-				<image name="SD_Paralax_Mid_01.png" hasTransperancy="true"> </image>
 				<image name="SD_Paralax_Mid_02.png" hasTransperancy="true"> </image>
 			</uielement>
 			<uielement name="parallaxFront" visible="true" clickable="false">
@@ -232,33 +241,33 @@
 					<size widthPixels="3072" heightPixels="768"></size>
 					<zorder>3</zorder>
 				</dimensions>
-				<image name="SD_Paralax_Front_01.png" hasTransperancy="true"> </image>
 				<image name="SD_Paralax_Front_02.png" hasTransperancy="true"> </image>
 			</uielement>			
 
 			<uielement name="contractName" visible="true" clickable="false">
 				<dimensions>
 					<position xwrto="LEFT" ywrto="TOP" x="0" y="64"></position>
-					<size widthPixels="1024" heightPixels="100"></size>
-					<zorder>50</zorder>
+					<size widthPixels="1024" heightPixels="80"></size>
+					<zorder>55</zorder>
 				</dimensions>
+				<color r="0.0" g="0.0" b="0.0" a="0.8"></color>
 				<text>
 					<font type="RomanSD.fontspec" size="64.0" alignment="CENTER">
 						<color r="1.0" g="0.07" b="0.57" a="1.0"></color>
 					</font>
-					Contract Name
+					Assassinate Fargiosion
 				</text>
 				<uielement name="missionName" visible="true" clickable="false">
 				<dimensions>
-					<position xwrto="LEFT" ywrto="TOP" x="0" y="48"></position>
+					<position xwrto="LEFT" ywrto="TOP" x="0" y="50"></position>
 					<size widthPixels="1024" heightPixels="100"></size>
-					<zorder>50</zorder>
+					<zorder>55</zorder>
 				</dimensions>
 				<text>
-					<font type="RomanSD.fontspec" size="32.0" alignment="CENTER">
-						<color r="0.0" g="1.0" b="0.0" a="1.0"></color>
+					<font type="calibiri.fontspec" size="32.0" alignment="CENTER">
+						<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 					</font>
-					Mission Name
+					Training Camp
 				</text>
 			</uielement>
 			</uielement>
@@ -269,14 +278,15 @@
 		<dimensions>
 			<position xwrto="CENTER" ywrto="CENTER" x="-388" y="-256"></position>
 			<size widthPixels="776" heightPixels="512"></size>
-			<zorder>60</zorder>
+			<zorder>260</zorder>
 		</dimensions>
+
 		<image name="SD_Start_Menu.png" hasTransperancy="true"></image>
 		<uielement name="preMenuStart" clickable="true">
 			<dimensions>
 				<position xwrto="LEFT" ywrto="TOP" x="212" y="386"></position>
 				<size widthPixels="162" heightPixels="55"></size>
-				<zorder>61</zorder>
+				<zorder>261</zorder>
 			</dimensions>
 			<image name="SD_Start_Button.png" hasTransperancy="false"></image>	
 		</uielement>		
@@ -285,15 +295,15 @@
 			<dimensions>
 				<position xwrto="LEFT" ywrto="TOP" x="398" y="386"></position>
 				<size widthPixels="162" heightPixels="55"></size>
-				<zorder>61</zorder>
+				<zorder>261</zorder>
 			</dimensions>
 			<image name="SD_Back_Button.png" hasTransperancy="false"></image>	
 		</uielement>
 
 		<uielement name="preGame_bonus_box" clickable="false" visible="true">
 			<dimensions>
-				<position x="405" y="273"></position>
-				<size widthPixels="345" heightPixels="96"></size>
+				<position x="30" y="273"></position>
+				<size widthPixels="716" heightPixels="96"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<image name="SD_BonusBox_Narrow.png" hasTransperancy="false"> </image>
@@ -301,8 +311,8 @@
 
 		<uielement name="preGame_bonus_icon" clickable="false" visible="true">
 			<dimensions>
-				<position x="562" y="286"></position>
-				<size widthPixels="32" heightPixels="32"></size>
+				<position x="50" y="289"></position>
+				<size widthPixels="64" heightPixels="64"></size>
 				<zorder>10</zorder>
 			</dimensions>
 			<image name="SD_HUDTracker_Time_01.png" hasTransperancy="false"> </image>
@@ -313,17 +323,17 @@
 
 		<uielement name="preGame_bonus_text" clickable="false" visible="true">
 			<dimensions>
-				<position x="415" y="273"></position>
-				<size widthPixels="128" heightPixels="64"></size>
+				<position x="173" y="282"></position>
+				<size widthPixels="200" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="56.0">
+				<font type="calibiri.fontspec" size="36.0" alignment="RIGHT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				BONUS:
 			</text>
-		</uielement>		
+		</uielement>	
 
 		<uielement name="preGame_mission_name" clickable="false" visible="true">
 			<dimensions>
@@ -336,6 +346,34 @@
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Mission Name
+			</text>
+		</uielement>
+
+		<uielement name="preGame_bounty_amount" clickable="false" visible="true">
+			<dimensions>
+				<position x="30" y="120"></position>
+				<size widthPixels="350" heightPixels="64"></size>
+				<zorder>55</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="58.0" alignment="LEFT">
+					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+				</font>
+				Bounty: 5000
+			</text>
+		</uielement>
+
+		<uielement name="preGame_best_take" clickable="false" visible="true">
+			<dimensions>
+				<position x="392" y="120"></position>
+				<size widthPixels="350" heightPixels="64"></size>
+				<zorder>55</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="58.0" alignment="RIGHT">
+					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+				</font>
+				BEST TAKE: 15000
 			</text>
 		</uielement>
 
@@ -355,12 +393,12 @@
 
 		<uielement name="preGame_bonus_value" clickable="false" visible="true">
 			<dimensions>
-				<position x="600" y="285"></position>
-				<size widthPixels="128" heightPixels="64"></size>
+				<position x="88" y="313"></position>
+				<size widthPixels="600" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="36.0">
+				<font type="calibiri.fontspec" size="52.0" alignment="CENTER">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Bonus Values and Qualifiers
@@ -368,23 +406,23 @@
 		</uielement>
 
 		<uielement name="preGame_bonus_completion" clickable="false" visible="true">
-		<dimensions>
-			<position x="477" y="323"></position>
-			<size widthPixels="200" heightPixels="32"></size>
-			<zorder>1</zorder>
-		</dimensions>
-		<text>
-			<font type="calibiri.fontspec" size="36.0" alignment="CENTER">
-				<color r="1.0" g="0.0" b="0.0" a="1.0"></color>
-			</font>
-			Completion
-		</text>
-	</uielement>
+			<dimensions>
+				<position x="385" y="282"></position>
+				<size widthPixels="64" heightPixels="32"></size>
+				<zorder>1</zorder>
+			</dimensions>
+			<text>
+				<font type="calibiri.fontspec" size="36.0" alignment="LEFT">
+					<color r="1.0" g="0.0" b="0.0" a="1.0"></color>
+				</font>
+				Completion
+			</text>
+		</uielement>
 	
 		<uielement name="preGame_time_icon" clickable="false" visible="true">
 			<dimensions>
-				<position x="425" y="128"></position>
-				<size widthPixels="32" heightPixels="32"></size>
+				<position x="30" y="196"></position>
+				<size widthPixels="64" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<image name="SD_HUDTracker_Time_01.png" hasTransperancy="false"> </image>
@@ -392,12 +430,12 @@
 
 		<uielement name="preGame_time_score" clickable="false" visible="true">
 			<dimensions>
-				<position x="650" y="128"></position>
+				<position x="102" y="196"></position>
 				<size widthPixels="128" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="64.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				1:00
@@ -406,8 +444,8 @@
 
 		<uielement name="preGame_kill_icon" clickable="false" visible="true">
 			<dimensions>
-				<position x="425" y="162"></position>
-				<size widthPixels="32" heightPixels="32"></size>
+				<position x="209" y="196"></position>
+				<size widthPixels="64" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<image name="SD_HUDTracker_Kills_01.png" hasTransperancy="false"> </image>
@@ -415,12 +453,12 @@
 
 		<uielement name="preGame_kill_score" clickable="false" visible="true">
 			<dimensions>
-				<position x="650" y="162"></position>
+				<position x="281" y="196"></position>
 				<size widthPixels="128" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="64.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				3/5
@@ -429,8 +467,8 @@
 
 		<uielement name="preGame_alert_icon" clickable="false" visible="true">
 			<dimensions>
-				<position x="425" y="196"></position>
-				<size widthPixels="32" heightPixels="32"></size>
+				<position x="385" y="196"></position>
+				<size widthPixels="64" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<image name="SD_HUDTracker_Alerts_01.png" hasTransperancy="false"> </image>
@@ -438,12 +476,12 @@
 
 		<uielement name="preGame_alert_score" clickable="false" visible="true">
 			<dimensions>
-				<position x="650" y="196"></position>
+				<position x="457" y="196"></position>
 				<size widthPixels="128" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="64.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				3/5
@@ -452,8 +490,8 @@
 
 		<uielement name="preGame_loot_icon" clickable="false" visible="true">
 			<dimensions>
-				<position x="425" y="230"></position>
-				<size widthPixels="32" heightPixels="32"></size>
+				<position x="564" y="196"></position>
+				<size widthPixels="64" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<image name="SD_HUDTracker_Treasure_01.png" hasTransperancy="false"> </image>
@@ -461,12 +499,12 @@
 
 		<uielement name="preGame_loot_score" clickable="false" visible="true">
 			<dimensions>
-				<position x="650" y="230"></position>
+				<position x="636" y="196"></position>
 				<size widthPixels="128" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="32.0">
+				<font type="calibiri.fontspec" size="64.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				1:00

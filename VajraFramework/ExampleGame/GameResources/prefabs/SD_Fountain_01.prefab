@@ -1,38 +1,38 @@
 <prefab>
   <gameobject>
-		<gameobject>
-		  <component name="MeshRenderer">
-			  <property name="InitMesh">
-				  <field>models/SD_Fountain_01.model</field>
-			  </property>
-				<property name="SetIsStatic">
-					<field>true</field>
-				</property>
-		  </component>
-
-		  <component name="Transform">
+    <gameobject>
+		<component name="MeshRenderer">
+			<property name="InitMesh">
+				<field>models/SD_Fountain_01.model</field>
+			</property>
+			<property name="SetIsStatic">
+				<field>true</field>
+			</property>
+		</component>
+	  
+		<component name="Transform">
 			<property name="Translate">
 				<field>0.0</field>
 				<field>0.75</field>
 				<field>0.0</field>
 			</property>
-		  </component>
-		</gameobject>
+		</component>
+	</gameobject>
 	  
 	  	<gameobject>
 			<component name="ParticleSystem">
 				<property name="SetNumberOfParticles">
-					<field>10</field>
 					<field>50</field>
+					<field>200</field>
 				</property>
 				<property name="SetParticleSpeed">
-					<field>0.25</field>
-					<field>0.25</field>
+					<field>1.0</field>
+					<field>0.75</field>
 				</property>
 				<property name="SetEmissionVolume">
 					<field>ellipsoid</field>
 					<field>0.1</field>
-					<field>0.4</field>
+					<field>0.6</field>
 					<field>0.1</field>
 				</property>
 				<property name="SetOverallLifespan">
@@ -44,6 +44,14 @@
 					<field>0.0</field>
 				</property>
 				<property name="SetParticleVelocityDirectionRandomness">
+					<field>0.2</field>
+				</property>
+				<property name="SetAccelerationAmount">
+					<field>1.2</field>
+				</property>
+				<property name="SetAccelerationDirection">
+					<field>0.0</field>
+					<field>-1.0</field>
 					<field>0.0</field>
 				</property>
 				<property name="SetParticleSize">
@@ -51,10 +59,10 @@
 					<field>16</field>
 				</property>
 				<property name="SetParticleLifespan">
-					<field>1.5</field>
+					<field>2.0</field>
 				</property>
 				<property name="SetParticleTexture">
-					<field>pictures/waterparticles.png</field>
+					<field>pictures/water.png</field>
 				</property>
 				<property name="SetParticleInitialColor">
 					<field>1.0</field>

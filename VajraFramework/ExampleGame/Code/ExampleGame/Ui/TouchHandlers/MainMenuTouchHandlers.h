@@ -38,6 +38,7 @@ private:
 	void openMissionMenu(int contractIndex);
 
 	void goBackOneMenu();
+	void updateTitleNames(int missionIndex);
 
 	int levelToLoad;
 	
