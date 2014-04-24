@@ -1,0 +1,185 @@
+<prefab>
+	<gameobject>
+		<component name="Transform">
+		</component>
+
+		<component name="AudioSource">
+			<property name="SetSourceIs3D">
+				<field>false</field>
+			</property>
+			<property name="SetPlayOnlyWhenVisible">
+				<field>true</field>
+			</property>
+		</component>
+		
+		<component name="MultiplexSwitch">
+			<property name="SetSwitchType">
+				<field>Continuous</field>
+			</property>
+		</component>
+		
+		<component name="TriggerMultiplex">
+			<property name="SetTriggerType">
+				<field>All</field>
+			</property>
+		</component>
+
+		<gameobject>
+			<component name="Transform>
+			</component>
+
+			<component name="GridZone">
+				<property name="SetZoneBounds">
+					<field>-1</field>
+					<field>0</field>
+					<field>1</field>
+					<field>-1</field>
+				</property>
+			</component>
+
+			<component name="TriggerTerrainBlock">
+				<property name="SetPassableWhenActivated">
+					<field>true</field>
+				</property>
+			
+				<property name="SubscribeToParentSwitch">
+				</property>
+			</component>
+		</gameobject>
+
+		<gameobject>
+			<component name="MeshRenderer">
+				<property name="InitMesh">
+					<field>models/SD_Interactive_Door_Jail_01.model</field>
+				</property>
+			</component>
+
+			<component name="Transform">
+				<property name="Translate">
+					<field>-0.75</field>
+					<field>1.25</field>
+					<field>0.0</field>
+				</property>
+				
+			</component>
+
+			<component name="TriggerTransformation">
+				<property name="SubscribeToParentSwitch">
+				</property>
+
+				<property name="SetTranslation">
+					<field>-1.5</field>
+					<field>0.0</field>
+					<field>0.0</field>
+				</property>
+				<property name="SetTransitTime">
+					<field>0.5</field>
+				</property>
+			</component>
+		</gameobject>
+
+		<gameobject>
+			<component name="MeshRenderer">
+				<property name="InitMesh">
+					<field>models/SD_Interactive_Door_Jail_01.model</field>
+				</property>
+			</component>
+
+			<component name="Transform">
+				<property name="Translate">
+					<field>0.75</field>
+					<field>1.25</field>
+					<field>0.0</field>
+				</property>
+				<property name="RotateByDegrees">
+                  <field>180</field>
+                  <field>0</field>
+                  <field>1</field>
+                  <field>0</field>
+              </property>
+			</component>
+
+			<component name="TriggerTransformation">
+				<property name="SubscribeToParentSwitch">
+				</property>
+
+				<property name="SetTranslation">
+					<field>1.5</field>
+					<field>0.0</field>
+					<field>0.0</field>
+				</property>
+				<property name="SetTransitTime">
+					<field>0.5</field>
+				</property>
+			</component>
+		</gameobject>
+		
+	  	<gameobject>
+			<component name="TriggerParticles">
+				<property name="SubscribeToParentSwitch">
+				</property>
+			</component>
+		
+			<component name="ParticleSystem">
+				<property name="SetNumberOfParticles">
+					<field>50</field>
+					<field>50</field>
+				</property>
+				<property name="SetParticleSpeed">
+					<field>0.75</field>
+					<field>0.75</field>
+				</property>
+				<property name="SetEmissionVolume">
+					<field>ellipsoid</field>
+					<field>0.4</field>
+					<field>1.4</field>
+					<field>0.4</field>
+				</property>
+				<property name="SetOverallLifespan">
+					<field>0.5</field>
+				</property>
+				<property name="SetParticleVelocityDirection">
+					<field>0.0</field>
+					<field>1.0</field>
+					<field>0.0</field>
+				</property>
+				<property name="SetParticleVelocityDirectionRandomness">
+					<field>0.5</field>
+				</property>
+				<property name="SetParticleSize">
+					<field>32</field>
+					<field>16</field>
+				</property>
+				<property name="SetParticleLifespan">
+					<field>.5</field>
+				</property>
+				<property name="SetParticleTexture">
+					<field>pictures/SD_ClayDust_01.png</field>
+				</property>
+				<property name="SetParticleInitialColor">
+					<field>1.0</field>
+					<field>1.0</field>
+					<field>1.0</field>
+					<field>1.0</field>
+				</property>
+				<property name="SetParticleFinalColor">
+					<field>1.0</field>
+					<field>1.0</field>
+					<field>1.0</field>
+					<field>0.25</field>
+				</property>
+				<property name="SetLooping">
+					<field>false</field>
+				</property>
+				<property name="InitParticleSystem">
+				</property>
+			</component>
+
+			<component name="ParticleSystemRenderer">
+			</component>
+
+			<component name="Transform">
+			</component>
+		</gameobject>
+	</gameobject>
+</prefab>

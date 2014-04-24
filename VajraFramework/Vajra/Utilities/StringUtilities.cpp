@@ -84,7 +84,7 @@ std::string StringUtilities::EraseStringFromString(std::string bigString, std::s
 }
 
 std::string StringUtilities::ReplaceCharInString(std::string startString, char charToReplace, char newChar) {
-	for(int i = 0; i < (int)startString.length(); i++) {
+	for(unsigned int i = 0; i < startString.length(); i++) {
 		if(startString[i] == charToReplace) {
 			startString[i] = newChar;
 		}

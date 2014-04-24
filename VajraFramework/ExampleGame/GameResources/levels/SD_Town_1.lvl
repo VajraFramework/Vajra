@@ -1,0 +1,983 @@
+<level levelName="Town_1" bgm="">
+  <grid>
+      <cellData width="48" height="40">
+			<cellElevations>
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 2 2 2 2 2 2 2 2 2 0 0 2 2 2 0 0 2 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 2 2 2 2 2 2 2 2 2 0 0 2 2 2 0 0 2 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 2 2 2 2 2 2 2 2 2 0 0 2 2 2 0 0 2 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 0 0 0 2 2 2 2 2 2 0 0 2 2 2 2 2 
+              0 0 0 0 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 0 0 0 2 2 2 2 2 2 0 0 2 2 2 2 2 
+              0 0 0 0 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 0 0 0 2 2 2 2 2 2 0 0 2 2 2 2 2 
+              0 0 0 0 0 0 0 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+              0 0 0 0 0 0 0 2 2 2 2 0 0 0 2 2 2 2 2 2 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+              0 0 0 0 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 0 2 2 2 2 
+              0 0 0 0 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 0 2 2 2 2 
+              0 0 0 0 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 0 2 2 2 2 
+              0 0 0 0 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 
+              0 0 0 0 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 0 0 
+              0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 0 0 
+              0 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 0 0 
+              0 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 0 0 
+              0 2 2 2 2 2 2 2 2 0 0 0 2 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 0 0 0 0 0 0 0 2 2 0 0 
+              0 0 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 0 0 0 0 0 0 0 2 2 0 0 
+              0 0 0 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 0 0 0 0 0 0 0 2 2 0 0 
+              0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 0 0 
+              0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 2 0 0 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 
+              0 0 0 2 2 2 2 2 2 0 0 0 2 2 2 0 0 0 0 0 0 0 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 
+              0 0 2 2 2 2 2 2 2 0 0 0 2 2 2 0 0 0 0 0 0 0 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 
+              0 2 2 2 2 2 2 2 2 0 0 0 2 2 2 0 0 0 0 0 0 0 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 0 0 0 0 0 2 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 2 2 2 0 0 2 0 2 0 2 0 0 0 0 0 0 0 2 0 2 0 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			</cellElevations>
+
+			<passableCells>
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 1 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 
+              0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 1 1 0 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 0 1 1 0 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 
+              0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 
+              0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 1 1 1 0 0 0 1 1 0 1 0 1 0 1 1 1 1 1 1 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			</passableCells>
+
+			<visibleCells>
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 1 1 0 0 0 0 0 
+              1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 1 1 0 0 0 0 0 
+              1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 1 1 0 0 0 0 0 
+              1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              1 1 1 1 0 0 0 0 1 0 0 1 1 1 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              1 1 1 1 0 0 0 0 1 0 0 1 1 1 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+              1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 
+              1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 
+              1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 
+              1 0 0 0 0 0 0 0 1 1 1 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 0 1 1 
+              1 0 0 0 0 0 0 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 0 1 1 
+              1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 
+              1 1 0 0 0 0 0 0 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 
+              1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 1 0 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 0 1 1 0 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 
+              1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 
+              1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 0 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 0 0 0 0 1 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 0 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+              1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+			</visibleCells>
+      </cellData>
+
+      <roomData>
+          <room x="9" z="7" width="17" height="11">
+          </room>
+          <room x="9" z="19" width="17" height="11">
+          </room>
+          <room x="27" z="13" width="17" height="11">
+          </room>
+      </roomData>
+  </grid>
+
+  <static>
+		<staticObject id="126456" prefab="SD_Chasm_1x1_01" x="39" y="0.0" z="20" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129286" prefab="SD_Chasm_1x2_01" x="24" y="0.0" z="17" width="1" height="2" rotation="270">
+      </staticObject>
+		<staticObject id="126480" prefab="SD_Chasm_1x2_01" x="42" y="0.0" z="12" width="2" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127360" prefab="SD_Chasm_1x2_01" x="40" y="0.0" z="12" width="2" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125680" prefab="SD_Chasm_1x2_01" x="24" y="0.0" z="20" width="2" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="131048" prefab="SD_Chasm_1x2_01" x="24" y="0.0" z="19" width="1" height="2" rotation="270">
+      </staticObject>
+		<staticObject id="128216" prefab="SD_Chasm_1x3_01" x="25" y="0.0" z="10" width="1" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="128150" prefab="SD_Chasm_1x5_01" x="34" y="0.0" z="20" width="5" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125602" prefab="SD_Chasm_1x5_01" x="39" y="0.0" z="16" width="1" height="5" rotation="90">
+      </staticObject>
+		<staticObject id="124142" prefab="SD_Chasm_1x5_01" x="26" y="0.0" z="20" width="5" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128808" prefab="SD_Chasm_1x9_01" x="25" y="0.0" z="12" width="9" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130136" prefab="SD_HighWall_Corner_01" x="25" y="0.0" z="16" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="131276" prefab="SD_HighWall_End_01" x="8" y="0.0" z="30" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="130752" prefab="SD_HighWall_End_01" x="19" y="0.0" z="16" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="125814" prefab="SD_HighWall_End_01" x="15" y="0.0" z="18" width="1" height="1" rotation="270">
+      </staticObject>
+		<staticObject id="125960" prefab="SD_HighWall_End_01" x="8" y="0.0" z="24" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="123098" prefab="SD_HighWall_End_01" x="44" y="0.0" z="12" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="129436" prefab="SD_HighWall_End_01" x="20" y="0.0" z="3" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="127456" prefab="SD_HighWall_End_01" x="8" y="0.0" z="3" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="124770" prefab="SD_HighWall_End_01" x="8" y="0.0" z="9" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="128044" prefab="SD_HighWall_End_01" x="24" y="0.0" z="24" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="126020" prefab="SD_HighWall_End_01" x="8" y="0.0" z="18" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="128684" prefab="SD_HighWall_End_01" x="44" y="0.0" z="24" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="128014" prefab="SD_HighWall_End_01" x="8" y="0.0" z="13" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="126716" prefab="SD_HighWall_End_01" x="24" y="0.0" z="30" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="123234" prefab="SD_HighWall_End_01" x="14" y="0.0" z="3" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="125650" prefab="SD_HighWall_End_01" x="25" y="0.0" z="3" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="129118" prefab="SD_HighWall_Straight_1x1_01" x="9" y="0.0" z="30" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124738" prefab="SD_HighWall_Straight_1x1_01" x="14" y="0.0" z="18" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="123114" prefab="SD_HighWall_Straight_1x1_01" x="43" y="0.0" z="24" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128146" prefab="SD_HighWall_Straight_1x2_01" x="19" y="0.0" z="17" width="1" height="2" rotation="90">
+      </staticObject>
+		<staticObject id="128276" prefab="SD_HighWall_Straight_1x2_01" x="44" y="0.0" z="13" width="1" height="2" rotation="90">
+      </staticObject>
+		<staticObject id="131002" prefab="SD_HighWall_Straight_1x2_01" x="8" y="0.0" z="16" width="1" height="2" rotation="90">
+      </staticObject>
+		<staticObject id="126000" prefab="SD_HighWall_Straight_1x2_01" x="21" y="0.0" z="3" width="2" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128964" prefab="SD_HighWall_Straight_1x2_01" x="23" y="0.0" z="3" width="2" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125114" prefab="SD_HighWall_Straight_1x2_01" x="8" y="0.0" z="14" width="1" height="2" rotation="90">
+      </staticObject>
+		<staticObject id="125906" prefab="SD_HighWall_Straight_1x5_01" x="20" y="0.0" z="16" width="5" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125094" prefab="SD_HighWall_Straight_1x5_01" x="8" y="0.0" z="4" width="1" height="5" rotation="90">
+      </staticObject>
+		<staticObject id="129680" prefab="SD_HighWall_Straight_1x5_01" x="19" y="0.0" z="30" width="5" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="126524" prefab="SD_HighWall_Straight_1x5_01" x="19" y="0.0" z="19" width="1" height="5" rotation="90">
+      </staticObject>
+		<staticObject id="128058" prefab="SD_HighWall_Straight_1x5_01" x="9" y="0.0" z="18" width="5" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128352" prefab="SD_HighWall_Straight_1x5_01" x="8" y="0.0" z="19" width="1" height="5" rotation="90">
+      </staticObject>
+		<staticObject id="130506" prefab="SD_HighWall_Straight_1x5_01" x="8" y="0.0" z="25" width="1" height="5" rotation="90">
+      </staticObject>
+		<staticObject id="124830" prefab="SD_HighWall_Straight_1x5_01" x="9" y="0.0" z="3" width="5" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129316" prefab="SD_HighWall_Straight_1x5_01" x="24" y="0.0" z="25" width="1" height="5" rotation="90">
+      </staticObject>
+		<staticObject id="123136" prefab="SD_HighWall_Straight_1x9_01" x="25" y="0.0" z="24" width="9" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130062" prefab="SD_HighWall_Straight_1x9_01" x="10" y="0.0" z="30" width="9" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127664" prefab="SD_HighWall_Straight_1x9_01" x="25" y="0.0" z="4" width="1" height="9" rotation="90">
+      </staticObject>
+		<staticObject id="124816" prefab="SD_HighWall_Straight_1x9_01" x="34" y="0.0" z="24" width="9" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124720" prefab="SD_HighWall_Straight_1x9_01" x="44" y="0.0" z="15" width="1" height="9" rotation="90">
+      </staticObject>
+		<staticObject id="125990" prefab="SD_LowWall_Standalone_01" x="45" y="4.0" z="12" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130994" prefab="SD_LowWall_Standalone_01" x="25" y="4.0" z="25" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125068" prefab="SD_LowWall_Standalone_01" x="35" y="4.0" z="25" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130998" prefab="SD_LowWall_Standalone_01" x="25" y="4.0" z="31" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125270" prefab="SD_LowWall_Standalone_01" x="45" y="4.0" z="25" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129762" prefab="SD_LowWall_Standalone_01" x="7" y="4.0" z="31" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="123954" prefab="SD_LowWall_Standalone_01" x="17" y="4.0" z="31" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127560" prefab="SD_LowWall_Standalone_01" x="7" y="4.0" z="8" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128054" prefab="SD_LowWall_Standalone_01" x="7" y="4.0" z="3" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127804" prefab="SD_LowWall_Standalone_01" x="7" y="4.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125108" prefab="SD_LowWall_Straight_1x2_01" x="7" y="4.0" z="6" width="1" height="2" rotation="90">
+      </staticObject>
+		<staticObject id="130858" prefab="SD_LowWall_Straight_1x2_01" x="7" y="4.0" z="29" width="1" height="2" rotation="90">
+      </staticObject>
+		<staticObject id="125844" prefab="SD_LowWall_Straight_1x2_01" x="23" y="4.0" z="31" width="2" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127264" prefab="SD_LowWall_Straight_1x2_01" x="7" y="4.0" z="4" width="1" height="2" rotation="90">
+      </staticObject>
+		<staticObject id="127884" prefab="SD_LowWall_Straight_1x3_01" x="45" y="4.0" z="13" width="1" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="124354" prefab="SD_LowWall_Straight_1x5_01" x="2" y="4.0" z="8" width="5" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="127880" prefab="SD_LowWall_Straight_1x5_01" x="25" y="4.0" z="26" width="1" height="5" rotation="90">
+      </staticObject>
+		<staticObject id="131214" prefab="SD_LowWall_Straight_1x5_01" x="7" y="4.0" z="24" width="1" height="5" rotation="90">
+      </staticObject>
+		<staticObject id="131054" prefab="SD_LowWall_Straight_1x5_01" x="18" y="4.0" z="31" width="5" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128972" prefab="SD_LowWall_Straight_1x5_01" x="2" y="4.0" z="14" width="5" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="124344" prefab="SD_LowWall_Straight_1x9_01" x="26" y="4.0" z="25" width="9" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128498" prefab="SD_LowWall_Straight_1x9_01" x="8" y="4.0" z="31" width="9" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="126584" prefab="SD_LowWall_Straight_1x9_01" x="7" y="4.0" z="15" width="1" height="9" rotation="90">
+      </staticObject>
+		<staticObject id="123642" prefab="SD_LowWall_Straight_1x9_01" x="26" y="0.0" z="12" width="9" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128398" prefab="SD_LowWall_Straight_1x9_01" x="35" y="0.0" z="12" width="9" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="123472" prefab="SD_LowWall_Straight_1x9_01" x="36" y="4.0" z="25" width="9" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124172" prefab="SD_LowWall_Straight_1x9_01" x="45" y="4.0" z="16" width="1" height="9" rotation="90">
+      </staticObject>
+		<staticObject id="127598" prefab="SD_MedWall_End_01" x="20" y="0.0" z="3" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="126342" prefab="SD_MedWall_End_01" x="19" y="0.0" z="24" width="1" height="1" rotation="0">
+      </staticObject>
+		<staticObject id="124596" prefab="SD_MedWall_End_01" x="7" y="0.0" z="8" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="126694" prefab="SD_MedWall_End_01" x="14" y="0.0" z="24" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="127976" prefab="SD_MedWall_End_01" x="19" y="0.0" z="29" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130280" prefab="SD_MedWall_End_01" x="10" y="0.0" z="24" width="1" height="1" rotation="270">
+      </staticObject>
+		<staticObject id="130878" prefab="SD_MedWall_End_01" x="7" y="0.0" z="14" width="1" height="1" rotation="90">
+      </staticObject>
+		<staticObject id="130224" prefab="SD_MedWall_Standalone_01" x="7" y="0.0" z="3" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130074" prefab="SD_MedWall_Standalone_01" x="18" y="0.0" z="11" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="123328" prefab="SD_MedWall_Standalone_01" x="15" y="0.0" z="11" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129688" prefab="SD_MedWall_Standalone_01" x="21" y="0.0" z="11" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128860" prefab="SD_MedWall_Straight_1x1_01" x="18" y="0.0" z="24" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129936" prefab="SD_MedWall_Straight_1x1_01" x="9" y="0.0" z="24" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="123238" prefab="SD_MedWall_Straight_1x3_01" x="15" y="0.0" z="24" width="3" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129566" prefab="SD_Nature_Bush_01" x="0" y="0.0" z="0" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124240" prefab="SD_Nature_Bush_01" x="0" y="0.0" z="0" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127470" prefab="SD_Nature_Bush_01" x="0" y="0.0" z="0" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127762" prefab="SD_Nature_Bush_01" x="0" y="0.0" z="0" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128564" prefab="SD_Nature_Bush_01" x="0" y="0.0" z="0" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128998" prefab="SD_Nature_CanopyTree_01" x="12" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128554" prefab="SD_Nature_Rock_01" x="13" y="0.0" z="14" width="2" height="2" rotation="90">
+      </staticObject>
+		<staticObject id="130620" prefab="SD_Nature_TallTree_01" x="25" y="0.0" z="2" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130088" prefab="SD_Nature_TallTree_01" x="21" y="0.0" z="2" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="126636" prefab="SD_Nature_TallTree_01" x="13" y="0.0" z="2" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127124" prefab="SD_Nature_TallTree_01" x="9" y="0.0" z="2" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128040" prefab="SD_Nature_TallTree_01" x="23" y="0.0" z="2" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125274" prefab="SD_Nature_TallTree_01" x="11" y="0.0" z="2" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129966" prefab="SD_Short_House_Corner_01" x="4" y="4.0" z="15" width="3" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="123930" prefab="SD_Short_House_Corner_01" x="26" y="4.0" z="26" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="127410" prefab="SD_Short_House_Corner_01" x="4" y="4.0" z="32" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="127738" prefab="SD_Short_House_Corner_01" x="46" y="4.0" z="26" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="124798" prefab="SD_Short_House_Corner_01" x="26" y="4.0" z="32" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="126338" prefab="SD_Short_House_End_01" x="4" y="4.0" z="26" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="125876" prefab="SD_Short_House_End_01" x="46" y="4.0" z="20" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="124122" prefab="SD_Short_House_End_01" x="38" y="4.0" z="26" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="126732" prefab="SD_Short_House_End_01" x="4" y="4.0" z="21" width="3" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="127678" prefab="SD_Short_House_End_01" x="41" y="0.0" z="8" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="124104" prefab="SD_Short_House_End_01" x="29" y="4.0" z="26" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="128114" prefab="SD_Short_House_End_01" x="20" y="4.0" z="32" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="124472" prefab="SD_Short_House_End_01" x="1" y="4.0" z="15" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="129792" prefab="SD_Short_House_End_01" x="35" y="4.0" z="26" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="126146" prefab="SD_Short_House_End_01" x="43" y="4.0" z="26" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="130718" prefab="SD_Short_House_End_01" x="10" y="4.0" z="32" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="126140" prefab="SD_Short_House_Standalone_01" x="15" y="4.0" z="32" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="122922" prefab="SD_Short_House_Straight_01" x="4" y="4.0" z="29" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="125546" prefab="SD_Short_House_Straight_01" x="35" y="0.0" z="8" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="128036" prefab="SD_Short_House_Straight_01" x="26" y="4.0" z="29" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="125810" prefab="SD_Short_House_Straight_01" x="32" y="0.0" z="8" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="125530" prefab="SD_Short_House_Straight_01" x="46" y="4.0" z="23" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="123176" prefab="SD_Short_House_Straight_01" x="29" y="0.0" z="8" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="124990" prefab="SD_Short_House_Straight_01" x="23" y="4.0" z="32" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="123350" prefab="SD_Short_House_Straight_01" x="4" y="4.0" z="18" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="124628" prefab="SD_Short_House_Straight_01" x="7" y="4.0" z="32" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="125444" prefab="SD_Short_House_Straight_01" x="38" y="0.0" z="8" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="129498" prefab="SD_Short_Terrace_End_01" x="37" y="0.0" z="21" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="127356" prefab="SD_Short_Terrace_End_01" x="34" y="0.0" z="21" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="123680" prefab="SD_Tall_House_Corner_01" x="4" y="0.0" z="5" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="129062" prefab="SD_Tall_House_End_01" x="4" y="0.0" z="2" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="124340" prefab="SD_Tall_House_End_01" x="1" y="0.0" z="5" width="3" height="3" rotation="0">
+      </staticObject>
+		<staticObject id="126258" prefab="SD_Tall_House_End_01" x="26" y="0.0" z="8" width="3" height="3" rotation="270">
+      </staticObject>
+		<staticObject id="126370" prefab="SD_Tall_House_End_01" x="26" y="0.0" z="2" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="123806" prefab="SD_Tall_House_Straight_01" x="26" y="0.0" z="5" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="128160" prefab="SD_Tall_Terrace_Corner_01" x="22" y="0.0" z="13" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="130348" prefab="SD_Tall_Terrace_End_01" x="31" y="0.0" z="13" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="124034" prefab="SD_Tall_Terrace_End_01" x="22" y="0.0" z="10" width="3" height="3" rotation="90">
+      </staticObject>
+		<staticObject id="129264" prefab="SD_Tall_Terrace_End_01" x="12" y="0.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="130922" prefab="SD_Tall_Terrace_Straight_01" x="25" y="0.0" z="13" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="126802" prefab="SD_Tall_Terrace_Straight_01" x="9" y="0.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="124058" prefab="SD_Tall_Terrace_Straight_01" x="28" y="0.0" z="13" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="131204" prefab="SD_Floor_Brick_2x2_01" x="22" y="0.0" z="19" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="124178" prefab="SD_Floor_Brick_2x2_01" x="19" y="0.0" z="21" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="127068" prefab="SD_Floor_Brick_2x2_01" x="21" y="0.0" z="21" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="122956" prefab="SD_Floor_Brick_2x2_01" x="29" y="0.0" z="21" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="124294" prefab="SD_Floor_Brick_2x2_01" x="20" y="0.0" z="17" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="124748" prefab="SD_Floor_Brick_2x2_01" x="22" y="0.0" z="17" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="128030" prefab="SD_Floor_Brick_2x2_01" x="20" y="0.0" z="19" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="125214" prefab="SD_Floor_Brick_2x2_01" x="42" y="0.0" z="13" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="131126" prefab="SD_Floor_Brick_2x2_01" x="9" y="0.0" z="20" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="126878" prefab="SD_Floor_Brick_2x2_01" x="11" y="0.0" z="20" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="128164" prefab="SD_Floor_Brick_2x2_01" x="9" y="0.0" z="18" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="129550" prefab="SD_Floor_Brick_2x2_01" x="40" y="0.0" z="13" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="128388" prefab="SD_Floor_Brick_2x2_01" x="11" y="0.0" z="18" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="128782" prefab="SD_Floor_Brick_2x2_01" x="29" y="0.0" z="23" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="123908" prefab="SD_Floor_Brick_3x3_01" x="14" y="0.0" z="26" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="125594" prefab="SD_Floor_Brick_3x3_01" x="11" y="0.0" z="22" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="131192" prefab="SD_Floor_Brick_3x3_01" x="13" y="0.0" z="19" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="124708" prefab="SD_Floor_Brick_3x3_01" x="16" y="0.0" z="1" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="127008" prefab="SD_Floor_Brick_3x3_01" x="40" y="0.0" z="18" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="127218" prefab="SD_Floor_Brick_3x3_01" x="16" y="0.0" z="19" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="124826" prefab="SD_Floor_Brick_3x3_01" x="34" y="2.0" z="21" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="129458" prefab="SD_Floor_Brick_3x3_01" x="16" y="0.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="125836" prefab="SD_Floor_Brick_3x3_01" x="16" y="0.0" z="4" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="130520" prefab="SD_Floor_Brick_3x3_01" x="16" y="0.0" z="16" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="125828" prefab="SD_Floor_Brick_3x3_01" x="16" y="0.0" z="7" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="126922" prefab="SD_Floor_Brick_3x3_01" x="11" y="0.0" z="25" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="130888" prefab="SD_Floor_Brick_3x3_01" x="20" y="0.0" z="26" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="126748" prefab="SD_Floor_Brick_3x3_01" x="40" y="0.0" z="15" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="127988" prefab="SD_Floor_Brick_3x3_01" x="17" y="0.0" z="26" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="129268" prefab="SD_Floor_Brick_3x3_01" x="16" y="0.0" z="13" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="129910" prefab="SD_Floor_Brick_3x3_01" x="26" y="0.0" z="21" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="128648" prefab="SD_Floor_Brick_3x3_01" x="37" y="2.0" z="21" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="124250" prefab="SD_Floor_Brick_3x3_01" x="23" y="0.0" z="21" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="129654" prefab="SD_Floor_Brick_3x3_01" x="20" y="0.0" z="23" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="130420" prefab="SD_Floor_Dirt_3x3_01" x="6" y="4.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="125210" prefab="SD_Floor_Dirt_3x3_01" x="3" y="4.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="128938" prefab="SD_Floor_Grass_1x1_01" x="9" y="0.0" z="23" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130352" prefab="SD_Floor_Grass_1x1_01" x="9" y="0.0" z="29" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125742" prefab="SD_Floor_Grass_2x2_01" x="8" y="0.0" z="25" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="128384" prefab="SD_Floor_Grass_2x2_01" x="23" y="0.0" z="5" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="125278" prefab="SD_Floor_Grass_2x2_01" x="15" y="0.0" z="23" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="126738" prefab="SD_Floor_Grass_2x2_01" x="20" y="0.0" z="11" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="129676" prefab="SD_Floor_Grass_2x2_01" x="20" y="0.0" z="13" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="126208" prefab="SD_Floor_Grass_2x2_01" x="23" y="0.0" z="3" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="127428" prefab="SD_Floor_Grass_2x2_01" x="20" y="0.0" z="15" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="123544" prefab="SD_Floor_Grass_2x2_01" x="23" y="0.0" z="1" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="125366" prefab="SD_Floor_Grass_2x2_01" x="20" y="0.0" z="9" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="130476" prefab="SD_Floor_Grass_2x2_01" x="20" y="0.0" z="7" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="123934" prefab="SD_Floor_Grass_2x2_01" x="17" y="0.0" z="23" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="127488" prefab="SD_Floor_Grass_2x2_01" x="8" y="0.0" z="27" width="2" height="2" rotation="180">
+      </staticObject>
+		<staticObject id="131196" prefab="SD_Floor_Grass_3x3_01" x="9" y="0.0" z="1" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="126460" prefab="SD_Floor_Grass_3x3_01" x="12" y="0.0" z="1" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="126252" prefab="SD_Floor_Grass_3x3_01" x="12" y="0.0" z="4" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="123614" prefab="SD_Floor_Grass_3x3_01" x="20" y="0.0" z="1" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="128666" prefab="SD_Floor_Grass_3x3_01" x="9" y="0.0" z="15" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="130132" prefab="SD_Floor_Grass_3x3_01" x="9" y="0.0" z="4" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="124854" prefab="SD_Floor_Grass_3x3_01" x="9" y="0.0" z="12" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="128084" prefab="SD_Floor_Grass_3x3_01" x="12" y="0.0" z="12" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="127514" prefab="SD_Floor_Grass_3x3_01" x="1" y="0.0" z="1" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="123840" prefab="SD_Floor_Grass_3x3_01" x="1" y="0.0" z="4" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="124592" prefab="SD_Floor_Grass_3x3_01" x="9" y="0.0" z="7" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="130652" prefab="SD_Floor_Grass_3x3_01" x="10" y="0.0" z="29" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="130882" prefab="SD_Floor_Grass_3x3_01" x="20" y="0.0" z="4" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="130344" prefab="SD_Floor_Grass_3x3_01" x="12" y="0.0" z="15" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="124268" prefab="SD_Floor_Grass_5x5_01" x="40" y="0.0" z="8" width="5" height="5" rotation="180">
+      </staticObject>
+		<staticObject id="124326" prefab="SD_Floor_Grass_5x5_01" x="25" y="0.0" z="8" width="5" height="5" rotation="180">
+      </staticObject>
+		<staticObject id="123048" prefab="SD_Floor_Grass_5x5_01" x="30" y="0.0" z="8" width="5" height="5" rotation="180">
+      </staticObject>
+		<staticObject id="127296" prefab="SD_Floor_Grass_5x5_01" x="4" y="0.0" z="1" width="5" height="5" rotation="180">
+      </staticObject>
+		<staticObject id="127338" prefab="SD_Floor_Grass_5x5_01" x="35" y="0.0" z="8" width="5" height="5" rotation="180">
+      </staticObject>
+		<staticObject id="124072" prefab="SD_Floor_GrassBrickTrans_01" x="14" y="0.0" z="25" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124118" prefab="SD_Floor_GrassBrickTrans_02" x="19" y="0.0" z="25" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129766" prefab="SD_Floor_GrassBrickTrans_03" x="14" y="0.0" z="22" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124022" prefab="SD_Floor_GrassBrickTrans_03" x="43" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127004" prefab="SD_Floor_GrassBrickTrans_03" x="23" y="0.0" z="24" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="123084" prefab="SD_Floor_GrassBrickTrans_04" x="10" y="0.0" z="22" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129346" prefab="SD_Floor_GrassBrickTrans_04" x="13" y="0.0" z="28" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128256" prefab="SD_Floor_GrassBrickTrans_05" x="18" y="0.0" z="25" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130054" prefab="SD_Floor_GrassBrickTrans_05" x="17" y="0.0" z="25" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127818" prefab="SD_Floor_GrassBrickTrans_05" x="15" y="0.0" z="25" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128820" prefab="SD_Floor_GrassBrickTrans_05" x="16" y="0.0" z="25" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125840" prefab="SD_Floor_GrassBrickTrans_06" x="11" y="0.0" z="28" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128110" prefab="SD_Floor_GrassBrickTrans_06" x="15" y="0.0" z="22" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124318" prefab="SD_Floor_GrassBrickTrans_06" x="18" y="0.0" z="22" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124654" prefab="SD_Floor_GrassBrickTrans_06" x="9" y="0.0" z="22" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125472" prefab="SD_Floor_GrassBrickTrans_06" x="21" y="0.0" z="29" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124784" prefab="SD_Floor_GrassBrickTrans_06" x="15" y="0.0" z="29" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="131254" prefab="SD_Floor_GrassBrickTrans_06" x="20" y="0.0" z="29" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128618" prefab="SD_Floor_GrassBrickTrans_06" x="17" y="0.0" z="29" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="122988" prefab="SD_Floor_GrassBrickTrans_06" x="22" y="0.0" z="29" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124378" prefab="SD_Floor_GrassBrickTrans_06" x="14" y="0.0" z="29" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129810" prefab="SD_Floor_GrassBrickTrans_06" x="12" y="0.0" z="28" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124280" prefab="SD_Floor_GrassBrickTrans_06" x="16" y="0.0" z="29" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130368" prefab="SD_Floor_GrassBrickTrans_06" x="18" y="0.0" z="29" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130094" prefab="SD_Floor_GrassBrickTrans_06" x="16" y="0.0" z="22" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="123062" prefab="SD_Floor_GrassBrickTrans_06" x="17" y="0.0" z="22" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127344" prefab="SD_Floor_GrassBrickTrans_07" x="23" y="0.0" z="27" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="126792" prefab="SD_Floor_GrassBrickTrans_07" x="43" y="0.0" z="16" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="126528" prefab="SD_Floor_GrassBrickTrans_07" x="14" y="0.0" z="23" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130642" prefab="SD_Floor_GrassBrickTrans_07" x="23" y="0.0" z="28" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="131270" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="7" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124314" prefab="SD_Floor_GrassBrickTrans_07" x="43" y="0.0" z="23" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124460" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124512" prefab="SD_Floor_GrassBrickTrans_07" x="43" y="0.0" z="19" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="126102" prefab="SD_Floor_GrassBrickTrans_07" x="43" y="0.0" z="22" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="126494" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="1" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="123610" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="123038" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="11" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125950" prefab="SD_Floor_GrassBrickTrans_07" x="23" y="0.0" z="25" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="123856" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="6" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129986" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="5" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125252" prefab="SD_Floor_GrassBrickTrans_07" x="43" y="0.0" z="18" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124168" prefab="SD_Floor_GrassBrickTrans_07" x="43" y="0.0" z="21" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="126968" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="8" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128878" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="12" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130374" prefab="SD_Floor_GrassBrickTrans_07" x="23" y="0.0" z="26" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129492" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="2" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130040" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="3" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127518" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124048" prefab="SD_Floor_GrassBrickTrans_07" x="43" y="0.0" z="17" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125370" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="9" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127064" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="4" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="126862" prefab="SD_Floor_GrassBrickTrans_07" x="19" y="0.0" z="10" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125260" prefab="SD_Floor_GrassBrickTrans_07" x="43" y="0.0" z="20" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128272" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="2" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="123646" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="15" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130378" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="3" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130602" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="9" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129442" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125476" prefab="SD_Floor_GrassBrickTrans_08" x="10" y="0.0" z="26" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125770" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="17" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128982" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="14" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130918" prefab="SD_Floor_GrassBrickTrans_08" x="10" y="0.0" z="23" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129188" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="4" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125964" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="16" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130364" prefab="SD_Floor_GrassBrickTrans_08" x="10" y="0.0" z="25" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125526" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="1" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124420" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="10" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="123980" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="5" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128572" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="6" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129946" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="7" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125978" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="12" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128404" prefab="SD_Floor_GrassBrickTrans_08" x="10" y="0.0" z="27" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="126030" prefab="SD_Floor_GrassBrickTrans_08" x="15" y="0.0" z="8" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124018" prefab="SD_Floor_GrassBrickTrans_11" x="23" y="0.0" z="29" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125104" prefab="SD_Floor_GrassBrickTrans_12" x="13" y="0.0" z="29" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124004" prefab="SD_Floor_GrassBrickTrans_12" x="10" y="0.0" z="28" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="126568" prefab="SD_Floor_GrassDirtTrans_05" x="7" y="4.0" z="9" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127614" prefab="SD_Floor_GrassDirtTrans_05" x="3" y="4.0" z="9" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="128750" prefab="SD_Floor_GrassDirtTrans_05" x="5" y="4.0" z="9" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125024" prefab="SD_Floor_GrassDirtTrans_05" x="4" y="4.0" z="9" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="125388" prefab="SD_Floor_GrassDirtTrans_05" x="6" y="4.0" z="9" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="129192" prefab="SD_Floor_GrassDirtTrans_06" x="5" y="4.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="126632" prefab="SD_Floor_GrassDirtTrans_06" x="6" y="4.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="127000" prefab="SD_Floor_GrassDirtTrans_06" x="3" y="4.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="124734" prefab="SD_Floor_GrassDirtTrans_06" x="7" y="4.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="123664" prefab="SD_Floor_GrassDirtTrans_06" x="4" y="4.0" z="13" width="1" height="1" rotation="180">
+      </staticObject>
+		<staticObject id="130842" prefab="SD_Floor_Stone_3x3_01" x="31" y="4.0" z="13" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="123658" prefab="SD_Floor_Stone_3x3_01" x="28" y="4.0" z="13" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="127258" prefab="SD_Floor_Stone_3x3_01" x="12" y="4.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="129400" prefab="SD_Floor_Stone_3x3_01" x="22" y="4.0" z="13" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="129420" prefab="SD_Floor_Stone_3x3_01" x="9" y="4.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="125902" prefab="SD_Floor_Stone_3x3_01" x="22" y="4.0" z="10" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="128494" prefab="SD_Floor_Stone_3x3_01" x="25" y="4.0" z="13" width="3" height="3" rotation="180">
+      </staticObject>
+		<staticObject id="127888" prefab="SD_Nature_Water_01" x="23" y="-1.0" z="13" width="18" height="12" rotation="180">
+      </staticObject>
+	</static>
+
+  <units>
+		<playerUnit id="126756" prefab="Assassin" x="16" z="8" rotation="180">
+      </playerUnit>
+		<playerUnit id="128796" prefab="Thief" x="17" z="8" rotation="180">
+      </playerUnit>
+  </units>
+
+  <other>
+      <dynamicObject id="129770" prefab="ScreenTransZone" x="17" y="0" z="18" rotation="180">
+          <component name="TransitionZone">
+              <property name="SetZoneBounds">
+                  <field>-1</field>
+                  <field>-1</field>
+                  <field>1</field>
+                  <field>1</field>
+              </property>
+              <property name="SetFirstDestination">
+                  <field>0</field>
+                  <field>-2</field>
+              </property>
+              <property name="SetSecondDestination">
+                  <field>0</field>
+                  <field>2</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="129802" prefab="ScreenTransZone" x="26" y="4" z="14" rotation="90">
+          <component name="TransitionZone">
+              <property name="SetZoneBounds">
+                  <field>-1</field>
+                  <field>-1</field>
+                  <field>1</field>
+                  <field>1</field>
+              </property>
+              <property name="SetFirstDestination">
+                  <field>0</field>
+                  <field>-2</field>
+              </property>
+              <property name="SetSecondDestination">
+                  <field>0</field>
+                  <field>2</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="123180" prefab="ScreenTransZone" x="26" y="0" z="22" rotation="90">
+          <component name="TransitionZone">
+              <property name="SetZoneBounds">
+                  <field>-1</field>
+                  <field>-1</field>
+                  <field>1</field>
+                  <field>1</field>
+              </property>
+              <property name="SetFirstDestination">
+                  <field>0</field>
+                  <field>-2</field>
+              </property>
+              <property name="SetSecondDestination">
+                  <field>0</field>
+                  <field>2</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="125226" prefab="GoalZone_Thief" x="10" y="4" z="11" rotation="180">
+          <component name="GridZone">
+              <property name="SetZoneBounds">
+                  <field>-1</field>
+                  <field>-1</field>
+                  <field>1</field>
+                  <field>1</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="129166" prefab="SD_Interactive_Elevator_01" x="23" y="4" z="8" rotation="180">
+          <component name="Triggerable">
+              <property name="SetToggleState">
+                  <field>true</field>
+              </property>
+          </component>
+          <component name="TriggerElevationChange">
+              <property name="SetElevationDiff">
+                  <field>2</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="123014" prefab="SD_Interactive_Elevator_01" x="41" y="2" z="22" rotation="180">
+          <component name="Triggerable">
+              <property name="SetToggleState">
+                  <field>true</field>
+              </property>
+          </component>
+          <component name="TriggerElevationChange">
+              <property name="SetElevationDiff">
+                  <field>1</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="130946" prefab="SD_Interactive_Elevator_01" x="35" y="2" z="14" rotation="180">
+          <component name="Triggerable">
+          </component>
+          <component name="TriggerElevationChange">
+              <property name="SetElevationDiff">
+                  <field>1</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="123358" prefab="SD_Interactive_Elevator_01" x="13" y="4" z="8" rotation="180">
+          <component name="Triggerable">
+              <property name="SetToggleState">
+                  <field>true</field>
+              </property>
+          </component>
+          <component name="TriggerElevationChange">
+              <property name="SetElevationDiff">
+                  <field>2</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="128222" prefab="SD_Interactive_Elevator_01" x="38" y="-5.960464E-08" z="14" rotation="180">
+          <component name="Triggerable">
+          </component>
+          <component name="TriggerElevationChange">
+              <property name="SetElevationDiff">
+                  <field>1</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="125078" prefab="SD_Interactive_Elevator_01" x="32" y="0" z="22" rotation="180">
+          <component name="Triggerable">
+          </component>
+          <component name="TriggerElevationChange">
+              <property name="SetElevationDiff">
+                  <field>1</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="127654" prefab="SD_Interactive_Gate_02" x="12" y="0" z="24" rotation="180">
+          <component name="Triggerable">
+              <property name="SetDecalType">
+                  <field>decal_1.png</field>
+              </property>
+          </component>
+      </dynamicObject>
+      <dynamicObject id="123972" prefab="SD_Interactive_PressurePlate_01" x="32" y="0" z="22" rotation="180">
+          <component name="BaseSwitch">
+          </component>
+      </dynamicObject>
+      <dynamicObject id="126506" prefab="SD_Interactive_PressurePlate_01" x="38" y="0" z="14" rotation="180">
+          <component name="BaseSwitch">
+          </component>
+      </dynamicObject>
+      <dynamicObject id="123450" prefab="SD_Interactive_PressurePlate_01" x="35" y="2" z="14" rotation="180">
+          <component name="BaseSwitch">
+          </component>
+      </dynamicObject>
+      <dynamicObject id="126062" prefab="SD_Interactive_PressurePlate_01" x="23" y="4" z="8" rotation="180">
+          <component name="BaseSwitch">
+          </component>
+      </dynamicObject>
+      <dynamicObject id="128652" prefab="SD_Interactive_PressurePlate_01" x="41" y="2" z="22" rotation="180">
+          <component name="BaseSwitch">
+          </component>
+      </dynamicObject>
+      <dynamicObject id="125322" prefab="SD_Interactive_PressurePlate_02" x="10" y="0" z="21" rotation="180">
+          <component name="BaseSwitch">
+          </component>
+      </dynamicObject>
+      <dynamicObject id="124872" prefab="SD_Interactive_PressurePlate_02" x="14" y="0" z="21" rotation="180">
+          <component name="BaseSwitch">
+          </component>
+      </dynamicObject>
+  </other>
+
+  <links>
+      <triggerLink id="129166">
+          <switch id="126062">
+          </switch>
+      </triggerLink>
+      <triggerLink id="123014">
+          <switch id="128652">
+          </switch>
+      </triggerLink>
+      <triggerLink id="130946">
+          <switch id="123450">
+          </switch>
+      </triggerLink>
+      <triggerLink id="123358">
+          <switch id="126062">
+          </switch>
+      </triggerLink>
+      <triggerLink id="128222">
+          <switch id="126506">
+          </switch>
+      </triggerLink>
+      <triggerLink id="125078">
+          <switch id="123972">
+          </switch>
+      </triggerLink>
+      <triggerLink id="127654">
+          <switch id="125322">
+          </switch>
+          <switch id="124872">
+          </switch>
+      </triggerLink>
+      <winCondition id="125226">
+      </winCondition>
+  </links>
+
+	<camera focus="Assassin">
+      <start x="17" y="26" z="-12.5">
+      </start>
+      <overview x="26.5" y="60" z="-19.5">
+      </overview>
+	</camera>
+
+	<lightMap name="Town_1_lightmap.png">
+	</lightMap>
+</level>
