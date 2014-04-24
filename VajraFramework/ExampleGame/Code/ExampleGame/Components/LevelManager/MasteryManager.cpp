@@ -96,7 +96,13 @@ LevelScores MasteryManager::GetLevelScores(int levelIndex) {
 bool MasteryManager::onLevelComplete() {
 	// update high scores
 	if((int)this->bestScores.size() > this->currentLevelTracked) {
+		this->calculateTake();
+		
 		LevelScores scores = this->bestScores[this->currentLevelTracked];
+
+		if(scores.take < take || scores.take == -1) {
+			scores.take = take;
+		}
 		if(scores.time > levelTime || scores.time == -1) {
 			scores.time = levelTime;
 		}
@@ -109,6 +115,7 @@ bool MasteryManager::onLevelComplete() {
 		if(scores.alerts > numAlerts || scores.alerts == -1) {
 			scores.alerts = numAlerts;
 		}
+
 
 		if(!scores.bonus) {
 			switch(this->currentBonus) {
@@ -144,4 +151,8 @@ void MasteryManager::updateLevelScore(int levelIndex, LevelScores scores) {
 	} else if ((int)this->bestScores.size() > levelIndex) {
 		this->bestScores[levelIndex] = scores;
 	}
+}
+
+void MasteryManager::calculateTake() {
+	this->take = 10;
 }

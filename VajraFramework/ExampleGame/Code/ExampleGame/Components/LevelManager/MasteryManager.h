@@ -13,6 +13,7 @@ enum LevelBonus {
 
 struct LevelScores {
 	bool bonus;
+	int take;
 	int time;
 	int kills;
 	int money;
@@ -43,6 +44,8 @@ public:
 
 	LevelBonus GetCurrentBonusType() { return this->currentBonus; }
 
+	void calculateTake();
+
 private:
 	void init();
 	void destroy();
@@ -55,6 +58,7 @@ private:
 	int currentLevelTracked;
 	// Mastery Data to Track
 	float levelTime;
+	int take;
 	int numKills;
 	int money;
 	int numAlerts;
