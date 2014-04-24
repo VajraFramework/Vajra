@@ -31,9 +31,6 @@ Shader_variable_datatype_t GetShaderVariableDatatypeFromString(std::string s) {
 	if (s == "mat4") {
 		return SHADER_VARIABLE_DATATYPE_mat4;
 	}
-	if (s == "vec3") {
-		return SHADER_VARIABLE_DATATYPE_vec3;
-	}
 	if (s == "vec4") {
 		return SHADER_VARIABLE_DATATYPE_vec4;
 	}
@@ -147,18 +144,6 @@ Shader_variable_variablename_id_t GetShaderVariableVariableNameIdFromString(std:
 	if (s == "myTextureSampler") {
 		return SHADER_VARIABLE_VARIABLENAME_myTextureSampler;
 	}
-	if (s == "bakedAmbientGridTextureSampler") {
-		return SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler;
-	}
-	if (s == "modelCoordsForBakedAmbientLookup_out") {
-		return SHADER_VARIABLE_VARIABLENAME_modelCoordsForBakedAmbientLookup_out;
-	}
-	if (s == "bakedLightMapSize") {
-		return SHADER_VARIABLE_VARIABLENAME_bakedLightMapSize;
-	}
-	if (s == "baked_ambient_intensity") {
-		return SHADER_VARIABLE_VARIABLENAME_baked_ambient_intensity;
-	}
 	if (s == "depthTextureSampler") {
 		return SHADER_VARIABLE_VARIABLENAME_depthTextureSampler;
 	}
@@ -211,7 +196,6 @@ std::string GetStringForShaderVariableDatatype(Shader_variable_datatype_t t) {
 	case SHADER_VARIABLE_DATATYPE_sampler2D: return "sampler2D";
 	case SHADER_VARIABLE_DATATYPE_vec2: return "vec2";
 	case SHADER_VARIABLE_DATATYPE_mat4: return "mat4";
-	case SHADER_VARIABLE_DATATYPE_vec3: return "vec3";
 	case SHADER_VARIABLE_DATATYPE_vec4: return "vec4";
 	case SHADER_VARIABLE_DATATYPE_invalid: return "invalid";
 	// default: DO NOT ADD A DEFAULT HERE. It'll help catch the case where the enum is extended but not handled here
@@ -256,10 +240,6 @@ std::string GetStringForShaderVariableVariableNameId(Shader_variable_variablenam
 	case SHADER_VARIABLE_VARIABLENAME_pointSize: return "pointSize";
 	case SHADER_VARIABLE_VARIABLENAME_particleColor: return "particleColor";
 	case SHADER_VARIABLE_VARIABLENAME_myTextureSampler: return "myTextureSampler";
-	case SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler: return "bakedAmbientGridTextureSampler";
-	case SHADER_VARIABLE_VARIABLENAME_modelCoordsForBakedAmbientLookup_out: return "modelCoordsForBakedAmbientLookup_out";
-	case SHADER_VARIABLE_VARIABLENAME_bakedLightMapSize: return "bakedLightMapSize";
-	case SHADER_VARIABLE_VARIABLENAME_baked_ambient_intensity: return "baked_ambient_intensity";
 	case SHADER_VARIABLE_VARIABLENAME_depthTextureSampler: return "depthTextureSampler";
 	case SHADER_VARIABLE_VARIABLENAME_depthBiasMVPMatrix: return "depthBiasMVPMatrix";
 	case SHADER_VARIABLE_VARIABLENAME_ShadowCoord: return "ShadowCoord";

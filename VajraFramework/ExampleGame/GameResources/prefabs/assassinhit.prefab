@@ -9,6 +9,14 @@
 				<field>1.0</field>
 				<field>5.0</field>
 			</property>
+			<property name="SetAccelerationAmount">
+					<field>3.0</field>
+			</property>
+			<property name="SetAccelerationDirection">
+				<field>0.0</field>
+				<field>-1.0</field>
+				<field>0.0</field>
+			</property>
 			<property name="SetEmissionVolume">
 				<field>ellipsoid</field>
 				<field>0.4</field>
@@ -27,8 +35,8 @@
 				<field>0.5</field>
 			</property>
 			<property name="SetParticleSize">
-				<field>128</field>
 				<field>16</field>
+				<field>4</field>
 			</property>
 			<property name="SetParticleLifespan">
 				<field>1.5</field>
@@ -50,6 +58,9 @@
 			</property>
 			<property name="SetLooping">
 				<field>false</field>
+			</property>
+			<property name="SetIsOneShot">
+				<field>true</field>
 			</property>
 			<property name="InitParticleSystem">
 			</property>

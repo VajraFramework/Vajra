@@ -52,7 +52,7 @@ void WaterRenderer::Draw() {
 	MeshRenderer::Draw();
 
 	if (this->secondaryTexture) {
-		this->secondaryTexture->Draw(3);
+		this->secondaryTexture->Draw(2);
 	}
 }
 

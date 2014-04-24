@@ -42,21 +42,6 @@ void AmbientLighting::SetIntensity(IntensityLevel_t intensityLevel) {
 }
 
 void AmbientLighting::Draw() {
-	ShaderSet* currentShaderSet = FRAMEWORK->GetOpenGLWrapper()->GetCurrentShaderSet();
-
-	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_bakedLightMapSize)) {
-		GLint bakedLightMapSizeHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_bakedLightMapSize);
-		GLCALL(glUniform1f, bakedLightMapSizeHandle, (float)std::max(this->widthInWorld, this->heightInWorld));
-	}
-
-	if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_baked_ambient_intensity)) {
-		GLint bakedLightMapSizeHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_baked_ambient_intensity);
-		GLCALL(glUniform1f, bakedLightMapSizeHandle, this->intensity);
-	}
-
-	if (this->bakedAmbientLightTextureAsset != nullptr) {
-		this->bakedAmbientLightTextureAsset->Draw(1);
-	}
 }
 
 void AmbientLighting::init() {
