@@ -111,7 +111,7 @@ void LevelManager::LoadLevelFromData(LevelData* levelData) {
 		LevelLoader::LoadTutorialData(levelData->name);
 	}
 	// Set up the bonus
-	SINGLETONS->GetMasteryManager()->SetCurrentBonus(levelData->bonus, levelData->bonusValue, this->GetCurrentLevelIndex());
+	SINGLETONS->GetMasteryManager()->SetCurrentBonus(levelData->bonus, levelData->bonusValue, this->GetCurrentLevelIndex(), levelData->bounty);
 }
 
 LevelData* LevelManager::GetLevelData(int missionIndex, int levelIndex) 
@@ -305,6 +305,7 @@ void LevelManager::initBundleForFirstTime() {
 void LevelManager::onLevelUnlocked(int index) {
 	LevelScores scores;
 	scores.bonus = false;
+	scores.take = 0;
 	scores.time = -1;
 	scores.kills = -1;
 	scores.alerts = -1;
@@ -326,6 +327,7 @@ void LevelManager::loadLevelScore(int index) {
 	}
  
 	scores.bonus = bundle->GetBool(BONUS);
+	scores.take = bundle->GetInt(BEST_TAKE);
 	scores.time = bundle->GetInt(BEST_TIME);
 	scores.kills = bundle->GetInt(BEST_KILL);
 	scores.alerts = bundle->GetInt(BEST_ALERT);
@@ -347,6 +349,7 @@ void LevelManager::SaveLevelScores(int levelIndex, LevelScores* scores) {
 	}
 
 	bundle->PutBool(BONUS, scores->bonus);
+	bundle->PutInt(BEST_TAKE, scores->take);
 	bundle->PutInt(BEST_TIME, scores->time);
 	bundle->PutInt(BEST_KILL, scores->kills);
 	bundle->PutInt(BEST_ALERT, scores->alerts);

@@ -304,8 +304,8 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Completed_01.png");
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Locked_01.png"); // TEMP : replace with locked image
 
-		int width_out = 67;
-		int height_out = 118;
+		int width_out = 128;
+		int height_out = 128;
 		int dummy = 10;
 		// TODO [Hack] 1024x768
 		UiSceneLoader::AdjustPositionForResolution(dummy, dummy, "LEFT", "TOP", width_out, height_out, 1024, 768);

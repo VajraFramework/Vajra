@@ -13,6 +13,7 @@ enum LevelBonus {
 
 struct LevelScores {
 	bool bonus;
+	int take;
 	int time;
 	int kills;
 	int money;
@@ -31,7 +32,7 @@ public:
 	void AddMoney(int amt);
 	inline void OnGuardAlert() { this->numAlerts++; }
 
-	inline void SetCurrentBonus(LevelBonus bonus, int bonusValue, int levelIndex) { this->currentBonus = bonus; this->bonusValue = bonusValue; this->currentLevelTracked = levelIndex; }
+	inline void SetCurrentBonus(LevelBonus bonus, int bonusValue, int levelIndex, int bounty) { this->currentBonus = bonus; this->bonusValue = bonusValue; this->currentLevelTracked = levelIndex; this->currentLevelBounty = bounty; }
 	LevelScores GetLevelScores(int levelIndex);
 	inline float GetLevelTime() { return this->levelTime; }
 	inline int GetNumKills() { return this->numKills; }
@@ -43,6 +44,8 @@ public:
 
 	LevelBonus GetCurrentBonusType() { return this->currentBonus; }
 
+	LevelScores GetCurrentLevelTakeScores() { return this->takeScores;}
+
 private:
 	void init();
 	void destroy();
@@ -53,15 +56,20 @@ private:
 	void updateLevelScore(int levelIndex, LevelScores scores);
 
 	int currentLevelTracked;
+	int currentLevelBounty;
 	// Mastery Data to Track
 	float levelTime;
+	int take;
 	int numKills;
 	int money;
 	int numAlerts;
 
+	void calculateTake();
 	// Current bonus 
 	LevelBonus currentBonus;
 	int bonusValue;
+
+	LevelScores takeScores;
 
 	std::vector<LevelScores> bestScores;
 

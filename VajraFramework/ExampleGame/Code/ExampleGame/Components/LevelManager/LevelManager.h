@@ -54,6 +54,8 @@ public:
 	bool hasTutorial;
 	int levelNum;
 
+	int bounty;
+
 	LevelBonus bonus;
 	int bonusValue;
 
@@ -76,6 +78,7 @@ public:
 
 #define LEVEL_BUNDLE_NAME "levelBundle_"
 #define BONUS "bonus"
+#define BEST_TAKE "bestTake"
 #define BEST_TIME "bestTime"
 #define BEST_KILL "bestKill"
 #define BEST_ALERT "bestAlert"

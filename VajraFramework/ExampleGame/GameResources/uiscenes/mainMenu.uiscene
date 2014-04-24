@@ -18,6 +18,15 @@
 		<image name="SD_LoadingScreen_01.png" hasTransperancy="true"> </image>
 	</uielement>
 
+	<uielement name="background" visible="true" clickable="false">
+		<dimensions>
+			<position x="0" y="0"></position>
+			<size widthPixels="FILLPARENT" heightPixels="FILLPARENT"></size>
+			<zorder>-1</zorder>
+		</dimensions>
+		<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+	</uielement>
+
 
 	<uielement name="startMenu" visible="false" clickable="false">
 
@@ -201,7 +210,7 @@
 					<size widthPixels="300" heightPixels="400"></size>
 					<zorder>6</zorder>
 				</dimensions>
-				<image name="derp_backbutton.png" hasTransperancy="false"> </image>
+				<image name="SD_Contract_01.png" hasTransperancy="false"> </image>
 			</uielement>
 			<uielement name="contractTwo" visible="true" clickable="false">
 				<dimensions>
@@ -209,7 +218,7 @@
 					<size widthPixels="300" heightPixels="400"></size>
 					<zorder>6</zorder>
 				</dimensions>
-				<image name="derp_backbutton.png" hasTransperancy="false"> </image>
+				<image name="SD_Contract_Locked.png" hasTransperancy="false"> </image>
 			</uielement>
 	</uielement>
 
