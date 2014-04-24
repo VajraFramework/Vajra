@@ -389,7 +389,7 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 		} else if (child->GetName() == menuPrefix + "bonus_icon") {
 			child->SetSpriteTextureIndex(levelData->bonus);
 		} else if (child->GetName() == menuPrefix + "bounty_value") {
-			child->ChangeText("Testeroini");
+			child->ChangeText(StringUtilities::ConvertIntToString(levelData->bounty));
 		} else if (child->GetName() == menuPrefix + "take_value") {
 			child->ChangeText("Testeroini");
 		} else if (child->GetName() == menuPrefix + "bonus_completion") {

@@ -54,6 +54,8 @@ public:
 	bool hasTutorial;
 	int levelNum;
 
+	int bounty;
+
 	LevelBonus bonus;
 	int bonusValue;
 

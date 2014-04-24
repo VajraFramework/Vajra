@@ -203,6 +203,7 @@ void LevelLoader::LoadLevelData(std::vector<ContractData*>* contractData) {
 				lData->name = levelDataNode->GetAttributeValueS(NAME_PROPERTY);
 				lData->path = levelDataNode->GetAttributeValueS(PATH_PROPERTY);
 				lData->type = LevelLoader::stringToLevelType(levelDataNode->GetAttributeValueS(TYPE_PROPERTY));
+				lData->bounty = StringUtilities::ConvertStringToInt(levelDataNode->GetAttributeValueS("bounty"));
 				lData->description = StringUtilities::StringToUpper(levelDataNode->GetAttributeValueS(TYPE_PROPERTY));
 				lData->completion = LevelLoader::charToCompletionData(levelCompletionData[levelNum]);
 				lData->hasTutorial = std::find(levelsWithTutorials.begin(), levelsWithTutorials.end(), lData->name) != levelsWithTutorials.end();
