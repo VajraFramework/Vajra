@@ -610,13 +610,13 @@
   </units>
 
   <other>
-      <dynamicObject id="85862" prefab="ScreenTransZone" x="22" y="0" z="29" rotation="180">
+      <dynamicObject id="85862" prefab="ScreenTransZone" x="22" y="0" z="30" rotation="180">
           <component name="TransitionZone">
               <property name="SetZoneBounds">
                   <field>0</field>
                   <field>-1</field>
                   <field>0</field>
-                  <field>1</field>
+                  <field>2</field>
               </property>
               <property name="SetFirstDestination">
                   <field>0</field>
@@ -628,13 +628,13 @@
               </property>
           </component>
       </dynamicObject>
-      <dynamicObject id="87504" prefab="ScreenTransZone" x="18" y="0" z="29" rotation="180">
+      <dynamicObject id="87504" prefab="ScreenTransZone" x="18" y="0" z="30" rotation="180">
           <component name="TransitionZone">
               <property name="SetZoneBounds">
                   <field>0</field>
                   <field>-1</field>
                   <field>0</field>
-                  <field>1</field>
+                  <field>2</field>
               </property>
               <property name="SetFirstDestination">
                   <field>0</field>
@@ -652,25 +652,7 @@
                   <field>0</field>
                   <field>-1</field>
                   <field>0</field>
-                  <field>1</field>
-              </property>
-              <property name="SetFirstDestination">
-                  <field>0</field>
-                  <field>-2</field>
-              </property>
-              <property name="SetSecondDestination">
-                  <field>0</field>
                   <field>2</field>
-              </property>
-          </component>
-      </dynamicObject>
-      <dynamicObject id="87404" prefab="ScreenTransZone" x="14" y="0" z="29" rotation="180">
-          <component name="TransitionZone">
-              <property name="SetZoneBounds">
-                  <field>0</field>
-                  <field>-1</field>
-                  <field>0</field>
-                  <field>1</field>
               </property>
               <property name="SetFirstDestination">
                   <field>0</field>
@@ -688,7 +670,7 @@
                   <field>0</field>
                   <field>-1</field>
                   <field>0</field>
-                  <field>1</field>
+                  <field>2</field>
               </property>
               <property name="SetFirstDestination">
                   <field>0</field>
@@ -718,13 +700,31 @@
               </property>
           </component>
       </dynamicObject>
+      <dynamicObject id="87404" prefab="ScreenTransZone" x="14" y="0" z="30" rotation="180">
+          <component name="TransitionZone">
+              <property name="SetZoneBounds">
+                  <field>0</field>
+                  <field>-1</field>
+                  <field>0</field>
+                  <field>2</field>
+              </property>
+              <property name="SetFirstDestination">
+                  <field>0</field>
+                  <field>-2</field>
+              </property>
+              <property name="SetSecondDestination">
+                  <field>0</field>
+                  <field>2</field>
+              </property>
+          </component>
+      </dynamicObject>
       <dynamicObject id="88504" prefab="ScreenTransZone" x="22" y="0" z="17" rotation="180">
           <component name="TransitionZone">
               <property name="SetZoneBounds">
                   <field>0</field>
                   <field>-1</field>
                   <field>0</field>
-                  <field>1</field>
+                  <field>2</field>
               </property>
               <property name="SetFirstDestination">
                   <field>0</field>
@@ -837,7 +837,7 @@
 	<camera focus="Assassin">
       <start x="0" y="26" z="0">
       </start>
-      <overview x="22" y="92" z="-23">
+      <overview x="25" y="92" z="-23">
       </overview>
 	</camera>
 
