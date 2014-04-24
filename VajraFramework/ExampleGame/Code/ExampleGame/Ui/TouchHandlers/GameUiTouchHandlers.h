@@ -7,6 +7,7 @@
 
 struct TutorialData {
 public:
+	bool isCutscene;
 	bool hasFired;
 	MessageType msgType;
 	glm::vec3 vector3Data;
@@ -27,10 +28,10 @@ public:
 	// @Override
 	virtual void HandleMessageCallback(MessageChunk messageChunk);
 
+	void setupTutorial(std::string levelName);
 private:
 	void returnToMissionSelect();
 
-	void setupTutorial(std::string levelName);
 	void tryTutorial(int index, MessageChunk messageChunk);
 
 
