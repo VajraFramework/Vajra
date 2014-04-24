@@ -38,7 +38,10 @@ private:
 	void openMissionMenu(int contractIndex);
 
 	void goBackOneMenu();
+	void updateTitleNames(int missionIndex);
 
+	int levelToLoad;
+	
 	int currentMissionScreenIndex;
 	int prevContractIndex;
 	std::vector<UiElement*> parallaxScreens;

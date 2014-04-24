@@ -41,17 +41,17 @@ static void convertPixelsFromTargetSizeToDeviceSize(int& out_pixels, const int t
 	out_pixels = out_pixelsf;
 }
 
-void AdjustPositionForResolution(int& posX_pixels_out, int& posY_pixels_out, std::string x_wrto, std::string y_wrto, int width_pixels, int height_pixels, int intended_scene_width_pixels, int intended_scene_height_pixels) {
+void AdjustPositionForResolution(int& posX_pixels_out, int& posY_pixels_out, std::string x_wrto, std::string y_wrto, int& width_pixels_out, int& height_pixels_out, int intended_scene_width_pixels, int intended_scene_height_pixels) {
 	convertPixelsFromTargetSizeToDeviceSize(posX_pixels_out,   intended_scene_width_pixels, intended_scene_height_pixels);
 	convertPixelsFromTargetSizeToDeviceSize(posY_pixels_out,   intended_scene_width_pixels, intended_scene_height_pixels);
-	convertPixelsFromTargetSizeToDeviceSize(width_pixels,  intended_scene_width_pixels, intended_scene_height_pixels);
-	convertPixelsFromTargetSizeToDeviceSize(height_pixels, intended_scene_width_pixels, intended_scene_height_pixels);
+	convertPixelsFromTargetSizeToDeviceSize(width_pixels_out,  intended_scene_width_pixels, intended_scene_height_pixels);
+	convertPixelsFromTargetSizeToDeviceSize(height_pixels_out, intended_scene_width_pixels, intended_scene_height_pixels);
 
 	// Process relative positioning tags, if any:
 	if (x_wrto == "LEFT") {
 		// Nothing to do
 	} else if (x_wrto == "RIGHT") {
-		posX_pixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() - posX_pixels_out - width_pixels;
+		posX_pixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() - posX_pixels_out - width_pixels_out;
 	} else if (x_wrto == "CENTER") {
 		posX_pixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels() / 2.0f + posX_pixels_out;
 	} else {
@@ -61,7 +61,7 @@ void AdjustPositionForResolution(int& posX_pixels_out, int& posY_pixels_out, std
 	if (y_wrto == "TOP") {
 		// Nothing to do
 	} else if (y_wrto == "BOTTOM") {
-		posY_pixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() - posY_pixels_out - height_pixels;
+		posY_pixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() - posY_pixels_out - height_pixels_out;
 	} else if (y_wrto == "CENTER") {
 		posY_pixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels() / 2.0f + posY_pixels_out;
 	} else {
@@ -94,7 +94,30 @@ static void processDimensionsNode(XmlNode* dimensionsNode, int& posXPixels_out, 
 	std::string x_wrto = positionNode->HasAttribute(X_WRTO_ATTRIBUTE) ? positionNode->GetAttributeValueS(X_WRTO_ATTRIBUTE) : "LEFT";
 	std::string y_wrto = positionNode->HasAttribute(Y_WRTO_ATTRIBUTE) ? positionNode->GetAttributeValueS(Y_WRTO_ATTRIBUTE) : "TOP";
 
-	AdjustPositionForResolution(posXPixels_out, posYPixels_out, x_wrto, y_wrto, widthPixels_out, heightPixels_out, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+
+	// Handle FILLPARENT as a special case
+	bool isFillParentX = false;
+	bool isFillParentY = false;
+	if (sizeNode->GetAttributeValueS(WIDTHPIXELS_ATTRIBUTE) == "FILLPARENT") {
+		widthPixels_out = FRAMEWORK->GetDeviceProperties()->GetWidthPixels();
+		x_wrto = "LEFT";
+		posXPixels_out = 0.0f;
+		isFillParentX = true;
+	}
+	if (sizeNode->GetAttributeValueS(HEIGHTPIXELS_ATTRIBUTE) == "FILLPARENT") {
+		heightPixels_out = FRAMEWORK->GetDeviceProperties()->GetHeightPixels();
+		y_wrto = "TOP";
+		posYPixels_out = 0.0f;
+		isFillParentY = true;
+	}
+
+	int dummy = 10;
+	if (!isFillParentX) {
+		AdjustPositionForResolution(posXPixels_out, dummy, x_wrto, y_wrto, widthPixels_out, dummy, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+	}
+	if (!isFillParentY) {
+		AdjustPositionForResolution(dummy, posYPixels_out, x_wrto, y_wrto, dummy, heightPixels_out, INTENDED_SCENE_WIDTH_PIXELS, INTENDED_SCENE_HEIGHT_PIXELS);
+	}
 }
 
 static void loadOneUiElement(UiElement* uiElement, XmlNode* uielementNode, UiTouchHandlers* touchHandlers) {

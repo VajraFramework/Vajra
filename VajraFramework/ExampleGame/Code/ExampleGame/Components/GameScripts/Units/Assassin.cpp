@@ -8,11 +8,14 @@
 #include "ExampleGame/Messages/Declarations.h"
 
 #include "Vajra/Common/Messages/CustomMessageDatas/MessageData1S1I1F.h"
+#include "Vajra/Engine/Components/DerivedComponents/Audio/AudioSource.h"
 #include "Vajra/Engine/Components/DerivedComponents/Renderer/SpriteRenderer.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
+#include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
+#include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
@@ -62,6 +65,10 @@ void Assassin::init() {
 	this->lastPosition = this->gameObjectRef->GetTransform()->GetPositionWorld();
 	this->lastHitCell = nullptr;
 	this->lastCheckedCell = nullptr;
+	this->dashEffect = "";
+	this->dashEffectObjId = OBJECT_ID_INVALID;
+	this->specialHitEffect = "";
+	this->specialHitEffectObjId = OBJECT_ID_INVALID;
 	{
 		// create the arrow tail
 		this->arrowTail = new GameObject(ENGINE->GetSceneGraph3D());
@@ -153,6 +160,8 @@ void Assassin::startSpecial() {
 	this->startTouchIndicatorPulse();
 	this->arrowHead->SetVisible(false);
 	this->arrowTail->SetVisible(false);
+
+	this->activateDashEffect();
 }
 
 void Assassin::onSpecialEnd() {
@@ -166,6 +175,8 @@ void Assassin::onSpecialEnd() {
 	
 	//this->gridNavRef->SetGridPosition(this->targetedCell);
 	//this->gameObjectRef->GetTransform()->SetPosition(this->targetLoc);
+
+	this->deactivateDashEffect();
 }
 
 void Assassin::cancelSpecial() {
@@ -179,6 +190,7 @@ void Assassin::cancelSpecial() {
 		this->checkFinalAttack();
 		//this->specialUpdate();
 		//this->gridNavRef->SetCurrentCell(SINGLETONS->GetGridManager()->GetGrid()->GetCell(this->gameObjectRef->GetTransform()->GetPositionWorld()));
+		this->deactivateDashEffect();
 	}
 }
 
@@ -291,6 +303,11 @@ void Assassin::specialUpdate() {
 						// If the assassin can't kill the occupant but can pass through the cell, don't send an attack message
 						if (unit->CanBeKilledBy(this->GetObject()->GetId(), this->specialStartPos)) {
 							this->sendAttackMessage(currentCell->x, currentCell->z, elevation);
+
+							AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+							if (audioSource != nullptr) {
+								audioSource->Play("specialHit");
+							}
 						}
 					}
 				}
@@ -319,7 +336,7 @@ void Assassin::specialUpdate() {
 						BaseUnit* unit = occupant->GetComponent<BaseUnit>();
 						if (unit != nullptr) {
 							if (!unit->CanBeKilledBy(this->GetObject()->GetId(), this->specialStartPos)) {
-								if ((unit->GetUnitType() > LAST_PLAYER_UNIT_TYPE) || (c == this->targetedCell)) {
+								if (unit->GetUnitType() > LAST_PLAYER_UNIT_TYPE) {
 									// Stop the assassin's attack unless the occupant is another player unit and
 									// the cell isn't the assassin's final destination
 									shouldStop = true;
@@ -377,9 +394,69 @@ void Assassin::checkFinalAttack() {
 						attackMessage->messageData.iv1.z = cell->z;
 						attackMessage->messageData.fv1 = this->specialStartPos;
 						ENGINE->GetMessageHub()->SendMulticastMessage(attackMessage, this->GetObject()->GetId());
+
+						this->activateSpecialHitEffect();
+						
+						AudioSource* audioSource = this->gameObjectRef->GetComponent<AudioSource>();
+						if (audioSource != nullptr) {
+							audioSource->Play("specialHit");
 					}
 				}
 			}
+		}
+	}
+}
+
+void Assassin::generateDashEffect() {
+	GameObject* dashEffectObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + this->dashEffect, ENGINE->GetSceneGraph3D());
+	this->dashEffectObjId = dashEffectObj->GetId();
+
+	this->gameObjectRef->AddChild(this->dashEffectObjId);
+	dashEffectObj->GetTransform()->SetPosition(ZERO_VEC3);
+}
+
+void Assassin::activateDashEffect() {
+	GameObject* dashEffectObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->dashEffectObjId);
+	if (dashEffectObj != nullptr) {
+		ParticleSystem* dashEffectParticleSystem = dashEffectObj->GetComponent<ParticleSystem>();
+		VERIFY(dashEffectParticleSystem != nullptr, "Slide effect prefab has a particle system on it");
+		if (dashEffectParticleSystem != nullptr) {
+			dashEffectParticleSystem->Play();
+		}
+	}
+}
+
+void Assassin::deactivateDashEffect() {
+	GameObject* dashEffectObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->dashEffectObjId);
+	if (dashEffectObj != nullptr) {
+		ParticleSystem* dashEffectParticleSystem= dashEffectObj->GetComponent<ParticleSystem>();
+		ASSERT(dashEffectParticleSystem != nullptr, "Slide effect prefab has a particle system on it");
+		if (dashEffectParticleSystem != nullptr) {
+			dashEffectParticleSystem->Pause();
+		}
+	}
+}
+
+void Assassin::generateSpecialHitEffect() {
+	GameObject* specialHitEffectObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + this->specialHitEffect, ENGINE->GetSceneGraph3D());
+	this->specialHitEffectObjId = specialHitEffectObj->GetId();
+
+	//this->gameObjectRef->AddChild(this->specialHitEffectObjId);
+	//specialHitEffectObj->GetTransform()->SetPosition(ZERO_VEC3);
+}
+
+void Assassin::activateSpecialHitEffect() {
+	GameObject* specialHitEffectObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->specialHitEffectObjId);
+	if (specialHitEffectObj != nullptr) {
+		// Move the effect to this object's position
+		Transform* myTrans = this->gameObjectRef->GetTransform();
+		Transform* effectTrans = specialHitEffectObj->GetTransform();
+		effectTrans->SetPositionWorld(myTrans->GetPositionWorld());
+
+		ParticleSystem* specialHitEffectParticleSystem = specialHitEffectObj->GetComponent<ParticleSystem>();
+		VERIFY(specialHitEffectParticleSystem != nullptr, "Special hit effect prefab has a particle system on it");
+		if (specialHitEffectParticleSystem != nullptr) {
+			specialHitEffectParticleSystem->Play();
 		}
 	}
 }

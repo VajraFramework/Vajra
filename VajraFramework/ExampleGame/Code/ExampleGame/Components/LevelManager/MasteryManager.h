@@ -4,11 +4,19 @@
 #include "Vajra/Common/Components/Component.h"
 
 enum LevelBonus {
-	None,
 	Time,
 	Kills,
 	Money,
-	Alerts
+	Alerts, 
+	None
+};
+
+struct LevelScores {
+	bool bonus;
+	int time;
+	int kills;
+	int money;
+	int alerts;
 };
 
 //[[COMPONENT]]//
@@ -23,17 +31,30 @@ public:
 	inline void AddMoney(int amt) { this->money += amt; }
 	inline void OnGuardAlert() { this->numAlerts++; }
 
-	inline void SetCurrentBonuse(LevelBonus bonus, int bonusValue) { this->currentBonus = bonus; this->bonusValue = bonusValue;}
+	inline void SetCurrentBonus(LevelBonus bonus, int bonusValue, int levelIndex) { this->currentBonus = bonus; this->bonusValue = bonusValue; this->currentLevelTracked = levelIndex; }
+	LevelScores GetLevelScores(int levelIndex);
+	inline float GetLevelTime() { return this->levelTime; }
+	inline int GetNumKills() { return this->numKills; }
+	inline int GetNumAlerts() { return this->numAlerts; }
+	inline int GetMoney() { return this->money; }
+
+	void ResetTracking();
+	void OnLevelUnlocked(int index);
+
+	LevelBonus GetCurrentBonusType() { return this->currentBonus; }
+
 private:
 	void init();
 	void destroy();
 
 	virtual void start();
 
-	bool testBonusSucess();
+	bool onLevelComplete();
+	void updateLevelScore(int levelIndex, LevelScores scores);
 
+	int currentLevelTracked;
 	// Mastery Data to Track
-	int levelTime;
+	float levelTime;
 	int numKills;
 	int money;
 	int numAlerts;
@@ -42,7 +63,11 @@ private:
 	LevelBonus currentBonus;
 	int bonusValue;
 
+	std::vector<LevelScores> bestScores;
+
 	static ComponentIdType componentTypeId;
+
+	friend class LevelManager;
 };
 
 #endif // MASTERYMANAGER_H

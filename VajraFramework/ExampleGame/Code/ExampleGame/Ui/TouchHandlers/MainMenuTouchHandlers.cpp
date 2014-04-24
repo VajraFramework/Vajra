@@ -33,15 +33,25 @@
 #define SPRITE_INDEX_high 3
 #define SPRITE_INDEX_num_settings_sprites 4
 
+#define PIP_AVAILABLE 0
+#define PIP_COMPLETE_BONUS 1
+#define PIP_COMPELTE_NO_BONUS 2
+#define PIP_LOCKED 3
 MainMenuTouchHandlers::MainMenuTouchHandlers() {
 	this->missionRoot = nullptr;
 	this->currentScreenX = 0;
 	this->currentMissionScreenIndex = 0;
 	this->prevContractIndex = -1;
+	this->levelToLoad = 0;
 	// Todo [Implement]  data drive this
-	missionStartX.push_back(-32.0f);
-	missionStartX.push_back(-1160.0f);
-	missionStartX.push_back(-2032.0f);
+	int missionStartXs[3] = { -32, -1160, -2032 };
+	int dummy = 10;
+	UiSceneLoader::AdjustPositionForResolution(missionStartXs[0], dummy, "LEFT", "TOP", dummy, dummy, 1024, 768);
+	UiSceneLoader::AdjustPositionForResolution(missionStartXs[1], dummy, "LEFT", "TOP", dummy, dummy, 1024, 768);
+	UiSceneLoader::AdjustPositionForResolution(missionStartXs[2], dummy, "LEFT", "TOP", dummy, dummy, 1024, 768);
+	missionStartX.push_back(missionStartXs[0]);
+	missionStartX.push_back(missionStartXs[1]);
+	missionStartX.push_back(missionStartXs[2]);
 }
 
 void MainMenuTouchHandlers::OnTouchDownHandlers(UiObject* uiObject, Touch /*touch*/) {
@@ -79,7 +89,16 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 	// Level Selection
 	ASSERT(this->parallaxRoot != nullptr, "The parallaxRoot root is not null");
 	if(this->parallaxRoot != nullptr && this->parallaxRoot->IsVisible()) {
-		if(uiObject->GetName() == PARALLAX) {
+		if(uiObject->GetName() == "preMenuStart") {
+			SINGLETONS->GetMenuManager()->LoadLevel(this->levelToLoad);
+			uiObject->SetVisible(false);
+			((UiObject*)ObjectRegistry::GetObjectByName("preMenuEnd"))->SetVisible(false);
+			return;
+		} else if(uiObject->GetName() == "preMenuEnd") {
+			((UiObject*)ObjectRegistry::GetObjectByName("preMenu"))->SetVisible(false);
+			((UiObject*)ObjectRegistry::GetObjectByName("popUpBack"))->SetVisible(false);
+		}
+ 		else if(uiObject->GetName() == PARALLAX) {
 			float xDiff = touch.pos.x - touch.prevPos.x;
 			this->parallaxScroll(uiObject, xDiff, true);
 		}
@@ -87,8 +106,10 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 			if(this->currentLevelButtons[this->currentMissionScreenIndex][i] == uiObject) {
 				LevelData* levelData = SINGLETONS->GetLevelManager()->GetLevelData(this->currentMissionScreenIndex, i);
 				if(levelData->completion != LevelCompletion::Locked) {
-					std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "gameUi.uiscene";
-					SINGLETONS->GetMenuManager()->LoadLevel(i);
+					this->levelToLoad = i;
+					SINGLETONS->GetMenuManager()->CenterUiObject((UiObject*)ObjectRegistry::GetObjectByName("preMenu"));
+					SINGLETONS->GetMenuManager()->UpdateMenuWithMastery("preMenu", this->levelToLoad);
+					
 					return;
 				}
 			}
@@ -165,7 +186,7 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 				}
 			}
 		} else if(screenX < this->missionStartX[this->currentMissionScreenIndex]) { // RIGHT
-			if(this->currentMissionScreenIndex < (int)this->missionStartX.size() - 1) {
+			if(this->currentMissionScreenIndex < SINGLETONS->GetLevelManager()->GetNumMissionsInCurrentContract() - 1 && this->currentMissionScreenIndex < (int)this->missionStartX.size() - 1) {
 				if(std::abs(dist) > std::abs(this->missionStartX[this->currentMissionScreenIndex + 1] - screenX)) {
 					this->currentMissionScreenIndex++;
 				}
@@ -179,6 +200,7 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 			}
 		}
 		frontTransAmt = this->missionStartX[this->currentMissionScreenIndex] - pScreen->GetTransform()->GetPositionWorld().x; 
+		this->updateTitleNames(this->currentMissionScreenIndex);
 	}
 	for(ObjectIdType id : parallaxRoot->GetChildren()){
 		
@@ -250,7 +272,9 @@ void MainMenuTouchHandlers::scrollToCurrentMission() {
 		}
 		pos.x = newX;
 		object->GetTransform()->SetPosition(pos);
+		this->updateTitleNames(curMissionIndex);
 	}
+
 	
 }
 void MainMenuTouchHandlers::createMissionMenu() {
@@ -273,9 +297,19 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
 		this->parallaxRoot->AddChild(uiElement->GetId());
 		std::vector<std::string> imagePaths;
-		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelection_Level1_Marker.png");
-		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelect_Grayscale_08.png"); // TEMP : replace with locked image
-		uiElement->InitSprite(67, 118, "ustshdr", imagePaths, true);
+
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Available_01.png");
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Bonus_01.png");
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Completed_01.png");
+		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Locked_01.png"); // TEMP : replace with locked image
+
+		int width_out = 67;
+		int height_out = 118;
+		int dummy = 10;
+		// TODO [Hack] 1024x768
+		UiSceneLoader::AdjustPositionForResolution(dummy, dummy, "LEFT", "TOP", width_out, height_out, 1024, 768);
+		uiElement->InitSprite(width_out, height_out, "ustshdr", imagePaths, true);
+
 		uiElement->SetTouchHandlers(this);
 		uiElement->SetClickable(true);
 		uiElement->SetVisible(false);
@@ -298,7 +332,7 @@ void MainMenuTouchHandlers::loadPips(int contractIndex) {
 	// place the pips on the parallax screen
 	int currentPipIndex = 0;
 	for(int j = 0; j < SINGLETONS->GetLevelManager()->GetNumMissionsInCurrentContract(); j++) {
-		float missionXOffset = this->missionStartX[j];
+		int missionXOffset = this->missionStartX[j];
 		std::vector<UiObject*> pips;
 		this->currentLevelButtons.push_back(pips);
 		for(int i = 0; i < SINGLETONS->GetLevelManager()->GetNumLevelsInMission(j); i++) {
@@ -306,17 +340,26 @@ void MainMenuTouchHandlers::loadPips(int contractIndex) {
 			UiElement* uiElement = this->levelPips[currentPipIndex];
 			LevelData* levelData = SINGLETONS->GetLevelManager()->GetLevelData(j, i);
 			uiElement->SetVisible(j == this->currentMissionScreenIndex);
-			uiElement->SetPosition(levelData->pinX - missionXOffset, levelData->pinY);
+			int dummy = 10;
+			int posX = levelData->pinX;
+			int posY = levelData->pinY;
+			// TODO [Hack] 1024x768
+			UiSceneLoader::AdjustPositionForResolution(posX, posY, "LEFT", "TOP", dummy, dummy, 1024, 768);
+			posX = posX - missionXOffset;
+			uiElement->SetPosition(posX, posY);
 			uiElement->SetZOrder(10);
 			switch(levelData->completion) {
 				case LevelCompletion::Locked:
-					uiElement->SetSpriteTextureIndex(1);
+					uiElement->SetSpriteTextureIndex(PIP_LOCKED);
 					break;
 				case LevelCompletion::Unlocked:
-					uiElement->SetSpriteTextureIndex(0);
+					uiElement->SetSpriteTextureIndex(PIP_AVAILABLE);
+					break;
+				case LevelCompletion::Completed:
+					uiElement->SetSpriteTextureIndex(PIP_COMPELTE_NO_BONUS);
 					break;
 				default:
-					uiElement->SetSpriteTextureIndex(0);
+					uiElement->SetSpriteTextureIndex(PIP_COMPLETE_BONUS);
 					break;
 			}
 			this->currentLevelButtons[j].push_back((UiObject*)uiElement);
@@ -458,5 +501,11 @@ void MainMenuTouchHandlers::goBackOneMenu() {
 	} else {
 		this->openContractMenu();
 	}
+}
+
+void MainMenuTouchHandlers::updateTitleNames(int missionIndex) {
+	int curContractIndex = SINGLETONS->GetLevelManager()->GetCurrentContract();
+	((UiElement*)ObjectRegistry::GetObjectByName("contractName"))->ChangeText(SINGLETONS->GetLevelManager()->GetContractData(curContractIndex)->name);
+	((UiElement*)ObjectRegistry::GetObjectByName("missionName"))->ChangeText(SINGLETONS->GetLevelManager()->GetMissionData(curContractIndex, missionIndex)->name);
 }
 
