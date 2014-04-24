@@ -70,7 +70,9 @@ void MainMenuTouchHandlers::OnTouchMoveHandlers(UiObject* uiObject, Touch touch)
 }
 
 void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
-	SINGLETONS->GetMenuManager()->PlaySFX(BUTTON_CLICK_SFX);
+	if ((uiObject->GetName() != PARALLAX) && (uiObject->GetName() != POPUP_BACK)) {
+		SINGLETONS->GetMenuManager()->PlaySFX(BUTTON_CLICK_SFX);
+	}
 
 	if(uiObject->GetName() == "backMenuButton") {
 		this->goBackOneMenu();
@@ -297,7 +299,6 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
 		this->parallaxRoot->AddChild(uiElement->GetId());
 		std::vector<std::string> imagePaths;
-
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Available_01.png");
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Bonus_01.png");
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Completed_01.png");

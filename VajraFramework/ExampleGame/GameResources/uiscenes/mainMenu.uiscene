@@ -9,7 +9,7 @@
 	</uielement>
 
 
-	<uielement name="loadScreen" visible="false" clickable="true">
+	<uielement name="loadScreen" visible="false" clickable="false">
 		<dimensions>
 			<position x="0" y="0"></position>
 			<size widthPixels="1024" heightPixels="768"></size>
@@ -57,7 +57,7 @@
 
 	</uielement>
 
-	<uielement name="optionsMenu" visible="false" clickable="true">
+	<uielement name="optionsMenu" visible="false" clickable="false">
 		<dimensions>
 			<position x="0" y="0"></position>
 			<size widthPixels="0" heightPixels="0"></size>
@@ -189,7 +189,7 @@
 			</uielement>
 		</uielement>
 
-		<uielement name="contractRoot" visible="true" clickable="true">
+		<uielement name="contractRoot" visible="true" clickable="false">
 			<dimensions>
 				<position xwrto="LEFT" ywrto="BOTTOM" x="0" y="0"></position>
 				<size widthPixels="1024" heightPixels="768"></size>
@@ -281,7 +281,7 @@
 		</uielement>
 	</uielement>
 
-	<uielement name="preMenu" clickable="true" visible="false">
+	<uielement name="preMenu" clickable="false" visible="false">
 		<dimensions>
 			<position xwrto="CENTER" ywrto="CENTER" x="-388" y="-256"></position>
 			<size widthPixels="776" heightPixels="512"></size>

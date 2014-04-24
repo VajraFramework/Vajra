@@ -151,6 +151,14 @@ void GridManager::OnTouchUpdate(int touchIndex) {
 	}
 }
 
+void switchCameraToGameMode() {
+	ShadyCamera* shadyCam = ENGINE->GetSceneGraph3D()->GetMainCamera()->GetObject()->GetComponent<ShadyCamera>();
+	ASSERT(shadyCam != nullptr, "ShadyCamera? ShadyCamera?! Where are you?");
+	if (shadyCam->GetCameraMode() == ShadyCamera::CameraMode::CameraMode_Overview) {
+		shadyCam->setCameraMode(ShadyCamera::CameraMode::CameraMode_Game);
+	}
+}
+
 void GridManager::tryUnitSwitch(int touchIndex) {
 	Touch touch = ENGINE->GetInput()->GetTouch(touchIndex);
 	if(touch.phase != TouchPhase::Began) {
@@ -162,44 +170,42 @@ void GridManager::tryUnitSwitch(int touchIndex) {
 		
 		// early out if you click right on a unit
 		if(cell->GetTopOccupantId() != OBJECT_ID_INVALID) {
-			if((cell->GetTopOccupantId() != selectedUnitId)) {
-				this->selectUnitInCell(cell);
-				return;
-			}
+			this->selectUnitInCell(cell);
+			switchCameraToGameMode();
+			return;
 		}
 		
 		PlayerUnit* selectedUnit = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->selectedUnitId)->GetComponent<PlayerUnit>();
 		for(auto typeIdPair : this->playerUnits) {
 			ObjectIdType objectId = typeIdPair.second;
-			if(objectId != this->selectedUnitId) {
-				// otherwise we got a lot of stuff to do
-				GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(objectId);
-				ASSERT(go != nullptr, "player unit game object is not null");
-				if(go != nullptr) {
-					float distToSwitch = .65f;
-					glm::vec3 unitPos = go->GetTransform()->GetPosition();
-					GridCell* unitCell = this->grid->GetCell(unitPos);
-					glm::vec3 touchPos = this->TouchPositionToGridPositionAtElevation(touch.pos, unitCell->y);
 
-					// increase the distance requred to switch if the selected unit can't reach the current unit
-					if(unitCell != nullptr && !selectedUnit->GetObject()->GetComponent<GridNavigator>()->CanReachDestination(unitPos)) {
-						distToSwitch += 1.0f;
-					}
+			GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(objectId);
+			ASSERT(go != nullptr, "player unit game object is not null");
+			if(go != nullptr) {
+				float distToSwitch = .65f;
+				glm::vec3 unitPos = go->GetTransform()->GetPosition();
+				GridCell* unitCell = this->grid->GetCell(unitPos);
+				glm::vec3 touchPos = this->TouchPositionToGridPositionAtElevation(touch.pos, unitCell->y);
 
-					// if you touched on the cell above the unit increase the distance
-					if(unitCell->z + 1 == cell->z) {
-						distToSwitch += .45f;
-					}
-					if(glm::distance(unitPos, touchPos) <= distToSwitch) {
-						this->selectUnit(objectId);
-						return;
-					}
+				// increase the distance requred to switch if the selected unit can't reach the current unit
+				if(unitCell != nullptr && !selectedUnit->GetObject()->GetComponent<GridNavigator>()->CanReachDestination(unitPos)) {
+					distToSwitch += 1.0f;
 				}
 
+				// if you touched on the cell above the unit increase the distance
+				if(unitCell->z + 1 == cell->z) {
+					distToSwitch += .45f;
+				}
+				if(glm::distance(unitPos, touchPos) <= distToSwitch) {
+					this->selectUnitInCell(unitCell);
+					switchCameraToGameMode();
+					return;
+				}
 			}
 		}
 	}
 }
+
 GridCell* GridManager::TouchPositionToCell(glm::vec2 touchPos) {
 	glm::vec3 gridPosition = glm::vec3();
 	Ray screenRay = ENGINE->GetSceneGraph3D()->GetMainCamera()->ScreenPointToRay(touchPos);

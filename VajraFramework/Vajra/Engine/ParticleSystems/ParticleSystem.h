@@ -61,6 +61,8 @@ public:
 	//[[PROPERTY]]//
 	void Pause();
 	//[[PROPERTY]]//
+	void Stop();
+	//[[PROPERTY]]//
 	void SetLooping(bool looping);
 
 	inline bool GetIsPlaying() { return this->isPlaying; }
