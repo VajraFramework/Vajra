@@ -47,31 +47,21 @@ void TextureAsset::Draw(GLint drawAsTextureUnit) {
 	} break;
 
 	case 1: {
-		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler)) {
-			GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler);
-
-			GLCALL(glActiveTexture, GL_TEXTURE1);
-			GLCALL(glBindTexture, GL_TEXTURE_2D, this->textureGLHandle);
-			GLCALL(glUniform1i, textureHandle, drawAsTextureUnit);
-		}
-	} break;
-
-	case 2: {
 		ASSERT(0, "Whoa. This is where the depth texture plugs in for shadows");
 	} break;
 
-	case 3: {
+	case 2: {
 		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_secondaryTexture)) {
 			GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_secondaryTexture);
 
-			GLCALL(glActiveTexture, GL_TEXTURE3);
+			GLCALL(glActiveTexture, GL_TEXTURE2);
 			GLCALL(glBindTexture, GL_TEXTURE_2D, this->textureGLHandle);
 			GLCALL(glUniform1i, textureHandle, drawAsTextureUnit);
 
 		} else if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_normalMap)) {
 			GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_normalMap);
 
-			GLCALL(glActiveTexture, GL_TEXTURE3);
+			GLCALL(glActiveTexture, GL_TEXTURE2);
 			GLCALL(glBindTexture, GL_TEXTURE_2D, this->textureGLHandle);
 			GLCALL(glUniform1i, textureHandle, drawAsTextureUnit);
 		}
@@ -94,7 +84,7 @@ void TextureAsset::LoadAsset() {
 
 	FRAMEWORK->GetLogger()->dbglog("\nLoading texture asset from url: %s", this->GetFilePathToTexture().c_str());
 
-	// TODO [Implement] Move loadGLTextureFromPNG into a Framework class/namespace
+	// TODO [Implement] Move loadGLTextureFromPNG into a cppFramework class/namespace
     // Load image
 	GLubyte* textureBytes = nullptr;
 	bool useMipmaps = textureMustUseMipmaps(this->GetFilePathToTexture());

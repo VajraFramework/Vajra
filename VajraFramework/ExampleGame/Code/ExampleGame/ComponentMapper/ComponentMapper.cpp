@@ -654,6 +654,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->InitParticleSystem();
 			return;
 		}
+		if (propertyName == "SetIsOneShot") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetIsOneShot(StringUtilities::ConvertStringToBool(argv[0]));
+			return;
+		}
 		if (propertyName == "Play") {
 			if ((int)argv.size() < 0) { return; }
 			component->Play();

@@ -31,10 +31,6 @@ DLight0AmbientColor
 DLight0DiffuseColor
 #endif
 
-#ifdef BAKED_AMBIENT_LIGHTING
-modelCoordsForBakedAmbientLookup_out
-#endif
-
 #ifdef SHADOWMAPS_REALTIME
 depthBiasMVPMatrix
 ShadowCoord
@@ -56,12 +52,6 @@ vec4 ySkew = vec4(0.0, 0.0, 0.0, 0.0);
 void main()
 {
 	gl_Position = modelMatrix * vPosition;
-
-#ifdef BAKED_AMBIENT_LIGHTING
-	modelCoordsForBakedAmbientLookup_out.x = gl_Position.x;
-	modelCoordsForBakedAmbientLookup_out.y = gl_Position.y;
-	modelCoordsForBakedAmbientLookup_out.z = gl_Position.z;
-#endif
 
 	float yAmt = gl_Position.y;
 	vec4 skewed_position = (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));

@@ -141,6 +141,10 @@ void ParticleSystem::InitParticleSystem() {
 	this->isInited = true;
 }
 
+void ParticleSystem::SetIsOneShot(bool isOneShot_) {
+	this->isOneShot = isOneShot_;
+}
+
 void ParticleSystem::initShaderAttributeVectors() {
 	this->numParticlesToDraw = this->maxNumParticles;
 
@@ -196,6 +200,9 @@ void ParticleSystem::stepSimulation(float deltaTime) {
 				this->reclaimDeadParticles();
 				this->isPlaying = false;
 				this->currentOverallLifespanInSeconds = 0.0f;
+				if (this->isOneShot) {
+					this->Stop();
+				}
 			}
 		}
 
@@ -320,6 +327,7 @@ void ParticleSystem::init() {
 	//
 	this->overallLifespanInSeconds        = 1000.0f;
 	this->currentOverallLifespanInSeconds = 0.0f;
+	this->isOneShot                       = false;
 
 	this->isInited  = false;
 	this->isPlaying = false;

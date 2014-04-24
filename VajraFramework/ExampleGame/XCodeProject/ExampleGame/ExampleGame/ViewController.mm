@@ -3,8 +3,13 @@
 #import "Vajra/Engine/Core/Engine.h"
 #import "Vajra/Engine/Input/Platforms/IOSInputSender.h"
 #import "Vajra/Engine/Timer/Timer.h"
+#import "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #import "Vajra/Placeholder/Renderer/Renderer.h"
 #import "Vajra/Placeholder/Tesserakonteres.h"
+
+#include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
+#include "Vajra/Framework/Settings/Settings.h"
 
 #import "ExampleGame/Test/TestFile.h"
 
@@ -49,6 +54,19 @@
 	IOSInputSender *sender = [[IOSInputSender alloc] initWithFrame:self.view.frame];
 	[self.view addSubview: sender];
     [self setupGL];
+	
+	// Set default settings based on the device model:
+	FRAMEWORK->GetSettings()->SetSetting(SETTING_TYPE_brightness, SETTING_LEVEL_high);
+	FRAMEWORK->GetSettings()->SetSetting(SETTING_TYPE_ambient_lighting, SETTING_LEVEL_off);
+	FRAMEWORK->GetSettings()->SetSetting(SETTING_TYPE_shadows, SETTING_LEVEL_high);
+	FRAMEWORK->GetSettings()->SetSetting(SETTING_TYPE_texture_sampling, SETTING_LEVEL_high);
+	
+	if (FRAMEWORK->GetDeviceProperties()->GetIOSDeviceType() == IOS_DEVICE_TYPE_iphone ||
+		FRAMEWORK->GetDeviceProperties()->GetIOSDeviceType() == IOS_DEVICE_TYPE_ipod) {
+		if (FRAMEWORK->GetDeviceProperties()->GetIOSDeviceModelNumber() < 4) {
+			FRAMEWORK->GetSettings()->SetSetting(SETTING_TYPE_shadows, SETTING_LEVEL_medium);
+		}
+	}
 }
 
 - (void)dealloc

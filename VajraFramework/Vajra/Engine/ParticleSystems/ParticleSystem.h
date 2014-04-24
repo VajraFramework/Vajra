@@ -55,6 +55,8 @@ public:
 	void SetName(std::string name_);
 	//[[PROPERTY]]//
 	void InitParticleSystem();
+	//[[PROPERTY]]//
+	void SetIsOneShot(bool isOneShot_);
 
 	//[[PROPERTY]]//
 	void Play();
@@ -129,6 +131,7 @@ private:
 	//
 	float overallLifespanInSeconds;
 	float currentOverallLifespanInSeconds;
+	bool isOneShot;
 
 	float timeSinceLastBatchSpawn;
 	float minimumTimeBetweenBatchSpawns;

@@ -1,0 +1,53 @@
+<prefab>
+	<gameobject>
+		<tags>
+			<tag>PressurePlate</tag>
+		</tags>
+		<component name="Transform">
+		</component>
+		
+		<component name="GridZone">
+			<property name="SetZoneBounds">
+				<field>0</field>
+				<field>0</field>
+				<field>0</field>
+				<field>0</field>
+			</property>
+		</component>
+
+		<component name="GridZoneSwitch">
+			<property name="SetSwitchType">
+				<field>Once</field>
+			</property>
+			<property name="SetRequiredOccupants">
+				<field>1</field>
+			</property>
+            <property name="SetResetTime">
+				<field>0.3</field>
+			</property>
+		</component>
+		
+		<gameobject>
+			<component name="MeshRenderer">
+				<property name="InitMesh">
+					<field>models/SD_Treasure_Gem.model</field>
+				</property>
+			</component>
+			
+			<component name="Transform">
+				<property name="Scale">
+					<field>0.4f</field>
+				</property>
+			</component>
+			
+			<component name="TriggerLoot">
+				<property name="SubscribeToParentSwitch">
+				</property>
+				<property name="SetMoneyValue">
+					<field>5</field>
+				</property>
+			</component>
+		</gameobject>
+	</gameobject>
+</prefab>
+

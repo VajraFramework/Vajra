@@ -6,12 +6,26 @@
 
 #include <string>
 
+#ifdef PLATFORM_IOS
+enum IOS_Device_type_t {
+	IOS_DEVICE_TYPE_ipod,
+	IOS_DEVICE_TYPE_iphone,
+	IOS_DEVICE_TYPE_ipad,
+	IOS_DEVICE_TYPE_unknown,
+};
+#endif
+
 class DeviceProperties : public Object {
 public:
 	~DeviceProperties();
 
 	std::string GetOperatingSystem();
 
+#ifdef PLATFORM_IOS
+	IOS_Device_type_t GetIOSDeviceType();
+	unsigned int GetIOSDeviceModelNumber();
+#endif
+	
 	void SetWidthPixels(unsigned int w)   { this->widthPx = w;   this->computeDeviceResolutionSlab(); }
 	void SetHeightPixels(unsigned int h)  { this->heightPx = h;  this->computeDeviceResolutionSlab(); }
 	void SetDPI(unsigned int d)           { this->dpi = d; }

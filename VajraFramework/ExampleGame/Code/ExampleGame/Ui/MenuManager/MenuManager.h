@@ -44,6 +44,9 @@ public:
 
 	AudioSource* GetSFXSource() { return this->menuSFXSource; }
 	void PlaySFX(std::string key);
+
+	void UpdateTimer(int newTime);
+	void UpdateLoot(int lootTotal);
 private:
 	void init();
 	void destroy();
@@ -62,6 +65,8 @@ private:
 
 	UiElement* loadScreen;
 	UiElement*	backdrop;
+	UiElement*	inGameTimer;
+	UiElement*	inGameTreasure;
 	MainMenuTouchHandlers* mainMenuTouchHandler;
 	GameUiTouchHandlers* gameUiTouchHandler;
 	AudioSource* menuBGMSource;
