@@ -2,7 +2,7 @@
 	<uielement name="popUpBack" visible="true" clickable="true">
 		<dimensions>
 			<position x="0" y="0"></position>
-			<size widthPixels="1024" heightPixels="768"></size>
+			<size widthPixels="FILLPARENT" heightPixels="FILLPARENT"></size>
 			<zorder>240</zorder>
 		</dimensions>
 		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
@@ -12,10 +12,10 @@
 	<uielement name="loadScreen" visible="false" clickable="false">
 		<dimensions>
 			<position x="0" y="0"></position>
-			<size widthPixels="1024" heightPixels="768"></size>
+			<size widthPixels="FILLPARENT" heightPixels="FILLPARENT"></size>
 			<zorder>245</zorder>
 		</dimensions>
-		<color r="0.0" g="0.6" b="0.6" a="0.7"></color>
+		<image name="SD_LoadingScreen_01.png" hasTransperancy="true"> </image>
 	</uielement>
 
 
@@ -244,32 +244,39 @@
 				<image name="SD_Paralax_Front_02.png" hasTransperancy="true"> </image>
 			</uielement>			
 
-			<uielement name="contractName" visible="true" clickable="false">
+			<uielement name="contractBackdrop" visible="true" clickable="false">
 				<dimensions>
 					<position xwrto="LEFT" ywrto="TOP" x="0" y="64"></position>
-					<size widthPixels="1024" heightPixels="80"></size>
-					<zorder>55</zorder>
+					<size widthPixels="FILLPARENT" heightPixels="80"></size>
+					<zorder>200</zorder>
 				</dimensions>
 				<color r="0.0" g="0.0" b="0.0" a="0.8"></color>
-				<text>
-					<font type="RomanSD.fontspec" size="64.0" alignment="CENTER">
-						<color r="1.0" g="0.07" b="0.57" a="1.0"></color>
-					</font>
-					Assassinate Fargiosion
-				</text>
+				<uielement name="contractName" visible="true" clickable="false">
+					<dimensions>
+						<position xwrto="CENTER" ywrto="TOP" x="-512" y="1"></position>
+						<size widthPixels="1024" heightPixels="100"></size>
+						<zorder>35</zorder>
+					</dimensions>
+					<text>
+						<font type="calibiri.fontspec" size="56.0" alignment="CENTER">
+							<color r="1.0" g="0.0" b="0.0" a="1.0"></color>
+						</font>
+						Assassinate Fargiosion
+					</text>
+				</uielement>
 				<uielement name="missionName" visible="true" clickable="false">
-				<dimensions>
-					<position xwrto="LEFT" ywrto="TOP" x="0" y="50"></position>
-					<size widthPixels="1024" heightPixels="100"></size>
-					<zorder>55</zorder>
-				</dimensions>
-				<text>
-					<font type="calibiri.fontspec" size="32.0" alignment="CENTER">
-						<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
-					</font>
-					Training Camp
-				</text>
-			</uielement>
+					<dimensions>
+						<position xwrto="CENTER" ywrto="TOP" x="-512" y="50"></position>
+						<size widthPixels="1024" heightPixels="100"></size>
+						<zorder>35</zorder>
+					</dimensions>
+					<text>
+						<font type="calibiri.fontspec" size="32.0" alignment="CENTER">
+							<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+						</font>
+						Training Camp
+					</text>
+				</uielement>
 			</uielement>
 		</uielement>
 	</uielement>
@@ -511,6 +518,5 @@
 			</text>
 		</uielement>
 	</uielement>
-	
 </uiscene>
 

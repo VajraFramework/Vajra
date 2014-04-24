@@ -2,7 +2,7 @@
 	<uielement name="popUpBack" clickable="true">
 		<dimensions>
 			<position x="0" y="0"></position>
-			<size widthPixels="1024" heightPixels="768"></size>
+			<size widthPixels="FILLPARENT" heightPixels="FILLPARENT"></size>
 			<zorder>1</zorder>
 		</dimensions>
 		<color r="0.2" g="0.2" b="0.2" a="0.7"></color>
@@ -11,10 +11,10 @@
 	<uielement name="loadScreen" visible="false" clickable="true">
 		<dimensions>
 			<position x="0" y="0"></position>
-			<size widthPixels="1024" heightPixels="768"></size>
+			<size widthPixels="FILLPARENT" heightPixels="FILLPARENT"></size>
 			<zorder>2</zorder>
 		</dimensions>
-		<color r="0.0" g="0.6" b="0.6" a="0.7"></color>
+		<image name="SD_LoadingScreen_01.png" hasTransperancy="true"> </image>
 	</uielement>
 
 

@@ -87,8 +87,7 @@ void MenuManager::HandleMessage(MessageChunk messageChunk) {
 	switch (messageChunk->GetMessageType()) {
 		case MESSAGE_TYPE_LEVEL_LOADED: {
 			if(this->loadScreen != nullptr && this->loadScreen->IsVisible()) {
-				ENGINE->GetSceneGraph3D()->Resume();
-				//float loadTime = ((float)ENGINE->GetTimer()->GetHighResAbsoluteTime()) - this->loadStartTime;
+				float loadTime = ((float)ENGINE->GetTimer()->GetHighResAbsoluteTime()) - this->loadStartTime;
 				ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, .5f, INTERPOLATION_TYPE_LINEAR, false, false, false, "extraLoadTime", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
 				/*if(loadTime < GetFloatGameConstant(GAME_CONSTANT_min_load_time)) {
 					float extraLoadTime = GetFloatGameConstant(GAME_CONSTANT_min_load_time) - loadTime;
@@ -159,6 +158,12 @@ void MenuManager::LoadGameMenu(std::string screenToShow /*= "inGame"*/) {
 
 	if(this->loadScreen == nullptr) {
 		this->loadScreen = (UiElement*)ObjectRegistry::GetObjectByName("loadScreen");
+	}
+	if(this->inGameTimer == nullptr) {
+		this->inGameTimer = (UiElement*)ObjectRegistry::GetObjectByName("ingame_time_text");
+	}
+	if(this->inGameTreasure == nullptr) {
+		this->inGameTreasure = (UiElement*)ObjectRegistry::GetObjectByName("ingame_loot_text");
 	}
 }
 
@@ -275,6 +280,8 @@ void MenuManager::unloadPreviousScene() {
 	this->mainMenuTouchHandler = nullptr;
 	this->gameUiTouchHandler = nullptr;
 	this->loadScreen = nullptr;
+	this->inGameTimer = nullptr;
+	this->inGameTreasure = nullptr;
 }
 
 void MenuManager::showLoadScreen(int levelIndex) {
@@ -308,6 +315,8 @@ void MenuManager::hideLoadScreen() {
 		startButton->GetTransform()->SetPositionWorld(halfScreenWidth - startButton->GetWidth() / 2.0f, startPos.y, startPos.z);
 		ENGINE->GetTween()->TweenToNumber(1.0f, 0.0f, 1.5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "loadScreenFadeOut", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, nullptr, menuManagerNumberTweenCallback);
 	
+		SINGLETONS->GetMenuManager()->UpdateTimer(0);
+		SINGLETONS->GetMenuManager()->UpdateLoot(0);
 		//ENGINE->GetTween()->TweenToNumber(0.0f, 0.1f, .2f, INTERPOLATION_TYPE_LINEAR, true, false, true, "delayPreMenuOpen", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
 	}
 }
@@ -475,4 +484,16 @@ void MenuManager::updatePreMenu(int levelIndex) {
 	glm::vec4 loadScreenColor = this->loadScreen->GetSpriteColor();
 	loadScreenColor.a = 1.0f;
 	this->loadScreen->SetSpriteColor(loadScreenColor);
+}
+
+void MenuManager::UpdateTimer(int newTime) {
+	if(this->inGameTimer != nullptr) {
+		inGameTimer->ChangeText(StringUtilities::ConvertIntToString(newTime));
+	}
+}
+
+void MenuManager::UpdateLoot(int lootTotal) {
+	if(this->inGameTreasure != nullptr) {
+		inGameTreasure->ChangeText(StringUtilities::ConvertIntToString(lootTotal));
+	}
 }

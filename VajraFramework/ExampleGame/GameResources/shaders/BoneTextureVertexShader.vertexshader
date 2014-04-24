@@ -36,10 +36,6 @@ boneTransforms
 otherBoneTransforms
 interp
 
-#ifdef BAKED_AMBIENT_LIGHTING
-modelCoordsForBakedAmbientLookup_out
-#endif
-
 #ifdef SHADOWMAPS_REALTIME
 depthBiasMVPMatrix
 ShadowCoord
@@ -81,12 +77,6 @@ void main()
 
 
 	gl_Position = modelMatrix * posL;
-
-#ifdef BAKED_AMBIENT_LIGHTING
-	modelCoordsForBakedAmbientLookup_out.x = gl_Position.x;
-	modelCoordsForBakedAmbientLookup_out.y = gl_Position.y;
-	modelCoordsForBakedAmbientLookup_out.z = gl_Position.z;
-#endif
 
 	float yAmt = gl_Position.y;
 	vec4 skewed_position = (gl_Position + (zSkew * yAmt) + (ySkew * yAmt));

@@ -122,22 +122,6 @@ void LevelLoader::LoadLevelFromFile(std::string levelFilename) {
 	VERIFY(cameraNode != nullptr, "Level definition contains <%s> node", CAMERA_TAG);
 	loadCameraDataFromXml(cameraNode);
 
-	XmlNode* lightmapNode = levelNode->GetFirstChildByNodeName(LIGHTMAP_TAG);
-	std::string lightMapName;
-	if (lightmapNode != nullptr) {
-		lightMapName = lightmapNode->GetAttributeValueS(NAME_ATTRIBUTE);
-	}
-
-	if (lightMapName != "") {
-		std::string pathToAmbientLightMap = FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + lightMapName;
-		ENGINE->GetAmbientLighting()->SetBakedAmbientLightTexture(
-								  	pathToAmbientLightMap.c_str(),
-								  	SINGLETONS->GetGridManager()->GetGrid()->GetGridWidth()  * CELL_SIZE,
-								  	SINGLETONS->GetGridManager()->GetGrid()->GetGridHeight() * CELL_SIZE);
-	} else {
-		ENGINE->GetAmbientLighting()->ResetBakedAmbientLightTexture();
-	}
-
 	delete parser;
 
 	SINGLETONS->GetMenuManager()->PlayBGM(LEVEL_BGM);
@@ -542,8 +526,6 @@ void LevelLoader::adjustLighting() {
 	default                  : BRIGHTNESS_MULTIPLIER = 0.6f; break;
 	}
 
-	SettingLevel_t ambientLighting_level = FRAMEWORK->GetSettings()->GetSetting(SETTING_TYPE_ambient_lighting);
-
 	{
 		// Add main directional light:
 		GameObject* dlight = new GameObject(ENGINE->GetSceneGraph3D());
@@ -607,13 +589,4 @@ void LevelLoader::adjustLighting() {
 
 	// Set up depth camera properties for real time shadows:
 	ENGINE->GetShadowMap()->SetOrthoBounds(-30.0f, 30.0f, -30.0f, 30.0f, 0.0f, 60.0f);
-
-
-	switch (ambientLighting_level) {
-	case SETTING_LEVEL_off   : ENGINE->GetAmbientLighting()->ResetBakedAmbientLightTexture(); break;
-	case SETTING_LEVEL_low   : ENGINE->GetAmbientLighting()->SetIntensity(INTENSITY_low);     break;
-	case SETTING_LEVEL_medium: ENGINE->GetAmbientLighting()->SetIntensity(INTENSITY_medium);  break;
-	case SETTING_LEVEL_high  : ENGINE->GetAmbientLighting()->SetIntensity(INTENSITY_high);    break;
-	default                  : ENGINE->GetAmbientLighting()->SetIntensity(INTENSITY_medium);  break;
-	}
 }
