@@ -47,13 +47,6 @@ void TextureAsset::Draw(GLint drawAsTextureUnit) {
 	} break;
 
 	case 1: {
-		if (currentShaderSet->HasHandle(SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler)) {
-			GLint textureHandle = currentShaderSet->GetHandle(SHADER_VARIABLE_VARIABLENAME_bakedAmbientGridTextureSampler);
-
-			GLCALL(glActiveTexture, GL_TEXTURE1);
-			GLCALL(glBindTexture, GL_TEXTURE_2D, this->textureGLHandle);
-			GLCALL(glUniform1i, textureHandle, drawAsTextureUnit);
-		}
 	} break;
 
 	case 2: {

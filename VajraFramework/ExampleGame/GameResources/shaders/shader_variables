@@ -44,11 +44,6 @@ attribute vec4 particleColor
 
 uniform sampler2D myTextureSampler
 
-uniform sampler2D bakedAmbientGridTextureSampler
-varying vec3 modelCoordsForBakedAmbientLookup_out
-uniform float bakedLightMapSize
-uniform float baked_ambient_intensity
-
 uniform sampler2D depthTextureSampler
 uniform mat4 depthBiasMVPMatrix
 varying vec4 ShadowCoord

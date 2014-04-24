@@ -19,14 +19,6 @@ lightIntensity
 
 myTextureSampler
 
-#ifdef BAKED_AMBIENT_LIGHTING
-bakedAmbientGridTextureSampler
-modelCoordsForBakedAmbientLookup_out
-bakedLightMapSize
-baked_ambient_intensity
-#endif
-
-
 #ifdef ADDITIONAL_LIGHTS
 AdditionalLight0Direction
 AdditionalLight0Ambient
@@ -104,26 +96,7 @@ void main()
 	vec4 finalColor = vec4(1.0, 0.0, 0.0, 1.0);;
 
 
-#ifdef BAKED_AMBIENT_LIGHTING
-	vec4 color_temp = vec4(texture2D(myTextureSampler, scrolled_uvs_1).rgba) * lightIntensity * 0.6 + vec4(texture2D(secondaryTexture, scrolled_uvs_2).rgba) * lightIntensity * 0.4;
-
-	vec2 uv_into_bakedmap = modelCoordsForBakedAmbientLookup_out.xz;
-	// Adjust uv into bakedmap according to the size of exported map:
-	uv_into_bakedmap.x = (uv_into_bakedmap.x + 0.5) / bakedLightMapSize;
-	uv_into_bakedmap.y = -1.0 * (uv_into_bakedmap.y - 0.5) / bakedLightMapSize;
-	vec4 baked_ambient_value = texture2D(bakedAmbientGridTextureSampler, uv_into_bakedmap);
-	float down_ambient_intensity_at_point = baked_ambient_value.r;
-	float up_ambient_intensity_at_point = baked_ambient_value.g;
-	float height_cutoof_at_pixel = baked_ambient_value.b * 10.0;
-
-	// TODO [Hack] Not applying ambient occlusion to heights above 2.0, change this to be read from the blue channel of the baked map instead:
-	// if (modelCoordsForBakedAmbientLookup_out.y > height_cutoof_at_pixel) {
-		// down_ambient_intensity_at_point = 0.0;
-	// }
-	finalColor = color_temp - down_ambient_intensity_at_point * baked_ambient_intensity + up_ambient_intensity_at_point * baked_ambient_intensity;
-#else
-	finalColor = vec4(texture2D(myTextureSampler, scrolled_uvs).rgba) * lightIntensity;
-#endif
+	finalColor = vec4(texture2D(myTextureSampler, scrolled_uvs_1).rgba) * lightIntensity;
 	
 #ifdef SHADOWMAPS_REALTIME
 	float visibility = 1.0;

@@ -48,10 +48,6 @@ bool RenderList::IsDepthPass() {
 void RenderList::Draw(HEAP_OF_TRANSPERANT_GAMEOBJECTS_declaration* heap_gameobjectsWithTransperancy_out, Camera* camera) {
 
 	if (!this->IsDepthPass()) {
-
-		// Pass the ambient lighting parameters to the shader:
-		ENGINE->GetAmbientLighting()->Draw();
-
 		// Pass the shadow map parameters to the shader:
 		ENGINE->GetShadowMap()->Draw();
 	}

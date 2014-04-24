@@ -24,7 +24,6 @@ public:
 
 	static Engine* GetInstance();
 
-	inline AmbientLighting* GetAmbientLighting() { return this->ambientLighting; }
 	inline AssetLibrary* GetAssetLibrary()       { return this->assetLibrary;    }
 	inline AudioManager* GetAudioManager()       { return this->audioManager;    }
 	inline DebugDrawer*  GetDebugDrawer()        { return this->debugDrawer;     }
@@ -55,7 +54,6 @@ private:
 	void updateSceneUi();
 	void renderSceneUi();
 
-	AmbientLighting* ambientLighting;
 	AssetLibrary*    assetLibrary;
 	AudioManager*    audioManager;
 	DebugDrawer*     debugDrawer;
