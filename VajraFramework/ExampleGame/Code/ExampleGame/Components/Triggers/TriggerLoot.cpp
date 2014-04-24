@@ -15,15 +15,19 @@
 #include "Vajra/Utilities/StringUtilities.h"
 
 // Tween callbacks
-void lootNumberTweenCallback(float /*fromNumber*/, float toNumber, float currentNumber, std::string /*tweenClipName*/, MessageData1S1I1F* userParams) {
+void lootNumberTweenCallback(float /*fromNumber*/, float toNumber, float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
 	GameObject* go = ENGINE->GetSceneGraph3D()->GetGameObjectById(userParams->i);
 	if(go != nullptr) {
 		TriggerLoot* loot = go->GetComponent<TriggerLoot>();
 		if(loot != nullptr) {
-			float yOffset = cos(currentNumber) * .5f;
-			go->GetTransform()->Translate(0.0f, loot->startPos.y + yOffset, 0.0f);
-			if(currentNumber == toNumber) {
-				loot->lootTweenEnd();
+			if(tweenClipName == "lootBounce" + StringUtilities::ConvertIntToString(userParams->i)) {
+				float yOffset = cos(currentNumber) * .5f;
+				go->GetTransform()->Translate(0.0f, loot->startPos.y + yOffset, 0.0f);
+				if(currentNumber == toNumber) {
+					loot->lootTweenEnd();
+				}
+			} else if(tweenClipName == "lootSpin" + StringUtilities::ConvertIntToString(userParams->i)) {
+				go->GetTransform()->Rotate(.15f, YAXIS);
 			}
 		}
 	}
@@ -46,6 +50,11 @@ void TriggerLoot::init() {
 	this->particleEffectId = particleEffect->GetId();
 	this->active = true;
 	this->moneyValue = 0;
+
+	MessageData1S1I1F* params = new MessageData1S1I1F();
+	params->i = this->GetObject()->GetId();
+	ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 5.0f, INTERPOLATION_TYPE_LINEAR, false, true, true, "lootSpin" + StringUtilities::ConvertIntToString(params->i), NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, lootNumberTweenCallback);
+	
 }
 
 void TriggerLoot::destroy() {

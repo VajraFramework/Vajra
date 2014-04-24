@@ -105,6 +105,7 @@ void BreakablePot::SetHasPotLoot() {
 	GameObject* lootObj = PrefabLoader::InstantiateGameObjectFromPrefab(FRAMEWORK->GetFileSystemUtils()->GetDevicePrefabsResourcesPath() + "SD_Loot_Non_Standalone.prefab", ENGINE->GetSceneGraph3D());
 	this->potLootId = lootObj->GetId();
 	this->GetObject()->AddChild(this->potLootId);
+	lootObj->SetVisible(false);
 }
 
 void BreakablePot::tryLoot() {
