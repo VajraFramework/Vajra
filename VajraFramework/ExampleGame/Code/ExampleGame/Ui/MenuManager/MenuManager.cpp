@@ -488,12 +488,12 @@ void MenuManager::updatePreMenu(int levelIndex) {
 
 void MenuManager::UpdateTimer(int newTime) {
 	if(this->inGameTimer != nullptr) {
-		inGameTimer->ChangeText(std::to_string(newTime));
+		inGameTimer->ChangeText(StringUtilities::ConvertIntToString(newTime));
 	}
 }
 
 void MenuManager::UpdateLoot(int lootTotal) {
 	if(this->inGameTreasure != nullptr) {
-		inGameTreasure->ChangeText(std::to_string(lootTotal));
+		inGameTreasure->ChangeText(StringUtilities::ConvertIntToString(lootTotal));
 	}
 }
