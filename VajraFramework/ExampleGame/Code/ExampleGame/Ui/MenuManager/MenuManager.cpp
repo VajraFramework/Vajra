@@ -177,7 +177,9 @@ void MenuManager::LoadLevel(int levelIndex) {
 
 }
 
-
+void MenuManager::CreateTutorial(std::string levelName) {
+	this->gameUiTouchHandler->setupTutorial(levelName);
+}
 
 void MenuManager::TweenOutUiObject(UiObject* element) {
 	if(element != nullptr) {
@@ -188,7 +190,7 @@ void MenuManager::TweenOutUiObject(UiObject* element) {
 		float halfScreenHeight= ((float)FRAMEWORK->GetDeviceProperties()->GetHeightPixels()) / 2.0f;
 		
 		glm::vec3 screenCenter = glm::vec3(halfScreenWidth - halfWidth, -halfScreenHeight + halfHeight, 0.0f);
-		glm::vec3 offScreen = glm::vec3(halfScreenWidth - halfWidth, -1.0f * FRAMEWORK->GetDeviceProperties()->GetHeightPixels(), 0.0f);
+		glm::vec3 offScreen = glm::vec3(halfScreenWidth - halfWidth, -1.5f * FRAMEWORK->GetDeviceProperties()->GetHeightPixels() + halfHeight, 0.0f);
 
 		this->backdrop->SetVisible(true);
 		ENGINE->GetTween()->TweenToNumber(BACKDROP_MAX_ALPHA, 0.0f, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "backDropFade", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
@@ -216,7 +218,7 @@ void MenuManager::TweenInUiObject(UiObject* element) {
 		float halfScreenHeight= ((float)FRAMEWORK->GetDeviceProperties()->GetHeightPixels()) / 2.0f;
 		
 		glm::vec3 screenCenter = glm::vec3(halfScreenWidth - halfWidth, -halfScreenHeight + halfHeight, 0.0f);
-		glm::vec3 offScreen = glm::vec3(halfScreenWidth - halfWidth, -768.0f, 0.0f);
+		glm::vec3 offScreen = glm::vec3(halfScreenWidth - halfWidth, -1.5f * FRAMEWORK->GetDeviceProperties()->GetHeightPixels() + halfHeight, 0.0f);
 
 		SINGLETONS->GetMenuManager()->backdrop->SetVisible(true);
 		ENGINE->GetTween()->TweenToNumber(0.0f, BACKDROP_MAX_ALPHA, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "backDropFade", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);

@@ -8,8 +8,6 @@
 
 #include <UIKit/UIKit.h>
 
-CFDataRef m_imageData;
-
 bool loadPngImage(const char *path, int &outWidth, int &outHeight, bool &outHasAlpha, int &colorType, GLubyte **outData) {
     
     // TODO [Implement] actually use texture name:
@@ -20,8 +18,9 @@ bool loadPngImage(const char *path, int &outWidth, int &outHeight, bool &outHasA
     if (uiImage != nullptr) {
         CGImageRef cgImage = uiImage.CGImage;
         //
-        outWidth = CGImageGetWidth(cgImage);
-        outHeight = CGImageGetHeight(cgImage);
+        outWidth = (int)CGImageGetWidth(cgImage);
+        outHeight = (int)CGImageGetHeight(cgImage);
+		std::size_t bytesPerPixel = CGImageGetBitsPerPixel(cgImage) / 8;
         
         // TODO [Implement] alpha
         outHasAlpha = true;
@@ -30,10 +29,16 @@ bool loadPngImage(const char *path, int &outWidth, int &outHeight, bool &outHasA
         // CGColorSpaceRef colorSpaceRef = CGImageGetColorSpace(cgImage);
         colorType = COLOR_TYPE_PNG_RGB_ALPHA;
         
-        m_imageData = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
+        CFDataRef m_imageData = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
+		
+		std::size_t numBytes = sizeof(GLubyte) * outWidth * outHeight * bytesPerPixel;
+		*outData = (GLubyte*)malloc(numBytes);
+		memcpy(*outData, CFDataGetBytePtr(m_imageData), numBytes);
         
-        *outData = (GLubyte*) CFDataGetBytePtr(m_imageData);
+		uiImage = nil;
         
+		CFRelease(m_imageData);
+		
         return true;
     }
     return false;

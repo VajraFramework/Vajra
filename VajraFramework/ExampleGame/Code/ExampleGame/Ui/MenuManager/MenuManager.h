@@ -30,6 +30,7 @@ public:
 	void LoadGameMenu(std::string defaultScreen = "inGame");
 
 	void LoadLevel(int /*levelIndex*/);
+	void CreateTutorial(std::string levelName);
 
 	void TweenOutUiObject(UiObject*);
 	void TweenInUiObject(UiObject*);

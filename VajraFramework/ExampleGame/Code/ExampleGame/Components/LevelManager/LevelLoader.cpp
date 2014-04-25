@@ -250,10 +250,13 @@ void LevelLoader::LoadTutorialLevelNames(std::vector<std::string>* levelsWithTut
 }
 
 void LevelLoader::LoadTutorialData(std::string levelName) {
+	/*
 	MessageChunk createTutorialMesssage = ENGINE->GetMessageHub()->GetOneFreeMessage();
 	createTutorialMesssage->SetMessageType(MESSAGE_TYPE_CREATED_TUTORIAL);
 	createTutorialMesssage->messageData.s = levelName;
 	ENGINE->GetMessageHub()->SendMulticastMessage(createTutorialMesssage);
+	*/
+	SINGLETONS->GetMenuManager()->CreateTutorial(levelName);
 
 }
 

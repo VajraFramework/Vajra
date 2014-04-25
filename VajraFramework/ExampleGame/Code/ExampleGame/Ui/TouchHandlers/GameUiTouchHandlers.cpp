@@ -15,6 +15,7 @@
 #include "Vajra/Engine/Ui/UiCallbackComponent/UiCallbackComponent.h"
 #include "Vajra/Engine/Ui/UiObject/UiObject.h"
 #include "Vajra/Framework/Core/Framework.h"
+#include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Utilities/Utilities.h"
 
@@ -279,6 +280,7 @@ void GameUiTouchHandlers::setupTutorial(std::string levelName) {
 	ASSERT(tutorialNode != nullptr, "Tutorial node of level passed via 'MakeTutorial' does not have a tutorial in the xml");
 	if(tutorialNode != nullptr) {
 		this->isTutorialLevel = true;
+
 		// load in the tutorial
 		XmlNode* messageNode = tutorialNode->GetFirstChildByNodeName(MESSAGE_TAG);
 		while(messageNode != nullptr) {
@@ -288,6 +290,14 @@ void GameUiTouchHandlers::setupTutorial(std::string levelName) {
 			this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(tutorialMessageType);
 			tData.msgType = tutorialMessageType;
 			
+			std::string tutorialType = messageNode->GetAttributeValueS(TYPE_ATTRIBUTE);
+			if (tutorialType == "Cutscene") {
+				tData.isCutscene = true;
+			}
+			else {
+				tData.isCutscene = false;
+			}
+
 			// Load in data needed for this specific tutorial
 			XmlNode* cell;
 			switch(tutorialMessageType) {
@@ -370,8 +380,22 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 			imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + imageName);
 		}
 
-		this->dynamicTutorialElement->GetTransform()->SetPosition(0.5f, -34.0f, this->dynamicTutorialElement->GetTransform()->GetPosition().z);
-		this->dynamicTutorialElement->InitSprite(768, 432, "ustshdr", imagePaths, false);
+		if (this->tutorials[index].isCutscene) {
+			float halfWidth = ((float)tut->GetWidth()) / 2.0f;
+			float halfHeight = ((float)tut->GetHeight()) / 2.0f;
+
+			float halfScreenWidth = ((float)FRAMEWORK->GetDeviceProperties()->GetWidthPixels()) / 2.0f;
+			float halfScreenHeight= ((float)FRAMEWORK->GetDeviceProperties()->GetHeightPixels()) / 2.0f;
+
+			float xx = halfWidth - halfScreenWidth;
+			float yy = halfScreenHeight - halfHeight;
+			this->dynamicTutorialElement->GetTransform()->SetPosition(xx, yy, this->dynamicTutorialElement->GetTransform()->GetPosition().z);
+			this->dynamicTutorialElement->InitSprite(FRAMEWORK->GetDeviceProperties()->GetWidthPixels(), FRAMEWORK->GetDeviceProperties()->GetHeightPixels(), "ustshdr", imagePaths, false);
+		}
+		else {
+			this->dynamicTutorialElement->GetTransform()->SetPosition(0.5f, -34.0f, this->dynamicTutorialElement->GetTransform()->GetPosition().z);
+			this->dynamicTutorialElement->InitSprite(768, 432, "ustshdr", imagePaths, false);
+		}
 		this->dynamicTutorialElement->SetZOrder(3);
 		UiElement* exitBtn = (UiElement*)ObjectRegistry::GetObjectByName(TUTORIAL_EXIT_BTN);
 		

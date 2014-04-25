@@ -36,9 +36,6 @@ depthTextureSampler
 ShadowCoord
 #endif
 
-normalMap
-TBNmatrix
-
 scrolling_uv_offset
 secondaryTexture
 
@@ -71,22 +68,20 @@ void main()
 	vec2 scrolled_uvs_2 = vec2(uvCoords_out.x + cos(gl_FragCoord.x / 7.0) / 20.0, uvCoords_out.y + scrolling_uv_offset);
 
 #ifdef PER_PIXEL_LIGHTING
-	vec4 TextureNormal_worldSpace = (TBNmatrix * vec4( texture2D( normalMap, vec2(uvCoords_out.x, -1.0 * scrolled_uvs_1.y) ).rgb*2.0 - 1.0, 0.0));
-
-	float cosTheta = clamp( dot( TextureNormal_worldSpace, -1.0 * DLight0Direction), 0.0, 1.0 );
+	float cosTheta = clamp( dot( vNormal_out, 1.0 * DLight0Direction), 0.0, 1.0 );
 	vec4 lightIntensity = DLight0DiffuseColor * cosTheta;
 	lightIntensity = lightIntensity + DLight0AmbientColor;
 
 #ifdef ADDITIONAL_LIGHTS
-	cosTheta = clamp( dot( TextureNormal_worldSpace, -1.0 * AdditionalLight0Direction), 0.0, 1.0 );
+	cosTheta = clamp( dot( vNormal_out, 1.0 * AdditionalLight0Direction), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight0Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight0Ambient;
 	//
-	cosTheta = clamp( dot( TextureNormal_worldSpace, -1.0 * AdditionalLight1Direction), 0.0, 1.0 );
+	cosTheta = clamp( dot( vNormal_out, 1.0 * AdditionalLight1Direction), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight1Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight1Ambient;
 	//
-	cosTheta = clamp( dot( TextureNormal_worldSpace, -1.0 * AdditionalLight2Direction), 0.0, 1.0 );
+	cosTheta = clamp( dot( vNormal_out, 1.0 * AdditionalLight2Direction), 0.0, 1.0 );
 	lightIntensity = lightIntensity + AdditionalLight2Diffuse * cosTheta;
 	lightIntensity = lightIntensity + AdditionalLight2Ambient;
 #endif
@@ -98,7 +93,7 @@ void main()
 	
 #ifdef SHADOWMAPS_REALTIME
 	float visibility = 1.0;
-	float bias = 0.002;
+	float bias = 0.004;
 	float fragment_depth = ShadowCoord.z / ShadowCoord.w - bias;
 	float depth_value = 0.0;
 
@@ -143,7 +138,7 @@ void main()
 
 
 	visibility = clamp(visibility + 0.5, 0.0, 1.0);
-	finalColor = finalColor * (visibility + 0.0); // + finalColor;
+	finalColor = finalColor * visibility;
 
 #endif
 
