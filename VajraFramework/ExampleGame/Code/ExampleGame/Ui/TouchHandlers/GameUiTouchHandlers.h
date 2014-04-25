@@ -29,11 +29,16 @@ public:
 	virtual void HandleMessageCallback(MessageChunk messageChunk);
 
 	void setupTutorial(std::string levelName);
+
 private:
+	void init();
+	void destroy();
+
 	void returnToMissionSelect();
 
 	void tryTutorial(int index, MessageChunk messageChunk);
 
+	GameObject* tutorialCache_ref;
 
 	std::vector<TutorialData> tutorials;
 	bool isTutorialLevel;
