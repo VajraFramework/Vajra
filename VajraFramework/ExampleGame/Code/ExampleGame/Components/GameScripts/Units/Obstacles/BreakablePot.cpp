@@ -7,6 +7,7 @@
 #include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
 #include "ExampleGame/Components/Grid/GridNavigator.h"
 #include "ExampleGame/Components/Triggers/TriggerLoot.h"
+#include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/Core/Engine.h"
@@ -14,6 +15,18 @@
 #include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
+
+unsigned char ConvertStringToLinkDir(std::string str) {
+	if      (str == "NORTH"    )  { return LINK_NORTH;     }
+	else if (str == "EAST"     )  { return LINK_EAST;      }
+	else if (str == "SOUTH"    )  { return LINK_SOUTH;     }
+	else if (str == "WEST"     )  { return LINK_WEST;      }
+	else if (str == "NORTHEAST")  { return LINK_NORTHEAST; }
+	else if (str == "SOUTHEAST")  { return LINK_SOUTHEAST; }
+	else if (str == "SOUTHWEST")  { return LINK_SOUTHWEST; }
+	else if (str == "NORTHWEST")  { return LINK_NORTHWEST; }
+	return LINK_NONE;
+}
 
 BreakablePot::BreakablePot() : BaseUnit() {
 	this->init();
@@ -34,6 +47,7 @@ void BreakablePot::init() {
 	this->deathEffectObjId = OBJECT_ID_INVALID;
 
 	this->potLootId = OBJECT_ID_INVALID;
+	this->linkages = LINK_NONE;
 
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_SPECIAL_HIT, this->GetTypeId(), false);
 
@@ -80,6 +94,7 @@ void BreakablePot::Kill() {
 	this->activateDeathEffect();
 	this->gameObjectRef->SetVisible(false);
 	this->tryLoot();
+	this->chainReaction();
 }
 
 void BreakablePot::generateDeathEffect() {
@@ -108,6 +123,14 @@ void BreakablePot::SetHasPotLoot() {
 	lootObj->SetVisible(false);
 }
 
+void BreakablePot::AddLinkage(std::string dirStr) {
+	AddLinkage(ConvertStringToLinkDir(dirStr));
+}
+
+void BreakablePot::AddLinkage(unsigned char dir) {
+	this->linkages = this->linkages | dir;
+}
+
 void BreakablePot::tryLoot() {
 	if(this->potLootId != OBJECT_ID_INVALID) {
 		GameObject* lootObj = ENGINE->GetSceneGraph3D()->GetGameObjectById(this->potLootId);
@@ -116,6 +139,56 @@ void BreakablePot::tryLoot() {
 			ASSERT(lootComp != nullptr, "Loot game object has a TriggerLoot comp");
 			if(lootComp != nullptr) {
 				lootComp->ForceLootGrab();
+			}
+		}
+	}
+}
+
+void BreakablePot::chainReaction() {
+	GridCell* myCell = this->gridNavRef->GetCurrentCell();
+	if (myCell != nullptr) {
+		int x = myCell->x;
+		int z = myCell->z;
+		int elevation = this->gridNavRef->GetElevation();
+
+		if ((this->linkages & LINK_NORTH    ) != LINK_NONE) {
+			this->checkChainAtCell(x  , z+1, elevation);
+		}
+		if ((this->linkages & LINK_EAST     ) != LINK_NONE) {
+			this->checkChainAtCell(x+1, z  , elevation);
+		}
+		if ((this->linkages & LINK_SOUTH    ) != LINK_NONE) {
+			this->checkChainAtCell(x  , z-1, elevation);
+		}
+		if ((this->linkages & LINK_WEST     ) != LINK_NONE) {
+			this->checkChainAtCell(x-1, z  , elevation);
+		}
+		if ((this->linkages & LINK_NORTHEAST) != LINK_NONE) {
+			this->checkChainAtCell(x+1, z+1, elevation);
+		}
+		if ((this->linkages & LINK_SOUTHEAST) != LINK_NONE) {
+			this->checkChainAtCell(x+1, z-1, elevation);
+		}
+		if ((this->linkages & LINK_SOUTHWEST) != LINK_NONE) {
+			this->checkChainAtCell(x-1, z-1, elevation);
+		}
+		if ((this->linkages & LINK_NORTHWEST) != LINK_NONE) {
+			this->checkChainAtCell(x-1, z+1, elevation);
+		}
+	}
+}
+
+void BreakablePot::checkChainAtCell(int x, int z, int elevation) {
+	GridCell* targetCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(x, z);
+	if (targetCell != nullptr) {
+		ObjectIdType occId = targetCell->GetOccupantIdAtElevation(elevation);
+		GameObject* occ = ENGINE->GetSceneGraph3D()->GetGameObjectById(occId);
+		if (occ != nullptr) {
+			BaseUnit* occUnit = occ->GetComponent<BaseUnit>();
+			if (occUnit != nullptr) {
+				if ((occUnit->GetUnitType() == this->unitType) && (occUnit->GetUnitState() == UNIT_STATE_ALIVE)) {
+					((BreakablePot*)occUnit)->Kill();
+				}
 			}
 		}
 	}
