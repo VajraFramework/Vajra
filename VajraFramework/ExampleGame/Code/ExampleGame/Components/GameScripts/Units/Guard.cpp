@@ -127,7 +127,6 @@ void Guard::start() {
 
 void Guard::onBrainBecameCalm() {
 	EnemyUnit::onBrainBecameCalm();
-	this->SwitchActionState(UNIT_ACTION_STATE_IDLE);
 }
 
 void Guard::onBrainBecameCautious() {
@@ -197,17 +196,21 @@ void Guard::aggressiveUpdate() {
 }
 
 void Guard::onSightedPlayerUnit(ObjectIdType id) {
-	this->numPlayerUnitsSpotted++;
-	this->knownPlayers.push_back(id);
+	if (this->GetUnitState() == UNIT_STATE_ALIVE) {
+		this->numPlayerUnitsSpotted++;
+		this->knownPlayers.push_back(id);
 
-	if ((this->brainState == ENEMY_BRAIN_CALM) && (this->numPlayerUnitsSpotted > 0)) {
-		this->setBrainState(ENEMY_BRAIN_CAUTIOUS);
+		if ((this->brainState == ENEMY_BRAIN_CALM) && (this->numPlayerUnitsSpotted > 0)) {
+			this->setBrainState(ENEMY_BRAIN_CAUTIOUS);
+		}
 	}
 }
 
 void Guard::onLostSightOfPlayerUnit(ObjectIdType id) {
-	this->numPlayerUnitsSpotted--;
-	this->knownPlayers.remove(id);
+	if (this->GetUnitState() == UNIT_STATE_ALIVE) {
+		this->numPlayerUnitsSpotted--;
+		this->knownPlayers.remove(id);
+	}
 }
 
 void Guard::onAnimationEnded(std::string animName) {
