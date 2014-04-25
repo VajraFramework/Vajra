@@ -224,6 +224,7 @@ void PushPillar::slide() {
 	float distToTravel = this->gridNavRef->GetMovementSpeed() * dt;
 
 	glm::vec3 tempLocation = this->gameObjectRef->GetTransform()->GetPositionWorld();
+	this->targetPosition.y = tempLocation.y;
 	float distToTarget = glm::distance(tempLocation, this->targetPosition);
 
 	while (distToTravel > distToTarget) {
