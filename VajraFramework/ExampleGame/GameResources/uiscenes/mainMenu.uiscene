@@ -24,7 +24,7 @@
 			<size widthPixels="FILLPARENT" heightPixels="FILLPARENT"></size>
 			<zorder>-1</zorder>
 		</dimensions>
-		<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+		<color r="0.1" g="0.1" b="0.1" a="1.0"></color>
 	</uielement>
 
 
@@ -268,7 +268,7 @@
 					</dimensions>
 					<text>
 						<font type="calibiri.fontspec" size="56.0" alignment="CENTER">
-							<color r="1.0" g="0.0" b="0.0" a="1.0"></color>
+							<color r="0.65" g="0.12" b="0.14" a="1.0"></color>
 						</font>
 						Assassinate Fargiosion
 					</text>
@@ -316,6 +316,21 @@
 			<image name="SD_Back_Button.png" hasTransperancy="false"></image>	
 		</uielement>
 
+
+		<uielement name="preGame_loading_text" clickable="false" visible="false">
+			<dimensions>
+				<position x="88" y="386"></position>
+				<size widthPixels="600" heightPixels="64"></size>
+				<zorder>261</zorder>
+			</dimensions>		
+			<text>
+				<font type="calibiri.fontspec" size="62.0" alignment="CENTER">
+					<color r="0.65" g="0.12" b="0.14" a="1.0"></color>
+				</font>
+				LOADING
+			</text>
+		</uielement>
+
 		<uielement name="preGame_bonus_box" clickable="false" visible="true">
 			<dimensions>
 				<position x="30" y="273"></position>
@@ -339,12 +354,12 @@
 
 		<uielement name="preGame_bonus_text" clickable="false" visible="true">
 			<dimensions>
-				<position x="173" y="282"></position>
+				<position x="173" y="280"></position>
 				<size widthPixels="200" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="36.0" alignment="RIGHT">
+				<font type="calibiri.fontspec" size="38.0" alignment="RIGHT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				BONUS:
@@ -358,8 +373,8 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="46.0" alignment="CENTER">
-					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
+				<font type="calibiri.fontspec" size="58.0" alignment="CENTER">
+					<color r="0.65" g="0.12" b="0.14" a="1.0"></color>
 				</font>
 				Mission Name
 			</text>
@@ -367,12 +382,12 @@
 
 		<uielement name="preGame_bounty_amount" clickable="false" visible="true">
 			<dimensions>
-				<position x="30" y="120"></position>
+				<position x="30" y="136"></position>
 				<size widthPixels="350" heightPixels="64"></size>
 				<zorder>55</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="58.0" alignment="LEFT">
+				<font type="calibiri.fontspec" size="46.0" alignment="LEFT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Bounty: 5000
@@ -381,12 +396,12 @@
 
 		<uielement name="preGame_best_take" clickable="false" visible="true">
 			<dimensions>
-				<position x="392" y="120"></position>
+				<position x="392" y="136"></position>
 				<size widthPixels="350" heightPixels="64"></size>
 				<zorder>55</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="58.0" alignment="RIGHT">
+				<font type="calibiri.fontspec" size="46.0" alignment="RIGHT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				BEST TAKE: 15000
@@ -395,12 +410,12 @@
 
 		<uielement name="preGame_mission_Type" clickable="false" visible="true">
 			<dimensions>
-				<position x="188" y="76"></position>
+				<position x="188" y="82"></position>
 				<size widthPixels="400" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="38.0" alignment="CENTER">
+				<font type="calibiri.fontspec" size="48.0" alignment="CENTER">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Mission Type
@@ -429,7 +444,7 @@
 			</dimensions>
 			<text>
 				<font type="calibiri.fontspec" size="36.0" alignment="LEFT">
-					<color r="1.0" g="0.0" b="0.0" a="1.0"></color>
+					<color r="0.65" g="0.12" b="0.14" a="1.0"></color>
 				</font>
 				Completion
 			</text>

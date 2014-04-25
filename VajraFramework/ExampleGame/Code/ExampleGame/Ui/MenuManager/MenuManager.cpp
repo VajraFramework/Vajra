@@ -292,6 +292,7 @@ void MenuManager::showLoadScreen(int levelIndex) {
 	}
 	this->loadScreen->SetVisible(true);
 	
+	((UiObject*)ObjectRegistry::GetObjectByName("preGame_loading_text"))->SetVisible(true);
 	glm::vec4 loadScreenColor = this->loadScreen->GetSpriteColor();
 	loadScreenColor.a = 0.0f;
 	this->loadScreen->SetSpriteColor(loadScreenColor);
@@ -310,6 +311,7 @@ void MenuManager::hideLoadScreen() {
 		
 	}
 	if(this->gameUiTouchHandler != nullptr) {
+		((UiObject*)ObjectRegistry::GetObjectByName("preGame_loading_text"))->SetVisible(false);
 		UiObject* startButton = (UiObject*)ObjectRegistry::GetObjectByName("preMenuStart");
 		startButton->SetVisible(true);
 		float halfScreenWidth = ((float)FRAMEWORK->GetDeviceProperties()->GetWidthPixels()) / 2.0f;
@@ -401,10 +403,10 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 			child->ChangeText("BEST TAKE: " + StringUtilities::ConvertIntToString(scores.take));
 		} else if (child->GetName() == menuPrefix + "bonus_completion") {
 			if(levelData->completion == LevelCompletion::Completed_Bonus) {
-				child->SetFontColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+				child->SetFontColor(glm::vec4(0.58f, 0.78f, 0.0f, 1.0f));
 				child->ChangeText("COMPLETED");
 			} else {
-				child->SetFontColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+				child->SetFontColor(glm::vec4(0.65f, 0.12f, 0.14f, 1.0f));
 				child->ChangeText("INCOMPLETE");
 			}
 		} else if (child->GetName() == menuPrefix + "time_value") {
@@ -493,6 +495,7 @@ void MenuManager::updatePreMenu(int levelIndex) {
 	this->backdrop->SetVisible(true);
 	((UiObject*)ObjectRegistry::GetObjectByName("preMenuStart"))->SetVisible(false);
 	((UiObject*)ObjectRegistry::GetObjectByName("preMenuEnd"))->SetVisible(false);
+	((UiObject*)ObjectRegistry::GetObjectByName("preGame_loading_text"))->SetVisible(true);
 	
 	glm::vec4 backdropColor = this->backdrop->GetSpriteColor();
 	backdropColor.a = BACKDROP_MAX_ALPHA;
