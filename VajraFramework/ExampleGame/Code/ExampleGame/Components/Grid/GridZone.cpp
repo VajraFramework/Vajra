@@ -305,11 +305,21 @@ void GridZone::updateVisualizer() {
 		return;
 	}
 
+	float y_offset_hack = 0.01f;
+	{
+		// TODO [Hack] Offset the goal zones a little in the y to fix weird transperancy issues:
+		static bool toggle = true;
+		toggle = !toggle;
+		if (toggle) {
+			y_offset_hack += randf() * 0.05f + 0.05f;
+		}
+	}
+
 	int x_min, x_max, z_min, z_max;
 	this->GetZoneBounds(x_min, x_max, z_min, z_max);
 	glm::vec3 offset = ZERO_VEC3;
 	offset.x = (this->relativeWestBound + this->relativeEastBound) * 0.5f;
-	offset.y = 0.01f;
+	offset.y = y_offset_hack;
 	offset.z = -(this->relativeSouthBound + this->relativeNorthBound) * 0.5f;
 	this->visualizerObjectRef->GetTransform()->SetPosition(offset);
 	this->visualizerObjectRef->GetTransform()->SetScale(x_max - x_min + 1, z_max - z_min + 1, z_max - z_min + 1);

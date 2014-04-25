@@ -77,8 +77,11 @@ void RenderList::Draw_one_gameobject(GameObject* gameObject, Camera* camera) {
 	// No frustum culling for scenegraph ui:
 	// TODO [Hack] No frustum culling for render batches, for now
 	// No frustum culling for render batches, for now:
+	// TODO [Hack] Also, some renderers can opt out of frustum culling (example: water), this can also go away when all renderers support getting their bounds
+	Renderer* renderer = gameObject->GetComponent<Renderer>();
 	if (gameObject->GetParentSceneGraph() != (SceneGraph*)ENGINE->GetSceneGraphUi() &&
-		!gameObject->GetComponent<Renderer>()->IsRenderBatch()) {
+		!renderer->IsRenderBatch() &&
+		!renderer->ShouldPreventCulling()) {
 		if (camera != nullptr) {
 			// TODO [Hack] Get tolerance radius from the model files instead, maybe
 			float toleranceRadius = 4.0f;

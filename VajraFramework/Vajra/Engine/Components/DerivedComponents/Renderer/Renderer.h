@@ -38,6 +38,9 @@ public:
 	inline bool IsRenderBatch() { return this->isRenderBatch; }
 	inline void SetIsRenderBatch(bool isRenderBatch_) { this->isRenderBatch = isRenderBatch_; }
 
+	inline bool ShouldPreventCulling()                     { return this->preventCulling;             }
+	inline void SetPreventCulling   (bool preventCulling_) { this->preventCulling = preventCulling_;  }
+
 protected:
 	void addToRenderList();
 	void removeFromRenderList();
@@ -53,6 +56,8 @@ private:
 	std::string shaderName;
 	bool hasTransperancy;
 	bool isOverlay;
+
+	bool preventCulling;
 
 	bool isStatic;
 
