@@ -111,6 +111,7 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 					this->levelToLoad = i;
 					SINGLETONS->GetMenuManager()->CenterUiObject((UiObject*)ObjectRegistry::GetObjectByName("preMenu"));
 					SINGLETONS->GetMenuManager()->UpdateMenuWithMastery("preMenu", this->levelToLoad);
+					((UiObject*)ObjectRegistry::GetObjectByName("preGame_loading_text"))->SetVisible(false);
 					
 					return;
 				}

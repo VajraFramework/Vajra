@@ -61,6 +61,7 @@ private:
 
 	void updatePreMenu(int levelIndex);
 	void loadLevel_internal(int levelIndex);
+	void loadMenu_internal(std::string screenToShow);
 	
 	float loadStartTime;
 

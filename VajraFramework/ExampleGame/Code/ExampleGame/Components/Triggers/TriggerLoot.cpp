@@ -64,7 +64,7 @@ void TriggerLoot::HandleMessage(MessageChunk messageChunk) {
 }
 
 void TriggerLoot::update() {
-	this->gameObjectRef->GetTransform()->Rotate(5 * ENGINE->GetTimer()->GetDeltaFrameTime(), YAXIS);
+	this->gameObjectRef->GetTransform()->Rotate(2 * ENGINE->GetTimer()->GetDeltaFrameTime(), YAXIS);
 }
 
 void TriggerLoot::SubscribeToParentSwitch() {
