@@ -294,6 +294,11 @@ void GridZone::Visualize(bool shouldVisualize, std::string imageName, bool displ
 	}
 }
 
+void GridZone::SetVisualizerScale(float scale_) {
+	this->visualizerScale = scale_;
+	this->updateVisualizer();
+}
+
 void GridZone::updateVisualizer() {
 
 	if (this->visualizerObjectRef == nullptr) {
@@ -308,6 +313,7 @@ void GridZone::updateVisualizer() {
 	offset.z = -(this->relativeSouthBound + this->relativeNorthBound) * 0.5f;
 	this->visualizerObjectRef->GetTransform()->SetPosition(offset);
 	this->visualizerObjectRef->GetTransform()->SetScale(x_max - x_min + 1, z_max - z_min + 1, z_max - z_min + 1);
+	this->visualizerObjectRef->GetTransform()->Scale(this->visualizerScale);
 	this->visualizerObjectRef->GetTransform()->SetOrientation(-90.0f inRadians, this->visualizerObjectRef->GetTransform()->GetLeft());
 	this->visualizerObjectRef->SetVisible(this->isEnabled);
 }
@@ -401,6 +407,7 @@ void GridZone::init() {
 	this->trueNorthBound     = -1;
 
 	this->visualizerObjectRef = nullptr;
+	this->visualizerScale = 1.0f;
 	this->displayVisualizerInGameMode = true;
 	this->displayVisualizerInOverviewMode = true;
 	this->isEnabled = true;;

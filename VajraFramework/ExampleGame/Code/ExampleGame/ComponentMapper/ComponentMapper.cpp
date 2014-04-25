@@ -861,6 +861,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->Visualize(StringUtilities::ConvertStringToBool(argv[0]), ConvertStringToString(argv[1]), StringUtilities::ConvertStringToBool(argv[2]), StringUtilities::ConvertStringToBool(argv[3]));
 			return;
 		}
+		if (propertyName == "SetVisualizerScale") {
+			if ((int)argv.size() < 1) { return; }
+			component->SetVisualizerScale(StringUtilities::ConvertStringToFloat(argv[0]));
+			return;
+		}
 		if (propertyName == "Enable") {
 			if ((int)argv.size() < 0) { return; }
 			component->Enable();
