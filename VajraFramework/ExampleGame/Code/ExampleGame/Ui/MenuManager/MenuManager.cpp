@@ -47,8 +47,14 @@ void menuManagerNumberTweenCallback(float /* fromNumber */, float toNumber , flo
 			ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 0.2f, INTERPOLATION_TYPE_LINEAR, true, false, false, "updatePreMenu", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, userParams, menuManagerNumberTweenCallback);
 			ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 0.4f, INTERPOLATION_TYPE_LINEAR, true, false, false, "levelLoadDelay", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, userParams, menuManagerNumberTweenCallback);
 		}
+	} else if (tweenClipName == "loadScreenFadeInToMenu") {
+		glm::vec4 loadScreenColor = SINGLETONS->GetMenuManager()->loadScreen->GetSpriteColor();
+		loadScreenColor.a = currentNumber;
+		SINGLETONS->GetMenuManager()->loadScreen->SetSpriteColor(loadScreenColor);
+		if(currentNumber == toNumber && userParams != nullptr) {
+			ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 1.0f, INTERPOLATION_TYPE_LINEAR, true, false, false, "menuLoadDelay", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, userParams, menuManagerNumberTweenCallback);
+		}
 	} else if (tweenClipName == "loadScreenFadeOut") {
-		printf("\n current number : %f ", currentNumber);
 		glm::vec4 loadScreenColor = SINGLETONS->GetMenuManager()->loadScreen->GetSpriteColor();
 		loadScreenColor.a = currentNumber;
 		SINGLETONS->GetMenuManager()->loadScreen->SetSpriteColor(loadScreenColor);
@@ -59,6 +65,8 @@ void menuManagerNumberTweenCallback(float /* fromNumber */, float toNumber , flo
 		SINGLETONS->GetMenuManager()->updatePreMenu(userParams->i);
 	} else if (tweenClipName == "levelLoadDelay") {
 		SINGLETONS->GetMenuManager()->loadLevel_internal(userParams->i);
+	} else if (tweenClipName == "menuLoadDelay") {
+		SINGLETONS->GetMenuManager()->loadMenu_internal(userParams->s);
 	}
 	/* else if (tweenClipName == "backDropFade") {
 		glm::vec4 backdropColor = SINGLETONS->GetMenuManager()->loadScreen->GetSpriteColor();
@@ -106,7 +114,7 @@ void MenuManager::HandleMessage(MessageChunk messageChunk) {
 
 void MenuManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_LOADED, this->GetTypeId(), false);
-	this->LoadMainMenu(START_MENU);
+	this->loadMenu_internal(START_MENU);
 }
 
 void MenuManager::destroy() {
@@ -114,31 +122,10 @@ void MenuManager::destroy() {
 }
 
 void MenuManager::LoadMainMenu(std::string screenToShow /* = "startMenu"*/) {
-	this->unloadPreviousScene();
-	std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
-	this->mainMenuTouchHandler = new MainMenuTouchHandlers();
-	UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), this->mainMenuTouchHandler);
-
-	// Post load init
-	this->mainMenuTouchHandler->createMissionMenu();
-	SINGLETONS->GetLevelManager()->currentLevelIndex = -1;
-	ENGINE->GetSceneGraph3D()->Pause();
-
-	this->backdrop = (UiElement*)ObjectRegistry::GetObjectByName(BACKDROP);
-	this->backdrop->SetVisible(false);
-
-	if(screenToShow == START_MENU) {
-		this->mainMenuTouchHandler->openStartMenu();
-	} else if(screenToShow == CONTRACT) {
-		this->mainMenuTouchHandler->openContractMenu();
-	} else if(screenToShow == PARALLAX) {
-		this->mainMenuTouchHandler->openMissionMenu(SINGLETONS->GetLevelManager()->GetCurrentContract());
-	} else {
-		UiElement* screen = (UiElement*)ObjectRegistry::GetObjectByName(screenToShow);
-		VERIFY(screen != nullptr, "screen to show is not null");
-		screen->SetVisible(true);
-	}
-	this->createMenuAudioSource();
+	this->loadScreen->SetVisible(true);
+	MessageData1S1I1F* userParams = new MessageData1S1I1F();
+	userParams->s = screenToShow;
+	ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 0.25f, INTERPOLATION_TYPE_LINEAR, true, false, true, "loadScreenFadeInToMenu", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, userParams, menuManagerNumberTweenCallback);
 }
 
 void MenuManager::LoadGameMenu(std::string screenToShow /*= "inGame"*/) {
@@ -481,6 +468,34 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 
 void MenuManager::loadLevel_internal(int levelIndex) {
 	SINGLETONS->GetLevelManager()->LoadLevel(levelIndex);
+}
+
+void MenuManager::loadMenu_internal(std::string screenToShow) {
+	this->unloadPreviousScene();
+	std::string pathToTestUiScene = FRAMEWORK->GetFileSystemUtils()->GetDeviceUiScenesResourcesPath() + "mainMenu.uiscene";
+	this->mainMenuTouchHandler = new MainMenuTouchHandlers();
+	UiSceneLoader::LoadUiSceneFromUiSceneFile(pathToTestUiScene.c_str(), this->mainMenuTouchHandler);
+
+	// Post load init
+	this->mainMenuTouchHandler->createMissionMenu();
+	SINGLETONS->GetLevelManager()->currentLevelIndex = -1;
+	ENGINE->GetSceneGraph3D()->Pause();
+
+	this->backdrop = (UiElement*)ObjectRegistry::GetObjectByName(BACKDROP);
+	this->backdrop->SetVisible(false);
+
+	if(screenToShow == START_MENU) {
+		this->mainMenuTouchHandler->openStartMenu();
+	} else if(screenToShow == CONTRACT) {
+		this->mainMenuTouchHandler->openContractMenu();
+	} else if(screenToShow == PARALLAX) {
+		this->mainMenuTouchHandler->openMissionMenu(SINGLETONS->GetLevelManager()->GetCurrentContract());
+	} else {
+		UiElement* screen = (UiElement*)ObjectRegistry::GetObjectByName(screenToShow);
+		VERIFY(screen != nullptr, "screen to show is not null");
+		screen->SetVisible(true);
+	}
+	this->createMenuAudioSource();
 }
 
 void MenuManager::updatePreMenu(int levelIndex) {

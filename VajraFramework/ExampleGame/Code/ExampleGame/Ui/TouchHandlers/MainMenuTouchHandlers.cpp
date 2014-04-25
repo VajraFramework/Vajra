@@ -99,7 +99,6 @@ void MainMenuTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch touch) {
 		} else if(uiObject->GetName() == "preMenuEnd") {
 			((UiObject*)ObjectRegistry::GetObjectByName("preMenu"))->SetVisible(false);
 			((UiObject*)ObjectRegistry::GetObjectByName("popUpBack"))->SetVisible(false);
-			((UiObject*)ObjectRegistry::GetObjectByName("preGame_loading_text"))->SetVisible(true);
 		}
  		else if(uiObject->GetName() == PARALLAX) {
 			float xDiff = touch.pos.x - touch.prevPos.x;
