@@ -385,7 +385,7 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 		} else if (child->GetName() == menuPrefix + "bounty_amount") {
 			child->ChangeText("BOUNTY: " + StringUtilities::ConvertIntToString(levelData->bounty)); 
 		} else if (child->GetName() == menuPrefix + "take_value") {
-			child->ChangeText(StringUtilities::ConvertIntToString(scores.take));
+			child->ChangeText(StringUtilities::ConvertIntToString(takeScores.take));
 		} else if (child->GetName() == menuPrefix + "best_take") {
 			child->ChangeText("BEST TAKE: " + StringUtilities::ConvertIntToString(scores.take));
 		} else if (child->GetName() == menuPrefix + "bonus_completion") {

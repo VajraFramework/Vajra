@@ -317,7 +317,8 @@ void Thief::checkLegalAttack() {
 void Thief::sendAttackMessage(int gridX, int gridZ, int elevation) {
 	// Attack the cell
 	MessageChunk attackMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-	attackMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_ENTER_AND_ATTACK);
+	//attackMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_ENTER_AND_ATTACK);
+	attackMessage->SetMessageType(MESSAGE_TYPE_GRID_CELL_CHANGED);
 	attackMessage->messageData.iv1.x = gridX;
 	attackMessage->messageData.iv1.y = elevation;
 	attackMessage->messageData.iv1.z = gridZ;

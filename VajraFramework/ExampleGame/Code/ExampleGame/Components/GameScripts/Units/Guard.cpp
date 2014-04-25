@@ -90,7 +90,7 @@ bool Guard::CanBeKilledBy(ObjectIdType id, glm::vec3 /*source*/) {
 	if (gObj != nullptr) {
 		BaseUnit* unit = gObj->GetComponent<BaseUnit>();
 		if (unit != nullptr) {
-			if ((unit->GetUnitType() >= FIRST_PLAYER_UNIT_TYPE) && (unit->GetUnitType() <= LAST_PLAYER_UNIT_TYPE)) {
+			if (unit->GetUnitType() == UNIT_TYPE_ASSASSIN) {
 				// Guards can only be killed if they are unaware.
 				auto iter = std::find(this->knownPlayers.begin(), this->knownPlayers.end(), id);
 				return (iter == this->knownPlayers.end());
