@@ -60,6 +60,10 @@ void WaterRenderer::Draw() {
 
 void WaterRenderer::scrollUVs() {
 	this->scrollingUVsOffset += this->scrollingUVs_speed * ENGINE->GetTimer()->GetDeltaFrameTime();
+	// TODO [Hack] Don't blow floating point limit
+	if (this->scrollingUVsOffset > 100000.0f) {
+		this->scrollingUVsOffset -= 100000.0f;
+	}
 }
 
 void WaterRenderer::init() {

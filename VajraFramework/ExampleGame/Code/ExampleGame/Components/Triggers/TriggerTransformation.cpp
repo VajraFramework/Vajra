@@ -115,16 +115,20 @@ void TriggerTransformation::startTranslation(bool transformed) {
 			}
 
 			float tweenTime = this->transitTime;
-
-			ENGINE->GetTween()->TweenPosition(
-				myId,
-				finalPosition,
-				tweenTime,
-				true,
-				INTERPOLATION_TYPE_LINEAR,
-				false,
-				nullptr
-			);
+			if (tweenTime > 0.0f) {
+				ENGINE->GetTween()->TweenPosition(
+					myId,
+					finalPosition,
+					tweenTime,
+					true,
+					INTERPOLATION_TYPE_LINEAR,
+					false,
+					nullptr
+				);
+			}
+			else {
+				trans->SetPosition(finalPosition);
+			}
 		}
 	}
 	else {
@@ -177,14 +181,19 @@ void TriggerTransformation::startRotation(bool transformed) {
 
 			float tweenTime = this->transitTime;
 
-			ENGINE->GetTween()->TweenOrientation(
-				myId,
-				finalOrientation,
-				tweenTime,
-				true,
-				false,
-				nullptr
-			);
+			if (tweenTime > 0.0f) {
+				ENGINE->GetTween()->TweenOrientation(
+					myId,
+					finalOrientation,
+					tweenTime,
+					true,
+					false,
+					nullptr
+				);
+			}
+			else {
+				trans->SetOrientation(finalOrientation);
+			}
 		}
 	}
 	else {
@@ -237,14 +246,19 @@ void TriggerTransformation::startScaling(bool transformed) {
 
 			float tweenTime = this->transitTime;
 
-			ENGINE->GetTween()->TweenScale(
-				myId,
-				finalScale,
-				tweenTime,
-				true,
-				false,
-				nullptr
-			);
+			if (tweenTime > 0.0f) {
+				ENGINE->GetTween()->TweenScale(
+					myId,
+					finalScale,
+					tweenTime,
+					true,
+					false,
+					nullptr
+				);
+			}
+			else {
+				trans->SetScale(finalScale);
+			}
 		}
 	}
 	else {
