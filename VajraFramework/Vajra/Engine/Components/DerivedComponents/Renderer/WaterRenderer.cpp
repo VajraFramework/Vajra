@@ -71,6 +71,8 @@ void WaterRenderer::init() {
 
 	this->scrollingUVs_speed  = 0.1f;
 
+	this->SetPreventCulling(true);
+
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 }
 
