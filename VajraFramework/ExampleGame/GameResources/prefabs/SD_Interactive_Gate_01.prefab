@@ -64,11 +64,16 @@
 
 			<component name="Transform">
 				<property name="Translate">
-					<field>-1</field>
+					<field>-0.75</field>
 					<field>0.0</field>
 					<field>0.0</field>
 				</property>
-				
+				<property name="RotateByDegrees">
+                  <field>270</field>
+                  <field>0</field>
+                  <field>1</field>
+                  <field>0</field>
+              </property>
 			</component>
 
 			<component name="TriggerTransformation">
@@ -95,12 +100,12 @@
 
 			<component name="Transform">
 				<property name="Translate">
-					<field>1</field>
+					<field>0.75</field>
 					<field>0.0</field>
 					<field>0.0</field>
 				</property>
 				<property name="RotateByDegrees">
-                  <field>180</field>
+                  <field>90</field>
                   <field>0</field>
                   <field>1</field>
                   <field>0</field>
