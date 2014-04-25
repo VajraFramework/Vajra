@@ -32,6 +32,9 @@ public:
 	//[[PROPERTY]]//
 	void Visualize(bool shouldVisualize, std::string imageName, bool displayInGamemode, bool displayInOverviewMode);
 
+	//[[PROPERTY]]//
+	void SetVisualizerScale(float scale_);
+
 	bool IsCellWithinZone(GridCell* cell);
 
 	ObjectIdType VisualzerSpriteRendererId();
@@ -77,6 +80,8 @@ private:
 
 	GameObject* gameObjectRef;
 	GameObject* visualizerObjectRef;
+
+	float visualizerScale;
 
 	bool displayVisualizerInGameMode;
 	bool displayVisualizerInOverviewMode;
