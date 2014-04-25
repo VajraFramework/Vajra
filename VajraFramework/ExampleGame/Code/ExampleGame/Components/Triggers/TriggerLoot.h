@@ -4,6 +4,7 @@
 #include "ExampleGame/Components/Triggers/Triggerable.h"
 
 class MessageData1S1I1F;
+class GameObject;
 
 //[[COMPONENT]]//
 class TriggerLoot : public Triggerable {
@@ -28,11 +29,13 @@ public:
 	void ForceLootGrab();
 protected:
 	virtual void onSwitchToggled(bool switchState);
+	virtual void update();
 
 private:
 	void init();
 	void destroy();
-
+	
+	GameObject* gameObjectRef;
 	ObjectIdType particleEffectId;
 	
 	glm::vec3 startPos;

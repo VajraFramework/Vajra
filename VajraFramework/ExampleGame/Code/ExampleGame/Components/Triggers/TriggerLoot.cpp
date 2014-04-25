@@ -9,6 +9,7 @@
 #include "Vajra/Engine/ParticleSystems/ParticleSystem.h"
 #include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 #include "Vajra/Utilities/MathUtilities.h"
@@ -26,9 +27,7 @@ void lootNumberTweenCallback(float /*fromNumber*/, float toNumber, float current
 				if(currentNumber == toNumber) {
 					loot->lootTweenEnd();
 				}
-			} else if(tweenClipName == "lootSpin" + StringUtilities::ConvertIntToString(userParams->i)) {
-				go->GetTransform()->Rotate(.15f, YAXIS);
-			}
+			} 
 		}
 	}
 }
@@ -50,11 +49,10 @@ void TriggerLoot::init() {
 	this->particleEffectId = particleEffect->GetId();
 	this->active = true;
 	this->moneyValue = 0;
-
-	MessageData1S1I1F* params = new MessageData1S1I1F();
-	params->i = this->GetObject()->GetId();
-	ENGINE->GetTween()->TweenToNumber(0.0f, 1.0f, 5.0f, INTERPOLATION_TYPE_LINEAR, false, true, true, "lootSpin" + StringUtilities::ConvertIntToString(params->i), NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_3D, params, lootNumberTweenCallback);
 	
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
+	this->gameObjectRef = (GameObject*)this->GetObject();
+	ASSERT(this->gameObjectRef->GetClassType() & CLASS_TYPE_GAMEOBJECT, "Object is a game object");
 }
 
 void TriggerLoot::destroy() {
@@ -63,6 +61,10 @@ void TriggerLoot::destroy() {
 
 void TriggerLoot::HandleMessage(MessageChunk messageChunk) {
 	Triggerable::HandleMessage(messageChunk);
+}
+
+void TriggerLoot::update() {
+	this->gameObjectRef->GetTransform()->Rotate(5 * ENGINE->GetTimer()->GetDeltaFrameTime(), YAXIS);
 }
 
 void TriggerLoot::SubscribeToParentSwitch() {
@@ -79,7 +81,7 @@ void TriggerLoot::SetActive(bool active) {
 
 void TriggerLoot::onSwitchToggled(bool /*switchState*/) {
 	if(this->active) {
-		this->startPos = this->GetObject()->GetComponent<Transform>()->GetPositionWorld();
+		this->startPos = this->GetObject()->GetComponent<Transform>()->GetPosition();
 		// Perform a position tween
 		MessageData1S1I1F* params = new MessageData1S1I1F();
 		params->i = this->GetObject()->GetId();

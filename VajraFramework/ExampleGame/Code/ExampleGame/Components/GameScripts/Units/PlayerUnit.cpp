@@ -17,6 +17,7 @@
 #include "Vajra/Engine/Input/Input.h"
 #include "Vajra/Engine/Prefabs/PrefabLoader.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
+#include "Vajra/Engine/Timer/Timer.h"
 #include "Vajra/Engine/Tween/Tween.h"
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
 
@@ -35,7 +36,7 @@ void playerUnitNumberTweenCallback(float /* fromNumber */, float /* toNumber */,
 				float scaleValue = sinf(currentNumber);
 				pUnit->touchIndicatorRef->GetTransform()->SetScale(scaleValue, scaleValue, scaleValue);
 			} else if(tweenClipName == "vizPulse") {
-				pUnit->selectionIndicatorRef->GetTransform()->Rotate(.2f, YAXIS);
+				pUnit->selectionIndicatorRef->GetTransform()->Rotate(7.0f * ENGINE->GetTimer()->GetDeltaFrameTime(), YAXIS);
 
 			}
 		}
