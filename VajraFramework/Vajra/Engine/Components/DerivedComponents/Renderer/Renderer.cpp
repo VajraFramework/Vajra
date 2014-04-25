@@ -48,6 +48,8 @@ void Renderer::init() {
 
 	this->isStatic = false;
 	this->isRenderBatch = false;
+
+	this->preventCulling = false;
 }
 
 void Renderer::destroy() {
