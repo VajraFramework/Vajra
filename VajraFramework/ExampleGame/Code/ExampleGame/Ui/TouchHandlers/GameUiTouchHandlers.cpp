@@ -1,11 +1,13 @@
  #include "ExampleGame/Components/GameScripts/Units/UnitDeclarations.h"
 #include "ExampleGame/Components/LevelManager/LevelFileTags.h"
 #include "ExampleGame/Components/LevelManager/LevelLoader.h"
+#include "ExampleGame/Components/LevelManager/TutorialCache.h"
 #include "ExampleGame/Messages/Declarations.h"
 #include "ExampleGame/Ui/MenuManager/MenuDefinitions.h"
 #include "ExampleGame/Ui/TouchHandlers/GameUiTouchHandlers.h"
 #include "ExampleGame/Ui/TouchHandlers/MainMenuTouchHandlers.h"
 #include "Vajra/Common/Objects/ObjectRegistry.h"
+#include "Vajra/Engine/AssetLibrary/Assets/TextureAssets/TextureAsset.h"
 #include "Vajra/Engine/Components/DerivedComponents/Transform/Transform.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
@@ -33,6 +35,8 @@
 #include "Vajra/Engine/SceneGraph/SceneGraph3D.h"
 #include "Vajra/Engine/Ui/UiElement/UiElement.h"
 #include "ExampleGame/GameSingletons/GameSingletons.h"
+
+#include <memory>
 
 #define TUTORIAL_EXIT_BTN "closeTutorial"
 #define DYNAMIC_TUTORIAL_ELEMENT "dynamicTutorial"
@@ -63,19 +67,11 @@ void onTutorialTweenOutComplete(ObjectIdType gameObjectId, std::string /* tweenC
 }
 
 GameUiTouchHandlers::GameUiTouchHandlers() : UiTouchHandlers() {
-	this->isTutorialLevel = false;
-	this->dynamicTutorialElement = nullptr;
-	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
-	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_CREATED_TUTORIAL);
-	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_ON_END_CONDITIONS_MET);
-	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SCENE_START);
+	this->init();
 }
 
 GameUiTouchHandlers::~GameUiTouchHandlers() {
-	if(this->dynamicTutorialElement != nullptr) {
-		delete this->dynamicTutorialElement;
-		this->dynamicTutorialElement = nullptr;
-	}
+	this->destroy();
 }
 
 void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
@@ -290,12 +286,12 @@ void GameUiTouchHandlers::setupTutorial(std::string levelName) {
 			this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(tutorialMessageType);
 			tData.msgType = tutorialMessageType;
 			
-			std::string tutorialType = messageNode->GetAttributeValueS(TYPE_ATTRIBUTE);
-			if (tutorialType == "Cutscene") {
-				tData.isCutscene = true;
-			}
-			else {
-				tData.isCutscene = false;
+			tData.isCutscene = false;
+			if (messageNode->HasAttribute(TYPE_ATTRIBUTE)) {
+				std::string tutorialType = messageNode->GetAttributeValueS(TYPE_ATTRIBUTE);
+				if (tutorialType == "Cutscene") {
+					tData.isCutscene = true;
+				}
 			}
 
 			// Load in data needed for this specific tutorial
@@ -333,6 +329,35 @@ void GameUiTouchHandlers::setupTutorial(std::string levelName) {
 }
 
 void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
+	static unsigned int cachedTutorial = (unsigned int)-1;
+	{
+		// Find the first tutorial that has not yet fired:
+		unsigned int unfiredTutorial = 0;
+		for (unfiredTutorial = 0; unfiredTutorial < this->tutorials.size(); ++unfiredTutorial) {
+			if(!this->tutorials[unfiredTutorial].hasFired) {
+				break;
+			}
+		}
+		if (unfiredTutorial == cachedTutorial || unfiredTutorial >= this->tutorials.size()) {
+			// Nothing to do; already cached
+		} else {
+			// Must cache next tutorial's images:
+			if (this->tutorialCache_ref == nullptr) {
+				this->tutorialCache_ref = new GameObject(ENGINE->GetSceneGraphUi());
+				this->tutorialCache_ref->AddComponent<TutorialCache>();
+			}
+			if (!this->tutorials[unfiredTutorial].imageNames.empty()) {
+				MessageChunk messageChunk = ENGINE->GetMessageHub()->GetOneFreeMessage();
+				messageChunk->SetMessageType(MESSAGE_TYPE_PRELOAD_IMAGE);
+				messageChunk->messageData.s = this->tutorials[unfiredTutorial].imageNames[0];
+				ENGINE->GetMessageHub()->SendPointcastMessage(messageChunk, this->tutorialCache_ref->GetId());
+			}
+			//
+			cachedTutorial = unfiredTutorial;
+		}
+
+	}
+
 	if(this->tutorials[index].msgType != messageChunk->GetMessageType()) {
 		return;
 	}
@@ -444,4 +469,24 @@ void GameUiTouchHandlers::onLevelEnd(bool success) {
 	postMenu->SetVisible(true);
 	SINGLETONS->GetMenuManager()->TweenInUiObject(postMenu);
 	this->tutorials.clear();
+}
+
+void GameUiTouchHandlers::init() {
+	this->tutorialCache_ref = nullptr;
+
+	this->isTutorialLevel = false;
+	this->dynamicTutorialElement = nullptr;
+	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
+	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_CREATED_TUTORIAL);
+	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_ON_END_CONDITIONS_MET);
+	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SCENE_START);
+}
+
+void GameUiTouchHandlers::destroy() {
+	this->tutorialCache_ref = nullptr;
+
+	if(this->dynamicTutorialElement != nullptr) {
+		delete this->dynamicTutorialElement;
+		this->dynamicTutorialElement = nullptr;
+	}
 }
