@@ -434,7 +434,7 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 			if(scores.time != -1) {
 				text = StringUtilities::ConvertIntToString(scores.time);
 			} else {
-				text = "N/A";
+				text = "-";
 			}
 			child->ChangeText(text);
 		} else if (child->GetName() == menuPrefix + "kill_score") {
@@ -442,7 +442,7 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 			if(scores.kills != -1) {
 				text = StringUtilities::ConvertIntToString(scores.kills);
 			} else {
-				text = "N/A";
+				text = "-";
 			}
 			child->ChangeText(text);
 		} else if (child->GetName() == menuPrefix + "alert_score") {
@@ -450,7 +450,7 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 			if(scores.alerts != -1) {
 				text = StringUtilities::ConvertIntToString(scores.alerts);
 			} else {
-				text = "N/A";
+				text = "-";
 			}
 			child->ChangeText(text);
 		} else if (child->GetName() == menuPrefix + "loot_score") {
@@ -458,7 +458,7 @@ void MenuManager::UpdateMenuWithMastery(std::string menuName, int levelIndex) {
 			if(scores.money != -1) {
 				text = StringUtilities::ConvertIntToString(scores.money);
 			} else {
-				text = "N/A";
+				text = "-";
 			}
 			child->ChangeText(text);
 		} 
