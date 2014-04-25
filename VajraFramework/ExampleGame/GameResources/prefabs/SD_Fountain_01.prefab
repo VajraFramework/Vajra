@@ -13,7 +13,7 @@
 		<component name="Transform">
 			<property name="Translate">
 				<field>0.0</field>
-				<field>0.75</field>
+				<field>0.5</field>
 				<field>0.0</field>
 			</property>
 		</component>
@@ -22,21 +22,18 @@
 	  	<gameobject>
 			<component name="ParticleSystem">
 				<property name="SetNumberOfParticles">
-					<field>50</field>
-					<field>200</field>
+					<field>100</field>
+					<field>300</field>
 				</property>
 				<property name="SetParticleSpeed">
 					<field>1.0</field>
 					<field>0.75</field>
 				</property>
 				<property name="SetEmissionVolume">
-					<field>ellipsoid</field>
-					<field>0.1</field>
-					<field>0.6</field>
-					<field>0.1</field>
+					<field>point</field>
 				</property>
 				<property name="SetOverallLifespan">
-					<field>0.5</field>
+					<field>3.0</field>
 				</property>
 				<property name="SetParticleVelocityDirection">
 					<field>0.0</field>
@@ -44,10 +41,10 @@
 					<field>0.0</field>
 				</property>
 				<property name="SetParticleVelocityDirectionRandomness">
-					<field>0.2</field>
+					<field>0.01</field>
 				</property>
 				<property name="SetAccelerationAmount">
-					<field>1.2</field>
+					<field>5.0</field>
 				</property>
 				<property name="SetAccelerationDirection">
 					<field>0.0</field>
@@ -55,20 +52,20 @@
 					<field>0.0</field>
 				</property>
 				<property name="SetParticleSize">
-					<field>32</field>
 					<field>16</field>
+					<field>32</field>
 				</property>
 				<property name="SetParticleLifespan">
-					<field>2.0</field>
+					<field>3.0</field>
 				</property>
 				<property name="SetParticleTexture">
-					<field>pictures/SD_Water_01.png</field>
+					<field>pictures/waterparticles.png</field>
 				</property>
 				<property name="SetParticleInitialColor">
 					<field>1.0</field>
 					<field>1.0</field>
 					<field>1.0</field>
-					<field>1.0</field>
+					<field>0.5</field>
 				</property>
 				<property name="SetParticleFinalColor">
 					<field>1.0</field>
@@ -91,7 +88,7 @@
 			<component name="Transform">
 				<property name="Translate">
 					<field>0.0</field>
-					<field>1.25</field>
+					<field>1.5</field>
 					<field>0.0</field>
 				</property>
 			</component>
