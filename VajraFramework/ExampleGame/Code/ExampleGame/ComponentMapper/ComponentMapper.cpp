@@ -797,6 +797,11 @@ void ComponentMapper::InitializePropertyByComponentAndPropertyNames(GameObject *
 			component->SetHasPotLoot();
 			return;
 		}
+		if (propertyName == "AddLinkage") {
+			if ((int)argv.size() < 1) { return; }
+			component->AddLinkage(ConvertStringToString(argv[0]));
+			return;
+		}
 		return;
 	}
 	
