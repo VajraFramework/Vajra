@@ -256,12 +256,14 @@ void GameGrid::AddGridZone(ObjectIdType zoneId) {
 		if (zone != nullptr) {
 			auto iter = std::find(this->gridZones.begin(), this->gridZones.end(), zoneId);
 			if (iter == this->gridZones.end()) {
-				int west, east, south, north;
-				zone->GetZoneBounds(west, east, south, north);
-				for (int x = west; x <= east; ++x) {
-					for (int z = south; z <= north; ++z) {
-						if (this->isWithinGrid(x, z)) {
-							this->gridCells[x][z]->AddZoneToCell(zoneId);
+				if (zone->IsEnabled()) {
+					int west, east, south, north;
+					zone->GetZoneBounds(west, east, south, north);
+					for (int x = west; x <= east; ++x) {
+						for (int z = south; z <= north; ++z) {
+							if (this->isWithinGrid(x, z)) {
+								this->gridCells[x][z]->AddZoneToCell(zoneId);
+							}
 						}
 					}
 				}

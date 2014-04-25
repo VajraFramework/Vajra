@@ -424,21 +424,23 @@ void GridManager::placeZoneOnGrid(ObjectIdType id) {
 		GridZone* zone = obj->GetComponent<GridZone>();
 		ASSERT(zone != nullptr, "Object with id %d has GridZone component", id);
 		if (zone != nullptr) {
-			int west, east, south, north;
-			zone->GetZoneBounds(west, east, south, north);
-			for (int x = west; x <= east; ++x) {
-				for (int z = south; z <= north; ++z) {
-					GridCell* cell = this->grid->GetCell(x, z);
-					if (cell != nullptr) {
-						for (int y = 0; y < NUM_ELEVATIONS; ++y) {
-							ObjectIdType occId = cell->GetOccupantIdAtElevation(y);
-							if (occId != OBJECT_ID_INVALID) {
-								MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
-								collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED);
-								collisionMessage->messageData.iv1.x = x;
-								collisionMessage->messageData.iv1.y = y;
-								collisionMessage->messageData.iv1.z = z;
-								ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, id, occId);
+			if (zone->IsEnabled()) {
+				int west, east, south, north;
+				zone->GetZoneBounds(west, east, south, north);
+				for (int x = west; x <= east; ++x) {
+					for (int z = south; z <= north; ++z) {
+						GridCell* cell = this->grid->GetCell(x, z);
+						if (cell != nullptr) {
+							for (int y = 0; y < NUM_ELEVATIONS; ++y) {
+								ObjectIdType occId = cell->GetOccupantIdAtElevation(y);
+								if (occId != OBJECT_ID_INVALID) {
+									MessageChunk collisionMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+									collisionMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED);
+									collisionMessage->messageData.iv1.x = x;
+									collisionMessage->messageData.iv1.y = y;
+									collisionMessage->messageData.iv1.z = z;
+									ENGINE->GetMessageHub()->SendPointcastMessage(collisionMessage, id, occId);
+								}
 							}
 						}
 					}

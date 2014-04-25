@@ -36,6 +36,12 @@ public:
 
 	ObjectIdType VisualzerSpriteRendererId();
 
+	inline bool IsEnabled() { return this->isEnabled; }
+	//[[PROPERTY]]//
+	void Enable();
+	//[[PROPERTY]]//
+	void Disable();
+
 protected:
 	GridZoneType zoneType;
 
@@ -74,6 +80,7 @@ private:
 
 	bool displayVisualizerInGameMode;
 	bool displayVisualizerInOverviewMode;
+	bool isEnabled;
 
 	static unsigned int componentTypeId;
 };

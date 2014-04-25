@@ -74,7 +74,9 @@ void GridZone::SetZoneBounds(int xMin, int zMin, int xMax, int zMax) {
 		this->relativeNorthBound = zMin;
 	}
 
-	this->sendCellEvents();
+	if (this->isEnabled) {
+		this->sendCellEvents();
+	}
 }
 
 bool GridZone::IsCellWithinZone(GridCell* cell) {
@@ -241,7 +243,9 @@ void GridZone::sendCellEvents() {
 }
 
 void GridZone::onTransformChanged() {
-	this->sendCellEvents();
+	if (this->isEnabled) {
+		this->sendCellEvents();
+	}
 }
 
 void GridZone::handleCameraModeChanged() {
@@ -305,6 +309,7 @@ void GridZone::updateVisualizer() {
 	this->visualizerObjectRef->GetTransform()->SetPosition(offset);
 	this->visualizerObjectRef->GetTransform()->SetScale(x_max - x_min + 1, z_max - z_min + 1, z_max - z_min + 1);
 	this->visualizerObjectRef->GetTransform()->SetOrientation(-90.0f inRadians, this->visualizerObjectRef->GetTransform()->GetLeft());
+	this->visualizerObjectRef->SetVisible(this->isEnabled);
 }
 
 ObjectIdType GridZone::VisualzerSpriteRendererId(){
@@ -312,6 +317,70 @@ ObjectIdType GridZone::VisualzerSpriteRendererId(){
 		return this->visualizerObjectRef->GetId();
 	}
 	return OBJECT_ID_INVALID;
+}
+
+void GridZone::Enable() {
+	if (!this->isEnabled) {
+		this->isEnabled = true;
+		this->updateZoneBounds();
+
+		// Don't send messages unless the zone has been added to the grid.
+		GameGrid* grid = SINGLETONS->GetGridManager()->GetGrid();
+		if (grid->ZoneExistsOnGrid(this->GetObject()->GetId())) {
+			int gridWidth = SINGLETONS->GetGridManager()->GetGrid()->GetGridWidth();
+
+			// Get list of cells that the zone occupies now.
+			std::list<int> newCells;
+			for (int x = this->trueWestBound; x <= this->trueEastBound; ++x) {
+				for (int z = this->trueSouthBound; z <= this->trueNorthBound; ++z) {
+					newCells.push_back(x * gridWidth + z);
+				}
+			}
+
+			for (auto iter = newCells.begin(); iter != newCells.end(); ++iter) {
+				int x = (*iter) / gridWidth;
+				int z = (*iter) % gridWidth;
+				MessageChunk enteredCellMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+				enteredCellMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_ENTERED_CELL);
+				enteredCellMessage->messageData.iv1.x = x;
+				enteredCellMessage->messageData.iv1.z = z;
+				ENGINE->GetMessageHub()->SendMulticastMessage(enteredCellMessage, this->GetObject()->GetId());
+			}
+		}
+	}
+}
+
+void GridZone::Disable() {
+	if (this->isEnabled) {
+		this->isEnabled = false;
+
+		// Don't send messages unless the zone has been added to the grid.
+		GameGrid* grid = SINGLETONS->GetGridManager()->GetGrid();
+		if (grid->ZoneExistsOnGrid(this->GetObject()->GetId())) {
+			int gridWidth = SINGLETONS->GetGridManager()->GetGrid()->GetGridWidth();
+
+			// Get list of cells that the zone occupied before.
+			std::list<int> oldCells;
+			for (int x = this->trueWestBound; x <= this->trueEastBound; ++x) {
+				for (int z = this->trueSouthBound; z <= this->trueNorthBound; ++z) {
+					oldCells.push_back(x * gridWidth + z);
+				}
+			}
+
+			// Send messages based on the cells that were entered or exited.
+			for (auto iter = oldCells.begin(); iter != oldCells.end(); ++iter) {
+				int x = (*iter) / gridWidth;
+				int z = (*iter) % gridWidth;
+				MessageChunk enteredCellMessage = ENGINE->GetMessageHub()->GetOneFreeMessage();
+				enteredCellMessage->SetMessageType(MESSAGE_TYPE_GRID_ZONE_EXITED_CELL);
+				enteredCellMessage->messageData.iv1.x = x;
+				enteredCellMessage->messageData.iv1.z = z;
+				ENGINE->GetMessageHub()->SendMulticastMessage(enteredCellMessage, this->GetObject()->GetId());
+			}
+		}
+
+		this->updateVisualizer();
+	}
 }
 
 void GridZone::init() {
@@ -334,6 +403,7 @@ void GridZone::init() {
 	this->visualizerObjectRef = nullptr;
 	this->displayVisualizerInGameMode = true;
 	this->displayVisualizerInOverviewMode = true;
+	this->isEnabled = true;;
 
 	this->updateZoneBounds();
 
