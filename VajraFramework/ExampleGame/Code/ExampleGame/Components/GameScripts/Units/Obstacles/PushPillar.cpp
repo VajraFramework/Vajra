@@ -209,8 +209,10 @@ void PushPillar::setNextTarget() {
 	if (myCell != nullptr) {
 		GridCell* targetCell = SINGLETONS->GetGridManager()->GetGrid()->GetCell(myCell->x + this->slideX, myCell->z - this->slideZ);
 		if (targetCell != nullptr) {
-			if (this->gridNavRef->canNavigateThroughCellAtElevation(targetCell, this->gridNavRef->GetElevation(), false)) {
+			int elevation = this->gridNavRef->GetElevation();
+			if (this->gridNavRef->canNavigateThroughCellAtElevation(targetCell, elevation, false)) {
 				this->targetPosition = targetCell->center;
+				SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(targetCell->x, targetCell->z, elevation, false);
 			}
 			else {
 				this->targetPosition = ZERO_VEC3;
@@ -345,6 +347,7 @@ void PushPillar::onZoneEnteredCell(int gridX, int gridZ) {
 	if (elevation < (NUM_ELEVATIONS - 1)) {
 		SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gridX, gridZ, elevation + 1, true);
 	}
+	SINGLETONS->GetGridManager()->GetGrid()->SetCellPassableAtElevation(gridX, gridZ, elevation, true);
 }
 
 void PushPillar::onZoneExitedCell(int gridX, int gridZ) {
