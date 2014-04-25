@@ -143,7 +143,7 @@ void TransitionZone::onUnitEnteredZone(ObjectIdType id, GridCell* startCell) {
 
 	GridCell* unitCell = startCell;
 	if (unitCell == nullptr) {
-		gNav->GetCurrentCell();
+		unitCell = gNav->GetCurrentCell();
 	}
 
 	int destCellX1, destCellZ1, destCellX2, destCellZ2;
