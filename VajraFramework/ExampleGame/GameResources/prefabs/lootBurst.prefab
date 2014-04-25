@@ -2,12 +2,12 @@
 	<gameobject>
 		<component name="ParticleSystem">
 			<property name="SetNumberOfParticles">
-				<field>20</field>
-				<field>20</field>
+				<field>10</field>
+				<field>10</field>
 			</property>
 			<property name="SetParticleSpeed">
-				<field>0.75</field>
-				<field>0.75</field>
+				<field>3.0</field>
+				<field>0.0</field>
 			</property>
 			<property name="SetEmissionVolume">
 				<field>ellipsoid</field>
@@ -27,14 +27,14 @@
 				<field>0.5</field>
 			</property>
 			<property name="SetParticleSize">
-				<field>4</field>
 				<field>16</field>
+				<field>4</field>
 			</property>
 			<property name="SetParticleLifespan">
 				<field>.5</field>
 			</property>
 			<property name="SetParticleTexture">
-				<field>pictures/defaultParticle.png</field>
+				<field>pictures/SD_HUDTracker_Treasure_01.png</field>
 			</property>
 			<property name="SetParticleInitialColor">
 				<field>1.0</field>

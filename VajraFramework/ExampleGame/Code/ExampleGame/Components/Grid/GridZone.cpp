@@ -257,10 +257,10 @@ void GridZone::handleCameraModeChanged() {
 	ASSERT(shadyCamera != nullptr, "Got shady camera");
 	if (shadyCamera != nullptr) {
 		if (shadyCamera->GetCameraMode() == ShadyCamera::CameraMode_Game) {
-			this->visualizerObjectRef->SetVisible(this->displayVisualizerInGameMode);
+			this->visualizerObjectRef->SetVisible(this->displayVisualizerInGameMode && this->isEnabled);
 
 		} else if (shadyCamera->GetCameraMode() == ShadyCamera::CameraMode_Overview) {
-			this->visualizerObjectRef->SetVisible(this->displayVisualizerInOverviewMode);
+			this->visualizerObjectRef->SetVisible(this->displayVisualizerInOverviewMode && this->isEnabled);
 
 		}
 
