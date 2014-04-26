@@ -287,7 +287,7 @@ void LevelManager::initBundleForFirstTime() {
 	levelCompletion[0] = 'U'; // U = unlocked
 	this->onLevelUnlocked(0);
 	for(int i = 1; i < MAX_LEVELS_POSSIBLE; ++i) {
-#ifdef DEBUG
+#ifdef DAN
 		levelCompletion[i] = 'U';
 		this->onLevelUnlocked(i);
 #else
