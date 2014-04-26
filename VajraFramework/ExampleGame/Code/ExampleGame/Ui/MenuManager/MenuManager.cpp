@@ -247,9 +247,9 @@ void MenuManager::CenterUiObject(UiObject* element) {
 	
 }
 
-void MenuManager::PlayBGM(std::string key) {
+void MenuManager::PlayBGM(std::string key, bool loop/*= true*/) {
 	// Background music is looped by default
-	this->menuBGMSource->Play(key, true);
+	this->menuBGMSource->Play(key, loop);
 }
 
 void MenuManager::PauseBGM() {
@@ -320,6 +320,8 @@ void MenuManager::createMenuAudioSource() {
 	this->menuBGMSource->SetVolume(0.1f);
 	this->menuBGMSource->SetSourceIs3D(false);
 	this->menuBGMSource->SetPlayOnlyWhenVisible(false);
+	this->menuBGMSource->LoadAudioClip(LEVEL_WIN_BGM, audioDir + LEVEL_WIN_ASSET);
+	this->menuBGMSource->LoadAudioClip(LEVEL_LOSE_BGM, audioDir + LEVEL_LOSE_ASSET);
 
 	GameObject* sfxObj = new GameObject(ENGINE->GetSceneGraphUi());
 	this->menuSFXSource = sfxObj->AddComponent<AudioSource>();

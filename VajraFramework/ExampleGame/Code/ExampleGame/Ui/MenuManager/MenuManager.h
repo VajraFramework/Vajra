@@ -39,7 +39,7 @@ public:
 	void UpdateMenuWithMastery(std::string menuName, int levelIndex);
 
 	AudioSource* GetBGMSource() { return this->menuBGMSource; }
-	void PlayBGM(std::string key);
+	void PlayBGM(std::string key, bool loop = true);
 	void PauseBGM();
 	void StopBGM();
 

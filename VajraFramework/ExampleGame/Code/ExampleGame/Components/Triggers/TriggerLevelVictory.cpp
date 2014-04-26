@@ -4,7 +4,10 @@
 //
 
 #include "ExampleGame/Components/Triggers/TriggerLevelVictory.h"
+#include "ExampleGame/GameSingletons/GameSingletons.h"
 #include "ExampleGame/Messages/Declarations.h"
+#include "ExampleGame/Ui/MenuManager/MenuDefinitions.h"
+#include "ExampleGame/Ui/MenuManager/MenuManager.h"
 #include "Vajra/Common/Objects/Object.h"
 #include "Vajra/Engine/Core/Engine.h"
 #include "Vajra/Engine/MessageHub/MessageHub.h"
@@ -34,4 +37,5 @@ void TriggerLevelVictory::onSwitchActivated() {
 	victoryMessage->SetMessageType(MESSAGE_TYPE_ON_END_CONDITIONS_MET);
 	victoryMessage->messageData.iv1.x = 1; // Player won
 	ENGINE->GetMessageHub()->SendMulticastMessage(victoryMessage, this->GetObject()->GetId());
+	SINGLETONS->GetMenuManager()->PlayBGM(LEVEL_WIN_BGM, false);
 }
