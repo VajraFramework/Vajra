@@ -48,20 +48,11 @@
 
 		<uielement name="play" visible="true" clickable="true">
 			<dimensions>
-				<position xwrto="CENTER" ywrto="TOP" x="-90" y="450"></position>
+				<position xwrto="CENTER" ywrto="TOP" x="-90" y="475"></position>
 				<size widthPixels="180" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<image name="SD_Play_Button.png" hasTransperancy="false"> </image>
-		</uielement>
-		<uielement name="options" visible="true" clickable="true">
-			<dimensions>
-				<position xwrto="CENTER" ywrto="TOP" x="-65" y="540"></position>
-				<size widthPixels="130" heightPixels="50"></size>
-				<zorder>1</zorder>
-			</dimensions>
-			<color r="1.0" g="1.0" b="1.0" a="0.0"></color>
-			<image name="SD_Options_Button.png" hasTransperancy="false"> </image>
 		</uielement>
 
 	</uielement>
@@ -204,6 +195,20 @@
 				<size widthPixels="1024" heightPixels="768"></size>
 				<zorder>5</zorder>
 			</dimensions>
+
+			<uielement name="contractHeader" visible="true" clickable="false">
+				<dimensions>
+					<position xwrto="CENTER" ywrto="TOP" x="-512" y="32"></position>
+					<size widthPixels="1024" heightPixels="100"></size>
+					<zorder>35</zorder>
+				</dimensions>
+				<text>
+					<font type="RomanSD.fontspec" size="64.0" alignment="CENTER">
+						<color r="0.65" g="0.12" b="0.14" a="1.0"></color>
+					</font>
+					CONTRACT SELECTION
+				</text>
+			</uielement>
 			<uielement name="contractOne" visible="true" clickable="true">
 				<dimensions>
 					<position xwrto="CENTER" ywrto="CENTER" x="-375" y="-200"></position>
@@ -267,7 +272,7 @@
 						<zorder>35</zorder>
 					</dimensions>
 					<text>
-						<font type="calibiri.fontspec" size="56.0" alignment="CENTER">
+						<font type="RomanSD.fontspec" size="56.0" alignment="CENTER">
 							<color r="0.65" g="0.12" b="0.14" a="1.0"></color>
 						</font>
 						Assassinate Fargiosion
@@ -280,7 +285,7 @@
 						<zorder>35</zorder>
 					</dimensions>
 					<text>
-						<font type="calibiri.fontspec" size="32.0" alignment="CENTER">
+						<font type="RomanSD.fontspec" size="32.0" alignment="CENTER">
 							<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 						</font>
 						Training Camp
@@ -324,7 +329,7 @@
 				<zorder>261</zorder>
 			</dimensions>		
 			<text>
-				<font type="calibiri.fontspec" size="62.0" alignment="CENTER">
+				<font type="RomanSD.fontspec" size="62.0" alignment="CENTER">
 					<color r="0.65" g="0.12" b="0.14" a="1.0"></color>
 				</font>
 				LOADING
@@ -359,7 +364,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="38.0" alignment="RIGHT">
+				<font type="RomanSD.fontspec" size="38.0" alignment="RIGHT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				BONUS:
@@ -373,7 +378,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="58.0" alignment="CENTER">
+				<font type="RomanSD.fontspec" size="58.0" alignment="CENTER">
 					<color r="0.65" g="0.12" b="0.14" a="1.0"></color>
 				</font>
 				Mission Name
@@ -387,7 +392,7 @@
 				<zorder>55</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="46.0" alignment="LEFT">
+				<font type="RomanSD.fontspec" size="46.0" alignment="LEFT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Bounty: 5000
@@ -401,7 +406,7 @@
 				<zorder>55</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="46.0" alignment="RIGHT">
+				<font type="RomanSD.fontspec" size="46.0" alignment="RIGHT">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				BEST TAKE: 15000
@@ -415,7 +420,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="48.0" alignment="CENTER">
+				<font type="RomanSD.fontspec" size="48.0" alignment="CENTER">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Mission Type
@@ -429,7 +434,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="52.0" alignment="CENTER">
+				<font type="RomanSD.fontspec" size="52.0" alignment="CENTER">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				Bonus Values and Qualifiers
@@ -443,7 +448,7 @@
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="36.0" alignment="LEFT">
+				<font type="RomanSD.fontspec" size="36.0" alignment="LEFT">
 					<color r="0.65" g="0.12" b="0.14" a="1.0"></color>
 				</font>
 				Completion
@@ -461,12 +466,12 @@
 
 		<uielement name="preGame_time_score" clickable="false" visible="true">
 			<dimensions>
-				<position x="102" y="196"></position>
+				<position x="102" y="208"></position>
 				<size widthPixels="128" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="64.0">
+				<font type="RomanSD.fontspec" size="64.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				1:00
@@ -484,12 +489,12 @@
 
 		<uielement name="preGame_kill_score" clickable="false" visible="true">
 			<dimensions>
-				<position x="281" y="196"></position>
+				<position x="281" y="208"></position>
 				<size widthPixels="128" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="64.0">
+				<font type="RomanSD.fontspec" size="64.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				3/5
@@ -498,7 +503,7 @@
 
 		<uielement name="preGame_alert_icon" clickable="false" visible="true">
 			<dimensions>
-				<position x="385" y="196"></position>
+				<position x="385" y="200"></position>
 				<size widthPixels="64" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
@@ -507,12 +512,12 @@
 
 		<uielement name="preGame_alert_score" clickable="false" visible="true">
 			<dimensions>
-				<position x="457" y="196"></position>
+				<position x="457" y="208"></position>
 				<size widthPixels="128" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="64.0">
+				<font type="RomanSD.fontspec" size="64.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				3/5
@@ -530,12 +535,12 @@
 
 		<uielement name="preGame_loot_score" clickable="false" visible="true">
 			<dimensions>
-				<position x="636" y="196"></position>
+				<position x="636" y="208"></position>
 				<size widthPixels="128" heightPixels="64"></size>
 				<zorder>1</zorder>
 			</dimensions>
 			<text>
-				<font type="calibiri.fontspec" size="64.0">
+				<font type="RomanSD.fontspec" size="64.0">
 					<color r="1.0" g="1.0" b="1.0" a="1.0"></color>
 				</font>
 				1:00
