@@ -29,6 +29,10 @@ ComponentIdType MenuManager::componentTypeId = COMPONENT_TYPE_ID_LEVEL_MANAGER;
 #define BACKDROP_MAX_ALPHA 0.7f
 
 #define BACKDROP "popUpBack"
+
+#define MUST_PAUSE 24
+#define MUST_RESUME 25
+
 void menuManagerNumberTweenCallback(float /* fromNumber */, float toNumber , float currentNumber, std::string tweenClipName, MessageData1S1I1F* userParams) {
 	if(tweenClipName == "extraLoadTime") {
 		SINGLETONS->GetMenuManager()->hideLoadScreen();
@@ -38,6 +42,14 @@ void menuManagerNumberTweenCallback(float /* fromNumber */, float toNumber , flo
 		SINGLETONS->GetMenuManager()->backdrop->SetSpriteColor(backdropColor);
 		if(currentNumber == 0 && toNumber == 0) {
 			SINGLETONS->GetMenuManager()->backdrop->SetVisible(false);
+		}
+
+		if (userParams != nullptr) {
+			if (userParams->i == MUST_PAUSE) {
+				ENGINE->GetSceneGraph3D()->Pause();
+			} else if (userParams->i == MUST_RESUME) {
+				ENGINE->GetSceneGraph3D()->Resume();
+			}
 		}
 	} else if (tweenClipName == "loadScreenFadeIn") {
 		glm::vec4 loadScreenColor = SINGLETONS->GetMenuManager()->loadScreen->GetSpriteColor();
@@ -180,7 +192,12 @@ void MenuManager::TweenOutUiObject(UiObject* element) {
 		glm::vec3 offScreen = glm::vec3(halfScreenWidth - halfWidth, -1.5f * FRAMEWORK->GetDeviceProperties()->GetHeightPixels() + halfHeight, 0.0f);
 
 		this->backdrop->SetVisible(true);
-		ENGINE->GetTween()->TweenToNumber(BACKDROP_MAX_ALPHA, 0.0f, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "backDropFade", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
+		MessageData1S1I1F* userParams = nullptr;
+		if (element->GetName() == "tutorialScreen") {
+			userParams = new MessageData1S1I1F();
+			userParams->i = MUST_RESUME;
+		}
+		ENGINE->GetTween()->TweenToNumber(BACKDROP_MAX_ALPHA, 0.0f, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "backDropFade", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, userParams, menuManagerNumberTweenCallback);
 		
 		screenCenter.z = element->GetZOrder();
 		offScreen.z = element->GetZOrder();
@@ -208,7 +225,12 @@ void MenuManager::TweenInUiObject(UiObject* element) {
 		glm::vec3 offScreen = glm::vec3(halfScreenWidth - halfWidth, -1.5f * FRAMEWORK->GetDeviceProperties()->GetHeightPixels() + halfHeight, 0.0f);
 
 		SINGLETONS->GetMenuManager()->backdrop->SetVisible(true);
-		ENGINE->GetTween()->TweenToNumber(0.0f, BACKDROP_MAX_ALPHA, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "backDropFade", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, NULL, menuManagerNumberTweenCallback);
+		MessageData1S1I1F* userParams = nullptr;
+		if (element->GetName() == "tutorialScreen") {
+			userParams = new MessageData1S1I1F();
+			userParams->i = MUST_PAUSE;
+		}
+		ENGINE->GetTween()->TweenToNumber(0.0f, BACKDROP_MAX_ALPHA, .5f, INTERPOLATION_TYPE_LINEAR, true, false, true, "backDropFade", NUMBER_TWEEN_AFFILIATION_SCENEGRAPH_Ui, userParams, menuManagerNumberTweenCallback);
 				
 		
 		screenCenter.z = element->GetZOrder();
@@ -222,6 +244,7 @@ void MenuManager::TweenInUiObject(UiObject* element) {
 										  0.5f,
 										  false,
 										  INTERPOLATION_TYPE_LINEAR);
+
 	}
 	
 }
