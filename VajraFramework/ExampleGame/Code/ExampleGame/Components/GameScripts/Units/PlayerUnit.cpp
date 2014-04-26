@@ -410,7 +410,7 @@ glm::vec3 PlayerUnit::GetOffsetFromCell(GridCell* targetCell, float additionalOf
 		GameObject* zone = ENGINE->GetSceneGraph3D()->GetGameObjectById(zoneIds);
 		if(zone != nullptr) {
 			if(zone->HasTag("PressurePlate") || zone->HasTag("Switch")) {
-				offset += .3f;
+				offset += .6f;
 			}
 		}
 	}
