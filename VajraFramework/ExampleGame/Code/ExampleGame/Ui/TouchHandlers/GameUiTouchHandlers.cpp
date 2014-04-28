@@ -419,7 +419,11 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 		}
 		else {
 			this->dynamicTutorialElement->GetTransform()->SetPosition(0.5f, -34.0f, this->dynamicTutorialElement->GetTransform()->GetPosition().z);
-			this->dynamicTutorialElement->InitSprite(768, 432, "ustshdr", imagePaths, false);
+			int width_out = 768;
+			int height_out = 432;
+			int dummy = 10;
+			UiSceneLoader::AdjustPositionForResolution(dummy, dummy, "LEFT", "TOP", width_out, height_out, 1024, 768);
+			this->dynamicTutorialElement->InitSprite(width_out, height_out, "ustshdr", imagePaths, false);
 		}
 		this->dynamicTutorialElement->SetZOrder(3);
 		UiElement* exitBtn = (UiElement*)ObjectRegistry::GetObjectByName(TUTORIAL_EXIT_BTN);
