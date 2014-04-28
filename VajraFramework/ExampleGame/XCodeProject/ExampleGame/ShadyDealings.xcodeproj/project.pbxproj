@@ -2880,8 +2880,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Avinash Krishnan Raghu (439SBUK68X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Avinash Krishnan Raghu (439SBUK68X)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ExampleGame/ShadyDealings-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2890,13 +2890,16 @@
 					PLATFORM_IOS,
 				);
 				INFOPLIST_FILE = "ExampleGame/ShadyDealings-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../lib/ios/iphonesimulator,
 					../../lib/ios/iphoneos,
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Shady Dealings";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2D7FBB14-FF20-492F-A0D6-7AB6FB10FEA9";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "./ExampleGame/ ../../include ../../Code/ ../../include/Libraries/";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2908,8 +2911,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Avinash Krishnan Raghu (ECPUWEYWF8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Avinash Krishnan Raghu (ECPUWEYWF8)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ExampleGame/ShadyDealings-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2917,13 +2920,16 @@
 					GLM_FORCE_RADIANS,
 				);
 				INFOPLIST_FILE = "ExampleGame/ShadyDealings-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../lib/ios/iphonesimulator,
 					../../lib/ios/iphoneos,
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Shady Dealings";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2D7FBB14-FF20-492F-A0D6-7AB6FB10FEA9";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "./ExampleGame/ ../../include ../../Code/ ../../include/Libraries/";
 				WRAPPER_EXTENSION = app;
 			};

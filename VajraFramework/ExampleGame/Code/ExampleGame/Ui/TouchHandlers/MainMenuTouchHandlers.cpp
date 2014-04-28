@@ -13,6 +13,7 @@
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/Settings/Settings.h"
+#include "Vajra/Utilities/StringUtilities.h"
 
 // Todo [HACK] when level loading is better we probably won't need all these
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
@@ -278,8 +279,8 @@ void MainMenuTouchHandlers::scrollToCurrentMission() {
 		this->updateTitleNames(curMissionIndex);
 	}
 
-	
 }
+
 void MainMenuTouchHandlers::createMissionMenu() {
 	this->missionRoot = (UiElement*)ObjectRegistry::GetObjectByName("missionMenu");
 	this->contractRoot = (UiElement*)ObjectRegistry::GetObjectByName(CONTRACT);
@@ -305,9 +306,22 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Completed_01.png");
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Locked_01.png"); // TEMP : replace with locked image
 
+		UiElement* pipNumber = new UiElement(ENGINE->GetSceneGraphUi());
+		int dummy = 10;
+		int fontSize_out = 24;
+		UiSceneLoader::AdjustPositionForResolution(dummy, dummy, "LEFT", "TOP", fontSize_out, dummy, 1024, 768);
+		pipNumber->InitTextToDisplay(StringUtilities::ConvertIntToString(i + 1), 0, 0, FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesFolderName() + "RomanSD.fontspec", fontSize_out, UI_FONT_ALIGNMENT_left);
+		pipNumber->SetFontColor(glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
+		int posX_out = 57;
+		int posY_out = 20;
+		// TODO [Hack] 1024x768
+		UiSceneLoader::AdjustPositionForResolution(posX_out, posY_out, "LEFT", "TOP", dummy, dummy, 1024, 768);
+		pipNumber->SetPosition(posX_out, posY_out);
+		pipNumber->SetZOrder(10);
+		uiElement->AddChild(pipNumber->GetId());
+
 		int width_out = 128;
 		int height_out = 128;
-		int dummy = 10;
 		// TODO [Hack] 1024x768
 		UiSceneLoader::AdjustPositionForResolution(dummy, dummy, "LEFT", "TOP", width_out, height_out, 1024, 768);
 		uiElement->InitSprite(width_out, height_out, "ustshdr", imagePaths, true);
