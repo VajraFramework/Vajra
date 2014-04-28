@@ -165,14 +165,15 @@ void LevelManager::OnCurrentLevelWon(LevelCompletion completion) {
 			this->levelCompletionData[lData->levelNum] = 'B';
 
 		}
-
-		LevelData* nextLevel = this->getNextLevel();
-		if(nextLevel->completion == LevelCompletion::Locked) {
-			nextLevel->completion = LevelCompletion::Unlocked;
-			this->levelCompletionData[nextLevel->levelNum] = 'U';
-			this->onLevelUnlocked(nextLevel->levelNum);
+		
+		if(lData->name != "SD_Prison_2") {
+			LevelData* nextLevel = this->getNextLevel();
+			if(nextLevel != nullptr && nextLevel->completion == LevelCompletion::Locked) {
+				nextLevel->completion = LevelCompletion::Unlocked;
+				this->levelCompletionData[nextLevel->levelNum] = 'U';
+				this->onLevelUnlocked(nextLevel->levelNum);
+			}
 		}
-
 		bundle->PutString(LEVEL_COMPLETION, this->levelCompletionData);
 		bundle->Save();
 	}
@@ -287,7 +288,7 @@ void LevelManager::initBundleForFirstTime() {
 	levelCompletion[0] = 'U'; // U = unlocked
 	this->onLevelUnlocked(0);
 	for(int i = 1; i < MAX_LEVELS_POSSIBLE; ++i) {
-#ifdef DAN
+#ifdef DEBUG
 		levelCompletion[i] = 'U';
 		this->onLevelUnlocked(i);
 #else
