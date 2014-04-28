@@ -1,43 +1,43 @@
 <levels>
 	<contract title="Assassinate_the_Senator">
 		<mission title="Training_Camp">
-			<level name="Assassin_Training" path="SD_Playtest2_01.lvl" type="Infiltration" bounty="1696">
-				<missionScreen x="300" y="300" parallaxScreen="0"></missionScreen>
-				<bonus type="Time" value="55"></bonus>
+			<level name="Assassin_Training" path="SD_Playtest2_01.lvl" type="Infiltration" bounty="250">
+				<missionScreen x="100" y="550" parallaxScreen="0"></missionScreen>
+				<bonus type="Money" value="175"></bonus>
 			</level>
-			<level name="Thief_Training" path="SD_Playtest2_02.lvl" type="Infiltration" bounty="1500">
-				<missionScreen x="400" y="300" parallaxScreen="0"></missionScreen>
-				<bonus type="Kills" value="55"></bonus>
+			<level name="Thief_Training" path="SD_Playtest2_02.lvl" type="Infiltration" bounty="250">
+				<missionScreen x="470" y="525" parallaxScreen="0"></missionScreen>
+				<bonus type="Alerts" value="0"></bonus>
 			</level>
-			<level name="Team_Training" path="SD_Playtest2_04.lvl" type="Infiltration" bounty="1500">
-				<missionScreen x="500" y="300" parallaxScreen="0"></missionScreen>
+			<level name="Team_Training" path="SD_Playtest2_04.lvl" type="Infiltration" bounty="500">
+				<missionScreen x="660" y="350" parallaxScreen="1"></missionScreen>
 				<bonus type="Time" value="55"></bonus>
 			</level>
 		</mission>
 		<mission title="Infiltrate_the_City">
-			<level name="SD_Forest_1" path="SD_Forest_1.lvl" type="Infiltration" bounty="1500">
-				<missionScreen x="400" y="300" parallaxScreen="0"></missionScreen>
-				<bonus type="Time" value="55"></bonus>
+			<level name="SD_Forest_1" path="SD_Forest_1.lvl" type="Infiltration" bounty="200">
+				<missionScreen x="100" y="550" parallaxScreen="0"></missionScreen>
+				<bonus type="Kills" value="0"></bonus>
 			</level>
-			<level name="SD_Forest_2" path="SD_Forest_2.lvl" type="Infiltration" bounty="1500">
-				<missionScreen x="500" y="300" parallaxScreen="0"></missionScreen>
-				<bonus type="Time" value="55"></bonus>
+			<level name="SD_Forest_2" path="SD_Forest_2.lvl" type="Infiltration" bounty="300">
+				<missionScreen x="250" y="530" parallaxScreen="0"></missionScreen>
+				<bonus type="Time" value="50"></bonus>
 			</level>
 			<level name="SD_Town_1" path="SD_Town_1.lvl" type="Infiltration" bounty="1500">
-				<missionScreen x="600" y="300" parallaxScreen="0"></missionScreen>
-				<bonus type="Time" value="55"></bonus>
+				<missionScreen x="750" y="560" parallaxScreen="0"></missionScreen>
+				<bonus type="Time" value="70"></bonus>
 			</level>
 			<level name="SD_Town_2" path="SD_Town_2.lvl" type="Infiltration" bounty="1500">
-				<missionScreen x="700" y="300" parallaxScreen="0"></missionScreen>
-				<bonus type="Time" value="55"></bonus>
+				<missionScreen x="850" y="520" parallaxScreen="0"></missionScreen>
+				<bonus type="Money" value="245"></bonus>
 			</level>
 			<level name="SD_Prison_1" path="SD_Prison_1.lvl" type="Infiltration" bounty="1500">
-				<missionScreen x="800" y="300" parallaxScreen="0"></missionScreen>
-				<bonus type="Time" value="55"></bonus>
+				<missionScreen x="115" y="360" parallaxScreen="1"></missionScreen>
+				<bonus type="Time" value="200"></bonus>
 			</level>
 			<level name="SD_Prison_2" path="SD_Prison_2.lvl" type="Infiltration" bounty="1500">
-				<missionScreen x="900" y="300" parallaxScreen="0"></missionScreen>
-				<bonus type="Time" value="55"></bonus>
+				<missionScreen x="0" y="300" parallaxScreen="1"></missionScreen>
+				<bonus type="Kills" value="0"></bonus>
 			</level>
 		</mission>
 	</contract>
