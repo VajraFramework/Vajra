@@ -312,12 +312,15 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		UiSceneLoader::AdjustPositionForResolution(dummy, dummy, "LEFT", "TOP", fontSize_out, dummy, 1024, 768);
 		pipNumber->InitTextToDisplay(StringUtilities::ConvertIntToString(i + 1), 0, 0, FRAMEWORK->GetFileSystemUtils()->GetDeviceFontResourcesFolderName() + "RomanSD.fontspec", fontSize_out, UI_FONT_ALIGNMENT_left);
 		pipNumber->SetFontColor(glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
-		int posX_out = 57;
-		int posY_out = 20;
+		int posX_out = 59;
+		if(i == 1 || i == 3 || i == 4 || i == 6 || i == 7) {
+			posX_out = 58;
+		}
+		int posY_out = 21;
 		// TODO [Hack] 1024x768
 		UiSceneLoader::AdjustPositionForResolution(posX_out, posY_out, "LEFT", "TOP", dummy, dummy, 1024, 768);
 		pipNumber->SetPosition(posX_out, posY_out);
-		pipNumber->SetZOrder(10);
+		pipNumber->SetZOrder(11);
 		uiElement->AddChild(pipNumber->GetId());
 
 		int width_out = 128;
