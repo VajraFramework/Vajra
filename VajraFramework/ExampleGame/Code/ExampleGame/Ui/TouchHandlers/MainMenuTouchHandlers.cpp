@@ -13,6 +13,7 @@
 #include "Vajra/Framework/DeviceUtils/DeviceProperties/DeviceProperties.h"
 #include "Vajra/Framework/Logging/Logger.h"
 #include "Vajra/Framework/Settings/Settings.h"
+#include "Vajra/Utilities/StringUtilities.h"
 
 // Todo [HACK] when level loading is better we probably won't need all these
 #include "Vajra/Framework/DeviceUtils/FileSystemUtils/FileSystemUtils.h"
@@ -300,7 +301,11 @@ void MainMenuTouchHandlers::createMissionMenu() {
 		UiElement* uiElement = new UiElement(ENGINE->GetSceneGraphUi());
 		this->parallaxRoot->AddChild(uiElement->GetId());
 		std::vector<std::string> imagePaths;
-		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Available_01.png");
+		if ((i + 1) > 9) {
+			imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Available_01.png");
+		} else {
+			imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelSelect_" + StringUtilities::ConvertIntToString(i + 1) + ".png");
+		}
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Bonus_01.png");
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Completed_01.png");
 		imagePaths.push_back(FRAMEWORK->GetFileSystemUtils()->GetDevicePictureResourcesFolderName() + "SD_LevelPIP_Locked_01.png"); // TEMP : replace with locked image
