@@ -136,7 +136,6 @@ void PlayerUnit::OnTouch(int touchId, GridCell* touchedCell) {
 	}
 	
 	if(this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_DOING_SPECIAL ||
-	   this->GetUnitActionState() == UnitActionState::UNIT_ACTION_STATE_POST_SPECIAL  ||
 	   !this->gridNavRef->IsEnabled()) {
 		this->unitHasTouchFocus = false;
 		return;
