@@ -100,7 +100,7 @@ void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
 			break;
 	}
 	
-	if(this->isTutorialLevel) {
+	if(this->isTutorialLevel && !ENGINE->GetSceneGraph3D()->IsPaused()) {
 		// for each tutorial screen in this level see if it should occur
 		for(unsigned int i = 0; i < this->tutorials.size(); ++i) {
 			if(!this->tutorials[i].hasFired) {
