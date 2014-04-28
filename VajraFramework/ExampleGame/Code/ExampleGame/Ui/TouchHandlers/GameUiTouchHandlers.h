@@ -44,6 +44,7 @@ private:
 	bool isTutorialLevel;
 	void nextTutorialImage();
 	void onLevelEnd(bool success);
+	void showPostMenu(bool success);
 	int currentTutorialIndex;
 	UiElement* dynamicTutorialElement;
 };

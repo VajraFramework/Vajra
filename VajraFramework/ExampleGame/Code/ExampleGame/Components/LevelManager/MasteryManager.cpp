@@ -27,7 +27,9 @@ void MasteryManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_SCENE_START, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_500_MS_TIME_EVENT, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_UNIT_KILLED, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_ON_END_CONDITIONS_MET, this->GetTypeId(), false);
+	//this->addSubscriptionToMessageType(MESSAGE_TYPE_ON_END_CONDITIONS_MET, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_WON, this->GetTypeId(), false);
+	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_LOST, this->GetTypeId(), false);
 
 
 }
@@ -67,7 +69,7 @@ void MasteryManager::HandleMessage(MessageChunk messageChunk) {
 				}
 			}
 			break;
-
+		/*
 		case MESSAGE_TYPE_ON_END_CONDITIONS_MET:
 			// if the level was won
 			if(messageChunk->messageData.iv1.x >= 0) {
@@ -77,7 +79,23 @@ void MasteryManager::HandleMessage(MessageChunk messageChunk) {
 					SINGLETONS->GetLevelManager()->OnCurrentLevelWon(LevelCompletion::Completed);
 				};
 			}
+			else {
+				SINGLETONS->GetLevelManager()->OnCurrentLevelLost();
+			}
 			break;
+		*/
+		case MESSAGE_TYPE_LEVEL_WON:
+			if(this->onLevelComplete()) {
+				SINGLETONS->GetLevelManager()->OnCurrentLevelWon(LevelCompletion::Completed_Bonus);
+			} else {
+				SINGLETONS->GetLevelManager()->OnCurrentLevelWon(LevelCompletion::Completed);
+			};
+			break;
+
+		case MESSAGE_TYPE_LEVEL_LOST:
+			SINGLETONS->GetLevelManager()->OnCurrentLevelLost();
+			break;
+
 		default:
 			break;
 
