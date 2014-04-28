@@ -223,7 +223,7 @@ void GameUiTouchHandlers::OnTouchUpHandlers(UiObject* uiObject, Touch /* touch *
 	}	
 
 	// TUTORIAL;
-	if(uiObject->GetName() == TUTORIAL_EXIT_BTN) {
+	if(uiObject->GetName() == DYNAMIC_TUTORIAL_ELEMENT) {
 		this->nextTutorialImage();
 		return;
 	}
@@ -245,6 +245,8 @@ MessageType stringToMessageType(std::string msgString) {
 		return MESSAGE_TYPE_LEVEL_LOADED;
 	} else if(msgString == "MESSAGE_TYPE_SCENE_START") {
 		return MESSAGE_TYPE_SCENE_START;
+	} else if(msgString == "MESSAGE_TYPE_ON_END_CONDITIONS_MET") {
+		return MESSAGE_TYPE_ON_END_CONDITIONS_MET;
 	}
 	ASSERT(true, "stringToMessageType has reached the end without returning a message. Did you add a case for %s?", msgString.c_str());
 	return MESSAGE_TYPE_UNSPECIFIED;
@@ -425,7 +427,10 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 			UiSceneLoader::AdjustPositionForResolution(dummy, dummy, "LEFT", "TOP", width_out, height_out, 1024, 768);
 			this->dynamicTutorialElement->InitSprite(width_out, height_out, "ustshdr", imagePaths, false);
 		}
-		this->dynamicTutorialElement->SetZOrder(3);
+		this->dynamicTutorialElement->SetZOrder(100);
+		this->dynamicTutorialElement->SetTouchHandlers(this);
+		this->dynamicTutorialElement->SetClickable(true);
+		/*
 		UiElement* exitBtn = (UiElement*)ObjectRegistry::GetObjectByName(TUTORIAL_EXIT_BTN);
 		
 		if (this->tutorials[index].imageNames.size() == 1) {
@@ -433,6 +438,7 @@ void GameUiTouchHandlers::tryTutorial(int index, MessageChunk messageChunk) {
 		} else {
 			exitBtn->SetSpriteTextureIndex(1);
 		}
+		*/
 	} 
 	this->dynamicTutorialElement->SetVisible(true);
 	tut->SetVisible(true);
@@ -451,8 +457,10 @@ void GameUiTouchHandlers::nextTutorialImage() {
 	ASSERT(textureIndex < this->tutorials[this->currentTutorialIndex].imageNames.size(), "nextTutorialImage() has been called when the tutorial is out of images to show. ");
 	this->dynamicTutorialElement->SetSpriteTextureIndex(textureIndex);
 	if(textureIndex + 1 == this->tutorials[this->currentTutorialIndex].imageNames.size()) {
+		/*
 		UiElement* exitBtn = (UiElement*)ObjectRegistry::GetObjectByName(TUTORIAL_EXIT_BTN);
 		exitBtn->SetSpriteTextureIndex(0);
+		*/
 
 	} else if(textureIndex == this->tutorials[this->currentTutorialIndex].imageNames.size()) {
 		UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TUTORIAL_MENU]);
@@ -466,13 +474,16 @@ void GameUiTouchHandlers::onLevelEnd(bool success) {
 	if(success){
 		 postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_WIN_MENU]);
 		 SINGLETONS->GetMenuManager()->UpdateMenuWithMastery(POST_GAME_WIN_MENU, SINGLETONS->GetLevelManager()->GetCurrentLevelIndex());
+		 SINGLETONS->GetMenuManager()->PlayBGM(LEVEL_WIN_BGM, false);
 
 	} else {
 		 postMenu = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[POST_GAME_LOSE_MENU]);
+		 SINGLETONS->GetMenuManager()->PlayBGM(LEVEL_LOSE_BGM, false);
+
 	}
 	postMenu->SetVisible(true);
 	SINGLETONS->GetMenuManager()->TweenInUiObject(postMenu);
-	this->tutorials.clear();
+	//this->tutorials.clear();
 }
 
 void GameUiTouchHandlers::init() {

@@ -37,5 +37,4 @@ void TriggerLevelVictory::onSwitchActivated() {
 	victoryMessage->SetMessageType(MESSAGE_TYPE_ON_END_CONDITIONS_MET);
 	victoryMessage->messageData.iv1.x = 1; // Player won
 	ENGINE->GetMessageHub()->SendMulticastMessage(victoryMessage, this->GetObject()->GetId());
-	SINGLETONS->GetMenuManager()->PlayBGM(LEVEL_WIN_BGM, false);
 }

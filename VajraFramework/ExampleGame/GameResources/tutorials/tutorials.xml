@@ -29,5 +29,24 @@
 			<cellData x="30" z="20"></cellData>
 			<image name="SD_Playtest2_Tutorial3_03.png"></image>
 		</message>
-	</tutorial> 
+	</tutorial>
+	
+	<tutorial name="SD_Forest_1.lvl">
+		<message name="MESSAGE_TYPE_SCENE_START" type="Cutscene">
+			<image name="SD_Narrative_01.png"></image>
+			<image name="SD_Narrative_02.png"></image>
+		</message>
+	</tutorial>
+	
+	<tutorial name="SD_Town_2.lvl">
+		<message name="MESSAGE_TYPE_SCENE_START" type="Cutscene">
+			<image name="SD_Narrative_03.png"></image>
+		</message>
+	</tutorial>
+	
+	<tutorial name="SD_Prison_2.lvl">
+		<message name="MESSAGE_TYPE_ON_END_CONDITIONS_MET" type="Cutscene">
+			<image name="SD_Narrative_04.png"></image>
+		</message>
+	</tutorial>
 </tutorialScreens>
