@@ -41,8 +41,10 @@ void LevelManager::HandleMessage(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_FRAME_EVENT:
 			this->update();
 			break;
+		/*
 		case MESSAGE_TYPE_ON_END_CONDITIONS_MET:
 			break;
+		*/
 		case MESSAGE_TYPE_LEVEL_UNLOADED:
 			if(this->levelToLoad != -1) {
 				MessageChunk mc = ENGINE->GetMessageHub()->GetOneFreeMessage();
@@ -92,6 +94,7 @@ bool LevelManager::TryLoadNextLevel() {
 }
 
 void LevelManager::StartLevel() {
+	this->levelInProgress = true;
 	ENGINE->GetMessageHub()->SendMulticastMessage(MESSAGE_TYPE_SCENE_START);
 }
 
@@ -153,6 +156,7 @@ int LevelManager::GetNumLevelsInMission(int mission) {
 }
 
 void LevelManager::OnCurrentLevelWon(LevelCompletion completion) {
+	this->levelInProgress = false;
 	LevelData* lData = this->GetLevelData(this->currentMission, this->currentLevelIndex);
 	if(completion > lData->completion) {
 		Bundle* bundle = FRAMEWORK->GetSavedDataManager()->GetSavedBundle(PLAYER_BUNDLE_NAME);
@@ -177,6 +181,10 @@ void LevelManager::OnCurrentLevelWon(LevelCompletion completion) {
 		bundle->PutString(LEVEL_COMPLETION, this->levelCompletionData);
 		bundle->Save();
 	}
+}
+
+void LevelManager::OnCurrentLevelLost() {
+	this->levelInProgress = false;
 }
 
 LevelData* LevelManager::getNextLevel() {
@@ -212,7 +220,7 @@ void LevelManager::init() {
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_FRAME_EVENT, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_LEVEL_UNLOADED, this->GetTypeId(), false);
 	this->addSubscriptionToMessageType(MESSAGE_TYPE_LOAD_LEVEL, this->GetTypeId(), false);
-	this->addSubscriptionToMessageType(MESSAGE_TYPE_ON_END_CONDITIONS_MET, this->GetTypeId(), false);
+	//this->addSubscriptionToMessageType(MESSAGE_TYPE_ON_END_CONDITIONS_MET, this->GetTypeId(), false);
 
 	// Generate required end condition objects
 	this->winner = new Object();

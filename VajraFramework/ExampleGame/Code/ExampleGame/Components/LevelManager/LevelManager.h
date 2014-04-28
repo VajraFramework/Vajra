@@ -95,6 +95,7 @@ public:
 
 	inline std::string GetCurrentLevelName() { return this->currentLevelName; }
 	inline int GetCurrentLevelIndex() { return this->currentLevelIndex; }
+	inline bool GetCurrentLevelInProgress() { return this->levelInProgress; }
 
 	//void LoadLevelFromAsset(std::string assetName); // Once we've got the loading process worked out, switch to using an asset
 	void StartLevel();
@@ -118,6 +119,7 @@ public:
 	void SetCurrentMission(int missionIndex) { this->currentMission = missionIndex; }
 
 	void OnCurrentLevelWon(LevelCompletion completion);
+	void OnCurrentLevelLost();
 	void SaveLevelScores(int levelIndex, LevelScores* scores);
 private:
 	void init();
@@ -153,6 +155,7 @@ private:
 	std::string currentLevelName;
 
 	int levelToLoad;
+	bool levelInProgress;
 
 	Object* winner;
 	Object* loser;

@@ -93,8 +93,19 @@ void GameUiTouchHandlers::HandleMessageCallback(MessageChunk messageChunk) {
 		case MESSAGE_TYPE_CREATED_TUTORIAL:
 			this->setupTutorial(messageChunk->messageData.s);
 			break;
+		/*
 		case MESSAGE_TYPE_ON_END_CONDITIONS_MET:
 			this->onLevelEnd(messageChunk->messageData.iv1.x >= 0);
+			break;
+		*/
+		case MESSAGE_TYPE_LEVEL_WON:
+			this->onLevelEnd(true);
+			break;
+		case MESSAGE_TYPE_LEVEL_LOST:
+			this->onLevelEnd(false);
+			break;
+		case MESSAGE_TYPE_OPEN_POST_MENU:
+			this->showPostMenu(true);
 			break;
 		default:
 			break;
@@ -245,8 +256,14 @@ MessageType stringToMessageType(std::string msgString) {
 		return MESSAGE_TYPE_LEVEL_LOADED;
 	} else if(msgString == "MESSAGE_TYPE_SCENE_START") {
 		return MESSAGE_TYPE_SCENE_START;
+	/*
 	} else if(msgString == "MESSAGE_TYPE_ON_END_CONDITIONS_MET") {
 		return MESSAGE_TYPE_ON_END_CONDITIONS_MET;
+	*/
+	} else if(msgString == "MESSAGE_TYPE_LEVEL_WON") {
+		return MESSAGE_TYPE_LEVEL_WON;
+	} else if(msgString == "MESSAGE_TYPE_LEVEL_LOST") {
+		return MESSAGE_TYPE_LEVEL_LOST;
 	}
 	ASSERT(true, "stringToMessageType has reached the end without returning a message. Did you add a case for %s?", msgString.c_str());
 	return MESSAGE_TYPE_UNSPECIFIED;
@@ -452,6 +469,12 @@ void GameUiTouchHandlers::nextTutorialImage() {
 	if(textureIndex == this->tutorials[this->currentTutorialIndex].imageNames.size()) {
 		UiObject* tut = (UiObject*)ENGINE->GetSceneGraphUi()->GetGameObjectById(this->uiSceneObjects[TUTORIAL_MENU]);
 		SINGLETONS->GetMenuManager()->TweenOutUiObject(tut);
+
+		if (!SINGLETONS->GetLevelManager()->GetCurrentLevelInProgress()) {
+			MessageChunk messageChunk = ENGINE->GetMessageHub()->GetOneFreeMessage();
+			messageChunk->SetMessageType(MESSAGE_TYPE_OPEN_POST_MENU);
+			ENGINE->GetMessageHub()->SendMulticastMessage(messageChunk);
+		}
 		return;
 	}
 	ASSERT(textureIndex < this->tutorials[this->currentTutorialIndex].imageNames.size(), "nextTutorialImage() has been called when the tutorial is out of images to show. ");
@@ -469,6 +492,18 @@ void GameUiTouchHandlers::nextTutorialImage() {
 }
 
 void GameUiTouchHandlers::onLevelEnd(bool success) {
+	if (success && this->isTutorialLevel && !ENGINE->GetSceneGraph3D()->IsPaused()) {
+		for (unsigned int i = 0; i < this->tutorials.size(); ++i) {
+			if ((!this->tutorials[i].hasFired) && (this->tutorials[i].msgType == MESSAGE_TYPE_LEVEL_WON)) {
+				return;
+			}
+		}
+	}
+
+	this->showPostMenu(success);
+}
+
+void GameUiTouchHandlers::showPostMenu(bool success) {
 	ENGINE->GetSceneGraph3D()->Pause();
 	UiObject* postMenu;
 	if(success){
@@ -493,8 +528,11 @@ void GameUiTouchHandlers::init() {
 	this->dynamicTutorialElement = nullptr;
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SELECTED_UNIT_CHANGED);
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_CREATED_TUTORIAL);
-	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_ON_END_CONDITIONS_MET);
+	//this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_ON_END_CONDITIONS_MET);
 	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_SCENE_START);
+	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_LEVEL_WON);
+	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_LEVEL_LOST);
+	this->eventForwarder->GetComponent<UiCallbackComponent>()->SubscribeToMessage(MESSAGE_TYPE_OPEN_POST_MENU);
 }
 
 void GameUiTouchHandlers::destroy() {
