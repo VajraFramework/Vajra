@@ -181,17 +181,16 @@ void MainMenuTouchHandlers::parallaxScroll(UiObject* parallaxRoot, float xDiff, 
 	if(touchEnd) {
 		UiObject* pScreen = (UiObject*)ObjectRegistry::GetObjectByName(PARALLAX_FRONT);
 		float screenX = pScreen->GetTransform()->GetPositionWorld().x;
-		float dist = this->missionStartX[this->currentMissionScreenIndex] - screenX;
-		
+		float dist = this->missionStartX[this->currentMissionScreenIndex] - screenX; 
 		if(screenX > this->missionStartX[this->currentMissionScreenIndex]) { // LEFT
 			if(this->currentMissionScreenIndex > 0) {
-				if(std::abs(dist) > std::abs(this->missionStartX[this->currentMissionScreenIndex - 1] - screenX)) {
+				if(xDiff > 20 || std::abs(dist) > std::abs(this->missionStartX[this->currentMissionScreenIndex - 1] - screenX)) {
 					this->currentMissionScreenIndex--;
 				}
 			}
 		} else if(screenX < this->missionStartX[this->currentMissionScreenIndex]) { // RIGHT
 			if(this->currentMissionScreenIndex < SINGLETONS->GetLevelManager()->GetNumMissionsInCurrentContract() - 1 && this->currentMissionScreenIndex < (int)this->missionStartX.size() - 1) {
-				if(std::abs(dist) > std::abs(this->missionStartX[this->currentMissionScreenIndex + 1] - screenX)) {
+				if(xDiff < -20 || std::abs(dist) > std::abs(this->missionStartX[this->currentMissionScreenIndex + 1] - screenX)) {
 					this->currentMissionScreenIndex++;
 				}
 			}
@@ -488,7 +487,8 @@ void MainMenuTouchHandlers::openContractMenu() {
 	preMenuBackground->SetVisible(false);
 	this->missionRoot->SetVisible(true);
 	this->parallaxRoot->SetVisible(false);
-
+	((UiElement*)ObjectRegistry::GetObjectByName("leftPageMarker"))->SetVisible(false);
+	((UiElement*)ObjectRegistry::GetObjectByName("rightPageMarker"))->SetVisible(false);
 }
 void MainMenuTouchHandlers::openMissionMenu(int contractIndex) {
 	UiElement* preMenuBackground = (UiElement*)ObjectRegistry::GetObjectByName(START_MENU);
@@ -526,5 +526,18 @@ void MainMenuTouchHandlers::updateTitleNames(int missionIndex) {
 	int curContractIndex = SINGLETONS->GetLevelManager()->GetCurrentContract();
 	((UiElement*)ObjectRegistry::GetObjectByName("contractName"))->ChangeText(SINGLETONS->GetLevelManager()->GetContractData(curContractIndex)->name);
 	((UiElement*)ObjectRegistry::GetObjectByName("missionName"))->ChangeText(SINGLETONS->GetLevelManager()->GetMissionData(curContractIndex, missionIndex)->name);
+	UiElement* leftMarker = (UiElement*)ObjectRegistry::GetObjectByName("leftPageMarker");
+	UiElement* rightMarker = (UiElement*)ObjectRegistry::GetObjectByName("rightPageMarker");
+	leftMarker->SetVisible(true);
+	rightMarker->SetVisible(true);
+	if(missionIndex == 0) {
+		leftMarker->SetSpriteTextureIndex(0);
+		rightMarker->SetSpriteTextureIndex(1);
+	} else {
+		leftMarker->SetSpriteTextureIndex(1);
+		rightMarker->SetSpriteTextureIndex(0);
+	}
 }
+
+
 

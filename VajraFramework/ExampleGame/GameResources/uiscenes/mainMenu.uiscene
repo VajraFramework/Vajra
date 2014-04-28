@@ -172,6 +172,7 @@
 			<size widthPixels="1024" heightPixels="768"></size>
 			<zorder>1</zorder>
 		</dimensions>
+		
 		<uielement name="missionNavBar" visible="true" clickable="false">
 			<dimensions>
 				<position xwrto="CENTER" ywrto="BOTTOM" x="-512" y="0"></position>
@@ -180,13 +181,31 @@
 			</dimensions>
 			<image name="SD_LevelSelection_NavBar.png" hasTransperancy="false"> </image>
 				<uielement name="backMenuButton" visible="true" clickable="true">
-				<dimensions>
-					<position xwrto="LEFT" ywrto="TOP" x="86" y="12"></position>
-					<size widthPixels="162" heightPixels="54"></size>
-					<zorder>150</zorder>
-				</dimensions>
-				<image name="SD_Back_Button.png" hasTransperancy="false"> </image>
-			</uielement>
+					<dimensions>
+						<position xwrto="LEFT" ywrto="TOP" x="86" y="12"></position>
+						<size widthPixels="162" heightPixels="54"></size>
+						<zorder>150</zorder>
+					</dimensions>
+					<image name="SD_Back_Button.png" hasTransperancy="false"> </image>
+				</uielement>	
+				<uielement name="leftPageMarker" visible="false" clickable="false">
+					<dimensions>
+						<position xwrto="CENTER" ywrto="TOP" x="-22.5" y="22"></position>
+						<size widthPixels="33" heightPixels="33"></size>
+						<zorder>150</zorder>
+					</dimensions>
+					<image name="SD_LevelSelection_PageSelected.png" hasTransperancy="true"> </image>
+					<image name="SD_LevelSelection_PageMarker.png" hasTransperancy="true"> </image>
+				</uielement>
+				<uielement name="rightPageMarker" visible="false" clickable="false">
+					<dimensions>
+						<position xwrto="CENTER" ywrto="TOP" x="22.5" y="22"></position>
+						<size widthPixels="33" heightPixels="33"></size>
+						<zorder>150</zorder>
+					</dimensions>
+					<image name="SD_LevelSelection_PageSelected.png" hasTransperancy="true"> </image>
+					<image name="SD_LevelSelection_PageMarker.png" hasTransperancy="true"> </image>
+				</uielement>
 		</uielement>
 
 		<uielement name="contractRoot" visible="true" clickable="false">
