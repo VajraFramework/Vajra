@@ -173,7 +173,7 @@
       </staticObject>
 		<staticObject id="368286" prefab="SD_Floor_Brick_3x3_01" x="33" y="2.0" z="23" width="3" height="3" rotation="180">
       </staticObject>
-		<staticObject id="368252" prefab="SD_GuardCaptain_01" x="38" y="0.0" z="26" width="1" height="1" rotation="180">
+		<staticObject id="368252" prefab="SD_GuardCaptain_01" x="38" y="0.0" z="26" width="1" height="1" rotation="0">
       </staticObject>
 		<staticObject id="362980" prefab="SD_HighWall_Corner_01" x="64" y="0.0" z="9" width="1" height="1" rotation="180">
       </staticObject>
@@ -1098,7 +1098,13 @@
       </neutralUnit>
 		<neutralUnit id="368984" prefab="SD_Interactive_Breaker_01" x="34" z="7" rotation="90">
       </neutralUnit>
-		<neutralUnit id="365502" prefab="SD_Interactive_Chain_01" x="38" z="26" rotation="180">
+		<neutralUnit id="365502" prefab="SD_Interactive_Chain_01" x="36" z="26" rotation="180">
+      </neutralUnit>
+              <neutralUnit id="365502" prefab="SD_Interactive_Chain_01" x="37" z="26" rotation="180">
+      </neutralUnit>
+              <neutralUnit id="365502" prefab="SD_Interactive_Chain_01" x="39" z="26" rotation="180">
+      </neutralUnit>
+              <neutralUnit id="365502" prefab="SD_Interactive_Chain_01" x="40" z="26" rotation="180">
       </neutralUnit>
 		<neutralUnit id="362780" prefab="SD_Interactive_CrackedWall_Low_Straight_1x1_01" x="41" z="5" rotation="90">
       </neutralUnit>
@@ -1279,6 +1285,7 @@
                   <field>1</field>
                   <field>1</field>
               </property>
+              <property name="Disable"></property>
           </component>
       </dynamicObject>
       <dynamicObject id="366454" prefab="GoalZone_Thief" x="38" y="0" z="24" rotation="180">
@@ -1289,6 +1296,7 @@
                   <field>1</field>
                   <field>1</field>
               </property>
+              <property name="Disable"></property>
           </component>
       </dynamicObject>
       <dynamicObject id="362344" prefab="SD_Interactive_Elevator_01" x="22" y="0.2188129" z="24" rotation="180">
@@ -1385,6 +1393,26 @@
       </dynamicObject>
       <dynamicObject id="364342" prefab="SD_Treasure_Gem" x="17" y="0" z="5" rotation="180">
       </dynamicObject>
+      <dynamicObject id="133250" prefab="UnitGridZone" x="38" y="0" z="26" rotation="180">
+          <component name="GridZone">
+              <property name="SetZoneBounds">
+                  <field>-2</field>
+                  <field>-2</field>
+                  <field>2</field>
+                  <field>2</field>
+              </property>
+          </component>
+          <component name="BaseSwitch">
+          </component>
+          <component name="UnitInGridZoneSwitch">
+              <property name="SetActivateWhenUnitsInZone">
+                  <field>False</field>
+              </property>
+              <property name="SetRequiredUnitType">
+                  <field>Obstacle</field>
+              </property>
+          </component>
+      </dynamicObject>
   </other>
 
   <links>
@@ -1406,6 +1434,14 @@
       </triggerLink>
       <triggerLink id="370074">
           <switch id="366446">
+          </switch>
+      </triggerLink>
+      <triggerLink id="366454">
+          <switch id="133250">
+          </switch>
+      </triggerLink>
+      <triggerLink id="370252">
+          <switch id="133250">
           </switch>
       </triggerLink>
       <winCondition id="366454">
