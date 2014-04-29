@@ -170,7 +170,7 @@ void LevelManager::OnCurrentLevelWon(LevelCompletion completion) {
 
 		}
 		
-		if(lData->name != "SD_Prison_2") {
+		if(lData->name != "Prison 2") {
 			LevelData* nextLevel = this->getNextLevel();
 			if(nextLevel != nullptr && nextLevel->completion == LevelCompletion::Locked) {
 				nextLevel->completion = LevelCompletion::Unlocked;
